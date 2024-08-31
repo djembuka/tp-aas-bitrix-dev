@@ -3,6 +3,8 @@ import './application.css';
 import { FilterComponent } from 'local.vue-components.filter';
 import { TableComponent } from 'local.vue-components.table';
 import { TablePagination } from 'local.vue-components.pagination';
+import { LoaderCircle } from 'local.vue-components.loader-circle';
+import { ErrorMessage } from 'local.vue-components.error-message';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data';
@@ -11,37 +13,48 @@ import { filterStore } from '../stores/filter';
 
 export const Application = {
   data() {
-    return {};
+    return {
+      error: 'error',
+    };
   },
   components: {
     FilterComponent,
     TableComponent,
     TablePagination,
+    LoaderCircle,
+    ErrorMessage,
   },
   // language=Vue
   template: `
     <div>
-      <FilterComponent :filters="filters" @input="input" />
+      <ErrorMessage v-if="error" :error="error" @hideError="hideError" />
+      <LoaderCircle v-if="loadingFilter" />
+      <div v-else>
+        <FilterComponent :filters="filters" @input="input" />
+      </div>
       <hr>
-      <TableComponent :cols="cols" :columnsNames="columnsNames" :items="items" :sort="sort" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
-      <hr>
-      <div class="vue-ft-table-bottom">
-        <div class="vue-ft-table-all" v-if="items.resultCount">Всего: {{ items.resultCount }}</div>
-        <TablePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />
+      <LoaderCircle v-if="loadingTable"/>
+      <div v-else>
+        <TableComponent :cols="cols" :columnsNames="columnsNames" :items="items" :sort="sort" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
+        <hr>
+        <div class="vue-ft-table-bottom">
+          <div class="vue-ft-table-all" v-if="items.resultCount">Всего: {{ items.resultCount }}</div>
+          <TablePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />
+        </div>
       </div>
     </div>
 	`,
   computed: {
     ...mapState(dataStore, ['sessionid', 'userid']),
     ...mapState(tableStore, [
-      'loading',
+      'loadingTable',
       'columnsNames',
       'items',
       'sort',
       'cols',
       'maxCountPerRequest',
     ]),
-    ...mapState(filterStore, ['filters']),
+    ...mapState(filterStore, ['filters', 'loadingFilter']),
     pagesNum() {
       return Math.ceil(this.items.resultCount / this.maxCountPerRequest);
     },
@@ -57,6 +70,9 @@ export const Application = {
       'runSetDefaultSort',
     ]),
     ...mapActions(filterStore, ['runFilters', 'changeControlValue']),
+    hideError() {
+      this.error = '';
+    },
     clickTh({ column }) {
       const sortType =
         this.sort.columnSort === column.id && this.sort.sortType === 0 ? 1 : 0;

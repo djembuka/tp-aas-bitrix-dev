@@ -1,0 +1,1 @@
+{"version":3,"file":"component.bundle.js","sources":["../src/component.js"],"sourcesContent":["import './component.css';\n\nexport const LoaderCircle = {\n  // language=Vue\n  template: `<div class=\"vue-loader-circle\"></div>`,\n};\n"],"names":["LoaderCircle","template"],"mappings":";;;;;MAEaA,YAAY,GAAG;;IAE1BC,QAAQ;EACV,CAAC;;;;;;;;"}

@@ -3,16 +3,22 @@ import { defineStore } from 'ui.vue3.pinia';
 export const tableStore = defineStore('table', {
   state: () => {
     return {
-      loading: false,
+      loadingCols: false,
+      loadingItems: false,
       columnsNames: [],
       items: {},
       sort: {},
       actions: {},
     };
   },
+  getters: {
+    loadingTable() {
+      return this.loadingCols || this.loadingItems;
+    },
+  },
   actions: {
     runColumnsNames(data, callback) {
-      this.loading = true;
+      this.loadingCols = true;
       let a = window.BX.ajax.runComponentAction(
         this.actions.columnsNames,
         data
@@ -21,11 +27,11 @@ export const tableStore = defineStore('table', {
 
       a.then(
         (result) => {
-          this.loading = false;
+          this.loadingCols = false;
           resultFn(state, result);
         },
         (error) => {
-          this.loading = false;
+          this.loadingCols = false;
           if (
             window.twinpx &&
             window.twinpx.vue.markup &&
@@ -46,17 +52,17 @@ export const tableStore = defineStore('table', {
       }
     },
     runItems(data, callback) {
-      this.loading = true;
+      this.loadingItems = true;
       let a = window.BX.ajax.runComponentAction(this.actions.items, data);
       let state = this;
 
       a.then(
         (result) => {
-          this.loading = false;
+          this.loadingItems = false;
           resultFn(state, result);
         },
         (error) => {
-          this.loading = false;
+          this.loadingItems = false;
           if (
             window.twinpx &&
             window.twinpx.vue.markup &&

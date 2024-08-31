@@ -2,6 +2,7 @@ import { defineStore } from 'ui.vue3.pinia';
 
 export const filterStore = defineStore('filter', {
   state: () => ({
+    loadingFilter: false,
     actions: {},
     filters: [],
   }),
@@ -46,14 +47,17 @@ export const filterStore = defineStore('filter', {
       }
     },
     runFilters(data, callback) {
+      this.loadingFilter = true;
       let a = window.BX.ajax.runComponentAction(this.actions.filters, data);
       let state = this;
 
       a.then(
         (result) => {
+          this.loadingFilter = false;
           resultFn(state, result);
         },
         (error) => {
+          this.loadingFilter = false;
           if (
             window.twinpx &&
             window.twinpx.vue.markup &&

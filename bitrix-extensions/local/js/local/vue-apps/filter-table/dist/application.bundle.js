@@ -1,5 +1,5 @@
 /* eslint-disable */
-(function (exports,ui_vue3,local_vueComponents_filter,local_vueComponents_table,local_vueComponents_pagination,ui_vue3_pinia) {
+(function (exports,ui_vue3,local_vueComponents_filter,local_vueComponents_table,local_vueComponents_pagination,local_vueComponents_loaderCircle,local_vueComponents_errorMessage,ui_vue3_pinia) {
   'use strict';
 
   var dataStore = ui_vue3_pinia.defineStore('data', {
@@ -14,24 +14,30 @@
   var tableStore = ui_vue3_pinia.defineStore('table', {
     state: function state() {
       return {
-        loading: false,
+        loadingCols: false,
+        loadingItems: false,
         columnsNames: [],
         items: {},
         sort: {},
         actions: {}
       };
     },
+    getters: {
+      loadingTable: function loadingTable() {
+        return this.loadingCols || this.loadingItems;
+      }
+    },
     actions: {
       runColumnsNames: function runColumnsNames(data, callback) {
         var _this = this;
-        this.loading = true;
+        this.loadingCols = true;
         var a = window.BX.ajax.runComponentAction(this.actions.columnsNames, data);
         var state = this;
         a.then(function (result) {
-          _this.loading = false;
+          _this.loadingCols = false;
           resultFn(state, result);
         }, function (error) {
-          _this.loading = false;
+          _this.loadingCols = false;
           if (window.twinpx && window.twinpx.vue.markup && window.twinpx.vue['filter-table']) {
             resultFn(state, window.twinpx.vue['filter-table'].columnsNames);
           }
@@ -45,14 +51,14 @@
       },
       runItems: function runItems(data, callback) {
         var _this2 = this;
-        this.loading = true;
+        this.loadingItems = true;
         var a = window.BX.ajax.runComponentAction(this.actions.items, data);
         var state = this;
         a.then(function (result) {
-          _this2.loading = false;
+          _this2.loadingItems = false;
           resultFn(state, result);
         }, function (error) {
-          _this2.loading = false;
+          _this2.loadingItems = false;
           if (window.twinpx && window.twinpx.vue.markup && window.twinpx.vue['filter-table']) {
             resultFn(state, window.twinpx.vue['filter-table'].items(data.startIndex));
           }
@@ -104,6 +110,7 @@
   var filterStore = ui_vue3_pinia.defineStore('filter', {
     state: function state() {
       return {
+        loadingFilter: false,
         actions: {},
         filters: []
       };
@@ -160,11 +167,15 @@
         }
       },
       runFilters: function runFilters(data, callback) {
+        var _this = this;
+        this.loadingFilter = true;
         var a = window.BX.ajax.runComponentAction(this.actions.filters, data);
         var state = this;
         a.then(function (result) {
+          _this.loadingFilter = false;
           resultFn(state, result);
         }, function (error) {
+          _this.loadingFilter = false;
           if (window.twinpx && window.twinpx.vue.markup && window.twinpx.vue['filter-table']) {
             resultFn(state, window.twinpx.vue['filter-table'].filters);
           }
@@ -183,16 +194,20 @@
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var Application = {
     data: function data() {
-      return {};
+      return {
+        error: 'error'
+      };
     },
     components: {
       FilterComponent: local_vueComponents_filter.FilterComponent,
       TableComponent: local_vueComponents_table.TableComponent,
-      TablePagination: local_vueComponents_pagination.TablePagination
+      TablePagination: local_vueComponents_pagination.TablePagination,
+      LoaderCircle: local_vueComponents_loaderCircle.LoaderCircle,
+      ErrorMessage: local_vueComponents_errorMessage.ErrorMessage
     },
     // language=Vue
-    template: "\n    <div>\n      <FilterComponent :filters=\"filters\" @input=\"input\" />\n      <hr>\n      <TableComponent :cols=\"cols\" :columnsNames=\"columnsNames\" :items=\"items\" :sort=\"sort\" :maxCountPerRequest=\"maxCountPerRequest\" @clickTh=\"clickTh\" @clickPage=\"clickPage\" />\n      <hr>\n      <div class=\"vue-ft-table-bottom\">\n        <div class=\"vue-ft-table-all\" v-if=\"items.resultCount\">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n        <TablePagination :pagesNum=\"pagesNum\" :pageActive=\"pageActive\" @clickPage=\"clickPage\" />\n      </div>\n    </div>\n\t",
-    computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['sessionid', 'userid'])), ui_vue3_pinia.mapState(tableStore, ['loading', 'columnsNames', 'items', 'sort', 'cols', 'maxCountPerRequest'])), ui_vue3_pinia.mapState(filterStore, ['filters'])), {}, {
+    template: "\n    <div>\n      <ErrorMessage v-if=\"error\" :error=\"error\" @hideError=\"hideError\" />\n      <LoaderCircle v-if=\"loadingFilter\" />\n      <div v-else>\n        <FilterComponent :filters=\"filters\" @input=\"input\" />\n      </div>\n      <hr>\n      <LoaderCircle v-if=\"loadingTable\"/>\n      <div v-else>\n        <TableComponent :cols=\"cols\" :columnsNames=\"columnsNames\" :items=\"items\" :sort=\"sort\" :maxCountPerRequest=\"maxCountPerRequest\" @clickTh=\"clickTh\" @clickPage=\"clickPage\" />\n        <hr>\n        <div class=\"vue-ft-table-bottom\">\n          <div class=\"vue-ft-table-all\" v-if=\"items.resultCount\">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <TablePagination :pagesNum=\"pagesNum\" :pageActive=\"pageActive\" @clickPage=\"clickPage\" />\n        </div>\n      </div>\n    </div>\n\t",
+    computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['sessionid', 'userid'])), ui_vue3_pinia.mapState(tableStore, ['loadingTable', 'columnsNames', 'items', 'sort', 'cols', 'maxCountPerRequest'])), ui_vue3_pinia.mapState(filterStore, ['filters', 'loadingFilter'])), {}, {
       pagesNum: function pagesNum() {
         return Math.ceil(this.items.resultCount / this.maxCountPerRequest);
       },
@@ -201,6 +216,9 @@
       }
     }),
     methods: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(tableStore, ['runColumnsNames', 'runItems', 'runDefaultSort', 'runSetDefaultSort'])), ui_vue3_pinia.mapActions(filterStore, ['runFilters', 'changeControlValue'])), {}, {
+      hideError: function hideError() {
+        this.error = '';
+      },
       clickTh: function clickTh(_ref) {
         var _this = this;
         var column = _ref.column;
@@ -354,4 +372,4 @@
 
   exports.FilterTable = FilterTable;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.AAS,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.AAS,BX.AAS,BX.Loaders,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map

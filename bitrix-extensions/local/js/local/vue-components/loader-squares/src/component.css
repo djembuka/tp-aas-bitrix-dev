@@ -1,0 +1,115 @@
+.vue-loader-square {
+  --aas-primary-color: #074c86;
+  --aas-primary-color-2: #074c86;
+  --aas-secondary-color: #ff9300;
+  --aas-secondary-color-2: #f39442;
+
+  width: 160px;
+  height: 160px;
+  margin: auto;
+  position: relative;
+}
+
+.vue-loader-square-item {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+}
+
+.vue-loader-square-item--1 {
+  background-color: var(--aas-primary-color);
+  top: 0;
+  left: 0;
+  z-index: 1;
+  animation: vue-loader-square-item--1-move 1.8s cubic-bezier(0.6, 0.01, 0.4, 1)
+    infinite;
+}
+
+.vue-loader-square-item--2 {
+  background-color: var(--aas-secondary-color);
+  top: 0;
+  right: 0;
+  animation: vue-loader-square-item--2-move 1.8s cubic-bezier(0.6, 0.01, 0.4, 1)
+    infinite;
+}
+
+.vue-loader-square-item--3 {
+  background-color: var(--aas-primary-color-2);
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  animation: vue-loader-square-item--3-move 1.8s cubic-bezier(0.6, 0.01, 0.4, 1)
+    infinite;
+}
+
+.vue-loader-square-item--4 {
+  background-color: var(--aas-secondary-color-2);
+  bottom: 0;
+  left: 0;
+  animation: vue-loader-square-item--4-move 1.8s cubic-bezier(0.6, 0.01, 0.4, 1)
+    infinite;
+}
+
+@keyframes vue-loader-square-item--1-move {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(0, 80px);
+  }
+  50% {
+    transform: translate(80px, 80px);
+  }
+  75% {
+    transform: translate(80px, 0);
+  }
+}
+
+@keyframes vue-loader-square-item--2-move {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-80px, 0);
+  }
+  50% {
+    transform: translate(-80px, 80px);
+  }
+  75% {
+    transform: translate(0, 80px);
+  }
+}
+
+@keyframes vue-loader-square-item--3-move {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(0, -80px);
+  }
+  50% {
+    transform: translate(-80px, -80px);
+  }
+  75% {
+    transform: translate(-80px, 0);
+  }
+}
+
+@keyframes vue-loader-square-item--4-move {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(80px, 0);
+  }
+  50% {
+    transform: translate(80px, -80px);
+  }
+  75% {
+    transform: translate(0, -80px);
+  }
+}
