@@ -1,0 +1,8 @@
+.vue-pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+}
+.vue-pagination-active {
+  font-weight: bold;
+}

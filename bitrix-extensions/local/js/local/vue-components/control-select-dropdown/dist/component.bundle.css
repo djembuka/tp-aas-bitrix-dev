@@ -1,0 +1,277 @@
+.twpx-form-control--select {
+  position: relative;
+  margin-bottom: var(--slr2-gap-middle);
+  width: 100%;
+}
+.twpx-form-control--select.twpx-form-control--active .twpx-form-control__label {
+  -webkit-transform: translateY(-22px);
+  -ms-transform: translateY(-22px);
+      transform: translateY(-22px);
+
+  color: #2b2b2b;
+}
+.twpx-form-control--select .twpx-form-control__disabled-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 10;
+}
+.twpx-form-control--select .twpx-form-control__label {
+  position: absolute;
+  top: 0;
+  left: 14px;
+  margin: 0;
+  padding: 0;
+  color: #2b2b2b;
+  font-size: 0.69rem;
+  -webkit-transition: -webkit-transform 0.2s ease-out,
+    -webkit-font-size 0.2s ease-out;
+  -webkit-transition: font-size 0.2s ease-out, -webkit-transform 0.2s ease-out;
+  transition: font-size 0.2s ease-out, -webkit-transform 0.2s ease-out;
+  -o-transition: transform 0.2s ease-out, font-size 0.2s ease-out;
+  transition: transform 0.2s ease-out, font-size 0.2s ease-out;
+  transition: transform 0.2s ease-out, font-size 0.2s ease-out, -webkit-transform 0.2s ease-out;
+  -webkit-transform: translateY(1.1rem);
+  -ms-transform: translateY(1.1rem);
+      transform: translateY(1.1rem);
+  pointer-events: none;
+  line-height: 1.1;
+  z-index: 110;
+}
+.twpx-form-control--select.twpx-form-control--invalid
+  .twpx-form-control__label {
+  color: #ff0000;
+}
+.twpx-form-control--select.twpx-form-control--disabled
+  .twpx-form-control__label {
+  color: #2b2b2b;
+  opacity: 0.3;
+}
+.twpx-form-control--select.twpx-form-control--disabled
+  .twpx-form-control-select__content {
+  color: #00000055;
+  pointer-events: none;
+  background-color: #f0f5fc55;
+  border: 1px solid #f0f5fc55 !important;
+}
+.twpx-form-control--select .twpx-form-control__warning,
+.twpx-form-control--select .twpx-form-control__hint {
+  font-size: 9pt;
+  margin: 5px;
+  line-height: 1.1;
+}
+.twpx-form-control--select .twpx-form-control__warning {
+  color: #ff0000;
+}
+
+/*Select*/
+.twpx-form-control-select {
+  position: relative;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.twpx-form-control-select * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.twpx-form-control-select__arrow {
+  position: absolute;
+  top: calc(50% - 12px);
+  right: 13px;
+  width: 24px;
+  height: 24px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  pointer-events: none;
+  z-index: 10;
+}
+.twpx-form-control-select__label {
+  color: #000;
+  position: absolute;
+  top: 0;
+  left: 14px;
+  font-size: 0.69rem;
+  cursor: text;
+  -webkit-transition: color 0.2s ease-out, -webkit-transform 0.2s ease-out,
+    -webkit-font-size 0.2s ease-out;
+  -webkit-transition: color 0.2s ease-out, font-size 0.2s ease-out, -webkit-transform 0.2s ease-out;
+  transition: color 0.2s ease-out, font-size 0.2s ease-out, -webkit-transform 0.2s ease-out;
+  -o-transition: color 0.2s ease-out, transform 0.2s ease-out,
+    font-size 0.2s ease-out;
+  transition: color 0.2s ease-out, transform 0.2s ease-out,
+    font-size 0.2s ease-out;
+  transition: color 0.2s ease-out, transform 0.2s ease-out,
+    font-size 0.2s ease-out, -webkit-transform 0.2s ease-out;
+  text-align: initial;
+  -webkit-transform: translateY(1.1rem);
+  -ms-transform: translateY(1.1rem);
+      transform: translateY(1.1rem);
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  z-index: 10;
+}
+.twpx-form-control-select--selected .twpx-form-control-select__label {
+  -webkit-transform: translateY(3px);
+  -ms-transform: translateY(3px);
+      transform: translateY(3px);
+
+  color: #80868e;
+}
+.twpx-form-control-select__content {
+  display: block !important;
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 40px 0 14px !important;
+  background-color: #f0f5fc;
+  border: 1px solid #f0f5fc !important;
+  height: 48px !important;
+  line-height: 48px;
+  border-radius: 3px !important;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px !important;
+  -webkit-transition: border-color 0.3s ease;
+  -o-transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease;
+  outline: none !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
+  white-space: nowrap;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  position: relative;
+  z-index: 9;
+}
+.twpx-form-control-select:hover .twpx-form-control-select__content,
+.twpx-form-control-select.twpx-form-control-select--dropdown
+  .twpx-form-control-select__content {
+  outline: none;
+  border-color: #4f74d1 !important;
+}
+.twpx-form-control-select:hover path {
+  -webkit-transition: stroke 0.2s linear;
+  -o-transition: stroke 0.2s linear;
+  transition: stroke 0.2s linear;
+}
+.twpx-form-control-select:hover ellipse {
+  -webkit-transition: fill 0.2s linear;
+  -o-transition: fill 0.2s linear;
+  transition: fill 0.2s linear;
+}
+.twpx-form-control-select:hover path {
+  stroke: #fff;
+}
+.twpx-form-control-select:hover ellipse {
+  fill: #2b2b2b;
+}
+.twpx-form-control-select__dropdown {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 100%;
+  border-radius: 3px;
+  overflow: hidden;
+  -webkit-box-shadow: 0px 5px 10px #0000000f;
+          box-shadow: 0px 5px 10px #0000000f;
+  opacity: 0;
+  -webkit-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  pointer-events: none;
+  -webkit-transform: translateY(-10px);
+  -ms-transform: translateY(-10px);
+      transform: translateY(-10px);
+  z-index: -1;
+}
+.twpx-form-control-select__dropdown-item {
+  background-color: #fff;
+  min-height: 48px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 14px 20px;
+  color: #2b2b2b;
+  -webkit-transition: background-color 0.1s linear;
+  -o-transition: background-color 0.1s linear;
+  transition: background-color 0.1s linear;
+  cursor: pointer;
+}
+.twpx-form-control-select__dropdown-item:hover {
+  background-color: #f0f5fc;
+}
+.twpx-form-control-select.twpx-form-control-select--animate,
+.twpx-form-control-select.twpx-form-control-select--dropdown {
+  z-index: 101;
+}
+.twpx-form-control-select.twpx-form-control-select--dropdown
+  .twpx-form-control-select__dropdown {
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+      transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 8;
+}
+.twpx-form-control-select.twpx-form-control-select--invalid
+  .twpx-form-control-select__content {
+  background-color: #ffefef;
+  outline: 1px solid #e38080;
+  color: #ff0000;
+}
+.twpx-form-control-select.twpx-form-control-select--invalid
+  .twpx-form-control-select__label {
+  color: #ff0000;
+}
+.twpx-form-control-select.twpx-form-control-select--disabled {
+  pointer-events: none;
+}
+.twpx-form-control-select.twpx-form-control-select--disabled svg {
+  opacity: 0.3;
+}
+.twpx-form-control-select.twpx-form-control-select--disabled
+  .twpx-form-control-select__content {
+  outline: 1px solid #c6cdd355;
+  color: #80868e55;
+}
+.twpx-form-control-select.twpx-form-control-select--disabled
+  .twpx-form-control-select__label {
+  color: #80868e55;
+}
+.twpx-form-control-select.twpx-form-control-select--disabled.twpx-form-control-select--selected
+  .twpx-form-control-select__content {
+  outline: 1px solid #c6cdd355;
+  color: #000;
+  pointer-events: none;
+}
+.twpx-form-control-select.twpx-form-control-select--disabled.twpx-form-control-select--selected
+  .twpx-form-control-select__label {
+  color: #80868e;
+}

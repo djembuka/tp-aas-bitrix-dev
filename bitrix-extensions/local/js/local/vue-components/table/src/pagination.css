@@ -1,0 +1,8 @@
+.vue-ft-table-pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+}
+.vue-ft-table-pagination-active {
+  font-weight: bold;
+}
