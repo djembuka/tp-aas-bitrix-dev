@@ -72,6 +72,14 @@ export const ControlHint = {
 	`,
   emits: ['input'],
   computed: {
+    value: {
+      get() {
+        return this.control.value;
+      },
+      set(value) {
+        this.$emit('input', { value });
+      },
+    },
     placeholder() {
       if (this.focused && !this.value.trim()) {
         return this.control.hint_internal;

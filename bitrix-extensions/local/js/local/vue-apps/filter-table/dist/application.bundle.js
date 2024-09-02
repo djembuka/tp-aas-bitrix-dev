@@ -19,7 +19,8 @@
         columnsNames: [],
         items: {},
         sort: {},
-        actions: {}
+        actions: {},
+        errorTable: ''
       };
     },
     getters: {
@@ -28,6 +29,30 @@
       }
     },
     actions: {
+      hideErrorTable: function hideErrorTable() {
+        this.errorTable = '';
+      },
+      showError: function showError(_ref) {
+        var error = _ref.error,
+          method = _ref.method;
+        if (typeof error === 'boolean') {
+          this.errorTable = error;
+        } else if (babelHelpers["typeof"](error) === 'object') {
+          if (error.errors && babelHelpers["typeof"](error.errors) === 'object' && error.errors[0] && error.errors[0].code !== undefined) {
+            if (error.errors[0].code === 'NETWORK_ERROR') {
+              if (error.data && error.data.ajaxRejectData) {
+                if (error.data.ajaxRejectData.data) {
+                  this.errorTable = "".concat(window.BX.message('ERROR_SUPPORT'), "\n                    <br>\n                    <br>\n                    \u041C\u0435\u0442\u043E\u0434: ").concat(method, ". \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: ").concat(error.data.ajaxRejectData.data, ". \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: ").concat(window.BX.message('ERROR_' + error.data.ajaxRejectData.data) || window.BX.message('ERROR_SERVER'), ".");
+                }
+              } else if (window.BX.message) {
+                this.errorTable = "".concat(window.BX.message('ERROR_SUPPORT'), "\n                <br>\n                <br>\n                \u041C\u0435\u0442\u043E\u0434: ").concat(method, ". \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: NETWORK_ERROR. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: ").concat(window.BX.message('ERROR_OFFLINE'), ".");
+              }
+            } else {
+              this.errorTable = "".concat(window.BX.message('ERROR_SUPPORT'), "\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: ").concat(method, ".").concat(error.errors[0].code ? ' Код ошибки: ' + error.errors[0].code + '.' : '', " ").concat(error.errors[0].message ? ' Описание: ' + error.errors[0].message + '.' : '');
+            }
+          }
+        }
+      },
       runColumnsNames: function runColumnsNames(data, callback) {
         var _this = this;
         this.loadingCols = true;
@@ -40,6 +65,11 @@
           _this.loadingCols = false;
           if (window.twinpx && window.twinpx.vue.markup && window.twinpx.vue['filter-table']) {
             resultFn(state, window.twinpx.vue['filter-table'].columnsNames);
+          } else {
+            _this.showError({
+              error: error,
+              method: 'columnsNames'
+            });
           }
         });
         function resultFn(state, data) {
@@ -61,6 +91,11 @@
           _this2.loadingItems = false;
           if (window.twinpx && window.twinpx.vue.markup && window.twinpx.vue['filter-table']) {
             resultFn(state, window.twinpx.vue['filter-table'].items(data.startIndex));
+          } else {
+            _this2.showError({
+              error: error,
+              method: 'items'
+            });
           }
         });
         function resultFn(state, data) {
@@ -71,6 +106,7 @@
         }
       },
       runDefaultSort: function runDefaultSort(data, callback) {
+        var _this3 = this;
         var a = window.BX.ajax.runComponentAction(this.actions.defaultSort, data);
         var state = this;
         a.then(function (result) {
@@ -78,6 +114,11 @@
         }, function (error) {
           if (window.twinpx && window.twinpx.vue.markup && window.twinpx.vue['filter-table']) {
             resultFn(state, window.twinpx.vue['filter-table'].defaultSort);
+          } else {
+            _this3.showError({
+              error: error,
+              method: 'defaultSort'
+            });
           }
         });
         function resultFn(state, data) {
@@ -88,6 +129,7 @@
         }
       },
       runSetDefaultSort: function runSetDefaultSort(data, callback) {
+        var _this4 = this;
         var a = window.BX.ajax.runComponentAction(this.actions.setDefaultSort, data);
         var state = this;
         a.then(function (result) {
@@ -95,6 +137,11 @@
         }, function (error) {
           if (window.twinpx && window.twinpx.vue.markup && window.twinpx.vue['filter-table']) {
             resultFn(state, window.twinpx.vue['filter-table'].setDefaultSort);
+          } else {
+            _this4.showError({
+              error: error,
+              method: 'setDefaultSort'
+            });
           }
         });
         function resultFn(state, data) {
@@ -112,29 +159,54 @@
       return {
         loadingFilter: false,
         actions: {},
-        filters: []
+        filters: [],
+        errorFilter: ''
       };
     },
     actions: {
-      changeTextControlValue: function changeTextControlValue(_ref) {
-        var control = _ref.control,
-          value = _ref.value;
-        control.value = value;
+      hideErrorFilter: function hideErrorFilter() {
+        this.errorFilter = '';
       },
-      changeSelectRadioValue: function changeSelectRadioValue(_ref2) {
+      showError: function showError(_ref) {
+        var error = _ref.error,
+          method = _ref.method;
+        if (typeof error === 'boolean') {
+          this.errorFilter = error;
+        } else if (babelHelpers["typeof"](error) === 'object') {
+          if (error.errors && babelHelpers["typeof"](error.errors) === 'object' && error.errors[0] && error.errors[0].code !== undefined) {
+            if (error.errors[0].code === 'NETWORK_ERROR') {
+              if (error.data && error.data.ajaxRejectData) {
+                if (error.data.ajaxRejectData.data) {
+                  this.errorFilter = "".concat(window.BX.message('ERROR_SUPPORT'), "\n                    <br>\n                    <br>\n                    \u041C\u0435\u0442\u043E\u0434: ").concat(method, ". \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: ").concat(error.data.ajaxRejectData.data, ". \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: ").concat(window.BX.message('ERROR_' + error.data.ajaxRejectData.data) || window.BX.message('ERROR_SERVER'), ".");
+                }
+              } else if (window.BX.message) {
+                this.errorFilter = "".concat(window.BX.message('ERROR_SUPPORT'), "\n                <br>\n                <br>\n                \u041C\u0435\u0442\u043E\u0434: ").concat(method, ". \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: NETWORK_ERROR. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: ").concat(window.BX.message('ERROR_OFFLINE'), ".");
+              }
+            } else {
+              this.errorFilter = "".concat(window.BX.message('ERROR_SUPPORT'), "\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: ").concat(method, ".").concat(error.errors[0].code ? ' Код ошибки: ' + error.errors[0].code + '.' : '', " ").concat(error.errors[0].message ? ' Описание: ' + error.errors[0].message + '.' : '');
+            }
+          }
+        }
+      },
+      changeTextControlValue: function changeTextControlValue(_ref2) {
         var control = _ref2.control,
           value = _ref2.value;
         control.value = value;
       },
-      changeSelectDropdownValue: function changeSelectDropdownValue(_ref3) {
+      changeSelectRadioValue: function changeSelectRadioValue(_ref3) {
         var control = _ref3.control,
           value = _ref3.value;
         control.value = value;
       },
-      changeControlValue: function changeControlValue(_ref4) {
+      changeSelectDropdownValue: function changeSelectDropdownValue(_ref4) {
         var control = _ref4.control,
-          value = _ref4.value,
-          checked = _ref4.checked;
+          value = _ref4.value;
+        control.value = value;
+      },
+      changeControlValue: function changeControlValue(_ref5) {
+        var control = _ref5.control,
+          value = _ref5.value,
+          checked = _ref5.checked;
         switch (control.property) {
           case 'text':
           case 'textarea':
@@ -178,6 +250,11 @@
           _this.loadingFilter = false;
           if (window.twinpx && window.twinpx.vue.markup && window.twinpx.vue['filter-table']) {
             resultFn(state, window.twinpx.vue['filter-table'].filters);
+          } else {
+            _this.showError({
+              error: error,
+              method: 'filters'
+            });
           }
         });
         function resultFn(state, data) {
@@ -194,9 +271,7 @@
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var Application = {
     data: function data() {
-      return {
-        error: 'error'
-      };
+      return {};
     },
     components: {
       FilterComponent: local_vueComponents_filter.FilterComponent,
@@ -206,18 +281,22 @@
       ErrorMessage: local_vueComponents_errorMessage.ErrorMessage
     },
     // language=Vue
-    template: "\n    <div>\n      <ErrorMessage v-if=\"error\" :error=\"error\" @hideError=\"hideError\" />\n      <LoaderCircle v-if=\"loadingFilter\" />\n      <div v-else>\n        <FilterComponent :filters=\"filters\" @input=\"input\" />\n      </div>\n      <hr>\n      <LoaderCircle v-if=\"loadingTable\"/>\n      <div v-else>\n        <TableComponent :cols=\"cols\" :columnsNames=\"columnsNames\" :items=\"items\" :sort=\"sort\" :maxCountPerRequest=\"maxCountPerRequest\" @clickTh=\"clickTh\" @clickPage=\"clickPage\" />\n        <hr>\n        <div class=\"vue-ft-table-bottom\">\n          <div class=\"vue-ft-table-all\" v-if=\"items.resultCount\">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <TablePagination :pagesNum=\"pagesNum\" :pageActive=\"pageActive\" @clickPage=\"clickPage\" />\n        </div>\n      </div>\n    </div>\n\t",
-    computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['sessionid', 'userid'])), ui_vue3_pinia.mapState(tableStore, ['loadingTable', 'columnsNames', 'items', 'sort', 'cols', 'maxCountPerRequest'])), ui_vue3_pinia.mapState(filterStore, ['filters', 'loadingFilter'])), {}, {
+    template: "\n    <div>\n      <ErrorMessage :error=\"error\" @hideError=\"hideError\" />\n      <LoaderCircle :show=\"loadingFilter\" />\n      <div v-else>\n        <FilterComponent :filters=\"filters\" @input=\"input\" />\n      </div>\n      <hr>\n      <LoaderCircle :show=\"loadingTable\"/>\n      <div v-else>\n        <TableComponent :cols=\"cols\" :columnsNames=\"columnsNames\" :items=\"items\" :sort=\"sort\" :maxCountPerRequest=\"maxCountPerRequest\" @clickTh=\"clickTh\" @clickPage=\"clickPage\" />\n        <hr>\n        <div class=\"vue-ft-table-bottom\">\n          <div class=\"vue-ft-table-all\" v-if=\"items.resultCount\">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <TablePagination :pagesNum=\"pagesNum\" :pageActive=\"pageActive\" @clickPage=\"clickPage\" />\n        </div>\n      </div>\n    </div>\n\t",
+    computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['sessionid', 'userid'])), ui_vue3_pinia.mapState(tableStore, ['loadingTable', 'columnsNames', 'items', 'sort', 'cols', 'maxCountPerRequest', 'errorTable'])), ui_vue3_pinia.mapState(filterStore, ['filters', 'loadingFilter', 'errorFilter'])), {}, {
       pagesNum: function pagesNum() {
         return Math.ceil(this.items.resultCount / this.maxCountPerRequest);
       },
       pageActive: function pageActive() {
         return this.items.startIndex / this.maxCountPerRequest + 1;
+      },
+      error: function error() {
+        return this.errorTable || this.errorFilter;
       }
     }),
-    methods: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(tableStore, ['runColumnsNames', 'runItems', 'runDefaultSort', 'runSetDefaultSort'])), ui_vue3_pinia.mapActions(filterStore, ['runFilters', 'changeControlValue'])), {}, {
+    methods: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(tableStore, ['hideErrorTable', 'runColumnsNames', 'runItems', 'runDefaultSort', 'runSetDefaultSort'])), ui_vue3_pinia.mapActions(filterStore, ['hideErrorFilter', 'runFilters', 'changeControlValue'])), {}, {
       hideError: function hideError() {
-        this.error = '';
+        this.hideErrorTable();
+        this.hideErrorFilter();
       },
       clickTh: function clickTh(_ref) {
         var _this = this;

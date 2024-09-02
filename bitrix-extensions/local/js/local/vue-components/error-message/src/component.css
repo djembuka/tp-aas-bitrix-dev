@@ -31,13 +31,14 @@
 
 .vue2-component-error__text svg {
   margin-right: 2rem;
+  flex-shrink: 0;
 }
 
-.vue2-component-error__text .btn {
+.vue2-component-error .btn {
   background-color: #ffffff33;
   color: #fff;
 }
 
-.vue2-component-error__text .btn:hover {
+.vue2-component-error .btn:hover {
   background-color: #ffffff44;
 }

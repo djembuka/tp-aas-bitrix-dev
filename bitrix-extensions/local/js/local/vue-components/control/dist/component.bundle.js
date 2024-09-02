@@ -1,6 +1,6 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_controlText,local_vueComponents_controlSelectDropdown) {
+(function (exports,local_vueComponents_controlText,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown) {
   'use strict';
 
   var Control = {
@@ -13,6 +13,7 @@ this.BX = this.BX || {};
     },
     components: {
       ControlText: local_vueComponents_controlText.ControlText,
+      ControlHint: local_vueComponents_controlHint.ControlHint,
       ControlSelectDropdown: local_vueComponents_controlSelectDropdown.ControlSelectDropdown
     },
     props: ['control'],
@@ -37,5 +38,5 @@ this.BX = this.BX || {};
 
   exports.Control = Control;
 
-}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls));
+}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls));
 //# sourceMappingURL=component.bundle.js.map

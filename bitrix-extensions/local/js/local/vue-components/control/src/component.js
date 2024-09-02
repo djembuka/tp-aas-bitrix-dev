@@ -1,4 +1,5 @@
 import { ControlText } from 'local.vue-components.control-text';
+import { ControlHint } from 'local.vue-components.control-hint';
 import { ControlSelectDropdown } from 'local.vue-components.control-select-dropdown';
 
 export const Control = {
@@ -13,6 +14,7 @@ export const Control = {
   },
   components: {
     ControlText,
+    ControlHint,
     ControlSelectDropdown,
   },
   props: ['control'],

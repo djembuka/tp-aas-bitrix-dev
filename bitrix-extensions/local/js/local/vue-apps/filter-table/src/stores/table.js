@@ -9,6 +9,7 @@ export const tableStore = defineStore('table', {
       items: {},
       sort: {},
       actions: {},
+      errorTable: '',
     };
   },
   getters: {
@@ -17,6 +18,58 @@ export const tableStore = defineStore('table', {
     },
   },
   actions: {
+    hideErrorTable() {
+      this.errorTable = '';
+    },
+    showError({ error, method }) {
+      if (typeof error === 'boolean') {
+        this.errorTable = error;
+      } else if (typeof error === 'object') {
+        if (
+          error.errors &&
+          typeof error.errors === 'object' &&
+          error.errors[0] &&
+          error.errors[0].code !== undefined
+        ) {
+          if (error.errors[0].code === 'NETWORK_ERROR') {
+            if (error.data && error.data.ajaxRejectData) {
+              if (error.data.ajaxRejectData.data) {
+                this.errorTable = `${window.BX.message('ERROR_SUPPORT')}
+                    <br>
+                    <br>
+                    Метод: ${method}. Код ошибки: ${
+                  error.data.ajaxRejectData.data
+                }. Описание: ${
+                  window.BX.message(
+                    'ERROR_' + error.data.ajaxRejectData.data
+                  ) || window.BX.message('ERROR_SERVER')
+                }.`;
+              }
+            } else if (window.BX.message) {
+              this.errorTable = `${window.BX.message('ERROR_SUPPORT')}
+                <br>
+                <br>
+                Метод: ${method}. Код ошибки: NETWORK_ERROR. Описание: ${window.BX.message(
+                'ERROR_OFFLINE'
+              )}.`;
+            }
+          } else {
+            this.errorTable = `${window.BX.message('ERROR_SUPPORT')}
+              <br>
+              <br>
+              Метод: ${method}.${
+              error.errors[0].code
+                ? ' Код ошибки: ' + error.errors[0].code + '.'
+                : ''
+            } ${
+              error.errors[0].message
+                ? ' Описание: ' + error.errors[0].message + '.'
+                : ''
+            }`;
+          }
+        }
+      }
+    },
     runColumnsNames(data, callback) {
       this.loadingCols = true;
       let a = window.BX.ajax.runComponentAction(
@@ -39,7 +92,7 @@ export const tableStore = defineStore('table', {
           ) {
             resultFn(state, window.twinpx.vue['filter-table'].columnsNames);
           } else {
-            //showError(error)
+            this.showError({ error, method: 'columnsNames' });
           }
         }
       );
@@ -73,7 +126,7 @@ export const tableStore = defineStore('table', {
               window.twinpx.vue['filter-table'].items(data.startIndex)
             );
           } else {
-            //showError(error)
+            this.showError({ error, method: 'items' });
           }
         }
       );
@@ -102,7 +155,7 @@ export const tableStore = defineStore('table', {
           ) {
             resultFn(state, window.twinpx.vue['filter-table'].defaultSort);
           } else {
-            //showError(error)
+            this.showError({ error, method: 'defaultSort' });
           }
         }
       );
@@ -133,7 +186,7 @@ export const tableStore = defineStore('table', {
           ) {
             resultFn(state, window.twinpx.vue['filter-table'].setDefaultSort);
           } else {
-            //showError(error)
+            this.showError({ error, method: 'setDefaultSort' });
           }
         }
       );

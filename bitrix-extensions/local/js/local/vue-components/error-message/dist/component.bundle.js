@@ -19,5 +19,5 @@ this.BX = this.BX || {};
 
   exports.ErrorMessage = ErrorMessage;
 
-}((this.BX.Loaders = this.BX.Loaders || {})));
+}((this.BX.AAS = this.BX.AAS || {})));
 //# sourceMappingURL=component.bundle.js.map

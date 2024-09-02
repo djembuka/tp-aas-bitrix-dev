@@ -5,8 +5,61 @@ export const filterStore = defineStore('filter', {
     loadingFilter: false,
     actions: {},
     filters: [],
+    errorFilter: '',
   }),
   actions: {
+    hideErrorFilter() {
+      this.errorFilter = '';
+    },
+    showError({ error, method }) {
+      if (typeof error === 'boolean') {
+        this.errorFilter = error;
+      } else if (typeof error === 'object') {
+        if (
+          error.errors &&
+          typeof error.errors === 'object' &&
+          error.errors[0] &&
+          error.errors[0].code !== undefined
+        ) {
+          if (error.errors[0].code === 'NETWORK_ERROR') {
+            if (error.data && error.data.ajaxRejectData) {
+              if (error.data.ajaxRejectData.data) {
+                this.errorFilter = `${window.BX.message('ERROR_SUPPORT')}
+                    <br>
+                    <br>
+                    Метод: ${method}. Код ошибки: ${
+                  error.data.ajaxRejectData.data
+                }. Описание: ${
+                  window.BX.message(
+                    'ERROR_' + error.data.ajaxRejectData.data
+                  ) || window.BX.message('ERROR_SERVER')
+                }.`;
+              }
+            } else if (window.BX.message) {
+              this.errorFilter = `${window.BX.message('ERROR_SUPPORT')}
+                <br>
+                <br>
+                Метод: ${method}. Код ошибки: NETWORK_ERROR. Описание: ${window.BX.message(
+                'ERROR_OFFLINE'
+              )}.`;
+            }
+          } else {
+            this.errorFilter = `${window.BX.message('ERROR_SUPPORT')}
+              <br>
+              <br>
+              Метод: ${method}.${
+              error.errors[0].code
+                ? ' Код ошибки: ' + error.errors[0].code + '.'
+                : ''
+            } ${
+              error.errors[0].message
+                ? ' Описание: ' + error.errors[0].message + '.'
+                : ''
+            }`;
+          }
+        }
+      }
+    },
     changeTextControlValue({ control, value }) {
       control.value = value;
     },
@@ -65,7 +118,7 @@ export const filterStore = defineStore('filter', {
           ) {
             resultFn(state, window.twinpx.vue['filter-table'].filters);
           } else {
-            //showError(error)
+            this.showError({ error, method: 'filters' });
           }
         }
       );

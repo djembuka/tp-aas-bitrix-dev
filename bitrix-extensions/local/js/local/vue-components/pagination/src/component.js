@@ -5,11 +5,11 @@ export const TablePagination = {
   template: `
     <div class="vue-pagination" v-if="pagesArr.length">
       <div v-for="item in pagesArr">
-        <a class="vue-pagination-page" href="" v-if="item.type === 'page'" @click.prevent="$emit('clickPage', {count: item.count})">{{ item.count }}</a>
-        <span class="vue-pagination-active" v-else-if="item.type === 'active'">{{ item.count }}</span>
-        <a class="vue-pagination-page" href="" v-else-if="item.type === 'ellipsis'" @click.prevent="$emit('clickPage', {count: item.count})">...</a>
-        <a class="vue-pagination-arrow" href="" v-else-if="item.type === 'prev'" @click.prevent="$emit('clickPage', {count: item.count})">Предыдущая</a>
-        <a class="vue-pagination-arrow" href="" v-else-if="item.type === 'next'" @click.prevent="$emit('clickPage', {count: item.count})">Следующая</a>
+        <a class="vue-pagination-page" href="" v-if="item.count && item.type === 'page'" @click.prevent="$emit('clickPage', {count: item.count})">{{ item.count }}</a>
+        <span class="vue-pagination-active" v-else-if="item.count && item.type === 'active'">{{ item.count }}</span>
+        <a class="vue-pagination-page" href="" v-else-if="item.count && item.type === 'ellipsis'" @click.prevent="$emit('clickPage', {count: item.count})">...</a>
+        <a class="vue-pagination-arrow" href="" v-else-if="item.count && item.type === 'prev'" @click.prevent="$emit('clickPage', {count: item.count})">Предыдущая</a>
+        <a class="vue-pagination-arrow" href="" v-else-if="item.count && item.type === 'next'" @click.prevent="$emit('clickPage', {count: item.count})">Следующая</a>
       </div>
     </div>
   `,

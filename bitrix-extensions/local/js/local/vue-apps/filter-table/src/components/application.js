@@ -13,9 +13,7 @@ import { filterStore } from '../stores/filter';
 
 export const Application = {
   data() {
-    return {
-      error: 'error',
-    };
+    return {};
   },
   components: {
     FilterComponent,
@@ -27,13 +25,13 @@ export const Application = {
   // language=Vue
   template: `
     <div>
-      <ErrorMessage v-if="error" :error="error" @hideError="hideError" />
-      <LoaderCircle v-if="loadingFilter" />
+      <ErrorMessage :error="error" @hideError="hideError" />
+      <LoaderCircle :show="loadingFilter" />
       <div v-else>
         <FilterComponent :filters="filters" @input="input" />
       </div>
       <hr>
-      <LoaderCircle v-if="loadingTable"/>
+      <LoaderCircle :show="loadingTable"/>
       <div v-else>
         <TableComponent :cols="cols" :columnsNames="columnsNames" :items="items" :sort="sort" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
         <hr>
@@ -53,25 +51,35 @@ export const Application = {
       'sort',
       'cols',
       'maxCountPerRequest',
+      'errorTable',
     ]),
-    ...mapState(filterStore, ['filters', 'loadingFilter']),
+    ...mapState(filterStore, ['filters', 'loadingFilter', 'errorFilter']),
     pagesNum() {
       return Math.ceil(this.items.resultCount / this.maxCountPerRequest);
     },
     pageActive() {
       return this.items.startIndex / this.maxCountPerRequest + 1;
     },
+    error() {
+      return this.errorTable || this.errorFilter;
+    },
   },
   methods: {
     ...mapActions(tableStore, [
+      'hideErrorTable',
       'runColumnsNames',
       'runItems',
       'runDefaultSort',
       'runSetDefaultSort',
     ]),
-    ...mapActions(filterStore, ['runFilters', 'changeControlValue']),
+    ...mapActions(filterStore, [
+      'hideErrorFilter',
+      'runFilters',
+      'changeControlValue',
+    ]),
     hideError() {
-      this.error = '';
+      this.hideErrorTable();
+      this.hideErrorFilter();
     },
     clickTh({ column }) {
       const sortType =
