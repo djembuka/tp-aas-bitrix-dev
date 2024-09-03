@@ -19,19 +19,27 @@ this.BX = this.BX || {};
     props: ['control'],
     // language=Vue
     template: "\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"addControl\"\n    ></component>\n\t",
-    emits: ['input'],
+    emits: ['input', 'hintsRequest'],
     methods: {
       componentName: function componentName() {
         return "control-".concat(this.componentType);
       },
       addControl: function addControl(_ref) {
         var value = _ref.value,
-          checked = _ref.checked;
-        this.$emit('input', {
-          control: this.control,
-          value: value,
-          checked: checked
-        });
+          checked = _ref.checked,
+          hintsAction = _ref.hintsAction;
+        if (hintsAction) {
+          this.$emit('hintsRequest', {
+            control: this.control,
+            hintsAction: hintsAction
+          });
+        } else {
+          this.$emit('input', {
+            control: this.control,
+            value: value,
+            checked: checked
+          });
+        }
       }
     }
   };

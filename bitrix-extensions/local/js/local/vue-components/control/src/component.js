@@ -28,17 +28,24 @@ export const Control = {
       @input="addControl"
     ></component>
 	`,
-  emits: ['input'],
+  emits: ['input', 'hintsRequest'],
   methods: {
     componentName() {
       return `control-${this.componentType}`;
     },
-    addControl({ value, checked }) {
-      this.$emit('input', {
-        control: this.control,
-        value,
-        checked,
-      });
+    addControl({ value, checked, hintsAction }) {
+      if (hintsAction) {
+        this.$emit('hintsRequest', {
+          control: this.control,
+          hintsAction,
+        });
+      } else {
+        this.$emit('input', {
+          control: this.control,
+          value,
+          checked,
+        });
+      }
     },
   },
 };

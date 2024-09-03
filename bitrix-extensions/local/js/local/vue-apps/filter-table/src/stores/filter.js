@@ -73,6 +73,7 @@ export const filterStore = defineStore('filter', {
       switch (control.property) {
         case 'text':
         case 'textarea':
+        case 'hint':
           this.changeTextControlValue({ control, value });
           break;
         // case 'multiselect':
@@ -125,6 +126,42 @@ export const filterStore = defineStore('filter', {
 
       function resultFn(state, data) {
         state.filters = data;
+        if (callback) {
+          callback();
+        }
+      }
+    },
+    runHintsAction({ control, hintsAction }, callback) {
+      control.loading = true;
+
+      let a = window.BX.ajax.runComponentAction(hintsAction, {
+        string:
+          typeof control.value === 'object'
+            ? control.value.value
+            : control.value,
+      });
+
+      a.then(
+        (result) => {
+          control.loading = false;
+          resultFn(result);
+        },
+        (error) => {
+          control.loading = false;
+          if (
+            window.twinpx &&
+            window.twinpx.vue.markup &&
+            window.twinpx.vue['filter-table']
+          ) {
+            resultFn(window.twinpx.vue['filter-table'].hints);
+          } else {
+            this.showError({ error, method: hintsAction });
+          }
+        }
+      );
+
+      function resultFn(data) {
+        control.hints = data;
         if (callback) {
           callback();
         }

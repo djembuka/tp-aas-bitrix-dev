@@ -10,8 +10,7 @@ export const ControlHint = {
       warning: '',
       hint: this.control.hint_external,
 
-      controlValue: this.control.value,
-      hintItems: [],
+      showHints: false,
       activeHintItem: {},
       activeHint: [],
       hover: false,
@@ -24,7 +23,7 @@ export const ControlHint = {
 		<div
       :class="{
         'twpx-form-control': true,
-        'twpx-form-control--text': true,
+        'twpx-form-control--hint': true,
         'twpx-form-control--active': active,
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,
@@ -57,8 +56,8 @@ export const ControlHint = {
 
       <div class="b-input-clear" @click.prevent="clearInput()" v-show="isClearable"></div>
 
-      <div class="b-input-hint">
-        <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHint[index]}" class="b-input-hint__item" @click.prevent="clickHint($event)"></div>
+      <div class="b-input-hint" v-if="showHints">
+        <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHint[index]}" class="b-input-hint__item" @click.prevent="clickHint($event)">{{ hint.value }}</div>
       </div>
 
       <div
@@ -72,16 +71,14 @@ export const ControlHint = {
 	`,
   emits: ['input'],
   computed: {
-    value: {
-      get() {
-        return this.control.value;
-      },
-      set(value) {
-        this.$emit('input', { value });
-      },
+    hintItems() {
+      if (this.control.hints.length) {
+        this.showHints = true;
+      }
+      return this.control.hints;
     },
     placeholder() {
-      if (this.focused && !this.value.trim()) {
+      if (this.focused && (!this.controlValue || !this.controlValue.trim())) {
         return this.control.hint_internal;
       } else {
         return '';
@@ -105,14 +102,24 @@ export const ControlHint = {
     isClearable() {
       return this.controlValue !== '' && this.hover ? true : false;
     },
-    controlValue(value) {
-      this.change(value);
+    controlValue: {
       get() {
+        if (typeof this.control.value === 'object') {
+          return this.control.value.value;
+        }
         return this.control.value;
       },
       set(value) {
-        this.change(value);
-        // this.$emit('input', { value });
+        this.$emit('input', { value });
+
+        this.activeHint = [];
+        this.activeHintItem = {};
+
+        if (this.controlValue.length >= this.control.count) {
+          this.$emit('input', { hintsAction: this.control.action });
+        } else {
+          this.showHints = false;
+        }
       },
     },
   },
@@ -125,51 +132,6 @@ export const ControlHint = {
     },
   },
   methods: {
-    change() {
-      this.activeHint = [];
-      this.activeHintItem = {};
-
-      if (this.controlValue.length >= this.control.count) {
-        const state = this;
-
-        let a = window.BX.ajax.runComponentAction(this.control.action, {
-          sessionid: 'id',
-          userid: 'id',
-        });
-
-        a.then(
-          (result) => {
-            resultFn(state, result);
-          },
-          (error) => {
-            if (window.twinpx.vue.markup) {
-              resultFn(state, [
-                {
-                  id: 'id1',
-                  value: '456456',
-                },
-                {
-                  id: 'id2',
-                  value: '123133',
-                },
-                {
-                  id: 'id3',
-                  value: '798798',
-                },
-              ]);
-            } else {
-              //showError(error)
-            }
-          }
-        );
-
-        function resultFn(state, data) {
-          state.hintItems = data;
-        }
-      } else {
-        this.hintItems = [];
-      }
-    },
     upArrow() {
       let activeIndex = this.activeHint.indexOf(true);
       let arr = this.activeHint.map((elem) => null);
@@ -214,17 +176,21 @@ export const ControlHint = {
       this.blured = true;
 
       setTimeout(() => {
-        this.hintItems = [];
+        this.showHints = false;
       }, 200);
 
       setTimeout(() => {
         this.validate();
       }, 100);
 
-      if (this.controlValue !== this.compare) {
-        this.$emit('autosave');
-        bitrixLogs(6, `${this.formControl.label}: ${this.controlValue}`);
+      if (typeof this.control.value !== 'object') {
+        this.controlValue = '';
       }
+
+      // if (this.controlValue !== this.compare) {
+      //   this.$emit('autosave');
+      //   bitrixLogs(6, `${this.formControl.label}: ${this.controlValue}`);
+      // }
     },
     validate() {
       if (

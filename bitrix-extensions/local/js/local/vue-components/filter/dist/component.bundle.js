@@ -8,12 +8,12 @@ this.BX = this.BX || {};
       return {};
     },
     props: ['filters'],
-    emits: ['input'],
+    emits: ['input', 'hintsRequest'],
     components: {
       Control: local_vueComponents_control.Control
     },
     // language=Vue
-    template: "\n\t\t<div class=\"vue-tf-filter\">\n      <Control v-for=\"control in filters\" :key=\"control.id\" :control=\"control\" @input=\"input\" />\n    </div>\n\t",
+    template: "\n\t\t<div class=\"vue-tf-filter\">\n      <Control v-for=\"control in filters\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hintsRequest=\"hintsRequest\" />\n    </div>\n\t",
     methods: {
       input: function input(_ref) {
         var control = _ref.control,
@@ -23,6 +23,14 @@ this.BX = this.BX || {};
           control: control,
           value: value,
           checked: checked
+        });
+      },
+      hintsRequest: function hintsRequest(_ref2) {
+        var control = _ref2.control,
+          hintsAction = _ref2.hintsAction;
+        this.$emit('hintsRequest', {
+          control: control,
+          hintsAction: hintsAction
         });
       }
     }
