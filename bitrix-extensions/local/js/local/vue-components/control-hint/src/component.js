@@ -105,18 +105,18 @@ export const ControlHint = {
     isClearable() {
       return this.controlValue !== '' && this.hover ? true : false;
     },
+    controlValue(value) {
+      this.change(value);
+      get() {
+        return this.control.value;
+      },
+      set(value) {
+        this.change(value);
+        // this.$emit('input', { value });
+      },
+    },
   },
   watch: {
-    // controlValue(value) {
-    //   this.change(value);
-    //   get() {
-    //     return this.control.value;
-    //   },
-    //   set(value) {
-    //     this.change(value);
-    //     // this.$emit('input', { value });
-    //   },
-    // },
     validateWatcher() {
       this.blured = true;
     },
