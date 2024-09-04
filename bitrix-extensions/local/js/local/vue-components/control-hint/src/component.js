@@ -12,9 +12,10 @@ export const ControlHint = {
 
       showHints: false,
       activeHintItem: {},
-      activeHint: [],
+      activeHintArray: [],
       hover: false,
       compare: this.controlValue,
+      memoryValue: '',
     };
   },
   props: ['control', 'id', 'name'],
@@ -57,7 +58,7 @@ export const ControlHint = {
       <div class="b-input-clear" @click.prevent="clearInput()" v-show="isClearable"></div>
 
       <div class="b-input-hint" v-if="showHints">
-        <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHint[index]}" class="b-input-hint__item" @click.prevent="clickHint($event)">{{ hint.value }}</div>
+        <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHintArray[index]}" class="b-input-hint__item" @click.prevent="clickHint(hint)">{{ hint.value }}</div>
       </div>
 
       <div
@@ -72,9 +73,6 @@ export const ControlHint = {
   emits: ['input'],
   computed: {
     hintItems() {
-      if (this.control.hints && this.control.hints.length) {
-        this.showHints = true;
-      }
       return this.control.hints;
     },
     placeholder() {
@@ -85,7 +83,7 @@ export const ControlHint = {
       }
     },
     active() {
-      return this.focused || !!this.control.value.trim();
+      return this.focused || !!this.controlValue.trim();
     },
     invalid() {
       return this.blured && !this.validate();
@@ -112,8 +110,8 @@ export const ControlHint = {
       set(value) {
         this.$emit('input', { value });
 
-        this.activeHint = [];
-        this.activeHintItem = {};
+        // this.activeHintArray = [];
+        // this.activeHintItem = {};
 
         if (this.controlValue.length >= this.control.count) {
           this.$emit('input', { hintsAction: this.control.action });
@@ -124,6 +122,20 @@ export const ControlHint = {
     },
   },
   watch: {
+    hintItems() {
+      this.activeHintArray = this.hintItems.map(() => null);
+    },
+    controlValue() {
+      if (
+        this.controlValue.length >= this.control.count &&
+        typeof this.control.hints === 'object' &&
+        this.control.hints.length &&
+        !this.loading
+      ) {
+        console.log(1);
+        this.showHints = true;
+      }
+    },
     validateWatcher() {
       this.blured = true;
     },
@@ -132,38 +144,62 @@ export const ControlHint = {
     },
   },
   methods: {
+    enterInput() {
+      //check if there is an active hint
+      let activeIndex = this.activeHintArray.indexOf(true);
+      if (activeIndex >= 0) {
+        this.activeHintItem = this.hintItems[activeIndex] || {};
+      } else {
+        //if not
+        this.activeHintItem =
+          this.hintItems.find(
+            (hint) => hint.value.search(this.controlValue) >= 0
+          ) || {};
+      }
+      this.controlValue = this.activeHintItem.value || this.memoryValue;
+      this.memoryValue = this.controlValue;
+      this.showHints = false;
+    },
+    clickHint(hint) {
+      this.activeHintItem = this.hintItems.find((h) => h.id === hint.id) || {};
+      this.$emit('input', { value: hint });
+      this.showHints = false;
+
+      // this.validate();
+    },
     upArrow() {
-      let activeIndex = this.activeHint.indexOf(true);
-      let arr = this.activeHint.map((elem) => null);
+      let activeIndex = this.activeHintArray.indexOf(true);
+      let arr = this.activeHintArray.map((elem) => null);
 
       if (activeIndex >= 0) {
-        this.activeHint[activeIndex] = null;
+        this.activeHintArray[activeIndex] = null;
       }
       if (--activeIndex < 0) {
-        activeIndex = this.activeHint.length - 1;
+        activeIndex = this.activeHintArray.length - 1;
       }
       arr[activeIndex] = true;
       //lightlight hint
-      this.activeHint = arr;
+      this.activeHintArray = arr;
       //set active user
       this.activeHintItem =
-        this.users.find((user) => user.ORNZ === this.controlValue) || {};
+        this.hintItems.find((hint) => hint.value === this.controlValue) || {};
     },
     downArrow() {
-      let activeIndex = this.activeHint.indexOf(true);
-      let arr = this.activeHint.map((elem) => null);
+      let activeIndex = this.activeHintArray.indexOf(true);
+      console.log(activeIndex);
+      let arr = this.activeHintArray.map((elem) => null);
       if (activeIndex >= 0) {
-        this.activeHint[activeIndex] = null;
+        this.activeHintArray[activeIndex] = null;
       }
-      if (++activeIndex > this.activeHint.length - 1) {
+      if (++activeIndex > this.activeHintArray.length - 1) {
         activeIndex = 0;
       }
       arr[activeIndex] = true;
       //lightlight hint
-      this.activeHint = arr;
+      this.activeHintArray = arr;
       //set active user
       this.activeHintItem =
-        this.users.find((user) => user.ORNZ === this.controlValue) || {};
+        this.hintItems.find((hint) => hint.value === this.controlValue) || {};
     },
     focus() {
       this.focused = true;
@@ -183,7 +219,7 @@ export const ControlHint = {
         this.validate();
       }, 100);
 
-      if (typeof this.control.value !== 'object') {
+      if (typeof this.control.value !== 'object' && !this.showHints) {
         this.controlValue = '';
       }
 

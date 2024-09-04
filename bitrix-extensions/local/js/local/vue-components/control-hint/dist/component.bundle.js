@@ -14,20 +14,18 @@ this.BX = this.BX || {};
         hint: this.control.hint_external,
         showHints: false,
         activeHintItem: {},
-        activeHint: [],
+        activeHintArray: [],
         hover: false,
-        compare: this.controlValue
+        compare: this.controlValue,
+        memoryValue: ''
       };
     },
     props: ['control', 'id', 'name'],
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--hint': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      \n      <input\n        type=\"text\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"controlValue\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keydown.enter.prevent=\"enterInput\"\n        @keydown.up.prevent=\"upArrow()\"\n        @keydown.down.prevent=\"downArrow()\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        class=\"twpx-form-control__input\"\n      />\n\n      <div class=\"b-input-clear\" @click.prevent=\"clearInput()\" v-show=\"isClearable\"></div>\n\n      <div class=\"b-input-hint\" v-if=\"showHints\">\n        <div v-for=\"(hint, index) in hintItems\" :data-id=\"hint.id\" :data-value=\"hint.value\" :class=\"{active: activeHint[index]}\" class=\"b-input-hint__item\" @click.prevent=\"clickHint($event)\">{{ hint.value }}</div>\n      </div>\n\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
+    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--hint': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      \n      <input\n        type=\"text\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"controlValue\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keydown.enter.prevent=\"enterInput\"\n        @keydown.up.prevent=\"upArrow()\"\n        @keydown.down.prevent=\"downArrow()\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        class=\"twpx-form-control__input\"\n      />\n\n      <div class=\"b-input-clear\" @click.prevent=\"clearInput()\" v-show=\"isClearable\"></div>\n\n      <div class=\"b-input-hint\" v-if=\"showHints\">\n        <div v-for=\"(hint, index) in hintItems\" :data-id=\"hint.id\" :data-value=\"hint.value\" :class=\"{active: activeHintArray[index]}\" class=\"b-input-hint__item\" @click.prevent=\"clickHint(hint)\">{{ hint.value }}</div>\n      </div>\n\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
     emits: ['input'],
     computed: {
       hintItems: function hintItems() {
-        if (this.control.hints && this.control.hints.length) {
-          this.showHints = true;
-        }
         return this.control.hints;
       },
       placeholder: function placeholder() {
@@ -38,7 +36,7 @@ this.BX = this.BX || {};
         }
       },
       active: function active() {
-        return this.focused || !!this.control.value.trim();
+        return this.focused || !!this.controlValue.trim();
       },
       invalid: function invalid() {
         return this.blured && !this.validate();
@@ -66,8 +64,10 @@ this.BX = this.BX || {};
           this.$emit('input', {
             value: value
           });
-          this.activeHint = [];
-          this.activeHintItem = {};
+
+          // this.activeHintArray = [];
+          // this.activeHintItem = {};
+
           if (this.controlValue.length >= this.control.count) {
             this.$emit('input', {
               hintsAction: this.control.action
@@ -79,6 +79,17 @@ this.BX = this.BX || {};
       }
     },
     watch: {
+      hintItems: function hintItems() {
+        this.activeHintArray = this.hintItems.map(function () {
+          return null;
+        });
+      },
+      controlValue: function controlValue() {
+        if (this.controlValue.length >= this.control.count && babelHelpers["typeof"](this.control.hints) === 'object' && this.control.hints.length && !this.loading) {
+          console.log(1);
+          this.showHints = true;
+        }
+      },
       validateWatcher: function validateWatcher() {
         this.blured = true;
       },
@@ -87,44 +98,72 @@ this.BX = this.BX || {};
       }
     },
     methods: {
-      upArrow: function upArrow() {
+      enterInput: function enterInput() {
         var _this = this;
-        var activeIndex = this.activeHint.indexOf(true);
-        var arr = this.activeHint.map(function (elem) {
+        //check if there is an active hint
+        var activeIndex = this.activeHintArray.indexOf(true);
+        if (activeIndex >= 0) {
+          this.activeHintItem = this.hintItems[activeIndex] || {};
+        } else {
+          //if not
+          this.activeHintItem = this.hintItems.find(function (hint) {
+            return hint.value.search(_this.controlValue) >= 0;
+          }) || {};
+        }
+        this.controlValue = this.activeHintItem.value || this.memoryValue;
+        this.memoryValue = this.controlValue;
+        this.showHints = false;
+      },
+      clickHint: function clickHint(hint) {
+        this.activeHintItem = this.hintItems.find(function (h) {
+          return h.id === hint.id;
+        }) || {};
+        this.$emit('input', {
+          value: hint
+        });
+        this.showHints = false;
+
+        // this.validate();
+      },
+      upArrow: function upArrow() {
+        var _this2 = this;
+        var activeIndex = this.activeHintArray.indexOf(true);
+        var arr = this.activeHintArray.map(function (elem) {
           return null;
         });
         if (activeIndex >= 0) {
-          this.activeHint[activeIndex] = null;
+          this.activeHintArray[activeIndex] = null;
         }
         if (--activeIndex < 0) {
-          activeIndex = this.activeHint.length - 1;
+          activeIndex = this.activeHintArray.length - 1;
         }
         arr[activeIndex] = true;
         //lightlight hint
-        this.activeHint = arr;
+        this.activeHintArray = arr;
         //set active user
-        this.activeHintItem = this.users.find(function (user) {
-          return user.ORNZ === _this.controlValue;
+        this.activeHintItem = this.hintItems.find(function (hint) {
+          return hint.value === _this2.controlValue;
         }) || {};
       },
       downArrow: function downArrow() {
-        var _this2 = this;
-        var activeIndex = this.activeHint.indexOf(true);
-        var arr = this.activeHint.map(function (elem) {
+        var _this3 = this;
+        var activeIndex = this.activeHintArray.indexOf(true);
+        console.log(activeIndex);
+        var arr = this.activeHintArray.map(function (elem) {
           return null;
         });
         if (activeIndex >= 0) {
-          this.activeHint[activeIndex] = null;
+          this.activeHintArray[activeIndex] = null;
         }
-        if (++activeIndex > this.activeHint.length - 1) {
+        if (++activeIndex > this.activeHintArray.length - 1) {
           activeIndex = 0;
         }
         arr[activeIndex] = true;
         //lightlight hint
-        this.activeHint = arr;
+        this.activeHintArray = arr;
         //set active user
-        this.activeHintItem = this.users.find(function (user) {
-          return user.ORNZ === _this2.controlValue;
+        this.activeHintItem = this.hintItems.find(function (hint) {
+          return hint.value === _this3.controlValue;
         }) || {};
       },
       focus: function focus() {
@@ -133,16 +172,16 @@ this.BX = this.BX || {};
         this.compare = this.controlValue;
       },
       blur: function blur() {
-        var _this3 = this;
+        var _this4 = this;
         this.focused = false;
         this.blured = true;
         setTimeout(function () {
-          _this3.showHints = false;
+          _this4.showHints = false;
         }, 200);
         setTimeout(function () {
-          _this3.validate();
+          _this4.validate();
         }, 100);
-        if (babelHelpers["typeof"](this.control.value) !== 'object') {
+        if (babelHelpers["typeof"](this.control.value) !== 'object' && !this.showHints) {
           this.controlValue = '';
         }
 
