@@ -25,7 +25,7 @@ this.BX = this.BX || {};
     emits: ['input'],
     computed: {
       hintItems: function hintItems() {
-        if (this.control.hints.length) {
+        if (this.control.hints && this.control.hints.length) {
           this.showHints = true;
         }
         return this.control.hints;

@@ -72,7 +72,7 @@ export const ControlHint = {
   emits: ['input'],
   computed: {
     hintItems() {
-      if (this.control.hints.length) {
+      if (this.control.hints && this.control.hints.length) {
         this.showHints = true;
       }
       return this.control.hints;
