@@ -31,6 +31,7 @@ this.BX = this.BX || {};
         if (hintsAction) {
           this.$emit('hintsRequest', {
             control: this.control,
+            value: value,
             hintsAction: hintsAction
           });
         } else {

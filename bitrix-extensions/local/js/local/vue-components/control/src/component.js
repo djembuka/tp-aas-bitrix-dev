@@ -37,6 +37,7 @@ export const Control = {
       if (hintsAction) {
         this.$emit('hintsRequest', {
           control: this.control,
+          value,
           hintsAction,
         });
       } else {

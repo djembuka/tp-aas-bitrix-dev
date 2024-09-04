@@ -57,7 +57,7 @@ export const ControlHint = {
       <div class="b-input-clear" @click.prevent="clearInput()" v-show="isClearable"></div>
 
       <div class="b-input-hint" v-if="showHints">
-        <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHint[index]}" class="b-input-hint__item" @click.prevent="clickHint($event)">{{ hint.value }}</div>
+        <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHint[index]}" class="b-input-hint__item" @click.prevent="clickHint(hint)">{{ hint.value }}</div>
       </div>
 
       <div
@@ -72,9 +72,6 @@ export const ControlHint = {
   emits: ['input'],
   computed: {
     hintItems() {
-      if (this.control.hints.length) {
-        this.showHints = true;
-      }
       return this.control.hints;
     },
     placeholder() {
@@ -116,14 +113,27 @@ export const ControlHint = {
         this.activeHintItem = {};
 
         if (this.controlValue.length >= this.control.count) {
-          this.$emit('input', { hintsAction: this.control.action });
+          this.$emit('input', {
+            value: this.controlValue,
+            hintsAction: this.control.action,
+          });
         } else {
+          console.log(3);
           this.showHints = false;
         }
       },
     },
   },
   watch: {
+    controlValue() {
+      if (
+        this.controlValue.length >= this.control.count &&
+        this.control.hints.length &&
+        !this.loading
+      ) {
+        this.showHints = true;
+      }
+    },
     validateWatcher() {
       this.blured = true;
     },
@@ -132,6 +142,15 @@ export const ControlHint = {
     },
   },
   methods: {
+    clickHint(hint) {
+      // const id = hint.id;
+      // this.activeHint = this.hintItems.find((h) => h.id === id) || {};
+      console.log(hint, 1);
+      this.$emit('input', { value: hint });
+      this.showHints = false;
+
+      // this.validate();
+    },
     upArrow() {
       let activeIndex = this.activeHint.indexOf(true);
       let arr = this.activeHint.map((elem) => null);
@@ -176,7 +195,8 @@ export const ControlHint = {
       this.blured = true;
 
       setTimeout(() => {
-        this.showHints = false;
+        console.log(2);
+        // this.showHints = false;
       }, 200);
 
       setTimeout(() => {

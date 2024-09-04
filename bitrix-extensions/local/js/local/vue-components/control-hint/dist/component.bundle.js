@@ -21,13 +21,10 @@ this.BX = this.BX || {};
     },
     props: ['control', 'id', 'name'],
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--hint': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      \n      <input\n        type=\"text\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"controlValue\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keydown.enter.prevent=\"enterInput\"\n        @keydown.up.prevent=\"upArrow()\"\n        @keydown.down.prevent=\"downArrow()\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        class=\"twpx-form-control__input\"\n      />\n\n      <div class=\"b-input-clear\" @click.prevent=\"clearInput()\" v-show=\"isClearable\"></div>\n\n      <div class=\"b-input-hint\" v-if=\"showHints\">\n        <div v-for=\"(hint, index) in hintItems\" :data-id=\"hint.id\" :data-value=\"hint.value\" :class=\"{active: activeHint[index]}\" class=\"b-input-hint__item\" @click.prevent=\"clickHint($event)\">{{ hint.value }}</div>\n      </div>\n\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
+    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--hint': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      \n      <input\n        type=\"text\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"controlValue\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keydown.enter.prevent=\"enterInput\"\n        @keydown.up.prevent=\"upArrow()\"\n        @keydown.down.prevent=\"downArrow()\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        class=\"twpx-form-control__input\"\n      />\n\n      <div class=\"b-input-clear\" @click.prevent=\"clearInput()\" v-show=\"isClearable\"></div>\n\n      <div class=\"b-input-hint\" v-if=\"showHints\">\n        <div v-for=\"(hint, index) in hintItems\" :data-id=\"hint.id\" :data-value=\"hint.value\" :class=\"{active: activeHint[index]}\" class=\"b-input-hint__item\" @click.prevent=\"clickHint(hint)\">{{ hint.value }}</div>\n      </div>\n\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
     emits: ['input'],
     computed: {
       hintItems: function hintItems() {
-        if (this.control.hints.length) {
-          this.showHints = true;
-        }
         return this.control.hints;
       },
       placeholder: function placeholder() {
@@ -70,15 +67,22 @@ this.BX = this.BX || {};
           this.activeHintItem = {};
           if (this.controlValue.length >= this.control.count) {
             this.$emit('input', {
+              value: this.controlValue,
               hintsAction: this.control.action
             });
           } else {
+            console.log(3);
             this.showHints = false;
           }
         }
       }
     },
     watch: {
+      controlValue: function controlValue() {
+        if (this.controlValue.length >= this.control.count && this.control.hints.length && !this.loading) {
+          this.showHints = true;
+        }
+      },
       validateWatcher: function validateWatcher() {
         this.blured = true;
       },
@@ -87,6 +91,17 @@ this.BX = this.BX || {};
       }
     },
     methods: {
+      clickHint: function clickHint(hint) {
+        // const id = hint.id;
+        // this.activeHint = this.hintItems.find((h) => h.id === id) || {};
+        console.log(hint, 1);
+        this.$emit('input', {
+          value: hint
+        });
+        this.showHints = false;
+
+        // this.validate();
+      },
       upArrow: function upArrow() {
         var _this = this;
         var activeIndex = this.activeHint.indexOf(true);
@@ -137,7 +152,8 @@ this.BX = this.BX || {};
         this.focused = false;
         this.blured = true;
         setTimeout(function () {
-          _this3.showHints = false;
+          console.log(2);
+          // this.showHints = false;
         }, 200);
         setTimeout(function () {
           _this3.validate();
