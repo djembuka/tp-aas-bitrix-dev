@@ -460,6 +460,11 @@
           }
         }
       },
+      setHints: function setHints(_ref7) {
+        var control = _ref7.control,
+          value = _ref7.value;
+        control.hints = value;
+      },
     },
   });
 
@@ -510,7 +515,7 @@
     },
     // language=Vue
     template:
-      '\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <LoaderCircle :show="loadingFilter" />\n      <div v-else>\n        <FilterComponent :filters="filters" @input="input" @hintsRequest="hintsRequest" />\n      </div>\n      <hr>\n      <LoaderCircle :show="loadingTable"/>\n      <div v-else>\n        <TableComponent :cols="cols" :columnsNames="columnsNames" :items="items" :sort="sort" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n        <hr>\n        <div class="vue-ft-table-bottom">\n          <div class="vue-ft-table-all" v-if="items.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <TablePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n        </div>\n      </div>\n    </div>\n\t',
+      '\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <LoaderCircle :show="loadingFilter" />\n      <div v-else>\n        <FilterComponent :filters="filters" @input="input" @hints="hints" />\n      </div>\n      <hr>\n      <LoaderCircle :show="loadingTable"/>\n      <div v-else>\n        <TableComponent :cols="cols" :columnsNames="columnsNames" :items="items" :sort="sort" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n        <hr>\n        <div class="vue-ft-table-bottom">\n          <div class="vue-ft-table-all" v-if="items.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <TablePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n        </div>\n      </div>\n    </div>\n\t',
     computed: _objectSpread(
       _objectSpread(
         _objectSpread(
@@ -564,6 +569,7 @@
           'runFilters',
           'changeControlValue',
           'runHintsAction',
+          'setHints',
         ])
       ),
       {},
@@ -622,13 +628,25 @@
             sortType: this.sort.sortType,
           });
         },
-        hintsRequest: function hintsRequest(_ref3) {
-          var control = _ref3.control,
-            hintsAction = _ref3.hintsAction;
-          this.runHintsAction({
-            control: control,
-            hintsAction: hintsAction,
-          });
+        hints: function hints(_ref3) {
+          var type = _ref3.type,
+            control = _ref3.control,
+            action = _ref3.action,
+            value = _ref3.value;
+          switch (type) {
+            case 'get':
+              this.runHintsAction({
+                control: control,
+                action: action,
+              });
+              break;
+            case 'set':
+              this.setHints({
+                control: control,
+                value: value,
+              });
+              break;
+          }
         },
         clickPage: function clickPage(_ref4) {
           var count = _ref4.count;
@@ -776,12 +794,11 @@
   exports.FilterTable = FilterTable;
 })(
   (this.BX = this.BX || {}),
-  BX,
+  BX.Vue3,
   BX.AAS,
   BX.AAS,
   BX.AAS,
   BX.Loaders,
   BX.AAS,
-  BX
-);
-//# sourceMappingURL=application.bundle.js.map
+  BX.Vue3.Pinia
+); //# sourceMappingURL=application.bundle.js.map

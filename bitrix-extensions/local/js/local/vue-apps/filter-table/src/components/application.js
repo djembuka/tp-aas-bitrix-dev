@@ -28,7 +28,7 @@ export const Application = {
       <ErrorMessage :error="error" @hideError="hideError" />
       <LoaderCircle :show="loadingFilter" />
       <div v-else>
-        <FilterComponent :filters="filters" @input="input" @hintsRequest="hintsRequest" />
+        <FilterComponent :filters="filters" @input="input" @hints="hints" />
       </div>
       <hr>
       <LoaderCircle :show="loadingTable"/>
@@ -77,6 +77,7 @@ export const Application = {
       'runFilters',
       'changeControlValue',
       'runHintsAction',
+      'setHints',
     ]),
     hideError() {
       this.hideErrorTable();
@@ -127,11 +128,21 @@ export const Application = {
         sortType: this.sort.sortType,
       });
     },
-    hintsRequest({ control, hintsAction }) {
-      this.runHintsAction({
-        control,
-        hintsAction,
-      });
+    hints({ type, control, action, value }) {
+      switch (type) {
+        case 'get':
+          this.runHintsAction({
+            control,
+            action,
+          });
+          break;
+        case 'set':
+          this.setHints({
+            control,
+            value,
+          });
+          break;
+      }
     },
     clickPage({ count }) {
       this.runItems({

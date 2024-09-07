@@ -167,5 +167,8 @@ export const filterStore = defineStore('filter', {
         }
       }
     },
+    setHints({ control, value }) {
+      control.hints = value;
+    },
   },
 });

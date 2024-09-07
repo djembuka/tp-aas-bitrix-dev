@@ -25,27 +25,29 @@ export const Control = {
       :control="control"
       :id="id"
       :name="name"
-      @input="addControl"
+      @input="inputAddControl"
+      @hints="hintsAddControl"
     ></component>
 	`,
-  emits: ['input', 'hintsRequest'],
+  emits: ['input', 'hints'],
   methods: {
     componentName() {
       return `control-${this.componentType}`;
     },
-    addControl({ value, checked, hintsAction }) {
-      if (hintsAction) {
-        this.$emit('hintsRequest', {
-          control: this.control,
-          hintsAction,
-        });
-      } else {
-        this.$emit('input', {
-          control: this.control,
-          value,
-          checked,
-        });
-      }
+    inputAddControl({ value, checked }) {
+      this.$emit('input', {
+        control: this.control,
+        value,
+        checked,
+      });
+    },
+    hintsAddControl({ type, action, value }) {
+      this.$emit('hints', {
+        type,
+        control: this.control,
+        action,
+        value,
+      });
     },
   },
 };

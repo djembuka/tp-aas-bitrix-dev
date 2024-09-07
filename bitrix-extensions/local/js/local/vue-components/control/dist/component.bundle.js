@@ -18,28 +18,31 @@ this.BX = this.BX || {};
     },
     props: ['control'],
     // language=Vue
-    template: "\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"addControl\"\n    ></component>\n\t",
-    emits: ['input', 'hintsRequest'],
+    template: "\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n      @hints=\"hintsAddControl\"\n    ></component>\n\t",
+    emits: ['input', 'hints'],
     methods: {
       componentName: function componentName() {
         return "control-".concat(this.componentType);
       },
-      addControl: function addControl(_ref) {
+      inputAddControl: function inputAddControl(_ref) {
         var value = _ref.value,
-          checked = _ref.checked,
-          hintsAction = _ref.hintsAction;
-        if (hintsAction) {
-          this.$emit('hintsRequest', {
-            control: this.control,
-            hintsAction: hintsAction
-          });
-        } else {
-          this.$emit('input', {
-            control: this.control,
-            value: value,
-            checked: checked
-          });
-        }
+          checked = _ref.checked;
+        this.$emit('input', {
+          control: this.control,
+          value: value,
+          checked: checked
+        });
+      },
+      hintsAddControl: function hintsAddControl(_ref2) {
+        var type = _ref2.type,
+          action = _ref2.action,
+          value = _ref2.value;
+        this.$emit('hints', {
+          type: type,
+          control: this.control,
+          action: action,
+          value: value
+        });
       }
     }
   };
