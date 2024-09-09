@@ -1,9 +1,10 @@
 import { ControlDatepicker } from 'local.vue-components.control-datepicker';
 import './component.css';
 
-export const ControlDateSingle = {
+export const ControlDateRange = {
   data() {
     return {
+      start: '',
       hint: this.control.hint_external,
       calendarIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="15.9" height="17.499" viewBox="0 0 15.9 17.499">
         <g transform="translate(0.75 0.75)">
@@ -40,15 +41,18 @@ export const ControlDateSingle = {
       <div class="twpx-form-control__label">{{ control.label }}</div>
       <ControlDatepicker
         v-model="date"
-        @date-update="update"
+        @range-start="onRangeStart"
+        @range-end="onRangeEnd"
         locale="ru"
-        ref="controlDate"
+        range
+        multi-calendars
+        ref="controlDateRange"
         :format="'dd.MM.yyyy'"
       >
         <template #action-buttons></template>
         <template #action-preview></template>
-        <template #time-picker></template>
-      </ControlDatepicker>
+        <template #time-picker></template
+      ></ControlDatepicker>
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
     </div>
   `,
@@ -57,13 +61,22 @@ export const ControlDateSingle = {
   computed: {
     date: {
       get() {
-        let date = this.control.value || null;
-        if (typeof this.control.value === 'string') {
-          const valueArray = this.control.value.split('.');
-          if (valueArray.length && valueArray.length === 3) {
-            date = `${valueArray[1]}/${valueArray[0]}/${valueArray[2]}`;
-          }
+        let date = [];
+        if (
+          this.control.value &&
+          typeof this.control.value === 'object' &&
+          this.control.value.length
+        ) {
+          this.control.value.forEach((d) => {
+            if (typeof d === 'string') {
+              const valueArray = d.split('.');
+              if (valueArray.length && valueArray.length === 3) {
+                date.push(`${valueArray[1]}/${valueArray[0]}/${valueArray[2]}`);
+              }
+            }
+          });
         }
+
         return date;
       },
       set(value) {
@@ -72,8 +85,8 @@ export const ControlDateSingle = {
     },
     active() {
       let result = false;
-      if (this.control.value && typeof this.control.value === 'string') {
-        result = !!this.control.value;
+      if (this.control.value && typeof this.control.value === 'object') {
+        result = !!this.control.value.length;
       }
       return result;
     },
@@ -85,9 +98,12 @@ export const ControlDateSingle = {
     },
   },
   methods: {
-    update(date) {
-      this.date = this.formatDate(date);
-      this.$refs.controlDate.closeMenu();
+    onRangeStart(start) {
+      this.start = start;
+    },
+    onRangeEnd(end) {
+      this.date = [this.formatDate(this.start), this.formatDate(end)];
+      this.$refs.controlDateRange.closeMenu();
     },
     formatDate(date) {
       const d = new Date(date);

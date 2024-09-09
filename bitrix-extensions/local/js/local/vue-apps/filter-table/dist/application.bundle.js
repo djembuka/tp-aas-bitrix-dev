@@ -348,10 +348,15 @@
           value = _ref4.value;
         control.value = value;
       },
-      changeControlValue: function changeControlValue(_ref5) {
+      changeDateValue: function changeDateValue(_ref5) {
         var control = _ref5.control,
-          value = _ref5.value,
-          checked = _ref5.checked;
+          value = _ref5.value;
+        control.value = value;
+      },
+      changeControlValue: function changeControlValue(_ref6) {
+        var control = _ref6.control,
+          value = _ref6.value,
+          checked = _ref6.checked;
         switch (control.property) {
           case 'text':
           case 'textarea':
@@ -380,9 +385,12 @@
           // case 'file':
           //   commit('changeFileValue', { control, value });
           //   break;
-          // case 'date':
-          //   commit('changeDateValue', { control, value });
-          //   break;
+          case 'date':
+            this.changeDateValue({
+              control: control,
+              value: value,
+            });
+            break;
           // case 'color':
           //   commit('changeColorValue', { control, value });
           //   break;
@@ -421,10 +429,10 @@
           }
         }
       },
-      runHintsAction: function runHintsAction(_ref6, callback) {
+      runHintsAction: function runHintsAction(_ref7, callback) {
         var _this2 = this;
-        var control = _ref6.control,
-          hintsAction = _ref6.hintsAction;
+        var control = _ref7.control,
+          hintsAction = _ref7.hintsAction;
         control.loading = true;
         var a = window.BX.ajax.runComponentAction(hintsAction, {
           string:
@@ -460,9 +468,9 @@
           }
         }
       },
-      setHints: function setHints(_ref7) {
-        var control = _ref7.control,
-          value = _ref7.value;
+      setHints: function setHints(_ref8) {
+        var control = _ref8.control,
+          value = _ref8.value;
         control.hints = value;
       },
     },
@@ -801,4 +809,5 @@
   BX.Loaders,
   BX.AAS,
   BX.Vue3.Pinia
-); //# sourceMappingURL=application.bundle.js.map
+);
+//# sourceMappingURL=application.bundle.js.map

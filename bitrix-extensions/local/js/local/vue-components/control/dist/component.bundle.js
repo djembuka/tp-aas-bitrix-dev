@@ -1,6 +1,6 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_controlText,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown) {
+(function (exports,local_vueComponents_controlText,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange) {
   'use strict';
 
   var Control = {
@@ -14,7 +14,10 @@ this.BX = this.BX || {};
     components: {
       ControlText: local_vueComponents_controlText.ControlText,
       ControlHint: local_vueComponents_controlHint.ControlHint,
-      ControlSelectDropdown: local_vueComponents_controlSelectDropdown.ControlSelectDropdown
+      ControlSelectDropdown: local_vueComponents_controlSelectDropdown.ControlSelectDropdown,
+      ControlDatepicker: local_vueComponents_controlDatepicker.ControlDatepicker,
+      ControlDateSingle: local_vueComponents_controlDateSingle.ControlDateSingle,
+      ControlDateRange: local_vueComponents_controlDateRange.ControlDateRange
     },
     props: ['control'],
     // language=Vue
@@ -49,5 +52,5 @@ this.BX = this.BX || {};
 
   exports.Control = Control;
 
-}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls));
+}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
 //# sourceMappingURL=component.bundle.js.map

@@ -13,7 +13,6 @@ return [
 	],
 	'rel' => [
 		'main.polyfill.core',
-		'date-fns',
 	],
 	'skip_core' => true,
 ];

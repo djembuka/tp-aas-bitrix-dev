@@ -69,6 +69,9 @@ export const filterStore = defineStore('filter', {
     changeSelectDropdownValue({ control, value }) {
       control.value = value;
     },
+    changeDateValue({ control, value }) {
+      control.value = value;
+    },
     changeControlValue({ control, value, checked }) {
       switch (control.property) {
         case 'text':
@@ -92,9 +95,9 @@ export const filterStore = defineStore('filter', {
         // case 'file':
         //   commit('changeFileValue', { control, value });
         //   break;
-        // case 'date':
-        //   commit('changeDateValue', { control, value });
-        //   break;
+        case 'date':
+          this.changeDateValue({ control, value });
+          break;
         // case 'color':
         //   commit('changeColorValue', { control, value });
         //   break;

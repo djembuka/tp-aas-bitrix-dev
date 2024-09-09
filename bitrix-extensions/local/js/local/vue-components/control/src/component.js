@@ -1,6 +1,9 @@
 import { ControlText } from 'local.vue-components.control-text';
 import { ControlHint } from 'local.vue-components.control-hint';
 import { ControlSelectDropdown } from 'local.vue-components.control-select-dropdown';
+import { ControlDatepicker } from 'local.vue-components.control-datepicker';
+import { ControlDateSingle } from 'local.vue-components.control-date-single';
+import { ControlDateRange } from 'local.vue-components.control-date-range';
 
 export const Control = {
   data() {
@@ -16,6 +19,9 @@ export const Control = {
     ControlText,
     ControlHint,
     ControlSelectDropdown,
+    ControlDatepicker,
+    ControlDateSingle,
+    ControlDateRange,
   },
   props: ['control'],
   // language=Vue
