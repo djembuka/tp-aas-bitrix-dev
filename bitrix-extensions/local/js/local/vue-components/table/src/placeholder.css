@@ -1,0 +1,42 @@
+.vue-tf-table-ph {
+  position: relative;
+  --aas-placeholder-color: #f2f2f2;
+}
+
+.vue-tf-table-ph {
+  display: grid;
+  grid-template-columns: calc(50% - 16px) calc(50% - 16px);
+  grid-template-rows: 80px;
+  grid-auto-rows: 32px;
+  row-gap: 16px;
+  column-gap: 32px;
+}
+
+.vue-tf-table-ph div {
+  border-radius: 4px;
+  background-color: var(--aas-placeholder-color);
+
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 49%,
+    #ffffff88 50%,
+    #ffffff88 50%,
+    transparent 51%,
+    transparent 100%
+  );
+  background-size: 600% 600%;
+  animation: table-gradient 4s linear infinite;
+
+  background-attachment: fixed;
+}
+
+.vue-tf-table-ph div:first-child {
+  grid-column: span 2;
+}
+
+@keyframes table-gradient {
+  100% {
+    background-position: 200%;
+  }
+}
