@@ -5,7 +5,6 @@
   local_vueComponents_filter,
   local_vueComponents_table,
   local_vueComponents_pagination,
-  local_vueComponents_loaderCircle,
   local_vueComponents_errorMessage,
   ui_vue3_pinia
 ) {
@@ -15,7 +14,7 @@
     state: function state() {
       return {
         sessionid: '',
-        userid: '',
+        signedParameters: '',
       };
     },
   });
@@ -518,32 +517,33 @@
       FilterComponent: local_vueComponents_filter.FilterComponent,
       TableComponent: local_vueComponents_table.TableComponent,
       TablePagination: local_vueComponents_pagination.TablePagination,
-      LoaderCircle: local_vueComponents_loaderCircle.LoaderCircle,
       ErrorMessage: local_vueComponents_errorMessage.ErrorMessage,
     },
     // language=Vue
+
     template:
-      '\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <LoaderCircle :show="loadingFilter" />\n      <div v-else>\n        <FilterComponent :filters="filters" @input="input" @hints="hints" />\n      </div>\n      <hr>\n      <LoaderCircle :show="loadingTable"/>\n      <div v-else>\n        <TableComponent :cols="cols" :columnsNames="columnsNames" :items="items" :sort="sort" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n        <hr>\n        <div class="vue-ft-table-bottom">\n          <div class="vue-ft-table-all" v-if="items.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <TablePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n        </div>\n      </div>\n    </div>\n\t',
+      '\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <div v-else>\n        <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n      </div>\n      <hr>\n      <div v-else>\n        <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n        <hr>\n        <div class="vue-ft-table-bottom">\n          <div class="vue-ft-table-all" v-if="items.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <TablePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n        </div>\n      </div>\n    </div>\n\t',
     computed: _objectSpread(
       _objectSpread(
         _objectSpread(
           _objectSpread(
             {},
-            ui_vue3_pinia.mapState(dataStore, ['sessionid', 'userid'])
+            ui_vue3_pinia.mapState(dataStore, ['sessionid', 'signedParameters'])
           ),
           ui_vue3_pinia.mapState(tableStore, [
             'loadingTable',
             'columnsNames',
             'items',
             'sort',
-            'cols',
+            'tableCols',
             'maxCountPerRequest',
             'errorTable',
           ])
         ),
         ui_vue3_pinia.mapState(filterStore, [
-          'filters',
           'loadingFilter',
+          'filters',
+          'FilterCols',
           'errorFilter',
         ])
       ),
@@ -595,14 +595,14 @@
               : 0;
           this.runSetDefaultSort(
             {
-              userid: this.userid,
+              signedParameters: this.signedParameters,
               sessionid: this.sessionid,
               columnSort: column.id,
               sortType: sortType,
             },
             function () {
               _this.runItems({
-                userid: _this.userid,
+                signedParameters: _this.signedParameters,
                 sessionid: _this.sessionid,
                 startIndex: _this.items.startIndex || 0,
                 maxCountPerRequest: _this.maxCountPerRequest,
@@ -611,7 +611,7 @@
                 sortType: 'asc',
               });
               _this.runDefaultSort({
-                userid: _this.userid,
+                signedParameters: _this.signedParameters,
                 sessionid: _this.sessionid,
               });
             }
@@ -627,7 +627,7 @@
             checked: checked,
           });
           this.runItems({
-            userid: this.userid,
+            signedParameters: this.signedParameters,
             sessionid: this.sessionid,
             startIndex: this.items.startIndex || 0,
             maxCountPerRequest: this.maxCountPerRequest,
@@ -659,7 +659,7 @@
         clickPage: function clickPage(_ref4) {
           var count = _ref4.count;
           this.runItems({
-            userid: this.userid,
+            signedParameters: this.signedParameters,
             sessionid: this.sessionid,
             startIndex: (count - 1) * this.maxCountPerRequest,
             maxCountPerRequest: this.maxCountPerRequest,
@@ -673,17 +673,17 @@
     mounted: function mounted() {
       var _this2 = this;
       this.runColumnsNames({
-        userid: this.userid,
+        signedParameters: this.signedParameters,
         sessionid: this.sessionid,
       });
       this.runDefaultSort(
         {
-          userid: this.userid,
+          signedParameters: this.signedParameters,
           sessionid: this.sessionid,
         },
         function () {
           _this2.runItems({
-            userid: _this2.userid,
+            signedParameters: _this2.signedParameters,
             sessionid: _this2.sessionid,
             startIndex: _this2.items.startIndex || 0,
             maxCountPerRequest: _this2.maxCountPerRequest,
@@ -694,7 +694,7 @@
         }
       );
       this.runFilters({
-        userid: this.userid,
+        signedParameters: this.signedParameters,
         sessionid: this.sessionid,
       });
     },
@@ -756,19 +756,21 @@
               },
               template: '<Application/>',
               mounted: function mounted() {
-                dataStore().sessionid = self.options.SESSION_ID;
-                dataStore().userid = self.options.USER_ID;
-                tableStore().cols = self.options.COLS;
+                dataStore().sessionid = self.options.SESSION_ID || '';
+                dataStore().signedParameters =
+                  self.options.SIGNED_PARAMETERS || '';
+                tableStore().tableCols = self.options.TABLE_COLS || [];
                 tableStore().maxCountPerRequest =
-                  self.options.maxCountPerRequest;
+                  self.options.maxCountPerRequest || 100;
                 tableStore().actions = {
-                  columnsNames: self.options.columnsNames,
-                  items: self.options.items,
-                  defaultSort: self.options.defaultSort,
-                  setDefaultSort: self.options.setDefaultSort,
+                  columnsNames: self.options.columnsNames || '',
+                  items: self.options.items || '',
+                  defaultSort: self.options.defaultSort || '',
+                  setDefaultSort: self.options.setDefaultSort || '',
                 };
+                filterStore().filterCols = self.options.FILTER_COLS || [];
                 filterStore().actions = {
-                  filters: self.options.filters,
+                  filters: self.options.filters || [],
                 };
               },
             })
@@ -806,8 +808,6 @@
   BX.AAS,
   BX.AAS,
   BX.AAS,
-  BX.Loaders,
   BX.AAS,
   BX.Vue3.Pinia
-);
-//# sourceMappingURL=application.bundle.js.map
+); //# sourceMappingURL=application.bundle.js.map

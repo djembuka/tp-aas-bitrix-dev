@@ -7,13 +7,13 @@ this.BX = this.BX || {};
     data: function data() {
       return {};
     },
-    props: ['filters', 'loading'],
+    props: ['filters', 'loading', 'cols'],
     emits: ['input', 'hints'],
     components: {
       Control: local_vueComponents_control.Control
     },
     // language=Vue
-    template: "\n    <div class=\"vue-tf-filter-ph\" v-if=\"loading\">\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n    </div>\n\t\t<div class=\"vue-tf-filter\" v-else>\n      <Control v-for=\"control in filters\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n    </div>\n\t",
+    template: "\n    <div class=\"vue-tf-filter-ph\" v-if=\"loading\">\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n    </div>\n\t\t<div class=\"vue-tf-filter\" v-else :style=\"gridTemplateColumns()\">\n      <Control v-for=\"control in filters\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n    </div>\n\t",
     methods: {
       input: function input(_ref) {
         var control = _ref.control,
@@ -36,6 +36,9 @@ this.BX = this.BX || {};
           action: action,
           value: value
         });
+      },
+      gridTemplateColumns: function gridTemplateColumns() {
+        return "grid-template-columns: 1fr 2fr 2fr 2fr;";
       }
     }
   };

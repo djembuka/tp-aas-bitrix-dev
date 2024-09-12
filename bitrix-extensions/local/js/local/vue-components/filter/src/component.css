@@ -1,11 +1,12 @@
 .vue-tf-filter {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
   gap: 30px;
 }
 @media (max-width: 1199px) {
   .vue-tf-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
   }
   .vue-tf-filter > div {

@@ -26,20 +26,22 @@ export class FilterTable {
       },
       template: '<Application/>',
       mounted() {
-        dataStore().sessionid = self.options.SESSION_ID;
-        dataStore().userid = self.options.USER_ID;
+        dataStore().sessionid = self.options.SESSION_ID || '';
+        dataStore().signedParameters = self.options.SIGNED_PARAMETERS || '';
 
-        tableStore().cols = self.options.COLS;
-        tableStore().maxCountPerRequest = self.options.maxCountPerRequest;
+        tableStore().tableCols = self.options.TABLE_COLS || [];
+        tableStore().maxCountPerRequest =
+          self.options.maxCountPerRequest || 100;
         tableStore().actions = {
-          columnsNames: self.options.columnsNames,
-          items: self.options.items,
-          defaultSort: self.options.defaultSort,
-          setDefaultSort: self.options.setDefaultSort,
+          columnsNames: self.options.columnsNames || '',
+          items: self.options.items || '',
+          defaultSort: self.options.defaultSort || '',
+          setDefaultSort: self.options.setDefaultSort || '',
         };
 
+        filterStore().filterCols = self.options.FILTER_COLS || [];
         filterStore().actions = {
-          filters: self.options.filters,
+          filters: self.options.filters || [],
         };
       },
     });
