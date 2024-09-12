@@ -17,7 +17,6 @@ return [
 		'local.vue-components.filter',
 		'local.vue-components.table',
 		'local.vue-components.pagination',
-		'local.vue-components.loader-circle',
 		'local.vue-components.error-message',
 		'ui.vue3.pinia',
 	],

@@ -3,7 +3,6 @@ import './application.css';
 import { FilterComponent } from 'local.vue-components.filter';
 import { TableComponent } from 'local.vue-components.table';
 import { TablePagination } from 'local.vue-components.pagination';
-import { LoaderCircle } from 'local.vue-components.loader-circle';
 import { ErrorMessage } from 'local.vue-components.error-message';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
@@ -19,21 +18,19 @@ export const Application = {
     FilterComponent,
     TableComponent,
     TablePagination,
-    LoaderCircle,
     ErrorMessage,
   },
   // language=Vue
+
   template: `
     <div>
       <ErrorMessage :error="error" @hideError="hideError" />
-      <LoaderCircle :show="loadingFilter" />
       <div v-else>
-        <FilterComponent :filters="filters" @input="input" @hintsRequest="hintsRequest" />
+        <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />
       </div>
       <hr>
-      <LoaderCircle :show="loadingTable"/>
       <div v-else>
-        <TableComponent :cols="cols" :columnsNames="columnsNames" :items="items" :sort="sort" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
+        <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
         <hr>
         <div class="vue-ft-table-bottom">
           <div class="vue-ft-table-all" v-if="items.resultCount">Всего: {{ items.resultCount }}</div>
@@ -43,17 +40,22 @@ export const Application = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['sessionid', 'userid']),
+    ...mapState(dataStore, ['sessionid', 'signedParameters']),
     ...mapState(tableStore, [
       'loadingTable',
       'columnsNames',
       'items',
       'sort',
-      'cols',
+      'tableCols',
       'maxCountPerRequest',
       'errorTable',
     ]),
-    ...mapState(filterStore, ['filters', 'loadingFilter', 'errorFilter']),
+    ...mapState(filterStore, [
+      'loadingFilter',
+      'filters',
+      'FilterCols',
+      'errorFilter',
+    ]),
     pagesNum() {
       return Math.ceil(this.items.resultCount / this.maxCountPerRequest);
     },
@@ -77,6 +79,7 @@ export const Application = {
       'runFilters',
       'changeControlValue',
       'runHintsAction',
+      'setHints',
     ]),
     hideError() {
       this.hideErrorTable();
@@ -88,14 +91,14 @@ export const Application = {
 
       this.runSetDefaultSort(
         {
-          userid: this.userid,
+          signedParameters: this.signedParameters,
           sessionid: this.sessionid,
           columnSort: column.id,
           sortType,
         },
         () => {
           this.runItems({
-            userid: this.userid,
+            signedParameters: this.signedParameters,
             sessionid: this.sessionid,
             startIndex: this.items.startIndex || 0,
             maxCountPerRequest: this.maxCountPerRequest,
@@ -104,7 +107,7 @@ export const Application = {
             sortType: 'asc',
           });
           this.runDefaultSort({
-            userid: this.userid,
+            signedParameters: this.signedParameters,
             sessionid: this.sessionid,
           });
         }
@@ -118,7 +121,7 @@ export const Application = {
       });
 
       this.runItems({
-        userid: this.userid,
+        signedParameters: this.signedParameters,
         sessionid: this.sessionid,
         startIndex: this.items.startIndex || 0,
         maxCountPerRequest: this.maxCountPerRequest,
@@ -127,15 +130,25 @@ export const Application = {
         sortType: this.sort.sortType,
       });
     },
-    hintsRequest({ control, hintsAction }) {
-      this.runHintsAction({
-        control,
-        hintsAction,
-      });
+    hints({ type, control, action, value }) {
+      switch (type) {
+        case 'get':
+          this.runHintsAction({
+            control,
+            action,
+          });
+          break;
+        case 'set':
+          this.setHints({
+            control,
+            value,
+          });
+          break;
+      }
     },
     clickPage({ count }) {
       this.runItems({
-        userid: this.userid,
+        signedParameters: this.signedParameters,
         sessionid: this.sessionid,
         startIndex: (count - 1) * this.maxCountPerRequest,
         maxCountPerRequest: this.maxCountPerRequest,
@@ -147,18 +160,18 @@ export const Application = {
   },
   mounted() {
     this.runColumnsNames({
-      userid: this.userid,
+      signedParameters: this.signedParameters,
       sessionid: this.sessionid,
     });
 
     this.runDefaultSort(
       {
-        userid: this.userid,
+        signedParameters: this.signedParameters,
         sessionid: this.sessionid,
       },
       () => {
         this.runItems({
-          userid: this.userid,
+          signedParameters: this.signedParameters,
           sessionid: this.sessionid,
           startIndex: this.items.startIndex || 0,
           maxCountPerRequest: this.maxCountPerRequest,
@@ -170,7 +183,7 @@ export const Application = {
     );
 
     this.runFilters({
-      userid: this.userid,
+      signedParameters: this.signedParameters,
       sessionid: this.sessionid,
     });
   },

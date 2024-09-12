@@ -13,6 +13,9 @@ return [
 		'local.vue-components.control-text',
 		'local.vue-components.control-hint',
 		'local.vue-components.control-select-dropdown',
+		'local.vue-components.control-datepicker',
+		'local.vue-components.control-date-single',
+		'local.vue-components.control-date-range',
 	],
 	'skip_core' => true,
 ];

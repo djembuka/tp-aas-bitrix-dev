@@ -10,9 +10,8 @@ export const ControlHint = {
       warning: '',
       hint: this.control.hint_external,
 
-      showHints: false,
       activeHintItem: {},
-      activeHint: [],
+      activeHintArray: [],
       hover: false,
       compare: this.controlValue,
     };
@@ -28,6 +27,8 @@ export const ControlHint = {
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,
       }"
+        @mouseenter="mouseenter"
+        @mouseleave="mouseleave"
     >
       <img
         :src="disabled"
@@ -54,10 +55,11 @@ export const ControlHint = {
         class="twpx-form-control__input"
       />
 
-      <div class="b-input-clear" @click.prevent="clearInput()" v-show="isClearable"></div>
+      <div class="twpx-form-control-clear" @click.prevent="clearInput()" v-show="isClearable"></div>
+      <div class="twpx-form-control-loader" v-show="isLoading"></div>
 
-      <div class="b-input-hint" v-if="showHints">
-        <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHint[index]}" class="b-input-hint__item" @click.prevent="clickHint(hint)">{{ hint.value }}</div>
+      <div class="b-input-hint" v-if="hintItems.length">
+        <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHintArray[index]}" class="b-input-hint__item" @click.prevent="clickHint(hint)">{{ hint.value }}</div>
       </div>
 
       <div
@@ -69,10 +71,10 @@ export const ControlHint = {
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
     </div>
 	`,
-  emits: ['input'],
+  emits: ['input', 'hints'],
   computed: {
     hintItems() {
-      return this.control.hints;
+      return this.control.hints || [];
     },
     placeholder() {
       if (this.focused && (!this.controlValue || !this.controlValue.trim())) {
@@ -82,7 +84,7 @@ export const ControlHint = {
       }
     },
     active() {
-      return this.focused || !!this.control.value.trim();
+      return this.focused || !!this.controlValue.trim();
     },
     invalid() {
       return this.blured && !this.validate();
@@ -97,7 +99,12 @@ export const ControlHint = {
       return this.control.focusWatcher;
     },
     isClearable() {
-      return this.controlValue !== '' && this.hover ? true : false;
+      return this.controlValue !== '' && this.hover && !this.isLoading
+        ? true
+        : false;
+    },
+    isLoading() {
+      return this.control.loading;
     },
     controlValue: {
       get() {
@@ -109,30 +116,17 @@ export const ControlHint = {
       set(value) {
         this.$emit('input', { value });
 
-        this.activeHint = [];
-        this.activeHintItem = {};
-
         if (this.controlValue.length >= this.control.count) {
-          this.$emit('input', {
-            value: this.controlValue,
-            hintsAction: this.control.action,
-          });
+          this.$emit('hints', { type: 'get', action: this.control.action });
         } else {
-          console.log(3);
-          this.showHints = false;
+          this.$emit('hints', { type: 'set', value: [] });
         }
       },
     },
   },
   watch: {
-    controlValue() {
-      if (
-        this.controlValue.length >= this.control.count &&
-        this.control.hints.length &&
-        !this.loading
-      ) {
-        this.showHints = true;
-      }
+    hintItems() {
+      this.activeHintArray = this.hintItems.map(() => null);
     },
     validateWatcher() {
       this.blured = true;
@@ -142,47 +136,48 @@ export const ControlHint = {
     },
   },
   methods: {
+    mouseenter() {
+      this.hover = true;
+    },
+    mouseleave() {
+      this.hover = false;
+    },
+    clearInput() {
+      this.$emit('input', { value: '' });
+    },
+    enterInput() {
+      this.$emit('input', { value: this.activeHintItem });
+      this.$emit('hints', { type: 'set', value: [] });
+    },
     clickHint(hint) {
-      // const id = hint.id;
-      // this.activeHint = this.hintItems.find((h) => h.id === id) || {};
-      console.log(hint, 1);
-      this.$emit('input', { value: hint });
-      this.showHints = false;
+      this.activeHintItem = hint || {};
+      this.$emit('input', { value: this.activeHintItem });
+      this.$emit('hints', { type: 'set', value: [] });
+      this.mouseleave();
 
       // this.validate();
     },
     upArrow() {
-      let activeIndex = this.activeHint.indexOf(true);
-      let arr = this.activeHint.map((elem) => null);
+      let activeIndex = this.activeHintArray.indexOf(true);
+      let arr = this.activeHintArray.map((elem) => null);
 
-      if (activeIndex >= 0) {
-        this.activeHint[activeIndex] = null;
-      }
       if (--activeIndex < 0) {
-        activeIndex = this.activeHint.length - 1;
+        activeIndex = this.activeHintArray.length - 1;
       }
       arr[activeIndex] = true;
-      //lightlight hint
-      this.activeHint = arr;
-      //set active user
-      this.activeHintItem =
-        this.users.find((user) => user.ORNZ === this.controlValue) || {};
+      this.activeHintArray = arr;
+      this.activeHintItem = this.hintItems[activeIndex] || {};
     },
     downArrow() {
-      let activeIndex = this.activeHint.indexOf(true);
-      let arr = this.activeHint.map((elem) => null);
-      if (activeIndex >= 0) {
-        this.activeHint[activeIndex] = null;
-      }
-      if (++activeIndex > this.activeHint.length - 1) {
+      let activeIndex = this.activeHintArray.indexOf(true);
+      let arr = this.activeHintArray.map((elem) => null);
+
+      if (++activeIndex > this.activeHintArray.length - 1) {
         activeIndex = 0;
       }
       arr[activeIndex] = true;
-      //lightlight hint
-      this.activeHint = arr;
-      //set active user
-      this.activeHintItem =
-        this.users.find((user) => user.ORNZ === this.controlValue) || {};
+      this.activeHintArray = arr;
+      this.activeHintItem = this.hintItems[activeIndex] || {};
     },
     focus() {
       this.focused = true;
@@ -195,17 +190,15 @@ export const ControlHint = {
       this.blured = true;
 
       setTimeout(() => {
-        console.log(2);
-        // this.showHints = false;
+        if (typeof this.control.value !== 'object') {
+          this.controlValue = '';
+        }
+        this.$emit('hints', { type: 'set', value: [] });
       }, 200);
 
-      setTimeout(() => {
-        this.validate();
-      }, 100);
-
-      if (typeof this.control.value !== 'object') {
-        this.controlValue = '';
-      }
+      // setTimeout(() => {
+      //   this.validate();
+      // }, 100);
 
       // if (this.controlValue !== this.compare) {
       //   this.$emit('autosave');

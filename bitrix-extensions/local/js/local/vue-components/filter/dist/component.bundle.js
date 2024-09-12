@@ -7,13 +7,13 @@ this.BX = this.BX || {};
     data: function data() {
       return {};
     },
-    props: ['filters'],
-    emits: ['input', 'hintsRequest'],
+    props: ['filters', 'loading', 'cols'],
+    emits: ['input', 'hints'],
     components: {
       Control: local_vueComponents_control.Control
     },
     // language=Vue
-    template: "\n\t\t<div class=\"vue-tf-filter\">\n      <Control v-for=\"control in filters\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hintsRequest=\"hintsRequest\" />\n    </div>\n\t",
+    template: "\n    <div class=\"vue-tf-filter-ph\" v-if=\"loading\">\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n    </div>\n\t\t<div class=\"vue-tf-filter\" v-else :style=\"gridTemplateColumns()\">\n      <Control v-for=\"control in filters\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n    </div>\n\t",
     methods: {
       input: function input(_ref) {
         var control = _ref.control,
@@ -25,13 +25,20 @@ this.BX = this.BX || {};
           checked: checked
         });
       },
-      hintsRequest: function hintsRequest(_ref2) {
-        var control = _ref2.control,
-          hintsAction = _ref2.hintsAction;
-        this.$emit('hintsRequest', {
+      hints: function hints(_ref2) {
+        var type = _ref2.type,
+          control = _ref2.control,
+          action = _ref2.action,
+          value = _ref2.value;
+        this.$emit('hints', {
+          type: type,
           control: control,
-          hintsAction: hintsAction
+          action: action,
+          value: value
         });
+      },
+      gridTemplateColumns: function gridTemplateColumns() {
+        return "grid-template-columns: 1fr 2fr 2fr 2fr;";
       }
     }
   };

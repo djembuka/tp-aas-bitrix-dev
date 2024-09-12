@@ -1,30 +1,30 @@
-vue-components - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Vue3
-vue-apps - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Vue3
-extensions - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+vue-components - компоненты Vue3
+vue-apps - приложения Vue3
+extensions - небольшие переиспользуемые куски кода или стилей, подключаемые на страницах
 
-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
+Компоненты можно подключать в приложениях и других компонентах, приложения можно выводить на странице.
 
-пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+Для подключения компонента
 config.php -> 'rel' => [
 		'main.polyfill.core',
-		'local.vue-components.control-text',
-		'local.vue-components.control-select-dropdown',
+		'local.components.control-text',
+		'local.components.control-select-dropdown',
 	       ],
 
-component.js -> import { ControlText } from 'local.vue-components.control-text';
+component.js -> import { ControlText } from 'local.components.control-text';
 
-пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:
+Для вывода приложения:
 
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ");
+$APPLICATION->SetTitle("Реестр дисциплинарных дел");
 
 \Bitrix\Main\UI\Extension::load("local.filter-table");
 ?>
 
 <div id="dcRegistry"></div>
 
-<!--пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ markup-->
+<!--ответы сервера при разработке markup-->
 <script src="/markup/pages/dc-registry/bx.ajax.runAction.js"></script>
 
 <script>
@@ -34,7 +34,7 @@ $APPLICATION->SetTitle("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅп
 		
 		'COLS': ['20%','20%','20%','auto','100px'],
 		
-		//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ API
+		//методы для отправки запросов по API
 		'columnsNames': 'twinpx.dc-registry:columnsNames',
 		'items': 'twinpx.dc-registry:items',
 		'defaultSort': 'twinpx.dc-registry:defaultSort',

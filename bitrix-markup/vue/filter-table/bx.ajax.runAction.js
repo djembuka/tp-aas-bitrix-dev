@@ -49,15 +49,25 @@ window.twinpx.vue['filter-table'].filters = [
                 value: '',
                 disabled: false,
               },
-              {
-                property: 'text',
-                id: 'id4',
-                name: 'DATE',
-                label: 'Дата создания',
-                value: '',
-                required: false,
-                disabled: false,
-              },
+			  /*{
+				  property: 'date',
+				  type: 'single',
+				  id: 'id45',
+				  label: 'Календарь',
+				  name: 'DATE',
+				  required: true,
+				  value: '28.02.2024',
+				},*/
+				{
+				  property: 'date',
+				  type: 'range',
+				  id: 'id45',
+				  label: 'Календарь',
+				  name: 'DATE',
+				  required: true,
+				  value: ['20.02.2024', '28.02.2024'],
+				},
+				
             ];
 
 window.twinpx.vue['filter-table'].setDefaultSort = {

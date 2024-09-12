@@ -1,6 +1,9 @@
 import { ControlText } from 'local.vue-components.control-text';
 import { ControlHint } from 'local.vue-components.control-hint';
 import { ControlSelectDropdown } from 'local.vue-components.control-select-dropdown';
+import { ControlDatepicker } from 'local.vue-components.control-datepicker';
+import { ControlDateSingle } from 'local.vue-components.control-date-single';
+import { ControlDateRange } from 'local.vue-components.control-date-range';
 
 export const Control = {
   data() {
@@ -16,6 +19,9 @@ export const Control = {
     ControlText,
     ControlHint,
     ControlSelectDropdown,
+    ControlDatepicker,
+    ControlDateSingle,
+    ControlDateRange,
   },
   props: ['control'],
   // language=Vue
@@ -25,28 +31,29 @@ export const Control = {
       :control="control"
       :id="id"
       :name="name"
-      @input="addControl"
+      @input="inputAddControl"
+      @hints="hintsAddControl"
     ></component>
 	`,
-  emits: ['input', 'hintsRequest'],
+  emits: ['input', 'hints'],
   methods: {
     componentName() {
       return `control-${this.componentType}`;
     },
-    addControl({ value, checked, hintsAction }) {
-      if (hintsAction) {
-        this.$emit('hintsRequest', {
-          control: this.control,
-          value,
-          hintsAction,
-        });
-      } else {
-        this.$emit('input', {
-          control: this.control,
-          value,
-          checked,
-        });
-      }
+    inputAddControl({ value, checked }) {
+      this.$emit('input', {
+        control: this.control,
+        value,
+        checked,
+      });
+    },
+    hintsAddControl({ type, action, value }) {
+      this.$emit('hints', {
+        type,
+        control: this.control,
+        action,
+        value,
+      });
     },
   },
 };

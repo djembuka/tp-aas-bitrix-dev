@@ -1,8 +1,32 @@
 import './component.css';
+import './placeholder.css';
 
 export const TableComponent = {
   template: `
-    <div v-if="columnsNames.length" class="vue-ft-table">
+    <div v-if="loading" class="vue-tf-table-ph">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div v-else-if="columnsNames.length" class="vue-ft-table">
       <table class="table table-responsive">
         <colgroup>
           <col v-for="(col, index) in columnsNames" :key="col.id" :style="'width:' +  (cols[index] || 'auto') + ';'">
@@ -20,7 +44,7 @@ export const TableComponent = {
       </table>
     </div>
     `,
-  props: ['cols', 'columnsNames', 'items', 'sort'],
+  props: ['cols', 'columnsNames', 'items', 'sort', 'loading'],
   emits: ['clickTh'],
   methods: {
     clickTh(column) {
