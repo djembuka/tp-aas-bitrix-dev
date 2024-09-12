@@ -1,6 +1,5 @@
 import './application.css';
 
-import { FilterComponent } from 'local.vue-components.filter';
 import { TableComponent } from 'local.vue-components.table';
 import { StickyScroll } from 'local.vue-components.sticky-scroll';
 import { TablePagination } from 'local.vue-components.pagination';
@@ -9,38 +8,26 @@ import { ErrorMessage } from 'local.vue-components.error-message';
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data';
 import { tableStore } from '../stores/table';
-import { filterStore } from '../stores/filter';
 
 export const Application = {
   data() {
     return {};
   },
   components: {
-    FilterComponent,
     TableComponent,
     StickyScroll,
     TablePagination,
     ErrorMessage,
   },
   // language=Vue
-
   template: `
-    <div>
-      <ErrorMessage :error="error" @hideError="hideError" />
-      <div v-else>
-        <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />
-      </div>
-      <hr>
-      <div v-else>
-        <StickyScroll>
-          <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
-        </StickyScroll> 
-        <hr>
-        <div class="vue-ft-table-bottom">
-          <div class="vue-ft-table-all" v-if="items.resultCount">Всего: {{ items.resultCount }}</div>
-          <TablePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />
-        </div>
-      </div>
+    <StickyScroll>
+      <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
+    </StickyScroll> 
+    <hr>
+    <div class="vue-ft-table-bottom">
+      <div class="vue-ft-table-all" v-if="items.resultCount">Всего: {{ items.resultCount }}</div>
+      <TablePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />
     </div>
 	`,
   computed: {
@@ -54,12 +41,6 @@ export const Application = {
       'maxCountPerRequest',
       'errorTable',
     ]),
-    ...mapState(filterStore, [
-      'loadingFilter',
-      'filters',
-      'FilterCols',
-      'errorFilter',
-    ]),
     pagesNum() {
       return Math.ceil(this.items.resultCount / this.maxCountPerRequest);
     },
@@ -67,7 +48,7 @@ export const Application = {
       return this.items.startIndex / this.maxCountPerRequest + 1;
     },
     error() {
-      return this.errorTable || this.errorFilter;
+      return this.errorTable;
     },
   },
   methods: {
@@ -78,16 +59,8 @@ export const Application = {
       'runDefaultSort',
       'runSetDefaultSort',
     ]),
-    ...mapActions(filterStore, [
-      'hideErrorFilter',
-      'runFilters',
-      'changeControlValue',
-      'runHintsAction',
-      'setHints',
-    ]),
     hideError() {
       this.hideErrorTable();
-      this.hideErrorFilter();
     },
     clickTh({ column }) {
       const sortType =
@@ -106,7 +79,7 @@ export const Application = {
             sessionid: this.sessionid,
             startIndex: this.items.startIndex || 0,
             maxCountPerRequest: this.maxCountPerRequest,
-            filters: this.filters,
+            filters: [],
             columnSort: this.sort.columnSort,
             sortType: this.sort.sortType,
           });
@@ -117,46 +90,13 @@ export const Application = {
         }
       );
     },
-    input({ control, value, checked }) {
-      this.changeControlValue({
-        control,
-        value,
-        checked,
-      });
-
-      this.runItems({
-        signedParameters: this.signedParameters,
-        sessionid: this.sessionid,
-        startIndex: this.items.startIndex || 0,
-        maxCountPerRequest: this.maxCountPerRequest,
-        filters: this.filters,
-        columnSort: this.sort.columnSort,
-        sortType: this.sort.sortType,
-      });
-    },
-    hints({ type, control, action, value }) {
-      switch (type) {
-        case 'get':
-          this.runHintsAction({
-            control,
-            action,
-          });
-          break;
-        case 'set':
-          this.setHints({
-            control,
-            value,
-          });
-          break;
-      }
-    },
     clickPage({ count }) {
       this.runItems({
         signedParameters: this.signedParameters,
         sessionid: this.sessionid,
         startIndex: (count - 1) * this.maxCountPerRequest,
         maxCountPerRequest: this.maxCountPerRequest,
-        filters: this.filters,
+        filters: [],
         columnSort: this.sort.columnSort,
         sortType: this.sort.sortType,
       });
@@ -179,16 +119,11 @@ export const Application = {
           sessionid: this.sessionid,
           startIndex: this.items.startIndex || 0,
           maxCountPerRequest: this.maxCountPerRequest,
-          filters: this.filters,
+          filters: [],
           columnSort: this.sort.columnSort,
           sortType: this.sort.sortType,
         });
       }
     );
-
-    this.runFilters({
-      signedParameters: this.signedParameters,
-      sessionid: this.sessionid,
-    });
   },
 };

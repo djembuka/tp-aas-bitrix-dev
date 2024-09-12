@@ -4,6 +4,7 @@
   ui_vue3,
   local_vueComponents_filter,
   local_vueComponents_table,
+  local_vueComponents_stickyScroll,
   local_vueComponents_pagination,
   local_vueComponents_errorMessage,
   ui_vue3_pinia
@@ -96,13 +97,13 @@
                 .concat(method, '.')
                 .concat(
                   error.errors[0].code
-                    ? ' Код ошибки: ' + error.errors[0].code + '.'
+                    ? ' ��� ������: ' + error.errors[0].code + '.'
                     : '',
                   ' '
                 )
                 .concat(
                   error.errors[0].message
-                    ? ' Описание: ' + error.errors[0].message + '.'
+                    ? ' ��������: ' + error.errors[0].message + '.'
                     : ''
                 );
             }
@@ -319,13 +320,13 @@
                 .concat(method, '.')
                 .concat(
                   error.errors[0].code
-                    ? ' Код ошибки: ' + error.errors[0].code + '.'
+                    ? ' ��� ������: ' + error.errors[0].code + '.'
                     : '',
                   ' '
                 )
                 .concat(
                   error.errors[0].message
-                    ? ' Описание: ' + error.errors[0].message + '.'
+                    ? ' ��������: ' + error.errors[0].message + '.'
                     : ''
                 );
             }
@@ -516,13 +517,14 @@
     components: {
       FilterComponent: local_vueComponents_filter.FilterComponent,
       TableComponent: local_vueComponents_table.TableComponent,
+      StickyScroll: local_vueComponents_stickyScroll.StickyScroll,
       TablePagination: local_vueComponents_pagination.TablePagination,
       ErrorMessage: local_vueComponents_errorMessage.ErrorMessage,
     },
     // language=Vue
 
     template:
-      '\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <div v-else>\n        <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n      </div>\n      <hr>\n      <div v-else>\n        <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n        <hr>\n        <div class="vue-ft-table-bottom">\n          <div class="vue-ft-table-all" v-if="items.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <TablePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n        </div>\n      </div>\n    </div>\n\t',
+      '\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <div v-else>\n        <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n      </div>\n      <hr>\n      <div v-else>\n        <StickyScroll>\n          <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n        </StickyScroll> \n        <hr>\n        <div class="vue-ft-table-bottom">\n          <div class="vue-ft-table-all" v-if="items.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <TablePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n        </div>\n      </div>\n    </div>\n\t',
     computed: _objectSpread(
       _objectSpread(
         _objectSpread(
@@ -606,9 +608,9 @@
                 sessionid: _this.sessionid,
                 startIndex: _this.items.startIndex || 0,
                 maxCountPerRequest: _this.maxCountPerRequest,
-                filters: [],
-                columnSort: 1,
-                sortType: 'asc',
+                filters: _this.filters,
+                columnSort: _this.sort.columnSort,
+                sortType: _this.sort.sortType,
               });
               _this.runDefaultSort({
                 signedParameters: _this.signedParameters,
@@ -809,5 +811,7 @@
   BX.AAS,
   BX.AAS,
   BX.AAS,
+  BX.AAS,
   BX.Vue3.Pinia
-); //# sourceMappingURL=application.bundle.js.map
+);
+//# sourceMappingURL=application.bundle.js.map

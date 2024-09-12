@@ -14,7 +14,6 @@ return [
 	'rel' => [
 		'main.polyfill.core',
 		'ui.vue3',
-		'local.vue-components.filter',
 		'local.vue-components.table',
 		'local.vue-components.sticky-scroll',
 		'local.vue-components.pagination',
