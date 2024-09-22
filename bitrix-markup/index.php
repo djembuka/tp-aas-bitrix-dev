@@ -8,6 +8,8 @@ $APPLICATION->SetTitle("Markup");
   <li><a href="/markup/extensions/">Extensions</a></li>
   <li><a href="/markup/vue/bitrix-vue-demo/">Bitrix Vue demo</a></li>
   <li><a href="/markup/vue/filter-table/">Filter table</a></li>
+  <li><a href="/markup/vue/table/">Table</a></li>
+  <li><a href="/markup/vue/table-with-pagination/">Table with pagination</a></li>
 </ul>
 
 <h2>Страницы</h2>
@@ -30,7 +32,7 @@ $APPLICATION->SetTitle("Markup");
 	</ul>
   </li>
   <li><a href="/markup/pages/dc-questions/">Реестр вопросов заседания ДК</a></li>
-  <li><a href="/markup/pages/dc-detail/">Дисциплинарная комиссия детально</a></li>
+  <li><a href="https://aas-markup.twpx.ru/pages/dc-detail/">Дисциплинарная комиссия детально</a></li>
   <li><a href="/markup/pages/dc-cases/">Заседание дисциплинарной комиссии</a></li>
 </ul>
 

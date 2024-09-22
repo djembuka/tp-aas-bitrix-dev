@@ -12,9 +12,10 @@ $APPLICATION->SetTitle("Заседание дисциплинарной коми
 <script>
 	const filtertable = new BX.FilterTable('#dcCases', {
 		'SESSION_ID': '123',
-		'USER_ID': '456',
+		'SIGNED_PARAMETERS': 'signedParameters',
 		
-		'COLS': ['auto','20%','20%','20%','100px'],
+		'FILTER_COLS': ['1','2','2','2'],
+		'TABLE_COLS': ['25%','20%','auto','20%','150px'],
 		
 		'columnsNames': 'twinpx.dc-cases:columnsNames',
 		'items': 'twinpx.dc-cases:items',

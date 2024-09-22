@@ -106,9 +106,9 @@ export const Application = {
             sessionid: this.sessionid,
             startIndex: this.items.startIndex || 0,
             maxCountPerRequest: this.maxCountPerRequest,
-            filters: this.filters,
-            columnSort: this.sort.columnSort,
-            sortType: this.sort.sortType,
+            filters: [],
+            columnSort: 1,
+            sortType: 'asc',
           });
           this.runDefaultSort({
             signedParameters: this.signedParameters,

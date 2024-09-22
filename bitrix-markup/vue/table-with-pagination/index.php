@@ -1,8 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Filter table Bitrix Vue");
+$APPLICATION->SetTitle("Table with pagination Bitrix Vue");
 
-\Bitrix\Main\UI\Extension::load("local.vue-apps.filter-table");
+\Bitrix\Main\UI\Extension::load("local.vue-apps.table-with-pagination");
 ?>
 
 <style>

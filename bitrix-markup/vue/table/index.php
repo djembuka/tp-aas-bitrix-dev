@@ -1,8 +1,8 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Filter table Bitrix Vue");
+$APPLICATION->SetTitle("Table Bitrix Vue");
 
-\Bitrix\Main\UI\Extension::load("local.vue-apps.filter-table");
+\Bitrix\Main\UI\Extension::load("local.vue-apps.table");
 ?>
 
 <style>
@@ -80,6 +80,7 @@ $APPLICATION->SetTitle("Filter table Bitrix Vue");
 <script src="/markup/vue/table/bx.ajax.runAction.js"></script>
 
 <script>
+(() => {
 	const table = new BX.Table('#Table', {
 		'SESSION_ID': '123',
 		'SIGNED_PARAMETERS': 'signedParameters',
@@ -95,6 +96,7 @@ $APPLICATION->SetTitle("Filter table Bitrix Vue");
 		'maxCountPerRequest': 3,
 	});
 	table.run();
+})();
 </script>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
