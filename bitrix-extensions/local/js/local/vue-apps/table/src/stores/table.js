@@ -88,12 +88,9 @@ export const tableStore = defineStore('table', {
           if (
             window.twinpx &&
             window.twinpx.vue.markup &&
-            window.twinpx.vue['table-with-pagination']
+            window.twinpx.vue['table']
           ) {
-            resultFn(
-              state,
-              window.twinpx.vue['table-with-pagination'].columnsNames
-            );
+            resultFn(state, window.twinpx.vue['table'].columnsNames);
           } else {
             this.showError({ error, method: 'columnsNames' });
           }
@@ -122,12 +119,9 @@ export const tableStore = defineStore('table', {
           if (
             window.twinpx &&
             window.twinpx.vue.markup &&
-            window.twinpx.vue['table-with-pagination']
+            window.twinpx.vue['table']
           ) {
-            resultFn(
-              state,
-              window.twinpx.vue['table-with-pagination'].items(data.startIndex)
-            );
+            resultFn(state, window.twinpx.vue['table'].items(data.startIndex));
           } else {
             this.showError({ error, method: 'items' });
           }
@@ -154,12 +148,9 @@ export const tableStore = defineStore('table', {
           if (
             window.twinpx &&
             window.twinpx.vue.markup &&
-            window.twinpx.vue['table-with-pagination']
+            window.twinpx.vue['table']
           ) {
-            resultFn(
-              state,
-              window.twinpx.vue['table-with-pagination'].defaultSort
-            );
+            resultFn(state, window.twinpx.vue['table'].defaultSort);
           } else {
             this.showError({ error, method: 'defaultSort' });
           }
@@ -188,12 +179,9 @@ export const tableStore = defineStore('table', {
           if (
             window.twinpx &&
             window.twinpx.vue.markup &&
-            window.twinpx.vue['table-with-pagination']
+            window.twinpx.vue['table']
           ) {
-            resultFn(
-              state,
-              window.twinpx.vue['table-with-pagination'].setDefaultSort
-            );
+            resultFn(state, window.twinpx.vue['table'].setDefaultSort);
           } else {
             this.showError({ error, method: 'setDefaultSort' });
           }

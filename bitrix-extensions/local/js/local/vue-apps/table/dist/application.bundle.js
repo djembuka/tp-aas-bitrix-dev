@@ -126,12 +126,9 @@
             if (
               window.twinpx &&
               window.twinpx.vue.markup &&
-              window.twinpx.vue['table-with-pagination']
+              window.twinpx.vue['table']
             ) {
-              resultFn(
-                state,
-                window.twinpx.vue['table-with-pagination'].columnsNames
-              );
+              resultFn(state, window.twinpx.vue['table'].columnsNames);
             } else {
               _this.showError({
                 error: error,
@@ -162,13 +159,11 @@
             if (
               window.twinpx &&
               window.twinpx.vue.markup &&
-              window.twinpx.vue['table-with-pagination']
+              window.twinpx.vue['table']
             ) {
               resultFn(
                 state,
-                window.twinpx.vue['table-with-pagination'].items(
-                  data.startIndex
-                )
+                window.twinpx.vue['table'].items(data.startIndex)
               );
             } else {
               _this2.showError({
@@ -200,12 +195,9 @@
             if (
               window.twinpx &&
               window.twinpx.vue.markup &&
-              window.twinpx.vue['table-with-pagination']
+              window.twinpx.vue['table']
             ) {
-              resultFn(
-                state,
-                window.twinpx.vue['table-with-pagination'].defaultSort
-              );
+              resultFn(state, window.twinpx.vue['table'].defaultSort);
             } else {
               _this3.showError({
                 error: error,
@@ -236,12 +228,9 @@
             if (
               window.twinpx &&
               window.twinpx.vue.markup &&
-              window.twinpx.vue['table-with-pagination']
+              window.twinpx.vue['table']
             ) {
-              resultFn(
-                state,
-                window.twinpx.vue['table-with-pagination'].setDefaultSort
-              );
+              resultFn(state, window.twinpx.vue['table'].setDefaultSort);
             } else {
               _this4.showError({
                 error: error,
@@ -306,7 +295,7 @@
     // language=Vue
 
     template:
-      '\n    <StickyScroll>\n      <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n    </StickyScroll> \n\t',
+      '\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <StickyScroll>\n        <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n      </StickyScroll> \n    </div>\n\t',
     computed: _objectSpread(
       _objectSpread(
         _objectSpread(

@@ -10,6 +10,13 @@
   padding-left: 1.5rem;
 }
 
+.vue-ft-table .table th.asc,
+.vue-ft-table .table-responsive th.asc,
+.vue-ft-table .table th.desc,
+.vue-ft-table .table-responsive th.desc {
+  padding-right: 40px;
+}
+
 .vue-ft-table-bottom {
   display: flex;
   align-items: center;

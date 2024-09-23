@@ -20,9 +20,12 @@ export const Application = {
   // language=Vue
 
   template: `
-    <StickyScroll>
-      <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
-    </StickyScroll> 
+    <div>
+      <ErrorMessage :error="error" @hideError="hideError" />
+      <StickyScroll>
+        <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
+      </StickyScroll> 
+    </div>
 	`,
   computed: {
     ...mapState(dataStore, ['sessionid', 'signedParameters']),
