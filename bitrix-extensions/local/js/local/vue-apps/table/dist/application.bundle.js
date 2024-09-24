@@ -25,7 +25,6 @@
         loadingItems: false,
         columnsNames: [],
         items: {},
-        sort: {},
         actions: {},
         errorTable: '',
       };
@@ -128,7 +127,10 @@
               window.twinpx.vue.markup &&
               window.twinpx.vue['table']
             ) {
-              resultFn(state, window.twinpx.vue['table'].columnsNames);
+              resultFn(
+                state,
+                window.twinpx.vue['table'][_this.actions.columnsNames]
+              );
             } else {
               _this.showError({
                 error: error,
@@ -163,7 +165,9 @@
             ) {
               resultFn(
                 state,
-                window.twinpx.vue['table'].items(data.startIndex)
+                window.twinpx.vue['table'][_this2.actions.items](
+                  data.startIndex
+                )
               );
             } else {
               _this2.showError({
@@ -175,72 +179,6 @@
         );
         function resultFn(state, data) {
           state.items = data;
-          if (callback) {
-            callback();
-          }
-        }
-      },
-      runDefaultSort: function runDefaultSort(data, callback) {
-        var _this3 = this;
-        var a = window.BX.ajax.runComponentAction(
-          this.actions.defaultSort,
-          data
-        );
-        var state = this;
-        a.then(
-          function (result) {
-            resultFn(state, result);
-          },
-          function (error) {
-            if (
-              window.twinpx &&
-              window.twinpx.vue.markup &&
-              window.twinpx.vue['table']
-            ) {
-              resultFn(state, window.twinpx.vue['table'].defaultSort);
-            } else {
-              _this3.showError({
-                error: error,
-                method: 'defaultSort',
-              });
-            }
-          }
-        );
-        function resultFn(state, data) {
-          state.sort = data;
-          if (callback) {
-            callback();
-          }
-        }
-      },
-      runSetDefaultSort: function runSetDefaultSort(data, callback) {
-        var _this4 = this;
-        var a = window.BX.ajax.runComponentAction(
-          this.actions.setDefaultSort,
-          data
-        );
-        var state = this;
-        a.then(
-          function (result) {
-            resultFn(state, result);
-          },
-          function (error) {
-            if (
-              window.twinpx &&
-              window.twinpx.vue.markup &&
-              window.twinpx.vue['table']
-            ) {
-              resultFn(state, window.twinpx.vue['table'].setDefaultSort);
-            } else {
-              _this4.showError({
-                error: error,
-                method: 'setDefaultSort',
-              });
-            }
-          }
-        );
-        function resultFn(state, data) {
-          state.sort = data;
           if (callback) {
             callback();
           }
@@ -295,7 +233,7 @@
     // language=Vue
 
     template:
-      '\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <StickyScroll>\n        <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n      </StickyScroll> \n    </div>\n\t',
+      '\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <StickyScroll>\n        <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n      </StickyScroll> \n    </div>\n\t',
     computed: _objectSpread(
       _objectSpread(
         _objectSpread(
@@ -306,7 +244,6 @@
           'loadingTable',
           'columnsNames',
           'items',
-          'sort',
           'tableCols',
           'maxCountPerRequest',
           'errorTable',
@@ -341,74 +278,28 @@
         hideError: function hideError() {
           this.hideErrorTable();
         },
-        clickTh: function clickTh(_ref) {
-          var _this = this;
-          var column = _ref.column;
-          var sortType =
-            this.sort.columnSort === column.id && this.sort.sortType === 0
-              ? 1
-              : 0;
-          this.runSetDefaultSort(
-            {
-              signedParameters: this.signedParameters,
-              sessionid: this.sessionid,
-              columnSort: column.id,
-              sortType: sortType,
-            },
-            function () {
-              _this.runItems({
-                signedParameters: _this.signedParameters,
-                sessionid: _this.sessionid,
-                startIndex: _this.items.startIndex || 0,
-                maxCountPerRequest: _this.maxCountPerRequest,
-                filters: [],
-                columnSort: _this.sort.columnSort,
-                sortType: _this.sort.sortType,
-              });
-              _this.runDefaultSort({
-                signedParameters: _this.signedParameters,
-                sessionid: _this.sessionid,
-              });
-            }
-          );
-        },
-        clickPage: function clickPage(_ref2) {
-          var count = _ref2.count;
+        clickPage: function clickPage(_ref) {
+          var count = _ref.count;
           this.runItems({
             signedParameters: this.signedParameters,
             sessionid: this.sessionid,
             startIndex: (count - 1) * this.maxCountPerRequest,
             maxCountPerRequest: this.maxCountPerRequest,
-            filters: [],
-            columnSort: this.sort.columnSort,
-            sortType: this.sort.sortType,
           });
         },
       }
     ),
     mounted: function mounted() {
-      var _this2 = this;
       this.runColumnsNames({
         signedParameters: this.signedParameters,
         sessionid: this.sessionid,
       });
-      this.runDefaultSort(
-        {
-          signedParameters: this.signedParameters,
-          sessionid: this.sessionid,
-        },
-        function () {
-          _this2.runItems({
-            signedParameters: _this2.signedParameters,
-            sessionid: _this2.sessionid,
-            startIndex: _this2.items.startIndex || 0,
-            maxCountPerRequest: _this2.maxCountPerRequest,
-            filters: [],
-            columnSort: _this2.sort.columnSort,
-            sortType: _this2.sort.sortType,
-          });
-        }
-      );
+      this.runItems({
+        signedParameters: this.signedParameters,
+        sessionid: this.sessionid,
+        startIndex: this.items.startIndex || 0,
+        maxCountPerRequest: this.maxCountPerRequest,
+      });
     },
   };
 

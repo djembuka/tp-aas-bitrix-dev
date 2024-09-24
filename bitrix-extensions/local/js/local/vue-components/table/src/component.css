@@ -8,6 +8,12 @@
 .vue-ft-table .table th,
 .vue-ft-table .table-responsive th {
   padding-left: 1.5rem;
+  cursor: default;
+}
+
+.vue-ft-table .table.table-sortable th,
+.vue-ft-table .table-responsive.table-sortable th {
+  cursor: pointer;
 }
 
 .vue-ft-table .table th.asc,
@@ -15,6 +21,10 @@
 .vue-ft-table .table th.desc,
 .vue-ft-table .table-responsive th.desc {
   padding-right: 40px;
+}
+
+.vue-tf-table--clickable {
+  cursor: pointer;
 }
 
 .vue-ft-table-bottom {

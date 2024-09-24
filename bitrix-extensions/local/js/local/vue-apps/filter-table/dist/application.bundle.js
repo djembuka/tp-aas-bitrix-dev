@@ -320,12 +320,12 @@
       FilterComponent: local_vueComponents_filter.FilterComponent,
       TableComponent: local_vueComponents_table.TableComponent,
       StickyScroll: local_vueComponents_stickyScroll.StickyScroll,
-      TablePagination: local_vueComponents_pagination.TablePagination,
+      ThePagination: local_vueComponents_pagination.ThePagination,
       ErrorMessage: local_vueComponents_errorMessage.ErrorMessage
     },
     // language=Vue
 
-    template: "\n    <div>\n      <ErrorMessage :error=\"error\" @hideError=\"hideError\" />\n      <div v-else>\n        <FilterComponent :cols=\"filterCols\" :filters=\"filters\" :loading=\"loadingFilter\" @input=\"input\" @hints=\"hints\" />\n      </div>\n      <hr>\n      <div v-else>\n        <StickyScroll>\n          <TableComponent :cols=\"tableCols\" :columnsNames=\"columnsNames\" :items=\"items\" :sort=\"sort\" :loading=\"loadingTable\" :maxCountPerRequest=\"maxCountPerRequest\" @clickTh=\"clickTh\" @clickPage=\"clickPage\" />\n        </StickyScroll> \n        <hr>\n        <div class=\"vue-ft-table-bottom\">\n          <div class=\"vue-ft-table-all\" v-if=\"items.resultCount\">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <TablePagination :pagesNum=\"pagesNum\" :pageActive=\"pageActive\" @clickPage=\"clickPage\" />\n        </div>\n      </div>\n    </div>\n\t",
+    template: "\n    <div>\n      <ErrorMessage :error=\"error\" @hideError=\"hideError\" />\n      <div v-else>\n        <FilterComponent :cols=\"filterCols\" :filters=\"filters\" :loading=\"loadingFilter\" @input=\"input\" @hints=\"hints\" />\n      </div>\n      <hr>\n      <div v-else>\n        <StickyScroll>\n          <TableComponent :sortable=\"true\" :cols=\"tableCols\" :columnsNames=\"columnsNames\" :items=\"items\" :sort=\"sort\" :loading=\"loadingTable\" :maxCountPerRequest=\"maxCountPerRequest\" @clickTh=\"clickTh\" @clickPage=\"clickPage\" />\n        </StickyScroll> \n        <hr>\n        <div class=\"vue-ft-table-bottom\">\n          <div class=\"vue-ft-table-all\" v-if=\"items.resultCount\">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <ThePagination :pagesNum=\"pagesNum\" :pageActive=\"pageActive\" @clickPage=\"clickPage\" />\n        </div>\n      </div>\n    </div>\n\t",
     computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['sessionid', 'signedParameters'])), ui_vue3_pinia.mapState(tableStore, ['loadingTable', 'columnsNames', 'items', 'sort', 'tableCols', 'maxCountPerRequest', 'errorTable'])), ui_vue3_pinia.mapState(filterStore, ['loadingFilter', 'filters', 'FilterCols', 'errorFilter'])), {}, {
       pagesNum: function pagesNum() {
         return Math.ceil(this.items.resultCount / this.maxCountPerRequest);

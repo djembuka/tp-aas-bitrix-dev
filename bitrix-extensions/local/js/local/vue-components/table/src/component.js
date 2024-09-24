@@ -27,28 +27,30 @@ export const TableComponent = {
       <div></div>
     </div>
     <div v-else-if="columnsNames.length" class="vue-ft-table">
-      <table class="table table-responsive">
+      <table class="table table-responsive" :class="{'table-sortable': sortable}">
         <colgroup>
           <col v-for="(col, index) in columnsNames" :key="col.id" :style="'width:' +  (cols[index] || 'auto') + ';'">
         </colgroup>
         <thead>
           <tr>
-            <th v-for="column in columnsNames" :key="column.id" :class="className(column)" @click="clickTh(column)">{{column.name}}</th>
+            <th v-for="column in columnsNames" :key="column.id" :class="className({td:column})" @click="clickTh(column)">{{column.name}}</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in items.items" :key="item.id" :data-id="item.id" :title="item.value" @click="clickTr(item)">
-            <td v-for="cell in item.cell" v-html="cell.value" :class="className(cell)"></td>
+          <tr v-for="item in items.items" :key="item.id" :class="className({tr: item})" :data-id="item.id" :title="item.value" @click="clickTr(item)">
+            <td v-for="cell in item.cell" v-html="cell.value" :class="className({td:cell})"></td>
           </tr>
         </tbody>
       </table>
     </div>
     `,
-  props: ['cols', 'columnsNames', 'items', 'sort', 'loading'],
+  props: ['cols', 'columnsNames', 'items', 'sort', 'loading', 'sortable'],
   emits: ['clickTh'],
   methods: {
     clickTh(column) {
-      this.$emit('clickTh', { column });
+      if (this.sortable) {
+        this.$emit('clickTh', { column });
+      }
     },
     clickTr(item) {
       let url = item.url;
@@ -61,12 +63,20 @@ export const TableComponent = {
         window.open(url, 'new');
       }
     },
-    className(tableItem) {
-      return this.sort.columnSort === tableItem.id
-        ? this.sort.sortType === 1
-          ? 'asc'
-          : 'desc'
-        : '';
+    className({ tr, td }) {
+      if (tr && tr.url) {
+        return 'vue-tf-table--clickable';
+      } else if (td) {
+        if (!this.sortable) {
+          return '';
+        }
+
+        return this.sort.columnSort === td.id
+          ? this.sort.sortType === 1
+            ? 'asc'
+            : 'desc'
+          : '';
+      }
     },
   },
 };

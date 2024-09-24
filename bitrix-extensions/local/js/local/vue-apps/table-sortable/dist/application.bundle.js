@@ -4,7 +4,6 @@
   ui_vue3,
   local_vueComponents_table,
   local_vueComponents_stickyScroll,
-  local_vueComponents_pagination,
   local_vueComponents_errorMessage,
   ui_vue3_pinia
 ) {
@@ -127,12 +126,9 @@
             if (
               window.twinpx &&
               window.twinpx.vue.markup &&
-              window.twinpx.vue['table-with-pagination']
+              window.twinpx.vue['table']
             ) {
-              resultFn(
-                state,
-                window.twinpx.vue['table-with-pagination'].columnsNames
-              );
+              resultFn(state, window.twinpx.vue['table'].columnsNames);
             } else {
               _this.showError({
                 error: error,
@@ -163,13 +159,11 @@
             if (
               window.twinpx &&
               window.twinpx.vue.markup &&
-              window.twinpx.vue['table-with-pagination']
+              window.twinpx.vue['table']
             ) {
               resultFn(
                 state,
-                window.twinpx.vue['table-with-pagination'].items(
-                  data.startIndex
-                )
+                window.twinpx.vue['table'].items(data.startIndex)
               );
             } else {
               _this2.showError({
@@ -201,12 +195,9 @@
             if (
               window.twinpx &&
               window.twinpx.vue.markup &&
-              window.twinpx.vue['table-with-pagination']
+              window.twinpx.vue['table']
             ) {
-              resultFn(
-                state,
-                window.twinpx.vue['table-with-pagination'].defaultSort
-              );
+              resultFn(state, window.twinpx.vue['table'].defaultSort);
             } else {
               _this3.showError({
                 error: error,
@@ -237,12 +228,9 @@
             if (
               window.twinpx &&
               window.twinpx.vue.markup &&
-              window.twinpx.vue['table-with-pagination']
+              window.twinpx.vue['table']
             ) {
-              resultFn(
-                state,
-                window.twinpx.vue['table-with-pagination'].setDefaultSort
-              );
+              resultFn(state, window.twinpx.vue['table'].setDefaultSort);
             } else {
               _this4.showError({
                 error: error,
@@ -302,12 +290,12 @@
     components: {
       TableComponent: local_vueComponents_table.TableComponent,
       StickyScroll: local_vueComponents_stickyScroll.StickyScroll,
-      ThePagination: local_vueComponents_pagination.ThePagination,
       ErrorMessage: local_vueComponents_errorMessage.ErrorMessage,
     },
     // language=Vue
+
     template:
-      '\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <StickyScroll>\n        <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n      </StickyScroll> \n      <hr>\n      <div class="vue-ft-table-bottom">\n        <div class="vue-ft-table-all" v-if="items.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n        <ThePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n      </div>\n    </div>\n\t',
+      '\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <StickyScroll>\n        <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n      </StickyScroll> \n    </div>\n\t',
     computed: _objectSpread(
       _objectSpread(
         _objectSpread(
@@ -438,9 +426,9 @@
   var _store = /*#__PURE__*/ new WeakMap();
   var _rootNode = /*#__PURE__*/ new WeakMap();
   var _application = /*#__PURE__*/ new WeakMap();
-  var TableWithPagination = /*#__PURE__*/ (function () {
-    function TableWithPagination(rootNode, options) {
-      babelHelpers.classCallCheck(this, TableWithPagination);
+  var TableSortable = /*#__PURE__*/ (function () {
+    function TableSortable(rootNode, options) {
+      babelHelpers.classCallCheck(this, TableSortable);
       _classPrivateFieldInitSpec(this, _store, {
         writable: true,
         value: void 0,
@@ -465,7 +453,7 @@
       );
       this.options = options;
     }
-    babelHelpers.createClass(TableWithPagination, [
+    babelHelpers.createClass(TableSortable, [
       {
         key: 'run',
         value: function run() {
@@ -474,7 +462,7 @@
             this,
             _application,
             ui_vue3.BitrixVue.createApp({
-              name: 'Table with pagination Application',
+              name: 'Table Sortable Application',
               components: {
                 Application: Application,
               },
@@ -518,17 +506,9 @@
         },
       },
     ]);
-    return TableWithPagination;
+    return TableSortable;
   })();
 
-  exports.TableWithPagination = TableWithPagination;
-})(
-  (this.BX = this.BX || {}),
-  BX.Vue3,
-  BX.AAS,
-  BX.AAS,
-  BX.AAS,
-  BX.AAS,
-  BX.Vue3.Pinia
-);
+  exports.TableSortable = TableSortable;
+})((this.BX = this.BX || {}), BX.Vue3, BX.AAS, BX.AAS, BX.AAS, BX.Vue3.Pinia);
 //# sourceMappingURL=application.bundle.js.map

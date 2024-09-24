@@ -247,11 +247,8 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
           
           'TABLE_COLS': ['auto','130px','130px','150px'],
           
-          'columnsNames': 'twinpx:columnsNames',
-          'items': 'twinpx:items',
-          'defaultSort': 'twinpx:defaultSort',
-          'setDefaultSort': 'twinpx:setDefaultSort',
-          'filters': 'twinpx:filters',
+          'columnsNames': 'twinpx:columnsNames:violations',
+          'items': 'twinpx:items:violations',
           
           'maxCountPerRequest': undefined,
         });
@@ -336,13 +333,10 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
           'SESSION_ID': '123',
           'SIGNED_PARAMETERS': 'signedParameters',
           
-          'TABLE_COLS': ['100px','100px','100px','100px','auto','100px'],
+          'TABLE_COLS': ['150px','100px','150px','100px','auto','130px'],
           
-          'columnsNames': 'twinpx:columnsNames',
-          'items': 'twinpx:items',
-          'defaultSort': 'twinpx:defaultSort',
-          'setDefaultSort': 'twinpx:setDefaultSort',
-          'filters': 'twinpx:filters',
+          'columnsNames': 'twinpx:columnsNames:cases',
+          'items': 'twinpx:items:cases',
           
           'maxCountPerRequest': 5,
         });
@@ -432,11 +426,8 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
           
           'TABLE_COLS': ['200px','auto'],
           
-          'columnsNames': 'twinpx:columnsNames',
-          'items': 'twinpx:items',
-          'defaultSort': 'twinpx:defaultSort',
-          'setDefaultSort': 'twinpx:setDefaultSort',
-          'filters': 'twinpx:filters',
+          'columnsNames': 'twinpx:columnsNames:actions',
+          'items': 'twinpx:items:actions',
           
           'maxCountPerRequest': undefined,
         });

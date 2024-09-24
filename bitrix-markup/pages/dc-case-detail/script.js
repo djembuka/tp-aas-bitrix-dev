@@ -7,30 +7,32 @@ window.addEventListener('load', () => {
     docRemoveId = e.target.data('id');
   });
 
-  document
-    .querySelector('#removeDocConsent .btn-danger')
-    .addEventListener('click', (e) => {
-      e.preventDefault();
+  if (document.querySelector('#removeDocConsent .btn-danger')) {
+    document
+      .querySelector('#removeDocConsent .btn-danger')
+      .addEventListener('click', (e) => {
+        e.preventDefault();
 
-      if (window.BX) {
-        window.BX.ajax
-          .runAction(`removeDoc`, {
-            data: {
-              id: docRemoveId,
-            },
-          })
-          .then(
-            () => {
-              //res
-            },
-            (error) => {
-              //rej
-            }
-          );
-      }
+        if (window.BX) {
+          window.BX.ajax
+            .runAction(`removeDoc`, {
+              data: {
+                id: docRemoveId,
+              },
+            })
+            .then(
+              () => {
+                //res
+              },
+              (error) => {
+                //rej
+              }
+            );
+        }
 
-      $('#removeDocConsent').modal('hide');
-    });
+        $('#removeDocConsent').modal('hide');
+      });
+  }
 
   //icon copy
   const copyToClipboard = (str, elem) => {

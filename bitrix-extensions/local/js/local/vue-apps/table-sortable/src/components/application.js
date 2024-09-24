@@ -23,7 +23,7 @@ export const Application = {
     <div>
       <ErrorMessage :error="error" @hideError="hideError" />
       <StickyScroll>
-        <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
+        <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
       </StickyScroll> 
     </div>
 	`,
@@ -33,6 +33,7 @@ export const Application = {
       'loadingTable',
       'columnsNames',
       'items',
+      'sort',
       'tableCols',
       'maxCountPerRequest',
       'errorTable',
@@ -58,12 +59,43 @@ export const Application = {
     hideError() {
       this.hideErrorTable();
     },
+    clickTh({ column }) {
+      const sortType =
+        this.sort.columnSort === column.id && this.sort.sortType === 0 ? 1 : 0;
+
+      this.runSetDefaultSort(
+        {
+          signedParameters: this.signedParameters,
+          sessionid: this.sessionid,
+          columnSort: column.id,
+          sortType,
+        },
+        () => {
+          this.runItems({
+            signedParameters: this.signedParameters,
+            sessionid: this.sessionid,
+            startIndex: this.items.startIndex || 0,
+            maxCountPerRequest: this.maxCountPerRequest,
+            filters: [],
+            columnSort: this.sort.columnSort,
+            sortType: this.sort.sortType,
+          });
+          this.runDefaultSort({
+            signedParameters: this.signedParameters,
+            sessionid: this.sessionid,
+          });
+        }
+      );
+    },
     clickPage({ count }) {
       this.runItems({
         signedParameters: this.signedParameters,
         sessionid: this.sessionid,
         startIndex: (count - 1) * this.maxCountPerRequest,
         maxCountPerRequest: this.maxCountPerRequest,
+        filters: [],
+        columnSort: this.sort.columnSort,
+        sortType: this.sort.sortType,
       });
     },
   },
@@ -73,11 +105,22 @@ export const Application = {
       sessionid: this.sessionid,
     });
 
-    this.runItems({
-      signedParameters: this.signedParameters,
-      sessionid: this.sessionid,
-      startIndex: this.items.startIndex || 0,
-      maxCountPerRequest: this.maxCountPerRequest,
-    });
+    this.runDefaultSort(
+      {
+        signedParameters: this.signedParameters,
+        sessionid: this.sessionid,
+      },
+      () => {
+        this.runItems({
+          signedParameters: this.signedParameters,
+          sessionid: this.sessionid,
+          startIndex: this.items.startIndex || 0,
+          maxCountPerRequest: this.maxCountPerRequest,
+          filters: [],
+          columnSort: this.sort.columnSort,
+          sortType: this.sort.sortType,
+        });
+      }
+    );
   },
 };

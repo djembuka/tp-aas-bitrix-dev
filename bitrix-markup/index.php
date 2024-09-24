@@ -9,6 +9,7 @@ $APPLICATION->SetTitle("Markup");
   <li><a href="/markup/vue/bitrix-vue-demo/">Bitrix Vue demo</a></li>
   <li><a href="/markup/vue/filter-table/">Filter table</a></li>
   <li><a href="/markup/vue/table/">Table</a></li>
+  <li><a href="/markup/vue/table-sortable/">Table sortable</a></li>
   <li><a href="/markup/vue/table-with-pagination/">Table with pagination</a></li>
 </ul>
 

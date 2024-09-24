@@ -3,7 +3,7 @@ import './application.css';
 import { FilterComponent } from 'local.vue-components.filter';
 import { TableComponent } from 'local.vue-components.table';
 import { StickyScroll } from 'local.vue-components.sticky-scroll';
-import { TablePagination } from 'local.vue-components.pagination';
+import { ThePagination } from 'local.vue-components.pagination';
 import { ErrorMessage } from 'local.vue-components.error-message';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
@@ -19,7 +19,7 @@ export const Application = {
     FilterComponent,
     TableComponent,
     StickyScroll,
-    TablePagination,
+    ThePagination,
     ErrorMessage,
   },
   // language=Vue
@@ -33,12 +33,12 @@ export const Application = {
       <hr>
       <div v-else>
         <StickyScroll>
-          <TableComponent :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
+          <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
         </StickyScroll> 
         <hr>
         <div class="vue-ft-table-bottom">
           <div class="vue-ft-table-all" v-if="items.resultCount">Всего: {{ items.resultCount }}</div>
-          <TablePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />
+          <ThePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />
         </div>
       </div>
     </div>
