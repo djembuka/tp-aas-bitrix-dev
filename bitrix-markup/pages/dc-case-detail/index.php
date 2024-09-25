@@ -3,14 +3,21 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Дисциплинарное дело 150");
 
 \Bitrix\Main\UI\Extension::load("local.vue-apps.table");
+\Bitrix\Main\UI\Extension::load("local.extensions.tabs-menu");
+\Bitrix\Main\UI\Extension::load("local.extensions.copy-to-clipboard");
 ?>
 
 <link rel="stylesheet" href="style.css" />
 <script src="script.js"></script>
 
-<div class="ph-content"> 
-  <div class="b-tabs-menu">
-    <div class="b-tabs-menu__wrapper"><a class="active" href="/pages/dc-case-detail/">Общие данные</a><a href="/pages/dc-case-detail/meetings.html">Заседания</a><a href="/pages/dc-case-detail/docs.html">Документы</a></div>
+<div class="ph-content">
+
+  <div class="b-twpx-tabs-menu">
+    <div class="b-twpx-tabs-menu__wrapper">
+      <a href="/markup/pages/dc-case-detail/" class="active">Общие данные</a>
+      <a href="/markup/pages/dc-case-detail/meetings.php">Заседания</a>
+      <a href="/markup/pages/dc-case-detail/docs.php">Документы</a>
+    </div>
   </div>
   <hr>
   <div class="b-dc-case-detail__block">
@@ -27,32 +34,32 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
             <tbody>
               <tr>
                 <th>Номер дисциплинарного дела</th>
-                <td>N3456<span class="b-copy-icon" style="background-image: url('/template/images/copy-30.svg')"></span></td>
+                <td class="b-twpx-copy">N3456</td>
               </tr>
               <tr>
                 <th>Дата создания</th>
-                <td>21.05.2024<span class="b-copy-icon" style="background-image: url('/template/images/copy-30.svg')"></span></td>
+                <td class="b-twpx-copy">21.05.2024</td>
               </tr>
               <tr>
                 <th>Автор</th>
-                <td>Иванов Петр Матвеевич<span class="b-copy-icon" style="background-image: url('/template/images/copy-30.svg')"></span></td>
+                <td class="b-twpx-copy">Иванов Петр Матвеевич</td>
               </tr>
               <tr>
                 <th>Заявитель</th>
-                <td>МинФин<span class="b-copy-icon" style="background-image: url('/template/images/copy-30.svg')"></span></td>
+                <td class="b-twpx-copy">МинФин</td>
               </tr>
               <tr>
                 <th>Ответчик</th>
-                <td> 
+                <td class="b-twpx-copy"> 
                   <div><a href="">ООО "АудитНезависимость"</a>
                     <hr class="hr--xs">
                     <div class="small text-muted">ООО "12106028665"</div>
-                  </div><span class="b-copy-icon" style="background-image: url('/template/images/copy-30.svg')"></span>
+                  </div>
                 </td>
               </tr>
               <tr>
                 <th>ID дисц. дела</th>
-                <td>78236498<span class="b-copy-icon" style="background-image: url('/template/images/copy-30.svg')"></span></td>
+                <td class="b-twpx-copy">78236498</td>
               </tr>
             </tbody>
           </table>
@@ -66,20 +73,20 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
             <tbody>
               <tr>
                 <th>Статус</th>
-                <td><span class="label-orange"><span>Идет</span></span><span class="b-copy-icon" style="background-image: url('/template/images/copy-30.svg')"></span></td>
+                <td class="b-twpx-copy"><span class="label-orange"><span>Идет</span></span></td>
               </tr>
               <tr>
                 <th>Основание</th>
-                <td>Жалоба<span class="b-copy-icon" style="background-image: url('/template/images/copy-30.svg')"></span></td>
+                <td class="b-twpx-copy">Жалоба</td>
               </tr>
               <tr>
                 <th>Нарушение</th>
-                <td>
+                <td class="b-twpx-copy">
                   <div>
                     <p>Несоблюдение требования об уплате взносов в компенсационный фонд (компенсационные фонды) саморегулируемой организации аудиторов</p>
                     <p>Неучастие аудитора в осуществлении аудиторской деятельности (неосуществление индивидуальным аудитором аудиторской деятельности) в течении двух последовательных календарных лет</p>
                     <p>Несоблюдение требований Федерального закона от 30 декабря 2008 г. № 307-ФЗ «Об аудиторской деятельности»</p>
-                  </div><span class="b-copy-icon" style="background-image: url('/template/images/copy-30.svg')"></span>
+                  </div>
                 </td>
               </tr>
             </tbody>
