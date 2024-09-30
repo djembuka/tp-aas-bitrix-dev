@@ -14,7 +14,7 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
 
   <div class="b-twpx-tabs-menu">
     <div class="b-twpx-tabs-menu__wrapper">
-      <a href="/markup/pages/dc-case-detail/" class="active">Общие данные</a>
+      <a href="/markup/pages/dc-case-detail/" class="b-twpx-tabs--active">Общие данные</a>
       <a href="/markup/pages/dc-case-detail/meetings.php">Заседания</a>
       <a href="/markup/pages/dc-case-detail/docs.php">Документы</a>
     </div>

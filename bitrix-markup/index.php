@@ -19,7 +19,7 @@ $APPLICATION->SetTitle("Markup");
 <ul>
   <li><a href="/markup/pages/dc-registry/">Реестр дисциплинарных дел</a>
 	<ul>
-	  <li><a href="https://aas-markup.twpx.ru/pages/dc-case-detail/">Дисциплинарное дело детально - Общие данные</a></li>
+	  <li><a href="/markup/pages/dc-case-detail/">Дисциплинарное дело детально - Общие данные</a></li>
 	  <li><a href="https://aas-markup.twpx.ru/pages/dc-case-detail/meetings.html">Дисциплинарное дело детально - Заседения</a></li>
 	  <li><a href="https://aas-markup.twpx.ru/pages/dc-case-detail/docs.html">Дисциплинарное дело детально - Документы</a></li>
 	</ul>

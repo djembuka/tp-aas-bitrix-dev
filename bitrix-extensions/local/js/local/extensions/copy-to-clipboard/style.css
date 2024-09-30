@@ -1,7 +1,12 @@
-.b-copy:hover .b-copy-icon {
-	opacity: 1;
+.b-twpx-copy {
+  display: flex;
+  align-items: center;
+  text-align: left !important;
 }
-.b-copy-icon {
+.b-twpx-copy:hover .b-twpx-copy-icon {
+  opacity: 1;
+}
+.b-twpx-copy-icon {
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -16,11 +21,11 @@
   position: relative;
 }
 @media (max-width: 767px) {
-.b-copy-icon {
+  .b-twpx-copy-icon {
     display: none;
   }
 }
-.b-copy-icon__note {
+.b-twpx-copy-icon__note {
   position: absolute;
   top: -31px;
   left: 16px;
@@ -37,6 +42,6 @@
   -webkit-transition: opacity 0.2s linear;
   pointer-events: none;
 }
-.b-copy-icon__note.b-copy-icon__note--show {
+.b-twpx-copy-icon__note.b-twpx-copy-icon__note--show {
   opacity: 1;
 }

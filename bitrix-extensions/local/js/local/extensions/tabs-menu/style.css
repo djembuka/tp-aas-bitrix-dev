@@ -1,9 +1,9 @@
-.b-tabs-menu {
+.b-twpx-tabs-menu {
   font-family: Roboto, sans-serif;
   font-size: 0.88rem;
   position: relative;
 }
-.b-tabs-menu__wrapper {
+.b-twpx-tabs-menu__wrapper {
   display: flex;
   column-gap: 20px;
   height: 48px;
@@ -14,19 +14,19 @@
   scrollbar-width: thin;
   z-index: 20;
 }
-.b-tabs-menu__wrapper::-webkit-scrollbar {
+.b-twpx-tabs-menu__wrapper::-webkit-scrollbar {
   width: 4px;
   height: 4px;
   background-color: #fff;
 }
-.b-tabs-menu__wrapper::-webkit-scrollbar-thumb {
+.b-twpx-tabs-menu__wrapper::-webkit-scrollbar-thumb {
   background-color: #ccc;
   border-radius: 2px;
 }
-.b-tabs-menu__wrapper::-webkit-scrollbar-thumb:hover {
+.b-twpx-tabs-menu__wrapper::-webkit-scrollbar-thumb:hover {
   background-color: #c0c0c0;
 }
-.b-tabs-menu:after {
+.b-twpx-tabs-menu:after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -35,19 +35,19 @@
   border-bottom: 1px solid #f2f2f2;
   z-index: 10;
 }
-.b-tabs-menu a {
+.b-twpx-tabs-menu a {
   height: 48px;
   display: flex;
   align-items: center;
   white-space: nowrap;
   border-bottom: 1px solid transparent;
 }
-.b-tabs-menu a.active {
+.b-twpx-tabs-menu a.b-twpx-tabs--active {
   border-bottom: 1px solid #3b3b3b;
   color: #3b3b3b;
   cursor: default;
   pointer-events: none;
 }
-.b-tabs-menu a.in {
+.b-twpx-tabs-menu a.b-twpx-tabs--in {
   border-bottom: 1px solid #3b3b3b;
 }
