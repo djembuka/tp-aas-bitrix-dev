@@ -7,6 +7,17 @@ $APPLICATION->SetTitle("Markup");
 <ul>
   <li><a href="/markup/extensions/">Extensions</a></li>
   <li><a href="/markup/vue/bitrix-vue-demo/">Bitrix Vue demo</a></li>
+</ul>
+
+<h2>Приложения-заготовки для страниц</h2>
+
+<h3>Forms</h3>
+<ul>
+  <li><a href="/markup/vue/form-with-multi/">Form with multi control</a></li>
+</ul>
+
+<h3>Table</h3>
+<ul>
   <li><a href="/markup/vue/filter-table/">Filter table</a></li>
   <li><a href="/markup/vue/table/">Table</a></li>
   <li><a href="/markup/vue/table-sortable/">Table sortable</a></li>
