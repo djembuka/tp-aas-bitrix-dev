@@ -11,17 +11,7 @@ window.twinpx.vue['form-with-multi'].controls = [
     value: '',
     required: false,
     disabled: false,
-  },
-  {
-    property: 'hint',
-    id: 'id2',
-    name: 'OBJECT',
-    label: 'Объект',
-    value: '',
-    count: 3,
-    action: 'twinpx:ornz-hint',
-    required: false,
-    disabled: false,
+    multi: 3,
   },
   {
     property: 'select',
@@ -47,6 +37,7 @@ window.twinpx.vue['form-with-multi'].controls = [
     ],
     value: '',
     disabled: false,
+    multi: 3,
   },
   {
     property: 'date',
@@ -56,6 +47,7 @@ window.twinpx.vue['form-with-multi'].controls = [
     name: 'DATE',
     required: true,
     value: '28.02.2024',
+    multi: 3,
   },
   {
     property: 'date',

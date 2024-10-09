@@ -1,6 +1,5 @@
 import { Control } from 'local.vue-components.control';
 import './component.css';
-import './placeholder.css';
 
 export const FilterComponent = {
   data() {
