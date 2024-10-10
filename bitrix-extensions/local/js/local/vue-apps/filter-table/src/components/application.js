@@ -1,9 +1,9 @@
 import './application.css';
 
-import { FilterComponent } from 'local.vue-components.filter';
-import { TableComponent } from 'local.vue-components.table';
+import { FilterComponent } from 'local.vue-components.filter-component';
+import { TableComponent } from 'local.vue-components.table-component';
 import { StickyScroll } from 'local.vue-components.sticky-scroll';
-import { ThePagination } from 'local.vue-components.pagination';
+import { PaginationComponent } from 'local.vue-components.pagination-component';
 import { ErrorMessage } from 'local.vue-components.error-message';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
@@ -19,7 +19,7 @@ export const Application = {
     FilterComponent,
     TableComponent,
     StickyScroll,
-    ThePagination,
+    PaginationComponent,
     ErrorMessage,
   },
   // language=Vue
@@ -38,7 +38,7 @@ export const Application = {
         <hr>
         <div class="vue-ft-table-bottom">
           <div class="vue-ft-table-all" v-if="items.resultCount">Всего: {{ items.resultCount }}</div>
-          <ThePagination :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />
+          <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@ export const Application = {
     ...mapState(filterStore, [
       'loadingFilter',
       'filters',
-      'FilterCols',
+      'filterCols',
       'errorFilter',
     ]),
     pagesNum() {

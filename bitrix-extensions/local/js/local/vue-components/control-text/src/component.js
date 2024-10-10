@@ -36,6 +36,7 @@ export const ControlText = {
         v-model="value"
         @focus="focus"
         @blur="blur"
+        @keyup.enter="enter"
         :disabled="disabled"
         ref="input"
         autocomplete="off"
@@ -50,7 +51,7 @@ export const ControlText = {
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
     </div>
 	`,
-  emits: ['input'],
+  emits: ['input', 'focus', 'blur', 'enter'],
   computed: {
     value: {
       get() {
@@ -95,10 +96,15 @@ export const ControlText = {
     focus() {
       this.focused = true;
       this.blured = false;
+      this.$emit('focus');
     },
     blur() {
       this.focused = false;
       this.blured = true;
+      this.$emit('blur');
+    },
+    enter() {
+      this.$emit('enter');
     },
     validate() {
       if (

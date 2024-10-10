@@ -1,6 +1,6 @@
 import './component.css';
 
-export const ThePagination = {
+export const PaginationComponent = {
   // language=Vue
   template: `
     <div class="vue-pagination" v-if="pagesArr.length">

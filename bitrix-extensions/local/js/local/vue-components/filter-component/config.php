@@ -13,7 +13,7 @@ return [
 	],
 	'rel' => [
 		'main.polyfill.core',
-		'local.vue-components.control',
+		'local.vue-components.control-component',
 	],
 	'skip_core' => true,
 ];

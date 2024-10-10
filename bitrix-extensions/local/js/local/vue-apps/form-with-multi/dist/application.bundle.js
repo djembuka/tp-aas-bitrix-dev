@@ -2,7 +2,7 @@
 (function (
   exports,
   ui_vue3,
-  local_vueComponents_control,
+  local_vueComponents_controlComponent,
   local_vueComponents_controlMulti,
   ui_vue3_pinia
 ) {
@@ -166,13 +166,13 @@
       return {};
     },
     components: {
-      Control: local_vueComponents_control.Control,
+      ControlComponent: local_vueComponents_controlComponent.ControlComponent,
       ControlMulti: local_vueComponents_controlMulti.ControlMulti,
     },
     // language=Vue
 
     template:
-      '\n    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">\n      <form action="">\n        <div v-for="control in controls" :key="control.id">\n\n          <ControlMulti v-if="control.multi" :parent="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @hints="hints"></ControlMulti>\n\n          <Control v-else :control="control" @input="input" @hints="hints"></Control>\n\n          <hr>\n          \n        </div>\n      </form>\n      <pre style="font-size: 9pt;">{{controls}}</pre>\n    </div>\n\t',
+      '\n    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">\n      <form action="">\n        <div v-for="control in controls" :key="control.id">\n\n          <ControlMulti v-if="control.multi" :parent="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlMulti>\n\n          <ControlComponent v-else :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"/>\n\n          <hr>\n          \n        </div>\n      </form>\n      <pre style="font-size: 9pt;">{{controls}}</pre>\n    </div>\n\t',
     computed: _objectSpread(
       {},
       ui_vue3_pinia.mapState(formStore, ['loadingControls', 'controls'])
@@ -199,6 +199,15 @@
             value: value,
             checked: checked,
           });
+        },
+        focus: function focus() {
+          console.log('focus');
+        },
+        blur: function blur() {
+          console.log('blur');
+        },
+        enter: function enter() {
+          console.log('enter');
         },
       }
     ),

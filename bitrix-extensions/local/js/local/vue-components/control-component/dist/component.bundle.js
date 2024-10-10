@@ -3,7 +3,7 @@ this.BX = this.BX || {};
 (function (exports,local_vueComponents_controlText,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange) {
   'use strict';
 
-  var Control = {
+  var ControlComponent = {
     data: function data() {
       return {
         id: "PROPERTY_".concat(this.control.id),
@@ -21,8 +21,8 @@ this.BX = this.BX || {};
     },
     props: ['control'],
     // language=Vue
-    template: "\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n      @hints=\"hintsAddControl\"\n    ></component>\n\t",
-    emits: ['input', 'hints'],
+    template: "\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n      @focus=\"focusAddControl\"\n      @blur=\"blurAddControl\"\n      @enter=\"enterAddControl\"\n      @hints=\"hintsAddControl\"\n    ></component>\n\t",
+    emits: ['input', 'focus', 'blur', 'hints'],
     methods: {
       componentName: function componentName() {
         return "control-".concat(this.componentType);
@@ -34,6 +34,21 @@ this.BX = this.BX || {};
           control: this.control,
           value: value,
           checked: checked
+        });
+      },
+      focusAddControl: function focusAddControl() {
+        this.$emit('focus', {
+          control: this.control
+        });
+      },
+      blurAddControl: function blurAddControl() {
+        this.$emit('blur', {
+          control: this.control
+        });
+      },
+      enterAddControl: function enterAddControl() {
+        this.$emit('enter', {
+          control: this.control
         });
       },
       hintsAddControl: function hintsAddControl(_ref2) {
@@ -50,7 +65,7 @@ this.BX = this.BX || {};
     }
   };
 
-  exports.Control = Control;
+  exports.ControlComponent = ControlComponent;
 
 }((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
 //# sourceMappingURL=component.bundle.js.map

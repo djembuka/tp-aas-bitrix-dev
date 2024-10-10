@@ -75,7 +75,7 @@ export const ControlSelectDropdown = {
     </div>
 	`,
   props: ['control', 'name', 'customOnChange'],
-  emits: ['input'],
+  emits: ['input', 'focus', 'blur'],
   computed: {
     value: {
       get() {
@@ -124,6 +124,7 @@ export const ControlSelectDropdown = {
       //   );
       // }
       this.opened = true;
+      this.$emit('focus');
     },
     hideDropdown() {
       // if (this.selectDiv.classList.contains('twpx-select--dropdown')) {
@@ -134,6 +135,7 @@ export const ControlSelectDropdown = {
       //   }, 200);
       // }
       this.opened = false;
+      this.$emit('blur');
     },
     divElements() {
       this.content = this.selectDiv.querySelector(

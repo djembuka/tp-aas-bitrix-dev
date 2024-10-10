@@ -3,7 +3,7 @@ this.BX = this.BX || {};
 (function (exports) {
   'use strict';
 
-  var ThePagination = {
+  var PaginationComponent = {
     // language=Vue
     template: "\n    <div class=\"vue-pagination\" v-if=\"pagesArr.length\">\n      <div v-for=\"item in pagesArr\">\n        <a class=\"vue-pagination-page\" href=\"\" v-if=\"item.count && item.type === 'page'\" @click.prevent=\"$emit('clickPage', {count: item.count})\">{{ item.count }}</a>\n        <span class=\"vue-pagination-active\" v-else-if=\"item.count && item.type === 'active'\">{{ item.count }}</span>\n        <a class=\"vue-pagination-page\" href=\"\" v-else-if=\"item.count && item.type === 'ellipsis'\" @click.prevent=\"$emit('clickPage', {count: item.count})\">...</a>\n        <a class=\"vue-pagination-arrow\" href=\"\" v-else-if=\"item.count && item.type === 'prev'\" @click.prevent=\"$emit('clickPage', {count: item.count})\">\u041F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0430\u044F</a>\n        <a class=\"vue-pagination-arrow\" href=\"\" v-else-if=\"item.count && item.type === 'next'\" @click.prevent=\"$emit('clickPage', {count: item.count})\">\u0421\u043B\u0435\u0434\u0443\u044E\u0449\u0430\u044F</a>\n      </div>\n    </div>\n  ",
     props: ['pagesNum', 'pageActive'],
@@ -116,7 +116,7 @@ this.BX = this.BX || {};
     }
   };
 
-  exports.ThePagination = ThePagination;
+  exports.PaginationComponent = PaginationComponent;
 
 }((this.BX.AAS = this.BX.AAS || {})));
 //# sourceMappingURL=component.bundle.js.map

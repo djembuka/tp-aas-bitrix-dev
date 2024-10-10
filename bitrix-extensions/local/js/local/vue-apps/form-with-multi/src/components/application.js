@@ -1,6 +1,6 @@
 import './application.css';
 
-import { Control } from 'local.vue-components.control';
+import { ControlComponent } from 'local.vue-components.control-component';
 import { ControlMulti } from 'local.vue-components.control-multi';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
@@ -11,7 +11,7 @@ export const Application = {
     return {};
   },
   components: {
-    Control,
+    ControlComponent,
     ControlMulti,
   },
   // language=Vue
@@ -21,9 +21,9 @@ export const Application = {
       <form action="">
         <div v-for="control in controls" :key="control.id">
 
-          <ControlMulti v-if="control.multi" :parent="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @hints="hints"></ControlMulti>
+          <ControlMulti v-if="control.multi" :parent="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlMulti>
 
-          <Control v-else :control="control" @input="input" @hints="hints"></Control>
+          <ControlComponent v-else :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"/>
 
           <hr>
           
@@ -52,6 +52,15 @@ export const Application = {
         value,
         checked,
       });
+    },
+    focus() {
+      console.log('focus');
+    },
+    blur() {
+      console.log('blur');
+    },
+    enter() {
+      console.log('enter');
     },
   },
   mounted() {

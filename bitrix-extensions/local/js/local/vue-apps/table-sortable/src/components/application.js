@@ -1,6 +1,6 @@
 import './application.css';
 
-import { TableComponent } from 'local.vue-components.table';
+import { TableComponent } from 'local.vue-components.table-component';
 import { StickyScroll } from 'local.vue-components.sticky-scroll';
 import { ErrorMessage } from 'local.vue-components.error-message';
 

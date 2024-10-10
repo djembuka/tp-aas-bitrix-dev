@@ -14,7 +14,7 @@ return [
 	'rel' => [
 		'main.polyfill.core',
 		'ui.vue3',
-		'local.vue-components.table',
+		'local.vue-components.table-component',
 		'local.vue-components.sticky-scroll',
 		'local.vue-components.error-message',
 		'ui.vue3.pinia',

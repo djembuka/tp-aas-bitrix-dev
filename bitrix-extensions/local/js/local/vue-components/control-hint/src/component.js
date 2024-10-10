@@ -71,7 +71,7 @@ export const ControlHint = {
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
     </div>
 	`,
-  emits: ['input', 'hints'],
+  emits: ['input', 'focus', 'blur', 'enter', 'hints'],
   computed: {
     hintItems() {
       return this.control.hints || [];
@@ -148,6 +148,7 @@ export const ControlHint = {
     enterInput() {
       this.$emit('input', { value: this.activeHintItem });
       this.$emit('hints', { type: 'set', value: [] });
+      this.$emit('enter');
     },
     clickHint(hint) {
       this.activeHintItem = hint || {};
@@ -184,6 +185,7 @@ export const ControlHint = {
       this.blured = false;
 
       this.compare = this.controlValue;
+      this.$emit('focus');
     },
     blur() {
       this.focused = false;
@@ -195,6 +197,8 @@ export const ControlHint = {
         }
         this.$emit('hints', { type: 'set', value: [] });
       }, 200);
+
+      this.$emit('blur');
 
       // setTimeout(() => {
       //   this.validate();

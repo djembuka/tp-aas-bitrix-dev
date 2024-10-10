@@ -1,4 +1,4 @@
-import { Control } from 'local.vue-components.control';
+import { ControlComponent } from 'local.vue-components.control-component';
 
 export const ControlMulti = {
   data() {
@@ -9,19 +9,28 @@ export const ControlMulti = {
   },
   props: ['parent'],
   components: {
-    Control,
+    ControlComponent,
   },
   // language=Vue
   template: `
 		<div>
       <div v-for="(addedControl, index) in parent.multi" :key="addedControl.id">
         <div class="btn-delete" @click.prevent="remove(index)" v-if="controlsLength > 1"></div>
-        <Control :control="addedControl" @input="input" @hints="hints"></Control>
+        <ControlComponent :control="addedControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlComponent>
       </div>
       <div class="btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="add">Добавить</div>
     </div>
 	`,
-  emits: ['create', 'add', 'remove', 'input', 'hints'],
+  emits: [
+    'create',
+    'add',
+    'remove',
+    'input',
+    'focus',
+    'blur',
+    'enter',
+    'hints',
+  ],
   computed: {
     controlsLength() {
       if (
@@ -51,6 +60,15 @@ export const ControlMulti = {
     },
     input(attrs) {
       this.$emit('input', attrs);
+    },
+    focus(attrs) {
+      this.$emit('focus', attrs);
+    },
+    blur(attrs) {
+      this.$emit('blur', attrs);
+    },
+    enter(attrs) {
+      this.$emit('enter', attrs);
     },
     hints() {},
   },

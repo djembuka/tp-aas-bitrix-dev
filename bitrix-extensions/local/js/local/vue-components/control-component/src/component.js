@@ -5,7 +5,7 @@ import { ControlDatepicker } from 'local.vue-components.control-datepicker';
 import { ControlDateSingle } from 'local.vue-components.control-date-single';
 import { ControlDateRange } from 'local.vue-components.control-date-range';
 
-export const Control = {
+export const ControlComponent = {
   data() {
     return {
       id: `PROPERTY_${this.control.id}`,
@@ -32,10 +32,13 @@ export const Control = {
       :id="id"
       :name="name"
       @input="inputAddControl"
+      @focus="focusAddControl"
+      @blur="blurAddControl"
+      @enter="enterAddControl"
       @hints="hintsAddControl"
     ></component>
 	`,
-  emits: ['input', 'hints'],
+  emits: ['input', 'focus', 'blur', 'hints'],
   methods: {
     componentName() {
       return `control-${this.componentType}`;
@@ -45,6 +48,21 @@ export const Control = {
         control: this.control,
         value,
         checked,
+      });
+    },
+    focusAddControl() {
+      this.$emit('focus', {
+        control: this.control,
+      });
+    },
+    blurAddControl() {
+      this.$emit('blur', {
+        control: this.control,
+      });
+    },
+    enterAddControl() {
+      this.$emit('enter', {
+        control: this.control,
       });
     },
     hintsAddControl({ type, action, value }) {

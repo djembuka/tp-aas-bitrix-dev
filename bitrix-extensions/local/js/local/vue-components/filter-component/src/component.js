@@ -1,4 +1,4 @@
-import { Control } from 'local.vue-components.control';
+import { ControlComponent } from 'local.vue-components.control-component';
 import './component.css';
 
 export const FilterComponent = {
@@ -8,7 +8,7 @@ export const FilterComponent = {
   props: ['filters', 'loading', 'cols'],
   emits: ['input', 'hints'],
   components: {
-    Control,
+    ControlComponent,
   },
   // language=Vue
   template: `
@@ -19,7 +19,7 @@ export const FilterComponent = {
       <div></div>
     </div>
 		<div class="vue-tf-filter" v-else :style="gridTemplateColumns()">
-      <Control v-for="control in filters" :key="control.id" :control="control" @input="input" @hints="hints" />
+      <ControlComponent v-for="control in filters" :key="control.id" :control="control" @input="input" @hints="hints" />
     </div>
 	`,
   methods: {
@@ -35,7 +35,12 @@ export const FilterComponent = {
       });
     },
     gridTemplateColumns() {
-      return `grid-template-columns: 1fr 2fr 2fr 2fr;`;
+      let result = '1fr 2fr 2fr 2fr';
+      if (typeof this.cols === 'object' && this.cols.reduce) {
+        result = this.cols.reduce((acc, cur) => `${acc} ${cur}fr`, '');
+      }
+
+      return `grid-template-columns: ${result};`;
     },
   },
 };

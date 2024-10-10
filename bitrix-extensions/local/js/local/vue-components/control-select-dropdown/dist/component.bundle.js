@@ -15,7 +15,7 @@ this.BX = this.BX || {};
     // language=Vue
     template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--select': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <div\n        class=\"twpx-form-control-select\"\n        :class=\"{ 'twpx-form-control-select--dropdown': opened }\"\n        :data-id=\"id\"\n        id=\"id\"\n      >\n        <input type=\"hidden\" :name=\"name\" :value=\"value\" />\n        <div class=\"twpx-form-control-select__arrow\" v-html=\"arrowIcon\"></div>\n        <div\n          class=\"twpx-form-control-select__content\"\n          @click.prevent=\"openDropdown\"\n        >\n          {{ text }}\n        </div>\n        <div class=\"twpx-form-control-select__dropdown\">\n          <div\n            class=\"twpx-form-control-select__dropdown-item\"\n            v-for=\"(option, i) in control.options\"\n            :key=\"option.code\"\n            @click.prevent=\"clickItem(i)\"\n          >\n            {{ option.label }}\n          </div>\n        </div>\n      </div>\n    </div>\n\t",
     props: ['control', 'name', 'customOnChange'],
-    emits: ['input'],
+    emits: ['input', 'focus', 'blur'],
     computed: {
       value: {
         get: function get() {
@@ -69,6 +69,7 @@ this.BX = this.BX || {};
         //   );
         // }
         this.opened = true;
+        this.$emit('focus');
       },
       hideDropdown: function hideDropdown() {
         // if (this.selectDiv.classList.contains('twpx-select--dropdown')) {
@@ -79,6 +80,7 @@ this.BX = this.BX || {};
         //   }, 200);
         // }
         this.opened = false;
+        this.$emit('blur');
       },
       divElements: function divElements() {
         this.content = this.selectDiv.querySelector('.twpx-form-control-select__content');

@@ -1,6 +1,6 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_control) {
+(function (exports,local_vueComponents_controlComponent) {
   'use strict';
 
   var FilterComponent = {
@@ -10,10 +10,10 @@ this.BX = this.BX || {};
     props: ['filters', 'loading', 'cols'],
     emits: ['input', 'hints'],
     components: {
-      Control: local_vueComponents_control.Control
+      ControlComponent: local_vueComponents_controlComponent.ControlComponent
     },
     // language=Vue
-    template: "\n    <div class=\"vue-tf-filter-ph\" v-if=\"loading\">\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n    </div>\n\t\t<div class=\"vue-tf-filter\" v-else :style=\"gridTemplateColumns()\">\n      <Control v-for=\"control in filters\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n    </div>\n\t",
+    template: "\n    <div class=\"vue-tf-filter-ph\" v-if=\"loading\">\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n    </div>\n\t\t<div class=\"vue-tf-filter\" v-else :style=\"gridTemplateColumns()\">\n      <ControlComponent v-for=\"control in filters\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n    </div>\n\t",
     methods: {
       input: function input(_ref) {
         var control = _ref.control,
@@ -38,7 +38,13 @@ this.BX = this.BX || {};
         });
       },
       gridTemplateColumns: function gridTemplateColumns() {
-        return "grid-template-columns: 1fr 2fr 2fr 2fr;";
+        var result = '1fr 2fr 2fr 2fr';
+        if (babelHelpers["typeof"](this.cols) === 'object' && this.cols.reduce) {
+          result = this.cols.reduce(function (acc, cur) {
+            return "".concat(acc, " ").concat(cur, "fr");
+          }, '');
+        }
+        return "grid-template-columns: ".concat(result, ";");
       }
     }
   };

@@ -14,7 +14,7 @@ return [
 	'rel' => [
 		'main.polyfill.core',
 		'ui.vue3',
-		'local.vue-components.control',
+		'local.vue-components.control-component',
 		'local.vue-components.control-multi',
 		'ui.vue3.pinia',
 	],

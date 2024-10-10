@@ -1,6 +1,6 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_control) {
+(function (exports,local_vueComponents_controlComponent) {
   'use strict';
 
   var ControlMulti = {
@@ -12,11 +12,11 @@ this.BX = this.BX || {};
     },
     props: ['parent'],
     components: {
-      Control: local_vueComponents_control.Control
+      ControlComponent: local_vueComponents_controlComponent.ControlComponent
     },
     // language=Vue
-    template: "\n\t\t<div>\n      <div v-for=\"(addedControl, index) in parent.multi\" :key=\"addedControl.id\">\n        <div class=\"btn-delete\" @click.prevent=\"remove(index)\" v-if=\"controlsLength > 1\"></div>\n        <Control :control=\"addedControl\" @input=\"input\" @hints=\"hints\"></Control>\n      </div>\n      <div class=\"btn btn-success btn-md\" :class=\"{'btn-disabled': isDisabled}\" @click.prevent=\"add\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</div>\n    </div>\n\t",
-    emits: ['create', 'add', 'remove', 'input', 'hints'],
+    template: "\n\t\t<div>\n      <div v-for=\"(addedControl, index) in parent.multi\" :key=\"addedControl.id\">\n        <div class=\"btn-delete\" @click.prevent=\"remove(index)\" v-if=\"controlsLength > 1\"></div>\n        <ControlComponent :control=\"addedControl\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"></ControlComponent>\n      </div>\n      <div class=\"btn btn-success btn-md\" :class=\"{'btn-disabled': isDisabled}\" @click.prevent=\"add\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C</div>\n    </div>\n\t",
+    emits: ['create', 'add', 'remove', 'input', 'focus', 'blur', 'enter', 'hints'],
     computed: {
       controlsLength: function controlsLength() {
         if (this.parent.multi && babelHelpers["typeof"](this.parent.multi) === 'object' && this.parent.multi.length !== undefined) {
@@ -45,6 +45,15 @@ this.BX = this.BX || {};
       },
       input: function input(attrs) {
         this.$emit('input', attrs);
+      },
+      focus: function focus(attrs) {
+        this.$emit('focus', attrs);
+      },
+      blur: function blur(attrs) {
+        this.$emit('blur', attrs);
+      },
+      enter: function enter(attrs) {
+        this.$emit('enter', attrs);
       },
       hints: function hints() {}
     },
