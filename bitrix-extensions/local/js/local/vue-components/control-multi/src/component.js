@@ -1,4 +1,5 @@
 import { ControlComponent } from 'local.vue-components.control-component';
+import { ControlSubcontrol } from 'local.vue-components.control-subcontrol';
 
 export const ControlMulti = {
   data() {
@@ -10,13 +11,19 @@ export const ControlMulti = {
   props: ['parent'],
   components: {
     ControlComponent,
+    ControlSubcontrol,
   },
   // language=Vue
   template: `
 		<div>
       <div v-for="(addedControl, index) in parent.multi" :key="addedControl.id">
+
         <div class="btn-delete" @click.prevent="remove(index)" v-if="controlsLength > 1"></div>
-        <ControlComponent :control="addedControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlComponent>
+
+        <ControlSubcontrol v-if="addedControl.sub" :control="addedControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"/>
+
+        <ControlComponent v-else :control="addedControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+
       </div>
       <div class="btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="add">Добавить</div>
     </div>

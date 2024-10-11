@@ -12,8 +12,8 @@ this.BX = this.BX || {};
       ControlComponent: local_vueComponents_controlComponent.ControlComponent
     },
     // language=Vue
-    template: "\n\t\t<div>\n      <ControlComponent :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"></ControlComponent>\n\n      <div class=\"sub\">\n        <ControlComponent :control=\"control.sub\" @input=\"inputSub\" @focus=\"focusSub\" @blur=\"blurSub\" @enter=\"enterSub\" @hints=\"hintsSub\"></ControlComponent>\n      </div>\n    </div>\n\t",
-    emits: ['input', 'focus', 'blur', 'enter', 'hints', 'inputSub', 'focusSub', 'blurSub', 'enterSub', 'hintsSub'],
+    template: "\n\t\t<div>\n      <ControlComponent :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"></ControlComponent>\n\n      <div class=\"sub\">\n\n        <div v-for=\"subControl in control.sub\" :key=\"subControl.id\">\n          <ControlComponent :control=\"subControl\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"></ControlComponent>\n        </div>\n\n      </div>\n    </div>\n\t",
+    emits: ['input', 'focus', 'blur', 'enter', 'hints'],
     methods: {
       input: function input(attrs) {
         this.$emit('input', attrs);
@@ -28,15 +28,6 @@ this.BX = this.BX || {};
         this.$emit('enter', attrs);
       },
       hints: function hints() {}
-    },
-    beforeMount: function beforeMount() {
-      this.multi = this.parent.multi;
-      this.copy = Object.assign({}, this.parent);
-      delete this.copy.multi;
-      this.$emit('create', {
-        parent: this.parent
-      });
-      this.add();
     }
   };
 

@@ -2,6 +2,7 @@ import './application.css';
 
 import { ControlComponent } from 'local.vue-components.control-component';
 import { ControlMulti } from 'local.vue-components.control-multi';
+import { ControlSubcontrol } from 'local.vue-components.control-subcontrol';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { formStore } from '../stores/form';
@@ -13,6 +14,7 @@ export const Application = {
   components: {
     ControlComponent,
     ControlMulti,
+    ControlSubcontrol,
   },
   // language=Vue
 
@@ -22,6 +24,8 @@ export const Application = {
         <div v-for="control in controls" :key="control.id">
 
           <ControlMulti v-if="control.multi" :parent="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlMulti>
+
+          <ControlSubcontrol v-else-if="control.sub" :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"/>
 
           <ControlComponent v-else :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"/>
 

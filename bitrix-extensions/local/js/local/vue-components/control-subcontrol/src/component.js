@@ -14,22 +14,15 @@ export const ControlSubcontrol = {
       <ControlComponent :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlComponent>
 
       <div class="sub">
-        <ControlComponent :control="control.sub" @input="inputSub" @focus="focusSub" @blur="blurSub" @enter="enterSub" @hints="hintsSub"></ControlComponent>
+
+        <div v-for="subControl in control.sub" :key="subControl.id">
+          <ControlComponent :control="subControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlComponent>
+        </div>
+
       </div>
     </div>
 	`,
-  emits: [
-    'input',
-    'focus',
-    'blur',
-    'enter',
-    'hints',
-    'inputSub',
-    'focusSub',
-    'blurSub',
-    'enterSub',
-    'hintsSub',
-  ],
+  emits: ['input', 'focus', 'blur', 'enter', 'hints'],
   methods: {
     input(attrs) {
       this.$emit('input', attrs);
@@ -44,14 +37,5 @@ export const ControlSubcontrol = {
       this.$emit('enter', attrs);
     },
     hints() {},
-  },
-  beforeMount() {
-    this.multi = this.parent.multi;
-
-    this.copy = Object.assign({}, this.parent);
-    delete this.copy.multi;
-
-    this.$emit('create', { parent: this.parent });
-    this.add();
   },
 };
