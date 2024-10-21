@@ -1,8 +1,7 @@
 import './application.css';
 
-import { ControlComponent } from 'local.vue-components.control-component';
-import { ControlMulti } from 'local.vue-components.control-multi';
 import { ControlSubcontrol } from 'local.vue-components.control-subcontrol';
+import { ControlChoice } from 'local.vue-components.control-choice';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { formStore } from '../stores/form';
@@ -12,9 +11,8 @@ export const Application = {
     return {};
   },
   components: {
-    ControlComponent,
-    ControlMulti,
     ControlSubcontrol,
+    ControlChoice,
   },
   // language=Vue
 
@@ -22,16 +20,11 @@ export const Application = {
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
       <form action="">
         <div v-for="control in controls" :key="control.id">
-
-          <ControlMulti v-if="control.multi" :parent="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlMulti>
-
-          <ControlSubcontrol v-else-if="control.sub" :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"/>
-
-          <ControlComponent v-else :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"/>
-
+          <ControlSubcontrol v-if="control.sub" :control="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlSubcontrol>
+          <ControlChoice v-else :control="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlChoice>
           <hr>
-          
         </div>
+
       </form>
       <pre style="font-size: 9pt;">{{controls}}</pre>
     </div>

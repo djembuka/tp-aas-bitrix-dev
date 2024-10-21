@@ -1,18 +1,17 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_controlChoice) {
+(function (exports,local_vueComponents_controlMulti,local_vueComponents_controlComponent) {
   'use strict';
 
-  var ControlSubcontrol = {
-    data: function data() {
-      return {};
-    },
+  var ControlChoice = {
+    data: function data() {},
     props: ['control'],
     components: {
-      ControlChoice: local_vueComponents_controlChoice.ControlChoice
+      ControlMulti: local_vueComponents_controlMulti.ControlMulti,
+      ControlComponent: local_vueComponents_controlComponent.ControlComponent
     },
     // language=Vue
-    template: "\n\t\t<div>\n      <ControlChoice :control=\"control\" @create=\"create\" @add=\"add\" @remove=\"remove\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"></ControlChoice>\n\n      <div class=\"twpx-form-control-sub\">\n\n        <div v-for=\"subControl in control.sub\" :key=\"subControl.id\">\n          Sub\n        </div>\n\n      </div>\n    </div>\n\t",
+    template: "\n\t\t<ControlMulti v-if=\"control.multi\" :parent=\"control\" @create=\"create\" @add=\"add\" @remove=\"remove\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" />\n    <ControlComponent v-else :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"/>\n\t",
     emits: ['create', 'add', 'remove', 'input', 'focus', 'blur', 'enter', 'hints'],
     methods: {
       create: function create(attrs) {
@@ -42,7 +41,7 @@ this.BX = this.BX || {};
     }
   };
 
-  exports.ControlSubcontrol = ControlSubcontrol;
+  exports.ControlChoice = ControlChoice;
 
-}((this.BX.Controls = this.BX.Controls || {}),BX.Controls));
+}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls));
 //# sourceMappingURL=component.bundle.js.map
