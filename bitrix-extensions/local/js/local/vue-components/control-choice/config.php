@@ -10,7 +10,8 @@ return [
 	],
 	'rel' => [
 		'main.polyfill.core',
-		'local.vue-components.control-choice',
+		'local.vue-components.control-multi',
+		'local.vue-components.control-component',
 	],
 	'skip_core' => true,
 ];

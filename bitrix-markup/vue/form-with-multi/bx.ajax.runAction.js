@@ -11,6 +11,7 @@ window.twinpx.vue['form-with-multi'].controls = [
     value: '',
     required: false,
     disabled: false,
+    multi: 3,
     sub: [
       {
         property: 'text',

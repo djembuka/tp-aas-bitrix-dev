@@ -1,28 +1,17 @@
-import './component.css';
+import { ControlMulti } from 'local.vue-components.control-multi';
+import { ControlComponent } from 'local.vue-components.control-component';
 
-import { ControlChoice } from 'local.vue-components.control-choice';
-
-export const ControlSubcontrol = {
-  data() {
-    return {};
-  },
+export const ControlChoice = {
+  data() {},
   props: ['control'],
   components: {
-    ControlChoice,
+    ControlMulti,
+    ControlComponent,
   },
   // language=Vue
   template: `
-		<div>
-      <ControlChoice :control="control" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlChoice>
-
-      <div class="twpx-form-control-sub">
-
-        <div v-for="subControl in control.sub" :key="subControl.id">
-          Sub
-        </div>
-
-      </div>
-    </div>
+		<ControlMulti v-if="control.multi" :parent="control" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+    <ControlComponent v-else :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"/>
 	`,
   emits: [
     'create',

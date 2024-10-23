@@ -12,6 +12,7 @@ export const formStore = defineStore('form', {
       parent.multi = [];
     },
     addMulti({ parent, add }) {
+      console.log(add);
       parent.multi.push(add);
     },
     removeMulti({ parent, index }) {
