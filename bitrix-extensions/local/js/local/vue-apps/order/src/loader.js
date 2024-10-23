@@ -23,7 +23,13 @@ export class OrderMake {
         Application,
       },
       template: '<Application/>',
-      mounted() {},
+      mounted() {
+        if (self.options && typeof self.options === 'object') {
+          Object.keys(self.options).forEach((key) => {
+            dataStore()[key] = self.options[key] || '';
+          });
+        }
+      },
     });
 
     this.#application.use(this.#store);
