@@ -6,39 +6,31 @@ import { dataStore } from '../stores/data';
 export const Application = {
   data() {
     return {
-      OPEN_SOURCE_ORDER_TEMPLATE_PROPERTIES_TITLE: 'Свойства заказа:',
-      OPEN_SOURCE_ORDER_TEMPLATE_DELIVERIES_TITLE: 'Службы доставки:',
-      OPEN_SOURCE_ORDER_TEMPLATE_PAY_SYSTEMS_TITLE: 'Платежные системы:',
-      OPEN_SOURCE_ORDER_TEMPLATE_BASKET_TITLE: 'Состав заказа',
-      OPEN_SOURCE_ORDER_TEMPLATE_BASKET_NAME_COLUMN: 'Название',
-      OPEN_SOURCE_ORDER_TEMPLATE_BASKET_COUNT_COLUMN: 'Количество',
-      OPEN_SOURCE_ORDER_TEMPLATE_BASKET_UNIT_PRICE_COLUMN: 'Цена за штуку',
-      OPEN_SOURCE_ORDER_TEMPLATE_BASKET_DISCOUNT_COLUMN: 'Цена со скидкой',
-      OPEN_SOURCE_ORDER_TEMPLATE_BASKET_TOTAL_COLUMN: 'Итого',
-      OPEN_SOURCE_ORDER_TEMPLATE_ORDER_TOTAL_TITLE: 'Итоговые цифры',
-      OPEN_SOURCE_ORDER_TEMPLATE_PRODUCTS_PRICES_TITLE: 'Цены товаров',
-      OPEN_SOURCE_ORDER_TEMPLATE_PRODUCTS_BASE_PRICE:
-        'Стоимость товаров без скидок',
-      OPEN_SOURCE_ORDER_TEMPLATE_PRODUCTS_PRICE:
-        'Стоимость товаров со скидками',
-      OPEN_SOURCE_ORDER_TEMPLATE_PRODUCTS_DISCOUNT: 'Скидка на товары',
-      OPEN_SOURCE_ORDER_TEMPLATE_DELIVERY_PRICES_TITLE: 'Стоимость доставки',
-      OPEN_SOURCE_ORDER_TEMPLATE_DELIVERY_BASE_PRICE:
-        'Стоимость доставки без учета скидок',
-      OPEN_SOURCE_ORDER_TEMPLATE_DELIVERY_PRICE:
-        'Стоимость доставки со скидками',
-      OPEN_SOURCE_ORDER_TEMPLATE_DELIVERY_DISCOUNT: 'Скидка на доставку',
-      OPEN_SOURCE_ORDER_TEMPLATE_SUM_TITLE: 'Заказ целиком',
-      OPEN_SOURCE_ORDER_TEMPLATE_TOTAL_BASE_PRICE: 'Общая цена без скидок',
-      OPEN_SOURCE_ORDER_TEMPLATE_TOTAL_DISCOUNT: 'Общая скидка',
-      OPEN_SOURCE_ORDER_TEMPLATE_TOTAL_PRICE: 'К оплате',
-      OPEN_SOURCE_ORDER_TEMPLATE_MAKE_ORDER_BUTTON: 'Оформить заказ',
+      locations: undefined,
+      order: undefined,
+
+      PROPERTIES: undefined,
+      DELIVERY_LIST: undefined,
+      DELIVERY_ERRORS: undefined,
+      PAY_SYSTEM_LIST: undefined,
+      PAY_SYSTEM_ERRORS: undefined,
+      BASKET: undefined,
+      PRODUCTS_BASE_PRICE_DISPLAY: undefined,
+      PRODUCTS_PRICE_DISPLAY: undefined,
+      PRODUCTS_DISCOUNT_DISPLAY: undefined,
+      DELIVERY_BASE_PRICE_DISPLAY: undefined,
+      DELIVERY_PRICE_DISPLAY: undefined,
+      DELIVERY_DISCOUNT_DISPLAY: undefined,
+      SUM_BASE_DISPLAY: undefined,
+      DISCOUNT_VALUE_DISPLAY: undefined,
+      SUM_DISPLAY: undefined,
     };
   },
   components: {},
   // language=Vue
 
   template: `
+  <button @click.prevent="load">Load</button>
     <form action="" method="post" name="os-order-form" id="os-order-form">
       <input type="hidden" name="person_type_id" :value="PERSON_TYPE_ID">
       <h2>{{OPEN_SOURCE_ORDER_TEMPLATE_PROPERTIES_TITLE}}</h2>
@@ -190,26 +182,48 @@ export const Application = {
     ...mapState(dataStore, [
       'SESSION_ID',
       'SIGNED_PARAMETERS',
-      'PERSON_TYPE_ID',
-      'PROPERTIES',
-      'DELIVERY_ERRORS',
-      'DELIVERY_LIST',
-      'PAY_SYSTEM_ERRORS',
-      'PAY_SYSTEM_LIST',
-      'BASKET',
-      'PRODUCTS_BASE_PRICE_DISPLAY',
-      'PRODUCTS_PRICE_DISPLAY',
-      'PRODUCTS_DISCOUNT_DISPLAY',
-      'DELIVERY_BASE_PRICE_DISPLAY',
-      'DELIVERY_PRICE_DISPLAY',
-      'DELIVERY_DISCOUNT_DISPLAY',
-      'SUM_BASE_DISPLAY',
-      'DISCOUNT_VALUE_DISPLAY',
-      'SUM_DISPLAY',
+      'OPTIONS',
+      'OPEN_SOURCE_ORDER_TEMPLATE_PROPERTIES_TITLE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_DELIVERIES_TITLE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_PAY_SYSTEMS_TITLE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_BASKET_TITLE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_BASKET_NAME_COLUMN',
+      'OPEN_SOURCE_ORDER_TEMPLATE_BASKET_COUNT_COLUMN',
+      'OPEN_SOURCE_ORDER_TEMPLATE_BASKET_UNIT_PRICE_COLUMN',
+      'OPEN_SOURCE_ORDER_TEMPLATE_BASKET_DISCOUNT_COLUMN',
+      'OPEN_SOURCE_ORDER_TEMPLATE_BASKET_TOTAL_COLUMN',
+      'OPEN_SOURCE_ORDER_TEMPLATE_ORDER_TOTAL_TITLE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_PRODUCTS_PRICES_TITLE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_PRODUCTS_BASE_PRICE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_PRODUCTS_PRICE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_PRODUCTS_DISCOUNT',
+      'OPEN_SOURCE_ORDER_TEMPLATE_DELIVERY_PRICES_TITLE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_DELIVERY_BASE_PRICE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_DELIVERY_PRICE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_DELIVERY_DISCOUNT',
+      'OPEN_SOURCE_ORDER_TEMPLATE_SUM_TITLE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_TOTAL_BASE_PRICE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_TOTAL_DISCOUNT',
+      'OPEN_SOURCE_ORDER_TEMPLATE_TOTAL_PRICE',
+      'OPEN_SOURCE_ORDER_TEMPLATE_MAKE_ORDER_BUTTON',
     ]),
   },
   methods: {
     ...mapActions(dataStore, []),
+    load() {
+      BX.ajax({
+        method: 'POST',
+        dataType: 'json',
+        url: 'https://seller20testing.twpx.ru/bitrix/components/bitrix/sale.order.ajax/ajax.php',
+        data: dataStore().OPTIONS,
+        onsuccess: BX.delegate(function (result) {
+          this.locations = result.locations;
+          this.order = result.order;
+        }, this),
+        onfailure: BX.delegate(function () {
+          this.endLoader();
+        }, this),
+      });
+    },
   },
-  mounted() {},
 };
