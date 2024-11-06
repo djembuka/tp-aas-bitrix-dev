@@ -1,3 +1,14 @@
-.twpx-form-control-sub {
-  padding-left: 30px;
+.twpx-form-control-sub-item {
+  padding-left: 38px;
+  position: relative;
+}
+.twpx-form-control-sub-item svg {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 50%;
+  left: 0;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  z-index: 10;
 }

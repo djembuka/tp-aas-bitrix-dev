@@ -1,47 +1,49 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_controlMulti,local_vueComponents_controlComponent) {
+(function (exports,local_vueComponents_controlSubcontrol,local_vueComponents_controlMulti,local_vueComponents_controlMultiSub,local_vueComponents_controlComponent) {
   'use strict';
 
   var ControlChoice = {
     data: function data() {},
     props: ['control'],
     components: {
+      ControlSubcontrol: local_vueComponents_controlSubcontrol.ControlSubcontrol,
       ControlMulti: local_vueComponents_controlMulti.ControlMulti,
+      ControlMultiSub: local_vueComponents_controlMultiSub.ControlMultiSub,
       ControlComponent: local_vueComponents_controlComponent.ControlComponent
     },
     // language=Vue
-    template: "\n\t\t<ControlMulti v-if=\"control.multi\" :parent=\"control\" @create=\"create\" @add=\"add\" @remove=\"remove\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" />\n    <ControlComponent v-else :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"/>\n\t",
+    template: "\n\t\t<ControlSubcontrol v-if=\"control.sub && !control.multi\" :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" />\n    <ControlMulti v-else-if=\"!control.sub && control.multi\" :parent=\"control\" @create=\"create\" @add=\"add\" @remove=\"remove\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" />\n    <ControlMultiSub v-else-if=\"control.sub && control.multi\" :parent=\"control\" @create=\"create\" @add=\"add\" @remove=\"remove\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" />\n    <ControlComponent v-else :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"/>\n\t",
     emits: ['create', 'add', 'remove', 'input', 'focus', 'blur', 'enter', 'hints'],
     methods: {
-      create: function create(attrs) {
-        this.$emit('create', attrs);
+      create: function create(args) {
+        this.$emit('create', args);
       },
-      add: function add(attrs) {
-        this.$emit('add', attrs);
+      add: function add(args) {
+        this.$emit('add', args);
       },
-      remove: function remove(attrs) {
-        this.$emit('remove', attrs);
+      remove: function remove(args) {
+        this.$emit('remove', args);
       },
-      input: function input(attrs) {
-        this.$emit('input', attrs);
+      input: function input(args) {
+        this.$emit('input', args);
       },
-      focus: function focus(attrs) {
-        this.$emit('focus', attrs);
+      focus: function focus(args) {
+        this.$emit('focus', args);
       },
-      blur: function blur(attrs) {
-        this.$emit('blur', attrs);
+      blur: function blur(args) {
+        this.$emit('blur', args);
       },
-      enter: function enter(attrs) {
-        this.$emit('enter', attrs);
+      enter: function enter(args) {
+        this.$emit('enter', args);
       },
-      hints: function hints(attrs) {
-        this.$emit('hints', attrs);
+      hints: function hints(args) {
+        this.$emit('hints', args);
       }
     }
   };
 
   exports.ControlChoice = ControlChoice;
 
-}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls));
+}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls));
 //# sourceMappingURL=component.bundle.js.map

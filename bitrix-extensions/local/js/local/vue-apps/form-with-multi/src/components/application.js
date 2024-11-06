@@ -1,6 +1,5 @@
 import './application.css';
 
-import { ControlSubcontrol } from 'local.vue-components.control-subcontrol';
 import { ControlChoice } from 'local.vue-components.control-choice';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
@@ -11,7 +10,6 @@ export const Application = {
     return {};
   },
   components: {
-    ControlSubcontrol,
     ControlChoice,
   },
   // language=Vue
@@ -20,7 +18,6 @@ export const Application = {
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
       <form action="">
         <div v-for="control in controls" :key="control.id">
-          <ControlSubcontrol v-if="control.sub" :control="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlSubcontrol>
           <ControlChoice v-else :control="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlChoice>
           <hr>
         </div>

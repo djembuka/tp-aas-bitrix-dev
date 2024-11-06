@@ -1,16 +1,22 @@
+import { ControlSubcontrol } from 'local.vue-components.control-subcontrol';
 import { ControlMulti } from 'local.vue-components.control-multi';
+import { ControlMultiSub } from 'local.vue-components.control-multi-sub';
 import { ControlComponent } from 'local.vue-components.control-component';
 
 export const ControlChoice = {
   data() {},
   props: ['control'],
   components: {
+    ControlSubcontrol,
     ControlMulti,
+    ControlMultiSub,
     ControlComponent,
   },
   // language=Vue
   template: `
-		<ControlMulti v-if="control.multi" :parent="control" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+		<ControlSubcontrol v-if="control.sub && !control.multi" :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+    <ControlMulti v-else-if="!control.sub && control.multi" :parent="control" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+    <ControlMultiSub v-else-if="control.sub && control.multi" :parent="control" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
     <ControlComponent v-else :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"/>
 	`,
   emits: [
@@ -24,29 +30,29 @@ export const ControlChoice = {
     'hints',
   ],
   methods: {
-    create(attrs) {
-      this.$emit('create', attrs);
+    create(args) {
+      this.$emit('create', args);
     },
-    add(attrs) {
-      this.$emit('add', attrs);
+    add(args) {
+      this.$emit('add', args);
     },
-    remove(attrs) {
-      this.$emit('remove', attrs);
+    remove(args) {
+      this.$emit('remove', args);
     },
-    input(attrs) {
-      this.$emit('input', attrs);
+    input(args) {
+      this.$emit('input', args);
     },
-    focus(attrs) {
-      this.$emit('focus', attrs);
+    focus(args) {
+      this.$emit('focus', args);
     },
-    blur(attrs) {
-      this.$emit('blur', attrs);
+    blur(args) {
+      this.$emit('blur', args);
     },
-    enter(attrs) {
-      this.$emit('enter', attrs);
+    enter(args) {
+      this.$emit('enter', args);
     },
-    hints(attrs) {
-      this.$emit('hints', attrs);
+    hints(args) {
+      this.$emit('hints', args);
     },
   },
 };

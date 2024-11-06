@@ -11,7 +11,6 @@ window.twinpx.vue['form-with-multi'].controls = [
     value: '',
     required: false,
     disabled: false,
-    multi: 3,
     sub: [
       {
         property: 'text',
@@ -26,7 +25,7 @@ window.twinpx.vue['form-with-multi'].controls = [
         property: 'text',
         id: 'id02',
         name: 'NUM',
-        label: 'Подполе multi',
+        label: 'Подполе простое',
         value: '',
         required: false,
         disabled: false,
@@ -39,17 +38,6 @@ window.twinpx.vue['form-with-multi'].controls = [
         value: '',
         required: false,
         disabled: false,
-        sub: [
-          {
-            property: 'text',
-            id: 'id01',
-            name: 'NUM',
-            label: 'Подполе простое',
-            value: '',
-            required: false,
-            disabled: false,
-          },
-        ],
       },
     ],
   },

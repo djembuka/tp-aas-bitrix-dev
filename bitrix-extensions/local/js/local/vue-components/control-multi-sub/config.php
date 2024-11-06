@@ -14,6 +14,7 @@ return [
 	'rel' => [
 		'main.polyfill.core',
 		'local.vue-components.control-component',
+		'local.vue-components.control-multi-for-subcontrol',
 	],
 	'skip_core' => true,
 ];

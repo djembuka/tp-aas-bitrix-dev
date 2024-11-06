@@ -8,9 +8,12 @@ return [
 	'js' => [
 		'./dist/component.bundle.js',
 	],
+	'css' => [
+		'./dist/component.bundle.css',
+	],
 	'rel' => [
 		'main.polyfill.core',
-		'local.vue-components.control-choice',
+		'local.vue-components.control-component',
 	],
 	'skip_core' => true,
 ];

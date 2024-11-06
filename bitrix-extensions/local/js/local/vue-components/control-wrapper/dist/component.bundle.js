@@ -17,26 +17,26 @@ this.BX = this.BX || {};
     template: "\n\t\t<ControlMulti v-if=\"control.multi\" :parent=\"control\" @create=\"createMulti\" @add=\"addMulti\" @remove=\"removeMulti\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"></ControlMulti>\n\n    <ControlSubcontrol v-else-if=\"control.sub\" :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"/>\n\n    <ControlComponent v-else :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"/>\n\t",
     emits: ['createMulti', 'addMulti', 'removeMulti', 'input', 'focus', 'blur', 'enter', 'hints'],
     methods: {
-      createMulti: function createMulti(attrs) {
-        this.$emit('createMulti', attrs);
+      createMulti: function createMulti(args) {
+        this.$emit('createMulti', args);
       },
-      addMulti: function addMulti(attrs) {
-        this.$emit('addMulti', attrs);
+      addMulti: function addMulti(args) {
+        this.$emit('addMulti', args);
       },
-      removeMulti: function removeMulti(attrs) {
-        this.$emit('removeMulti', attrs);
+      removeMulti: function removeMulti(args) {
+        this.$emit('removeMulti', args);
       },
-      input: function input(attrs) {
-        this.$emit('input', attrs);
+      input: function input(args) {
+        this.$emit('input', args);
       },
-      focus: function focus(attrs) {
-        this.$emit('focus', attrs);
+      focus: function focus(args) {
+        this.$emit('focus', args);
       },
-      blur: function blur(attrs) {
-        this.$emit('blur', attrs);
+      blur: function blur(args) {
+        this.$emit('blur', args);
       },
-      enter: function enter(attrs) {
-        this.$emit('enter', attrs);
+      enter: function enter(args) {
+        this.$emit('enter', args);
       },
       hints: function hints() {}
     }

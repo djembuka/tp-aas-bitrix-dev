@@ -12,7 +12,18 @@ export const formStore = defineStore('form', {
       parent.multi = [];
     },
     addMulti({ parent, add }) {
-      console.log(add);
+      const randomId = Math.round(Math.random() * 1000);
+      const sub = [];
+
+      if (add.sub && add.sub.forEach) {
+        add.sub.forEach((s) => {
+          s.id = `${s.id}${randomId}`;
+          sub.push({ ...s });
+        });
+        add.sub = sub;
+      }
+
+      add.id = `${add.id}${randomId}`;
       parent.multi.push(add);
     },
     removeMulti({ parent, index }) {

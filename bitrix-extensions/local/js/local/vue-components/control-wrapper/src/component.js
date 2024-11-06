@@ -31,26 +31,26 @@ export const ControlWrapper = {
     'hints',
   ],
   methods: {
-    createMulti(attrs) {
-      this.$emit('createMulti', attrs);
+    createMulti(args) {
+      this.$emit('createMulti', args);
     },
-    addMulti(attrs) {
-      this.$emit('addMulti', attrs);
+    addMulti(args) {
+      this.$emit('addMulti', args);
     },
-    removeMulti(attrs) {
-      this.$emit('removeMulti', attrs);
+    removeMulti(args) {
+      this.$emit('removeMulti', args);
     },
-    input(attrs) {
-      this.$emit('input', attrs);
+    input(args) {
+      this.$emit('input', args);
     },
-    focus(attrs) {
-      this.$emit('focus', attrs);
+    focus(args) {
+      this.$emit('focus', args);
     },
-    blur(attrs) {
-      this.$emit('blur', attrs);
+    blur(args) {
+      this.$emit('blur', args);
     },
-    enter(attrs) {
-      this.$emit('enter', attrs);
+    enter(args) {
+      this.$emit('enter', args);
     },
     hints() {},
   },
