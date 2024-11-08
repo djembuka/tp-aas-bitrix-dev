@@ -26,6 +26,13 @@ $APPLICATION->SetTitle("Markup");
 
 <h2>Страницы</h2>
 
+<h3>Обращения</h3>
+<ul>
+  <li>
+	<a href="/markup/pages/appeal-new-change-form/">Форма создания обращения</a>
+  </li>
+</ul>
+
 <h3>Дисциплинарная комиссия</h3>
 <ul>
   <li><a href="/markup/pages/dc-registry/">Реестр дисциплинарных дел</a>

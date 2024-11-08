@@ -1,6 +1,6 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_controlText,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange) {
+(function (exports,local_vueComponents_controlHidden,local_vueComponents_controlText,local_vueComponents_controlTel,local_vueComponents_controlEmail,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange,local_vueComponents_controlFile) {
   'use strict';
 
   var ControlComponent = {
@@ -12,16 +12,20 @@ this.BX = this.BX || {};
       };
     },
     components: {
+      ControlHidden: local_vueComponents_controlHidden.ControlHidden,
       ControlText: local_vueComponents_controlText.ControlText,
+      ControlTel: local_vueComponents_controlTel.ControlTel,
+      ControlEmail: local_vueComponents_controlEmail.ControlEmail,
       ControlHint: local_vueComponents_controlHint.ControlHint,
       ControlSelectDropdown: local_vueComponents_controlSelectDropdown.ControlSelectDropdown,
       ControlDatepicker: local_vueComponents_controlDatepicker.ControlDatepicker,
       ControlDateSingle: local_vueComponents_controlDateSingle.ControlDateSingle,
-      ControlDateRange: local_vueComponents_controlDateRange.ControlDateRange
+      ControlDateRange: local_vueComponents_controlDateRange.ControlDateRange,
+      ControlFile: local_vueComponents_controlFile.ControlFile
     },
     props: ['control'],
     // language=Vue
-    template: "\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n      @focus=\"focusAddControl\"\n      @blur=\"blurAddControl\"\n      @enter=\"enterAddControl\"\n      @hints=\"hintsAddControl\"\n    ></component>\n\t",
+    template: "{{control}}\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n      @focus=\"focusAddControl\"\n      @blur=\"blurAddControl\"\n      @enter=\"enterAddControl\"\n      @hints=\"hintsAddControl\"\n    ></component>\n\t",
     emits: ['input', 'focus', 'blur', 'hints'],
     methods: {
       componentName: function componentName() {
@@ -67,5 +71,5 @@ this.BX = this.BX || {};
 
   exports.ControlComponent = ControlComponent;
 
-}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
+}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
 //# sourceMappingURL=component.bundle.js.map
