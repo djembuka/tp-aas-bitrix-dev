@@ -10,6 +10,7 @@ import { ControlDatepicker } from 'local.vue-components.control-datepicker';
 import { ControlDateSingle } from 'local.vue-components.control-date-single';
 import { ControlDateRange } from 'local.vue-components.control-date-range';
 import { ControlFile } from 'local.vue-components.control-file';
+import { ControlFileLoad } from 'local.vue-components.control-file-load';
 
 export const ControlComponent = {
   data() {
@@ -32,10 +33,11 @@ export const ControlComponent = {
     ControlDateSingle,
     ControlDateRange,
     ControlFile,
+    ControlFileLoad,
   },
   props: ['control'],
   // language=Vue
-  template: `{{control}}
+  template: `
 		<component
       :is="componentName()"
       :control="control"
@@ -46,18 +48,18 @@ export const ControlComponent = {
       @blur="blurAddControl"
       @enter="enterAddControl"
       @hints="hintsAddControl"
+      @upload="uploadAddControl"
     ></component>
 	`,
-  emits: ['input', 'focus', 'blur', 'hints'],
+  emits: ['input', 'focus', 'blur', 'hints', 'upload'],
   methods: {
     componentName() {
       return `control-${this.componentType}`;
     },
-    inputAddControl({ value, checked }) {
+    inputAddControl(args) {
       this.$emit('input', {
+        ...args,
         control: this.control,
-        value,
-        checked,
       });
     },
     focusAddControl() {
@@ -75,12 +77,16 @@ export const ControlComponent = {
         control: this.control,
       });
     },
-    hintsAddControl({ type, action, value }) {
+    hintsAddControl(args) {
       this.$emit('hints', {
-        type,
+        ...args,
         control: this.control,
-        action,
-        value,
+      });
+    },
+    uploadAddControl(args) {
+      this.$emit('upload', {
+        ...args,
+        control: this.control,
       });
     },
   },

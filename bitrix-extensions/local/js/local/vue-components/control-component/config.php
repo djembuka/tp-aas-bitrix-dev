@@ -23,6 +23,7 @@ return [
 		'local.vue-components.control-date-single',
 		'local.vue-components.control-date-range',
 		'local.vue-components.control-file',
+		'local.vue-components.control-file-load',
 	],
 	'skip_core' => true,
 ];

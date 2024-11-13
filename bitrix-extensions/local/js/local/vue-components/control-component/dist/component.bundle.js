@@ -1,8 +1,10 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_controlHidden,local_vueComponents_controlText,local_vueComponents_controlTel,local_vueComponents_controlEmail,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange,local_vueComponents_controlFile) {
+(function (exports,local_vueComponents_controlHidden,local_vueComponents_controlText,local_vueComponents_controlTel,local_vueComponents_controlEmail,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange,local_vueComponents_controlFile,local_vueComponents_controlFileLoad) {
   'use strict';
 
+  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var ControlComponent = {
     data: function data() {
       return {
@@ -21,24 +23,21 @@ this.BX = this.BX || {};
       ControlDatepicker: local_vueComponents_controlDatepicker.ControlDatepicker,
       ControlDateSingle: local_vueComponents_controlDateSingle.ControlDateSingle,
       ControlDateRange: local_vueComponents_controlDateRange.ControlDateRange,
-      ControlFile: local_vueComponents_controlFile.ControlFile
+      ControlFile: local_vueComponents_controlFile.ControlFile,
+      ControlFileLoad: local_vueComponents_controlFileLoad.ControlFileLoad
     },
     props: ['control'],
     // language=Vue
-    template: "{{control}}\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n      @focus=\"focusAddControl\"\n      @blur=\"blurAddControl\"\n      @enter=\"enterAddControl\"\n      @hints=\"hintsAddControl\"\n    ></component>\n\t",
-    emits: ['input', 'focus', 'blur', 'hints'],
+    template: "\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n      @focus=\"focusAddControl\"\n      @blur=\"blurAddControl\"\n      @enter=\"enterAddControl\"\n      @hints=\"hintsAddControl\"\n      @upload=\"uploadAddControl\"\n    ></component>\n\t",
+    emits: ['input', 'focus', 'blur', 'hints', 'upload'],
     methods: {
       componentName: function componentName() {
         return "control-".concat(this.componentType);
       },
-      inputAddControl: function inputAddControl(_ref) {
-        var value = _ref.value,
-          checked = _ref.checked;
-        this.$emit('input', {
-          control: this.control,
-          value: value,
-          checked: checked
-        });
+      inputAddControl: function inputAddControl(args) {
+        this.$emit('input', _objectSpread(_objectSpread({}, args), {}, {
+          control: this.control
+        }));
       },
       focusAddControl: function focusAddControl() {
         this.$emit('focus', {
@@ -55,21 +54,20 @@ this.BX = this.BX || {};
           control: this.control
         });
       },
-      hintsAddControl: function hintsAddControl(_ref2) {
-        var type = _ref2.type,
-          action = _ref2.action,
-          value = _ref2.value;
-        this.$emit('hints', {
-          type: type,
-          control: this.control,
-          action: action,
-          value: value
-        });
+      hintsAddControl: function hintsAddControl(args) {
+        this.$emit('hints', _objectSpread(_objectSpread({}, args), {}, {
+          control: this.control
+        }));
+      },
+      uploadAddControl: function uploadAddControl(args) {
+        this.$emit('upload', _objectSpread(_objectSpread({}, args), {}, {
+          control: this.control
+        }));
       }
     }
   };
 
   exports.ControlComponent = ControlComponent;
 
-}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
+}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
 //# sourceMappingURL=component.bundle.js.map

@@ -11,7 +11,7 @@ window.twinpx.vue['form-with-multi'].controls = [
     value: '',
     required: false,
     disabled: false,
-	multi: 3,
+    multi: 3,
     sub: [
       {
         property: 'text',
@@ -19,7 +19,7 @@ window.twinpx.vue['form-with-multi'].controls = [
         name: 'NUM',
         label: 'Подполе простое',
         value: '',
-		multi: 3,
+        multi: 3,
         required: false,
         disabled: false,
       },
@@ -58,6 +58,25 @@ window.twinpx.vue['form-with-multi'].controls = [
 	  id: 'id_logo',
 	  name: 'FILE_LOGO',
 	  label: 'Логотип',
+    value: '',
+    file: '',
+	  hint_external:
+		'Этот логотип будет отображаться на вашем сайте.',
+	  required: true,
+	  disabled: false,
+	  accept: ['svg', 'png', 'jpg', 'jpeg'],
+	  image: true,
+	  multi: 5,
+	  maxsize: 10000000,
+  },
+  {
+	  property: 'file',
+    type: 'load',
+	  id: 'id_logo',
+	  name: 'FILE_LOGO',
+	  label: 'Логотип',
+    value: '',
+    file: '',
 	  hint_external:
 		'Этот логотип будет отображаться на вашем сайте.',
 	  required: true,

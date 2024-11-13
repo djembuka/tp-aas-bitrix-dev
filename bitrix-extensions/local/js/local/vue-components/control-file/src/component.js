@@ -150,7 +150,7 @@ export const ControlFile = {
     clearInputFile() {
       this.files = [];
       this.$refs.inputFile.value = '';
-      this.$emit('input', { value: '' });
+      this.$emit('input', { value: '', file: null });
     },
     cancelEvent(e) {
       e.preventDefault();

@@ -34,7 +34,7 @@ export const ControlMultiForSubcontrol = {
                 </g>
               </svg>
 
-              <ControlComponent :control="addedControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+              <ControlComponent :control="addedControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" @upload="upload" />
 
             </div>
             
@@ -57,6 +57,7 @@ export const ControlMultiForSubcontrol = {
     'blur',
     'enter',
     'hints',
+    'upload',
   ],
   computed: {
     controlsLength() {
@@ -97,7 +98,12 @@ export const ControlMultiForSubcontrol = {
     enter(args) {
       this.$emit('enter', args);
     },
-    hints() {},
+    hints(args) {
+      this.$emit('hints', args);
+    },
+    upload(args) {
+      this.$emit('upload', args);
+    },
   },
   beforeMount() {
     this.multi = this.parent.multi;

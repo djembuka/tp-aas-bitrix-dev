@@ -7,6 +7,23 @@ export const formStore = defineStore('form', {
     controls: [],
   }),
   actions: {
+    bitrixLogs(id, message) {
+      //AJAX Bitrix
+      if (window.BX) {
+        BX.ajax.post(
+          '/local/ajax/logs.php',
+          {
+            id,
+            el: 1, //document.querySelector('input[name = "APPEAL_ID"]').value,
+            message,
+            level: 1,
+          },
+          (result) => {}
+        );
+      }
+    },
+    autosave() {},
+    timeoutAutosave() {},
     createMulti({ parent }) {
       parent.property = 'multi';
       parent.multi = [];
@@ -29,8 +46,16 @@ export const formStore = defineStore('form', {
     removeMulti({ parent, index }) {
       parent.multi.splice(index, 1);
     },
+    async uploadFile({ formData }) {
+      console.log(formData);
+      const url = '/markup/upload.php';
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url);
+      //xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+      xhr.setRequestHeader('Authentication', 'BX.sessid()');
+      xhr.send(formData);
+    },
     changeTextControlValue({ control, value }) {
-      console.log(control, value);
       control.value = value;
     },
     changeSelectRadioValue({ control, value }) {
@@ -42,7 +67,12 @@ export const formStore = defineStore('form', {
     changeDateValue({ control, value }) {
       control.value = value;
     },
-    changeControlValue({ control, value, checked }) {
+    changeFileValue({ control, value, file }) {
+      // console.log(control, value, file);
+      control.value = value;
+      control.file = file;
+    },
+    changeControlValue({ control, value, checked, file }) {
       switch (control.property) {
         case 'text':
         case 'textarea':
@@ -62,9 +92,9 @@ export const formStore = defineStore('form', {
               .toUpperCase()}${control.type.substring(1).toLowerCase()}Value`
           ]({ control, value });
           break;
-        // case 'file':
-        //   commit('changeFileValue', { control, value });
-        //   break;
+        case 'file':
+          this.changeFileValue({ control, value, file });
+          break;
         case 'date':
           this.changeDateValue({ control, value });
           break;

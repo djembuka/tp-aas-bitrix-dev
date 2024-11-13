@@ -90,7 +90,8 @@ this.BX = this.BX || {};
         this.files = [];
         this.$refs.inputFile.value = '';
         this.$emit('input', {
-          value: ''
+          value: '',
+          file: null
         });
       },
       cancelEvent: function cancelEvent(e) {

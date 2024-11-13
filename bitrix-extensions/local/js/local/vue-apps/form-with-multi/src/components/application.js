@@ -18,7 +18,7 @@ export const Application = {
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
       <form action="">
         <div v-for="control in controls" :key="control.id">
-          <ControlChoice v-else :control="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlChoice>
+          <ControlChoice v-else :control="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"  @upload="upload"></ControlChoice>
           <hr>
         </div>
 
@@ -39,13 +39,17 @@ export const Application = {
       'createMulti',
       'addMulti',
       'removeMulti',
+      'uploadFile',
+      'bitrixLogs',
+      'autosave',
+      'timeoutAutosave',
     ]),
-    input({ control, value, checked }) {
-      this.changeControlValue({
-        control,
-        value,
-        checked,
-      });
+    input(args) {
+      if (args.control.property === 'file' && args.control.type === 'load') {
+        this.bitrixLogs(11, `${args.control.label}: ${args.label}`);
+      }
+      this.changeControlValue(args);
+      this.autosave();
     },
     focus() {
       console.log('focus');
@@ -55,6 +59,12 @@ export const Application = {
     },
     enter() {
       console.log('enter');
+    },
+    hints(args) {
+      console.log(args);
+    },
+    upload(args) {
+      this.uploadFile(args);
     },
   },
   mounted() {
