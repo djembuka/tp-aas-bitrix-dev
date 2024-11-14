@@ -1,6 +1,6 @@
 import './component.css';
 
-export const ControlFileLoad = {
+export const ControlFileUpload = {
   data() {
     return {
       controlId: this.id || this.control.id || null,
@@ -95,16 +95,8 @@ export const ControlFileLoad = {
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
     </div>
 	`,
-  emits: ['input', 'focus', 'blur', 'enter', 'upload'],
+  emits: ['input', 'focus', 'blur', 'enter'],
   computed: {
-    value: {
-      get() {
-        return this.control.value;
-      },
-      set(value) {
-        this.$emit('input', { value, file: this.files[0] });
-      },
-    },
     placeholder() {
       if (this.focused && !this.value.trim()) {
         return this.control.hint_internal;
@@ -201,27 +193,16 @@ export const ControlFileLoad = {
   },
   methods: {
     uploadFile(files) {
-      this.$emit('input', {
-        control: this.control,
-        value: '', //file name
-        file: files[0],
-      });
-
       this.files = files;
-      this.xhrStatus = '';
+      // this.xhrStatus = '';
       this.percentage = 0;
       //invalid and label change
       setTimeout(() => {
         if (this.isInvalid) {
           this.$refs.inputFile.value = '';
         } else {
-          let formData = new FormData();
-          console.log(files[0]);
-          formData.append('FILES', files[0]);
-          formData.append('FILEID', this.fileid);
-
           this.loading = true;
-          this.$emit('upload', { formData });
+          this.$emit('input', { value: files[0] });
         }
       }, 0);
     },
@@ -237,9 +218,7 @@ export const ControlFileLoad = {
       });
       //set value
       this.$emit('input', {
-        control: this.control,
         value: '',
-        file: null,
       });
     },
     cancelEvent(e) {
@@ -318,9 +297,7 @@ export const ControlFileLoad = {
           case 'Y':
             //set value
             this.$emit('input', {
-              control: this.control,
-              value: this.files[0] ? this.files[0].name : '',
-              file: this.files[0] ? fileObject.ID : '',
+              value: this.files[0],
             });
 
             setTimeout(() => {

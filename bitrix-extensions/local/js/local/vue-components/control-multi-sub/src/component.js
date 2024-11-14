@@ -23,7 +23,7 @@ export const ControlMultiSub = {
 
           <div class="btn-delete" @click.prevent="remove(index)" v-if="controlsLength > 1"></div>
 
-          <ControlComponent :control="addedControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" @upload="upload" />
+          <ControlComponent :control="addedControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
 
           <div v-for="subControl in addedControl.sub" :key="subControl.id">
 
@@ -44,7 +44,7 @@ export const ControlMultiSub = {
                   </g>
                 </svg>
 
-                <ControlComponent :control="subControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" @upload="upload" />
+                <ControlComponent :control="subControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
 
               </div>
               
@@ -69,7 +69,6 @@ export const ControlMultiSub = {
     'blur',
     'enter',
     'hints',
-    'upload',
   ],
   computed: {
     controlsLength() {
@@ -121,9 +120,6 @@ export const ControlMultiSub = {
     },
     hints(args) {
       this.$emit('hints', args);
-    },
-    upload(args) {
-      this.$emit('upload', args);
     },
   },
   beforeMount() {

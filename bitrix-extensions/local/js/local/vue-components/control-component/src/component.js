@@ -10,7 +10,7 @@ import { ControlDatepicker } from 'local.vue-components.control-datepicker';
 import { ControlDateSingle } from 'local.vue-components.control-date-single';
 import { ControlDateRange } from 'local.vue-components.control-date-range';
 import { ControlFile } from 'local.vue-components.control-file';
-import { ControlFileLoad } from 'local.vue-components.control-file-load';
+import { ControlFileUpload } from 'local.vue-components.control-file-upload';
 
 export const ControlComponent = {
   data() {
@@ -33,7 +33,7 @@ export const ControlComponent = {
     ControlDateSingle,
     ControlDateRange,
     ControlFile,
-    ControlFileLoad,
+    ControlFileUpload,
   },
   props: ['control'],
   // language=Vue
@@ -48,7 +48,6 @@ export const ControlComponent = {
       @blur="blurAddControl"
       @enter="enterAddControl"
       @hints="hintsAddControl"
-      @upload="uploadAddControl"
     ></component>
 	`,
   emits: ['input', 'focus', 'blur', 'hints', 'upload'],
@@ -79,12 +78,6 @@ export const ControlComponent = {
     },
     hintsAddControl(args) {
       this.$emit('hints', {
-        ...args,
-        control: this.control,
-      });
-    },
-    uploadAddControl(args) {
-      this.$emit('upload', {
         ...args,
         control: this.control,
       });

@@ -46,15 +46,6 @@ export const formStore = defineStore('form', {
     removeMulti({ parent, index }) {
       parent.multi.splice(index, 1);
     },
-    async uploadFile({ formData }) {
-      console.log(formData);
-      const url = '/markup/upload.php';
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', url);
-      //xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-      xhr.setRequestHeader('Authentication', 'BX.sessid()');
-      xhr.send(formData);
-    },
     changeTextControlValue({ control, value }) {
       control.value = value;
     },
@@ -67,12 +58,13 @@ export const formStore = defineStore('form', {
     changeDateValue({ control, value }) {
       control.value = value;
     },
-    changeFileValue({ control, value, file }) {
-      // console.log(control, value, file);
+    changeFileValue({ control, value }) {
       control.value = value;
-      control.file = file;
+      if (typeof value !== 'string') {
+        this.uploadFile({ file: value });
+      }
     },
-    changeControlValue({ control, value, checked, file }) {
+    changeControlValue({ control, value, checked }) {
       switch (control.property) {
         case 'text':
         case 'textarea':
@@ -93,7 +85,7 @@ export const formStore = defineStore('form', {
           ]({ control, value });
           break;
         case 'file':
-          this.changeFileValue({ control, value, file });
+          this.changeFileValue({ control, value });
           break;
         case 'date':
           this.changeDateValue({ control, value });
@@ -133,6 +125,22 @@ export const formStore = defineStore('form', {
           callback();
         }
       }
+    },
+
+    //file
+    async uploadFile({ file }) {
+      let xhrStatus = '';
+      // this.percentage = 0;
+
+      let formData = new FormData();
+      formData.append('FILES', file);
+
+      const url = '/markup/upload.php';
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url);
+      //xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+      xhr.setRequestHeader('Authentication', 'BX.sessid()');
+      xhr.send(formData);
     },
   },
 });

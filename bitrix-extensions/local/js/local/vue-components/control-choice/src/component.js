@@ -14,10 +14,10 @@ export const ControlChoice = {
   },
   // language=Vue
   template: `
-		<ControlSubcontrol v-if="control.sub && !control.multi" :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" @upload="upload" />
-    <ControlMulti v-else-if="!control.sub && control.multi" :parent="control" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" @upload="upload" />
-    <ControlMultiSub v-else-if="control.sub && control.multi" :parent="control" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" @upload="upload" />
-    <ControlComponent v-else :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" @upload="upload" />
+		<ControlSubcontrol v-if="control.sub && !control.multi" :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+    <ControlMulti v-else-if="!control.sub && control.multi" :parent="control" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+    <ControlMultiSub v-else-if="control.sub && control.multi" :parent="control" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+    <ControlComponent v-else :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
 	`,
   emits: [
     'create',
@@ -28,7 +28,6 @@ export const ControlChoice = {
     'blur',
     'enter',
     'hints',
-    'upload',
   ],
   methods: {
     create(args) {
@@ -54,9 +53,6 @@ export const ControlChoice = {
     },
     hints(args) {
       this.$emit('hints', args);
-    },
-    upload(args) {
-      this.$emit('upload', args);
     },
   },
 };
