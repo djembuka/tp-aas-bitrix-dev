@@ -97,6 +97,15 @@ export const ControlFileUpload = {
 	`,
   emits: ['input', 'focus', 'blur', 'enter'],
   computed: {
+    progress() {
+      return this.control.upload.progress;
+    },
+    response() {
+      return this.control.upload.response;
+    },
+    readyState() {
+      return this.control.upload.readyState;
+    },
     placeholder() {
       if (this.focused && !this.value.trim()) {
         return this.control.hint_internal;
@@ -129,13 +138,13 @@ export const ControlFileUpload = {
       return this.loadCircle || (!!this.filename && !this.isProgressing);
     },
     isFilled() {
-      return !!this.filename;
+      return !!this.filename && this.control.upload.readyState === 4;
     },
     fileid() {
       return this.control.value;
     },
     invalidString() {
-      if (this.xhrStatus === 'E') {
+      if (this.control.upload && this.control.upload.xhrStatus === 'E') {
         return 'Ошибка загрузки';
       } else if (this.files[0] && this.files[0].size && this.files[0].name) {
         if (this.files[0].size >= this.control.maxSize) {
@@ -168,13 +177,19 @@ export const ControlFileUpload = {
       if (this.files[0] && this.files[0].name) {
         return this.files[0].name;
       }
-      return this.control.default;
+      return this.default;
     },
     filename() {
-      return this.control.filename;
+      return this.control.value ? this.control.value.name : '';
     },
   },
   watch: {
+    progress() {
+      this.progressAnimation();
+    },
+    response() {
+      this.onResponse();
+    },
     percentage(val) {
       setTimeout(() => {
         if (val === 100) {
@@ -206,19 +221,28 @@ export const ControlFileUpload = {
         }
       }, 0);
     },
+    onResponse() {
+      if (this.response.STATUS === 'success') {
+        setTimeout(() => {
+          this.$refs.inputFile.value = '';
+        }, 100);
+      }
+
+      this.$refs.progressbar.style = '';
+      this.percentage = 0;
+      this.loading = false;
+      this.loadCircle = false;
+    },
     clearInputFile() {
+      console.log('clear');
       this.loadCircle = true;
       this.percentage = 0;
       this.loading = false;
       this.files = [];
       this.$refs.inputFile.value = '';
-      this.sendData({
-        [this.name]: 'DELETE',
-        FILEID: this.fileid,
-      });
-      //set value
+
       this.$emit('input', {
-        value: '',
+        value: null,
       });
     },
     cancelEvent(e) {
@@ -243,79 +267,38 @@ export const ControlFileUpload = {
       }
       return parseInt(length) + ' ' + type[i];
     },
-    progressAnimation(xhr) {
-      let first = true;
-      xhr.upload.addEventListener('progress', ({ loaded, total }) => {
-        if (first && loaded === total) {
-          //loaded too fast, show minimal animation 1s
-          let counter = 0,
-            minimalTime = 1000,
-            intervalId;
+    progressAnimation() {
+      const { first, total, loaded } = this.progress;
 
-          this.minimalLoading = true;
-          this.$refs.progressbar.style.width = `100%`;
+      if (first && loaded === total) {
+        //loaded too fast, show minimal animation 1s
+        let counter = 0,
+          minimalTime = 1000,
+          intervalId;
 
-          intervalId = setInterval(() => {
-            if (++counter === 11) {
-              clearInterval(intervalId);
-              this.dataLoaded(xhr);
-              this.minimalLoading = false;
-              return;
-            }
-            this.percentage = Math.floor((counter * 100) / 10);
-          }, minimalTime / 10);
-        } else {
-          this.percentage = Math.floor((loaded / total) * 100);
-          this.$refs.progressbar.style.width = `calc(46px + (100% - 46px ) * ${this.percentage} / 100)`;
-          if (this.percentage === 100) {
-            this.dataLoaded(xhr);
+        this.minimalLoading = true;
+        this.$refs.progressbar.style.width = `100%`;
+
+        intervalId = setInterval(() => {
+          if (++counter === 11) {
+            clearInterval(intervalId);
+            // this.dataLoaded(xhr);
+            this.loadCircle = true;
+            this.minimalLoading = false;
+            return;
           }
-        }
-        first = false;
-      });
-    },
-    dataLoaded(xhr) {
-      let timeoutId;
-
-      if (xhr.readyState != 4) {
-        this.loadCircle = true;
-        timeoutId = setTimeout(() => {
-          this.dataLoaded(xhr);
-        }, 100);
-        return;
+          this.percentage = Math.floor((counter * 100) / 10);
+        }, minimalTime / 10);
       } else {
-        this.loadCircle = false;
-        clearTimeout(timeoutId);
+        this.percentage = Math.floor((loaded / total) * 100);
+        this.$refs.progressbar.style.width = `calc(46px + (100% - 46px ) * ${this.percentage} / 100)`;
+        // if (this.percentage === 100) {
+        //   this.dataLoaded();
+        // }
+        this.loadCircle = true;
       }
-
-      const fileObject = JSON.parse(xhr.response);
-
-      if (fileObject) {
-        this.xhrStatus = fileObject.STATUS;
-
-        switch (fileObject.STATUS) {
-          case 'Y':
-            //set value
-            this.$emit('input', {
-              value: this.files[0],
-            });
-
-            setTimeout(() => {
-              this.$refs.inputFile.value = '';
-            }, 100);
-
-            break;
-
-          case 'E':
-            break;
-        }
-        this.$refs.progressbar.style = '';
-        this.percentage = 0;
-        this.loading = false;
-        this.loadCircle = false;
-      }
-      // this.$emit('timeoutAutosave');
     },
+
     focus() {
       this.focused = true;
       this.blured = false;

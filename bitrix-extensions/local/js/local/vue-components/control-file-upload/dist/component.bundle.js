@@ -3,7 +3,7 @@ this.BX = this.BX || {};
 (function (exports) {
   'use strict';
 
-  var ControlFileLoad = {
+  var ControlFileUpload = {
     data: function data() {
       return {
         controlId: this.id || this.control.id || null,
@@ -30,18 +30,16 @@ this.BX = this.BX || {};
     props: ['control', 'id', 'name'],
     // language=Vue
     template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--file': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__file__disabled-icon\"\n        v-if=\"false\"\n      />\n      <span\n        class=\"twpx-form-control__file__clear\"\n        @click.prevent=\"clearInputFile\"\n        v-if=\"isClearable\"\n      ></span>\n      <div\n        class=\"twpx-form-control__file\"\n        :class=\"{\n          filled: isFilled,\n          clearable: isClearable,\n        }\"\n        ref=\"controlFile\"\n      >\n        <span class=\"twpx-form-control__file__label\">{{ control.label }}</span>\n\n        <svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          width=\"17.383\"\n          height=\"24\"\n          viewBox=\"0 0 17.383 24\"\n          v-html=\"icon\"\n        ></svg>\n\n        <input\n          type=\"file\"\n          :name=\"control.name\"\n          :id=\"control.id\"\n          @change=\"uploadFile($refs.inputFile.files)\"\n          ref=\"inputFile\"\n        />\n\n        <div class=\"twpx-form-control__file__progressbar\" v-show=\"(isProgressing || loadCircle) && !isInvalid\" ref=\"progressbar\" :class=\"{'minimal': minimalLoading}\">\n          <span v-html=\"label\" v-show=\"isFileLoaded\"></span>\n          <span v-show=\"!isFileLoaded\">{{percentage}}%</span>\n        </div>\n\n        <label\n          :for=\"control.id\"\n          class=\"active\"\n          v-html=\"label\"\n          ref=\"dropzone\"\n        ></label>\n      </div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
-    emits: ['input', 'focus', 'blur', 'enter', 'upload'],
+    emits: ['input', 'focus', 'blur', 'enter'],
     computed: {
-      value: {
-        get: function get() {
-          return this.control.value;
-        },
-        set: function set(value) {
-          this.$emit('input', {
-            value: value,
-            file: this.files[0]
-          });
-        }
+      progress: function progress() {
+        return this.control.upload.progress;
+      },
+      response: function response() {
+        return this.control.upload.response;
+      },
+      readyState: function readyState() {
+        return this.control.upload.readyState;
       },
       placeholder: function placeholder() {
         if (this.focused && !this.value.trim()) {
@@ -75,13 +73,13 @@ this.BX = this.BX || {};
         return this.loadCircle || !!this.filename && !this.isProgressing;
       },
       isFilled: function isFilled() {
-        return !!this.filename;
+        return !!this.filename && this.control.upload.readyState === 4;
       },
       fileid: function fileid() {
         return this.control.value;
       },
       invalidString: function invalidString() {
-        if (this.xhrStatus === 'E') {
+        if (this.control.upload && this.control.upload.xhrStatus === 'E') {
           return 'Ошибка загрузки';
         } else if (this.files[0] && this.files[0].size && this.files[0].name) {
           if (this.files[0].size >= this.control.maxSize) {
@@ -110,13 +108,19 @@ this.BX = this.BX || {};
         if (this.files[0] && this.files[0].name) {
           return this.files[0].name;
         }
-        return this.control["default"];
+        return this["default"];
       },
       filename: function filename() {
-        return this.control.filename;
+        return this.control.value ? this.control.value.name : '';
       }
     },
     watch: {
+      progress: function progress() {
+        this.progressAnimation();
+      },
+      response: function response() {
+        this.onResponse();
+      },
       percentage: function percentage(val) {
         var _this = this;
         setTimeout(function () {
@@ -137,44 +141,42 @@ this.BX = this.BX || {};
     methods: {
       uploadFile: function uploadFile(files) {
         var _this2 = this;
-        this.$emit('input', {
-          control: this.control,
-          value: '',
-          //file name
-          file: files[0]
-        });
         this.files = files;
-        this.xhrStatus = '';
+        // this.xhrStatus = '';
         this.percentage = 0;
         //invalid and label change
         setTimeout(function () {
           if (_this2.isInvalid) {
             _this2.$refs.inputFile.value = '';
           } else {
-            var formData = new FormData();
-            console.log(files[0]);
-            formData.append('FILES', files[0]);
-            formData.append('FILEID', _this2.fileid);
             _this2.loading = true;
-            _this2.$emit('upload', {
-              formData: formData
+            _this2.$emit('input', {
+              value: files[0]
             });
           }
         }, 0);
       },
+      onResponse: function onResponse() {
+        var _this3 = this;
+        if (this.response.STATUS === 'success') {
+          setTimeout(function () {
+            _this3.$refs.inputFile.value = '';
+          }, 100);
+        }
+        this.$refs.progressbar.style = '';
+        this.percentage = 0;
+        this.loading = false;
+        this.loadCircle = false;
+      },
       clearInputFile: function clearInputFile() {
-        var _this$sendData;
+        console.log('clear');
         this.loadCircle = true;
         this.percentage = 0;
         this.loading = false;
         this.files = [];
         this.$refs.inputFile.value = '';
-        this.sendData((_this$sendData = {}, babelHelpers.defineProperty(_this$sendData, this.name, 'DELETE'), babelHelpers.defineProperty(_this$sendData, "FILEID", this.fileid), _this$sendData));
-        //set value
         this.$emit('input', {
-          control: this.control,
-          value: '',
-          file: null
+          value: null
         });
       },
       cancelEvent: function cancelEvent(e) {
@@ -198,75 +200,37 @@ this.BX = this.BX || {};
         }
         return parseInt(length) + ' ' + type[i];
       },
-      progressAnimation: function progressAnimation(xhr) {
-        var _this3 = this;
-        var first = true;
-        xhr.upload.addEventListener('progress', function (_ref) {
-          var loaded = _ref.loaded,
-            total = _ref.total;
-          if (first && loaded === total) {
-            //loaded too fast, show minimal animation 1s
-            var counter = 0,
-              minimalTime = 1000,
-              intervalId;
-            _this3.minimalLoading = true;
-            _this3.$refs.progressbar.style.width = "100%";
-            intervalId = setInterval(function () {
-              if (++counter === 11) {
-                clearInterval(intervalId);
-                _this3.dataLoaded(xhr);
-                _this3.minimalLoading = false;
-                return;
-              }
-              _this3.percentage = Math.floor(counter * 100 / 10);
-            }, minimalTime / 10);
-          } else {
-            _this3.percentage = Math.floor(loaded / total * 100);
-            _this3.$refs.progressbar.style.width = "calc(46px + (100% - 46px ) * ".concat(_this3.percentage, " / 100)");
-            if (_this3.percentage === 100) {
-              _this3.dataLoaded(xhr);
-            }
-          }
-          first = false;
-        });
-      },
-      dataLoaded: function dataLoaded(xhr) {
+      progressAnimation: function progressAnimation() {
         var _this4 = this;
-        var timeoutId;
-        if (xhr.readyState != 4) {
-          this.loadCircle = true;
-          timeoutId = setTimeout(function () {
-            _this4.dataLoaded(xhr);
-          }, 100);
-          return;
+        var _this$progress = this.progress,
+          first = _this$progress.first,
+          total = _this$progress.total,
+          loaded = _this$progress.loaded;
+        if (first && loaded === total) {
+          //loaded too fast, show minimal animation 1s
+          var counter = 0,
+            minimalTime = 1000,
+            intervalId;
+          this.minimalLoading = true;
+          this.$refs.progressbar.style.width = "100%";
+          intervalId = setInterval(function () {
+            if (++counter === 11) {
+              clearInterval(intervalId);
+              // this.dataLoaded(xhr);
+              _this4.loadCircle = true;
+              _this4.minimalLoading = false;
+              return;
+            }
+            _this4.percentage = Math.floor(counter * 100 / 10);
+          }, minimalTime / 10);
         } else {
-          this.loadCircle = false;
-          clearTimeout(timeoutId);
+          this.percentage = Math.floor(loaded / total * 100);
+          this.$refs.progressbar.style.width = "calc(46px + (100% - 46px ) * ".concat(this.percentage, " / 100)");
+          // if (this.percentage === 100) {
+          //   this.dataLoaded();
+          // }
+          this.loadCircle = true;
         }
-        var fileObject = JSON.parse(xhr.response);
-        if (fileObject) {
-          this.xhrStatus = fileObject.STATUS;
-          switch (fileObject.STATUS) {
-            case 'Y':
-              //set value
-              this.$emit('input', {
-                control: this.control,
-                value: this.files[0] ? this.files[0].name : '',
-                file: this.files[0] ? fileObject.ID : ''
-              });
-              setTimeout(function () {
-                _this4.$refs.inputFile.value = '';
-              }, 100);
-              break;
-            case 'E':
-              break;
-          }
-          this.$refs.progressbar.style = '';
-          this.percentage = 0;
-          this.loading = false;
-          this.loadCircle = false;
-        }
-        // this.$emit('timeoutAutosave');
       },
       focus: function focus() {
         this.focused = true;
@@ -336,7 +300,7 @@ this.BX = this.BX || {};
     }
   };
 
-  exports.ControlFileLoad = ControlFileLoad;
+  exports.ControlFileUpload = ControlFileUpload;
 
 }((this.BX.Controls = this.BX.Controls || {})));
 //# sourceMappingURL=component.bundle.js.map

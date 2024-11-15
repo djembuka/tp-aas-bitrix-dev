@@ -1,6 +1,6 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_controlHidden,local_vueComponents_controlText,local_vueComponents_controlTel,local_vueComponents_controlEmail,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange,local_vueComponents_controlFile,local_vueComponents_controlFileLoad) {
+(function (exports,local_vueComponents_controlHidden,local_vueComponents_controlText,local_vueComponents_controlTel,local_vueComponents_controlEmail,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange,local_vueComponents_controlFile,local_vueComponents_controlFileUpload) {
   'use strict';
 
   function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -24,11 +24,11 @@ this.BX = this.BX || {};
       ControlDateSingle: local_vueComponents_controlDateSingle.ControlDateSingle,
       ControlDateRange: local_vueComponents_controlDateRange.ControlDateRange,
       ControlFile: local_vueComponents_controlFile.ControlFile,
-      ControlFileLoad: local_vueComponents_controlFileLoad.ControlFileLoad
+      ControlFileUpload: local_vueComponents_controlFileUpload.ControlFileUpload
     },
     props: ['control'],
     // language=Vue
-    template: "\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n      @focus=\"focusAddControl\"\n      @blur=\"blurAddControl\"\n      @enter=\"enterAddControl\"\n      @hints=\"hintsAddControl\"\n      @upload=\"uploadAddControl\"\n    ></component>\n\t",
+    template: "\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n      @focus=\"focusAddControl\"\n      @blur=\"blurAddControl\"\n      @enter=\"enterAddControl\"\n      @hints=\"hintsAddControl\"\n    ></component>\n\t",
     emits: ['input', 'focus', 'blur', 'hints', 'upload'],
     methods: {
       componentName: function componentName() {
@@ -56,11 +56,6 @@ this.BX = this.BX || {};
       },
       hintsAddControl: function hintsAddControl(args) {
         this.$emit('hints', _objectSpread(_objectSpread({}, args), {}, {
-          control: this.control
-        }));
-      },
-      uploadAddControl: function uploadAddControl(args) {
-        this.$emit('upload', _objectSpread(_objectSpread({}, args), {}, {
           control: this.control
         }));
       }

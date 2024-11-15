@@ -13,8 +13,8 @@ this.BX = this.BX || {};
       ControlComponent: local_vueComponents_controlComponent.ControlComponent
     },
     // language=Vue
-    template: "\n\t\t<ControlSubcontrol v-if=\"control.sub && !control.multi\" :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" @upload=\"upload\" />\n    <ControlMulti v-else-if=\"!control.sub && control.multi\" :parent=\"control\" @create=\"create\" @add=\"add\" @remove=\"remove\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" @upload=\"upload\" />\n    <ControlMultiSub v-else-if=\"control.sub && control.multi\" :parent=\"control\" @create=\"create\" @add=\"add\" @remove=\"remove\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" @upload=\"upload\" />\n    <ControlComponent v-else :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" @upload=\"upload\" />\n\t",
-    emits: ['create', 'add', 'remove', 'input', 'focus', 'blur', 'enter', 'hints', 'upload'],
+    template: "\n\t\t<ControlSubcontrol v-if=\"control.sub && !control.multi\" :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" />\n    <ControlMulti v-else-if=\"!control.sub && control.multi\" :parent=\"control\" @create=\"create\" @add=\"add\" @remove=\"remove\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" />\n    <ControlMultiSub v-else-if=\"control.sub && control.multi\" :parent=\"control\" @create=\"create\" @add=\"add\" @remove=\"remove\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" />\n    <ControlComponent v-else :control=\"control\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" />\n\t",
+    emits: ['create', 'add', 'remove', 'input', 'focus', 'blur', 'enter', 'hints'],
     methods: {
       create: function create(args) {
         this.$emit('create', args);
@@ -39,9 +39,6 @@ this.BX = this.BX || {};
       },
       hints: function hints(args) {
         this.$emit('hints', args);
-      },
-      upload: function upload(args) {
-        this.$emit('upload', args);
       }
     }
   };

@@ -60,8 +60,8 @@ export const formStore = defineStore('form', {
     },
     changeFileValue({ control, value }) {
       control.value = value;
-      if (typeof value !== 'string') {
-        this.uploadFile({ file: value });
+      if (control.type === 'upload') {
+        this.uploadFile({ control, file: value });
       }
     },
     changeControlValue({ control, value, checked }) {
@@ -128,18 +128,64 @@ export const formStore = defineStore('form', {
     },
 
     //file
-    async uploadFile({ file }) {
-      let xhrStatus = '';
-      // this.percentage = 0;
-
+    async uploadFile({ control, file }) {
+      control.upload = control.upload || {};
       let formData = new FormData();
-      formData.append('FILES', file);
+      console.log(control, file);
 
-      const url = '/markup/upload.php';
+      if (file === null) {
+        //delete
+        formData.append('DELETE', 'Y');
+        if (control.upload.response) {
+          formData.append('FILE', control.upload.response.FILE);
+        }
+      } else {
+        //first
+        formData.append('FILES', file);
+        if (control.upload.response) {
+          //update
+          formData.append('FILE', control.upload.response.FILE);
+        }
+      }
+
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', url);
+      xhr.open('POST', '/markup/upload.php');
       //xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-      xhr.setRequestHeader('Authentication', 'BX.sessid()');
+      xhr.setRequestHeader('Authentication', BX.bitrix_sessid());
+
+      //progress
+      let first = true;
+      xhr.upload.addEventListener('progress', ({ loaded, total }) => {
+        control.upload.progress = { first, loaded, total };
+        first = false;
+      });
+      xhr.upload.addEventListener('loadstart', () => {
+        // console.log('loadstart');
+      });
+      xhr.upload.addEventListener('abort', () => {
+        // console.log('abort');
+      });
+      xhr.upload.addEventListener('error', () => {
+        // console.log('error');
+      });
+      xhr.upload.addEventListener('load', () => {
+        // console.log('load');
+      });
+      xhr.upload.addEventListener('timeout', () => {
+        // console.log('timeout');
+      });
+      xhr.upload.addEventListener('loadend', () => {
+        // console.log('loadend');
+      });
+
+      xhr.onreadystatechange = () => {
+        control.upload.readyState = xhr.readyState;
+
+        if (xhr.readyState === 4) {
+          control.upload.response = JSON.parse(xhr.response);
+        }
+      };
+
       xhr.send(formData);
     },
   },
