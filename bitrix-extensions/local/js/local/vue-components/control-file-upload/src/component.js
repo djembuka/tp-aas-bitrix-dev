@@ -34,7 +34,7 @@ export const ControlFileUpload = {
   },
   props: ['control', 'id', 'name'],
   // language=Vue
-  template: `
+  template: `{{loadCircle}}, {{filename}}, {{isProgressing}}
 		<div
       :class="{
         'twpx-form-control': true,
@@ -50,7 +50,7 @@ export const ControlFileUpload = {
         v-if="false"
       />
       <span
-        class="twpx-form-control__file__clear"
+        class="twpx-form-control__file__clear" :class="{'btn--load-circle': loadCircle}"
         @click.prevent="clearInputFile"
         v-if="isClearable"
       ></span>
@@ -138,7 +138,11 @@ export const ControlFileUpload = {
       return this.loadCircle || (!!this.filename && !this.isProgressing);
     },
     isFilled() {
-      return !!this.filename && this.control.upload.readyState === 4;
+      return (
+        !!this.filename &&
+        this.control.upload.readyState === 4 &&
+        !this.isProgressing
+      );
     },
     fileid() {
       return this.control.value;
@@ -222,6 +226,7 @@ export const ControlFileUpload = {
       }, 0);
     },
     onResponse() {
+      console.log('onResponse');
       if (this.response.STATUS === 'success') {
         setTimeout(() => {
           this.$refs.inputFile.value = '';
@@ -231,10 +236,12 @@ export const ControlFileUpload = {
       this.$refs.progressbar.style = '';
       this.percentage = 0;
       this.loading = false;
+      console.log(1);
       this.loadCircle = false;
     },
     clearInputFile() {
       console.log('clear');
+      console.log(2);
       this.loadCircle = true;
       this.percentage = 0;
       this.loading = false;
@@ -283,7 +290,8 @@ export const ControlFileUpload = {
           if (++counter === 11) {
             clearInterval(intervalId);
             // this.dataLoaded(xhr);
-            this.loadCircle = true;
+            console.log(3);
+            this.loadCircle = false;
             this.minimalLoading = false;
             return;
           }
@@ -292,10 +300,8 @@ export const ControlFileUpload = {
       } else {
         this.percentage = Math.floor((loaded / total) * 100);
         this.$refs.progressbar.style.width = `calc(46px + (100% - 46px ) * ${this.percentage} / 100)`;
-        // if (this.percentage === 100) {
-        //   this.dataLoaded();
-        // }
-        this.loadCircle = true;
+        console.log(4);
+        this.loadCircle = false;
       }
     },
 

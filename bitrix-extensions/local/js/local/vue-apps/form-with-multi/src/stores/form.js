@@ -156,6 +156,7 @@ export const formStore = defineStore('form', {
       //progress
       let first = true;
       xhr.upload.addEventListener('progress', ({ loaded, total }) => {
+        console.log('progress', loaded, total);
         control.upload.progress = { first, loaded, total };
         first = false;
       });

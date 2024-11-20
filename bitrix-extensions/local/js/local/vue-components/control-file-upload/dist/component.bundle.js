@@ -29,7 +29,7 @@ this.BX = this.BX || {};
     },
     props: ['control', 'id', 'name'],
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--file': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__file__disabled-icon\"\n        v-if=\"false\"\n      />\n      <span\n        class=\"twpx-form-control__file__clear\"\n        @click.prevent=\"clearInputFile\"\n        v-if=\"isClearable\"\n      ></span>\n      <div\n        class=\"twpx-form-control__file\"\n        :class=\"{\n          filled: isFilled,\n          clearable: isClearable,\n        }\"\n        ref=\"controlFile\"\n      >\n        <span class=\"twpx-form-control__file__label\">{{ control.label }}</span>\n\n        <svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          width=\"17.383\"\n          height=\"24\"\n          viewBox=\"0 0 17.383 24\"\n          v-html=\"icon\"\n        ></svg>\n\n        <input\n          type=\"file\"\n          :name=\"control.name\"\n          :id=\"control.id\"\n          @change=\"uploadFile($refs.inputFile.files)\"\n          ref=\"inputFile\"\n        />\n\n        <div class=\"twpx-form-control__file__progressbar\" v-show=\"(isProgressing || loadCircle) && !isInvalid\" ref=\"progressbar\" :class=\"{'minimal': minimalLoading}\">\n          <span v-html=\"label\" v-show=\"isFileLoaded\"></span>\n          <span v-show=\"!isFileLoaded\">{{percentage}}%</span>\n        </div>\n\n        <label\n          :for=\"control.id\"\n          class=\"active\"\n          v-html=\"label\"\n          ref=\"dropzone\"\n        ></label>\n      </div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
+    template: "{{loadCircle}}, {{filename}}, {{isProgressing}}\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--file': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__file__disabled-icon\"\n        v-if=\"false\"\n      />\n      <span\n        class=\"twpx-form-control__file__clear\" :class=\"{'btn--load-circle': loadCircle}\"\n        @click.prevent=\"clearInputFile\"\n        v-if=\"isClearable\"\n      ></span>\n      <div\n        class=\"twpx-form-control__file\"\n        :class=\"{\n          filled: isFilled,\n          clearable: isClearable,\n        }\"\n        ref=\"controlFile\"\n      >\n        <span class=\"twpx-form-control__file__label\">{{ control.label }}</span>\n\n        <svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          width=\"17.383\"\n          height=\"24\"\n          viewBox=\"0 0 17.383 24\"\n          v-html=\"icon\"\n        ></svg>\n\n        <input\n          type=\"file\"\n          :name=\"control.name\"\n          :id=\"control.id\"\n          @change=\"uploadFile($refs.inputFile.files)\"\n          ref=\"inputFile\"\n        />\n\n        <div class=\"twpx-form-control__file__progressbar\" v-show=\"(isProgressing || loadCircle) && !isInvalid\" ref=\"progressbar\" :class=\"{'minimal': minimalLoading}\">\n          <span v-html=\"label\" v-show=\"isFileLoaded\"></span>\n          <span v-show=\"!isFileLoaded\">{{percentage}}%</span>\n        </div>\n\n        <label\n          :for=\"control.id\"\n          class=\"active\"\n          v-html=\"label\"\n          ref=\"dropzone\"\n        ></label>\n      </div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
     emits: ['input', 'focus', 'blur', 'enter'],
     computed: {
       progress: function progress() {
@@ -73,7 +73,7 @@ this.BX = this.BX || {};
         return this.loadCircle || !!this.filename && !this.isProgressing;
       },
       isFilled: function isFilled() {
-        return !!this.filename && this.control.upload.readyState === 4;
+        return !!this.filename && this.control.upload.readyState === 4 && !this.isProgressing;
       },
       fileid: function fileid() {
         return this.control.value;
@@ -158,6 +158,7 @@ this.BX = this.BX || {};
       },
       onResponse: function onResponse() {
         var _this3 = this;
+        console.log('onResponse');
         if (this.response.STATUS === 'success') {
           setTimeout(function () {
             _this3.$refs.inputFile.value = '';
@@ -166,10 +167,12 @@ this.BX = this.BX || {};
         this.$refs.progressbar.style = '';
         this.percentage = 0;
         this.loading = false;
+        console.log(1);
         this.loadCircle = false;
       },
       clearInputFile: function clearInputFile() {
         console.log('clear');
+        console.log(2);
         this.loadCircle = true;
         this.percentage = 0;
         this.loading = false;
@@ -217,7 +220,8 @@ this.BX = this.BX || {};
             if (++counter === 11) {
               clearInterval(intervalId);
               // this.dataLoaded(xhr);
-              _this4.loadCircle = true;
+              console.log(3);
+              _this4.loadCircle = false;
               _this4.minimalLoading = false;
               return;
             }
@@ -226,10 +230,8 @@ this.BX = this.BX || {};
         } else {
           this.percentage = Math.floor(loaded / total * 100);
           this.$refs.progressbar.style.width = "calc(46px + (100% - 46px ) * ".concat(this.percentage, " / 100)");
-          // if (this.percentage === 100) {
-          //   this.dataLoaded();
-          // }
-          this.loadCircle = true;
+          console.log(4);
+          this.loadCircle = false;
         }
       },
       focus: function focus() {
