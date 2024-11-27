@@ -5,21 +5,6 @@ window.twinpx.vue['form-with-multi'] = {};
 window.twinpx.vue['form-with-multi'].controls = [
   {
 	  property: 'file',
-	  id: 'id_logo',
-	  name: 'FILE_LOGO',
-	  label: 'Логотип',
-    value: null,
-	  hint_external:
-		'Этот логотип будет отображаться на вашем сайте.',
-	  required: true,
-	  disabled: false,
-	  accept: ['svg', 'png', 'jpg', 'jpeg'],
-	  image: true,
-	  multi: 5,
-	  maxsize: 10000000,
-  },
-  {
-	  property: 'file',
     type: 'upload',
 	  id: 'id_logo',
 	  name: 'FILE_LOGO',
@@ -32,7 +17,20 @@ window.twinpx.vue['form-with-multi'].controls = [
 	  disabled: false,
 	  accept: ['svg', 'png', 'jpg', 'jpeg'],
 	  image: true,
-	  multi: 5,
+	  maxsize: 10000000,
+  },
+  {
+	  property: 'file',
+	  id: 'id_logo',
+	  name: 'FILE_LOGO',
+	  label: 'Логотип',
+    value: null,
+	  hint_external:
+		'Этот логотип будет отображаться на вашем сайте.',
+	  required: true,
+	  disabled: false,
+	  accept: ['svg', 'png', 'jpg', 'jpeg'],
+	  image: true,
 	  maxsize: 10000000,
   },
   {

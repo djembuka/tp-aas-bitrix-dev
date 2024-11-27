@@ -13,9 +13,8 @@ $APPLICATION->SetTitle("Form with multi control Bitrix Vue");
 	const formwithmulti = new BX.FormWithMulti('#formWithMulti', {
 		'SESSION_ID': '123',
 		'SIGNED_PARAMETERS': 'signedParameters',
-
-    'controls': 'twinpx:controls',
-  });
+		'controls': 'twinpx:controls',
+	});
 	formwithmulti.run();
 </script>
 

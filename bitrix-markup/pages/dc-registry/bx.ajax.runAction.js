@@ -51,12 +51,12 @@ window.twinpx.vue['filter-table'].filters = [
               },
               {
                 property: 'date',
-                id: 'id4',
-                name: 'DATE',
+                type: 'range',
+                id: 'id45',
                 label: 'Дата создания',
-                value: '',
-                required: false,
-                disabled: false,
+                name: 'DATE',
+                required: true,
+                value: ['20.02.2024', '28.02.2024'],
               },
             ];
 

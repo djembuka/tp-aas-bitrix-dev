@@ -12,9 +12,10 @@ $APPLICATION->SetTitle("Реестр дисциплинарных дел");
 <script>
 	const filtertable = new BX.FilterTable('#dcRegistry', {
 		'SESSION_ID': '123',
-		'USER_ID': '456',
+		'SIGNED_PARAMETERS': 'signedParameters',
 		
-		'COLS': ['20%','20%','20%','auto','100px'],
+		'FILTER_COLS': ['1','2','2','2'],
+		'TABLE_COLS': ['200px','110px','25%','auto','100px'],
 		
 		'columnsNames': 'twinpx.dc-registry:columnsNames',
 		'items': 'twinpx.dc-registry:items',

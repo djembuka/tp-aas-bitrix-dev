@@ -15,20 +15,21 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 
 <div id="dcMeetings"></div>
 
-<script src="/markup/vue/filter-table/bx.ajax.runAction.js"></script>
+<script src="/markup/pages/dc-meetings/bx.ajax.runAction.js"></script>
 
 <script>
 	const filtertable = new BX.FilterTable('#dcMeetings', {
 		'SESSION_ID': '123',
-		'USER_ID': '456',
+		'SIGNED_PARAMETERS': 'signedParameters',
 		
-		'COLS': ['auto','20%','20%','20%','100px'],
+		'FILTER_COLS': ['1','2','2','2'],
+		'TABLE_COLS': ['auto','20%','25%','20%','100px'],
 		
-		'columnsNames': 'twinpx.dc-meetings:columnsNames',
-		'items': 'twinpx.dc-meetings:items',
-		'defaultSort': 'twinpx.dc-meetings:defaultSort',
-		'setDefaultSort': 'twinpx.dc-meetings:setDefaultSort',
-		'filters': 'twinpx.dc-meetings:filters',
+		'columnsNames': 'twinpx:columnsNames',
+		'items': 'twinpx:items',
+		'defaultSort': 'twinpx:defaultSort',
+		'setDefaultSort': 'twinpx:setDefaultSort',
+		'filters': 'twinpx:filters',
 		
 		'maxCountPerRequest': 3,
 	});

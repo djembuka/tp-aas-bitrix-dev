@@ -252,7 +252,7 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
           'SESSION_ID': '123',
           'SIGNED_PARAMETERS': 'signedParameters',
           
-          'TABLE_COLS': ['auto','130px','130px','150px'],
+          'TABLE_COLS': ['auto','15%','15%','20%'],
           
           'columnsNames': 'twinpx:columnsNames:violations',
           'items': 'twinpx:items:violations',

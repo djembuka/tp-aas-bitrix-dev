@@ -49,15 +49,25 @@ window.twinpx.vue['filter-table'].filters = [
                 value: '',
                 disabled: false,
               },
-              {
-                property: 'text',
-                id: 'id4',
-                name: 'DATE',
-                label: 'Дата создания',
-                value: '',
-                required: false,
-                disabled: false,
-              },
+			  /*{
+				  property: 'date',
+				  type: 'single',
+				  id: 'id45',
+				  label: 'Календарь',
+				  name: 'DATE',
+				  required: true,
+				  value: '28.02.2024',
+				},*/
+				{
+				  property: 'date',
+				  type: 'range',
+				  id: 'id45',
+				  label: 'Дата создания',
+				  name: 'DATE',
+				  required: true,
+				  value: ['20.02.2024', '28.02.2024'],
+				},
+				
             ];
 
 window.twinpx.vue['filter-table'].setDefaultSort = {
@@ -70,12 +80,16 @@ window.twinpx.vue['filter-table'].defaultSort = {
               sortType: 0,
             };
 			
-window.twinpx.vue['filter-table'].items = {
-              resultCount: 10,
-              startIndex: 0,
-              excelLink: false,
-              items: [
-                {
+window.twinpx.vue['filter-table'].items = (startIndex) => {
+	let result = {
+		resultCount: 10,
+		startIndex,
+		excelLink: false,
+	};
+	switch(startIndex) {
+		case 0:
+			result.items = [
+				{
                   id: 1,
                   url: '/',
                   new: false,
@@ -84,7 +98,7 @@ window.twinpx.vue['filter-table'].items = {
                     {
                       id: 1,
                       type: 'date',
-                      value: '18 сентября 2024<br>12:50',
+                      value: '1 сентября 2024<br>12:50',
                     },
                     {
                       id: 2,
@@ -118,7 +132,7 @@ window.twinpx.vue['filter-table'].items = {
                     {
                       id: 1,
                       type: 'date',
-                      value: '18 сентября 2024<br>12:50',
+                      value: '2 сентября 2024<br>12:50',
                     },
                     {
                       id: 2,
@@ -152,7 +166,7 @@ window.twinpx.vue['filter-table'].items = {
                     {
                       id: 1,
                       type: 'date',
-                      value: '18 сентября 2024<br>12:50',
+                      value: '3 сентября 2024<br>12:50',
                     },
                     {
                       id: 2,
@@ -177,7 +191,12 @@ window.twinpx.vue['filter-table'].items = {
                     },
                   ],
                 },
-                {
+              ];
+			break;
+			
+		case 3:
+			result.items = [
+				{
                   id: 4,
                   url: '/',
                   new: false,
@@ -186,7 +205,7 @@ window.twinpx.vue['filter-table'].items = {
                     {
                       id: 1,
                       type: 'date',
-                      value: '18 сентября 2024<br>12:50',
+                      value: '4 сентября 2024<br>12:50',
                     },
                     {
                       id: 2,
@@ -220,7 +239,7 @@ window.twinpx.vue['filter-table'].items = {
                     {
                       id: 1,
                       type: 'date',
-                      value: '18 сентября 2024<br>12:50',
+                      value: '5 сентября 2024<br>12:50',
                     },
                     {
                       id: 2,
@@ -254,7 +273,46 @@ window.twinpx.vue['filter-table'].items = {
                     {
                       id: 1,
                       type: 'date',
-                      value: '18 сентября 2024<br>12:50',
+                      value: '6 сентября 2024<br>12:50',
+                    },
+                    {
+                      id: 2,
+                      type: 'num',
+                      value: '150',
+                    },
+                    {
+                      id: 3,
+                      type: 'type',
+                      value: 'Очное заседание',
+                    },
+                    {
+                      id: 4,
+                      type: 'questions',
+                      value: '86',
+                    },
+                    {
+                      id: 5,
+                      type: 'status',
+                      value:
+                        '<div class="label-orange"><span>Идет</span></div>',
+                    },
+                  ],
+                },
+              ];
+			break;
+			
+		case 6:
+			result.items = [
+				{
+                  id: 7,
+                  url: '/',
+                  new: false,
+                  target: '_blank',
+                  cell: [
+                    {
+                      id: 1,
+                      type: 'date',
+                      value: '7 сентября 2024<br>12:50',
                     },
                     {
                       id: 2,
@@ -280,7 +338,7 @@ window.twinpx.vue['filter-table'].items = {
                   ],
                 },
                 {
-                  id: 7,
+                  id: 8,
                   url: '/',
                   new: false,
                   target: '_blank',
@@ -288,7 +346,7 @@ window.twinpx.vue['filter-table'].items = {
                     {
                       id: 1,
                       type: 'date',
-                      value: '18 сентября 2024<br>12:50',
+                      value: '8 сентября 2024<br>12:50',
                     },
                     {
                       id: 2,
@@ -313,13 +371,90 @@ window.twinpx.vue['filter-table'].items = {
                     },
                   ],
                 },
-              ],
-            };
+                {
+                  id: 9,
+                  url: '/',
+                  new: false,
+                  target: '_blank',
+                  cell: [
+                    {
+                      id: 1,
+                      type: 'date',
+                      value: '9 сентября 2024<br>12:50',
+                    },
+                    {
+                      id: 2,
+                      type: 'num',
+                      value: '150',
+                    },
+                    {
+                      id: 3,
+                      type: 'type',
+                      value: 'Очное заседание',
+                    },
+                    {
+                      id: 4,
+                      type: 'questions',
+                      value: '86',
+                    },
+                    {
+                      id: 5,
+                      type: 'status',
+                      value:
+                        '<div class="label-orange"><span>Идет</span></div>',
+                    },
+                  ],
+                },
+              ];
+			break;
+			
+		case 9:
+			result.items = [
+				{
+                  id: 10,
+                  url: '/',
+                  new: false,
+                  target: '_blank',
+                  cell: [
+                    {
+                      id: 1,
+                      type: 'date',
+                      value: '10 сентября 2024<br>12:50',
+                    },
+                    {
+                      id: 2,
+                      type: 'num',
+                      value: '150',
+                    },
+                    {
+                      id: 3,
+                      type: 'type',
+                      value: 'Очное заседание',
+                    },
+                    {
+                      id: 4,
+                      type: 'questions',
+                      value: '86',
+                    },
+                    {
+                      id: 5,
+                      type: 'status',
+                      value:
+                        '<div class="label-orange"><span>Идет</span></div>',
+                    },
+                  ],
+                },
+              ];
+			break;
+	};
+	
+	return result;
+};
 			
 window.twinpx.vue['filter-table'].columnsNames = [
               {
                 id: 1,
-                name: 'Дата создания',
+                name: 'Дата',
                 type: 'date',
               },
               {
@@ -341,6 +476,29 @@ window.twinpx.vue['filter-table'].columnsNames = [
                 id: 5,
                 name: 'Статус',
                 type: 'status',
+              },
+            ];
+            
+window.twinpx.vue['filter-table'].hints = [
+              {
+                id: 1,
+                value: '456132123',
+              },
+              {
+                id: 2,
+                value: '7984564654',
+              },
+              {
+                id: 3,
+                value: '45678979',
+              },
+              {
+                id: 4,
+                value: '12345679',
+              },
+              {
+                id: 5,
+                value: '45648974645',
               },
             ];
 			

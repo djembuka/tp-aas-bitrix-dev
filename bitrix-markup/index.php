@@ -38,15 +38,15 @@ $APPLICATION->SetTitle("Markup");
   <li><a href="/markup/pages/dc-registry/">Реестр дисциплинарных дел</a>
 	<ul>
 	  <li><a href="/markup/pages/dc-case-detail/">Дисциплинарное дело детально - Общие данные</a></li>
-	  <li><a href="https://aas-markup.twpx.ru/pages/dc-case-detail/meetings.html">Дисциплинарное дело детально - Заседения</a></li>
-	  <li><a href="https://aas-markup.twpx.ru/pages/dc-case-detail/docs.html">Дисциплинарное дело детально - Документы</a></li>
+	  <li><a href="/markup/pages/dc-case-detail/meetings.php">Дисциплинарное дело детально - Заседения</a></li>
+	  <li><a href="/markup/pages/dc-case-detail/docs.php">Дисциплинарное дело детально - Документы</a></li>
 	</ul>
   </li>
   <li><a href="/markup/pages/dc-meetings/">Заседания</a>
 	<ul>
 	  <li><a href="https://aas-markup.twpx.ru/pages/dc-meetings-detail/">Заседание детально - Общие данные</a></li>
-	  <li><a href="https://aas-markup.twpx.ru/pages/dc-meetings-detail/questions.html">Заседание детально - Вопросы</a></li>
-	  <li><a href="https://aas-markup.twpx.ru/pages/dc-meetings-detail/members.html">Заседание детально - Участники</a></li>
+	  <li><a href="/markup/pages/dc-meetings-detail/questions.php">Заседание детально - Вопросы</a></li>
+	  <li><a href="/markup/pages/dc-meetings-detail/members.php">Заседание детально - Участники</a></li>
 	  <li><a href="/markup/pages/dc-meetings-detail/notifications.php">Заседание детально - Уведомления</a></li>
 	</ul>
   </li>

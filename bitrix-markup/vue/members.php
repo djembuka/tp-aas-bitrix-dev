@@ -115,7 +115,7 @@ $APPLICATION->SetTitle("Заседание дисциплинарной коми
 
 <div class="b-twpx-tabs-menu">
   <div class="b-twpx-tabs-menu__wrapper">
-    <a href="https://aas-markup.twpx.ru/pages/dc-meetings-detail/">Общие данные</a>
+    <a href="/markup/pages/dc-meetings-detail/">Общие данные</a>
     <a href="/markup/pages/dc-meetings-detail/questions.php">Вопросы</a>
     <a href="/markup/pages/dc-meetings-detail/members.php">Участники</a>
     <a href="/markup/pages/dc-meetings-detail/notifications.php" class="b-twpx-tabs--active">Уведомления</a>

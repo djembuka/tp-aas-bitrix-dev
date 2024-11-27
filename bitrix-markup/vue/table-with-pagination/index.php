@@ -90,7 +90,6 @@ $APPLICATION->SetTitle("Table with pagination Bitrix Vue");
 		'items': 'twinpx:items',
 		'defaultSort': 'twinpx:defaultSort',
 		'setDefaultSort': 'twinpx:setDefaultSort',
-		'filters': 'twinpx:filters',
 		
 		'maxCountPerRequest': 3,
 	});
