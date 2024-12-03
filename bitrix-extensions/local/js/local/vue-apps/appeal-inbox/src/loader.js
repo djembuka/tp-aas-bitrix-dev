@@ -32,6 +32,7 @@ export class AppealInbox {
 
         profileStore().actions = {
           profiles: self.options.profiles || {},
+          setDefaultProfile: self.options.setDefaultProfile || {},
         };
       },
     });

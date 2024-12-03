@@ -18,23 +18,54 @@ export const Application = {
   // language=Vue
 
   template: `
-    <ProfileChoice :profiles="profiles" />
+    <ProfileChoice :profiles="profiles" @clickProfile="clickProfile" />
 	`,
   computed: {
     ...mapState(dataStore, ['userid', 'sessid', 'signedParameters']),
-    ...mapState(profileStore, ['profiles']),
+    ...mapState(profileStore, ['profiles', 'profilesCounter']),
   },
   methods: {
-    ...mapActions(profileStore, ['runProfiles']),
+    ...mapActions(profileStore, [
+      'runProfiles',
+      'runSetDefaultProfile',
+      'setDefaultProfile',
+      'increaseProfilesCounter',
+    ]),
+    clickProfile({ id }) {
+      this.setDefaultProfile({ id });
+      this.increaseProfilesCounter();
+
+      this.runSetDefaultProfile(
+        {
+          mode: 'class',
+          data: {
+            userid: this.userid,
+            sessid: this.sessid,
+            profileid: id,
+          },
+          signedParameters: this.signedParameters,
+        },
+        null,
+        this.profilesCounter
+      );
+    },
   },
   mounted() {
-    this.runProfiles({
-      mode: 'class',
-      data: {
-        userid: this.userid,
-        sessid: this.sessid,
+    this.runProfiles(
+      {
+        mode: 'class',
+        data: {
+          userid: this.userid,
+          sessid: this.sessid,
+        },
+        signedParameters: this.signedParameters,
       },
-      signedParameters: this.signedParameters,
-    });
+      () => {
+        //predefined
+        //filter
+        //cols
+        //appeals
+      }
+    );
   },
 };
