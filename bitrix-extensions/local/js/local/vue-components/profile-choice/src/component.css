@@ -1,8 +1,8 @@
-.b-profile-choice {
+.vue-profile-choice {
   display: flex;
   gap: 16px;
 }
-.b-profile-choice__item {
+.vue-profile-choice__item {
   background-color: #f0f5fc;
   border-radius: 8px;
   padding: 0 16px;
@@ -16,7 +16,7 @@
   height: 48px;
   cursor: pointer;
 }
-.b-profile-choice__item i {
+.vue-profile-choice__item i {
   font-style: normal;
   font-size: 0.75rem;
   background-color: #5f7696;
@@ -29,11 +29,15 @@
   transition: opacity 0.3s ease;
   -webkit-transition: opacity 0.3s ease;
 }
-.b-profile-choice__item.active {
+.vue-profile-choice__item span {
+  white-space: nowrap;
+}
+.vue-profile-choice__item.active {
   background-color: #8393aa;
   color: #fff;
+  cursor: default;
 }
-.b-profile-choice__container {
+.vue-profile-choice__container {
   background: #fafbfc;
   padding: 25px;
   border-radius: 10px;
@@ -45,18 +49,18 @@
   margin-bottom: calc(-2rem - 50px);
 }
 @media (max-width: 767px) {
-  .b-profile-choice__container {
+  .vue-profile-choice__container {
     margin-bottom: -2rem;
   }
 }
-.b-profile-choice__container .h3 {
+.vue-profile-choice__container .h3 {
   font-size: 1.25rem;
   margin-top: 0;
 }
-.b-profile-choice__container .b-float-label {
+.vue-profile-choice__container .b-float-label {
   max-width: 530px;
 }
-.b-profile-choice__button {
+.vue-profile-choice__button {
   position: absolute;
   top: 0;
   right: 0;
@@ -66,7 +70,7 @@
   -webkit-transition: all 0.3s ease;
   z-index: 10;
 }
-.b-profile-choice__button span {
+.vue-profile-choice__button span {
   display: inline-block;
   width: 32px;
   height: 32px;
@@ -75,8 +79,8 @@
   position: relative;
   cursor: pointer;
 }
-.b-profile-choice__button span:before,
-.b-profile-choice__button span:after {
+.vue-profile-choice__button span:before,
+.vue-profile-choice__button span:after {
   content: '';
   position: absolute;
   top: 8px;
@@ -87,26 +91,26 @@
   transition: transform 0.5s ease;
   -webkit-transition: transform 0.5s ease;
 }
-.b-profile-choice--open .b-profile-choice__button span:before {
+.vue-profile-choice--open .vue-profile-choice__button span:before {
   transform: rotate(270deg);
   -webkit-transform: rotate(270deg);
 }
-.b-profile-choice__button span:after {
+.vue-profile-choice__button span:after {
   transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
 }
-.b-profile-choice--open .b-profile-choice__button span:after {
+.vue-profile-choice--open .vue-profile-choice__button span:after {
   transform: rotate(450deg);
   -webkit-transform: rotate(450deg);
 }
-.b-profile-choice.b-profile-choice--open .b-profile-choice__container {
+.vue-profile-choice.vue-profile-choice--open .vue-profile-choice__container {
   opacity: 1;
   margin-bottom: 0;
 }
-.b-profile-choice.b-profile-choice--open .b-profile-choice__button {
+.vue-profile-choice.vue-profile-choice--open .vue-profile-choice__button {
   top: 24px;
   right: 24px;
 }
-.b-profile-choice.b-profile-choice--open .b-profile-choice__button i {
+.vue-profile-choice.vue-profile-choice--open .vue-profile-choice__button i {
   opacity: 0;
 }

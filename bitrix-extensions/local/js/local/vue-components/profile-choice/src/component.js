@@ -1,4 +1,5 @@
 import './component.css';
+import './placeholder.css';
 
 export const ProfileChoice = {
   data() {},
@@ -7,11 +8,20 @@ export const ProfileChoice = {
       type: Object,
       default: [],
     },
+    loading: {
+      type: Boolean,
+      default: true,
+    },
   },
   // language=Vue
   template: `
-    <div class="b-profile-choice" v-if="profiles.length">
-      <a v-for="profile in profiles" :key="profile.id" class="b-profile-choice__item" :class="{active: profile.default}" :href="profile.link" @click.prevent="click(profile.id)">
+    <div v-if="loading" class="vue-profile-choice-ph">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="vue-profile-choice" v-else-if="profiles.length">
+      <a v-for="profile in profiles" :key="profile.id" class="vue-profile-choice__item" :class="{active: profile.default}" :data-id="profile.id" @click.prevent="click(profile.id)">
         <i v-if="profile.newAppealsCount">{{ profile.newAppealsCount }}</i>
         <span>{{ profile.name }}</span>
       </a>

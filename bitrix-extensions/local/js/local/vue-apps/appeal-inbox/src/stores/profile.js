@@ -7,8 +7,17 @@ export const profileStore = defineStore('profile', {
     },
     profiles: [],
     profilesCounter: 0,
+    loadingProfiles: true,
   }),
+  getters: {
+    defaultProfile() {
+      return this.profiles.find((p) => p.default);
+    },
+  },
   actions: {
+    showError({ error, method }) {
+      console.log(error, method);
+    },
     setDefaultProfile({ id }) {
       if (this.profiles.length) {
         this.profiles.forEach((p) => {
@@ -55,7 +64,7 @@ export const profileStore = defineStore('profile', {
       }
     },
     runSetDefaultProfile(data, callback, counter) {
-      console.log(counter);
+      this.loadingProfiles = true;
       let a = window.BX.ajax.runComponentAction(
         this.actions.setDefaultProfile.component,
         this.actions.setDefaultProfile.method,
@@ -65,9 +74,11 @@ export const profileStore = defineStore('profile', {
 
       a.then(
         (result) => {
+          this.loadingProfiles = false;
           resultFn(state, result.data);
         },
         (error) => {
+          this.loadingProfiles = false;
           if (
             window.twinpx &&
             window.twinpx.vue.markup &&

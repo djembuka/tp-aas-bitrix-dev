@@ -1,0 +1,36 @@
+.vue-predefined-filters-ph {
+  position: relative;
+  --aas-placeholder-color: #f2f2f2;
+}
+
+.vue-predefined-filters-ph {
+  display: flex;
+  column-gap: 32px;
+}
+
+.vue-predefined-filters-ph div {
+  width: 138px;
+  height: 85px;
+  border-radius: 10px;
+  background-color: var(--aas-placeholder-color);
+
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 49%,
+    #ffffff88 50%,
+    #ffffff88 50%,
+    transparent 51%,
+    transparent 100%
+  );
+  background-size: 600% 600%;
+  animation: table-gradient 4s linear infinite;
+
+  background-attachment: fixed;
+}
+
+@keyframes table-gradient {
+  100% {
+    background-position: 200%;
+  }
+}
