@@ -33,8 +33,8 @@ export const Application = {
 
   template: `
     <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />
-    <hr class="hr--sl">
-    <PredefinedFilters :predefined="predefined" :loading="loadingPredefined" @clickPredefined="clickPredefined" />
+    <hr class="hr--sl" v-if="predefined && predefined.fields && predefined.fields.length">
+    <PredefinedFilters :predefined="predefined" :selected="selected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />
     <hr class="hr--lg">
     <div>
       <ErrorMessage :error="error" @hideError="hideError" />
@@ -91,6 +91,14 @@ export const Application = {
     error() {
       return this.errorTable || this.errorFilter;
     },
+    selected() {
+      if (!this.defaultProfile) {
+        return undefined;
+      }
+      return this.defaultProfile.excelExportSupport
+        ? this.appeals.resultCount
+        : undefined;
+    },
   },
   methods: {
     ...mapActions(profileStore, [
@@ -105,17 +113,18 @@ export const Application = {
     ]),
     clickProfile({ id }) {
       this.setDefaultProfile({ id });
+
       this.increaseProfilesCounter();
 
       this.runSetDefaultProfile(
         {
           mode: 'class',
+          signedParameters: this.signedParameters,
           data: {
             userid: this.userid,
             sessid: this.sessid,
             profileid: id,
           },
-          signedParameters: this.signedParameters,
         },
         null,
         this.profilesCounter
@@ -123,34 +132,35 @@ export const Application = {
     },
     clickPredefined({ field }) {
       this.setPredefinedActive({ field });
-      // this.increasePredefinedCounter();
 
       if (!this.defaultProfile) return;
+
+      const predefinedFilter = this.predefinedActive
+        ? this.predefinedActive.id
+        : undefined;
 
       this.runAppeals(
         {
           mode: 'class',
+          signedParameters: this.signedParameters,
           data: {
             userid: this.userid,
             sessid: this.sessid,
             profileid: this.defaultProfile.id,
             startIndex: 0,
-            maxCountPerRequest: 50,
-            predefinedFilter: this.predefinedActive.id,
-            filters: [
-              {
-                id: 'U_NAME',
-                value: 'Лёвина',
-              },
-            ],
-            columnSort: '',
-            sortType: '',
+            maxCountPerRequest: this.maxCountPerRequest,
+            predefinedFilter,
+            filters: this.filters,
+            columnSort: this.sort.columnSort,
+            sortType: this.sort.sortType,
           },
-          signedParameters: this.signedParameters,
         },
         null,
-        this.profilesCounter
+        this.increaseAppealsCounter()
       );
+    },
+    clickSelected() {
+      console.log('clickSelected');
     },
     ...mapActions(tableStore, [
       'hideErrorTable',
@@ -158,6 +168,7 @@ export const Application = {
       'runAppeals',
       'runDefaultSort',
       'runSetDefaultSort',
+      'increaseAppealsCounter',
     ]),
     ...mapActions(filterStore, [
       'hideErrorFilter',
@@ -176,24 +187,41 @@ export const Application = {
 
       this.runSetDefaultSort(
         {
+          mode: 'class',
           signedParameters: this.signedParameters,
-          sessionid: this.sessionid,
-          columnSort: column.id,
-          sortType,
+          data: {
+            signedParameters: this.signedParameters,
+            sessid: this.sessid,
+            columnSort: column.id,
+            sortType,
+          },
         },
         () => {
-          this.runAppeals({
-            signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
-            startIndex: this.appeals.startIndex || 0,
-            maxCountPerRequest: this.maxCountPerRequest,
-            filters: [],
-            columnSort: 1,
-            sortType: 'asc',
-          });
+          this.runAppeals(
+            {
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                signedParameters: this.signedParameters,
+                sessid: this.sessid,
+                startIndex: this.appeals.startIndex || 0,
+                maxCountPerRequest: this.maxCountPerRequest,
+                filters: [],
+                columnSort: 1,
+                sortType: 'asc',
+              },
+            },
+            null,
+            this.increaseAppealsCounter()
+          );
+
           this.runDefaultSort({
+            mode: 'class',
             signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
+            data: {
+              signedParameters: this.signedParameters,
+              sessid: this.sessid,
+            },
           });
         }
       );
@@ -205,22 +233,34 @@ export const Application = {
         checked,
       });
 
-      this.runAppeals({
-        signedParameters: this.signedParameters,
-        sessionid: this.sessionid,
-        startIndex: this.appeals.startIndex || 0,
-        maxCountPerRequest: this.maxCountPerRequest,
-        filters: this.filters,
-        columnSort: this.sort.columnSort,
-        sortType: this.sort.sortType,
-      });
+      this.runAppeals(
+        {
+          mode: 'class',
+          signedParameters: this.signedParameters,
+          data: {
+            signedParameters: this.signedParameters,
+            sessid: this.sessid,
+            startIndex: this.appeals.startIndex || 0,
+            maxCountPerRequest: this.maxCountPerRequest,
+            filters: this.filters,
+            columnSort: this.sort.columnSort,
+            sortType: this.sort.sortType,
+          },
+        },
+        null,
+        this.increaseAppealsCounter()
+      );
     },
     hints({ type, control, action, value }) {
       switch (type) {
         case 'get':
           this.runHintsAction({
-            control,
-            action,
+            mode: 'class',
+            signedParameters: this.signedParameters,
+            data: {
+              control,
+              action,
+            },
           });
           break;
         case 'set':
@@ -232,68 +272,94 @@ export const Application = {
       }
     },
     clickPage({ count }) {
-      this.runAppeals({
-        signedParameters: this.signedParameters,
-        sessionid: this.sessionid,
-        startIndex: (count - 1) * this.maxCountPerRequest,
-        maxCountPerRequest: this.maxCountPerRequest,
-        filters: this.filters,
-        columnSort: this.sort.columnSort,
-        sortType: this.sort.sortType,
-      });
+      this.runAppeals(
+        {
+          mode: 'class',
+          signedParameters: this.signedParameters,
+          data: {
+            signedParameters: this.signedParameters,
+            sessid: this.sessid,
+            startIndex: (count - 1) * this.maxCountPerRequest,
+            maxCountPerRequest: this.maxCountPerRequest,
+            filters: this.filters,
+            columnSort: this.sort.columnSort,
+            sortType: this.sort.sortType,
+          },
+        },
+        null,
+        this.increaseAppealsCounter()
+      );
     },
   },
   mounted() {
     this.runProfiles(
       {
         mode: 'class',
+        signedParameters: this.signedParameters,
         data: {
           userid: this.userid,
           sessid: this.sessid,
         },
-        signedParameters: this.signedParameters,
       },
       () => {
         //predefined
         if (!this.defaultProfile) return;
         this.runPredefinedFilters({
           mode: 'class',
+          signedParameters: this.signedParameters,
           data: {
             userid: this.userid,
             sessid: this.sessid,
             profileid: this.defaultProfile.id,
           },
-          signedParameters: this.signedParameters,
         });
         //filter
         //cols
         //appeals
         this.runColumnsNames({
+          mode: 'class',
           signedParameters: this.signedParameters,
-          sessionid: this.sessionid,
+          data: {
+            sessid: this.sessid,
+          },
         });
 
         this.runDefaultSort(
           {
+            mode: 'class',
             signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
+            data: {
+              signedParameters: this.signedParameters,
+              sessid: this.sessid,
+            },
           },
           () => {
-            this.runAppeals({
-              signedParameters: this.signedParameters,
-              sessionid: this.sessionid,
-              startIndex: this.appeals.startIndex || 0,
-              maxCountPerRequest: this.maxCountPerRequest,
-              filters: this.filters,
-              columnSort: this.sort.columnSort,
-              sortType: this.sort.sortType,
-            });
+            this.runAppeals(
+              {
+                mode: 'class',
+                signedParameters: this.signedParameters,
+                data: {
+                  sessid: this.sessid,
+                  startIndex: this.appeals.startIndex || 0,
+                  maxCountPerRequest: this.maxCountPerRequest,
+                  filters: this.filters,
+                  columnSort: this.sort.columnSort,
+                  sortType: this.sort.sortType,
+                },
+              },
+              null,
+              this.increaseAppealsCounter()
+            );
           }
         );
 
         this.runFilters({
+          mode: 'class',
           signedParameters: this.signedParameters,
-          sessionid: this.sessionid,
+          data: {
+            signedParameters: this.signedParameters,
+            sessid: this.sessid,
+          },
         });
       }
     );

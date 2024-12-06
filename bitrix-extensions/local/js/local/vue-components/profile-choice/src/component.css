@@ -1,6 +1,4 @@
 .vue-profile-choice {
-  display: flex;
-  gap: 16px;
 }
 .vue-profile-choice__item {
   background-color: #f0f5fc;
@@ -36,6 +34,7 @@
   background-color: #8393aa;
   color: #fff;
   cursor: default;
+  pointer-events: none;
 }
 .vue-profile-choice__container {
   background: #fafbfc;

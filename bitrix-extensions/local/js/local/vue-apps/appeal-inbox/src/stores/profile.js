@@ -96,7 +96,6 @@ export const profileStore = defineStore('profile', {
 
       function resultFn(state, data) {
         if (counter === state.profilesCounter) {
-          console.log(counter, state.profilesCounter);
           state.setDefaultProfile({ id: data });
           if (callback) {
             callback();

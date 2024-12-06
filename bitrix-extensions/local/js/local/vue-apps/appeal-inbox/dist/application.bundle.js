@@ -134,7 +134,6 @@
         );
         function resultFn(state, data) {
           if (counter === state.profilesCounter) {
-            console.log(counter, state.profilesCounter);
             state.setDefaultProfile({
               id: data,
             });
@@ -234,6 +233,7 @@
         sort: {},
         actions: {},
         errorTable: '',
+        appealsCounter: 0,
       };
     },
     getters: {
@@ -242,6 +242,9 @@
       },
     },
     actions: {
+      increaseAppealsCounter: function increaseAppealsCounter() {
+        return ++this.appealsCounter;
+      },
       hideErrorTable: function hideErrorTable() {
         this.errorTable = '';
       },
@@ -350,7 +353,7 @@
           }
         }
       },
-      runAppeals: function runAppeals(data, callback) {
+      runAppeals: function runAppeals(data, callback, counter) {
         var _this2 = this;
         this.loadingAppeals = true;
         var a = window.BX.ajax.runComponentAction(this.actions.appeals, data);
@@ -369,7 +372,7 @@
             ) {
               resultFn(
                 state,
-                window.twinpx.vue['appeal-inbox'].appeals(data.startIndex)
+                window.twinpx.vue['appeal-inbox'].appeals(data.data.startIndex)
               );
             } else {
               _this2.showError({
@@ -380,12 +383,14 @@
           }
         );
         function resultFn(state, data) {
-          var items = data.appeals;
-          data.items = items;
-          delete data.appeals;
-          state.appeals = data;
-          if (callback) {
-            callback();
+          if (counter === state.appealsCounter) {
+            var items = data.appeals;
+            data.items = items;
+            delete data.appeals;
+            state.appeals = data;
+            if (callback) {
+              callback();
+            }
           }
         }
       },
@@ -735,7 +740,7 @@
     // language=Vue
 
     template:
-      '\n    <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />\n    <hr class="hr--sl">\n    <PredefinedFilters :predefined="predefined" :loading="loadingPredefined" @clickPredefined="clickPredefined" />\n    <hr class="hr--lg">\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <div v-if="filters">\n        <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n      </div>\n      <hr>\n      <div v-if="appeals">\n        <StickyScroll>\n          <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n        </StickyScroll> \n        <hr>\n        <div class="vue-ft-table-bottom">\n          <div class="vue-ft-table-all" v-if="appeals.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ appeals.resultCount }}</div>\n          <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n        </div>\n      </div>\n    </div>\n\t',
+      '\n    <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />\n    <hr class="hr--sl" v-if="predefined && predefined.fields && predefined.fields.length">\n    <PredefinedFilters :predefined="predefined" :selected="selected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />\n    <hr class="hr--lg">\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <div v-if="filters">\n        <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n      </div>\n      <hr>\n      <div v-if="appeals">\n        <StickyScroll>\n          <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n        </StickyScroll> \n        <hr>\n        <div class="vue-ft-table-bottom">\n          <div class="vue-ft-table-all" v-if="appeals.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ appeals.resultCount }}</div>\n          <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n        </div>\n      </div>\n    </div>\n\t',
     computed: _objectSpread(
       _objectSpread(
         _objectSpread(
@@ -790,6 +795,14 @@
         error: function error() {
           return this.errorTable || this.errorFilter;
         },
+        selected: function selected() {
+          if (!this.defaultProfile) {
+            return undefined;
+          }
+          return this.defaultProfile.excelExportSupport
+            ? this.appeals.resultCount
+            : undefined;
+        },
       }
     ),
     methods: _objectSpread(
@@ -821,12 +834,12 @@
               this.runSetDefaultProfile(
                 {
                   mode: 'class',
+                  signedParameters: this.signedParameters,
                   data: {
                     userid: this.userid,
                     sessid: this.sessid,
                     profileid: id,
                   },
-                  signedParameters: this.signedParameters,
                 },
                 null,
                 this.profilesCounter
@@ -837,33 +850,32 @@
               this.setPredefinedActive({
                 field: field,
               });
-              // this.increasePredefinedCounter();
-
               if (!this.defaultProfile) return;
+              var predefinedFilter = this.predefinedActive
+                ? this.predefinedActive.id
+                : undefined;
               this.runAppeals(
                 {
                   mode: 'class',
+                  signedParameters: this.signedParameters,
                   data: {
                     userid: this.userid,
                     sessid: this.sessid,
                     profileid: this.defaultProfile.id,
                     startIndex: 0,
-                    maxCountPerRequest: 50,
-                    predefinedFilter: this.predefinedActive.id,
-                    filters: [
-                      {
-                        id: 'U_NAME',
-                        value: 'Лёвина',
-                      },
-                    ],
-                    columnSort: '',
-                    sortType: '',
+                    maxCountPerRequest: this.maxCountPerRequest,
+                    predefinedFilter: predefinedFilter,
+                    filters: this.filters,
+                    columnSort: this.sort.columnSort,
+                    sortType: this.sort.sortType,
                   },
-                  signedParameters: this.signedParameters,
                 },
                 null,
-                this.profilesCounter
+                this.increaseAppealsCounter()
               );
+            },
+            clickSelected: function clickSelected() {
+              console.log('clickSelected');
             },
           },
           ui_vue3_pinia.mapActions(tableStore, [
@@ -872,6 +884,7 @@
             'runAppeals',
             'runDefaultSort',
             'runSetDefaultSort',
+            'increaseAppealsCounter',
           ])
         ),
         ui_vue3_pinia.mapActions(filterStore, [
@@ -897,24 +910,40 @@
               : 0;
           this.runSetDefaultSort(
             {
+              mode: 'class',
               signedParameters: this.signedParameters,
-              sessionid: this.sessionid,
-              columnSort: column.id,
-              sortType: sortType,
+              data: {
+                signedParameters: this.signedParameters,
+                sessid: this.sessid,
+                columnSort: column.id,
+                sortType: sortType,
+              },
             },
             function () {
-              _this.runAppeals({
-                signedParameters: _this.signedParameters,
-                sessionid: _this.sessionid,
-                startIndex: _this.appeals.startIndex || 0,
-                maxCountPerRequest: _this.maxCountPerRequest,
-                filters: [],
-                columnSort: 1,
-                sortType: 'asc',
-              });
+              _this.runAppeals(
+                {
+                  mode: 'class',
+                  signedParameters: _this.signedParameters,
+                  data: {
+                    signedParameters: _this.signedParameters,
+                    sessid: _this.sessid,
+                    startIndex: _this.appeals.startIndex || 0,
+                    maxCountPerRequest: _this.maxCountPerRequest,
+                    filters: [],
+                    columnSort: 1,
+                    sortType: 'asc',
+                  },
+                },
+                null,
+                _this.increaseAppealsCounter()
+              );
               _this.runDefaultSort({
+                mode: 'class',
                 signedParameters: _this.signedParameters,
-                sessionid: _this.sessionid,
+                data: {
+                  signedParameters: _this.signedParameters,
+                  sessid: _this.sessid,
+                },
               });
             }
           );
@@ -928,15 +957,23 @@
             value: value,
             checked: checked,
           });
-          this.runAppeals({
-            signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
-            startIndex: this.appeals.startIndex || 0,
-            maxCountPerRequest: this.maxCountPerRequest,
-            filters: this.filters,
-            columnSort: this.sort.columnSort,
-            sortType: this.sort.sortType,
-          });
+          this.runAppeals(
+            {
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                signedParameters: this.signedParameters,
+                sessid: this.sessid,
+                startIndex: this.appeals.startIndex || 0,
+                maxCountPerRequest: this.maxCountPerRequest,
+                filters: this.filters,
+                columnSort: this.sort.columnSort,
+                sortType: this.sort.sortType,
+              },
+            },
+            null,
+            this.increaseAppealsCounter()
+          );
         },
         hints: function hints(_ref5) {
           var type = _ref5.type,
@@ -946,8 +983,12 @@
           switch (type) {
             case 'get':
               this.runHintsAction({
-                control: control,
-                action: action,
+                mode: 'class',
+                signedParameters: this.signedParameters,
+                data: {
+                  control: control,
+                  action: action,
+                },
               });
               break;
             case 'set':
@@ -960,15 +1001,23 @@
         },
         clickPage: function clickPage(_ref6) {
           var count = _ref6.count;
-          this.runAppeals({
-            signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
-            startIndex: (count - 1) * this.maxCountPerRequest,
-            maxCountPerRequest: this.maxCountPerRequest,
-            filters: this.filters,
-            columnSort: this.sort.columnSort,
-            sortType: this.sort.sortType,
-          });
+          this.runAppeals(
+            {
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                signedParameters: this.signedParameters,
+                sessid: this.sessid,
+                startIndex: (count - 1) * this.maxCountPerRequest,
+                maxCountPerRequest: this.maxCountPerRequest,
+                filters: this.filters,
+                columnSort: this.sort.columnSort,
+                sortType: this.sort.sortType,
+              },
+            },
+            null,
+            this.increaseAppealsCounter()
+          );
         },
       }
     ),
@@ -977,51 +1026,69 @@
       this.runProfiles(
         {
           mode: 'class',
+          signedParameters: this.signedParameters,
           data: {
             userid: this.userid,
             sessid: this.sessid,
           },
-          signedParameters: this.signedParameters,
         },
         function () {
           //predefined
           if (!_this2.defaultProfile) return;
           _this2.runPredefinedFilters({
             mode: 'class',
+            signedParameters: _this2.signedParameters,
             data: {
               userid: _this2.userid,
               sessid: _this2.sessid,
               profileid: _this2.defaultProfile.id,
             },
-            signedParameters: _this2.signedParameters,
           });
           //filter
           //cols
           //appeals
           _this2.runColumnsNames({
+            mode: 'class',
             signedParameters: _this2.signedParameters,
-            sessionid: _this2.sessionid,
+            data: {
+              sessid: _this2.sessid,
+            },
           });
           _this2.runDefaultSort(
             {
+              mode: 'class',
               signedParameters: _this2.signedParameters,
-              sessionid: _this2.sessionid,
+              data: {
+                signedParameters: _this2.signedParameters,
+                sessid: _this2.sessid,
+              },
             },
             function () {
-              _this2.runAppeals({
-                signedParameters: _this2.signedParameters,
-                sessionid: _this2.sessionid,
-                startIndex: _this2.appeals.startIndex || 0,
-                maxCountPerRequest: _this2.maxCountPerRequest,
-                filters: _this2.filters,
-                columnSort: _this2.sort.columnSort,
-                sortType: _this2.sort.sortType,
-              });
+              _this2.runAppeals(
+                {
+                  mode: 'class',
+                  signedParameters: _this2.signedParameters,
+                  data: {
+                    sessid: _this2.sessid,
+                    startIndex: _this2.appeals.startIndex || 0,
+                    maxCountPerRequest: _this2.maxCountPerRequest,
+                    filters: _this2.filters,
+                    columnSort: _this2.sort.columnSort,
+                    sortType: _this2.sort.sortType,
+                  },
+                },
+                null,
+                _this2.increaseAppealsCounter()
+              );
             }
           );
           _this2.runFilters({
+            mode: 'class',
             signedParameters: _this2.signedParameters,
-            sessionid: _this2.sessionid,
+            data: {
+              signedParameters: _this2.signedParameters,
+              sessid: _this2.sessid,
+            },
           });
         }
       );

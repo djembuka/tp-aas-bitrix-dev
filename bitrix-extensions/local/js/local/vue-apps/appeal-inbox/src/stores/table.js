@@ -10,6 +10,7 @@ export const tableStore = defineStore('table', {
       sort: {},
       actions: {},
       errorTable: '',
+      appealsCounter: 0,
     };
   },
   getters: {
@@ -18,6 +19,9 @@ export const tableStore = defineStore('table', {
     },
   },
   actions: {
+    increaseAppealsCounter() {
+      return ++this.appealsCounter;
+    },
     hideErrorTable() {
       this.errorTable = '';
     },
@@ -104,7 +108,7 @@ export const tableStore = defineStore('table', {
         }
       }
     },
-    runAppeals(data, callback) {
+    runAppeals(data, callback, counter) {
       this.loadingAppeals = true;
       let a = window.BX.ajax.runComponentAction(this.actions.appeals, data);
       let state = this;
@@ -123,7 +127,7 @@ export const tableStore = defineStore('table', {
           ) {
             resultFn(
               state,
-              window.twinpx.vue['appeal-inbox'].appeals(data.startIndex)
+              window.twinpx.vue['appeal-inbox'].appeals(data.data.startIndex)
             );
           } else {
             this.showError({ error, method: 'appeals' });
@@ -132,13 +136,15 @@ export const tableStore = defineStore('table', {
       );
 
       function resultFn(state, data) {
-        const items = data.appeals;
-        data.items = items;
-        delete data.appeals;
-        state.appeals = data;
+        if (counter === state.appealsCounter) {
+          const items = data.appeals;
+          data.items = items;
+          delete data.appeals;
+          state.appeals = data;
 
-        if (callback) {
-          callback();
+          if (callback) {
+            callback();
+          }
         }
       }
     },
