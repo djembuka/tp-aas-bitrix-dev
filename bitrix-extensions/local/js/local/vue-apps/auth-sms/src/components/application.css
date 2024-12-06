@@ -1,0 +1,14 @@
+.vue-auth-sms {
+  display: grid;
+  gap: 64px;
+  grid-template-columns: calc(50% - 32px) calc(50% - 32px);
+}
+.vue-auth-sms-right img {
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .vue-auth-sms {
+    display: block;
+  }
+}
