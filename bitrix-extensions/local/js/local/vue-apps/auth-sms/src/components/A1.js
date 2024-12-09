@@ -1,30 +1,30 @@
-import './application.css';
-import { A1 } from './A1.js';
-
-// import { TableComponent } from 'local.vue-components.table-component';
-
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data';
 
-export const Application = {
+import { ControlTel } from 'local.vue-components.control-tel';
+
+export const A1 = {
   data() {
-    return {};
+    return {
+      control: {
+        property: 'tel',
+        id: 'id0',
+        name: 'PHONE',
+        label: 'Номер телефона',
+        value: '',
+        required: true,
+        disabled: false,
+      },
+    };
   },
   components: {
-    A1,
+    ControlTel,
   },
   // language=Vue
 
   template: `
-    <div class="vue-auth-sms">
-      <div class="vue-auth-sms-left">
-        <h3 class="mt-0">Вход с помощью СМС кода</h3>
-        <A1 />
-      </div>
-      <div class="vue-auth-sms-right">
-        <img src="/markup/pages/auth-sms/auth-sms-ill.png" alt="">
-      </div>
-      
+    <div>
+      <ControlTel :control="control" @input="input" />
     </div>
 	`,
   computed: {
@@ -38,6 +38,9 @@ export const Application = {
     //   'runDefaultSort',
     //   'runSetDefaultSort',
     // ]),
+    input({ control, value }) {
+      console.log(value);
+    },
   },
   mounted() {},
 };

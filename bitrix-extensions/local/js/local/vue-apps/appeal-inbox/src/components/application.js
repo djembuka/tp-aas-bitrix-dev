@@ -82,6 +82,9 @@ export const Application = {
       'filterCols',
       'errorFilter',
     ]),
+    showError(error) {
+      console.log(error);
+    },
     pagesNum() {
       return Math.ceil(this.appeals.resultCount / this.maxCountPerRequest);
     },
@@ -116,19 +119,119 @@ export const Application = {
 
       this.increaseProfilesCounter();
 
-      this.runSetDefaultProfile(
-        {
-          mode: 'class',
-          signedParameters: this.signedParameters,
-          data: {
-            userid: this.userid,
-            sessid: this.sessid,
-            profileid: id,
+      new Promise((resolve) => {
+        resolve(
+          this.runSetDefaultProfile(
+            {
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: id,
+              },
+            },
+            () => {},
+            this.profilesCounter
+          )
+        );
+      })
+        .then(
+          (result) => {
+            if (result && result.status === 'success') {
+              if (!this.defaultProfile) return;
+
+              return this.runPredefinedFilters({
+                mode: 'class',
+                signedParameters: this.signedParameters,
+                data: {
+                  userid: this.userid,
+                  sessid: this.sessid,
+                  profileid: this.defaultProfile.id,
+                },
+              });
+            } else if (result && result.status === 'error') {
+              this.showError({ error: result.errors[0] });
+            }
           },
-        },
-        null,
-        this.profilesCounter
-      );
+          (error) => {
+            console.log(error);
+          }
+        )
+        .then((result) => {
+          if (result && result.status === 'success') {
+            return this.runFilters({
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+              },
+            });
+          } else if (result && result.status === 'error') {
+            this.showError({ error: result.errors[0] });
+          }
+        })
+        .then((result) => {
+          if (result && result.status === 'success') {
+            return this.runColumnsNames({
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+              },
+            });
+          } else if (result && result.status === 'error') {
+            this.showError({ error: result.errors[0] });
+          }
+        })
+        .then((result) => {
+          if (result && result.status === 'success') {
+            return this.runDefaultSort({
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+              },
+            });
+          } else if (result && result.status === 'error') {
+            this.showError({ error: result.errors[0] });
+          }
+        })
+        .then((result) => {
+          if (result && result.status === 'success') {
+            const predefinedFilter = this.predefinedActive
+              ? this.predefinedActive.id
+              : undefined;
+
+            this.runAppeals(
+              {
+                mode: 'class',
+                signedParameters: this.signedParameters,
+                data: {
+                  userid: this.userid,
+                  sessid: this.sessid,
+                  profileid: this.defaultProfile.id,
+                  startIndex: this.appeals.startIndex || 0,
+                  maxCountPerRequest: this.maxCountPerRequest,
+                  predefinedFilter,
+                  filters: this.filters,
+                  columnSort: this.sort.columnSort,
+                  sortType: this.sort.sortType,
+                },
+              },
+              null,
+              this.increaseAppealsCounter()
+            );
+          } else if (result && result.status === 'error') {
+            this.showError({ error: result.errors[0] });
+          }
+        });
     },
     clickPredefined({ field }) {
       this.setPredefinedActive({ field });
@@ -139,25 +242,103 @@ export const Application = {
         ? this.predefinedActive.id
         : undefined;
 
-      this.runAppeals(
-        {
-          mode: 'class',
-          signedParameters: this.signedParameters,
-          data: {
-            userid: this.userid,
-            sessid: this.sessid,
-            profileid: this.defaultProfile.id,
-            startIndex: 0,
-            maxCountPerRequest: this.maxCountPerRequest,
-            predefinedFilter,
-            filters: this.filters,
-            columnSort: this.sort.columnSort,
-            sortType: this.sort.sortType,
-          },
-        },
-        null,
-        this.increaseAppealsCounter()
-      );
+      new Promise((resolve) => {
+        resolve(
+          this.runAppeals(
+            {
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+                startIndex: 0,
+                maxCountPerRequest: this.maxCountPerRequest,
+                predefinedFilter,
+                filters: this.filters,
+                columnSort: this.sort.columnSort,
+                sortType: this.sort.sortType,
+              },
+            },
+            null,
+            this.increaseAppealsCounter()
+          )
+        );
+      })
+        .then((result) => {
+          if (result && result.status === 'success') {
+            return this.runFilters({
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+              },
+            });
+          } else if (result && result.status === 'error') {
+            this.showError({ error: result.errors[0] });
+          }
+        })
+        .then((result) => {
+          if (result && result.status === 'success') {
+            return this.runColumnsNames({
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+              },
+            });
+          } else if (result && result.status === 'error') {
+            this.showError({ error: result.errors[0] });
+          }
+        })
+        .then((result) => {
+          if (result && result.status === 'success') {
+            return this.runDefaultSort({
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+              },
+            });
+          } else if (result && result.status === 'error') {
+            this.showError({ error: result.errors[0] });
+          }
+        })
+        .then((result) => {
+          if (result && result.status === 'success') {
+            const predefinedFilter = this.predefinedActive
+              ? this.predefinedActive.id
+              : undefined;
+
+            this.runAppeals(
+              {
+                mode: 'class',
+                signedParameters: this.signedParameters,
+                data: {
+                  userid: this.userid,
+                  sessid: this.sessid,
+                  profileid: this.defaultProfile.id,
+                  startIndex: this.appeals.startIndex || 0,
+                  maxCountPerRequest: this.maxCountPerRequest,
+                  predefinedFilter,
+                  filters: this.filters,
+                  columnSort: this.sort.columnSort,
+                  sortType: this.sort.sortType,
+                },
+              },
+              null,
+              this.increaseAppealsCounter()
+            );
+          } else if (result && result.status === 'error') {
+            this.showError({ error: result.errors[0] });
+          }
+        });
     },
     clickSelected() {
       console.log('clickSelected');
@@ -183,30 +364,39 @@ export const Application = {
     },
     clickTh({ column }) {
       const sortType =
-        this.sort.columnSort === column.id && this.sort.sortType === 0 ? 1 : 0;
+        this.sort.columnSort === column.id && this.sort.sortType === 'ASC'
+          ? 'DESC'
+          : 'ASC';
 
       this.runSetDefaultSort(
         {
           mode: 'class',
           signedParameters: this.signedParameters,
           data: {
-            signedParameters: this.signedParameters,
+            userid: this.userid,
             sessid: this.sessid,
+            profileid: this.defaultProfile.id,
             columnSort: column.id,
             sortType,
           },
         },
         () => {
+          const predefinedFilter = this.predefinedActive
+            ? this.predefinedActive.id
+            : undefined;
+
           this.runAppeals(
             {
               mode: 'class',
               signedParameters: this.signedParameters,
               data: {
-                signedParameters: this.signedParameters,
+                userid: this.userid,
                 sessid: this.sessid,
+                profileid: this.defaultProfile.id,
                 startIndex: this.appeals.startIndex || 0,
                 maxCountPerRequest: this.maxCountPerRequest,
-                filters: [],
+                predefinedFilter,
+                filters: this.filters,
                 columnSort: 1,
                 sortType: 'asc',
               },
@@ -219,8 +409,9 @@ export const Application = {
             mode: 'class',
             signedParameters: this.signedParameters,
             data: {
-              signedParameters: this.signedParameters,
+              userid: this.userid,
               sessid: this.sessid,
+              profileid: this.defaultProfile.id,
             },
           });
         }
@@ -233,15 +424,21 @@ export const Application = {
         checked,
       });
 
+      const predefinedFilter = this.predefinedActive
+        ? this.predefinedActive.id
+        : undefined;
+
       this.runAppeals(
         {
           mode: 'class',
           signedParameters: this.signedParameters,
           data: {
-            signedParameters: this.signedParameters,
+            userid: this.userid,
             sessid: this.sessid,
+            profileid: this.defaultProfile.id,
             startIndex: this.appeals.startIndex || 0,
             maxCountPerRequest: this.maxCountPerRequest,
+            predefinedFilter,
             filters: this.filters,
             columnSort: this.sort.columnSort,
             sortType: this.sort.sortType,
@@ -272,15 +469,21 @@ export const Application = {
       }
     },
     clickPage({ count }) {
+      const predefinedFilter = this.predefinedActive
+        ? this.predefinedActive.id
+        : undefined;
+
       this.runAppeals(
         {
           mode: 'class',
           signedParameters: this.signedParameters,
           data: {
-            signedParameters: this.signedParameters,
+            userid: this.userid,
             sessid: this.sessid,
+            profileid: this.defaultProfile.id,
             startIndex: (count - 1) * this.maxCountPerRequest,
             maxCountPerRequest: this.maxCountPerRequest,
+            predefinedFilter,
             filters: this.filters,
             columnSort: this.sort.columnSort,
             sortType: this.sort.sortType,
@@ -292,76 +495,113 @@ export const Application = {
     },
   },
   mounted() {
-    this.runProfiles(
-      {
-        mode: 'class',
-        signedParameters: this.signedParameters,
-        data: {
-          userid: this.userid,
-          sessid: this.sessid,
-        },
-      },
-      () => {
-        //predefined
-        if (!this.defaultProfile) return;
-        this.runPredefinedFilters({
+    new Promise((resolve) => {
+      resolve(
+        this.runProfiles({
           mode: 'class',
           signedParameters: this.signedParameters,
           data: {
             userid: this.userid,
             sessid: this.sessid,
-            profileid: this.defaultProfile.id,
           },
-        });
-        //filter
-        //cols
-        //appeals
-        this.runColumnsNames({
-          mode: 'class',
-          signedParameters: this.signedParameters,
-          data: {
-            sessid: this.sessid,
-          },
-        });
+        })
+      );
+    })
+      .then(
+        (result) => {
+          if (result && result.status === 'success') {
+            if (!this.defaultProfile) return;
 
-        this.runDefaultSort(
-          {
+            return this.runPredefinedFilters({
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+              },
+            });
+          } else if (result && result.status === 'error') {
+            this.showError({ error: result.errors[0] });
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+      .then((result) => {
+        if (result && result.status === 'success') {
+          return this.runFilters({
             mode: 'class',
             signedParameters: this.signedParameters,
             data: {
-              signedParameters: this.signedParameters,
+              userid: this.userid,
               sessid: this.sessid,
+              profileid: this.defaultProfile.id,
             },
-          },
-          () => {
-            this.runAppeals(
-              {
-                mode: 'class',
-                signedParameters: this.signedParameters,
-                data: {
-                  sessid: this.sessid,
-                  startIndex: this.appeals.startIndex || 0,
-                  maxCountPerRequest: this.maxCountPerRequest,
-                  filters: this.filters,
-                  columnSort: this.sort.columnSort,
-                  sortType: this.sort.sortType,
-                },
-              },
-              null,
-              this.increaseAppealsCounter()
-            );
-          }
-        );
-
-        this.runFilters({
-          mode: 'class',
-          signedParameters: this.signedParameters,
-          data: {
+          });
+        } else if (result && result.status === 'error') {
+          this.showError({ error: result.errors[0] });
+        }
+      })
+      .then((result) => {
+        if (result && result.status === 'success') {
+          return this.runColumnsNames({
+            mode: 'class',
             signedParameters: this.signedParameters,
-            sessid: this.sessid,
-          },
-        });
-      }
-    );
+            data: {
+              userid: this.userid,
+              sessid: this.sessid,
+              profileid: this.defaultProfile.id,
+            },
+          });
+        } else if (result && result.status === 'error') {
+          this.showError({ error: result.errors[0] });
+        }
+      })
+      .then((result) => {
+        if (result && result.status === 'success') {
+          return this.runDefaultSort({
+            mode: 'class',
+            signedParameters: this.signedParameters,
+            data: {
+              userid: this.userid,
+              sessid: this.sessid,
+              profileid: this.defaultProfile.id,
+            },
+          });
+        } else if (result && result.status === 'error') {
+          this.showError({ error: result.errors[0] });
+        }
+      })
+      .then((result) => {
+        if (result && result.status === 'success') {
+          const predefinedFilter = this.predefinedActive
+            ? this.predefinedActive.id
+            : undefined;
+
+          this.runAppeals(
+            {
+              mode: 'class',
+              signedParameters: this.signedParameters,
+              data: {
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+                startIndex: this.appeals.startIndex || 0,
+                maxCountPerRequest: this.maxCountPerRequest,
+                predefinedFilter,
+                filters: this.filters,
+                columnSort: this.sort.columnSort,
+                sortType: this.sort.sortType,
+              },
+            },
+            null,
+            this.increaseAppealsCounter()
+          );
+        } else if (result && result.status === 'error') {
+          this.showError({ error: result.errors[0] });
+        }
+      });
   },
 };

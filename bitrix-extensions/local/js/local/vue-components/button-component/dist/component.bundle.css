@@ -1,0 +1,588 @@
+.vue-button:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+button.vue-button {
+  border: none;
+}
+[type='button']:not(:disabled),
+[type='reset']:not(:disabled),
+[type='submit']:not(:disabled),
+button:not(:disabled) {
+  cursor: pointer;
+}
+.vue-button {
+  font-family: Roboto, sans-serif;
+  font-weight: 200;
+  font-size: 0.75rem;
+  line-height: 48px;
+  height: 48px;
+  border-radius: 7px;
+  padding-top: 0;
+  padding-bottom: 0;
+  min-width: 158px;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  white-space: nowrap;
+}
+@media (max-width: 767px) {
+  .vue-button {
+    display: block;
+    width: auto;
+  }
+}
+button.vue-button {
+  border: none;
+}
+.vue-button:hover {
+  opacity: 0.7;
+}
+.vue-button .icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin-right: 10px;
+  vertical-align: text-bottom;
+}
+.vue-button.vue-button--30 .icon {
+  width: 16px;
+  height: 16px;
+}
+.vue-button--primary,
+.vue-button--primary:hover,
+.vue-button--primary.focus,
+.vue-button--primary:focus,
+.vue-button--primary.vue-button--disabled,
+.vue-button--primary:disabled {
+  background-color: #074c86;
+  border-color: #074c86;
+}
+.vue-button--primary.focus,
+.vue-button--primary:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--primary:not(:disabled):not(.vue-button--disabled).active,
+.vue-button--primary:not(:disabled):not(.vue-button--disabled):active {
+  background-color: #074c86;
+  border-color: #074c86;
+}
+.vue-button--primary:not(:disabled):not(.vue-button--disabled).active:focus,
+.vue-button--primary:not(:disabled):not(.vue-button--disabled):active:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--secondary,
+.vue-button--secondary:hover,
+.vue-button--secondary.focus,
+.vue-button--secondary:focus,
+.vue-button--secondary.vue-button--disabled,
+.vue-button--secondary:disabled {
+  background-color: #ff9300;
+  border-color: #ff9300;
+}
+.vue-button--secondary.focus,
+.vue-button--secondary:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--secondary:not(:disabled):not(.vue-button--disabled).active,
+.vue-button--secondary:not(:disabled):not(.vue-button--disabled):active {
+  background-color: #ff9300;
+  border-color: #ff9300;
+}
+.vue-button--secondary:not(:disabled):not(.vue-button--disabled).active:focus,
+.vue-button--secondary:not(:disabled):not(.vue-button--disabled):active:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--light,
+.vue-button--light:hover,
+.vue-button--light.focus,
+.vue-button--light:focus,
+.vue-button--light.vue-button--disabled,
+.vue-button--light:disabled {
+  color: #3b3b3b;
+  background-color: #f0f0f0;
+  border-color: #f0f0f0;
+}
+.vue-button--light.focus,
+.vue-button--light:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--light:not(:disabled):not(.vue-button--disabled).active,
+.vue-button--light:not(:disabled):not(.vue-button--disabled):active {
+  color: #074c86;
+  background-color: #f0f0f0;
+  border-color: #f0f0f0;
+}
+.vue-button--light:not(:disabled):not(.vue-button--disabled).active:focus,
+.vue-button--light:not(:disabled):not(.vue-button--disabled):active:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--dark,
+.vue-button--dark:hover,
+.vue-button--dark.focus,
+.vue-button--dark:focus,
+.vue-button--dark.vue-button--disabled,
+.vue-button--dark:disabled {
+  color: #fff;
+  background-color: #0a355a;
+  border-color: #0a355a;
+}
+.vue-button--dark.focus,
+.vue-button--dark:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--dark:not(:disabled):not(.vue-button--disabled).active,
+.vue-button--dark:not(:disabled):not(.vue-button--disabled):active {
+  color: #074c86;
+  background-color: #0a355a;
+  border-color: #0a355a;
+}
+.vue-button--dark:not(:disabled):not(.vue-button--disabled).active:focus,
+.vue-button--dark:not(:disabled):not(.vue-button--disabled):active:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--success,
+.vue-button--success:hover,
+.vue-button--success.focus,
+.vue-button--success:focus,
+.vue-button--success.vue-button--disabled,
+.vue-button--success:disabled {
+  color: #fff;
+  background-color: #74c37a;
+  border-color: #74c37a;
+}
+.vue-button--success.focus,
+.vue-button--success:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--success:not(:disabled):not(.vue-button--disabled).active,
+.vue-button--success:not(:disabled):not(.vue-button--disabled):active {
+  color: #fff;
+  background-color: #74c37a;
+  border-color: #74c37a;
+}
+.vue-button--success:not(:disabled):not(.vue-button--disabled).active:focus,
+.vue-button--success:not(:disabled):not(.vue-button--disabled):active:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--danger,
+.vue-button--danger:hover,
+.vue-button--danger.focus,
+.vue-button--danger:focus,
+.vue-button--danger.vue-button--disabled,
+.vue-button--danger:disabled {
+  color: #fff;
+  background-color: #ff3939;
+  border-color: #ff3939;
+}
+.vue-button--danger.focus,
+.vue-button--danger:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--danger:not(:disabled):not(.vue-button--disabled).active,
+.vue-button--danger:not(:disabled):not(.vue-button--disabled):active {
+  color: #fff;
+  background-color: #ff3939;
+  border-color: #ff3939;
+}
+.vue-button--danger:not(:disabled):not(.vue-button--disabled).active:focus,
+.vue-button--danger:not(:disabled):not(.vue-button--disabled):active:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--serve,
+.vue-button--serve:hover,
+.vue-button--serve:active,
+.vue-button--serve.focus,
+.vue-button--serve:focus,
+.vue-button--serve.vue-button--disabled,
+.vue-button--serve:disabled {
+  color: #5f7696;
+  background-color: #f0f5fc;
+  border-color: #f0f5fc;
+}
+.vue-button--serve.focus,
+.vue-button--serve:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--serve:not(:disabled):not(.vue-button--disabled).active,
+.vue-button--serve:not(:disabled):not(.vue-button--disabled):active {
+  color: #5f7696;
+  background-color: #f0f5fc;
+  border-color: #f0f5fc;
+}
+.vue-button--serve:not(:disabled):not(.vue-button--disabled).active:focus,
+.vue-button--serve:not(:disabled):not(.vue-button--disabled):active:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button[disabled],
+.vue-button.vue-button--disabled {
+  pointer-events: none;
+  opacity: 1;
+}
+.vue-button[disabled],
+.vue-button.vue-button--disabled,
+.vue-button[disabled]:hover,
+.vue-button.vue-button--disabled:hover,
+.vue-button[disabled].focus,
+.vue-button.vue-button--disabled.focus,
+.vue-button[disabled]:focus,
+.vue-button.vue-button--disabled:focus,
+.vue-button[disabled].vue-button--disabled,
+.vue-button.vue-button--disabled.vue-button--disabled,
+.vue-button[disabled]:disabled,
+.vue-button.vue-button--disabled:disabled {
+  color: #d5d5d5;
+  background-color: #f4f4f4;
+  border-color: #f4f4f4;
+}
+.vue-button[disabled].focus,
+.vue-button.vue-button--disabled.focus,
+.vue-button[disabled]:focus,
+.vue-button.vue-button--disabled:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+.vue-button--link-color {
+  border: none;
+}
+.vue-button--link-color.vue-button--light {
+  background-color: #fafafa;
+}
+.vue-button--link-color,
+.vue-button--link-color:hover,
+.vue-button--link-color.focus,
+.vue-button--link-color:focus,
+.vue-button--link-color.vue-button--disabled,
+.vue-button--link-color:disabled,
+.vue-button--link-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ).active,
+.vue-button--link-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ):active {
+  color: #f2762e;
+}
+.vue-button--link-color:hover,
+.vue-button--link-color.focus,
+.vue-button--link-color:focus,
+.vue-button--link-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ).active,
+.vue-button--link-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ):active {
+  background-color: #fff9f0;
+}
+.vue-button--blue-color {
+  border: none;
+}
+.vue-button--blue-color.vue-button--light {
+  background-color: #fafafa;
+}
+.vue-button--blue-color,
+.vue-button--blue-color:hover,
+.vue-button--blue-color.focus,
+.vue-button--blue-color:focus,
+.vue-button--blue-color.vue-button--disabled,
+.vue-button--blue-color:disabled,
+.vue-button--blue-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ).active,
+.vue-button--blue-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ):active {
+  color: #5f7696;
+}
+.vue-button--blue-color:hover,
+.vue-button--blue-color.focus,
+.vue-button--blue-color:focus,
+.vue-button--blue-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ).active,
+.vue-button--blue-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ):active {
+  background-color: #f2f7ff;
+}
+.vue-button--gray-color {
+  border: none;
+}
+.vue-button--gray-color.vue-button--light {
+  background-color: #fafafa;
+}
+.vue-button--gray-color,
+.vue-button--gray-color:hover,
+.vue-button--gray-color.focus,
+.vue-button--gray-color:focus,
+.vue-button--gray-color.vue-button--disabled,
+.vue-button--gray-color:disabled,
+.vue-button--gray-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ).active,
+.vue-button--gray-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ):active {
+  color: #9b9b9b;
+}
+.vue-button--gray-color:hover,
+.vue-button--gray-color.focus,
+.vue-button--gray-color:focus,
+.vue-button--gray-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ).active,
+.vue-button--gray-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ):active {
+  background-color: #fff;
+}
+.vue-button--red-color {
+  border: none;
+}
+.vue-button--red-color.vue-button--light {
+  background-color: #fafafa;
+}
+.vue-button--red-color,
+.vue-button--red-color:hover,
+.vue-button--red-color.focus,
+.vue-button--red-color:focus,
+.vue-button--red-color.vue-button--disabled,
+.vue-button--red-color:disabled,
+.vue-button--red-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ).active,
+.vue-button--red-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ):active {
+  color: #f00;
+}
+.vue-button--red-color:hover,
+.vue-button--red-color.focus,
+.vue-button--red-color:focus,
+.vue-button--red-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ).active,
+.vue-button--red-color.vue-button--light:not(:disabled):not(
+    .vue-button--disabled
+  ):active {
+  background-color: #fff7f7;
+}
+.vue-button--60 {
+  line-height: 60px;
+  height: 60px;
+  font-size: 1rem;
+  min-width: 250px;
+}
+.vue-button--38 {
+  line-height: 38px;
+  height: 38px;
+}
+.vue-button--30 {
+  line-height: 30px;
+  height: 30px;
+  min-width: 0;
+  padding: 0 17px;
+  border-radius: 3px;
+  font-weight: 400;
+}
+.vue-button--tag {
+  font-size: 0.75rem;
+  font-weight: normal;
+  height: 28px;
+  line-height: 28px;
+  min-width: auto;
+  padding: 0 8px;
+  background-color: #fafafa;
+  border-radius: 3px;
+}
+.vue-button--tag,
+.vue-button--tag:hover,
+.vue-button--tag:focus,
+.vue-button--tag:active {
+  color: #9b9b9b;
+}
+.vue-button--load-circle {
+  position: relative;
+  cursor: default;
+  pointer-events: none;
+}
+.vue-button--load-circle,
+.vue-button--load-circle:hover,
+.vue-button--load-circle:focus,
+.vue-button--load-circle:active,
+.vue-button--load-circle:not(:disabled):not(.vue-button--disabled).active,
+.vue-button--load-circle:not(:disabled):not(.vue-button--disabled):active,
+.vue-button--load-circle a {
+  color: transparent !important;
+}
+.vue-button--load-circle:after {
+  content: '';
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: calc(50% - 15px);
+  right: calc(50% - 15px);
+  -webkit-animation: button-circle 1.3s infinite linear;
+          animation: button-circle 1.3s infinite linear;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  border-right-color: transparent;
+}
+.vue-button--delete {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-image: url('images/btn-delete.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+  -o-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  -webkit-transition: opacity 0.5s ease;
+}
+button.vue-button--delete {
+  border: none;
+}
+.vue-button--delete:hover {
+  opacity: 0.7;
+}
+.vue-button--delete.vue-button--load-circle {
+  background-image: none;
+  background-color: #e03e41;
+  border-radius: 10px;
+}
+.vue-button--delete.vue-button--load-circle:after {
+  width: 20px;
+  height: 20px;
+  top: calc(50% - 10px);
+  right: calc(50% - 10px);
+}
+.vue-button--remove {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 38px;
+  height: 38px;
+  background: #fafafa;
+  cursor: pointer;
+  -o-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+  -webkit-transition: background 0.3s ease;
+  border-radius: 10px;
+}
+button.vue-button--remove {
+  border: none;
+}
+.vue-button--remove svg path {
+  fill: #9b9b9b;
+  -o-transition: fill 0.3s ease;
+  transition: fill 0.3s ease;
+  -webkit-transition: fill 0.3s ease;
+}
+.vue-button--remove:hover svg path {
+  fill: #f00;
+}
+.vue-button--remove:active {
+  background: #f00;
+}
+.vue-button--remove:active svg path {
+  fill: #fff;
+}
+.vue-button--edit,
+.vue-button--icon {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 38px;
+  height: 38px;
+  background: #fafafa;
+  cursor: pointer;
+  -o-transition: background 0.3s ease;
+  transition: background 0.3s ease;
+  -webkit-transition: background 0.3s ease;
+  border-radius: 10px;
+}
+button.vue-button--edit,
+button.vue-button--icon {
+  border: none;
+}
+.vue-button--edit svg path,
+.vue-button--icon svg path {
+  fill: none;
+  stroke: #9b9b9b;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  -o-transition: fill 0.3s ease;
+  transition: fill 0.3s ease;
+  -webkit-transition: fill 0.3s ease;
+}
+.vue-button--edit:hover svg path,
+.vue-button--icon:hover svg path {
+  stroke: #ff9300;
+}
+.vue-button--edit:active,
+.vue-button--icon:active {
+  background: #ff9300;
+}
+.vue-button--edit:active svg path,
+.vue-button--icon:active svg path {
+  stroke: #fff;
+}
+@-webkit-keyframes button-circle {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes button-circle {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+  }
+}

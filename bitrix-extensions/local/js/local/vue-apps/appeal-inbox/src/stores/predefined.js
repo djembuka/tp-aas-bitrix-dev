@@ -35,10 +35,12 @@ export const predefinedStore = defineStore('predefined', {
       );
       let state = this;
 
-      a.then(
+      return a.then(
         (result) => {
           this.loadingPredefined = false;
           resultFn(state, result.data);
+
+          return result;
         },
         (error) => {
           this.loadingPredefined = false;
