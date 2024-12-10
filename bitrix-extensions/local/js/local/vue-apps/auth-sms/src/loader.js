@@ -26,6 +26,7 @@ export class AuthSMS {
       mounted() {
         dataStore().sessid = self.options.sessid || '';
         dataStore().signedParameters = self.options.signedParameters || '';
+        dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS');
       },
     });
 

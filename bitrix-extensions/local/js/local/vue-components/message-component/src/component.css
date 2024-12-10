@@ -1,0 +1,44 @@
+.vue-message--info {
+  --vue-message-component-background: #fff;
+  --vue-message-component-box-shadow: 0px 4px 4px 0px rgba(242, 118, 46, 0.1);
+  --vue-message-component-color: #000;
+}
+.vue-message--error {
+  --vue-message-component-background: #ff3939;
+  --vue-message-component-box-shadow: none;
+  --vue-message-component-color: #fff;
+}
+
+.vue-message {
+  display: flex;
+  padding: 32px;
+  align-items: flex-start;
+  gap: 32px;
+  align-self: stretch;
+  border-radius: 8px;
+  background: var(--vue-message-component-background);
+  box-shadow: var(--vue-message-component-box-shadow);
+}
+.vue-message__icon {
+  display: flex;
+  width: 24px;
+  height: 24px;
+  justify-content: center;
+  align-items: center;
+}
+.vue-message__text {
+  display: grid;
+  gap: 16px;
+}
+.vue-message__message {
+  color: var(--vue-message-component-color);
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.vue-message .vue-button {
+  min-width: 0;
+  width: auto;
+}

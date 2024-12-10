@@ -7,10 +7,10 @@ this.BX = this.BX || {};
     data: function data() {
       return {};
     },
-    props: ['text', 'props'],
+    props: ['text', 'props', 'disabled'],
     emits: ['clickButton'],
     // language=Vue
-    template: "\n\t\t<button class=\"vue-button\" :class=\"propsClass\">{{ text }}</button>\n\t",
+    template: "\n\t\t<button class=\"vue-button\" :class=\"propsClass\" @click=\"clickButton\">{{ text }}</button>\n\t",
     computed: {
       propsClass: function propsClass() {
         var result = {};
@@ -18,6 +18,9 @@ this.BX = this.BX || {};
           this.props.forEach(function (p) {
             result["vue-button--".concat(p)] = true;
           });
+        }
+        if (this.disabled) {
+          result["vue-button--disabled"] = true;
         }
         return result;
       }

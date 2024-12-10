@@ -2,9 +2,10 @@
 (function (
   exports,
   ui_vue3,
-  local_vueComponents_messageInfo,
+  local_vueComponents_messageComponent,
   local_vueComponents_controlTel,
   local_vueComponents_controlCheckbox,
+  local_vueComponents_buttonComponent,
   ui_vue3_pinia
 ) {
   'use strict';
@@ -14,7 +15,65 @@
       return {
         sessionid: '',
         signedParameters: '',
+        lang: {},
       };
+    },
+  });
+
+  var a1Store = ui_vue3_pinia.defineStore('A1', {
+    state: function state() {
+      return {
+        tel: {
+          property: 'tel',
+          id: 'id0',
+          name: 'PHONE',
+          label: (function () {
+            return dataStore().lang;
+          })(),
+          value: '',
+          required: true,
+          disabled: false,
+        },
+        checkbox: {
+          property: 'checkbox',
+          id: 'id1',
+          name: 'NUM',
+          label: dataStore().lang,
+          value: '',
+          required: false,
+          disabled: false,
+        },
+      };
+    },
+    getters: {
+      buttonDisabled: function buttonDisabled() {
+        return !this.tel.value.trim() || !this.checkbox.value;
+      },
+    },
+    actions: {
+      changeControlValue: function changeControlValue(_ref) {
+        var control = _ref.control,
+          value = _ref.value;
+        control.value = value;
+      },
+      runFormSubmit: function runFormSubmit() {
+        if (window.BX) {
+          BX.ajax
+            .runAction('twinpx:authorization.api.send', {
+              data: {
+                phone: this.tel.value,
+              },
+            })
+            .then(
+              function (response) {
+                //show code
+              },
+              function (response) {
+                console.log(response.errors[0].message);
+              }
+            );
+        }
+      },
     },
   });
 
@@ -55,46 +114,59 @@
   var A1 = {
     data: function data() {
       return {
-        control: {
-          property: 'tel',
-          id: 'id0',
-          name: 'PHONE',
-          label: 'Номер телефона',
-          value: '',
-          required: true,
-          disabled: false,
-        },
+        submitProps: ['large', 'secondary', 'wide'],
       };
     },
     components: {
+      MessageComponent: local_vueComponents_messageComponent.MessageComponent,
       ControlTel: local_vueComponents_controlTel.ControlTel,
+      ControlCheckbox: local_vueComponents_controlCheckbox.ControlCheckbox,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
     },
     // language=Vue
 
     template:
-      '\n    <div>\n      <ControlTel :control="control" @input="input" />\n    </div>\n\t',
+      '\n    <div class="vue-auth-sms-a1">\n      <h3 class="mt-0">{{ lang.AUTH_SMS_TITLE }}</h3>\n      <MessageComponent type="info" :message="lang.AUTH_SMS_A1_MESSAGE_INFO" :button="lang.AUTH_SMS_A1_BUTTON_INFO" @clickButton="console.log(\'click button\')" />\n      \n      <MessageComponent type="error" :message="lang.AUTH_SMS_A1_MESSAGE_INFO" />\n\n      <div class="vue-auth-sms-a1-form">\n        <div class="vue-auth-sms-a1-form-body">\n          <ControlTel :control="tel" @input="inputTel" @focus="focus" @blur="blur" @enter="enter" />\n          <hr />\n          <ControlCheckbox :control="checkbox" @input="inputCheckbox" @focus="focus" @blur="blur" />\n          <hr />\n          <ButtonComponent :text="lang.AUTH_SMS_A1_BUTTON_SUBMIT" :props="submitProps" :disabled="buttonDisabled" @clickButton="clickSubmit" />\n        </div>\n      </div>\n\n      <hr class="hr--line hr--none" />\n\n      <div class="vue-auth-sms-a1-ornz-enter">\n\n        <div>\n          <ButtonComponent :text="lang.AUTH_SMS_A1_BUTTON_ORNZ" :props="[\'medium\', \'primary\']" @clickButton="clickORNZ" />\n        </div>\n\n        <div>\n          <a href="">{{ lang.AUTH_SMS_A1_ENTER }}</a>\n        </div>\n\n      </div>\n    </div>\n\t',
     computed: _objectSpread(
-      {},
-      ui_vue3_pinia.mapState(dataStore, ['sessionid', 'signedParameters'])
+      _objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['lang'])),
+      ui_vue3_pinia.mapState(a1Store, ['tel', 'checkbox', 'buttonDisabled'])
     ),
-    methods: {
-      // ...mapActions(tableStore, [
-      //   'hideErrorTable',
-      //   'runColumnsNames',
-      //   'runItems',
-      //   'runDefaultSort',
-      //   'runSetDefaultSort',
-      // ]),
-      input: function input(_ref) {
-        var control = _ref.control,
-          value = _ref.value;
-        console.log(value);
-      },
-    },
+    methods: _objectSpread(
+      _objectSpread(
+        {},
+        ui_vue3_pinia.mapActions(a1Store, [
+          'changeControlValue',
+          'runFormSubmit',
+        ])
+      ),
+      {},
+      {
+        inputTel: function inputTel(_ref) {
+          var value = _ref.value;
+          this.changeControlValue({
+            value: value,
+            control: this.tel,
+          });
+        },
+        inputCheckbox: function inputCheckbox(_ref2) {
+          var value = _ref2.value;
+          this.changeControlValue({
+            value: value,
+            control: this.checkbox,
+          });
+        },
+        clickSubmit: function clickSubmit() {
+          this.submitProps.push('load-circle');
+          this.runFormSubmit();
+        },
+        clickORNZ: function clickORNZ() {
+          console.log('click ornz');
+        },
+      }
+    ),
     mounted: function mounted() {},
   };
 
-  var _Application;
   function ownKeys$1(object, enumerableOnly) {
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
@@ -129,47 +201,20 @@
     }
     return target;
   }
-  var Application =
-    ((_Application = {
-      data: function data() {
-        return {
-          lang: {
-            messageInfo:
-              'Управление организацией доступно в личном кабинете «Единоличного органа управления» (генерального директора) по данным реестра СРО ААС',
-            messageInfoButton: 'Понятно',
-          },
-          tel: {
-            property: 'tel',
-            id: 'id0',
-            name: 'NUM',
-            label: 'Поле с подполем',
-            value: '',
-            required: false,
-            disabled: false,
-          },
-        };
-      },
-      components: {
-        MessageInfo: local_vueComponents_messageInfo.MessageInfo,
-      },
-    }),
-    babelHelpers.defineProperty(_Application, 'components', {
+  var Application = {
+    data: function data() {},
+    components: {
       A1: A1,
-    }),
-    babelHelpers.defineProperty(
-      _Application,
-      'template',
-      '\n    <div class="vue-auth-sms">\n      <div class="vue-auth-sms-left">\n        <h3 class="mt-0">\u0412\u0445\u043E\u0434 \u0441 \u043F\u043E\u043C\u043E\u0449\u044C\u044E \u0421\u041C\u0421 \u043A\u043E\u0434\u0430</h3>\n        <MessageInfo :message="lang.messageInfo" :button="lang.messageInfoButton" @clickButton="console.log(\'click button\')" />\n\n        <ControlTel :control="tel" @input="input" @focus="focus" @blur="blur" @enter="enter" />\n        <ControlCheckbox :control="checkbox" @input="input" @focus="focus" @blur="blur" />\n        <A1 />\n      </div>\n      <div class="vue-auth-sms-right">\n        <img src="/markup/pages/auth-sms/auth-sms-ill.png" alt="">\n      </div>\n      \n    </div>\n\t'
+    },
+    // language=Vue
+
+    template:
+      '\n    <div class="vue-auth-sms">\n      <div class="vue-auth-sms-left">\n        <A1 />\n      </div>\n      <div class="vue-auth-sms-right">\n        <img src="/markup/pages/auth-sms/auth-sms-ill.png" alt="">\n      </div>\n      \n    </div>\n\t',
+    computed: _objectSpread$1(
+      {},
+      ui_vue3_pinia.mapState(dataStore, ['sessionid', 'signedParameters'])
     ),
-    babelHelpers.defineProperty(
-      _Application,
-      'computed',
-      _objectSpread$1(
-        {},
-        ui_vue3_pinia.mapState(dataStore, ['sessionid', 'signedParameters'])
-      )
-    ),
-    babelHelpers.defineProperty(_Application, 'methods', {
+    methods: {
       // ...mapActions(tableStore, [
       //   'hideErrorTable',
       //   'runColumnsNames',
@@ -177,9 +222,9 @@
       //   'runDefaultSort',
       //   'runSetDefaultSort',
       // ]),
-    }),
-    babelHelpers.defineProperty(_Application, 'mounted', function mounted() {}),
-    _Application);
+    },
+    mounted: function mounted() {},
+  };
 
   function _classPrivateFieldInitSpec(obj, privateMap, value) {
     _checkPrivateRedeclaration(obj, privateMap);
@@ -240,6 +285,10 @@
                 dataStore().sessid = self.options.sessid || '';
                 dataStore().signedParameters =
                   self.options.signedParameters || '';
+                dataStore().lang = ui_vue3.BitrixVue.getFilteredPhrases(
+                  this,
+                  'AUTH_SMS'
+                );
               },
             })
           );
@@ -276,6 +325,7 @@
   BX.AAS,
   BX.Controls,
   BX.Controls,
+  BX.AAS,
   BX.Vue3.Pinia
 );
 //# sourceMappingURL=application.bundle.js.map

@@ -17,7 +17,7 @@ export const ControlTel = {
 		<div
       :class="{
         'twpx-form-control': true,
-        'twpx-form-control--text': true,
+        'twpx-form-control--tel': true,
         'twpx-form-control--active': active,
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,

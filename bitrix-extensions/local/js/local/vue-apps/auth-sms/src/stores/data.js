@@ -4,5 +4,6 @@ export const dataStore = defineStore('data', {
   state: () => ({
     sessionid: '',
     signedParameters: '',
+    lang: {},
   }),
 });

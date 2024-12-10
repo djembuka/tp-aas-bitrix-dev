@@ -4,11 +4,11 @@ export const ButtonComponent = {
   data() {
     return {};
   },
-  props: ['text', 'props'],
+  props: ['text', 'props', 'disabled'],
   emits: ['clickButton'],
   // language=Vue
   template: `
-		<button class="vue-button" :class="propsClass">{{ text }}</button>
+		<button class="vue-button" :class="propsClass" @click="clickButton">{{ text }}</button>
 	`,
   computed: {
     propsClass() {
@@ -17,6 +17,10 @@ export const ButtonComponent = {
         this.props.forEach((p) => {
           result[`vue-button--${p}`] = true;
         });
+      }
+
+      if (this.disabled) {
+        result[`vue-button--disabled`] = true;
       }
       return result;
     },

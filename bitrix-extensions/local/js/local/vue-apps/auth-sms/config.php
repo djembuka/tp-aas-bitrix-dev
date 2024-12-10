@@ -14,9 +14,10 @@ return [
 	'rel' => [
 		'main.polyfill.core',
 		'ui.vue3',
-		'local.vue-components.message-info',
+		'local.vue-components.message-component',
 		'local.vue-components.control-tel',
 		'local.vue-components.control-checkbox',
+		'local.vue-components.button-component',
 		'ui.vue3.pinia',
 	],
 	'skip_core' => true,
