@@ -1,4 +1,5 @@
 import './application.css';
+import { A1 } from './A1.js';
 
 import { MessageInfo } from 'local.vue-components.message-info';
 import { ControlTel } from 'local.vue-components.control-tel';
@@ -29,6 +30,9 @@ export const Application = {
   components: {
     MessageInfo,
   },
+  components: {
+    A1,
+  },
   // language=Vue
 
   template: `
@@ -39,6 +43,7 @@ export const Application = {
 
         <ControlTel :control="tel" @input="input" @focus="focus" @blur="blur" @enter="enter" />
         <ControlCheckbox :control="checkbox" @input="input" @focus="focus" @blur="blur" />
+        <A1 />
       </div>
       <div class="vue-auth-sms-right">
         <img src="/markup/pages/auth-sms/auth-sms-ill.png" alt="">

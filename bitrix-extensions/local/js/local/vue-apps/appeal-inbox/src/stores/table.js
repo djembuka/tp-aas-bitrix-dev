@@ -77,15 +77,18 @@ export const tableStore = defineStore('table', {
     runColumnsNames(data, callback) {
       this.loadingCols = true;
       let a = window.BX.ajax.runComponentAction(
-        this.actions.columnsNames,
+        this.actions.columnsNames.component,
+        this.actions.columnsNames.method,
         data
       );
       let state = this;
 
-      a.then(
+      return a.then(
         (result) => {
           this.loadingCols = false;
           resultFn(state, result);
+
+          return result;
         },
         (error) => {
           this.loadingCols = false;
@@ -101,8 +104,8 @@ export const tableStore = defineStore('table', {
         }
       );
 
-      function resultFn(state, data) {
-        state.columnsNames = data;
+      function resultFn(state, result) {
+        state.columnsNames = result.data;
         if (callback) {
           callback();
         }
@@ -110,7 +113,11 @@ export const tableStore = defineStore('table', {
     },
     runAppeals(data, callback, counter) {
       this.loadingAppeals = true;
-      let a = window.BX.ajax.runComponentAction(this.actions.appeals, data);
+      let a = window.BX.ajax.runComponentAction(
+        this.actions.appeals.component,
+        this.actions.appeals.method,
+        data
+      );
       let state = this;
 
       a.then(
@@ -135,12 +142,9 @@ export const tableStore = defineStore('table', {
         }
       );
 
-      function resultFn(state, data) {
+      function resultFn(state, result) {
         if (counter === state.appealsCounter) {
-          const items = data.appeals;
-          data.items = items;
-          delete data.appeals;
-          state.appeals = data;
+          state.appeals = result.data;
 
           if (callback) {
             callback();
@@ -149,12 +153,18 @@ export const tableStore = defineStore('table', {
       }
     },
     runDefaultSort(data, callback) {
-      let a = window.BX.ajax.runComponentAction(this.actions.defaultSort, data);
+      let a = window.BX.ajax.runComponentAction(
+        this.actions.defaultSort.component,
+        this.actions.defaultSort.method,
+        data
+      );
       let state = this;
 
-      a.then(
+      return a.then(
         (result) => {
           resultFn(state, result);
+
+          return result;
         },
         (error) => {
           if (
@@ -169,8 +179,8 @@ export const tableStore = defineStore('table', {
         }
       );
 
-      function resultFn(state, data) {
-        state.sort = data;
+      function resultFn(state, result) {
+        state.sort = result.data;
         if (callback) {
           callback();
         }
@@ -178,7 +188,8 @@ export const tableStore = defineStore('table', {
     },
     runSetDefaultSort(data, callback) {
       let a = window.BX.ajax.runComponentAction(
-        this.actions.setDefaultSort,
+        this.actions.setDefaultSort.component,
+        this.actions.setDefaultSort.method,
         data
       );
       let state = this;
@@ -200,8 +211,8 @@ export const tableStore = defineStore('table', {
         }
       );
 
-      function resultFn(state, data) {
-        state.sort = data;
+      function resultFn(state, result) {
+        state.sort = result.data;
         if (callback) {
           callback();
         }

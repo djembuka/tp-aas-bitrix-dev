@@ -105,13 +105,19 @@ export const filterStore = defineStore('filter', {
     },
     runFilters(data, callback) {
       this.loadingFilter = true;
-      let a = window.BX.ajax.runComponentAction(this.actions.filters, data);
+      let a = window.BX.ajax.runComponentAction(
+        this.actions.filters.component,
+        this.actions.filters.method,
+        data
+      );
       let state = this;
 
-      a.then(
+      return a.then(
         (result) => {
           this.loadingFilter = false;
           resultFn(state, result);
+
+          return result;
         },
         (error) => {
           this.loadingFilter = false;
@@ -127,8 +133,8 @@ export const filterStore = defineStore('filter', {
         }
       );
 
-      function resultFn(state, data) {
-        state.filters = data;
+      function resultFn(state, result) {
+        state.filters = result.data;
         if (callback) {
           callback();
         }

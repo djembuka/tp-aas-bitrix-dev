@@ -21,7 +21,7 @@ export const profileStore = defineStore('profile', {
     setDefaultProfile({ id }) {
       if (this.profiles.length) {
         this.profiles.forEach((p) => {
-          p.default = p.id === id;
+          p.default = String(p.id) === String(id);
         });
       }
     },
@@ -37,10 +37,12 @@ export const profileStore = defineStore('profile', {
       );
       let state = this;
 
-      a.then(
+      return a.then(
         (result) => {
           this.loadingProfiles = false;
           resultFn(state, result.data);
+
+          return result;
         },
         (error) => {
           this.loadingProfiles = false;
@@ -72,10 +74,12 @@ export const profileStore = defineStore('profile', {
       );
       let state = this;
 
-      a.then(
+      return a.then(
         (result) => {
           this.loadingProfiles = false;
-          resultFn(state, result.data);
+          resultFn(state, result);
+
+          return result;
         },
         (error) => {
           this.loadingProfiles = false;
@@ -94,9 +98,10 @@ export const profileStore = defineStore('profile', {
         }
       );
 
-      function resultFn(state, data) {
+      function resultFn(state, result) {
         if (counter === state.profilesCounter) {
-          state.setDefaultProfile({ id: data });
+          state.setDefaultProfile({ id: result.data });
+
           if (callback) {
             callback();
           }
