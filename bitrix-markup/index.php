@@ -26,6 +26,13 @@ $APPLICATION->SetTitle("Markup");
 
 <h2>Страницы</h2>
 
+<h3>Аутентификация по смс</h3>
+<ul>
+  <li>
+	<a href="/markup/pages/auth-sms/">Аутентификация по смс</a>
+  </li>
+</ul>
+
 <h3>Обращения</h3>
 <ul>
   <li>

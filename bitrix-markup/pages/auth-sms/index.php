@@ -7,13 +7,10 @@ $APPLICATION->SetTitle("Аутентификация по SMS");
 
 <div id="authSMS"></div>
 
-<hr>
-
 <script src="/markup/pages/auth-sms/response.js"></script>
 
 <script>
 	const authsms = new BX.AuthSMS('#authSMS', {
-		'userid': '19891',
 		'sessid': '<?=bitrix_sessid()?>',
 		'signedParameters': 'YTowOnt9.9142992288be2a04123a66bfa996e850e694e8c6886728187ec9b5d8dc821aad',
 	});
