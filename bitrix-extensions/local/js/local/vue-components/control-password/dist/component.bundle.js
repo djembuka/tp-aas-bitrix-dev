@@ -3,7 +3,7 @@ this.BX = this.BX || {};
 (function (exports) {
   'use strict';
 
-  var ControlTel = {
+  var ControlPassword = {
     data: function data() {
       return {
         controlId: this.id || this.control.id || null,
@@ -16,7 +16,7 @@ this.BX = this.BX || {};
     },
     props: ['control', 'id', 'name'],
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--tel': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <input\n        type=\"text\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"value\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keyup.enter=\"enter\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        class=\"twpx-form-control__input\"\n      />\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
+    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--text': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <input\n        type=\"password\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"value\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keyup.enter=\"enter\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        class=\"twpx-form-control__input\"\n      />\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
     emits: ['input', 'focus', 'blur', 'enter'],
     computed: {
       value: {
@@ -40,7 +40,7 @@ this.BX = this.BX || {};
         return this.focused || !!this.control.value.trim();
       },
       invalid: function invalid() {
-        return this.blured && !this.validate() || this.setInvalidWatcher;
+        return this.blured && !this.validate();
       },
       disabled: function disabled() {
         return this.control.disabled;
@@ -50,9 +50,6 @@ this.BX = this.BX || {};
       },
       focusWatcher: function focusWatcher() {
         return this.control.focusWatcher;
-      },
-      setInvalidWatcher: function setInvalidWatcher() {
-        return this.control.setInvalidWatcher;
       }
     },
     watch: {
@@ -61,9 +58,6 @@ this.BX = this.BX || {};
       },
       focusWatcher: function focusWatcher() {
         this.$refs.input.focus();
-      },
-      setInvalidWatcher: function setInvalidWatcher(val) {
-        this.warning = val ? this.control.regexp_description : '';
       }
     },
     methods: {
@@ -101,7 +95,7 @@ this.BX = this.BX || {};
     }
   };
 
-  exports.ControlTel = ControlTel;
+  exports.ControlPassword = ControlPassword;
 
 }((this.BX.Controls = this.BX.Controls || {})));
 //# sourceMappingURL=component.bundle.js.map

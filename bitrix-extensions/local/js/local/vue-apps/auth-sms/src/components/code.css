@@ -1,0 +1,54 @@
+.vue-auth-sms-a1-form {
+  padding: 32px;
+}
+.vue-auth-sms-a1-form-body {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto 0;
+}
+.vue-auth-sms-a1-ornz-enter {
+  width: 100%;
+  max-width: 400px;
+  margin: 32px auto;
+  display: grid;
+  gap: 32px;
+}
+.vue-auth-sms-a1-ornz-enter > div {
+  text-align: center;
+}
+hr.hr--none {
+  padding: 0;
+  margin: 0;
+}
+.vue-auth-sms-code-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.vue-auth-sms-code-control {
+  display: flex;
+  width: 48px !important;
+  height: 64px;
+  padding: 16px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  color: #000;
+
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  background-color: #e6f0ff;
+  border: 0 !important;
+  outline: none;
+}
+.vue-auth-sms-code-control:focus,
+.vue-auth-sms-code-control:focus-visible,
+.vue-auth-sms-code-control:focus-within,
+.vue-auth-sms-code-control:active {
+  border: 0 !important;
+  outline: none;
+}

@@ -11,28 +11,62 @@
   margin-bottom: 2rem;
 }
 
-@media (max-width: 767px) {
-  .vue-auth-sms {
-    display: block;
-  }
-}
-
-.vue-auth-sms-a1-form {
-  padding: 32px;
-}
-.vue-auth-sms-a1-form-body {
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto 0;
-}
-.vue-auth-sms-a1-ornz-enter {
+.vue-auth-sms-alt {
   width: 100%;
   max-width: 400px;
   margin: 32px auto;
   display: grid;
   gap: 32px;
 }
-.vue-auth-sms-a1-ornz-enter > div {
+.vue-auth-sms-alt > div {
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .vue-auth-sms {
+    display: block;
+  }
+}
+
+.vue-auth-sms-sms-form {
+  padding: 32px;
+}
+.vue-auth-sms-sms-form-body {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto 0;
+}
+.vue-auth-sms-sms-ornz-enter {
+  width: 100%;
+  max-width: 400px;
+  margin: 32px auto;
+  display: grid;
+  gap: 32px;
+}
+.vue-auth-sms-sms-ornz-enter > div {
+  text-align: center;
+}
+hr.hr--none {
+  padding: 0;
+  margin: 0;
+}
+
+.vue-auth-sms-ornz-form {
+  padding: 32px;
+}
+.vue-auth-sms-ornz-form-body {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto 0;
+}
+.vue-auth-sms-ornz-ornz-enter {
+  width: 100%;
+  max-width: 400px;
+  margin: 32px auto;
+  display: grid;
+  gap: 32px;
+}
+.vue-auth-sms-ornz-ornz-enter > div {
   text-align: center;
 }
 hr.hr--none {

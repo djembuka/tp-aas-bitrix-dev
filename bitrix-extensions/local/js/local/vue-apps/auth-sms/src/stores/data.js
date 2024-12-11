@@ -6,4 +6,12 @@ export const dataStore = defineStore('data', {
     signedParameters: '',
     lang: {},
   }),
+  actions: {
+    setInfo(message) {
+      this.info = message;
+    },
+    setError(message) {
+      this.error = message;
+    },
+  },
 });

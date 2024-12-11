@@ -2,6 +2,7 @@ import { BitrixVue } from 'ui.vue3';
 import { Application } from './components/application';
 import { createPinia, setActivePinia } from 'ui.vue3.pinia';
 import { dataStore } from './stores/data';
+import { smsStore } from './stores/sms';
 
 export class AuthSMS {
   #store;
@@ -27,6 +28,12 @@ export class AuthSMS {
         dataStore().sessid = self.options.sessid || '';
         dataStore().signedParameters = self.options.signedParameters || '';
         dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS');
+
+        smsStore().tel.label = this.$Bitrix.Loc.getMessage('AUTH_SMS_A1_TEL');
+        smsStore().checkbox.label = this.$Bitrix.Loc.getMessage(
+          'AUTH_SMS_A1_CHECKBOX'
+        );
+        smsStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_A1');
       },
     });
 

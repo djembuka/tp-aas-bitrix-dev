@@ -7,6 +7,8 @@
   --vue-message-component-background: #ff3939;
   --vue-message-component-box-shadow: none;
   --vue-message-component-color: #fff;
+  --vue-message-component-error-button-background: #ffffff55;
+  --vue-message-component-error-button-color: #ffffff;
 }
 
 .vue-message {
@@ -53,4 +55,10 @@
 .vue-message .vue-button {
   min-width: 0;
   width: auto;
+}
+.vue-message--error.vue-message .vue-button {
+  background-color: var(
+    --vue-message-component-error-button-background
+  ) !important;
+  color: var(--vue-message-component-error-button-color) !important;
 }

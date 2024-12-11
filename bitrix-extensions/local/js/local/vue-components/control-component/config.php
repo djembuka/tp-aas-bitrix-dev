@@ -15,6 +15,7 @@ return [
 		'main.polyfill.core',
 		'local.vue-components.control-hidden',
 		'local.vue-components.control-text',
+		'local.vue-components.control-password',
 		'local.vue-components.control-tel',
 		'local.vue-components.control-email',
 		'local.vue-components.control-hint',

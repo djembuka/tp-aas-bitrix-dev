@@ -1,6 +1,6 @@
 import './component.css';
 
-export const ControlTel = {
+export const ControlPassword = {
   data() {
     return {
       controlId: this.id || this.control.id || null,
@@ -17,7 +17,7 @@ export const ControlTel = {
 		<div
       :class="{
         'twpx-form-control': true,
-        'twpx-form-control--tel': true,
+        'twpx-form-control--text': true,
         'twpx-form-control--active': active,
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,
@@ -30,7 +30,7 @@ export const ControlTel = {
       />
       <div class="twpx-form-control__label">{{ control.label }}</div>
       <input
-        type="text"
+        type="password"
         :id="controlId"
         :name="controlName"
         v-model="value"
@@ -72,7 +72,7 @@ export const ControlTel = {
       return this.focused || !!this.control.value.trim();
     },
     invalid() {
-      return (this.blured && !this.validate()) || this.setInvalidWatcher;
+      return this.blured && !this.validate();
     },
     disabled() {
       return this.control.disabled;
@@ -83,9 +83,6 @@ export const ControlTel = {
     focusWatcher() {
       return this.control.focusWatcher;
     },
-    setInvalidWatcher() {
-      return this.control.setInvalidWatcher;
-    },
   },
   watch: {
     validateWatcher() {
@@ -93,9 +90,6 @@ export const ControlTel = {
     },
     focusWatcher() {
       this.$refs.input.focus();
-    },
-    setInvalidWatcher(val) {
-      this.warning = val ? this.control.regexp_description : '';
     },
   },
   methods: {

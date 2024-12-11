@@ -2,6 +2,7 @@ import './component.css';
 
 import { ControlHidden } from 'local.vue-components.control-hidden';
 import { ControlText } from 'local.vue-components.control-text';
+import { ControlPassword } from 'local.vue-components.control-password';
 import { ControlTel } from 'local.vue-components.control-tel';
 import { ControlEmail } from 'local.vue-components.control-email';
 import { ControlHint } from 'local.vue-components.control-hint';
@@ -25,6 +26,7 @@ export const ControlComponent = {
   components: {
     ControlHidden,
     ControlText,
+    ControlPassword,
     ControlTel,
     ControlEmail,
     ControlHint,

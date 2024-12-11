@@ -1,19 +1,19 @@
-.vue-auth-sms-a1-form {
+.vue-auth-sms-sms-form {
   padding: 32px;
 }
-.vue-auth-sms-a1-form-body {
+.vue-auth-sms-sms-form-body {
   width: 100%;
   max-width: 400px;
   margin: 20px auto 0;
 }
-.vue-auth-sms-a1-ornz-enter {
+.vue-auth-sms-sms-ornz-enter {
   width: 100%;
   max-width: 400px;
   margin: 32px auto;
   display: grid;
   gap: 32px;
 }
-.vue-auth-sms-a1-ornz-enter > div {
+.vue-auth-sms-sms-ornz-enter > div {
   text-align: center;
 }
 hr.hr--none {

@@ -11,6 +11,17 @@
   margin-bottom: 2rem;
 }
 
+.vue-auth-sms-alt {
+  width: 100%;
+  max-width: 400px;
+  margin: 32px auto;
+  display: grid;
+  gap: 32px;
+}
+.vue-auth-sms-alt > div {
+  text-align: center;
+}
+
 @media (max-width: 767px) {
   .vue-auth-sms {
     display: block;
