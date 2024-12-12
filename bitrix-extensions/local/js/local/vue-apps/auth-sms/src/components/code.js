@@ -8,7 +8,9 @@ import { ButtonComponent } from 'local.vue-components.button-component';
 
 export const Code = {
   data() {
-    return {};
+    return {
+      inputValue: '',
+    };
   },
   components: {
     ButtonComponent,
@@ -19,42 +21,85 @@ export const Code = {
   template: `
       <div class="vue-auth-sms-code-form">
         <div class="vue-auth-sms-code-form-body">
-          <div class="vue-auth-sms-code-controls">
-            <input type="text" class="vue-auth-sms-code-control" ref="input1" @input="input(1)" />
-            <input type="text" class="vue-auth-sms-code-control" ref="input2" @input="input(2)" />
-            <input type="text" class="vue-auth-sms-code-control" ref="input3" @input="input(3)" />
-            <input type="text" class="vue-auth-sms-code-control" ref="input4" @input="input(4)" />
-            <input type="text" class="vue-auth-sms-code-control" ref="input5" @input="input(5)" />
-            <input type="text" class="vue-auth-sms-code-control" ref="input6" @input="input(6)" />
+          <div class="vue-auth-sms-code-inputs">
+            <div :class="{'vue-auth-sms-code-inputs-label': true, 'vue-auth-sms-code-inputs-label--disabled': inputs.every(i => i.disabled)}">{{ lang.AUTH_SMS_CODE_LABEL_INPUTS }}</div>
+            <div class="vue-auth-sms-code-inputs-body" ref="inputs">
+
+              <input v-for="(input, index) in inputs"
+                :key="input.id"
+                type="text"
+                :class="{'vue-auth-sms-code-input': true, 'vue-auth-sms-code-input--disabled': input.disabled}"
+                @input="inputText(input, index, $event)"
+                @keyup.backspace="backspaceInput(index)"
+              />
+
+            </div>
           </div>
-          <ButtonComponent :text="buttonSubmitTimerText || lang.AUTH_SMS_CODE_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />
+
+          <div><ButtonComponent :text="lang.AUTH_SMS_CODE_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="runFormSubmit" /></div>
+          <div><ButtonComponent :text="buttonSubmitTimerText" :props="Object.keys(timerProps)" :disabled="timerDisabled" @clickButton="clickNewCode" /></div>
         </div>
       </div>
 	`,
   computed: {
     ...mapState(dataStore, ['lang']),
     ...mapState(codeStore, [
-      'state',
-      'tel',
-      'checkbox',
+      'lang',
+      'inputs',
+      'uuid',
       'submitProps',
       'error',
       'errorButton',
       'buttonDisabled',
       'buttonSubmitTimerText',
+      'timerDisabled',
+      'timerProps',
+      'clearInputs',
     ]),
   },
+  watch: {
+    clearInputs() {
+      this.$refs.inputs
+        .querySelectorAll(`.vue-auth-sms-code-input`)
+        .forEach((input) => (input.value = ''));
+    },
+    inputValue(value) {
+      this.changeInputValue({ value });
+    },
+  },
   methods: {
+    ...mapActions(dataStore, ['changeState']),
     ...mapActions(codeStore, [
-      'changeControlValue',
+      'changeInputValue',
       'runFormSubmit',
       'changeSubmitProps',
     ]),
-    input(num) {
-      if (this.$refs[`input${num}`].value && this.$refs[`input${num + 1}`]) {
-        this.$refs[`input${num + 1}`].focus();
+    clickNewCode() {
+      this.changeState('sms');
+    },
+    backspaceInput(index) {
+      const prev = this.$refs.inputs.querySelectorAll(
+        `.vue-auth-sms-code-input`
+      )[index - 1];
+
+      if (prev) {
+        prev.focus();
+      }
+    },
+    inputText(input, index, event) {
+      const value = event.target.value;
+      this.changeInputValue({ control: input, value });
+
+      const next = this.$refs.inputs.querySelectorAll(
+        `.vue-auth-sms-code-input`
+      )[index + 1];
+
+      if (value && next) {
+        next.focus();
       }
     },
   },
-  mounted() {},
+  mounted() {
+    this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
+  },
 };

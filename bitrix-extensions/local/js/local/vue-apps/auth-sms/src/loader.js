@@ -3,6 +3,8 @@ import { Application } from './components/application';
 import { createPinia, setActivePinia } from 'ui.vue3.pinia';
 import { dataStore } from './stores/data';
 import { smsStore } from './stores/sms';
+import { ornzStore } from './stores/ornz';
+import { codeStore } from './stores/code';
 
 export class AuthSMS {
   #store;
@@ -29,11 +31,22 @@ export class AuthSMS {
         dataStore().signedParameters = self.options.signedParameters || '';
         dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS');
 
-        smsStore().tel.label = this.$Bitrix.Loc.getMessage('AUTH_SMS_A1_TEL');
-        smsStore().checkbox.label = this.$Bitrix.Loc.getMessage(
-          'AUTH_SMS_A1_CHECKBOX'
+        smsStore().controls[0].label = this.$Bitrix.Loc.getMessage(
+          'AUTH_SMS_SMS_LABEL_TEL'
         );
-        smsStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_A1');
+        smsStore().controls[1].label = this.$Bitrix.Loc.getMessage(
+          'AUTH_SMS_SMS_LABEL_CHECKBOX'
+        );
+        smsStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
+
+        ornzStore().controls[0].label = this.$Bitrix.Loc.getMessage(
+          'AUTH_SMS_ORNZ_LABEL_ORNZ'
+        );
+        ornzStore().controls[1].label = this.$Bitrix.Loc.getMessage(
+          'AUTH_SMS_ORNZ_LABEL_PASSWORD'
+        );
+
+        codeStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_CODE');
       },
     });
 

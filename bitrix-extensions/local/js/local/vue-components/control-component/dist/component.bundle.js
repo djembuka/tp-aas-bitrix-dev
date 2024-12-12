@@ -1,6 +1,6 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_controlHidden,local_vueComponents_controlText,local_vueComponents_controlPassword,local_vueComponents_controlTel,local_vueComponents_controlEmail,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange,local_vueComponents_controlFile,local_vueComponents_controlFileUpload) {
+(function (exports,local_vueComponents_controlHidden,local_vueComponents_controlText,local_vueComponents_controlPassword,local_vueComponents_controlTel,local_vueComponents_controlEmail,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange,local_vueComponents_controlFile,local_vueComponents_controlFileUpload,local_vueComponents_controlCheckbox) {
   'use strict';
 
   function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -25,7 +25,8 @@ this.BX = this.BX || {};
       ControlDateSingle: local_vueComponents_controlDateSingle.ControlDateSingle,
       ControlDateRange: local_vueComponents_controlDateRange.ControlDateRange,
       ControlFile: local_vueComponents_controlFile.ControlFile,
-      ControlFileUpload: local_vueComponents_controlFileUpload.ControlFileUpload
+      ControlFileUpload: local_vueComponents_controlFileUpload.ControlFileUpload,
+      ControlCheckbox: local_vueComponents_controlCheckbox.ControlCheckbox
     },
     props: ['control'],
     // language=Vue
@@ -65,5 +66,5 @@ this.BX = this.BX || {};
 
   exports.ControlComponent = ControlComponent;
 
-}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
+}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
 //# sourceMappingURL=component.bundle.js.map

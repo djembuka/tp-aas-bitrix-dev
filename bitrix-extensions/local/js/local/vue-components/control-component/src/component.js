@@ -12,6 +12,7 @@ import { ControlDateSingle } from 'local.vue-components.control-date-single';
 import { ControlDateRange } from 'local.vue-components.control-date-range';
 import { ControlFile } from 'local.vue-components.control-file';
 import { ControlFileUpload } from 'local.vue-components.control-file-upload';
+import { ControlCheckbox } from 'local.vue-components.control-checkbox';
 
 export const ControlComponent = {
   data() {
@@ -36,6 +37,7 @@ export const ControlComponent = {
     ControlDateRange,
     ControlFile,
     ControlFileUpload,
+    ControlCheckbox,
   },
   props: ['control'],
   // language=Vue

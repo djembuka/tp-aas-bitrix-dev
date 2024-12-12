@@ -1,29 +1,32 @@
 import { defineStore } from 'ui.vue3.pinia';
+import { dataStore } from './data.js';
+import { codeStore } from './code.js';
 
 export const smsStore = defineStore('sms', {
   state: () => ({
     lang: {},
     state: 'A1',
-    tel: {
-      property: 'tel',
-      id: 'id0',
-      name: 'PHONE',
-      label: '',
-      value: '',
-      required: true,
-      disabled: false,
-    },
-    checkbox: {
-      property: 'checkbox',
-      id: 'id1',
-      name: 'NUM',
-      label: '',
-      value: '',
-      required: false,
-      disabled: false,
-    },
+    controls: [
+      {
+        property: 'tel',
+        id: 'id0',
+        name: 'PHONE',
+        label: '',
+        value: '',
+        required: true,
+        disabled: false,
+      },
+      {
+        property: 'checkbox',
+        id: 'id1',
+        name: 'NUM',
+        label: '',
+        value: '',
+        required: false,
+        disabled: false,
+      },
+    ],
     submitProps: { large: true, secondary: true, wide: true },
-    error: null,
     errorButton: false,
     timer: 0,
   }),
@@ -35,10 +38,10 @@ export const smsStore = defineStore('sms', {
         result = true;
       } else {
         result =
-          this.tel.setInvalidWatcher ||
-          this.tel.disabled ||
-          !this.tel.value.trim() ||
-          !this.checkbox.value;
+          this.controls[0].setInvalidWatcher ||
+          this.controls[0].disabled ||
+          !this.controls[0].value.trim() ||
+          !this.controls[1].value;
       }
       return result;
     },
@@ -48,7 +51,7 @@ export const smsStore = defineStore('sms', {
             this.timer * 1000
           )
             .toISOString()
-            .substring(14, 5)}`
+            .substring(14, 19)}`
         : '';
     },
   },
@@ -72,59 +75,71 @@ export const smsStore = defineStore('sms', {
         }
       });
     },
-    changeControlValue({ control, value }) {
+    input({ control, value }) {
       control.value = value;
       if (control.property === 'tel') {
         control.setInvalidWatcher = false;
       }
     },
     runFormSubmit() {
-      const self = this;
-
       if (window.BX) {
         BX.ajax
           .runAction('twinpx:authorization.api.send', {
             data: {
-              phone: this.tel.value,
+              phone: this.controls[0].value,
             },
           })
           .then(
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
+              dataStore().error = '';
 
               //show code
-              this.tel.focusWatcher = false;
-              this.tel.setInvalidWatcher = false;
-              this.tel.regexp_description = '';
+              this.controls[0].focusWatcher = false;
+              this.controls[0].setInvalidWatcher = false;
+              this.controls[0].regexp_description = '';
+              this.errorButton = '';
+
+              codeStore().uuid = response.data.UUID;
+              dataStore().changeState('code');
             },
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
 
-              this.error = response.errors[0];
+              dataStore().error = response.errors[0].message;
 
-              if (String(response.errors[0].code) === String(1003)) {
-                //code
-                this.state = 'code';
-
-                //C1 1002
-                // this.state = 'C1';
-                // this.buttonSubmitTimer(127); //response.errors[0].customData.remain
-
-                //B1 1001
-                // this.state = 'B1';
-                // this.tel.disabled = true;
-                // this.errorButton = this.lang.AUTH_SMS_ERROR_BUTTON;
+              if (String(response.errors[0].code) === String(1001)) {
+                //B1
+                this.state = 'B1';
+                this.controls[0].disabled = true;
+                this.errorButton = this.lang.AUTH_SMS_SMS_ERROR_BUTTON;
+              } else if (String(response.errors[0].code) === String(1002)) {
+                //C1
+                this.state = 'C1';
+                this.buttonSubmitTimer(response.errors[0].customData.remain);
+              } else if (String(response.errors[0].code) === String(1003)) {
                 //A2
-                // this.state = 'A2';
-                // this.tel.focusWatcher = true;
-                // this.tel.setInvalidWatcher = true;
-                // this.tel.regexp_description = lang.AUTH_SMS_ERROR_1003;
+                this.state = 'A2';
+                this.controls[0].focusWatcher = true;
+                this.controls[0].setInvalidWatcher = true;
+                this.controls[0].regexp_description =
+                  this.lang.AUTH_SMS_SMS_ERROR_1003 || '';
+              } else if (String(response.errors[0].code) === String(1004)) {
+                //B2
               } else if (String(response.errors[0].code) === String(1005)) {
                 //A3
                 this.state = 'A3';
-                this.tel.focusWatcher = true;
-                this.tel.setInvalidWatcher = true;
-                this.tel.regexp_description = lang.AUTH_SMS_ERROR_1005;
+                this.controls[0].focusWatcher = true;
+                this.controls[0].setInvalidWatcher = true;
+                this.controls[0].regexp_description =
+                  this.lang.AUTH_SMS_SMS_ERROR_1005 || '';
+              } else if (String(response.errors[0].code) === String(1006)) {
+                //A3
+                this.state = 'A3';
+                this.controls[0].focusWatcher = true;
+                this.controls[0].setInvalidWatcher = true;
+                this.controls[0].regexp_description =
+                  this.lang.AUTH_SMS_SMS_ERROR_1006 || '';
               }
             }
           );

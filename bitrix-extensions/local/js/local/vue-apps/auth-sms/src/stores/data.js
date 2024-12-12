@@ -5,8 +5,14 @@ export const dataStore = defineStore('data', {
     sessionid: '',
     signedParameters: '',
     lang: {},
+    state: 'code',
+    error: '',
+    errorButton: false,
   }),
   actions: {
+    changeState(value) {
+      this.state = value;
+    },
     setInfo(message) {
       this.info = message;
     },

@@ -1,55 +1,45 @@
 import { defineStore } from 'ui.vue3.pinia';
+import { dataStore } from './data.js';
 
 export const codeStore = defineStore('code', {
   state: () => ({
     lang: {},
-    state: 'A1',
-    tel: {
-      property: 'tel',
-      id: 'id0',
-      name: 'PHONE',
-      label: '',
-      value: '',
-      required: true,
-      disabled: false,
-    },
-    checkbox: {
-      property: 'checkbox',
-      id: 'id1',
-      name: 'NUM',
-      label: '',
-      value: '',
-      required: false,
-      disabled: false,
-    },
+    inputs: [
+      { id: 'input1', value: '' },
+      { id: 'input2', value: '' },
+      { id: 'input3', value: '' },
+      { id: 'input4', value: '' },
+      { id: 'input5', value: '' },
+      { id: 'input6', value: '' },
+    ],
+    uuid: '',
     submitProps: { large: true, secondary: true, wide: true },
-    error: null,
-    errorButton: false,
-    timer: 0,
+    timerProps: { small: true, secondary: true },
+    timer: 20,
+    clearInputs: false,
   }),
   getters: {
+    code() {
+      return this.inputs.reduce(
+        (accumulator, currentValue) =>
+          String(accumulator) + String(currentValue.value),
+        ''
+      );
+    },
     buttonDisabled() {
-      let result = false;
-
-      if (this.state === 'C1' && this.timer) {
-        result = true;
-      } else {
-        result =
-          this.tel.setInvalidWatcher ||
-          this.tel.disabled ||
-          !this.tel.value.trim() ||
-          !this.checkbox.value;
-      }
-      return result;
+      return this.inputs.some((i) => !i.value);
     },
     buttonSubmitTimerText() {
       return this.timer
-        ? `${this.lang.AUTH_SMS_A1_BUTTON_SUBMIT_TIMER} ${new Date(
+        ? `${this.lang.AUTH_SMS_CODE_BUTTON_SUBMIT_TIMER} ${new Date(
             this.timer * 1000
           )
             .toISOString()
-            .substr(14, 5)}`
+            .substring(14, 19)}`
         : '';
+    },
+    timerDisabled() {
+      return false;
     },
   },
   actions: {
@@ -72,56 +62,52 @@ export const codeStore = defineStore('code', {
         }
       });
     },
-    changeControlValue({ control, value }) {
+    changeInputValue({ control, value }) {
       control.value = value;
-      if (control.property === 'tel') {
-        control.setInvalidWatcher = false;
-      }
     },
     runFormSubmit() {
-      const self = this;
-
       if (window.BX) {
         BX.ajax
-          .runAction('twinpx:authorization.api.send', {
+          .runAction('twinpx:authorization.api.check', {
             data: {
-              phone: this.tel.value,
+              code: this.code,
+              uuid: this.uuid,
             },
           })
           .then(
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
-
-              //show code
-              this.tel.focusWatcher = false;
-              this.tel.setInvalidWatcher = false;
-              this.tel.regexp_description = '';
+              window.location.href = response.data.redirect;
             },
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
 
-              this.error = response.errors[0];
+              dataStore().error = response.errors[0].message;
 
-              if (String(response.errors[0].code) === String(1003)) {
-                //C1 1002
-                this.state = 'C1';
-                this.buttonSubmitTimer(127); //response.errors[0].customData.remain
-
-                //B1 1001
-                // this.state = 'B1';
-                // this.tel.disabled = true;
-                // this.errorButton = this.lang.AUTH_SMS_A1_ERROR_BUTTON_1001;
-                //A2
-                // this.state = 'A2';
-                // this.tel.focusWatcher = true;
-                // this.tel.setInvalidWatcher = true;
-                // this.tel.regexp_description = lang.AUTH_SMS_A1_TEL_1003;
+              if (String(response.errors[0].code) === String(1001)) {
+                //B2
+                //error button
+                //disabled inputs
+                //disabled button
+                dataStore().errorButton = true;
+                this.clearInputs = !this.clearInputs;
+                this.inputs.forEach((input) => {
+                  input.disabled = true;
+                  input.value = '';
+                });
+              } else if (String(response.errors[0].code) === String(1002)) {
+                //E1
+                //invalid inputs
+                //invalid message
+                //disabled button
+                //timer
+              } else if (String(response.errors[0].code) === String(1003)) {
+                //disabled button
+                //timer
+              } else if (String(response.errors[0].code) === String(1004)) {
+                //enabled button
+                //timer
               } else if (String(response.errors[0].code) === String(1005)) {
-                //A3
-                this.state = 'A3';
-                this.tel.focusWatcher = true;
-                this.tel.setInvalidWatcher = true;
-                this.tel.regexp_description = lang.AUTH_SMS_A1_TEL_1005;
               }
             }
           );

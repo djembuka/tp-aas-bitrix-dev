@@ -1,31 +1,40 @@
-.vue-auth-sms-a1-form {
-  padding: 32px;
-}
-.vue-auth-sms-a1-form-body {
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto 0;
-}
-.vue-auth-sms-a1-ornz-enter {
-  width: 100%;
-  max-width: 400px;
-  margin: 32px auto;
-  display: grid;
-  gap: 32px;
-}
-.vue-auth-sms-a1-ornz-enter > div {
-  text-align: center;
-}
 hr.hr--none {
   padding: 0;
   margin: 0;
 }
-.vue-auth-sms-code-controls {
-  display: flex;
-  align-items: center;
+.vue-auth-sms-code-form-body {
+  width: 400px;
+  padding: 32px 0;
+  margin: 0 auto;
+  display: grid;
+  gap: 16px;
+}
+.vue-auth-sms-code-form-body > div {
+  text-align: center;
+}
+.vue-auth-sms-code-inputs {
+  display: grid;
   gap: 8px;
 }
-.vue-auth-sms-code-control {
+.vue-auth-sms-code-inputs-label {
+  color: #000;
+  font-family: Roboto;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-align: center;
+}
+.vue-auth-sms-code-inputs-label.vue-auth-sms-code-inputs-label--disabled {
+  color: #9b9b9b;
+}
+.vue-auth-sms-code-inputs-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.vue-auth-sms-code-input {
   display: flex;
   width: 48px !important;
   height: 64px;
@@ -42,13 +51,18 @@ hr.hr--none {
   line-height: normal;
 
   background-color: #e6f0ff;
-  border: 0 !important;
+  border: 1px solid transparent !important;
   outline: none;
 }
-.vue-auth-sms-code-control:focus,
-.vue-auth-sms-code-control:focus-visible,
-.vue-auth-sms-code-control:focus-within,
-.vue-auth-sms-code-control:active {
-  border: 0 !important;
+.vue-auth-sms-code-input.vue-auth-sms-code-input--disabled {
+  pointer-events: none;
+  cursor: default;
+  background-color: #f2f2f2;
+}
+.vue-auth-sms-code-input:focus,
+.vue-auth-sms-code-input:focus-visible,
+.vue-auth-sms-code-input:focus-within,
+.vue-auth-sms-code-input:active {
+  border: 1px solid #4f74d1 !important;
   outline: none;
 }

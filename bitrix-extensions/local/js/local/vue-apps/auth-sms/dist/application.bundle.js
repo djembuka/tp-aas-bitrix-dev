@@ -1,15 +1,5 @@
 /* eslint-disable */
-(function (
-  exports,
-  ui_vue3,
-  local_vueComponents_controlTel,
-  local_vueComponents_controlHint,
-  local_vueComponents_controlPassword,
-  local_vueComponents_controlCheckbox,
-  local_vueComponents_messageComponent,
-  local_vueComponents_buttonComponent,
-  ui_vue3_pinia
-) {
+(function (exports,ui_vue3,local_vueComponents_controlComponent,local_vueComponents_messageComponent,local_vueComponents_buttonComponent,ui_vue3_pinia) {
   'use strict';
 
   var dataStore = ui_vue3_pinia.defineStore('data', {
@@ -18,74 +8,78 @@
         sessionid: '',
         signedParameters: '',
         lang: {},
+        state: 'code',
+        error: '',
+        errorButton: false
       };
     },
     actions: {
+      changeState: function changeState(value) {
+        this.state = value;
+      },
       setInfo: function setInfo(message) {
         this.info = message;
       },
       setError: function setError(message) {
         this.error = message;
-      },
-    },
+      }
+    }
   });
 
-  var smsStore = ui_vue3_pinia.defineStore('sms', {
+  var codeStore = ui_vue3_pinia.defineStore('code', {
     state: function state() {
       return {
         lang: {},
-        state: 'A1',
-        tel: {
-          property: 'tel',
-          id: 'id0',
-          name: 'PHONE',
-          label: '',
-          value: '',
-          required: true,
-          disabled: false,
-        },
-        checkbox: {
-          property: 'checkbox',
-          id: 'id1',
-          name: 'NUM',
-          label: '',
-          value: '',
-          required: false,
-          disabled: false,
-        },
+        inputs: [{
+          id: 'input1',
+          value: ''
+        }, {
+          id: 'input2',
+          value: ''
+        }, {
+          id: 'input3',
+          value: ''
+        }, {
+          id: 'input4',
+          value: ''
+        }, {
+          id: 'input5',
+          value: ''
+        }, {
+          id: 'input6',
+          value: ''
+        }],
+        uuid: '',
         submitProps: {
           large: true,
           secondary: true,
-          wide: true,
+          wide: true
         },
-        error: null,
-        errorButton: false,
-        timer: 0,
+        timerProps: {
+          small: true,
+          secondary: true
+        },
+        timer: 20,
+        clearInputs: false
       };
     },
     getters: {
+      code: function code() {
+        return this.inputs.reduce(function (accumulator, currentValue) {
+          return String(accumulator) + String(currentValue.value);
+        }, '');
+      },
       buttonDisabled: function buttonDisabled() {
-        var result = false;
-        if (this.state === 'C1' && this.timer) {
-          result = true;
-        } else {
-          result =
-            this.tel.setInvalidWatcher ||
-            this.tel.disabled ||
-            !this.tel.value.trim() ||
-            !this.checkbox.value;
-        }
-        return result;
+        return this.inputs.some(function (i) {
+          return !i.value;
+        });
       },
       buttonSubmitTimerText: function buttonSubmitTimerText() {
-        return this.timer
-          ? ''
-              .concat(this.lang.AUTH_SMS_SMS_BUTTON_SUBMIT_TIMER, ' ')
-              .concat(
-                new Date(this.timer * 1000).toISOString().substring(14, 5)
-              )
-          : '';
+        return this.timer ? "".concat(this.lang.AUTH_SMS_CODE_BUTTON_SUBMIT_TIMER, " ").concat(new Date(this.timer * 1000).toISOString().substring(14, 19)) : '';
       },
+      timerDisabled: function timerDisabled() {
+        return false;
+      }
     },
     actions: {
       buttonSubmitTimer: function buttonSubmitTimer(start) {
@@ -109,7 +103,115 @@
           }
         });
       },
-      changeControlValue: function changeControlValue(_ref) {
+      changeInputValue: function changeInputValue(_ref) {
+        var control = _ref.control,
+          value = _ref.value;
+        control.value = value;
+      },
+      runFormSubmit: function runFormSubmit() {
+        var _this3 = this;
+        if (window.BX) {
+          BX.ajax.runAction('twinpx:authorization.api.check', {
+            data: {
+              code: this.code,
+              uuid: this.uuid
+            }
+          }).then(function (response) {
+            _this3.changeSubmitProps({
+              'load-circle': false
+            });
+            window.location.href = response.data.redirect;
+          }, function (response) {
+            _this3.changeSubmitProps({
+              'load-circle': false
+            });
+            dataStore().error = response.errors[0].message;
+            if (String(response.errors[0].code) === String(1001)) {
+              //B2
+              //error button
+              //disabled inputs
+              //disabled button
+              dataStore().errorButton = true;
+              _this3.clearInputs = !_this3.clearInputs;
+              _this3.inputs.forEach(function (input) {
+                input.disabled = true;
+                input.value = '';
+              });
+            } else if (String(response.errors[0].code) === String(1002)) ; else if (String(response.errors[0].code) === String(1003)) ; else if (String(response.errors[0].code) === String(1004)) ; else if (String(response.errors[0].code) === String(1005)) ;
+          });
+        }
+      }
+    }
+  });
+
+  var smsStore = ui_vue3_pinia.defineStore('sms', {
+    state: function state() {
+      return {
+        lang: {},
+        state: 'A1',
+        controls: [{
+          property: 'tel',
+          id: 'id0',
+          name: 'PHONE',
+          label: '',
+          value: '',
+          required: true,
+          disabled: false
+        }, {
+          property: 'checkbox',
+          id: 'id1',
+          name: 'NUM',
+          label: '',
+          value: '',
+          required: false,
+          disabled: false
+        }],
+        submitProps: {
+          large: true,
+          secondary: true,
+          wide: true
+        },
+        errorButton: false,
+        timer: 0
+      };
+    },
+    getters: {
+      buttonDisabled: function buttonDisabled() {
+        var result = false;
+        if (this.state === 'C1' && this.timer) {
+          result = true;
+        } else {
+          result = this.controls[0].setInvalidWatcher || this.controls[0].disabled || !this.controls[0].value.trim() || !this.controls[1].value;
+        }
+        return result;
+      },
+      buttonSubmitTimerText: function buttonSubmitTimerText() {
+        return this.timer ? "".concat(this.lang.AUTH_SMS_SMS_BUTTON_SUBMIT_TIMER, " ").concat(new Date(this.timer * 1000).toISOString().substring(14, 19)) : '';
+      }
+    },
+    actions: {
+      buttonSubmitTimer: function buttonSubmitTimer(start) {
+        var _this = this;
+        this.timer = Number(start);
+        var intervalId = setInterval(function () {
+          if (_this.timer === 0) {
+            clearInterval(intervalId);
+          } else {
+            _this.timer--;
+          }
+        }, 1000);
+      },
+      changeSubmitProps: function changeSubmitProps(obj) {
+        var _this2 = this;
+        Object.keys(obj).forEach(function (key) {
+          if (obj[key]) {
+            _this2.submitProps[key] = true;
+          } else {
+            delete _this2.submitProps[key];
+          }
+        });
+      },
+      input: function input(_ref) {
         var control = _ref.control,
           value = _ref.value;
         control.value = value;
@@ -120,202 +222,185 @@
       runFormSubmit: function runFormSubmit() {
         var _this3 = this;
         if (window.BX) {
-          BX.ajax
-            .runAction('twinpx:authorization.api.send', {
-              data: {
-                phone: this.tel.value,
-              },
-            })
-            .then(
-              function (response) {
-                _this3.changeSubmitProps({
-                  'load-circle': false,
-                });
+          BX.ajax.runAction('twinpx:authorization.api.send', {
+            data: {
+              phone: this.controls[0].value
+            }
+          }).then(function (response) {
+            _this3.changeSubmitProps({
+              'load-circle': false
+            });
+            dataStore().error = '';
 
-                //show code
-                _this3.tel.focusWatcher = false;
-                _this3.tel.setInvalidWatcher = false;
-                _this3.tel.regexp_description = '';
-              },
-              function (response) {
-                _this3.changeSubmitProps({
-                  'load-circle': false,
-                });
-                _this3.error = response.errors[0];
-                if (String(response.errors[0].code) === String(1003)) {
-                  //code
-                  _this3.state = 'code';
-
-                  //C1 1002
-                  // this.state = 'C1';
-                  // this.buttonSubmitTimer(127); //response.errors[0].customData.remain
-
-                  //B1 1001
-                  // this.state = 'B1';
-                  // this.tel.disabled = true;
-                  // this.errorButton = this.lang.AUTH_SMS_ERROR_BUTTON;
-                  //A2
-                  // this.state = 'A2';
-                  // this.tel.focusWatcher = true;
-                  // this.tel.setInvalidWatcher = true;
-                  // this.tel.regexp_description = lang.AUTH_SMS_ERROR_1003;
-                } else if (String(response.errors[0].code) === String(1005)) {
-                  //A3
-                  _this3.state = 'A3';
-                  _this3.tel.focusWatcher = true;
-                  _this3.tel.setInvalidWatcher = true;
-                  _this3.tel.regexp_description = lang.AUTH_SMS_ERROR_1005;
-                }
-              }
-            );
+            //show code
+            _this3.controls[0].focusWatcher = false;
+            _this3.controls[0].setInvalidWatcher = false;
+            _this3.controls[0].regexp_description = '';
+            _this3.errorButton = '';
+            codeStore().uuid = response.data.UUID;
+            dataStore().changeState('code');
+          }, function (response) {
+            _this3.changeSubmitProps({
+              'load-circle': false
+            });
+            dataStore().error = response.errors[0].message;
+            if (String(response.errors[0].code) === String(1001)) {
+              //B1
+              _this3.state = 'B1';
+              _this3.controls[0].disabled = true;
+              _this3.errorButton = _this3.lang.AUTH_SMS_SMS_ERROR_BUTTON;
+            } else if (String(response.errors[0].code) === String(1002)) {
+              //C1
+              _this3.state = 'C1';
+              _this3.buttonSubmitTimer(response.errors[0].customData.remain);
+            } else if (String(response.errors[0].code) === String(1003)) {
+              //A2
+              _this3.state = 'A2';
+              _this3.controls[0].focusWatcher = true;
+              _this3.controls[0].setInvalidWatcher = true;
+              _this3.controls[0].regexp_description = _this3.lang.AUTH_SMS_SMS_ERROR_1003 || '';
+            } else if (String(response.errors[0].code) === String(1004)) ; else if (String(response.errors[0].code) === String(1005)) {
+              //A3
+              _this3.state = 'A3';
+              _this3.controls[0].focusWatcher = true;
+              _this3.controls[0].setInvalidWatcher = true;
+              _this3.controls[0].regexp_description = _this3.lang.AUTH_SMS_SMS_ERROR_1005 || '';
+            } else if (String(response.errors[0].code) === String(1006)) {
+              //A3
+              _this3.state = 'A3';
+              _this3.controls[0].focusWatcher = true;
+              _this3.controls[0].setInvalidWatcher = true;
+              _this3.controls[0].regexp_description = _this3.lang.AUTH_SMS_SMS_ERROR_1006 || '';
+            }
+          });
         }
-      },
-    },
+      }
+    }
   });
 
-  function ownKeys(object, enumerableOnly) {
-    var keys = Object.keys(object);
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-      enumerableOnly &&
-        (symbols = symbols.filter(function (sym) {
-          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-        })),
-        keys.push.apply(keys, symbols);
-    }
-    return keys;
-  }
-  function _objectSpread(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = null != arguments[i] ? arguments[i] : {};
-      i % 2
-        ? ownKeys(Object(source), !0).forEach(function (key) {
-            babelHelpers.defineProperty(target, key, source[key]);
-          })
-        : Object.getOwnPropertyDescriptors
-        ? Object.defineProperties(
-            target,
-            Object.getOwnPropertyDescriptors(source)
-          )
-        : ownKeys(Object(source)).forEach(function (key) {
-            Object.defineProperty(
-              target,
-              key,
-              Object.getOwnPropertyDescriptor(source, key)
-            );
-          });
-    }
-    return target;
-  }
+  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var Sms = {
     data: function data() {
       return {};
     },
     components: {
-      ControlTel: local_vueComponents_controlTel.ControlTel,
-      ControlCheckbox: local_vueComponents_controlCheckbox.ControlCheckbox,
-      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
+      ControlComponent: local_vueComponents_controlComponent.ControlComponent,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
     // language=Vue
 
-    template:
-      '\n    <div class="vue-auth-sms-sms">\n      <div class="vue-auth-sms-sms-form">\n        <div class="vue-auth-sms-sms-form-body">\n          <ControlTel :control="tel" @input="inputTel" @focus="focus" @blur="blur" @enter="enter" />\n          <hr />\n          <ControlCheckbox :control="checkbox" @input="inputCheckbox" @focus="focus" @blur="blur" />\n          <hr />\n          <ButtonComponent :text="buttonSubmitTimerText || lang.AUTH_SMS_SMS_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />\n        </div>\n      </div>\n    </div>\n\t',
-    computed: _objectSpread(
-      _objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['lang'])),
-      ui_vue3_pinia.mapState(smsStore, [
-        'tel',
-        'checkbox',
-        'submitProps',
-        'buttonDisabled',
-        'buttonSubmitTimerText',
-      ])
-    ),
-    methods: _objectSpread(
-      _objectSpread(
-        {},
-        ui_vue3_pinia.mapActions(smsStore, [
-          'changeControlValue',
-          'runFormSubmit',
-          'changeSubmitProps',
-        ])
-      ),
-      {},
-      {
-        inputTel: function inputTel(_ref) {
-          var value = _ref.value;
-          this.changeControlValue({
-            value: value,
-            control: this.tel,
-          });
-        },
-        inputCheckbox: function inputCheckbox(_ref2) {
-          var value = _ref2.value;
-          this.changeControlValue({
-            value: value,
-            control: this.checkbox,
-          });
-        },
-        clickSubmit: function clickSubmit() {
-          this.changeSubmitProps({
-            'load-circle': true,
-          });
-          this.runFormSubmit();
-        },
+    template: "\n    <div class=\"vue-auth-sms-sms\">\n      <div class=\"vue-auth-sms-sms-form\">\n        <div class=\"vue-auth-sms-sms-form-body\">\n          <div v-for=\"control in controls\" :key=\"control.id\">\n            <ControlComponent :control=\"control\" @input=\"input\" />\n            <hr />\n          </div>\n          <ButtonComponent :text=\"buttonSubmitTimerText || lang.AUTH_SMS_SMS_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"clickSubmit\" />\n        </div>\n      </div>\n    </div>\n\t",
+    computed: _objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['lang'])), ui_vue3_pinia.mapState(smsStore, ['controls', 'submitProps', 'buttonDisabled', 'buttonSubmitTimerText'])),
+    methods: _objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(smsStore, ['input', 'runFormSubmit', 'changeSubmitProps'])), {}, {
+      clickSubmit: function clickSubmit() {
+        this.changeSubmitProps({
+          'load-circle': true
+        });
+        this.runFormSubmit();
       }
-    ),
-    mounted: function mounted() {},
+    }),
+    mounted: function mounted() {}
   };
 
+  function _regeneratorRuntime() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */ _regeneratorRuntime = function _regeneratorRuntime() { return exports; }; var exports = {}, Op = Object.prototype, hasOwn = Op.hasOwnProperty, defineProperty = Object.defineProperty || function (obj, key, desc) { obj[key] = desc.value; }, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag"; function define(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: !0, configurable: !0, writable: !0 }), obj[key]; } try { define({}, ""); } catch (err) { define = function define(obj, key, value) { return obj[key] = value; }; } function wrap(innerFn, outerFn, self, tryLocsList) { var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context = new Context(tryLocsList || []); return defineProperty(generator, "_invoke", { value: makeInvokeMethod(innerFn, self, context) }), generator; } function tryCatch(fn, obj, arg) { try { return { type: "normal", arg: fn.call(obj, arg) }; } catch (err) { return { type: "throw", arg: err }; } } exports.wrap = wrap; var ContinueSentinel = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} var IteratorPrototype = {}; define(IteratorPrototype, iteratorSymbol, function () { return this; }); var getProto = Object.getPrototypeOf, NativeIteratorPrototype = getProto && getProto(getProto(values([]))); NativeIteratorPrototype && NativeIteratorPrototype !== Op && hasOwn.call(NativeIteratorPrototype, iteratorSymbol) && (IteratorPrototype = NativeIteratorPrototype); var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype); function defineIteratorMethods(prototype) { ["next", "throw", "return"].forEach(function (method) { define(prototype, method, function (arg) { return this._invoke(method, arg); }); }); } function AsyncIterator(generator, PromiseImpl) { function invoke(method, arg, resolve, reject) { var record = tryCatch(generator[method], generator, arg); if ("throw" !== record.type) { var result = record.arg, value = result.value; return value && "object" == babelHelpers["typeof"](value) && hasOwn.call(value, "__await") ? PromiseImpl.resolve(value.__await).then(function (value) { invoke("next", value, resolve, reject); }, function (err) { invoke("throw", err, resolve, reject); }) : PromiseImpl.resolve(value).then(function (unwrapped) { result.value = unwrapped, resolve(result); }, function (error) { return invoke("throw", error, resolve, reject); }); } reject(record.arg); } var previousPromise; defineProperty(this, "_invoke", { value: function value(method, arg) { function callInvokeWithMethodAndArg() { return new PromiseImpl(function (resolve, reject) { invoke(method, arg, resolve, reject); }); } return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg(); } }); } function makeInvokeMethod(innerFn, self, context) { var state = "suspendedStart"; return function (method, arg) { if ("executing" === state) throw new Error("Generator is already running"); if ("completed" === state) { if ("throw" === method) throw arg; return doneResult(); } for (context.method = method, context.arg = arg;;) { var delegate = context.delegate; if (delegate) { var delegateResult = maybeInvokeDelegate(delegate, context); if (delegateResult) { if (delegateResult === ContinueSentinel) continue; return delegateResult; } } if ("next" === context.method) context.sent = context._sent = context.arg;else if ("throw" === context.method) { if ("suspendedStart" === state) throw state = "completed", context.arg; context.dispatchException(context.arg); } else "return" === context.method && context.abrupt("return", context.arg); state = "executing"; var record = tryCatch(innerFn, self, context); if ("normal" === record.type) { if (state = context.done ? "completed" : "suspendedYield", record.arg === ContinueSentinel) continue; return { value: record.arg, done: context.done }; } "throw" === record.type && (state = "completed", context.method = "throw", context.arg = record.arg); } }; } function maybeInvokeDelegate(delegate, context) { var methodName = context.method, method = delegate.iterator[methodName]; if (undefined === method) return context.delegate = null, "throw" === methodName && delegate.iterator["return"] && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method) || "return" !== methodName && (context.method = "throw", context.arg = new TypeError("The iterator does not provide a '" + methodName + "' method")), ContinueSentinel; var record = tryCatch(method, delegate.iterator, context.arg); if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel; var info = record.arg; return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = new TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel); } function pushTryEntry(locs) { var entry = { tryLoc: locs[0] }; 1 in locs && (entry.catchLoc = locs[1]), 2 in locs && (entry.finallyLoc = locs[2], entry.afterLoc = locs[3]), this.tryEntries.push(entry); } function resetTryEntry(entry) { var record = entry.completion || {}; record.type = "normal", delete record.arg, entry.completion = record; } function Context(tryLocsList) { this.tryEntries = [{ tryLoc: "root" }], tryLocsList.forEach(pushTryEntry, this), this.reset(!0); } function values(iterable) { if (iterable) { var iteratorMethod = iterable[iteratorSymbol]; if (iteratorMethod) return iteratorMethod.call(iterable); if ("function" == typeof iterable.next) return iterable; if (!isNaN(iterable.length)) { var i = -1, next = function next() { for (; ++i < iterable.length;) if (hasOwn.call(iterable, i)) return next.value = iterable[i], next.done = !1, next; return next.value = undefined, next.done = !0, next; }; return next.next = next; } } return { next: doneResult }; } function doneResult() { return { value: undefined, done: !0 }; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, defineProperty(Gp, "constructor", { value: GeneratorFunctionPrototype, configurable: !0 }), defineProperty(GeneratorFunctionPrototype, "constructor", { value: GeneratorFunction, configurable: !0 }), GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction"), exports.isGeneratorFunction = function (genFun) { var ctor = "function" == typeof genFun && genFun.constructor; return !!ctor && (ctor === GeneratorFunction || "GeneratorFunction" === (ctor.displayName || ctor.name)); }, exports.mark = function (genFun) { return Object.setPrototypeOf ? Object.setPrototypeOf(genFun, GeneratorFunctionPrototype) : (genFun.__proto__ = GeneratorFunctionPrototype, define(genFun, toStringTagSymbol, "GeneratorFunction")), genFun.prototype = Object.create(Gp), genFun; }, exports.awrap = function (arg) { return { __await: arg }; }, defineIteratorMethods(AsyncIterator.prototype), define(AsyncIterator.prototype, asyncIteratorSymbol, function () { return this; }), exports.AsyncIterator = AsyncIterator, exports.async = function (innerFn, outerFn, self, tryLocsList, PromiseImpl) { void 0 === PromiseImpl && (PromiseImpl = Promise); var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl); return exports.isGeneratorFunction(outerFn) ? iter : iter.next().then(function (result) { return result.done ? result.value : iter.next(); }); }, defineIteratorMethods(Gp), define(Gp, toStringTagSymbol, "Generator"), define(Gp, iteratorSymbol, function () { return this; }), define(Gp, "toString", function () { return "[object Generator]"; }), exports.keys = function (val) { var object = Object(val), keys = []; for (var key in object) keys.push(key); return keys.reverse(), function next() { for (; keys.length;) { var key = keys.pop(); if (key in object) return next.value = key, next.done = !1, next; } return next.done = !0, next; }; }, exports.values = values, Context.prototype = { constructor: Context, reset: function reset(skipTempReset) { if (this.prev = 0, this.next = 0, this.sent = this._sent = undefined, this.done = !1, this.delegate = null, this.method = "next", this.arg = undefined, this.tryEntries.forEach(resetTryEntry), !skipTempReset) for (var name in this) "t" === name.charAt(0) && hasOwn.call(this, name) && !isNaN(+name.slice(1)) && (this[name] = undefined); }, stop: function stop() { this.done = !0; var rootRecord = this.tryEntries[0].completion; if ("throw" === rootRecord.type) throw rootRecord.arg; return this.rval; }, dispatchException: function dispatchException(exception) { if (this.done) throw exception; var context = this; function handle(loc, caught) { return record.type = "throw", record.arg = exception, context.next = loc, caught && (context.method = "next", context.arg = undefined), !!caught; } for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i], record = entry.completion; if ("root" === entry.tryLoc) return handle("end"); if (entry.tryLoc <= this.prev) { var hasCatch = hasOwn.call(entry, "catchLoc"), hasFinally = hasOwn.call(entry, "finallyLoc"); if (hasCatch && hasFinally) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } else if (hasCatch) { if (this.prev < entry.catchLoc) return handle(entry.catchLoc, !0); } else { if (!hasFinally) throw new Error("try statement without catch or finally"); if (this.prev < entry.finallyLoc) return handle(entry.finallyLoc); } } } }, abrupt: function abrupt(type, arg) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) { var finallyEntry = entry; break; } } finallyEntry && ("break" === type || "continue" === type) && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc && (finallyEntry = null); var record = finallyEntry ? finallyEntry.completion : {}; return record.type = type, record.arg = arg, finallyEntry ? (this.method = "next", this.next = finallyEntry.finallyLoc, ContinueSentinel) : this.complete(record); }, complete: function complete(record, afterLoc) { if ("throw" === record.type) throw record.arg; return "break" === record.type || "continue" === record.type ? this.next = record.arg : "return" === record.type ? (this.rval = this.arg = record.arg, this.method = "return", this.next = "end") : "normal" === record.type && afterLoc && (this.next = afterLoc), ContinueSentinel; }, finish: function finish(finallyLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.finallyLoc === finallyLoc) return this.complete(entry.completion, entry.afterLoc), resetTryEntry(entry), ContinueSentinel; } }, "catch": function _catch(tryLoc) { for (var i = this.tryEntries.length - 1; i >= 0; --i) { var entry = this.tryEntries[i]; if (entry.tryLoc === tryLoc) { var record = entry.completion; if ("throw" === record.type) { var thrown = record.arg; resetTryEntry(entry); } return thrown; } } throw new Error("illegal catch attempt"); }, delegateYield: function delegateYield(iterable, resultName, nextLoc) { return this.delegate = { iterator: values(iterable), resultName: resultName, nextLoc: nextLoc }, "next" === this.method && (this.arg = undefined), ContinueSentinel; } }, exports; }
   var ornzStore = ui_vue3_pinia.defineStore('ornz', {
     state: function state() {
       return {
-        lang: {},
-        state: 'A1',
-        hint: {
+        controls: [{
           property: 'hint',
-          id: 'id0',
+          id: 'id2',
           name: 'ORNZ',
           label: '',
           value: '',
+          count: 3,
+          action: './response-ornz.js',
           required: true,
-          disabled: false,
-        },
-        password: {
+          disabled: false
+        }, {
           property: 'password',
-          id: 'id2',
+          id: 'id3',
           name: 'PASSWORD',
           label: '',
           value: '',
           required: true,
-          disabled: false,
-        },
-        checkbox: {
-          property: 'checkbox',
-          id: 'id1',
-          name: 'CHECKBOX',
-          label: '',
-          value: '',
-          required: false,
-          disabled: false,
-        },
+          disabled: false
+        }],
         submitProps: {
           large: true,
           secondary: true,
-          wide: true,
-        },
+          wide: true
+        }
       };
     },
     getters: {
       buttonDisabled: function buttonDisabled() {
-        return (
-          this.hint.setInvalidWatcher ||
-          this.hint.disabled ||
-          !this.hint.value.trim() ||
-          !this.checkbox.value
-        );
-      },
+        return true;
+      }
     },
     actions: {
+      runHintsAction: function runHintsAction(_ref, callback) {
+        return babelHelpers.asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
+          var control, action, response, result, resultFn;
+          return _regeneratorRuntime().wrap(function _callee$(_context) {
+            while (1) switch (_context.prev = _context.next) {
+              case 0:
+                resultFn = function _resultFn(data) {
+                  control.hints = data;
+                  if (callback) {
+                    callback();
+                  }
+                };
+                control = _ref.control, action = _ref.action;
+                control.loading = true;
+                _context.next = 5;
+                return fetch(action);
+              case 5:
+                response = _context.sent;
+                _context.next = 8;
+                return response.json();
+              case 8:
+                result = _context.sent;
+                control.loading = false;
+                resultFn(result.data.hints);
+
+                // let a = window.BX.ajax.runComponentAction(action, {
+                //   string:
+                //     typeof control.value === 'object'
+                //       ? control.value.value
+                //       : control.value,
+                // });
+
+                // a.then(
+                //   (result) => {
+                //     control.loading = false;
+                //     resultFn(result);
+                //   },
+                //   (error) => {
+                //     control.loading = false;
+                //     if (
+                //       window.twinpx &&
+                //       window.twinpx.vue.markup &&
+                //       window.twinpx.vue['filter-table']
+                //     ) {
+                //       resultFn(window.twinpx.vue['filter-table'].hints);
+                //     } else {
+                //       this.showError({ error, method: hintsAction });
+                //     }
+                //   }
+                // );
+              case 11:
+              case "end":
+                return _context.stop();
+            }
+          }, _callee);
+        }))();
+      },
+      setHints: function setHints(_ref2) {
+        var control = _ref2.control,
+          value = _ref2.value;
+        control.hints = value;
+      },
       changeSubmitProps: function changeSubmitProps(obj) {
         var _this = this;
         Object.keys(obj).forEach(function (key) {
@@ -326,384 +411,232 @@
           }
         });
       },
-      changeControlValue: function changeControlValue(_ref) {
-        var control = _ref.control,
-          value = _ref.value;
+      input: function input(_ref3) {
+        var control = _ref3.control,
+          value = _ref3.value;
         control.value = value;
-        if (control.property === 'tel') {
-          control.setInvalidWatcher = false;
-        }
+        console.log(control);
       },
       runFormSubmit: function runFormSubmit() {
-        var _this2 = this;
         if (window.BX) {
-          BX.ajax
-            .runAction('twinpx:authorization.api.send', {
-              data: {
-                phone: this.hint.value,
-              },
-            })
-            .then(
-              function (response) {
-                _this2.changeSubmitProps({
-                  'load-circle': false,
-                });
-
-                //show code
-                _this2.hint.focusWatcher = false;
-                _this2.hint.setInvalidWatcher = false;
-                _this2.hint.regexp_description = '';
-              },
-              function (response) {
-                _this2.changeSubmitProps({
-                  'load-circle': false,
-                });
-                _this2.error = response.errors[0];
-                if (String(response.errors[0].code) === String(1003)) {
-                  //C1 1002
-                  _this2.state = 'C1';
-                  _this2.buttonSubmitTimer(127); //response.errors[0].customData.remain
-
-                  //B1 1001
-                  // this.state = 'B1';
-                  // this.hint.disabled = true;
-                  // this.errorButton = this.lang.AUTH_SMS_A1_ERROR_BUTTON_1001;
-                  //A2
-                  // this.state = 'A2';
-                  // this.hint.focusWatcher = true;
-                  // this.hint.setInvalidWatcher = true;
-                  // this.hint.regexp_description = lang.AUTH_SMS_A1_TEL_1003;
-                } else if (String(response.errors[0].code) === String(1005)) {
-                  //A3
-                  _this2.state = 'A3';
-                  _this2.hint.focusWatcher = true;
-                  _this2.hint.setInvalidWatcher = true;
-                  _this2.hint.regexp_description = lang.AUTH_SMS_A1_TEL_1005;
-                }
-              }
-            );
+          BX.ajax.runAction('twinpx:authorization.api.send', {
+            data: {
+              phone: this.ornz.value
+            }
+          }).then(function (response) {}, function (response) {});
         }
-      },
-    },
+      }
+    }
   });
 
-  function ownKeys$1(object, enumerableOnly) {
-    var keys = Object.keys(object);
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-      enumerableOnly &&
-        (symbols = symbols.filter(function (sym) {
-          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-        })),
-        keys.push.apply(keys, symbols);
-    }
-    return keys;
-  }
-  function _objectSpread$1(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = null != arguments[i] ? arguments[i] : {};
-      i % 2
-        ? ownKeys$1(Object(source), !0).forEach(function (key) {
-            babelHelpers.defineProperty(target, key, source[key]);
-          })
-        : Object.getOwnPropertyDescriptors
-        ? Object.defineProperties(
-            target,
-            Object.getOwnPropertyDescriptors(source)
-          )
-        : ownKeys$1(Object(source)).forEach(function (key) {
-            Object.defineProperty(
-              target,
-              key,
-              Object.getOwnPropertyDescriptor(source, key)
-            );
-          });
-    }
-    return target;
-  }
+  function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$1(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var Ornz = {
     data: function data() {
       return {};
     },
     components: {
-      MessageComponent: local_vueComponents_messageComponent.MessageComponent,
-      ControlHint: local_vueComponents_controlHint.ControlHint,
-      ControlPassword: local_vueComponents_controlPassword.ControlPassword,
-      ControlCheckbox: local_vueComponents_controlCheckbox.ControlCheckbox,
-      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
+      ControlComponent: local_vueComponents_controlComponent.ControlComponent,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
-    emits: ['openA1'],
     // language=Vue
 
-    template:
-      '\n    <div class="vue-auth-sms-ornz">\n      <h3 class="mt-0">{{ lang.AUTH_SMS_ORNZ_TITLE }}</h3>\n      <MessageComponent type="info" :message="lang.AUTH_SMS_ORNZ_MESSAGE_INFO" :button="lang.AUTH_SMS_ORNZ_BUTTON_INFO" @clickButton="console.log(\'click button\')" />\n\n      <div class="vue-auth-sms-ornz-form">\n        <div class="vue-auth-sms-ornz-form-body">\n          <ControlHint :control="hint" @input="inputHint" @focus="focus" @blur="blur" @enter="enter" />\n          <hr />\n          <ControlPassword :control="password" @input="inputPassword" @focus="focus" @blur="blur" @enter="enter" />\n          <hr />\n          <ControlCheckbox :control="checkbox" @input="inputCheckbox" @focus="focus" @blur="blur" />\n          <hr />\n          <ButtonComponent :text="buttonSubmitTimerText || lang.AUTH_SMS_ORNZ_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />\n        </div>\n      </div>\n\n      <hr class="hr--line hr--none" />\n\n      <div class="vue-auth-sms-ornz-ornz-enter">\n\n        <div>\n          <ButtonComponent :text="lang.AUTH_SMS_ORNZ_BUTTON_ORNZ" :props="[\'medium\', \'primary\']" @clickButton="clickA1" />\n        </div>\n\n        <div>\n          <a href="">{{ lang.AUTH_SMS_ORNZ_ENTER }}</a>\n        </div>\n\n      </div>\n    </div>\n\t',
-    computed: _objectSpread$1(
-      _objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['lang'])),
-      ui_vue3_pinia.mapState(ornzStore, [
-        'state',
-        'hint',
-        'password',
-        'checkbox',
-        'submitProps',
-        'error',
-        'errorButton',
-        'buttonDisabled',
-        'buttonSubmitTimerText',
-      ])
-    ),
-    methods: _objectSpread$1(
-      _objectSpread$1(
-        {},
-        ui_vue3_pinia.mapActions(ornzStore, [
-          'changeControlValue',
-          'runFormSubmit',
-          'changeSubmitProps',
-        ])
-      ),
-      {},
-      {
-        inputHint: function inputHint(_ref) {
-          var value = _ref.value;
-          this.changeControlValue({
-            value: value,
-            control: this.hint,
-          });
-        },
-        inputCheckbox: function inputCheckbox(_ref2) {
-          var value = _ref2.value;
-          this.changeControlValue({
-            value: value,
-            control: this.checkbox,
-          });
-        },
-        clickSubmit: function clickSubmit() {
-          this.changeSubmitProps({
-            'load-circle': true,
-          });
-          this.runFormSubmit();
-        },
-        clickA1: function clickA1() {
-          this.$emit('openA1');
-        },
+    template: "\n    <div class=\"vue-auth-sms-ornz-form\">\n      <div class=\"vue-auth-sms-ornz-form-body\">\n        <form action=\"\" method=\"\">\n          <div v-for=\"control in controls\" :key=\"control.id\">\n            <ControlComponent :control=\"control\" @input=\"input\" @hints=\"hints\" />\n            <hr />\n          </div>\n          <ButtonComponent :text=\"buttonSubmitTimerText || lang.AUTH_SMS_ORNZ_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"clickSubmit\" />\n        </form>\n      </div>\n    </div>\n\t",
+    computed: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['lang'])), ui_vue3_pinia.mapState(ornzStore, ['controls', 'submitProps', 'errorORNZ', 'buttonDisabled', 'runHintsAction', 'setHints'])),
+    methods: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapActions(ornzStore, ['input', 'runFormSubmit', 'changeSubmitProps'])), {}, {
+      hints: function hints(_ref) {
+        var type = _ref.type,
+          control = _ref.control,
+          action = _ref.action,
+          value = _ref.value;
+        switch (type) {
+          case 'get':
+            this.runHintsAction({
+              control: control,
+              action: action
+            });
+            break;
+          case 'set':
+            this.setHints({
+              control: control,
+              value: value
+            });
+            break;
+        }
+      },
+      clickSubmit: function clickSubmit() {
+        this.changeSubmitProps({
+          'load-circle': true
+        });
+        this.runFormSubmit();
       }
-    ),
-    mounted: function mounted() {},
+    }),
+    mounted: function mounted() {}
   };
 
-  function ownKeys$2(object, enumerableOnly) {
-    var keys = Object.keys(object);
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-      enumerableOnly &&
-        (symbols = symbols.filter(function (sym) {
-          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-        })),
-        keys.push.apply(keys, symbols);
+  function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$2(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  var Code = {
+    data: function data() {
+      return {
+        inputValue: ''
+      };
+    },
+    components: {
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
+    },
+    emits: ['openOrnz'],
+    // language=Vue
+
+    template: "\n      <div class=\"vue-auth-sms-code-form\">\n        <div class=\"vue-auth-sms-code-form-body\">\n          <div class=\"vue-auth-sms-code-inputs\">\n            <div :class=\"{'vue-auth-sms-code-inputs-label': true, 'vue-auth-sms-code-inputs-label--disabled': inputs.every(i => i.disabled)}\">{{ lang.AUTH_SMS_CODE_LABEL_INPUTS }}</div>\n            <div class=\"vue-auth-sms-code-inputs-body\" ref=\"inputs\">\n\n              <input v-for=\"(input, index) in inputs\"\n                :key=\"input.id\"\n                type=\"text\"\n                :class=\"{'vue-auth-sms-code-input': true, 'vue-auth-sms-code-input--disabled': input.disabled}\"\n                @input=\"inputText(input, index, $event)\"\n                @keyup.backspace=\"backspaceInput(index)\"\n              />\n\n            </div>\n          </div>\n\n          <div><ButtonComponent :text=\"lang.AUTH_SMS_CODE_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"runFormSubmit\" /></div>\n          <div><ButtonComponent :text=\"buttonSubmitTimerText\" :props=\"Object.keys(timerProps)\" :disabled=\"timerDisabled\" @clickButton=\"clickNewCode\" /></div>\n        </div>\n      </div>\n\t",
+    computed: _objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['lang'])), ui_vue3_pinia.mapState(codeStore, ['lang', 'inputs', 'uuid', 'submitProps', 'error', 'errorButton', 'buttonDisabled', 'buttonSubmitTimerText', 'timerDisabled', 'timerProps', 'clearInputs'])),
+    watch: {
+      clearInputs: function clearInputs() {
+        this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input").forEach(function (input) {
+          return input.value = '';
+        });
+      },
+      inputValue: function inputValue(value) {
+        this.changeInputValue({
+          value: value
+        });
+      }
+    },
+    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['changeState'])), ui_vue3_pinia.mapActions(codeStore, ['changeInputValue', 'runFormSubmit', 'changeSubmitProps'])), {}, {
+      clickNewCode: function clickNewCode() {
+        this.changeState('sms');
+      },
+      backspaceInput: function backspaceInput(index) {
+        var prev = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index - 1];
+        if (prev) {
+          prev.focus();
+        }
+      },
+      inputText: function inputText(input, index, event) {
+        var value = event.target.value;
+        this.changeInputValue({
+          control: input,
+          value: value
+        });
+        var next = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index + 1];
+        if (value && next) {
+          next.focus();
+        }
+      }
+    }),
+    mounted: function mounted() {
+      this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
     }
-    return keys;
-  }
-  function _objectSpread$2(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = null != arguments[i] ? arguments[i] : {};
-      i % 2
-        ? ownKeys$2(Object(source), !0).forEach(function (key) {
-            babelHelpers.defineProperty(target, key, source[key]);
-          })
-        : Object.getOwnPropertyDescriptors
-        ? Object.defineProperties(
-            target,
-            Object.getOwnPropertyDescriptors(source)
-          )
-        : ownKeys$2(Object(source)).forEach(function (key) {
-            Object.defineProperty(
-              target,
-              key,
-              Object.getOwnPropertyDescriptor(source, key)
-            );
-          });
-    }
-    return target;
-  }
+  };
+
+  function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$3(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var Application = {
     data: function data() {
       return {
-        state: 'sms',
-        info: true,
-        error: 'Error',
+        info: true
       };
     },
     components: {
       Sms: Sms,
       Ornz: Ornz,
+      Code: Code,
       MessageComponent: local_vueComponents_messageComponent.MessageComponent,
-      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
     // language=Vue
 
-    template:
-      '\n    <div class="vue-auth-sms">\n      <div class="vue-auth-sms-left">\n\n\n        <h3 class="mt-0">{{ title }}</h3>\n\n        <MessageComponent v-if="info" type="info" :message="lang.AUTH_SMS_INFO_MESSAGE" :button="lang.AUTH_SMS_INFO_BUTTON" @clickButton="clickInfoButton" />\n        <MessageComponent v-if="error" type="error" :message="error" :button="errorButton" @clickButton="clickErrorButton" />\n\n        <Sms @openOrnz="openOrnz" v-if="state === \'sms\'" />\n        <Ornz @openA1="openA1" v-else-if="state === \'ornz\'" />\n\n        <hr class="hr--line hr--none" />\n\n        <div class="vue-auth-sms-alt">\n          <div><ButtonComponent :text="altButton" :props="[\'medium\', \'primary\']" @clickButton="clickAlt" /></div>\n          <div><a href="">{{ lang.AUTH_SMS_ENTER_LINK }}</a></div>\n        </div>\n\n      </div>\n      <div class="vue-auth-sms-right">\n        <img src="/markup/pages/auth-sms/auth-sms-ill.png" alt="">\n      </div>\n      \n    </div>\n\t',
-    computed: _objectSpread$2(
-      _objectSpread$2(
-        {},
-        ui_vue3_pinia.mapState(dataStore, [
-          'sessionid',
-          'signedParameters',
-          'lang',
-        ])
-      ),
-      {},
-      {
-        title: function title() {
-          return this.lang[
-            'AUTH_SMS_'.concat(String(this.state).toUpperCase(), '_TITLE')
-          ];
-        },
-        altButton: function altButton() {
-          return this.lang[
-            'AUTH_SMS_'.concat(String(this.state).toUpperCase(), '_ALT_BUTTON')
-          ];
-        },
+    template: "\n    <div class=\"vue-auth-sms\">\n      <div class=\"vue-auth-sms-left\">\n\n\n        <h3 class=\"mt-0\">{{ title }}</h3>\n\n        <MessageComponent v-if=\"info\" type=\"info\" :message=\"lang.AUTH_SMS_INFO_MESSAGE\" :button=\"lang.AUTH_SMS_INFO_BUTTON\" @clickButton=\"clickInfoButton\" />\n        <MessageComponent v-if=\"error\" type=\"error\" :message=\"error\" :button=\"errorButton\" @clickButton=\"clickErrorButton\" />\n\n        <Sms v-if=\"state === 'sms'\" />\n        <Ornz v-else-if=\"state === 'ornz'\" />\n        <Code v-else-if=\"state === 'code'\" />\n\n        <hr class=\"hr--line hr--none\" />\n\n        <div class=\"vue-auth-sms-alt\">\n          <div><ButtonComponent :text=\"altButton\" :props=\"['medium', 'primary']\" @clickButton=\"clickAlt\" /></div>\n          <div><a href=\"\">{{ lang.AUTH_SMS_ENTER_LINK }}</a></div>\n        </div>\n\n      </div>\n      <div class=\"vue-auth-sms-right\">\n        <img src=\"/markup/pages/auth-sms/auth-sms-ill.png\" alt=\"\">\n      </div>\n      \n    </div>\n\t",
+    computed: _objectSpread$3(_objectSpread$3(_objectSpread$3(_objectSpread$3({}, ui_vue3_pinia.mapState(dataStore, ['sessionid', 'signedParameters', 'lang', 'state', 'error', 'errorButton'])), ui_vue3_pinia.mapState(smsStore, ['errorButton'])), ui_vue3_pinia.mapState(codeStore, ['uuid'])), {}, {
+      title: function title() {
+        return this.lang["AUTH_SMS_".concat(String(this.state).toUpperCase(), "_TITLE")];
+      },
+      altButton: function altButton() {
+        return this.lang["AUTH_SMS_".concat(String(this.state).toUpperCase(), "_ALT_BUTTON")];
       }
-    ),
-    methods: {
-      // ...mapActions(tableStore, [
-      //   'hideErrorTable',
-      //   'runColumnsNames',
-      //   'runItems',
-      //   'runDefaultSort',
-      //   'runSetDefaultSort',
-      // ]),
-      openOrnz: function openOrnz() {
-        this.state = 'ornz';
-      },
-      openA1: function openA1() {
-        this.state = 'A1';
-      },
+    }),
+    methods: _objectSpread$3(_objectSpread$3({}, ui_vue3_pinia.mapActions(dataStore, ['changeState'])), {}, {
       clickInfoButton: function clickInfoButton() {
         this.info = false;
       },
       clickAlt: function clickAlt() {
         if (this.state === 'ornz') {
-          this.state = 'sms';
+          this.changeState('sms');
         } else {
-          this.state = 'ornz';
+          this.changeState('ornz');
         }
       },
-    },
-    mounted: function mounted() {},
+      clickErrorButton: function clickErrorButton() {
+        this.changeState('ornz');
+      }
+    }),
+    mounted: function mounted() {}
   };
 
-  function _classPrivateFieldInitSpec(obj, privateMap, value) {
-    _checkPrivateRedeclaration(obj, privateMap);
-    privateMap.set(obj, value);
-  }
-  function _checkPrivateRedeclaration(obj, privateCollection) {
-    if (privateCollection.has(obj)) {
-      throw new TypeError(
-        'Cannot initialize the same private elements twice on an object'
-      );
-    }
-  }
-  var _store = /*#__PURE__*/ new WeakMap();
-  var _rootNode = /*#__PURE__*/ new WeakMap();
-  var _application = /*#__PURE__*/ new WeakMap();
-  var AuthSMS = /*#__PURE__*/ (function () {
+  function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+  function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+  var _store = /*#__PURE__*/new WeakMap();
+  var _rootNode = /*#__PURE__*/new WeakMap();
+  var _application = /*#__PURE__*/new WeakMap();
+  var AuthSMS = /*#__PURE__*/function () {
     function AuthSMS(rootNode, options) {
       babelHelpers.classCallCheck(this, AuthSMS);
       _classPrivateFieldInitSpec(this, _store, {
         writable: true,
-        value: void 0,
+        value: void 0
       });
       _classPrivateFieldInitSpec(this, _rootNode, {
         writable: true,
-        value: void 0,
+        value: void 0
       });
       _classPrivateFieldInitSpec(this, _application, {
         writable: true,
-        value: void 0,
+        value: void 0
       });
-      babelHelpers.classPrivateFieldSet(
-        this,
-        _store,
-        ui_vue3_pinia.createPinia()
-      );
-      babelHelpers.classPrivateFieldSet(
-        this,
-        _rootNode,
-        document.querySelector(rootNode)
-      );
+      babelHelpers.classPrivateFieldSet(this, _store, ui_vue3_pinia.createPinia());
+      babelHelpers.classPrivateFieldSet(this, _rootNode, document.querySelector(rootNode));
       this.options = options;
     }
-    babelHelpers.createClass(AuthSMS, [
-      {
-        key: 'run',
-        value: function run() {
-          var self = this;
-          babelHelpers.classPrivateFieldSet(
-            this,
-            _application,
-            ui_vue3.BitrixVue.createApp({
-              name: 'Table Application',
-              components: {
-                Application: Application,
-              },
-              template: '<Application/>',
-              mounted: function mounted() {
-                dataStore().sessid = self.options.sessid || '';
-                dataStore().signedParameters =
-                  self.options.signedParameters || '';
-                dataStore().lang = ui_vue3.BitrixVue.getFilteredPhrases(
-                  this,
-                  'AUTH_SMS'
-                );
-                smsStore().tel.label =
-                  this.$Bitrix.Loc.getMessage('AUTH_SMS_A1_TEL');
-                smsStore().checkbox.label = this.$Bitrix.Loc.getMessage(
-                  'AUTH_SMS_A1_CHECKBOX'
-                );
-                smsStore().lang = ui_vue3.BitrixVue.getFilteredPhrases(
-                  this,
-                  'AUTH_SMS_A1'
-                );
-              },
-            })
-          );
-          babelHelpers
-            .classPrivateFieldGet(this, _application)
-            .use(babelHelpers.classPrivateFieldGet(this, _store));
-          babelHelpers
-            .classPrivateFieldGet(this, _application)
-            .mount(babelHelpers.classPrivateFieldGet(this, _rootNode));
-        },
-      },
-      {
-        key: 'initStorageBeforeStartApplication',
-        value: function initStorageBeforeStartApplication() {
-          ui_vue3_pinia.setActivePinia(
-            babelHelpers.classPrivateFieldGet(this, _store)
-          );
-        },
-      },
-      {
-        key: 'getTableStore',
-        value: function getTableStore() {
-          return tableStore;
-        },
-      },
-    ]);
+    babelHelpers.createClass(AuthSMS, [{
+      key: "run",
+      value: function run() {
+        var self = this;
+        babelHelpers.classPrivateFieldSet(this, _application, ui_vue3.BitrixVue.createApp({
+          name: 'Table Application',
+          components: {
+            Application: Application
+          },
+          template: '<Application/>',
+          mounted: function mounted() {
+            dataStore().sessid = self.options.sessid || '';
+            dataStore().signedParameters = self.options.signedParameters || '';
+            dataStore().lang = ui_vue3.BitrixVue.getFilteredPhrases(this, 'AUTH_SMS');
+            smsStore().controls[0].label = this.$Bitrix.Loc.getMessage('AUTH_SMS_SMS_LABEL_TEL');
+            smsStore().controls[1].label = this.$Bitrix.Loc.getMessage('AUTH_SMS_SMS_LABEL_CHECKBOX');
+            smsStore().lang = ui_vue3.BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
+            ornzStore().controls[0].label = this.$Bitrix.Loc.getMessage('AUTH_SMS_ORNZ_LABEL_ORNZ');
+            ornzStore().controls[1].label = this.$Bitrix.Loc.getMessage('AUTH_SMS_ORNZ_LABEL_PASSWORD');
+            codeStore().lang = ui_vue3.BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_CODE');
+          }
+        }));
+        babelHelpers.classPrivateFieldGet(this, _application).use(babelHelpers.classPrivateFieldGet(this, _store));
+        babelHelpers.classPrivateFieldGet(this, _application).mount(babelHelpers.classPrivateFieldGet(this, _rootNode));
+      }
+    }, {
+      key: "initStorageBeforeStartApplication",
+      value: function initStorageBeforeStartApplication() {
+        ui_vue3_pinia.setActivePinia(babelHelpers.classPrivateFieldGet(this, _store));
+      }
+    }, {
+      key: "getTableStore",
+      value: function getTableStore() {
+        return tableStore;
+      }
+    }]);
     return AuthSMS;
-  })();
+  }();
 
   exports.AuthSMS = AuthSMS;
-})(
-  (this.BX = this.BX || {}),
-  BX.Vue3,
-  BX.Controls,
-  BX.Controls,
-  BX.Controls,
-  BX.Controls,
-  BX.AAS,
-  BX.AAS,
-  BX.Vue3.Pinia
-);
+
+}((this.BX = this.BX || {}),BX,BX.Controls,BX.AAS,BX.AAS,BX));
 //# sourceMappingURL=application.bundle.js.map

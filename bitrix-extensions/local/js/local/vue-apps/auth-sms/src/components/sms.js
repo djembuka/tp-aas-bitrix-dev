@@ -4,8 +4,7 @@ import { smsStore } from '../stores/sms.js';
 
 import './sms.css';
 
-import { ControlTel } from 'local.vue-components.control-tel';
-import { ControlCheckbox } from 'local.vue-components.control-checkbox';
+import { ControlComponent } from 'local.vue-components.control-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
 
 export const Sms = {
@@ -13,8 +12,7 @@ export const Sms = {
     return {};
   },
   components: {
-    ControlTel,
-    ControlCheckbox,
+    ControlComponent,
     ButtonComponent,
   },
   // language=Vue
@@ -23,10 +21,10 @@ export const Sms = {
     <div class="vue-auth-sms-sms">
       <div class="vue-auth-sms-sms-form">
         <div class="vue-auth-sms-sms-form-body">
-          <ControlTel :control="tel" @input="inputTel" @focus="focus" @blur="blur" @enter="enter" />
-          <hr />
-          <ControlCheckbox :control="checkbox" @input="inputCheckbox" @focus="focus" @blur="blur" />
-          <hr />
+          <div v-for="control in controls" :key="control.id">
+            <ControlComponent :control="control" @input="input" />
+            <hr />
+          </div>
           <ButtonComponent :text="buttonSubmitTimerText || lang.AUTH_SMS_SMS_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />
         </div>
       </div>
@@ -35,25 +33,14 @@ export const Sms = {
   computed: {
     ...mapState(dataStore, ['lang']),
     ...mapState(smsStore, [
-      'tel',
-      'checkbox',
+      'controls',
       'submitProps',
       'buttonDisabled',
       'buttonSubmitTimerText',
     ]),
   },
   methods: {
-    ...mapActions(smsStore, [
-      'changeControlValue',
-      'runFormSubmit',
-      'changeSubmitProps',
-    ]),
-    inputTel({ value }) {
-      this.changeControlValue({ value, control: this.tel });
-    },
-    inputCheckbox({ value }) {
-      this.changeControlValue({ value, control: this.checkbox });
-    },
+    ...mapActions(smsStore, ['input', 'runFormSubmit', 'changeSubmitProps']),
     clickSubmit() {
       this.changeSubmitProps({ 'load-circle': true });
       this.runFormSubmit();

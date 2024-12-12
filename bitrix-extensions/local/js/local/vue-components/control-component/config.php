@@ -25,6 +25,7 @@ return [
 		'local.vue-components.control-date-range',
 		'local.vue-components.control-file',
 		'local.vue-components.control-file-upload',
+		'local.vue-components.control-checkbox',
 	],
 	'skip_core' => true,
 ];

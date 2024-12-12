@@ -211,11 +211,11 @@ export const ControlHint = {
     },
     validate() {
       if (
-        (this.control.required && this.value.trim()) ||
+        (this.control.required && this.control.value.trim()) ||
         !this.control.required
       ) {
         if (this.control.regexp) {
-          const match = String(this.value.trim()).match(
+          const match = String(this.control.value.trim()).match(
             RegExp(this.control.regexp)
           );
           if (!match) {
@@ -227,7 +227,7 @@ export const ControlHint = {
         } else {
           return true;
         }
-      } else if (this.control.required && !this.value) {
+      } else if (this.control.required && !this.control.value) {
         return false;
       }
       return true;
