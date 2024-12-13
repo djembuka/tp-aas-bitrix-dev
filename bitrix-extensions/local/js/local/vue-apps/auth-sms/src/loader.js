@@ -30,6 +30,7 @@ export class AuthSMS {
         dataStore().sessid = self.options.sessid || '';
         dataStore().signedParameters = self.options.signedParameters || '';
         dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS');
+        dataStore().info = this.$Bitrix.Loc.getMessage('AUTH_SMS_INFO_MESSAGE');
 
         smsStore().controls[0].label = this.$Bitrix.Loc.getMessage(
           'AUTH_SMS_SMS_LABEL_TEL'

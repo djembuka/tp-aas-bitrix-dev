@@ -6,6 +6,7 @@ export const dataStore = defineStore('data', {
     signedParameters: '',
     lang: {},
     state: 'code',
+    info: '',
     error: '',
     errorButton: false,
   }),

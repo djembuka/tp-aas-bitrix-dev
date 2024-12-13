@@ -15,8 +15,9 @@ export const codeStore = defineStore('code', {
     uuid: '',
     submitProps: { large: true, secondary: true, wide: true },
     timerProps: { small: true, secondary: true },
-    timer: 20,
+    timer: 5,
     clearInputs: false,
+    invalidInputs: false,
   }),
   getters: {
     code() {
@@ -27,23 +28,23 @@ export const codeStore = defineStore('code', {
       );
     },
     buttonDisabled() {
-      return this.inputs.some((i) => !i.value);
+      return this.inputs.some((i) => !i.value || i.invalid || i.disabled);
     },
-    buttonSubmitTimerText() {
+    buttonTimerText() {
       return this.timer
         ? `${this.lang.AUTH_SMS_CODE_BUTTON_SUBMIT_TIMER} ${new Date(
             this.timer * 1000
           )
             .toISOString()
             .substring(14, 19)}`
-        : '';
+        : this.lang.AUTH_SMS_CODE_BUTTON_SUBMIT_TIMER;
     },
     timerDisabled() {
-      return false;
+      return !!this.timer;
     },
   },
   actions: {
-    buttonSubmitTimer(start) {
+    buttonTimer(start) {
       this.timer = Number(start);
       const intervalId = setInterval(() => {
         if (this.timer === 0) {
@@ -53,12 +54,12 @@ export const codeStore = defineStore('code', {
         }
       }, 1000);
     },
-    changeSubmitProps(obj) {
+    changeButtonProps(obj, type) {
       Object.keys(obj).forEach((key) => {
         if (obj[key]) {
-          this.submitProps[key] = true;
+          this[`${type}Props`][key] = true;
         } else {
-          delete this.submitProps[key];
+          delete this[`${type}Props`][key];
         }
       });
     },
@@ -76,11 +77,11 @@ export const codeStore = defineStore('code', {
           })
           .then(
             (response) => {
-              this.changeSubmitProps({ 'load-circle': false });
+              this.changeButtonProps({ 'load-circle': false }, 'submit');
               window.location.href = response.data.redirect;
             },
             (response) => {
-              this.changeSubmitProps({ 'load-circle': false });
+              this.changeButtonProps({ 'load-circle': false }, 'submit');
 
               dataStore().error = response.errors[0].message;
 
@@ -95,19 +96,24 @@ export const codeStore = defineStore('code', {
                   input.disabled = true;
                   input.value = '';
                 });
-              } else if (String(response.errors[0].code) === String(1002)) {
+                this.timer = NaN;
+              } else {
+                //2001 2002 2003 2004 2005
                 //E1
                 //invalid inputs
                 //invalid message
+                this.invalidInputs = true;
                 //disabled button
                 //timer
-              } else if (String(response.errors[0].code) === String(1003)) {
-                //disabled button
-                //timer
-              } else if (String(response.errors[0].code) === String(1004)) {
-                //enabled button
-                //timer
-              } else if (String(response.errors[0].code) === String(1005)) {
+                if (
+                  response.errors[0].customData &&
+                  response.errors[0].customData.remain
+                ) {
+                  this.timer = response.errors[0].customData.remain;
+                  this.buttonTimer(this.timer);
+                } else {
+                  this.timer = 0;
+                }
               }
             }
           );

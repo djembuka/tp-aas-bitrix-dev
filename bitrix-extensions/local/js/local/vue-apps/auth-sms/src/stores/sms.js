@@ -101,7 +101,13 @@ export const smsStore = defineStore('sms', {
               this.errorButton = '';
 
               codeStore().uuid = response.data.UUID;
+              codeStore().timer = response.data.remain || NaN;
               dataStore().changeState('code');
+
+              const tel = this.controls[0].value.split('-');
+              dataStore().info = `${
+                dataStore().AUTH_SMS_CODE_INFO_MESSAGE
+              } ${tel[0].substring(0, tel[0].length - 3)}...-..-${tel[2]}`;
             },
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });

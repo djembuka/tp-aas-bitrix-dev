@@ -36,6 +36,7 @@ export const ControlTel = {
         v-model="value"
         @focus="focus"
         @blur="blur"
+        @keydown="keydown"
         @keyup.enter="enter"
         :disabled="disabled"
         ref="input"
@@ -100,6 +101,9 @@ export const ControlTel = {
   },
   methods: {
     focus() {
+      if (this.value === '') {
+        this.value = '+7(';
+      }
       this.focused = true;
       this.blured = false;
       this.$emit('focus');
@@ -111,6 +115,33 @@ export const ControlTel = {
     },
     enter() {
       this.$emit('enter');
+    },
+    keydown($event) {
+      this.inputphone($event);
+    },
+    inputphone(e) {
+      let key = e.key;
+      let not = key.replace(/([0-9])/, 1);
+
+      if (not == 1) {
+        if (this.value.length < 3 || this.value === '') {
+          this.value = '+7(';
+        }
+        if (this.value.length === 6) {
+          this.value = this.value + ') ';
+        }
+        if (this.value.length === 11) {
+          this.value = this.value + '-';
+        }
+        if (this.value.length === 14) {
+          this.value = this.value + '-';
+        }
+        if (this.value.length >= 17) {
+          this.value = this.value.substring(0, 16);
+        }
+      } else if ('Backspace' !== not && 'Tab' !== not) {
+        e.preventDefault();
+      }
     },
     validate() {
       if (

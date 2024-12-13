@@ -4,6 +4,7 @@ $MESS["AUTH_SMS_CODE_TITLE"] = "Введите код";
 $MESS["AUTH_SMS_ORNZ_TITLE"] = "Вход с помощью ОРНЗ";
 
 $MESS["AUTH_SMS_INFO_MESSAGE"] = "Управление организацией доступно в личном кабинете «Единоличного органа управления» (генерального директора) по данным реестра СРО ААС";
+$MESS["AUTH_SMS_CODE_INFO_MESSAGE"] = "Код отправлен на телефон:";
 $MESS["AUTH_SMS_INFO_BUTTON"] = "Понятно";
 
 $MESS["AUTH_SMS_SMS_ALT_BUTTON"] = "Вход по ОРНЗ";
@@ -31,4 +32,5 @@ $MESS["AUTH_SMS_ORNZ_LABEL_PASSWORD"] = "Пароль";
 
 $MESS["AUTH_SMS_CODE_LABEL_INPUTS"] = "Введите код";
 $MESS["AUTH_SMS_CODE_BUTTON_SUBMIT"] = "Войти";
-$MESS["AUTH_SMS_CODE_BUTTON_SUBMIT_TIMER"] = "Получите новый код через:";
+$MESS["AUTH_SMS_CODE_BUTTON_SUBMIT_TIMER"] = "Получить новый код";
+$MESS["AUTH_SMS_CODE_INVALID"] = "Вы ввели неверный код. Проверьте код полученный на ваш телефон и введите его повторно.";

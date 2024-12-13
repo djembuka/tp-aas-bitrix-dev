@@ -16,7 +16,7 @@ this.BX = this.BX || {};
     },
     props: ['control', 'id', 'name'],
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--tel': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <input\n        type=\"text\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"value\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keyup.enter=\"enter\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        class=\"twpx-form-control__input\"\n      />\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
+    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--tel': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <input\n        type=\"text\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"value\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keydown=\"keydown\"\n        @keyup.enter=\"enter\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        class=\"twpx-form-control__input\"\n      />\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
     emits: ['input', 'focus', 'blur', 'enter'],
     computed: {
       value: {
@@ -68,6 +68,9 @@ this.BX = this.BX || {};
     },
     methods: {
       focus: function focus() {
+        if (this.value === '') {
+          this.value = '+7(';
+        }
         this.focused = true;
         this.blured = false;
         this.$emit('focus');
@@ -79,6 +82,32 @@ this.BX = this.BX || {};
       },
       enter: function enter() {
         this.$emit('enter');
+      },
+      keydown: function keydown($event) {
+        this.inputphone($event);
+      },
+      inputphone: function inputphone(e) {
+        var key = e.key;
+        var not = key.replace(/([0-9])/, 1);
+        if (not == 1) {
+          if (this.value.length < 3 || this.value === '') {
+            this.value = '+7(';
+          }
+          if (this.value.length === 6) {
+            this.value = this.value + ') ';
+          }
+          if (this.value.length === 11) {
+            this.value = this.value + '-';
+          }
+          if (this.value.length === 14) {
+            this.value = this.value + '-';
+          }
+          if (this.value.length >= 17) {
+            this.value = this.value.substring(0, 16);
+          }
+        } else if ('Backspace' !== not && 'Tab' !== not) {
+          e.preventDefault();
+        }
       },
       validate: function validate() {
         if (this.control.required && this.value.trim() || !this.control.required) {

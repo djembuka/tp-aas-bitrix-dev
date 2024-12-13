@@ -1,6 +1,7 @@
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
 import { codeStore } from '../stores/code.js';
+import { smsStore } from '../stores/code.js';
 
 import './code.css';
 
@@ -21,8 +22,10 @@ export const Code = {
   template: `
       <div class="vue-auth-sms-code-form">
         <div class="vue-auth-sms-code-form-body">
-          <div class="vue-auth-sms-code-inputs">
+          <div :class="{'vue-auth-sms-code-inputs': true, 'vue-auth-sms-code-inputs--invalid': invalidInputs}">
+
             <div :class="{'vue-auth-sms-code-inputs-label': true, 'vue-auth-sms-code-inputs-label--disabled': inputs.every(i => i.disabled)}">{{ lang.AUTH_SMS_CODE_LABEL_INPUTS }}</div>
+            
             <div class="vue-auth-sms-code-inputs-body" ref="inputs">
 
               <input v-for="(input, index) in inputs"
@@ -34,27 +37,30 @@ export const Code = {
               />
 
             </div>
+
+            <div class="vue-auth-sms-code-inputs__warning">{{ lang.AUTH_SMS_CODE_INVALID }}</div>
           </div>
 
           <div><ButtonComponent :text="lang.AUTH_SMS_CODE_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="runFormSubmit" /></div>
-          <div><ButtonComponent :text="buttonSubmitTimerText" :props="Object.keys(timerProps)" :disabled="timerDisabled" @clickButton="clickNewCode" /></div>
+          <div><ButtonComponent v-if="timer === 0 || !!timer" :text="buttonTimerText" :props="Object.keys(timerProps)" :disabled="timerDisabled" @clickButton="clickNewCode" /></div>
         </div>
       </div>
 	`,
   computed: {
     ...mapState(dataStore, ['lang']),
     ...mapState(codeStore, [
-      'lang',
       'inputs',
       'uuid',
       'submitProps',
       'error',
       'errorButton',
       'buttonDisabled',
-      'buttonSubmitTimerText',
+      'buttonTimerText',
       'timerDisabled',
       'timerProps',
+      'timer',
       'clearInputs',
+      'invalidInputs',
     ]),
   },
   watch: {
@@ -69,13 +75,15 @@ export const Code = {
   },
   methods: {
     ...mapActions(dataStore, ['changeState']),
+    ...mapActions(smsStore, ['runFormSubmit']),
     ...mapActions(codeStore, [
       'changeInputValue',
       'runFormSubmit',
-      'changeSubmitProps',
+      'changeButtonProps',
+      'buttonTimer',
     ]),
     clickNewCode() {
-      this.changeState('sms');
+      this.runFormSubmit();
     },
     backspaceInput(index) {
       const prev = this.$refs.inputs.querySelectorAll(
@@ -101,5 +109,6 @@ export const Code = {
   },
   mounted() {
     this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
+    this.runFormSubmit();
   },
 };
