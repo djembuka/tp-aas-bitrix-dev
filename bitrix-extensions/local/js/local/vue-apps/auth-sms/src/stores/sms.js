@@ -22,12 +22,11 @@ export const smsStore = defineStore('sms', {
         name: 'NUM',
         label: '',
         value: '',
-        required: false,
+        required: true,
         disabled: false,
       },
     ],
     submitProps: { large: true, secondary: true, wide: true },
-    errorButton: false,
     timer: 0,
   }),
   getters: {
@@ -81,7 +80,7 @@ export const smsStore = defineStore('sms', {
         control.setInvalidWatcher = false;
       }
     },
-    runFormSubmit() {
+    runSend() {
       if (window.BX) {
         BX.ajax
           .runAction('twinpx:authorization.api.send', {
@@ -98,7 +97,7 @@ export const smsStore = defineStore('sms', {
               this.controls[0].focusWatcher = false;
               this.controls[0].setInvalidWatcher = false;
               this.controls[0].regexp_description = '';
-              this.errorButton = '';
+              dataStore().errorButton = '';
 
               codeStore().uuid = response.data.UUID;
               codeStore().timer = response.data.remain || NaN;
@@ -106,7 +105,7 @@ export const smsStore = defineStore('sms', {
 
               const tel = this.controls[0].value.split('-');
               dataStore().info = `${
-                dataStore().AUTH_SMS_CODE_INFO_MESSAGE
+                dataStore().lang.AUTH_SMS_CODE_INFO_MESSAGE
               } ${tel[0].substring(0, tel[0].length - 3)}...-..-${tel[2]}`;
             },
             (response) => {
@@ -118,7 +117,7 @@ export const smsStore = defineStore('sms', {
                 //B1
                 this.state = 'B1';
                 this.controls[0].disabled = true;
-                this.errorButton = this.lang.AUTH_SMS_SMS_ERROR_BUTTON;
+                dataStore().errorButton = this.lang.AUTH_SMS_SMS_ERROR_BUTTON;
               } else if (String(response.errors[0].code) === String(1002)) {
                 //C1
                 this.state = 'C1';
@@ -129,7 +128,7 @@ export const smsStore = defineStore('sms', {
                 this.controls[0].focusWatcher = true;
                 this.controls[0].setInvalidWatcher = true;
                 this.controls[0].regexp_description =
-                  this.lang.AUTH_SMS_SMS_ERROR_1003 || '';
+                  response.errors[0].message || '';
               } else if (String(response.errors[0].code) === String(1004)) {
                 //B2
               } else if (String(response.errors[0].code) === String(1005)) {
@@ -138,14 +137,14 @@ export const smsStore = defineStore('sms', {
                 this.controls[0].focusWatcher = true;
                 this.controls[0].setInvalidWatcher = true;
                 this.controls[0].regexp_description =
-                  this.lang.AUTH_SMS_SMS_ERROR_1005 || '';
+                  response.errors[0].message || '';
               } else if (String(response.errors[0].code) === String(1006)) {
                 //A3
                 this.state = 'A3';
                 this.controls[0].focusWatcher = true;
                 this.controls[0].setInvalidWatcher = true;
                 this.controls[0].regexp_description =
-                  this.lang.AUTH_SMS_SMS_ERROR_1006 || '';
+                  response.errors[0].message || '';
               }
             }
           );

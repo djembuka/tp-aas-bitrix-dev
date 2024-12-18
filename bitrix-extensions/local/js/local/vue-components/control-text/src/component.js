@@ -58,6 +58,7 @@ export const ControlText = {
         return this.control.value;
       },
       set(value) {
+        this.control.setInvalidWatcher = false;
         this.$emit('input', { value });
       },
     },
@@ -72,7 +73,7 @@ export const ControlText = {
       return this.focused || !!this.control.value.trim();
     },
     invalid() {
-      return this.blured && !this.validate();
+      return (this.blured && !this.validate()) || this.setInvalidWatcher;
     },
     disabled() {
       return this.control.disabled;
@@ -83,6 +84,9 @@ export const ControlText = {
     focusWatcher() {
       return this.control.focusWatcher;
     },
+    setInvalidWatcher() {
+      return this.control.setInvalidWatcher;
+    },
   },
   watch: {
     validateWatcher() {
@@ -90,6 +94,9 @@ export const ControlText = {
     },
     focusWatcher() {
       this.$refs.input.focus();
+    },
+    setInvalidWatcher(val) {
+      this.warning = val ? this.control.regexp_description : '';
     },
   },
   methods: {

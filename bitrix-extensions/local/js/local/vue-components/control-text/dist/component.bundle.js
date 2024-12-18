@@ -24,6 +24,7 @@ this.BX = this.BX || {};
           return this.control.value;
         },
         set: function set(value) {
+          this.control.setInvalidWatcher = false;
           this.$emit('input', {
             value: value
           });
@@ -40,7 +41,7 @@ this.BX = this.BX || {};
         return this.focused || !!this.control.value.trim();
       },
       invalid: function invalid() {
-        return this.blured && !this.validate();
+        return this.blured && !this.validate() || this.setInvalidWatcher;
       },
       disabled: function disabled() {
         return this.control.disabled;
@@ -50,6 +51,9 @@ this.BX = this.BX || {};
       },
       focusWatcher: function focusWatcher() {
         return this.control.focusWatcher;
+      },
+      setInvalidWatcher: function setInvalidWatcher() {
+        return this.control.setInvalidWatcher;
       }
     },
     watch: {
@@ -58,6 +62,9 @@ this.BX = this.BX || {};
       },
       focusWatcher: function focusWatcher() {
         this.$refs.input.focus();
+      },
+      setInvalidWatcher: function setInvalidWatcher(val) {
+        this.warning = val ? this.control.regexp_description : '';
       }
     },
     methods: {

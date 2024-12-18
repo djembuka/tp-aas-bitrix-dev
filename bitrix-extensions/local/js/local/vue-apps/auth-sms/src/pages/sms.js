@@ -2,7 +2,7 @@ import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
 import { smsStore } from '../stores/sms.js';
 
-import './sms.css';
+import '../style/sms.css';
 
 import { ControlComponent } from 'local.vue-components.control-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
@@ -40,10 +40,10 @@ export const Sms = {
     ]),
   },
   methods: {
-    ...mapActions(smsStore, ['input', 'runFormSubmit', 'changeSubmitProps']),
+    ...mapActions(smsStore, ['input', 'runSend', 'changeSubmitProps']),
     clickSubmit() {
       this.changeSubmitProps({ 'load-circle': true });
-      this.runFormSubmit();
+      this.runSend();
     },
   },
   mounted() {},

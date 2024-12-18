@@ -69,13 +69,16 @@ this.BX = this.BX || {};
     methods: {
       focus: function focus() {
         if (this.value === '') {
-          this.value = '+7(';
+          this.value = '+7 (';
         }
         this.focused = true;
         this.blured = false;
         this.$emit('focus');
       },
       blur: function blur() {
+        if (this.value === '+7 (') {
+          this.value = '';
+        }
         this.focused = false;
         this.blured = true;
         this.$emit('blur');
@@ -90,20 +93,20 @@ this.BX = this.BX || {};
         var key = e.key;
         var not = key.replace(/([0-9])/, 1);
         if (not == 1) {
-          if (this.value.length < 3 || this.value === '') {
-            this.value = '+7(';
+          if (this.value.length < 4 || this.value === '') {
+            this.value = '+7 (';
           }
-          if (this.value.length === 6) {
+          if (this.value.length === 7) {
             this.value = this.value + ') ';
           }
-          if (this.value.length === 11) {
+          if (this.value.length === 12) {
             this.value = this.value + '-';
           }
-          if (this.value.length === 14) {
+          if (this.value.length === 15) {
             this.value = this.value + '-';
           }
-          if (this.value.length >= 17) {
-            this.value = this.value.substring(0, 16);
+          if (this.value.length >= 18) {
+            this.value = this.value.substring(0, 17);
           }
         } else if ('Backspace' !== not && 'Tab' !== not) {
           e.preventDefault();

@@ -12,7 +12,7 @@ export const MessageComponent = {
   emits: ['clickButton'],
   // language=Vue
   template: `
-		<div :class="'vue-message vue-message--' + type">
+		<div class="vue-message" :class="classObject">
       <div class="vue-message__icon">
 
         <svg v-if="type === 'info'" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -32,6 +32,14 @@ export const MessageComponent = {
       </div>
     </div>
 	`,
+  computed: {
+    classObject() {
+      const result = {};
+      result[`vue-message--${this.type}`] = true;
+      result['anim'] = !this.message;
+      return result;
+    },
+  },
   methods: {
     clickButton() {
       this.$emit('clickButton');

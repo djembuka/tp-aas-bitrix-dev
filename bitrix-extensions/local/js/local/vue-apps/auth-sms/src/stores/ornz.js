@@ -4,13 +4,11 @@ export const ornzStore = defineStore('ornz', {
   state: () => ({
     controls: [
       {
-        property: 'hint',
+        property: 'text',
         id: 'id2',
         name: 'ORNZ',
         label: '',
         value: '',
-        count: 3,
-        action: './response-ornz.js',
         required: true,
         disabled: false,
       },
@@ -23,12 +21,21 @@ export const ornzStore = defineStore('ornz', {
         required: true,
         disabled: false,
       },
+      {
+        property: 'checkbox',
+        id: 'id1',
+        name: 'NUM',
+        label: '',
+        value: '',
+        required: true,
+        disabled: false,
+      },
     ],
     submitProps: { large: true, secondary: true, wide: true },
   }),
   getters: {
     buttonDisabled() {
-      return true;
+      return this.controls.some((input) => !input.value);
     },
   },
   actions: {
@@ -88,7 +95,6 @@ export const ornzStore = defineStore('ornz', {
     },
     input({ control, value }) {
       control.value = value;
-      console.log(control);
     },
     runFormSubmit() {
       const self = this;

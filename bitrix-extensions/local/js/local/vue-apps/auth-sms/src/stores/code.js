@@ -5,19 +5,19 @@ export const codeStore = defineStore('code', {
   state: () => ({
     lang: {},
     inputs: [
-      { id: 'input1', value: '' },
-      { id: 'input2', value: '' },
-      { id: 'input3', value: '' },
-      { id: 'input4', value: '' },
-      { id: 'input5', value: '' },
-      { id: 'input6', value: '' },
+      { id: 'input1', value: '5' },
+      { id: 'input2', value: '5' },
+      { id: 'input3', value: '5' },
+      { id: 'input4', value: '5' },
+      { id: 'input5', value: '5' },
+      { id: 'input6', value: '5' },
     ],
     uuid: '',
     submitProps: { large: true, secondary: true, wide: true },
     timerProps: { small: true, secondary: true },
     timer: 5,
     clearInputs: false,
-    invalidInputs: false,
+    invalidInputs: true,
   }),
   getters: {
     code() {
@@ -44,6 +44,9 @@ export const codeStore = defineStore('code', {
     },
   },
   actions: {
+    setInvalidInputs(val) {
+      this.invalidInputs = val;
+    },
     buttonTimer(start) {
       this.timer = Number(start);
       const intervalId = setInterval(() => {
@@ -66,7 +69,7 @@ export const codeStore = defineStore('code', {
     changeInputValue({ control, value }) {
       control.value = value;
     },
-    runFormSubmit() {
+    runCheck() {
       if (window.BX) {
         BX.ajax
           .runAction('twinpx:authorization.api.check', {

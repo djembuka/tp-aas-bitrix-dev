@@ -4,8 +4,9 @@ export const dataStore = defineStore('data', {
   state: () => ({
     sessionid: '',
     signedParameters: '',
+    templateFolder: '',
     lang: {},
-    state: 'code',
+    state: 'sms',
     info: '',
     error: '',
     errorButton: false,

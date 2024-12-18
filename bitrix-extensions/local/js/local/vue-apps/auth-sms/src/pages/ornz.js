@@ -2,7 +2,7 @@ import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
 import { ornzStore } from '../stores/ornz.js';
 
-import './ornz.css';
+import '../style/ornz.css';
 
 import { ControlComponent } from 'local.vue-components.control-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
@@ -25,7 +25,7 @@ export const Ornz = {
             <ControlComponent :control="control" @input="input" @hints="hints" />
             <hr />
           </div>
-          <ButtonComponent :text="buttonSubmitTimerText || lang.AUTH_SMS_ORNZ_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />
+          <ButtonComponent :text="lang.AUTH_SMS_ORNZ_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />
         </form>
       </div>
     </div>

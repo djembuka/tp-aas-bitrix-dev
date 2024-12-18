@@ -28,6 +28,18 @@
   }
 }
 
+.vue-auth-center {
+  margin: 0 auto;
+  padding: 64px;
+  width: 589px;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box;
+}
+.vue-auth-center-body {
+  margin: 0 auto;
+  width: 400px;
+}
+
 .vue-auth-sms-sms-form {
   padding: 32px;
 }
@@ -44,29 +56,6 @@
   gap: 32px;
 }
 .vue-auth-sms-sms-ornz-enter > div {
-  text-align: center;
-}
-hr.hr--none {
-  padding: 0;
-  margin: 0;
-}
-
-.vue-auth-sms-ornz-form {
-  padding: 32px;
-}
-.vue-auth-sms-ornz-form-body {
-  width: 100%;
-  max-width: 400px;
-  margin: 20px auto 0;
-}
-.vue-auth-sms-ornz-ornz-enter {
-  width: 100%;
-  max-width: 400px;
-  margin: 32px auto;
-  display: grid;
-  gap: 32px;
-}
-.vue-auth-sms-ornz-ornz-enter > div {
   text-align: center;
 }
 hr.hr--none {
@@ -181,4 +170,27 @@ hr.hr--none {
 .vue-auth-sms-code-inputs--invalid .vue-auth-sms-code-inputs__warning {
   color: #f00;
   display: block;
+}
+
+.vue-auth-sms-ornz-form {
+  padding: 32px;
+}
+.vue-auth-sms-ornz-form-body {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto 0;
+}
+.vue-auth-sms-ornz-ornz-enter {
+  width: 100%;
+  max-width: 400px;
+  margin: 32px auto;
+  display: grid;
+  gap: 32px;
+}
+.vue-auth-sms-ornz-ornz-enter > div {
+  text-align: center;
+}
+hr.hr--none {
+  padding: 0;
+  margin: 0;
 }

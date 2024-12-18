@@ -43,6 +43,7 @@
 .vue-message__text {
   display: grid;
   gap: 16px;
+  margin-top: 4px;
 }
 .vue-message__message {
   color: var(--vue-message-component-color);
@@ -62,3 +63,17 @@
   ) !important;
   color: var(--vue-message-component-error-button-color) !important;
 }
+/* .vue-message.anim {
+  animation-duration: 0.5s;
+  animation-name: message-fade-out;
+}
+@keyframes message-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+} */
