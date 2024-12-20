@@ -34,7 +34,8 @@ export const ControlCheckbox = {
           ref="input"
           class="twpx-form-control--filled-in"
         />
-        <span class="twpx-form-control__label" v-if="control.label" v-html="control.label"></span>
+        <span class="twpx-form-control__label" v-if="control.label" v-html="control.label">
+        </span>
       </label>
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
     </div>

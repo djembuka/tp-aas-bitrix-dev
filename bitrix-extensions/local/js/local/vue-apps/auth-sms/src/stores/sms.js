@@ -40,6 +40,7 @@ export const smsStore = defineStore('sms', {
           this.controls[0].setInvalidWatcher ||
           this.controls[0].disabled ||
           !this.controls[0].value.trim() ||
+          this.controls[0].value.trim().length < 11 ||
           !this.controls[1].value;
       }
       return result;
@@ -101,7 +102,7 @@ export const smsStore = defineStore('sms', {
 
               codeStore().uuid = response.data.UUID;
               codeStore().timer = response.data.remain || NaN;
-              dataStore().changeState('code');
+              this.$router.push('/two-cols/code');
 
               const tel = this.controls[0].value.split('-');
               dataStore().info = `${

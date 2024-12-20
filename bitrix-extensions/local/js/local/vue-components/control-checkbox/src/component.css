@@ -67,7 +67,7 @@
   width: var(--aas-checkbox-height);
   background-color: #f0f5fc;
   top: 0px;
-  border-radius: 5px;
+  border-radius: 8px;
   z-index: 0;
 }
 .twpx-form-control--checkbox
@@ -79,8 +79,8 @@
   height: var(--aas-checkbox-checked-before-height);
   border-top: 2px solid transparent;
   border-left: 2px solid transparent;
-  border-right: 2px solid #003b78;
-  border-bottom: 2px solid #003b78;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
   -webkit-transform: rotateZ(37deg);
   transform: rotateZ(37deg);
   -webkit-transform: rotateZ(37deg);
@@ -93,7 +93,7 @@
   top: 0;
   width: var(--aas-checkbox-width);
   height: var(--aas-checkbox-height);
-  background-color: #f0f5fc;
+  background-color: #4f74d1;
   border-radius: 5px;
   z-index: 0;
 }

@@ -147,10 +147,14 @@ export const ControlTel = {
       }
     },
     validate() {
-      if (
-        (this.control.required && this.value.trim()) ||
-        !this.control.required
-      ) {
+      if (!this.control.required) {
+        if (!this.value.trim()) {
+          return true;
+        } else if (this.value.length >= 11) {
+          return true;
+        }
+        return false;
+      } else if (this.control.required && this.value.trim()) {
         if (this.control.regexp) {
           const match = String(this.value.trim()).match(
             RegExp(this.control.regexp)
@@ -161,10 +165,12 @@ export const ControlTel = {
             this.warning = '';
           }
           return match;
-        } else {
+        } else if (this.value.length === 11) {
           return true;
+        } else {
+          return false;
         }
-      } else if (this.control.required && !this.value) {
+      } else if (this.control.required && !this.value.trim()) {
         return false;
       }
       return true;

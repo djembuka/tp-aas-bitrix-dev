@@ -1,8 +1,9 @@
 import { BitrixVue } from 'ui.vue3';
 import { createRouter, createMemoryHistory } from 'ui.vue3.router';
+import { createPinia, setActivePinia } from 'ui.vue3.pinia';
 
 import { Application } from './components/application';
-import { createPinia, setActivePinia } from 'ui.vue3.pinia';
+
 import { dataStore } from './stores/data';
 import { smsStore } from './stores/sms';
 import { ornzStore } from './stores/ornz';
@@ -89,7 +90,7 @@ export class AuthSMS {
       components: {
         Application,
       },
-      template: '<Application/>',
+      template: '<router-view />',
       mounted() {
         dataStore().sessid = self.options.sessid || '';
         dataStore().signedParameters = self.options.signedParameters || '';

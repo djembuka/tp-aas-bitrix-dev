@@ -5,17 +5,18 @@ export const codeStore = defineStore('code', {
   state: () => ({
     lang: {},
     inputs: [
-      { id: 'input1', value: '5' },
-      { id: 'input2', value: '5' },
-      { id: 'input3', value: '5' },
-      { id: 'input4', value: '5' },
-      { id: 'input5', value: '5' },
-      { id: 'input6', value: '5' },
+      { id: 'input1', value: '' },
+      { id: 'input2', value: '' },
+      { id: 'input3', value: '' },
+      { id: 'input4', value: '' },
+      { id: 'input5', value: '' },
+      { id: 'input6', value: '' },
     ],
     uuid: '',
     submitProps: { large: true, secondary: true, wide: true },
-    timerProps: { small: true, secondary: true },
+    timerProps: { medium: true, secondary: true },
     timer: 5,
+    timerIntervalId: '',
     clearInputs: false,
     invalidInputs: true,
   }),
@@ -49,7 +50,9 @@ export const codeStore = defineStore('code', {
     },
     buttonTimer(start) {
       this.timer = Number(start);
-      const intervalId = setInterval(() => {
+      clearInterval(this.timerIntervalId);
+
+      this.timerIntervalId = setInterval(() => {
         if (this.timer === 0) {
           clearInterval(intervalId);
         } else {
@@ -67,7 +70,18 @@ export const codeStore = defineStore('code', {
       });
     },
     changeInputValue({ control, value }) {
+      if (value.length > 1) {
+        value = value.substring(value.length - 1);
+      }
+
       control.value = value;
+      setTimeout(() => {
+        if (!value.match(/[0-9]/)) {
+          value = '';
+        }
+
+        control.value = value;
+      }, 0);
     },
     runCheck() {
       if (window.BX) {

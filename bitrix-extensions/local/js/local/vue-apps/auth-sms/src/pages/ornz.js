@@ -20,13 +20,11 @@ export const Ornz = {
   template: `
     <div class="vue-auth-sms-ornz-form">
       <div class="vue-auth-sms-ornz-form-body">
-        <form action="" method="">
-          <div v-for="control in controls" :key="control.id">
-            <ControlComponent :control="control" @input="input" @hints="hints" />
-            <hr />
-          </div>
-          <ButtonComponent :text="lang.AUTH_SMS_ORNZ_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />
-        </form>
+        <div v-for="control in controls" :key="control.id">
+          <ControlComponent :control="control" @input="input" @hints="hints" />
+          <hr />
+        </div>
+        <ButtonComponent :text="lang.AUTH_SMS_ORNZ_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />
       </div>
     </div>
 	`,
@@ -42,7 +40,7 @@ export const Ornz = {
     ]),
   },
   methods: {
-    ...mapActions(ornzStore, ['input', 'runFormSubmit', 'changeSubmitProps']),
+    ...mapActions(ornzStore, ['input', 'runOrnz']),
     hints({ type, control, action, value }) {
       switch (type) {
         case 'get':
@@ -60,8 +58,7 @@ export const Ornz = {
       }
     },
     clickSubmit() {
-      this.changeSubmitProps({ 'load-circle': true });
-      this.runFormSubmit();
+      this.runOrnz();
     },
   },
   mounted() {},
