@@ -174,7 +174,7 @@ export const Code = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['changeState', 'setError']),
+    ...mapActions(dataStore, ['setError']),
     ...mapActions(smsStore, ['runSend']),
     ...mapActions(codeStore, [
       'changeInputValue',

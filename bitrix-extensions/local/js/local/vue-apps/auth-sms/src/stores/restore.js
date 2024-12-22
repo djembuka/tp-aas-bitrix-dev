@@ -5,7 +5,7 @@ export const restoreStore = defineStore('restore', {
   state: () => ({
     lang: {},
     info: '',
-    state: '',
+    state: 'restore',
     controls: [
       {
         property: 'text',
@@ -44,6 +44,7 @@ export const restoreStore = defineStore('restore', {
     },
     runRestore() {
       this.changeSubmitProps({ 'load-circle': true });
+      this.changeState('restore-info');
 
       if (window.BX) {
         BX.ajax
@@ -56,7 +57,8 @@ export const restoreStore = defineStore('restore', {
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
               dataStore().error = '';
-              // window.location.href = response.data.redirect;
+              dataStore().info = response.data.message;
+              this.changeState('restore-info');
             },
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });

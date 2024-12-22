@@ -6,6 +6,8 @@ export const NewPassword = {
   // language=Vue
 
   template: `
-    <div>New password</div>
+    <div>
+    New Password
+    </div>
 	`,
 };

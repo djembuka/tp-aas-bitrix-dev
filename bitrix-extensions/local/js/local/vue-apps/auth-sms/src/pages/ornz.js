@@ -35,27 +35,13 @@ export const Ornz = {
       'submitProps',
       'errorORNZ',
       'buttonDisabled',
-      'runHintsAction',
-      'setHints',
+      'changeInputValue',
     ]),
   },
   methods: {
-    ...mapActions(ornzStore, ['input', 'runOrnz']),
-    hints({ type, control, action, value }) {
-      switch (type) {
-        case 'get':
-          this.runHintsAction({
-            control,
-            action,
-          });
-          break;
-        case 'set':
-          this.setHints({
-            control,
-            value,
-          });
-          break;
-      }
+    ...mapActions(ornzStore, ['changeInputValue', 'runOrnz']),
+    input(args) {
+      this.changeInputValue(args);
     },
     clickSubmit() {
       this.runOrnz();

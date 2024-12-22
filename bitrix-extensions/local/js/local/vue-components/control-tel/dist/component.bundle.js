@@ -129,7 +129,7 @@ this.BX = this.BX || {};
               this.warning = '';
             }
             return match;
-          } else if (this.value.length === 11) {
+          } else if (this.value.length >= 11) {
             return true;
           } else {
             return false;

@@ -29,7 +29,7 @@ export const TwoCols = {
 
         <h3 class="mt-0">{{ title }}</h3>
 
-        <MessageComponent type="info" :message="info" :button="lang.AUTH_SMS_INFO_BUTTON" @clickButton="clickInfoButton" />
+        <MessageComponent v-if="info" type="info" :message="info" :button="lang.AUTH_SMS_INFO_BUTTON" @clickButton="clickInfoButton" />
         <hr v-if="info && error">
         <MessageComponent v-if="error" type="error" :message="error" :button="errorButton" @clickButton="clickErrorButton" />
 
@@ -39,7 +39,7 @@ export const TwoCols = {
 
         <div class="vue-auth-sms-alt">
           <div><ButtonComponent :text="altButton" :props="['medium', 'primary']" @clickButton="clickAlt" /></div>
-          <div><a href="">{{ lang.AUTH_SMS_ENTER_LINK }}</a></div>
+          <div><router-link to="/center-col/restore">{{ lang.AUTH_SMS_ENTER_LINK }}</router-link></div>
         </div>
 
       </div>
@@ -77,13 +77,16 @@ export const TwoCols = {
       this.setInfo('');
     },
     clickAlt() {
-      if (this.state === 'ornz') {
+      if (this.$route.path === '/two-cols/ornz') {
+        this.$router.push('/two-cols/sms');
         this.changeState('sms');
       } else {
+        this.$router.push('/two-cols/ornz');
         this.changeState('ornz');
       }
     },
     clickErrorButton() {
+      this.$router.push('/two-cols/ornz');
       this.changeState('ornz');
     },
   },

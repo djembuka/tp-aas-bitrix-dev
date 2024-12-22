@@ -32,13 +32,16 @@ export const CenterCol = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang']),
-    ...mapState(restoreStore, ['info']),
+    ...mapState(dataStore, ['lang', 'info']),
+    ...mapState(restoreStore, []),
     title() {
       return this.lang[`AUTH_RESTORE_TITLE`];
     },
   },
   methods: {
-    clickInfoButton() {},
+    ...mapActions(dataStore, ['setInfo']),
+    clickInfoButton() {
+      this.setInfo('');
+    },
   },
 };

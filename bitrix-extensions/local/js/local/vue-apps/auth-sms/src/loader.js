@@ -114,10 +114,6 @@ export class AuthSMS {
 
         codeStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_CODE');
 
-        const urlQuery = self.parseQuery(window.location.search);
-        if (urlQuery.type && urlQuery.type === 'ornz') {
-          dataStore().state = 'ornz';
-        }
         restoreStore().lang = BitrixVue.getFilteredPhrases(
           this,
           'AUTH_RESTORE'
@@ -126,6 +122,20 @@ export class AuthSMS {
         restoreStore().controls[0].label = this.$Bitrix.Loc.getMessage(
           'AUTH_RESTORE_LABEL_ORNZ'
         );
+
+        //query
+        const urlQuery = self.parseQuery(window.location.search);
+
+        if (urlQuery.type) {
+          switch (urlQuery.type) {
+            case 'ornz':
+              dataStore().state = 'ornz';
+              this.$router.push('/two-cols/ornz');
+              break;
+            case 'new-password':
+              this.$router.push('/center-col/new-password');
+          }
+        }
       },
     });
 

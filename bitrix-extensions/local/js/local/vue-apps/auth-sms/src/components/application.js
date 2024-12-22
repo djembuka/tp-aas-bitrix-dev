@@ -42,7 +42,7 @@ export const Application = {
 
         <div class="vue-auth-sms-alt">
           <div><ButtonComponent :text="altButton" :props="['medium', 'primary']" @clickButton="clickAlt" /></div>
-          <div><a href="/auth/">{{ lang.AUTH_SMS_ENTER_LINK }}</a></div>
+          <div><router-link to="/two-cols/ornz">{{ lang.AUTH_SMS_ENTER_LINK }}</router-link></div>
         </div>
 
       </div>

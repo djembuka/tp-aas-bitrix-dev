@@ -102,7 +102,8 @@ export const smsStore = defineStore('sms', {
 
               codeStore().uuid = response.data.UUID;
               codeStore().timer = response.data.remain || NaN;
-              this.$router.push('/two-cols/code');
+
+              dataStore().changeState('code');
 
               const tel = this.controls[0].value.split('-');
               dataStore().info = `${

@@ -31,13 +31,20 @@ export const Sms = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang']),
+    ...mapState(dataStore, ['lang', 'state']),
     ...mapState(smsStore, [
       'controls',
       'submitProps',
       'buttonDisabled',
       'buttonSubmitTimerText',
     ]),
+  },
+  watch: {
+    state(val) {
+      if (val === 'code') {
+        this.$router.push('/two-cols/code');
+      }
+    },
   },
   methods: {
     ...mapActions(smsStore, ['input', 'runSend', 'changeSubmitProps']),
@@ -46,5 +53,7 @@ export const Sms = {
       this.runSend();
     },
   },
-  mounted() {},
+  mounted() {
+    console.log(this.$route.path);
+  },
 };

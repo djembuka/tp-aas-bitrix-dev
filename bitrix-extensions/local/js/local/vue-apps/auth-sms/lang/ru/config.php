@@ -32,3 +32,5 @@ $MESS["AUTH_SMS_CODE_BUTTON_SUBMIT_TIMER"] = "Получить новый код
 $MESS["AUTH_RESTORE_TITLE"] = "Забыли или у вас нет пароля?";
 $MESS["AUTH_RESTORE_LABEL_ORNZ"] = "ОРНЗ";
 $MESS["AUTH_RESTORE_BUTTON"] = "Восстановить доступ";
+
+$MESS["AUTH_RESTORE_INFO_BUTTON"] = "Вернуться на главную";

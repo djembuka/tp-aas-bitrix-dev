@@ -96,6 +96,32 @@ button.vue-button {
 .vue-button--secondary:not(:disabled):not(.vue-button--disabled):active:focus {
   box-shadow: none;
 }
+/*More*/
+.vue-button--more,
+.vue-button--more:hover,
+.vue-button--more.focus,
+.vue-button--more:focus,
+.vue-button--more.vue-button--disabled,
+.vue-button--more:disabled {
+  color: #5f7696;
+  background-color: #f2f7ff;
+  border-color: #f2f7ff;
+}
+.vue-button--more.focus,
+.vue-button--more:focus {
+  box-shadow: none;
+}
+.vue-button--more:not(:disabled):not(.vue-button--disabled).active,
+.vue-button--more:not(:disabled):not(.vue-button--disabled):active {
+  color: #5f7696;
+  background-color: #f2f7ff;
+  border-color: #f2f7ff;
+}
+.vue-button--more:not(:disabled):not(.vue-button--disabled).active:focus,
+.vue-button--more:not(:disabled):not(.vue-button--disabled):active:focus {
+  box-shadow: none;
+}
+/*_More_*/
 .vue-button--light,
 .vue-button--light:hover,
 .vue-button--light.focus,

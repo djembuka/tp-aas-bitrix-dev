@@ -17,7 +17,6 @@ export const Restore = {
 
   template: `
     <div class="vue-auth-sms-restore">
-      <router-link to="/sms">Go to sms</router-link>
       <router-view />
       <div v-for="control in controls" :key="control.id">
         <ControlComponent :control="control" @input="input" />
@@ -27,15 +26,24 @@ export const Restore = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang']),
+    ...mapState(dataStore, ['lang', 'info']),
     ...mapState(restoreStore, [
       'controls',
       'submitProps',
       'buttonDisabled',
       'input',
+      'state',
     ]),
   },
+  watch: {
+    state(val) {
+      if (val === 'restore-info') {
+        this.$router.push('/center-col/restore-info');
+      }
+    },
+  },
   methods: {
+    ...mapActions(dataStore, ['setInfo']),
     ...mapActions(restoreStore, ['runRestore']),
   },
 };

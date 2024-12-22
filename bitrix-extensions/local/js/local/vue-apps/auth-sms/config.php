@@ -15,10 +15,10 @@ return [
 		'main.polyfill.core',
 		'ui.vue3',
 		'ui.vue3.router',
+		'local.vue-components.message-component',
 		'ui.vue3.pinia',
 		'local.vue-components.control-component',
 		'local.vue-components.button-component',
-		'local.vue-components.message-component',
 	],
 	'skip_core' => true,
 ];
