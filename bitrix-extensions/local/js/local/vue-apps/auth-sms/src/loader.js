@@ -9,6 +9,7 @@ import { smsStore } from './stores/sms';
 import { ornzStore } from './stores/ornz';
 import { codeStore } from './stores/code';
 import { restoreStore } from './stores/restore';
+import { changePasswordStore } from './stores/change-password';
 
 import { TwoCols } from './layouts/two-cols';
 import { CenterCol } from './layouts/center-col';
@@ -17,7 +18,7 @@ import { Code } from './pages/code';
 import { Ornz } from './pages/ornz';
 import { Restore } from './pages/restore';
 import { RestoreInfo } from './pages/restore-info';
-import { NewPassword } from './pages/new-password';
+import { ChangePassword } from './pages/change-password';
 
 export class AuthSMS {
   #store;
@@ -71,8 +72,8 @@ export class AuthSMS {
               component: RestoreInfo,
             },
             {
-              path: 'new-password',
-              component: NewPassword,
+              path: 'change-password',
+              component: ChangePassword,
             },
           ],
         },
@@ -123,17 +124,31 @@ export class AuthSMS {
           'AUTH_RESTORE_LABEL_ORNZ'
         );
 
+        changePasswordStore().controls[0].label = this.$Bitrix.Loc.getMessage(
+          'AUTH_CHANGE_PASSWORD_LABEL_NEW_PASSWORD'
+        );
+        changePasswordStore().controls[1].label = this.$Bitrix.Loc.getMessage(
+          'AUTH_CHANGE_PASSWORD_LABEL_REPEAT'
+        );
+
         //query
         const urlQuery = self.parseQuery(window.location.search);
 
         if (urlQuery.type) {
           switch (urlQuery.type) {
+            case 'sms':
+              dataStore().state = 'sms';
+              this.$router.push('/two-cols/sms');
+              break;
             case 'ornz':
               dataStore().state = 'ornz';
               this.$router.push('/two-cols/ornz');
               break;
-            case 'new-password':
-              this.$router.push('/center-col/new-password');
+            case 'restore':
+              this.$router.push('/center-col/restore');
+              break;
+            case 'change_password':
+              this.$router.push('/center-col/change-password');
           }
         }
       },

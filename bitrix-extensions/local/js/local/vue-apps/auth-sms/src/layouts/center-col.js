@@ -23,8 +23,11 @@ export const CenterCol = {
 
       <h3 class="mt-0">{{ title }}</h3>
 
-      <MessageComponent v-if="info" type="info" :message="info" :button="lang.AUTH_SMS_RESTORE_BUTTON" @clickButton="clickInfoButton" />
-      <hr v-if="info">
+      <hr>
+
+      <MessageComponent v-if="info" type="info" :message="info" :button="infoButton" @clickButton="clickInfoButton" />
+      <hr v-if="info && error">
+      <MessageComponent v-if="error" type="error" :message="error" :button="false" />
 
       <div class="vue-auth-center-body">
         <router-view />
@@ -32,11 +35,8 @@ export const CenterCol = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang', 'info']),
+    ...mapState(dataStore, ['lang', 'info', 'infoButton', 'error', 'title']),
     ...mapState(restoreStore, []),
-    title() {
-      return this.lang[`AUTH_RESTORE_TITLE`];
-    },
   },
   methods: {
     ...mapActions(dataStore, ['setInfo']),

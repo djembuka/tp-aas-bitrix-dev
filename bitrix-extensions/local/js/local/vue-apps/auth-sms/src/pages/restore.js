@@ -2,6 +2,8 @@ import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
 import { restoreStore } from '../stores/restore.js';
 
+import '../style/restore.css';
+
 import { ControlComponent } from 'local.vue-components.control-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
 
@@ -17,7 +19,6 @@ export const Restore = {
 
   template: `
     <div class="vue-auth-sms-restore">
-      <router-view />
       <div v-for="control in controls" :key="control.id">
         <ControlComponent :control="control" @input="input" />
         <hr />
@@ -26,7 +27,7 @@ export const Restore = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang', 'info']),
+    ...mapState(dataStore, ['lang']),
     ...mapState(restoreStore, [
       'controls',
       'submitProps',
@@ -43,7 +44,12 @@ export const Restore = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['setInfo']),
+    ...mapActions(dataStore, ['setInfo', 'setInfoButton', 'setTitle']),
     ...mapActions(restoreStore, ['runRestore']),
+  },
+  mounted() {
+    this.setTitle(this.lang[`AUTH_RESTORE_TITLE`]);
+    this.setInfo(this.lang.AUTH_RESTORE_MESSAGE);
+    this.setInfoButton(false);
   },
 };

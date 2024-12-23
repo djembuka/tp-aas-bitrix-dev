@@ -33,4 +33,13 @@ $MESS["AUTH_RESTORE_TITLE"] = "Забыли или у вас нет пароля
 $MESS["AUTH_RESTORE_LABEL_ORNZ"] = "ОРНЗ";
 $MESS["AUTH_RESTORE_BUTTON"] = "Восстановить доступ";
 
+$MESS["AUTH_RESTORE_INFO_TITLE"] = "Проверьте вашу почту";
 $MESS["AUTH_RESTORE_INFO_BUTTON"] = "Вернуться на главную";
+$MESS["AUTH_RESTORE_MESSAGE"] = "Введите свой ОРНЗ и нажмите «Восстановить доступ». Инструкция по восстановлению доступа придет на вашу почту, которая указана в реестре.";
+
+$MESS["AUTH_CHANGE_PASSWORD_TITLE"] = "Создайте новый пароль";
+$MESS["AUTH_CHANGE_PASSWORD_MESSAGE"] = "Вы запросили восстановление пароля. Пожалуйста, введите новый пароль, который не должен совпадать с предыдущим. Если вы не запрашивали восстановление пароля, ничего не делайте.";
+$MESS["AUTH_CHANGE_PASSWORD_LABEL_NEW_PASSWORD"] = "Новый пароль";
+$MESS["AUTH_CHANGE_PASSWORD_LABEL_REPEAT"] = "Повторите  новый пароль";
+$MESS["AUTH_CHANGE_PASSWORD_BUTTON"] = "Изменить";
+$MESS["AUTH_CHANGE_PASSWORD_ALT_BUTTON"] = "Вход по ОРНЗ";

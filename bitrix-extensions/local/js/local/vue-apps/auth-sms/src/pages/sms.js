@@ -47,13 +47,13 @@ export const Sms = {
     },
   },
   methods: {
-    ...mapActions(smsStore, ['input', 'runSend', 'changeSubmitProps']),
+    ...mapActions(dataStore, ['setInfoButton']),
+    ...mapActions(smsStore, ['input', 'runSend']),
     clickSubmit() {
-      this.changeSubmitProps({ 'load-circle': true });
       this.runSend();
     },
   },
   mounted() {
-    console.log(this.$route.path);
+    this.setInfoButton(this.lang.AUTH_SMS_INFO_BUTTON);
   },
 };

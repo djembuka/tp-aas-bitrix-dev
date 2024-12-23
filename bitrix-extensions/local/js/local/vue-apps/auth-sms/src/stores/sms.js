@@ -82,6 +82,8 @@ export const smsStore = defineStore('sms', {
       }
     },
     runSend() {
+      this.changeSubmitProps({ 'load-circle': true });
+
       if (window.BX) {
         BX.ajax
           .runAction('twinpx:authorization.api.send', {
@@ -92,34 +94,36 @@ export const smsStore = defineStore('sms', {
           .then(
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
-              dataStore().error = '';
+              dataStore().setError('');
 
               //show code
               this.controls[0].focusWatcher = false;
               this.controls[0].setInvalidWatcher = false;
               this.controls[0].regexp_description = '';
-              dataStore().errorButton = '';
+              dataStore().setErrorButton('');
 
-              codeStore().uuid = response.data.UUID;
-              codeStore().timer = response.data.remain || NaN;
+              codeStore().uuid = response.data.uuid;
+              codeStore().timer = response.data.remain || 0;
 
               dataStore().changeState('code');
 
               const tel = this.controls[0].value.split('-');
-              dataStore().info = `${
-                dataStore().lang.AUTH_SMS_CODE_INFO_MESSAGE
-              } ${tel[0].substring(0, tel[0].length - 3)}...-..-${tel[2]}`;
+              dataStore().setInfo(
+                `${
+                  dataStore().lang.AUTH_SMS_CODE_INFO_MESSAGE
+                } ${tel[0].substring(0, tel[0].length - 3)}...-..-${tel[2]}`
+              );
             },
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
 
-              dataStore().error = response.errors[0].message;
+              dataStore().setError(response.errors[0].message);
 
               if (String(response.errors[0].code) === String(1001)) {
                 //B1
                 this.state = 'B1';
                 this.controls[0].disabled = true;
-                dataStore().errorButton = this.lang.AUTH_SMS_SMS_ERROR_BUTTON;
+                dataStore().setErrorButton(this.lang.AUTH_SMS_SMS_ERROR_BUTTON);
               } else if (String(response.errors[0].code) === String(1002)) {
                 //C1
                 this.state = 'C1';

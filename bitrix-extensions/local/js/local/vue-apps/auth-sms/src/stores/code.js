@@ -15,7 +15,7 @@ export const codeStore = defineStore('code', {
     uuid: '',
     submitProps: { large: true, secondary: true, wide: true },
     timerProps: { medium: true, secondary: true },
-    timer: 5,
+    timer: 0,
     timerIntervalId: '',
     clearInputs: false,
     invalidInputs: true,
@@ -102,7 +102,14 @@ export const codeStore = defineStore('code', {
 
               dataStore().error = response.errors[0].message;
 
-              if (String(response.errors[0].code) === String(1001)) {
+              if (String(response.errors[0].code) === String(0)) {
+                this.clearInputs = !this.clearInputs;
+                this.inputs.forEach((input) => {
+                  input.disabled = true;
+                  input.value = '';
+                });
+                this.timer = NaN;
+              } else if (String(response.errors[0].code) === String(1001)) {
                 //B2
                 //error button
                 //disabled inputs

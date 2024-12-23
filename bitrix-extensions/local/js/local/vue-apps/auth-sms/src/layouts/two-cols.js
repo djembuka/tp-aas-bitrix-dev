@@ -29,7 +29,7 @@ export const TwoCols = {
 
         <h3 class="mt-0">{{ title }}</h3>
 
-        <MessageComponent v-if="info" type="info" :message="info" :button="lang.AUTH_SMS_INFO_BUTTON" @clickButton="clickInfoButton" />
+        <MessageComponent v-if="info" type="info" :message="info" :button="infoButton" @clickButton="clickInfoButton" />
         <hr v-if="info && error">
         <MessageComponent v-if="error" type="error" :message="error" :button="errorButton" @clickButton="clickErrorButton" />
 
@@ -56,6 +56,7 @@ export const TwoCols = {
       'templateFolder',
       'lang',
       'info',
+      'infoButton',
       'state',
       'error',
       'errorButton',

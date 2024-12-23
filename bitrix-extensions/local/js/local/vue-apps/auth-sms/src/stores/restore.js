@@ -1,5 +1,6 @@
 import { defineStore } from 'ui.vue3.pinia';
 import { dataStore } from './data.js';
+import { restoreInfoStore } from './restore-info.js';
 
 export const restoreStore = defineStore('restore', {
   state: () => ({
@@ -44,7 +45,6 @@ export const restoreStore = defineStore('restore', {
     },
     runRestore() {
       this.changeSubmitProps({ 'load-circle': true });
-      this.changeState('restore-info');
 
       if (window.BX) {
         BX.ajax
@@ -56,15 +56,18 @@ export const restoreStore = defineStore('restore', {
           .then(
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
-              dataStore().error = '';
-              dataStore().info = response.data.message;
+              dataStore().setError('');
+              dataStore().setInfo(response.data.message);
+              dataStore().setInfoButton(false);
+
+              restoreInfoStore().setEmail(response.data.email);
               this.changeState('restore-info');
             },
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
 
               if (response.errors[0]) {
-                dataStore().error = response.errors[0].message;
+                dataStore().setError(response.errors[0].message);
                 this.controls[0].regexp_description =
                   response.errors[0].message || '';
                 this.controls[0].setInvalidWatcher = true;

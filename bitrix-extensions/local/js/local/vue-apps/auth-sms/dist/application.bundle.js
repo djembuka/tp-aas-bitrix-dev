@@ -18,7 +18,9 @@
         templateFolder: '',
         lang: {},
         state: 'sms',
+        title: '',
         info: '',
+        infoButton: true,
         error: '',
         errorButton: false,
       };
@@ -27,11 +29,20 @@
       changeState: function changeState(value) {
         this.state = value;
       },
+      setTitle: function setTitle(title) {
+        this.title = title;
+      },
       setInfo: function setInfo(message) {
         this.info = message;
       },
+      setInfoButton: function setInfoButton(infoButton) {
+        this.infoButton = infoButton;
+      },
       setError: function setError(message) {
         this.error = message;
+      },
+      setErrorButton: function setErrorButton(errorButton) {
+        this.errorButton = errorButton;
       },
     },
   });
@@ -76,7 +87,7 @@
           medium: true,
           secondary: true,
         },
-        timer: 5,
+        timer: 0,
         timerIntervalId: '',
         clearInputs: false,
         invalidInputs: true,
@@ -174,7 +185,14 @@
                   'submit'
                 );
                 dataStore().error = response.errors[0].message;
-                if (String(response.errors[0].code) === String(1001)) {
+                if (String(response.errors[0].code) === String(0)) {
+                  _this3.clearInputs = !_this3.clearInputs;
+                  _this3.inputs.forEach(function (input) {
+                    input.disabled = true;
+                    input.value = '';
+                  });
+                  _this3.timer = NaN;
+                } else if (String(response.errors[0].code) === String(1001)) {
                   //B2
                   //error button
                   //disabled inputs
@@ -301,6 +319,9 @@
       },
       runSend: function runSend() {
         var _this3 = this;
+        this.changeSubmitProps({
+          'load-circle': true,
+        });
         if (window.BX) {
           BX.ajax
             .runAction('twinpx:authorization.api.send', {
@@ -313,33 +334,36 @@
                 _this3.changeSubmitProps({
                   'load-circle': false,
                 });
-                dataStore().error = '';
+                dataStore().setError('');
 
                 //show code
                 _this3.controls[0].focusWatcher = false;
                 _this3.controls[0].setInvalidWatcher = false;
                 _this3.controls[0].regexp_description = '';
-                dataStore().errorButton = '';
-                codeStore().uuid = response.data.UUID;
-                codeStore().timer = response.data.remain || NaN;
+                dataStore().setErrorButton('');
+                codeStore().uuid = response.data.uuid;
+                codeStore().timer = response.data.remain || 0;
                 dataStore().changeState('code');
                 var tel = _this3.controls[0].value.split('-');
-                dataStore().info = ''
-                  .concat(dataStore().lang.AUTH_SMS_CODE_INFO_MESSAGE, ' ')
-                  .concat(tel[0].substring(0, tel[0].length - 3), '...-..-')
-                  .concat(tel[2]);
+                dataStore().setInfo(
+                  ''
+                    .concat(dataStore().lang.AUTH_SMS_CODE_INFO_MESSAGE, ' ')
+                    .concat(tel[0].substring(0, tel[0].length - 3), '...-..-')
+                    .concat(tel[2])
+                );
               },
               function (response) {
                 _this3.changeSubmitProps({
                   'load-circle': false,
                 });
-                dataStore().error = response.errors[0].message;
+                dataStore().setError(response.errors[0].message);
                 if (String(response.errors[0].code) === String(1001)) {
                   //B1
                   _this3.state = 'B1';
                   _this3.controls[0].disabled = true;
-                  dataStore().errorButton =
-                    _this3.lang.AUTH_SMS_SMS_ERROR_BUTTON;
+                  dataStore().setErrorButton(
+                    _this3.lang.AUTH_SMS_SMS_ERROR_BUTTON
+                  );
                 } else if (String(response.errors[0].code) === String(1002)) {
                   //C1
                   _this3.state = 'C1';
@@ -440,25 +464,21 @@
     },
     methods: _objectSpread(
       _objectSpread(
-        {},
-        ui_vue3_pinia.mapActions(smsStore, [
-          'input',
-          'runSend',
-          'changeSubmitProps',
-        ])
+        _objectSpread(
+          {},
+          ui_vue3_pinia.mapActions(dataStore, ['setInfoButton'])
+        ),
+        ui_vue3_pinia.mapActions(smsStore, ['input', 'runSend'])
       ),
       {},
       {
         clickSubmit: function clickSubmit() {
-          this.changeSubmitProps({
-            'load-circle': true,
-          });
           this.runSend();
         },
       }
     ),
     mounted: function mounted() {
-      console.log(this.$route.path);
+      this.setInfoButton(this.lang.AUTH_SMS_INFO_BUTTON);
     },
   };
 
@@ -689,7 +709,7 @@
     // language=Vue
 
     template:
-      '\n      <div class="vue-auth-sms-code-form">\n        <div class="vue-auth-sms-code-form-body">\n          <div :class="{\'vue-auth-sms-code-inputs\': true, \'vue-auth-sms-code-inputs--invalid\': invalidInputs}">\n\n            <div :class="{\'vue-auth-sms-code-inputs-label\': true, \'vue-auth-sms-code-inputs-label--disabled\': inputs.every(i => i.disabled)}">{{ lang.AUTH_SMS_CODE_LABEL_INPUTS }}</div>\n            \n            <div class="vue-auth-sms-code-inputs-body" ref="inputs">\n\n              <input v-for="(input, index) in inputs"\n                :key="input.id"\n                type="text"\n                :class="{\'vue-auth-sms-code-input\': true, \'vue-auth-sms-code-input--disabled\': input.disabled}"\n                v-model="this[\'inputValue\'+index]"\n                @keydown.backspace="backspaceInput(input, index)"\n                @focus="focusText()"\n              />\n\n            </div>\n\n            <div class="vue-auth-sms-code-inputs__warning">{{ error }}</div>\n          </div>\n\n          <div><ButtonComponent :text="lang.AUTH_SMS_CODE_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="runCheck" /></div>\n          <div><ButtonComponent v-if="timer === 0 || !!timer" :text="buttonTimerText" :props="Object.keys(timerProps)" :disabled="timerDisabled" @clickButton="clickNewCode" /></div>\n        </div>\n      </div>\n\t',
+      '\n      <div class="vue-auth-sms-code-form">\n        <div class="vue-auth-sms-code-form-body">\n          <div :class="{\'vue-auth-sms-code-inputs\': true, \'vue-auth-sms-code-inputs--invalid\': invalidInputs}">\n\n            <div :class="{\'vue-auth-sms-code-inputs-label\': true, \'vue-auth-sms-code-inputs-label--disabled\': inputs.every(i => i.disabled)}">{{ lang.AUTH_SMS_CODE_LABEL_INPUTS }}</div>\n            \n            <div class="vue-auth-sms-code-inputs-body" ref="inputs">\n\n              <input v-for="(input, index) in inputs"\n                :key="input.id"\n                type="text"\n                :class="{\'vue-auth-sms-code-input\': true, \'vue-auth-sms-code-input--disabled\': input.disabled}"\n                v-model="this[\'inputValue\'+index]"\n                @keydown.backspace="backspaceInput(input, index)"\n                @focus="focusText()"\n              />\n\n            </div>\n\n            <div class="vue-auth-sms-code-inputs__warning">{{ error }}</div>\n          </div>\n\n          <div><ButtonComponent :text="lang.AUTH_SMS_CODE_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="runCheck" /></div>\n\n          <div><ButtonComponent v-if="timer === 0 || !!timer" :text="buttonTimerText" :props="Object.keys(timerProps)" :disabled="timerDisabled" @clickButton="clickNewCode" /></div>\n        </div>\n      </div>\n\t',
     computed: _objectSpread$2(
       _objectSpread$2(
         _objectSpread$2(
@@ -835,7 +855,7 @@
         _objectSpread$2(
           _objectSpread$2(
             {},
-            ui_vue3_pinia.mapActions(dataStore, ['setError'])
+            ui_vue3_pinia.mapActions(dataStore, ['setInfoButton', 'setError'])
           ),
           ui_vue3_pinia.mapActions(smsStore, ['runSend'])
         ),
@@ -850,6 +870,7 @@
       {},
       {
         clickNewCode: function clickNewCode() {
+          this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
           this.runSend();
         },
         backspaceInput: function backspaceInput(input, index) {
@@ -876,6 +897,10 @@
     ),
     mounted: function mounted() {
       this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
+      if (this.timer) {
+        this.buttonTimer(this.timer);
+      }
+      this.setInfoButton('');
     },
   };
 
@@ -988,6 +1013,19 @@
     mounted: function mounted() {},
   };
 
+  var restoreInfoStore = ui_vue3_pinia.defineStore('restore-info', {
+    state: function state() {
+      return {
+        email: '',
+      };
+    },
+    actions: {
+      setEmail: function setEmail(email) {
+        this.email = email;
+      },
+    },
+  });
+
   var restoreStore = ui_vue3_pinia.defineStore('restore', {
     state: function state() {
       return {
@@ -1043,7 +1081,6 @@
         this.changeSubmitProps({
           'load-circle': true,
         });
-        this.changeState('restore-info');
         if (window.BX) {
           BX.ajax
             .runAction('twinpx:authorization.api.restore', {
@@ -1056,8 +1093,10 @@
                 _this2.changeSubmitProps({
                   'load-circle': false,
                 });
-                dataStore().error = '';
-                dataStore().info = response.data.message;
+                dataStore().setError('');
+                dataStore().setInfo(response.data.message);
+                dataStore().setInfoButton(false);
+                restoreInfoStore().setEmail(response.data.email);
                 _this2.changeState('restore-info');
               },
               function (response) {
@@ -1065,10 +1104,111 @@
                   'load-circle': false,
                 });
                 if (response.errors[0]) {
-                  dataStore().error = response.errors[0].message;
+                  dataStore().setError(response.errors[0].message);
                   _this2.controls[0].regexp_description =
                     response.errors[0].message || '';
                   _this2.controls[0].setInvalidWatcher = true;
+                }
+              }
+            );
+        }
+      },
+    },
+  });
+
+  var changePasswordStore = ui_vue3_pinia.defineStore('change-password', {
+    state: function state() {
+      return {
+        controls: [
+          {
+            property: 'password',
+            id: 'id0',
+            name: 'NEW_PASSWORD',
+            label: '',
+            value: '',
+            required: true,
+            disabled: false,
+          },
+          {
+            property: 'password',
+            id: 'id1',
+            name: 'REPEAT_NEW_PASSWORD',
+            label: '',
+            value: '',
+            required: true,
+            disabled: false,
+          },
+        ],
+        submitProps: {
+          large: true,
+          secondary: true,
+          wide: true,
+        },
+      };
+    },
+    getters: {
+      buttonDisabled: function buttonDisabled() {
+        return (
+          this.controls[0].value.length < 6 ||
+          this.controls[0].value !== this.controls[1].value
+        );
+      },
+    },
+    actions: {
+      changeSubmitProps: function changeSubmitProps(obj) {
+        var _this = this;
+        Object.keys(obj).forEach(function (key) {
+          if (obj[key]) {
+            _this.submitProps[key] = true;
+          } else {
+            delete _this.submitProps[key];
+          }
+        });
+      },
+      input: function input(_ref) {
+        var control = _ref.control,
+          value = _ref.value;
+        control.value = value;
+      },
+      runChange: function runChange(_ref2) {
+        var _this2 = this;
+        var login = _ref2.login,
+          checkword = _ref2.checkword;
+        this.changeSubmitProps({
+          'load-circle': true,
+        });
+        var self = this;
+        if (window.BX) {
+          BX.ajax
+            .runAction('twinpx:authorization.api.change', {
+              data: {
+                login: login,
+                checkword: checkword,
+                password: self.controls[0].value,
+                repassword: self.controls[1].value,
+              },
+            })
+            .then(
+              function (response) {
+                _this2.changeSubmitProps({
+                  'load-circle': false,
+                });
+                if (response && response.data && response.data.redirect) {
+                  window.location.href = response.data.redirect;
+                }
+              },
+              function (response) {
+                _this2.changeSubmitProps({
+                  'load-circle': false,
+                });
+                if (response && response.errors && response.errors[0]) {
+                  dataStore().error = response.errors[0].message;
+                  _this2.controls[0].regexp_description =
+                    response.errors[0].message || '';
+                  _this2.controls[1].regexp_description =
+                    response.errors[0].message || '';
+                  _this2.controls[0].setInvalidWatcher = true;
+                  _this2.controls[1].setInvalidWatcher = true;
                 }
               }
             );
@@ -1125,7 +1265,7 @@
     // language=Vue
 
     template:
-      '\n    <div class="vue-auth-sms">\n      <div class="vue-auth-sms-left">\n\n        <h3 class="mt-0">{{ title }}</h3>\n\n        <MessageComponent v-if="info" type="info" :message="info" :button="lang.AUTH_SMS_INFO_BUTTON" @clickButton="clickInfoButton" />\n        <hr v-if="info && error">\n        <MessageComponent v-if="error" type="error" :message="error" :button="errorButton" @clickButton="clickErrorButton" />\n\n        <router-view />\n\n        <hr class="hr--line hr--none" />\n\n        <div class="vue-auth-sms-alt">\n          <div><ButtonComponent :text="altButton" :props="[\'medium\', \'primary\']" @clickButton="clickAlt" /></div>\n          <div><router-link to="/center-col/restore">{{ lang.AUTH_SMS_ENTER_LINK }}</router-link></div>\n        </div>\n\n      </div>\n      <div class="vue-auth-sms-right">\n        <img :src="templateFolder + \'/auth-sms-ill.png\'" alt="">\n      </div>\n      \n    </div>\n\t',
+      '\n    <div class="vue-auth-sms">\n      <div class="vue-auth-sms-left">\n\n        <h3 class="mt-0">{{ title }}</h3>\n\n        <MessageComponent v-if="info" type="info" :message="info" :button="infoButton" @clickButton="clickInfoButton" />\n        <hr v-if="info && error">\n        <MessageComponent v-if="error" type="error" :message="error" :button="errorButton" @clickButton="clickErrorButton" />\n\n        <router-view />\n\n        <hr class="hr--line hr--none" />\n\n        <div class="vue-auth-sms-alt">\n          <div><ButtonComponent :text="altButton" :props="[\'medium\', \'primary\']" @clickButton="clickAlt" /></div>\n          <div><router-link to="/center-col/restore">{{ lang.AUTH_SMS_ENTER_LINK }}</router-link></div>\n        </div>\n\n      </div>\n      <div class="vue-auth-sms-right">\n        <img :src="templateFolder + \'/auth-sms-ill.png\'" alt="">\n      </div>\n      \n    </div>\n\t',
     computed: _objectSpread$4(
       _objectSpread$4(
         _objectSpread$4(
@@ -1137,6 +1277,7 @@
               'templateFolder',
               'lang',
               'info',
+              'infoButton',
               'state',
               'error',
               'errorButton',
@@ -1233,9 +1374,9 @@
     // language=Vue
 
     template:
-      '\n    <div class="vue-auth-sms-restore">\n      <router-view />\n      <div v-for="control in controls" :key="control.id">\n        <ControlComponent :control="control" @input="input" />\n        <hr />\n      </div>\n      <ButtonComponent :text="lang.AUTH_RESTORE_BUTTON" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="runRestore" />\n    </div>\n\t',
+      '\n    <div class="vue-auth-sms-restore">\n      <div v-for="control in controls" :key="control.id">\n        <ControlComponent :control="control" @input="input" />\n        <hr />\n      </div>\n      <ButtonComponent :text="lang.AUTH_RESTORE_BUTTON" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="runRestore" />\n    </div>\n\t',
     computed: _objectSpread$5(
-      _objectSpread$5({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'info'])),
+      _objectSpread$5({}, ui_vue3_pinia.mapState(dataStore, ['lang'])),
       ui_vue3_pinia.mapState(restoreStore, [
         'controls',
         'submitProps',
@@ -1252,9 +1393,21 @@
       },
     },
     methods: _objectSpread$5(
-      _objectSpread$5({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo'])),
+      _objectSpread$5(
+        {},
+        ui_vue3_pinia.mapActions(dataStore, [
+          'setInfo',
+          'setInfoButton',
+          'setTitle',
+        ])
+      ),
       ui_vue3_pinia.mapActions(restoreStore, ['runRestore'])
     ),
+    mounted: function mounted() {
+      this.setTitle(this.lang['AUTH_RESTORE_TITLE']);
+      this.setInfo(this.lang.AUTH_RESTORE_MESSAGE);
+      this.setInfoButton(false);
+    },
   };
 
   function ownKeys$6(object, enumerableOnly) {
@@ -1302,21 +1455,19 @@
     // language=Vue
 
     template:
-      '\n    <div class="vue-auth-center">\n\n      <h3 class="mt-0">{{ title }}</h3>\n\n      <MessageComponent v-if="info" type="info" :message="info" :button="lang.AUTH_SMS_RESTORE_BUTTON" @clickButton="clickInfoButton" />\n      <hr v-if="info">\n\n      <div class="vue-auth-center-body">\n        <router-view />\n      </div>\n    </div>\n\t',
+      '\n    <div class="vue-auth-center">\n\n      <h3 class="mt-0">{{ title }}</h3>\n\n      <hr>\n\n      <MessageComponent v-if="info" type="info" :message="info" :button="infoButton" @clickButton="clickInfoButton" />\n      <hr v-if="info && error">\n      <MessageComponent v-if="error" type="error" :message="error" :button="false" />\n\n      <div class="vue-auth-center-body">\n        <router-view />\n      </div>\n    </div>\n\t',
     computed: _objectSpread$6(
       _objectSpread$6(
-        _objectSpread$6(
-          {},
-          ui_vue3_pinia.mapState(dataStore, ['lang', 'info'])
-        ),
-        ui_vue3_pinia.mapState(restoreStore, [])
+        {},
+        ui_vue3_pinia.mapState(dataStore, [
+          'lang',
+          'info',
+          'infoButton',
+          'error',
+          'title',
+        ])
       ),
-      {},
-      {
-        title: function title() {
-          return this.lang['AUTH_RESTORE_TITLE'];
-        },
-      }
+      ui_vue3_pinia.mapState(restoreStore, [])
     ),
     methods: _objectSpread$6(
       _objectSpread$6({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo'])),
@@ -1373,21 +1524,145 @@
     // language=Vue
 
     template:
-      '\n    <div>\n      <ButtonComponent :text="lang.AUTH_RESTORE_INFO_BUTTON" :props="[\'large\', \'more\']" @clickButton="$router.push(\'/two-cols/sms\')" />\n    </div>\n\t',
+      '\n    <div class="vue-auth-sms-restore-info">\n      <ButtonComponent :text="lang.AUTH_RESTORE_INFO_BUTTON" :props="[\'large\', \'more\']" @clickButton="clickButton" />\n    </div>\n\t',
     computed: _objectSpread$7(
-      {},
-      ui_vue3_pinia.mapState(dataStore, ['lang', 'info'])
+      _objectSpread$7({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'info'])),
+      ui_vue3_pinia.mapState(restoreInfoStore, ['email'])
     ),
+    methods: _objectSpread$7(
+      _objectSpread$7(
+        {},
+        ui_vue3_pinia.mapActions(dataStore, [
+          'setInfo',
+          'setInfoButton',
+          'setTitle',
+          'setError',
+        ])
+      ),
+      {},
+      {
+        clickButton: function clickButton() {
+          this.$router.push('/two-cols/sms');
+          this.setInfo('');
+          this.setError('');
+        },
+      }
+    ),
+    mounted: function mounted() {
+      this.setTitle(
+        ''.concat(this.lang.AUTH_RESTORE_INFO_TITLE, ' ').concat(this.email)
+      );
+      this.setInfoButton(false);
+    },
   };
 
-  var NewPassword = {
+  function ownKeys$8(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly &&
+        (symbols = symbols.filter(function (sym) {
+          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+        })),
+        keys.push.apply(keys, symbols);
+    }
+    return keys;
+  }
+  function _objectSpread$8(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2
+        ? ownKeys$8(Object(source), !0).forEach(function (key) {
+            babelHelpers.defineProperty(target, key, source[key]);
+          })
+        : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(
+            target,
+            Object.getOwnPropertyDescriptors(source)
+          )
+        : ownKeys$8(Object(source)).forEach(function (key) {
+            Object.defineProperty(
+              target,
+              key,
+              Object.getOwnPropertyDescriptor(source, key)
+            );
+          });
+    }
+    return target;
+  }
+  var ChangePassword = {
     data: function data() {
-      return {};
+      return {
+        checkword: '',
+        login: '',
+      };
     },
-    components: {},
+    components: {
+      ControlComponent: local_vueComponents_controlComponent.ControlComponent,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
+    },
     // language=Vue
 
-    template: '\n    <div>\n    New Password\n    </div>\n\t',
+    template:
+      '\n    <div class="vue-auth-sms-restore">\n      <div v-for="control in controls" :key="control.id">\n        <ControlComponent :control="control" @input="input" />\n        <hr />\n      </div>\n      <ButtonComponent :text="lang.AUTH_CHANGE_PASSWORD_BUTTON" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickButton" />\n    </div>\n\t',
+    computed: _objectSpread$8(
+      _objectSpread$8({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'error'])),
+      ui_vue3_pinia.mapState(changePasswordStore, [
+        'controls',
+        'submitProps',
+        'buttonDisabled',
+      ])
+    ),
+    methods: _objectSpread$8(
+      _objectSpread$8(
+        _objectSpread$8(
+          {},
+          ui_vue3_pinia.mapActions(dataStore, [
+            'setInfo',
+            'setInfoButton',
+            'setTitle',
+            'setError',
+          ])
+        ),
+        ui_vue3_pinia.mapActions(changePasswordStore, ['runChange', 'input'])
+      ),
+      {},
+      {
+        clickButton: function clickButton() {
+          this.runChange({
+            login: this.login,
+            checkword: this.checkword,
+          });
+        },
+        parseQuery: function parseQuery(queryString) {
+          var query = {};
+          var pairs = [];
+          if (queryString) {
+            pairs = (
+              queryString[0] === '?' ? queryString.substr(1) : queryString
+            ).split('&');
+          }
+          for (var i = 0; i < pairs.length; i++) {
+            var pair = pairs[i].split('=');
+            query[decodeURIComponent(pair[0])] = decodeURIComponent(
+              pair[1] || ''
+            );
+          }
+          return query;
+        },
+      }
+    ),
+    mounted: function mounted() {
+      this.setTitle(this.lang['AUTH_CHANGE_PASSWORD_TITLE']);
+      this.setInfo(this.lang['AUTH_CHANGE_PASSWORD_MESSAGE']);
+      this.setInfoButton(false);
+      this.setError('');
+
+      //login checkword
+      var queryObject = this.parseQuery(window.location.search);
+      this.login = queryObject.USER_LOGIN;
+      this.checkword = queryObject.USER_CHECKWORD;
+    },
   };
 
   function _classPrivateFieldInitSpec(obj, privateMap, value) {
@@ -1476,8 +1751,8 @@
                   component: RestoreInfo,
                 },
                 {
-                  path: 'new-password',
-                  component: NewPassword,
+                  path: 'change-password',
+                  component: ChangePassword,
                 },
               ],
             },
@@ -1543,17 +1818,32 @@
                 restoreStore().controls[0].label = this.$Bitrix.Loc.getMessage(
                   'AUTH_RESTORE_LABEL_ORNZ'
                 );
+                changePasswordStore().controls[0].label =
+                  this.$Bitrix.Loc.getMessage(
+                    'AUTH_CHANGE_PASSWORD_LABEL_NEW_PASSWORD'
+                  );
+                changePasswordStore().controls[1].label =
+                  this.$Bitrix.Loc.getMessage(
+                    'AUTH_CHANGE_PASSWORD_LABEL_REPEAT'
+                  );
 
                 //query
                 var urlQuery = self.parseQuery(window.location.search);
                 if (urlQuery.type) {
                   switch (urlQuery.type) {
+                    case 'sms':
+                      dataStore().state = 'sms';
+                      this.$router.push('/two-cols/sms');
+                      break;
                     case 'ornz':
                       dataStore().state = 'ornz';
                       this.$router.push('/two-cols/ornz');
                       break;
-                    case 'new-password':
-                      this.$router.push('/center-col/new-password');
+                    case 'restore':
+                      this.$router.push('/center-col/restore');
+                      break;
+                    case 'change_password':
+                      this.$router.push('/center-col/change-password');
                   }
                 }
               },

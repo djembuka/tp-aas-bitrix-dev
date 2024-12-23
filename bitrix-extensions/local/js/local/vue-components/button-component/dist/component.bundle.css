@@ -431,7 +431,7 @@ button.vue-button {
 }
 .vue-button--medium {
   min-width: 0;
-  padding: 1rem 1.5rem;
+  padding: 12px 24px;
   border-radius: 8px;
   font-weight: 400;
   font-size: 12px;

@@ -41,6 +41,7 @@ export const Code = {
           </div>
 
           <div><ButtonComponent :text="lang.AUTH_SMS_CODE_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="runCheck" /></div>
+
           <div><ButtonComponent v-if="timer === 0 || !!timer" :text="buttonTimerText" :props="Object.keys(timerProps)" :disabled="timerDisabled" @clickButton="clickNewCode" /></div>
         </div>
       </div>
@@ -174,7 +175,7 @@ export const Code = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['setError']),
+    ...mapActions(dataStore, ['setInfoButton', 'setError']),
     ...mapActions(smsStore, ['runSend']),
     ...mapActions(codeStore, [
       'changeInputValue',
@@ -184,6 +185,7 @@ export const Code = {
       'setInvalidInputs',
     ]),
     clickNewCode() {
+      this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
       this.runSend();
     },
     backspaceInput(input, index) {
@@ -211,5 +213,9 @@ export const Code = {
   },
   mounted() {
     this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
+    if (this.timer) {
+      this.buttonTimer(this.timer);
+    }
+    this.setInfoButton('');
   },
 };
