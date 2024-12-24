@@ -73,9 +73,10 @@ export const TwoCols = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['changeState', 'setInfo']),
+    ...mapActions(dataStore, ['changeState', 'setInfo', 'setInfoMessage']),
     clickInfoButton() {
       this.setInfo('');
+      this.setInfoMessage('');
     },
     clickAlt() {
       if (this.$route.path === '/two-cols/ornz') {

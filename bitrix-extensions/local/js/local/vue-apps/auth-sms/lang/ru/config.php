@@ -43,3 +43,5 @@ $MESS["AUTH_CHANGE_PASSWORD_LABEL_NEW_PASSWORD"] = "Новый пароль";
 $MESS["AUTH_CHANGE_PASSWORD_LABEL_REPEAT"] = "Повторите  новый пароль";
 $MESS["AUTH_CHANGE_PASSWORD_BUTTON"] = "Изменить";
 $MESS["AUTH_CHANGE_PASSWORD_ALT_BUTTON"] = "Вход по ОРНЗ";
+
+$MESS["AUTH_CHANGE_PASSWORD_INFO_TITLE"] = "Пароль успешно изменён!";

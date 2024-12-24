@@ -21,7 +21,7 @@ export const Ornz = {
     <div class="vue-auth-sms-ornz-form">
       <div class="vue-auth-sms-ornz-form-body">
         <div v-for="control in controls" :key="control.id">
-          <ControlComponent :control="control" @input="input" @hints="hints" />
+          <ControlComponent :control="control" @input="input" />
           <hr />
         </div>
         <ButtonComponent :text="lang.AUTH_SMS_ORNZ_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />
@@ -29,7 +29,7 @@ export const Ornz = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang']),
+    ...mapState(dataStore, ['lang', 'infoMessage']),
     ...mapState(ornzStore, [
       'controls',
       'submitProps',
@@ -39,6 +39,13 @@ export const Ornz = {
     ]),
   },
   methods: {
+    ...mapActions(dataStore, [
+      'setInfo',
+      'setInfoButton',
+      'setError',
+      'setTitle',
+      'setQuery',
+    ]),
     ...mapActions(ornzStore, ['changeInputValue', 'runOrnz']),
     input(args) {
       this.changeInputValue(args);
@@ -47,5 +54,17 @@ export const Ornz = {
       this.runOrnz();
     },
   },
-  mounted() {},
+  mounted() {
+    this.setTitle(this.lang[`AUTH_SMS_ORNZ_TITLE`]);
+
+    if (this.infoMessage) {
+      this.setInfo(this.infoMessage);
+    } else {
+      this.setInfo('');
+    }
+    this.setInfoButton(this.lang.AUTH_SMS_INFO_BUTTON);
+
+    this.setError('');
+    this.setQuery({ type: 'ornz' });
+  },
 };

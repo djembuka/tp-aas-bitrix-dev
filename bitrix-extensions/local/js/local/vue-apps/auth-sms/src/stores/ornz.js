@@ -36,7 +36,9 @@ export const ornzStore = defineStore('ornz', {
   }),
   getters: {
     buttonDisabled() {
-      return this.controls.some((input) => !input.value);
+      return this.controls.some(
+        (input) => !input.value || input.setInvalidWatcher
+      );
     },
   },
   actions: {
@@ -51,6 +53,7 @@ export const ornzStore = defineStore('ornz', {
     },
     changeInputValue({ control, value }) {
       control.value = value;
+      control.setInvalidWatcher = false;
     },
     runOrnz() {
       this.changeSubmitProps({ 'load-circle': true });
@@ -75,18 +78,16 @@ export const ornzStore = defineStore('ornz', {
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
 
-              console.log(response);
+              if (response && response.errors && response.errors[0]) {
+                dataStore().error = response.errors[0].message;
+                this.controls[0].regexp_description =
+                  response.errors[0].message || '';
+                this.controls[1].regexp_description =
+                  response.errors[0].message || '';
 
-              // if (response && response.errors && response.errors[0]) {
-              //   dataStore().error = response.errors[0].message;
-              //   this.controls[0].regexp_description =
-              //     response.errors[0].message || '';
-              //   this.controls[1].regexp_description =
-              //     response.errors[0].message || '';
-
-              //   this.controls[0].setInvalidWatcher = true;
-              //   this.controls[1].setInvalidWatcher = true;
-              // }
+                this.controls[0].setInvalidWatcher = true;
+                this.controls[1].setInvalidWatcher = true;
+              }
             }
           );
       }

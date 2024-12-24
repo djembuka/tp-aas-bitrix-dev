@@ -31,7 +31,7 @@ export const Sms = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang', 'state']),
+    ...mapState(dataStore, ['lang', 'state', 'infoMessage']),
     ...mapState(smsStore, [
       'controls',
       'submitProps',
@@ -47,13 +47,25 @@ export const Sms = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['setInfoButton']),
+    ...mapActions(dataStore, [
+      'setInfo',
+      'setInfoButton',
+      'setError',
+      'setQuery',
+    ]),
     ...mapActions(smsStore, ['input', 'runSend']),
     clickSubmit() {
       this.runSend();
     },
   },
   mounted() {
+    if (this.infoMessage) {
+      this.setInfo(this.infoMessage);
+    } else {
+      this.setInfo('');
+    }
     this.setInfoButton(this.lang.AUTH_SMS_INFO_BUTTON);
+    this.setError('');
+    this.setQuery({ type: 'sms' });
   },
 };

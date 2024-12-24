@@ -7,6 +7,7 @@ import { restoreStore } from '../stores/restore.js';
 import { Restore } from '../pages/restore.js';
 
 import { MessageComponent } from 'local.vue-components.message-component';
+import { ButtonComponent } from 'local.vue-components.button-component';
 
 export const CenterCol = {
   data() {
@@ -15,6 +16,7 @@ export const CenterCol = {
   components: {
     Restore,
     MessageComponent,
+    ButtonComponent,
   },
   // language=Vue
 
@@ -32,6 +34,17 @@ export const CenterCol = {
       <div class="vue-auth-center-body">
         <router-view />
       </div>
+
+      <div v-if="$route.fullPath !== '/center-col/change-password-info'">
+        <hr class="hr--line hr--none" />
+
+        <div class="vue-auth-sms-alt">
+          <div>
+            <ButtonComponent :text="lang.AUTH_SMS_CODE_ALT_BUTTON" :props="['medium', 'primary']" @clickButton="clickAltButton" />
+          </div>
+        </div>
+      </div>
+
     </div>
 	`,
   computed: {
@@ -42,6 +55,9 @@ export const CenterCol = {
     ...mapActions(dataStore, ['setInfo']),
     clickInfoButton() {
       this.setInfo('');
+    },
+    clickAltButton() {
+      this.$router.push('/two-cols/ornz');
     },
   },
 };

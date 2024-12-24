@@ -24,6 +24,7 @@ export const changePasswordStore = defineStore('change-password', {
       },
     ],
     submitProps: { large: true, secondary: true, wide: true },
+    state: 'change-password',
   }),
   getters: {
     buttonDisabled() {
@@ -34,6 +35,9 @@ export const changePasswordStore = defineStore('change-password', {
     },
   },
   actions: {
+    changeState(value) {
+      this.state = value;
+    },
     changeSubmitProps(obj) {
       Object.keys(obj).forEach((key) => {
         if (obj[key]) {
@@ -45,6 +49,9 @@ export const changePasswordStore = defineStore('change-password', {
     },
     input({ control, value }) {
       control.value = value;
+      this.controls.forEach((c) => {
+        c.setInvalidWatcher = false;
+      });
     },
     runChange({ login, checkword }) {
       this.changeSubmitProps({ 'load-circle': true });
@@ -63,16 +70,25 @@ export const changePasswordStore = defineStore('change-password', {
           .then(
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
+              dataStore().setError('');
+              this.controls.forEach((c) => {
+                c.value = '';
+                c.setInvalidWatcher = false;
+              });
 
-              if (response && response.data && response.data.redirect) {
-                window.location.href = response.data.redirect;
+              if (response && response.data) {
+                if (response.data.message) {
+                  dataStore().setInfo(response.data.message);
+                }
               }
+
+              this.changeState('change-password-info');
             },
             (response) => {
               this.changeSubmitProps({ 'load-circle': false });
 
               if (response && response.errors && response.errors[0]) {
-                dataStore().error = response.errors[0].message;
+                dataStore().setError(response.errors[0].message);
                 this.controls[0].regexp_description =
                   response.errors[0].message || '';
                 this.controls[1].regexp_description =

@@ -44,12 +44,18 @@ export const Restore = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['setInfo', 'setInfoButton', 'setTitle']),
+    ...mapActions(dataStore, [
+      'setInfo',
+      'setInfoButton',
+      'setTitle',
+      'setQuery',
+    ]),
     ...mapActions(restoreStore, ['runRestore']),
   },
   mounted() {
     this.setTitle(this.lang[`AUTH_RESTORE_TITLE`]);
     this.setInfo(this.lang.AUTH_RESTORE_MESSAGE);
     this.setInfoButton(false);
+    this.setQuery({ type: 'restore' });
   },
 };

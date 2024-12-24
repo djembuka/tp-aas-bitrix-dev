@@ -19,6 +19,9 @@ import { Ornz } from './pages/ornz';
 import { Restore } from './pages/restore';
 import { RestoreInfo } from './pages/restore-info';
 import { ChangePassword } from './pages/change-password';
+import { ChangePasswordInfo } from './pages/change-password-info';
+
+import './style/auth-sms.css';
 
 export class AuthSMS {
   #store;
@@ -75,6 +78,10 @@ export class AuthSMS {
               path: 'change-password',
               component: ChangePassword,
             },
+            {
+              path: 'change-password-info',
+              component: ChangePasswordInfo,
+            },
           ],
         },
       ],
@@ -98,6 +105,7 @@ export class AuthSMS {
         dataStore().templateFolder = self.options.templateFolder || '';
         dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH');
         dataStore().info = self.options.infoMessage || '';
+        dataStore().infoMessage = self.options.infoMessage || '';
 
         smsStore().controls[0].label = this.$Bitrix.Loc.getMessage(
           'AUTH_SMS_SMS_LABEL_TEL'
@@ -149,6 +157,10 @@ export class AuthSMS {
               break;
             case 'change_password':
               this.$router.push('/center-col/change-password');
+              break;
+            case 'change_password_info':
+              this.$router.push('/center-col/change-password-info');
+              break;
           }
         }
       },

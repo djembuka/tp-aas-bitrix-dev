@@ -33,7 +33,15 @@ export const ChangePassword = {
       'controls',
       'submitProps',
       'buttonDisabled',
+      'state',
     ]),
+  },
+  watch: {
+    state(val) {
+      if (val === 'change-password-info') {
+        this.$router.push('/center-col/change-password-info');
+      }
+    },
   },
   methods: {
     ...mapActions(dataStore, [
@@ -41,6 +49,7 @@ export const ChangePassword = {
       'setInfoButton',
       'setTitle',
       'setError',
+      'setQuery',
     ]),
     ...mapActions(changePasswordStore, ['runChange', 'input']),
     clickButton() {
@@ -71,5 +80,7 @@ export const ChangePassword = {
     const queryObject = this.parseQuery(window.location.search);
     this.login = queryObject.USER_LOGIN;
     this.checkword = queryObject.USER_CHECKWORD;
+
+    this.setQuery({ type: 'change_password' });
   },
 };
