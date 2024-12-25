@@ -3,7 +3,7 @@ import { dataStore } from '../stores/data.js';
 import { codeStore } from '../stores/code.js';
 import { smsStore } from '../stores/sms.js';
 
-import '../style/code.css';
+import './code.css';
 
 import { ButtonComponent } from 'local.vue-components.button-component';
 
@@ -28,7 +28,7 @@ export const Code = {
 
               <input v-for="(input, index) in inputs"
                 :key="input.id"
-                :type="inputType()"
+                type="text"
                 :class="{'vue-auth-sms-code-input': true, 'vue-auth-sms-code-input--disabled': input.disabled}"
                 v-model="this['inputValue'+index]"
                 @keydown.backspace="backspaceInput(input, index)"
@@ -41,7 +41,6 @@ export const Code = {
           </div>
 
           <div><ButtonComponent :text="lang.AUTH_SMS_CODE_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="runCheck" /></div>
-
           <div><ButtonComponent v-if="timer === 0 || !!timer" :text="buttonTimerText" :props="Object.keys(timerProps)" :disabled="timerDisabled" @clickButton="clickNewCode" /></div>
         </div>
       </div>
@@ -67,18 +66,16 @@ export const Code = {
       },
       set(value) {
         const index = 0;
-
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
+        }
         this.changeInputValue({ control: this.inputs[index], value });
-
-        alert(value.match(/[0-9]/));
 
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        alert(next);
-
-        if (value && value.match(/[0-9]/) && next) {
+        if (value && next) {
           next.focus();
         }
       },
@@ -90,14 +87,16 @@ export const Code = {
       },
       set(value) {
         const index = 1;
-
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
+        }
         this.changeInputValue({ control: this.inputs[index], value });
 
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && value.match(/[0-9]/) && next) {
+        if (value && next) {
           next.focus();
         }
       },
@@ -109,14 +108,16 @@ export const Code = {
       },
       set(value) {
         const index = 2;
-
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
+        }
         this.changeInputValue({ control: this.inputs[index], value });
 
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && value.match(/[0-9]/) && next) {
+        if (value && next) {
           next.focus();
         }
       },
@@ -128,14 +129,16 @@ export const Code = {
       },
       set(value) {
         const index = 3;
-
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
+        }
         this.changeInputValue({ control: this.inputs[index], value });
 
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && value.match(/[0-9]/) && next) {
+        if (value && next) {
           next.focus();
         }
       },
@@ -147,14 +150,16 @@ export const Code = {
       },
       set(value) {
         const index = 4;
-
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
+        }
         this.changeInputValue({ control: this.inputs[index], value });
 
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && value.match(/[0-9]/) && next) {
+        if (value && next) {
           next.focus();
         }
       },
@@ -166,7 +171,9 @@ export const Code = {
       },
       set(value) {
         const index = 5;
-
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
+        }
         this.changeInputValue({ control: this.inputs[index], value });
       },
     },
@@ -179,7 +186,7 @@ export const Code = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['setInfoButton', 'setError']),
+    ...mapActions(dataStore, ['changeState', 'setError']),
     ...mapActions(smsStore, ['runSend']),
     ...mapActions(codeStore, [
       'changeInputValue',
@@ -189,7 +196,6 @@ export const Code = {
       'setInvalidInputs',
     ]),
     clickNewCode() {
-      this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
       this.runSend();
     },
     backspaceInput(input, index) {
@@ -214,19 +220,8 @@ export const Code = {
         this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
       }
     },
-    inputType() {
-      if (window.matchMedia('(max-width: 767px)').matches) {
-        return 'text';
-      } else {
-        return 'text';
-      }
-    },
   },
   mounted() {
     this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
-    if (this.timer) {
-      this.buttonTimer(this.timer);
-    }
-    this.setInfoButton('');
   },
 };

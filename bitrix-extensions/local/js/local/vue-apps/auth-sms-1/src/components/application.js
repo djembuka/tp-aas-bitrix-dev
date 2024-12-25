@@ -1,4 +1,4 @@
-import '../style/application.css';
+import './application.css';
 import { Sms } from '../pages/sms.js';
 import { Ornz } from '../pages/ornz.js';
 import { Code } from '../pages/code.js';

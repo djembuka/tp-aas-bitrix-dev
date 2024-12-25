@@ -30,14 +30,14 @@ export const ControlTel = {
       />
       <div class="twpx-form-control__label">{{ control.label }}</div>
       <input
-        type="text"
+        type="tel"
         :id="controlId"
         :name="controlName"
         v-model="value"
         @focus="focus"
         @blur="blur"
-        @keydown="keydown"
         @keyup.enter="enter"
+        @keydown="keydown"
         :disabled="disabled"
         ref="input"
         autocomplete="off"

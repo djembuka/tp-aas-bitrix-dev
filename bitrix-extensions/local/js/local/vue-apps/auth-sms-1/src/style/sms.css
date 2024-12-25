@@ -1,0 +1,22 @@
+.vue-auth-sms-sms-form {
+  padding: 32px;
+}
+.vue-auth-sms-sms-form-body {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto 0;
+}
+.vue-auth-sms-sms-ornz-enter {
+  width: 100%;
+  max-width: 400px;
+  margin: 32px auto;
+  display: grid;
+  gap: 32px;
+}
+.vue-auth-sms-sms-ornz-enter > div {
+  text-align: center;
+}
+hr.hr--none {
+  padding: 0;
+  margin: 0;
+}

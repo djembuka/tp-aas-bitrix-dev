@@ -28,7 +28,7 @@ export const Code = {
 
               <input v-for="(input, index) in inputs"
                 :key="input.id"
-                :type="inputType()"
+                type="text"
                 :class="{'vue-auth-sms-code-input': true, 'vue-auth-sms-code-input--disabled': input.disabled}"
                 v-model="this['inputValue'+index]"
                 @keydown.backspace="backspaceInput(input, index)"
@@ -70,13 +70,9 @@ export const Code = {
 
         this.changeInputValue({ control: this.inputs[index], value });
 
-        alert(value.match(/[0-9]/));
-
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
-
-        alert(next);
 
         if (value && value.match(/[0-9]/) && next) {
           next.focus();
@@ -212,13 +208,6 @@ export const Code = {
         this.setError('');
 
         this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
-      }
-    },
-    inputType() {
-      if (window.matchMedia('(max-width: 767px)').matches) {
-        return 'text';
-      } else {
-        return 'text';
       }
     },
   },

@@ -1,5 +1,9 @@
-.vue-auth-sms {
+#authSMS {
+  border: 1px solid #f2f2f2;
   padding: 64px;
+}
+
+.vue-auth-sms {
   display: grid;
   gap: 64px;
   grid-template-columns: calc(50% - 32px) calc(50% - 32px);
@@ -19,11 +23,42 @@
   gap: 32px;
 }
 .vue-auth-sms-alt > div {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.vue-auth-center {
+  margin: 0 auto;
+  width: 589px;
+  box-sizing: content-box;
+}
+.vue-auth-center-body {
+  margin: 0 auto;
+  width: 400px;
 }
 
 @media (max-width: 767px) {
+  #authSMS {
+    border: none;
+    padding: 0;
+  }
+  .vue-auth-sms-right {
+    display: none;
+  }
   .vue-auth-sms {
     display: block;
+  }
+  .vue-auth-sms-left {
+    width: 100%;
+  }
+
+  .vue-auth-center {
+    margin: 0;
+    width: auto;
+    box-sizing: content-box;
+  }
+  .vue-auth-center-body {
+    margin: 0;
+    width: auto;
   }
 }

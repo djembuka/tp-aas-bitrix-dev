@@ -1,17 +1,18 @@
-import '../style/application.css';
+import '../style/layout.css';
+
 import { Sms } from '../pages/sms.js';
 import { Ornz } from '../pages/ornz.js';
 import { Code } from '../pages/code.js';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
-import { dataStore } from '../stores/data';
-import { smsStore } from '../stores/sms';
-import { codeStore } from '../stores/code';
+import { dataStore } from '../stores/data.js';
+import { smsStore } from '../stores/sms.js';
+import { codeStore } from '../stores/code.js';
 
 import { MessageComponent } from 'local.vue-components.message-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
 
-export const Application = {
+export const TwoCols = {
   data() {
     return {};
   },
@@ -25,28 +26,26 @@ export const Application = {
   // language=Vue
 
   template: `
-    <div class="vue-auth-sms">
-      <div class="vue-auth-sms-left">
+    <div class="vue-auth-grid">
+      <div class="vue-auth-grid-col">
 
         <h3 class="mt-0">{{ title }}</h3>
 
-        <MessageComponent type="info" :message="info" :button="lang.AUTH_SMS_INFO_BUTTON" @clickButton="clickInfoButton" />
+        <MessageComponent v-if="info" type="info" :message="info" :button="infoButton" @clickButton="clickInfoButton" />
         <hr v-if="info && error">
         <MessageComponent v-if="error" type="error" :message="error" :button="errorButton" @clickButton="clickErrorButton" />
 
-        <Sms v-if="state === 'sms'" />
-        <Ornz v-else-if="state === 'ornz'" />
-        <Code v-else-if="state === 'code'" />
+        <router-view />
 
         <hr class="hr--line hr--none" />
 
-        <div class="vue-auth-sms-alt">
+        <div class="vue-auth-alt">
           <div><ButtonComponent :text="altButton" :props="['medium', 'primary']" @clickButton="clickAlt" /></div>
-          <div><router-link to="/two-cols/ornz">{{ lang.AUTH_SMS_ENTER_LINK }}</router-link></div>
+          <div><router-link to="/center-col/restore">{{ lang.AUTH_SMS_ENTER_LINK }}</router-link></div>
         </div>
 
       </div>
-      <div class="vue-auth-sms-right">
+      <div class="vue-auth-grid-col">
         <img :src="templateFolder + '/auth-sms-ill.png'" alt="">
       </div>
       
@@ -59,6 +58,7 @@ export const Application = {
       'templateFolder',
       'lang',
       'info',
+      'infoButton',
       'state',
       'error',
       'errorButton',
@@ -75,19 +75,26 @@ export const Application = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['changeState', 'setInfo']),
+    ...mapActions(dataStore, [
+      'changeState',
+      'setInfo',
+      'setInfoMessageDefault',
+    ]),
     clickInfoButton() {
       this.setInfo('');
+      this.setInfoMessageDefault('');
     },
     clickAlt() {
-      if (this.state === 'ornz') {
+      if (this.$route.path === '/two-cols/ornz') {
+        this.$router.push('/two-cols/sms');
         this.changeState('sms');
       } else {
+        this.$router.push('/two-cols/ornz');
         this.changeState('ornz');
       }
-      // window.location.href = '/auth/';
     },
     clickErrorButton() {
+      this.$router.push('/two-cols/ornz');
       this.changeState('ornz');
     },
   },

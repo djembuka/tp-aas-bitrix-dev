@@ -94,13 +94,3 @@ hr.hr--none {
   color: #f00;
   display: block;
 }
-
-@media (max-width: 767px) {
-  .vue-auth-sms-code-form-body {
-    width: auto;
-  }
-  .vue-auth-sms-code-form-body > div:last-child {
-    display: grid;
-    justify-content: center;
-  }
-}

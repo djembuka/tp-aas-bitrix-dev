@@ -40,7 +40,7 @@ export class AuthSMS {
           children: [
             {
               path: '/',
-              component: Code,
+              component: Sms,
             },
           ],
         },
@@ -94,7 +94,7 @@ export class AuthSMS {
     const self = this;
 
     this.#application = BitrixVue.createApp({
-      name: 'Table Application',
+      name: 'Authentication',
       components: {
         Application,
       },
@@ -105,7 +105,7 @@ export class AuthSMS {
         dataStore().templateFolder = self.options.templateFolder || '';
         dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH');
         dataStore().info = self.options.infoMessage || '';
-        dataStore().infoMessage = self.options.infoMessage || '';
+        dataStore().infoMessageDefault = self.options.infoMessage || '';
 
         smsStore().controls[0].label = this.$Bitrix.Loc.getMessage(
           'AUTH_SMS_SMS_LABEL_TEL'
