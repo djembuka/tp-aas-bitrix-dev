@@ -18,7 +18,7 @@ export const Sms = {
   // language=Vue
 
   template: `
-    <div class="vue-auth-sms-sms">
+    <div class="vue-auth-sms-sms">Timer: {{timerEnd}}, {{timer}}
       <div class="vue-auth-sms-sms-form">
         <div class="vue-auth-sms-sms-form-body">
           <div v-for="control in controls" :key="control.id">
@@ -37,14 +37,23 @@ export const Sms = {
       'submitProps',
       'buttonDisabled',
       'buttonSubmitTimerText',
+      'timer',
+      'timerEnd',
     ]),
   },
   methods: {
-    ...mapActions(smsStore, ['input', 'runSend', 'changeSubmitProps']),
+    ...mapActions(smsStore, [
+      'input',
+      'runSend',
+      'changeSubmitProps',
+      'buttonSubmitTimer',
+    ]),
     clickSubmit() {
       this.changeSubmitProps({ 'load-circle': true });
       this.runSend();
     },
   },
-  mounted() {},
+  mounted() {
+    this.buttonSubmitTimer(60);
+  },
 };

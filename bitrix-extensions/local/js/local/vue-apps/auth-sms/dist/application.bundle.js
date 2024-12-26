@@ -159,6 +159,7 @@
           medium: true,
           secondary: true,
         },
+        timerEnd: 0,
         timer: 0,
         timerIntervalId: '',
         clearInputs: false,
@@ -195,13 +196,15 @@
       },
       buttonTimer: function buttonTimer(start) {
         var _this = this;
+        this.timerEnd = Math.round(new Date().getTime() / 1000) + Number(start);
         this.timer = Number(start);
         clearInterval(this.timerIntervalId);
         this.timerIntervalId = setInterval(function () {
-          if (_this.timer === 0) {
+          if (_this.timer <= 0) {
             clearInterval(_this.timerIntervalId);
           } else {
-            _this.timer--;
+            _this.timer =
+              _this.timerEnd - Math.round(new Date().getTime() / 1000);
           }
         }, 1000);
       },
@@ -325,6 +328,7 @@
           secondary: true,
           wide: true,
         },
+        timerEnd: 0,
         timer: 0,
       };
     },
@@ -356,12 +360,16 @@
     actions: {
       buttonSubmitTimer: function buttonSubmitTimer(start) {
         var _this = this;
+        this.timerEnd = Math.round(new Date().getTime() / 1000) + Number(start);
+        console.log(this.timerEnd);
         this.timer = Number(start);
+        console.log(this.timer);
         var intervalId = setInterval(function () {
-          if (_this.timer === 0) {
+          if (_this.timer <= 0) {
             clearInterval(intervalId);
           } else {
-            _this.timer--;
+            _this.timer =
+              _this.timerEnd - Math.round(new Date().getTime() / 1000);
           }
         }, 1000);
       },

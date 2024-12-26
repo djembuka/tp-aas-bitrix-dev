@@ -15,6 +15,7 @@ export const codeStore = defineStore('code', {
     uuid: '',
     submitProps: { large: true, secondary: true, wide: true },
     timerProps: { medium: true, secondary: true },
+    timerEnd: 0,
     timer: 0,
     timerIntervalId: '',
     clearInputs: false,
@@ -49,14 +50,15 @@ export const codeStore = defineStore('code', {
       this.invalidInputs = val;
     },
     buttonTimer(start) {
+      this.timerEnd = Math.round(new Date().getTime() / 1000) + Number(start);
       this.timer = Number(start);
       clearInterval(this.timerIntervalId);
 
       this.timerIntervalId = setInterval(() => {
-        if (this.timer === 0) {
+        if (this.timer <= 0) {
           clearInterval(this.timerIntervalId);
         } else {
-          this.timer--;
+          this.timer = this.timerEnd - Math.round(new Date().getTime() / 1000);
         }
       }, 1000);
     },

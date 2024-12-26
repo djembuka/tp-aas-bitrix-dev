@@ -27,7 +27,6 @@ export const smsStore = defineStore('sms', {
       },
     ],
     submitProps: { large: true, secondary: true, wide: true },
-    timerEnd: 0,
     timer: 0,
   }),
   getters: {
@@ -58,15 +57,12 @@ export const smsStore = defineStore('sms', {
   },
   actions: {
     buttonSubmitTimer(start) {
-      this.timerEnd = Math.round(new Date().getTime() / 1000) + Number(start);
-      console.log(this.timerEnd);
       this.timer = Number(start);
-      console.log(this.timer);
       const intervalId = setInterval(() => {
-        if (this.timer <= 0) {
+        if (this.timer === 0) {
           clearInterval(intervalId);
         } else {
-          this.timer = this.timerEnd - Math.round(new Date().getTime() / 1000);
+          this.timer--;
         }
       }, 1000);
     },
