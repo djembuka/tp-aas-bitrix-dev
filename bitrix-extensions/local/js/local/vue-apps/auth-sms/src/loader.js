@@ -40,7 +40,7 @@ export class AuthSMS {
           children: [
             {
               path: '/',
-              component: Code,
+              component: Sms,
             },
           ],
         },

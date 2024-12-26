@@ -24,11 +24,9 @@ export const MessageComponent = {
         </svg>
 
       </div>
-      <div class="vue-message__text">
-        <div class="vue-message__message" v-html="message"></div>
-        <div v-if="button">
-          <ButtonComponent :text="button" :props="['small', 'secondary']" @clickButton="clickButton" />
-        </div>
+      <div class="vue-message__message" v-html="message"></div>
+      <div v-if="button" class="vue-message__button">
+        <ButtonComponent :text="button" :props="['small', 'secondary', 'wide-mobile']" @clickButton="clickButton" />
       </div>
     </div>
 	`,

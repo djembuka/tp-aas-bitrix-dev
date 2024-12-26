@@ -53,7 +53,9 @@ export const ornzStore = defineStore('ornz', {
     },
     changeInputValue({ control, value }) {
       control.value = value;
-      control.setInvalidWatcher = false;
+      this.controls.forEach((c) => {
+        c.setInvalidWatcher = false;
+      });
     },
     runOrnz() {
       this.changeSubmitProps({ 'load-circle': true });

@@ -70,15 +70,11 @@ export const Code = {
 
         this.changeInputValue({ control: this.inputs[index], value });
 
-        alert(value.match(/[0-9]/));
-
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        alert(next);
-
-        if (value && value.match(/[0-9]/) && next) {
+        if (String(value) && String(value).match(/[0-9]/) && next) {
           next.focus();
         }
       },
@@ -97,7 +93,7 @@ export const Code = {
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && value.match(/[0-9]/) && next) {
+        if (String(value) && String(value).match(/[0-9]/) && next) {
           next.focus();
         }
       },
@@ -116,7 +112,7 @@ export const Code = {
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && value.match(/[0-9]/) && next) {
+        if (String(value) && String(value).match(/[0-9]/) && next) {
           next.focus();
         }
       },
@@ -135,7 +131,7 @@ export const Code = {
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && value.match(/[0-9]/) && next) {
+        if (String(value) && String(value).match(/[0-9]/) && next) {
           next.focus();
         }
       },
@@ -154,7 +150,7 @@ export const Code = {
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && value.match(/[0-9]/) && next) {
+        if (String(value) && String(value).match(/[0-9]/) && next) {
           next.focus();
         }
       },
@@ -168,6 +164,12 @@ export const Code = {
         const index = 5;
 
         this.changeInputValue({ control: this.inputs[index], value });
+
+        if (String(value)) {
+          this.$refs.inputs
+            .querySelectorAll(`.vue-auth-sms-code-input`)
+            [index].blur();
+        }
       },
     },
   },
@@ -193,7 +195,7 @@ export const Code = {
       this.runSend();
     },
     backspaceInput(input, index) {
-      if (input.value.trim() === '') {
+      if (String(input.value).trim() === '') {
         const prev = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index - 1];
@@ -216,7 +218,7 @@ export const Code = {
     },
     inputType() {
       if (window.matchMedia('(max-width: 767px)').matches) {
-        return 'text';
+        return 'number';
       } else {
         return 'text';
       }

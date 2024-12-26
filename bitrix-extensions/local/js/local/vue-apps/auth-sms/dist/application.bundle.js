@@ -199,7 +199,7 @@
         clearInterval(this.timerIntervalId);
         this.timerIntervalId = setInterval(function () {
           if (_this.timer === 0) {
-            clearInterval(intervalId);
+            clearInterval(_this.timerIntervalId);
           } else {
             _this.timer--;
           }
@@ -218,16 +218,10 @@
       changeInputValue: function changeInputValue(_ref) {
         var control = _ref.control,
           value = _ref.value;
-        if (value.length > 1) {
-          value = value.substring(value.length - 1);
+        if (String(value).length > 1) {
+          value = String(value).substring(String(value).length - 1);
         }
         control.value = value;
-        setTimeout(function () {
-          if (!value.match(/[0-9]/)) {
-            value = '';
-          }
-          control.value = value;
-        }, 0);
       },
       runCheck: function runCheck() {
         var _this3 = this;
@@ -632,7 +626,9 @@
         var control = _ref.control,
           value = _ref.value;
         control.value = value;
-        control.setInvalidWatcher = false;
+        this.controls.forEach(function (c) {
+          c.setInvalidWatcher = false;
+        });
       },
       runOrnz: function runOrnz() {
         var _this2 = this;
@@ -853,12 +849,10 @@
               control: this.inputs[index],
               value: value,
             });
-            alert(value.match(/[0-9]/));
             var next = this.$refs.inputs.querySelectorAll(
               '.vue-auth-sms-code-input'
             )[index + 1];
-            alert(next);
-            if (value && value.match(/[0-9]/) && next) {
+            if (String(value) && String(value).match(/[0-9]/) && next) {
               next.focus();
             }
           },
@@ -877,7 +871,7 @@
             var next = this.$refs.inputs.querySelectorAll(
               '.vue-auth-sms-code-input'
             )[index + 1];
-            if (value && value.match(/[0-9]/) && next) {
+            if (String(value) && String(value).match(/[0-9]/) && next) {
               next.focus();
             }
           },
@@ -896,7 +890,7 @@
             var next = this.$refs.inputs.querySelectorAll(
               '.vue-auth-sms-code-input'
             )[index + 1];
-            if (value && value.match(/[0-9]/) && next) {
+            if (String(value) && String(value).match(/[0-9]/) && next) {
               next.focus();
             }
           },
@@ -915,7 +909,7 @@
             var next = this.$refs.inputs.querySelectorAll(
               '.vue-auth-sms-code-input'
             )[index + 1];
-            if (value && value.match(/[0-9]/) && next) {
+            if (String(value) && String(value).match(/[0-9]/) && next) {
               next.focus();
             }
           },
@@ -934,7 +928,7 @@
             var next = this.$refs.inputs.querySelectorAll(
               '.vue-auth-sms-code-input'
             )[index + 1];
-            if (value && value.match(/[0-9]/) && next) {
+            if (String(value) && String(value).match(/[0-9]/) && next) {
               next.focus();
             }
           },
@@ -950,6 +944,11 @@
               control: this.inputs[index],
               value: value,
             });
+            if (String(value)) {
+              this.$refs.inputs
+                .querySelectorAll('.vue-auth-sms-code-input')
+                [index].blur();
+            }
           },
         },
       }
@@ -987,7 +986,7 @@
           this.runSend();
         },
         backspaceInput: function backspaceInput(input, index) {
-          if (input.value.trim() === '') {
+          if (String(input.value).trim() === '') {
             var prev = this.$refs.inputs.querySelectorAll(
               '.vue-auth-sms-code-input'
             )[index - 1];
@@ -1008,7 +1007,7 @@
         },
         inputType: function inputType() {
           if (window.matchMedia('(max-width: 767px)').matches) {
-            return 'text';
+            return 'number';
           } else {
             return 'text';
           }
@@ -1950,7 +1949,7 @@
               children: [
                 {
                   path: '/',
-                  component: Code,
+                  component: Sms,
                 },
               ],
             },

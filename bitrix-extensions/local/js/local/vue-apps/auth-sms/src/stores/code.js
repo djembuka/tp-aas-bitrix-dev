@@ -54,7 +54,7 @@ export const codeStore = defineStore('code', {
 
       this.timerIntervalId = setInterval(() => {
         if (this.timer === 0) {
-          clearInterval(intervalId);
+          clearInterval(this.timerIntervalId);
         } else {
           this.timer--;
         }
@@ -70,18 +70,11 @@ export const codeStore = defineStore('code', {
       });
     },
     changeInputValue({ control, value }) {
-      if (value.length > 1) {
-        value = value.substring(value.length - 1);
+      if (String(value).length > 1) {
+        value = String(value).substring(String(value).length - 1);
       }
 
       control.value = value;
-      setTimeout(() => {
-        if (!value.match(/[0-9]/)) {
-          value = '';
-        }
-
-        control.value = value;
-      }, 0);
     },
     runCheck() {
       if (window.BX) {

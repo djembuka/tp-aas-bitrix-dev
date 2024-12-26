@@ -12,16 +12,13 @@
 }
 
 .vue-message {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: grid;
+  grid-template-columns: 24px auto;
   padding: 32px;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-  gap: 32px;
-  -ms-flex-item-align: stretch;
-      align-self: stretch;
+  -webkit-column-gap: 32px;
+     -moz-column-gap: 32px;
+          column-gap: 32px;
+  row-gap: 16px;
   border-radius: 8px;
   background: var(--vue-message-component-background);
   -webkit-box-shadow: var(--vue-message-component-box-shadow);
@@ -39,11 +36,11 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-}
-.vue-message__text {
-  display: grid;
-  gap: 16px;
-  margin-top: 4px;
+
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
 }
 .vue-message__message {
   color: var(--vue-message-component-color);
@@ -52,16 +49,39 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  margin-top: 4px;
+
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
 }
-.vue-message .vue-button {
+.vue-message__button {
   min-width: 0;
   width: auto;
+
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
 }
 .vue-message--error.vue-message .vue-button {
   background-color: var(
     --vue-message-component-error-button-background
   ) !important;
   color: var(--vue-message-component-error-button-color) !important;
+}
+
+@media (max-width: 767px) {
+  .vue-message {
+    row-gap: 32px;
+  }
+  .vue-message__button {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+  }
 }
 /* .vue-message.anim {
   animation-duration: 0.5s;

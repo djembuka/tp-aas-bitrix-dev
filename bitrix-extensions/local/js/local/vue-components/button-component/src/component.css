@@ -398,6 +398,11 @@ button.vue-button {
 .vue-button--wide {
   width: 100%;
 }
+@media (max-width: 767px) {
+  .vue-button--wide-mobile {
+    width: 100%;
+  }
+}
 .vue-button--large {
   min-width: 192px;
   padding: 1rem 2rem;
