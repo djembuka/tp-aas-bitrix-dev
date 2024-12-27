@@ -226,9 +226,6 @@ export const Code = {
   },
   mounted() {
     this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
-    if (this.timer) {
-      this.buttonTimer(this.timer);
-    }
     this.setInfoButton('');
   },
 };

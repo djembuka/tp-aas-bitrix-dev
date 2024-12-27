@@ -59,9 +59,7 @@ export const smsStore = defineStore('sms', {
   actions: {
     buttonSubmitTimer(start) {
       this.timerEnd = Math.round(new Date().getTime() / 1000) + Number(start);
-      console.log(this.timerEnd);
       this.timer = Number(start);
-      console.log(this.timer);
       const intervalId = setInterval(() => {
         if (this.timer <= 0) {
           clearInterval(intervalId);
@@ -108,6 +106,10 @@ export const smsStore = defineStore('sms', {
 
               codeStore().uuid = response.data.uuid;
               codeStore().timer = response.data.remain || 0;
+
+              if (codeStore().timer) {
+                codeStore().buttonTimer(codeStore().timer);
+              }
 
               dataStore().changeState('code');
 

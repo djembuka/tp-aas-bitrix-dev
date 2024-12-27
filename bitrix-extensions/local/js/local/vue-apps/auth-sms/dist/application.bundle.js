@@ -361,9 +361,7 @@
       buttonSubmitTimer: function buttonSubmitTimer(start) {
         var _this = this;
         this.timerEnd = Math.round(new Date().getTime() / 1000) + Number(start);
-        console.log(this.timerEnd);
         this.timer = Number(start);
-        console.log(this.timer);
         var intervalId = setInterval(function () {
           if (_this.timer <= 0) {
             clearInterval(intervalId);
@@ -417,6 +415,9 @@
                 dataStore().setErrorButton('');
                 codeStore().uuid = response.data.uuid;
                 codeStore().timer = response.data.remain || 0;
+                if (codeStore().timer) {
+                  codeStore().buttonTimer(codeStore().timer);
+                }
                 dataStore().changeState('code');
                 var tel = _this3.controls[0].value.split('-');
                 dataStore().setInfo(
@@ -1024,9 +1025,6 @@
     ),
     mounted: function mounted() {
       this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
-      if (this.timer) {
-        this.buttonTimer(this.timer);
-      }
       this.setInfoButton('');
     },
   };
