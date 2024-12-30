@@ -13,12 +13,8 @@ export const dataStore = defineStore('data', {
     infoButton: true,
     error: '',
     errorButton: false,
-    altButton: '',
   }),
   actions: {
-    setAltButton(alt) {
-      this.altButton = alt;
-    },
     changeState(value) {
       this.state = value;
     },

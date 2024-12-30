@@ -45,7 +45,6 @@ export const Ornz = {
       'setError',
       'setTitle',
       'setQuery',
-      'setAltButton',
     ]),
     ...mapActions(ornzStore, ['changeInputValue', 'runOrnz']),
     input(args) {
@@ -57,7 +56,6 @@ export const Ornz = {
   },
   mounted() {
     this.setTitle(this.lang[`AUTH_SMS_ORNZ_TITLE`]);
-    this.setAltButton(this.lang[`AUTH_SMS_ORNZ_ALT_BUTTON`]);
 
     if (this.infoMessage) {
       this.setInfo(this.infoMessage);

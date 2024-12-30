@@ -52,8 +52,6 @@ export const Sms = {
       'setInfoButton',
       'setError',
       'setQuery',
-      'setAltButton',
-      'setTitle',
     ]),
     ...mapActions(smsStore, ['input', 'runSend']),
     clickSubmit() {
@@ -61,8 +59,6 @@ export const Sms = {
     },
   },
   mounted() {
-    this.setTitle(this.lang[`AUTH_SMS_SMS_TITLE`]);
-    this.setAltButton(this.lang[`AUTH_SMS_SMS_ALT_BUTTON`]);
     if (this.infoMessage) {
       this.setInfo(this.infoMessage);
     } else {

@@ -1,5 +1,11 @@
+import { Sms } from '../pages/sms.js';
+import { Ornz } from '../pages/ornz.js';
+import { Code } from '../pages/code.js';
+
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
+import { smsStore } from '../stores/sms.js';
+import { codeStore } from '../stores/code.js';
 
 import { MessageComponent } from 'local.vue-components.message-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
@@ -9,6 +15,9 @@ export const TwoCols = {
     return {};
   },
   components: {
+    Sms,
+    Ornz,
+    Code,
     MessageComponent,
     ButtonComponent,
   },
@@ -42,26 +51,32 @@ export const TwoCols = {
 	`,
   computed: {
     ...mapState(dataStore, [
+      'sessionid',
+      'signedParameters',
       'templateFolder',
       'lang',
-      'title',
       'info',
       'infoButton',
       'state',
       'error',
       'errorButton',
-      'altButton',
     ]),
+    ...mapState(smsStore, ['errorButton']),
+    ...mapState(codeStore, ['uuid']),
+    title() {
+      return this.lang[`AUTH_SMS_${String(this.state).toUpperCase()}_TITLE`];
+    },
+    altButton() {
+      return this.lang[
+        `AUTH_SMS_${String(this.state).toUpperCase()}_ALT_BUTTON`
+      ];
+    },
   },
   methods: {
     ...mapActions(dataStore, ['changeState', 'setInfo', 'setInfoMessage']),
     clickInfoButton() {
       this.setInfo('');
       this.setInfoMessage('');
-    },
-    clickErrorButton() {
-      this.$router.push('/two-cols/ornz');
-      this.changeState('ornz');
     },
     clickAlt() {
       if (this.$route.path === '/two-cols/ornz') {
@@ -71,6 +86,10 @@ export const TwoCols = {
         this.$router.push('/two-cols/ornz');
         this.changeState('ornz');
       }
+    },
+    clickErrorButton() {
+      this.$router.push('/two-cols/ornz');
+      this.changeState('ornz');
     },
   },
   mounted() {},
