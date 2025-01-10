@@ -33,26 +33,50 @@ export class AppealInbox {
         dataStore().signedParameters = self.options.signedParameters || '';
 
         profileStore().actions = {
-          profiles: self.options.profiles || {},
-          setDefaultProfile: self.options.setDefaultProfile || {},
+          profiles: {
+            component: 'twinpx:journal.vue',
+            method: 'profiles',
+          },
+          setDefaultProfile: {
+            component: 'twinpx:journal.vue',
+            method: 'setDefaultProfile',
+          },
         };
 
         predefinedStore().actions = {
-          predefinedFilters: self.options.predefinedFilters || {},
+          predefinedFilters: {
+            component: 'twinpx:journal.vue',
+            method: 'predefinedFilters',
+          },
         };
 
-        filterStore().filterCols = self.options.FILTER_COLS || [];
+        filterStore().filterCols = ['1', '2', '2', '2'];
         filterStore().actions = {
-          filters: self.options.filters || [],
+          filters: {
+            component: 'twinpx:journal.vue',
+            method: 'filters',
+          },
         };
 
-        tableStore().tableCols = self.options.TABLE_COLS || [];
+        tableStore().tableCols = ['auto', '20%', '20%', '20%', '100px'];
         tableStore().maxCountPerRequest = self.options.maxCountPerRequest || 50;
         tableStore().actions = {
-          columnsNames: self.options.columnsNames || '',
-          appeals: self.options.appeals || '',
-          defaultSort: self.options.defaultSort || '',
-          setDefaultSort: self.options.setDefaultSort || '',
+          columnsNames: {
+            component: 'twinpx:journal.vue',
+            method: 'columnsNames',
+          },
+          appeals: {
+            component: 'twinpx:journal.vue',
+            method: 'appeals',
+          },
+          defaultSort: {
+            component: 'twinpx:journal.vue',
+            method: 'defaultSort',
+          },
+          setDefaultSort: {
+            component: 'twinpx:journal.vue',
+            method: 'setDefaultSort',
+          },
         };
       },
     });

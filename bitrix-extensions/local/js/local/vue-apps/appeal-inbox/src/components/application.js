@@ -61,6 +61,7 @@ export const Application = {
       'defaultProfile',
       'profilesCounter',
       'loadingProfiles',
+      'errorProfile',
     ]),
     ...mapState(predefinedStore, [
       'predefined',
@@ -92,7 +93,7 @@ export const Application = {
       return this.appeals.startIndex / this.maxCountPerRequest + 1;
     },
     error() {
-      return this.errorTable || this.errorFilter;
+      return this.errorProfile || this.errorTable || this.errorFilter;
     },
     selected() {
       if (!this.defaultProfile) {
@@ -343,6 +344,7 @@ export const Application = {
     clickSelected() {
       console.log('clickSelected');
     },
+    ...mapActions(profileStore, ['hideErrorProfile']),
     ...mapActions(tableStore, [
       'hideErrorTable',
       'runColumnsNames',
@@ -359,6 +361,7 @@ export const Application = {
       'setHints',
     ]),
     hideError() {
+      this.hideErrorProfile();
       this.hideErrorTable();
       this.hideErrorFilter();
     },
@@ -495,113 +498,66 @@ export const Application = {
     },
   },
   mounted() {
-    new Promise((resolve) => {
-      resolve(
-        this.runProfiles({
-          mode: 'class',
-          signedParameters: this.signedParameters,
-          data: {
-            userid: this.userid,
-            sessid: this.sessid,
-          },
-        })
-      );
-    })
-      .then(
-        (result) => {
-          if (result && result.status === 'success') {
-            if (!this.defaultProfile) return;
+    const data = {
+      mode: 'class',
+      signedParameters: this.signedParameters,
+      data: {
+        userid: this.userid,
+        sessid: this.sessid,
+      },
+    };
 
-            return this.runPredefinedFilters({
-              mode: 'class',
-              signedParameters: this.signedParameters,
-              data: {
-                userid: this.userid,
-                sessid: this.sessid,
-                profileid: this.defaultProfile.id,
-              },
-            });
-          } else if (result && result.status === 'error') {
-            this.showError({ error: result.errors[0] });
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      )
+    const self = this;
+
+    new Promise((resolve) => {
+      resolve(self.runProfiles(data));
+    })
       .then((result) => {
-        if (result && result.status === 'success') {
-          return this.runFilters({
-            mode: 'class',
-            signedParameters: this.signedParameters,
-            data: {
-              userid: this.userid,
-              sessid: this.sessid,
-              profileid: this.defaultProfile.id,
-            },
-          });
-        } else if (result && result.status === 'error') {
-          this.showError({ error: result.errors[0] });
-        }
-      })
+        return resultFn(result, 'runPredefinedFilters');
+      }, errorFn)
       .then((result) => {
-        if (result && result.status === 'success') {
-          return this.runColumnsNames({
-            mode: 'class',
-            signedParameters: this.signedParameters,
-            data: {
-              userid: this.userid,
-              sessid: this.sessid,
-              profileid: this.defaultProfile.id,
-            },
-          });
-        } else if (result && result.status === 'error') {
-          this.showError({ error: result.errors[0] });
-        }
-      })
+        return resultFn(result, 'runFilters');
+      }, errorFn)
       .then((result) => {
-        if (result && result.status === 'success') {
-          return this.runDefaultSort({
-            mode: 'class',
-            signedParameters: this.signedParameters,
-            data: {
-              userid: this.userid,
-              sessid: this.sessid,
-              profileid: this.defaultProfile.id,
-            },
-          });
-        } else if (result && result.status === 'error') {
-          this.showError({ error: result.errors[0] });
-        }
-      })
+        return resultFn(result, 'runColumnsNames');
+      }, errorFn)
       .then((result) => {
-        if (result && result.status === 'success') {
-          const predefinedFilter = this.predefinedActive
-            ? this.predefinedActive.id
+        return resultFn(result, 'runDefaultSort');
+      }, errorFn)
+      .then((result) => {
+        return resultFn(result, 'runAppeals');
+      }, errorFn);
+
+    function resultFn(result, methodName) {
+      if (result && result.status === 'success') {
+        if (methodName === 'runPredefinedFilters') {
+          if (!self.defaultProfile) return;
+          data.data.profileid = self.defaultProfile.id;
+        }
+
+        if (methodName === 'runAppeals') {
+          const predefinedFilter = self.predefinedActive
+            ? self.predefinedActive.id
             : undefined;
 
-          this.runAppeals(
-            {
-              mode: 'class',
-              signedParameters: this.signedParameters,
-              data: {
-                userid: this.userid,
-                sessid: this.sessid,
-                profileid: this.defaultProfile.id,
-                startIndex: this.appeals.startIndex || 0,
-                maxCountPerRequest: this.maxCountPerRequest,
-                predefinedFilter,
-                filters: this.filters,
-                columnSort: this.sort.columnSort,
-                sortType: this.sort.sortType,
-              },
-            },
-            null,
-            this.increaseAppealsCounter()
-          );
-        } else if (result && result.status === 'error') {
-          this.showError({ error: result.errors[0] });
+          data.data.startIndex = self.appeals.startIndex || 0;
+          data.data.maxCountPerRequest = self.maxCountPerRequest;
+          data.data.predefinedFilter = predefinedFilter;
+          data.data.filters = self.filters;
+          data.data.columnSort = self.sort.columnSort;
+          data.data.sortType = self.sort.sortType;
+
+          self[methodName](data, null, self.increaseAppealsCounter());
+        } else {
+          return self[methodName](data);
         }
-      });
+      } else if (result && result.status === 'error') {
+        self.showError({ error: result.errors[0] });
+      }
+    }
+
+    function errorFn(error) {
+      console.log(error);
+    }
   },
 };

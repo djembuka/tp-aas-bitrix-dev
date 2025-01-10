@@ -20,6 +20,7 @@
         },
         profiles: [],
         profilesCounter: 0,
+        errorProfile: '',
         loadingProfiles: true
       };
     },
@@ -31,10 +32,29 @@
       }
     },
     actions: {
+      hideErrorProfile: function hideErrorProfile() {
+        this.errorProfile = '';
+      },
       showError: function showError(_ref) {
         var error = _ref.error,
           method = _ref.method;
-        console.log(error, method);
+        if (typeof error === 'boolean') {
+          this.errorProfile = error;
+        } else if (babelHelpers["typeof"](error) === 'object') {
+          if (error.errors && babelHelpers["typeof"](error.errors) === 'object' && error.errors[0] && error.errors[0].code !== undefined) {
+            if (error.errors[0].code === 'NETWORK_ERROR') {
+              if (error.data && error.data.ajaxRejectData) {
+                if (error.data.ajaxRejectData.data) {
+                  this.errorProfile = "".concat(window.BX.message('ERROR_SUPPORT'), "\n                    <br>\n                    <br>\n                    \u041C\u0435\u0442\u043E\u0434: ").concat(method, ". \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: ").concat(error.data.ajaxRejectData.data, ". \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: ").concat(window.BX.message('ERROR_' + error.data.ajaxRejectData.data) || window.BX.message('ERROR_SERVER'), ".");
+                }
+              } else if (window.BX.message) {
+                this.errorProfile = "".concat(window.BX.message('ERROR_SUPPORT'), "\n                <br>\n                <br>\n                \u041C\u0435\u0442\u043E\u0434: ").concat(method, ". \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: NETWORK_ERROR. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: ").concat(window.BX.message('ERROR_OFFLINE'), ".");
+              }
+            } else {
+              this.errorProfile = "".concat(window.BX.message('ERROR_SUPPORT'), "\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: ").concat(method, ".").concat(error.errors[0].code ? '  Ó‰ Ó¯Ë·ÍË: ' + error.errors[0].code + '.' : '', " ").concat(error.errors[0].message ? ' ŒÔËÒ‡ÌËÂ: ' + error.errors[0].message + '.' : '');
+            }
+          }
+        }
       },
       setDefaultProfile: function setDefaultProfile(_ref2) {
         var id = _ref2.id;
@@ -58,6 +78,10 @@
           return result;
         }, function (error) {
           _this.loadingProfiles = false;
+          _this.showError({
+            error: error,
+            method: 'profiles'
+          });
           if (window.twinpx && window.twinpx.vue.markup && window.twinpx.vue['appeal-inbox']) {
             resultFn(state, window.twinpx.vue['appeal-inbox'].profiles);
           } else {
@@ -144,6 +168,7 @@
       },
       runPredefinedFilters: function runPredefinedFilters(data, callback) {
         var _this = this;
+        console.log('sdf');
         this.loadingPredefined = true;
         var a = window.BX.ajax.runComponentAction(this.actions.predefinedFilters.component, this.actions.predefinedFilters.method, data);
         var state = this;
@@ -213,7 +238,7 @@
                 this.errorTable = "".concat(window.BX.message('ERROR_SUPPORT'), "\n                <br>\n                <br>\n                \u041C\u0435\u0442\u043E\u0434: ").concat(method, ". \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: NETWORK_ERROR. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: ").concat(window.BX.message('ERROR_OFFLINE'), ".");
               }
             } else {
-              this.errorTable = "".concat(window.BX.message('ERROR_SUPPORT'), "\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: ").concat(method, ".").concat(error.errors[0].code ? ' –ö–æ–¥ –æ—à–∏–±–∫–∏: ' + error.errors[0].code + '.' : '', " ").concat(error.errors[0].message ? ' –û–ø–∏—Å–∞–Ω–∏–µ: ' + error.errors[0].message + '.' : '');
+              this.errorTable = "".concat(window.BX.message('ERROR_SUPPORT'), "\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: ").concat(method, ".").concat(error.errors[0].code ? '  Ó‰ Ó¯Ë·ÍË: ' + error.errors[0].code + '.' : '', " ").concat(error.errors[0].message ? ' ŒÔËÒ‡ÌËÂ: ' + error.errors[0].message + '.' : '');
             }
           }
         }
@@ -352,7 +377,7 @@
                 this.errorFilter = "".concat(window.BX.message('ERROR_SUPPORT'), "\n                <br>\n                <br>\n                \u041C\u0435\u0442\u043E\u0434: ").concat(method, ". \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: NETWORK_ERROR. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: ").concat(window.BX.message('ERROR_OFFLINE'), ".");
               }
             } else {
-              this.errorFilter = "".concat(window.BX.message('ERROR_SUPPORT'), "\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: ").concat(method, ".").concat(error.errors[0].code ? ' –ö–æ–¥ –æ—à–∏–±–∫–∏: ' + error.errors[0].code + '.' : '', " ").concat(error.errors[0].message ? ' –û–ø–∏—Å–∞–Ω–∏–µ: ' + error.errors[0].message + '.' : '');
+              this.errorFilter = "".concat(window.BX.message('ERROR_SUPPORT'), "\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: ").concat(method, ".").concat(error.errors[0].code ? '  Ó‰ Ó¯Ë·ÍË: ' + error.errors[0].code + '.' : '', " ").concat(error.errors[0].message ? ' ŒÔËÒ‡ÌËÂ: ' + error.errors[0].message + '.' : '');
             }
           }
         }
@@ -498,7 +523,7 @@
     // language=Vue
 
     template: "\n    <ProfileChoice :profiles=\"profiles\" :loading=\"loadingProfiles\" @clickProfile=\"clickProfile\" />\n    <hr class=\"hr--sl\" v-if=\"predefined && predefined.fields && predefined.fields.length\">\n    <PredefinedFilters :predefined=\"predefined\" :selected=\"selected\" :loading=\"loadingPredefined\" @clickPredefined=\"clickPredefined\" @clickSelected=\"clickSelected\" />\n    <hr class=\"hr--lg\">\n    <div>\n      <ErrorMessage :error=\"error\" @hideError=\"hideError\" />\n      <div v-if=\"filters\">\n        <FilterComponent :cols=\"filterCols\" :filters=\"filters\" :loading=\"loadingFilter\" @input=\"input\" @hints=\"hints\" />\n      </div>\n      <hr>\n      <div v-if=\"appeals\">\n        <StickyScroll>\n          <TableComponent :sortable=\"true\" :cols=\"tableCols\" :columnsNames=\"columnsNames\" :items=\"appeals\" :sort=\"sort\" :loading=\"loadingTable\" :maxCountPerRequest=\"maxCountPerRequest\" @clickTh=\"clickTh\" @clickPage=\"clickPage\" />\n        </StickyScroll> \n        <hr>\n        <div class=\"vue-ft-table-bottom\">\n          <div class=\"vue-ft-table-all\" v-if=\"appeals.resultCount\">\u0412\u0441\u0435\u0433\u043E: {{ appeals.resultCount }}</div>\n          <PaginationComponent :pagesNum=\"pagesNum\" :pageActive=\"pageActive\" @clickPage=\"clickPage\" />\n        </div>\n      </div>\n    </div>\n\t",
-    computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['userid', 'sessid', 'signedParameters'])), ui_vue3_pinia.mapState(profileStore, ['profiles', 'defaultProfile', 'profilesCounter', 'loadingProfiles'])), ui_vue3_pinia.mapState(predefinedStore, ['predefined', 'predefinedActive', 'loadingPredefined'])), ui_vue3_pinia.mapState(tableStore, ['loadingTable', 'columnsNames', 'appeals', 'sort', 'tableCols', 'maxCountPerRequest', 'errorTable'])), ui_vue3_pinia.mapState(filterStore, ['loadingFilter', 'filters', 'filterCols', 'errorFilter'])), {}, {
+    computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['userid', 'sessid', 'signedParameters'])), ui_vue3_pinia.mapState(profileStore, ['profiles', 'defaultProfile', 'profilesCounter', 'loadingProfiles', 'errorProfile'])), ui_vue3_pinia.mapState(predefinedStore, ['predefined', 'predefinedActive', 'loadingPredefined'])), ui_vue3_pinia.mapState(tableStore, ['loadingTable', 'columnsNames', 'appeals', 'sort', 'tableCols', 'maxCountPerRequest', 'errorTable'])), ui_vue3_pinia.mapState(filterStore, ['loadingFilter', 'filters', 'filterCols', 'errorFilter'])), {}, {
       showError: function showError(error) {
         console.log(error);
       },
@@ -509,7 +534,7 @@
         return this.appeals.startIndex / this.maxCountPerRequest + 1;
       },
       error: function error() {
-        return this.errorTable || this.errorFilter;
+        return this.errorProfile || this.errorTable || this.errorFilter;
       },
       selected: function selected() {
         if (!this.defaultProfile) {
@@ -518,7 +543,7 @@
         return this.defaultProfile.excelExportSupport ? this.appeals.resultCount : undefined;
       }
     }),
-    methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(profileStore, ['runProfiles', 'runSetDefaultProfile', 'setDefaultProfile', 'increaseProfilesCounter'])), ui_vue3_pinia.mapActions(predefinedStore, ['runPredefinedFilters', 'setPredefinedActive'])), {}, {
+    methods: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(profileStore, ['runProfiles', 'runSetDefaultProfile', 'setDefaultProfile', 'increaseProfilesCounter'])), ui_vue3_pinia.mapActions(predefinedStore, ['runPredefinedFilters', 'setPredefinedActive'])), {}, {
       clickProfile: function clickProfile(_ref) {
         var _this = this;
         var id = _ref.id;
@@ -728,8 +753,9 @@
       clickSelected: function clickSelected() {
         console.log('clickSelected');
       }
-    }, ui_vue3_pinia.mapActions(tableStore, ['hideErrorTable', 'runColumnsNames', 'runAppeals', 'runDefaultSort', 'runSetDefaultSort', 'increaseAppealsCounter'])), ui_vue3_pinia.mapActions(filterStore, ['hideErrorFilter', 'runFilters', 'changeControlValue', 'runHintsAction', 'setHints'])), {}, {
+    }, ui_vue3_pinia.mapActions(profileStore, ['hideErrorProfile'])), ui_vue3_pinia.mapActions(tableStore, ['hideErrorTable', 'runColumnsNames', 'runAppeals', 'runDefaultSort', 'runSetDefaultSort', 'increaseAppealsCounter'])), ui_vue3_pinia.mapActions(filterStore, ['hideErrorFilter', 'runFilters', 'changeControlValue', 'runHintsAction', 'setHints'])), {}, {
       hideError: function hideError() {
+        this.hideErrorProfile();
         this.hideErrorTable();
         this.hideErrorFilter();
       },
@@ -846,107 +872,55 @@
       }
     }),
     mounted: function mounted() {
-      var _this4 = this;
+      var data = {
+        mode: 'class',
+        signedParameters: this.signedParameters,
+        data: {
+          userid: this.userid,
+          sessid: this.sessid
+        }
+      };
+      var self = this;
       new Promise(function (resolve) {
-        resolve(_this4.runProfiles({
-          mode: 'class',
-          signedParameters: _this4.signedParameters,
-          data: {
-            userid: _this4.userid,
-            sessid: _this4.sessid
+        resolve(self.runProfiles(data));
+      }).then(function (result) {
+        return resultFn(result, 'runPredefinedFilters');
+      }, errorFn).then(function (result) {
+        return resultFn(result, 'runFilters');
+      }, errorFn).then(function (result) {
+        return resultFn(result, 'runColumnsNames');
+      }, errorFn).then(function (result) {
+        return resultFn(result, 'runDefaultSort');
+      }, errorFn).then(function (result) {
+        return resultFn(result, 'runAppeals');
+      }, errorFn);
+      function resultFn(result, methodName) {
+        if (result && result.status === 'success') {
+          if (methodName === 'runPredefinedFilters') {
+            if (!self.defaultProfile) return;
+            data.data.profileid = self.defaultProfile.id;
           }
-        }));
-      }).then(function (result) {
-        if (result && result.status === 'success') {
-          if (!_this4.defaultProfile) return;
-          return _this4.runPredefinedFilters({
-            mode: 'class',
-            signedParameters: _this4.signedParameters,
-            data: {
-              userid: _this4.userid,
-              sessid: _this4.sessid,
-              profileid: _this4.defaultProfile.id
-            }
-          });
+          if (methodName === 'runAppeals') {
+            var predefinedFilter = self.predefinedActive ? self.predefinedActive.id : undefined;
+            data.data.startIndex = self.appeals.startIndex || 0;
+            data.data.maxCountPerRequest = self.maxCountPerRequest;
+            data.data.predefinedFilter = predefinedFilter;
+            data.data.filters = self.filters;
+            data.data.columnSort = self.sort.columnSort;
+            data.data.sortType = self.sort.sortType;
+            self[methodName](data, null, self.increaseAppealsCounter());
+          } else {
+            return self[methodName](data);
+          }
         } else if (result && result.status === 'error') {
-          _this4.showError({
+          self.showError({
             error: result.errors[0]
           });
         }
-      }, function (error) {
+      }
+      function errorFn(error) {
         console.log(error);
-      }).then(function (result) {
-        if (result && result.status === 'success') {
-          return _this4.runFilters({
-            mode: 'class',
-            signedParameters: _this4.signedParameters,
-            data: {
-              userid: _this4.userid,
-              sessid: _this4.sessid,
-              profileid: _this4.defaultProfile.id
-            }
-          });
-        } else if (result && result.status === 'error') {
-          _this4.showError({
-            error: result.errors[0]
-          });
-        }
-      }).then(function (result) {
-        if (result && result.status === 'success') {
-          return _this4.runColumnsNames({
-            mode: 'class',
-            signedParameters: _this4.signedParameters,
-            data: {
-              userid: _this4.userid,
-              sessid: _this4.sessid,
-              profileid: _this4.defaultProfile.id
-            }
-          });
-        } else if (result && result.status === 'error') {
-          _this4.showError({
-            error: result.errors[0]
-          });
-        }
-      }).then(function (result) {
-        if (result && result.status === 'success') {
-          return _this4.runDefaultSort({
-            mode: 'class',
-            signedParameters: _this4.signedParameters,
-            data: {
-              userid: _this4.userid,
-              sessid: _this4.sessid,
-              profileid: _this4.defaultProfile.id
-            }
-          });
-        } else if (result && result.status === 'error') {
-          _this4.showError({
-            error: result.errors[0]
-          });
-        }
-      }).then(function (result) {
-        if (result && result.status === 'success') {
-          var predefinedFilter = _this4.predefinedActive ? _this4.predefinedActive.id : undefined;
-          _this4.runAppeals({
-            mode: 'class',
-            signedParameters: _this4.signedParameters,
-            data: {
-              userid: _this4.userid,
-              sessid: _this4.sessid,
-              profileid: _this4.defaultProfile.id,
-              startIndex: _this4.appeals.startIndex || 0,
-              maxCountPerRequest: _this4.maxCountPerRequest,
-              predefinedFilter: predefinedFilter,
-              filters: _this4.filters,
-              columnSort: _this4.sort.columnSort,
-              sortType: _this4.sort.sortType
-            }
-          }, null, _this4.increaseAppealsCounter());
-        } else if (result && result.status === 'error') {
-          _this4.showError({
-            error: result.errors[0]
-          });
-        }
-      });
+      }
     }
   };
 
@@ -989,23 +963,47 @@
             dataStore().sessid = self.options.sessid || '';
             dataStore().signedParameters = self.options.signedParameters || '';
             profileStore().actions = {
-              profiles: self.options.profiles || {},
-              setDefaultProfile: self.options.setDefaultProfile || {}
+              profiles: {
+                component: 'twinpx:journal.vue',
+                method: 'profiles'
+              },
+              setDefaultProfile: {
+                component: 'twinpx:journal.vue',
+                method: 'setDefaultProfile'
+              }
             };
             predefinedStore().actions = {
-              predefinedFilters: self.options.predefinedFilters || {}
+              predefinedFilters: {
+                component: 'twinpx:journal.vue',
+                method: 'predefinedFilters'
+              }
             };
-            filterStore().filterCols = self.options.FILTER_COLS || [];
+            filterStore().filterCols = ['1', '2', '2', '2'];
             filterStore().actions = {
-              filters: self.options.filters || []
+              filters: {
+                component: 'twinpx:journal.vue',
+                method: 'filters'
+              }
             };
-            tableStore().tableCols = self.options.TABLE_COLS || [];
+            tableStore().tableCols = ['auto', '20%', '20%', '20%', '100px'];
             tableStore().maxCountPerRequest = self.options.maxCountPerRequest || 50;
             tableStore().actions = {
-              columnsNames: self.options.columnsNames || '',
-              appeals: self.options.appeals || '',
-              defaultSort: self.options.defaultSort || '',
-              setDefaultSort: self.options.setDefaultSort || ''
+              columnsNames: {
+                component: 'twinpx:journal.vue',
+                method: 'columnsNames'
+              },
+              appeals: {
+                component: 'twinpx:journal.vue',
+                method: 'appeals'
+              },
+              defaultSort: {
+                component: 'twinpx:journal.vue',
+                method: 'defaultSort'
+              },
+              setDefaultSort: {
+                component: 'twinpx:journal.vue',
+                method: 'setDefaultSort'
+              }
             };
           }
         }));
