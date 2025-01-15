@@ -18,7 +18,7 @@ export const Application = {
     <div>
       <div v-for="control in controls" :key="control.id">
         <h3>{{ control.property }} {{ control.type }}</h3>
-        <ControlComponent :control="control" />
+        <ControlComponent :control="control" @input="input" />
       </div>
     </div>
 	`,
@@ -26,6 +26,13 @@ export const Application = {
     ...mapState(dataStore, ['controls']),
   },
   methods: {
-    ...mapActions(dataStore, []),
+    ...mapActions(dataStore, ['changeControlValue']),
+    input({ control, value, checked }) {
+      this.changeControlValue({
+        control,
+        value,
+        checked,
+      });
+    },
   },
 };

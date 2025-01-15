@@ -7,12 +7,15 @@ import { ControlTel } from 'local.vue-components.control-tel';
 import { ControlEmail } from 'local.vue-components.control-email';
 import { ControlHint } from 'local.vue-components.control-hint';
 import { ControlSelectDropdown } from 'local.vue-components.control-select-dropdown';
+import { ControlSelectRadio } from 'local.vue-components.control-select-radio';
 import { ControlDatepicker } from 'local.vue-components.control-datepicker';
 import { ControlDateSingle } from 'local.vue-components.control-date-single';
 import { ControlDateRange } from 'local.vue-components.control-date-range';
 import { ControlFile } from 'local.vue-components.control-file';
 import { ControlFileUpload } from 'local.vue-components.control-file-upload';
 import { ControlCheckbox } from 'local.vue-components.control-checkbox';
+import { ControlCheckboxCheckbox } from 'local.vue-components.control-checkbox-checkbox';
+import { ControlCheckboxSwitch } from 'local.vue-components.control-checkbox-switch';
 
 export const ControlComponent = {
   data() {
@@ -32,12 +35,15 @@ export const ControlComponent = {
     ControlEmail,
     ControlHint,
     ControlSelectDropdown,
+    ControlSelectRadio,
     ControlDatepicker,
     ControlDateSingle,
     ControlDateRange,
     ControlFile,
     ControlFileUpload,
     ControlCheckbox,
+    ControlCheckboxCheckbox,
+    ControlCheckboxSwitch,
   },
   props: ['control'],
   // language=Vue

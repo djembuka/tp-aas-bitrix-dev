@@ -33,7 +33,7 @@ export const Application = {
 
   template: `
     <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />
-    <hr class="hr--sl" v-if="predefined && predefined.fields && predefined.fields.length">
+    <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length)">
     <PredefinedFilters :predefined="predefined" :selected="selected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />
     <hr class="hr--lg">
     <div>
@@ -400,8 +400,8 @@ export const Application = {
                 maxCountPerRequest: this.maxCountPerRequest,
                 predefinedFilter,
                 filters: this.filters,
-                columnSort: 1,
-                sortType: 'asc',
+                columnSort: column.id,
+                sortType,
               },
             },
             null,

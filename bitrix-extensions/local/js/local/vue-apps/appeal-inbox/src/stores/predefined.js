@@ -27,7 +27,6 @@ export const predefinedStore = defineStore('predefined', {
       });
     },
     runPredefinedFilters(data, callback) {
-      console.log('sdf');
       this.loadingPredefined = true;
       let a = window.BX.ajax.runComponentAction(
         this.actions.predefinedFilters.component,

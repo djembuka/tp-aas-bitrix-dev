@@ -82,40 +82,6 @@ export const dataStore = defineStore('data', {
         dependency: 'id6',
       },
       {
-        property: 'select',
-        type: 'radio',
-        id: 'id9',
-        name: 'SELECT_BUTTON_TEXT',
-        label: 'Buttons',
-        options: [
-          {
-            label: 'Thin',
-            code: '1',
-          },
-          {
-            label: 'Thick',
-            code: '2',
-          },
-          {
-            label: 'Uppercase',
-            code: '3',
-          },
-        ],
-        value: '2',
-      },
-      {
-        property: 'checkbox',
-        type: 'checkbox',
-        id: 'id10',
-        name: 'DEPENDENCY_CHECKBOX',
-        required: false,
-        label: 'Checkbox',
-        value: 'on',
-        checked: true,
-        disabled: false,
-        hint_external: 'Active checkbox',
-      },
-      {
         property: 'file',
         id: 'id11',
         name: 'FILE_LOGO',
@@ -169,6 +135,28 @@ export const dataStore = defineStore('data', {
         disabled: false,
       },
       {
+        property: 'select',
+        type: 'radio',
+        id: 'id9',
+        name: 'SELECT_BUTTON_TEXT',
+        label: 'Buttons',
+        options: [
+          {
+            label: 'Thin',
+            code: '1',
+          },
+          {
+            label: 'Thick',
+            code: '2',
+          },
+          {
+            label: 'Uppercase',
+            code: '3',
+          },
+        ],
+        value: '2',
+      },
+      {
         property: 'checkbox',
         type: 'switch',
         id: 'id14',
@@ -181,6 +169,49 @@ export const dataStore = defineStore('data', {
         hint_external: '',
         dependency: 'id6',
       },
+      {
+        property: 'checkbox',
+        type: 'checkbox',
+        id: 'id10',
+        name: 'DEPENDENCY_CHECKBOX',
+        required: false,
+        label: 'Checkbox',
+        value: 'on',
+        checked: true,
+        disabled: false,
+        hint_external: 'Active checkbox',
+      },
     ],
   }),
+  actions: {
+    changeControlValue({ control, value, checked }) {
+      switch (control.property) {
+        case 'text':
+        case 'tel':
+        case 'email':
+        case 'hidden':
+        case 'hint':
+        case 'password':
+        case 'date':
+        case 'checkbox':
+        case 'textarea':
+          control.value = value;
+
+          break;
+        case 'select':
+          this[
+            `changeSelect${control.type
+              .substring(0, 1)
+              .toUpperCase()}${control.type.substring(1).toLowerCase()}Value`
+          ]({ control, value });
+          break;
+        // case 'file':
+        //   commit('changeFileValue', { control, value });
+        //   break;
+        // case 'color':
+        //   commit('changeColorValue', { control, value });
+        //   break;
+      }
+    },
+  },
 });

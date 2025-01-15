@@ -67,13 +67,13 @@ this.BX = this.BX || {};
           });
         }
         //first last
-        if (Number(this.pageActive) !== 1) {
+        if (this.pageActive && Number(this.pageActive) !== 1) {
           pagesArr.unshift({
             type: 'page',
             count: 1
           });
         }
-        if (Number(this.pageActive) !== Number(this.pagesNum)) {
+        if (this.pageActive && Number(this.pageActive) !== Number(this.pagesNum)) {
           pagesArr.push({
             type: 'page',
             count: this.pagesNum

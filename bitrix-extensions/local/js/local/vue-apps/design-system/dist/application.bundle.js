@@ -90,40 +90,6 @@
             dependency: 'id6',
           },
           {
-            property: 'select',
-            type: 'radio',
-            id: 'id9',
-            name: 'SELECT_BUTTON_TEXT',
-            label: 'Buttons',
-            options: [
-              {
-                label: 'Thin',
-                code: '1',
-              },
-              {
-                label: 'Thick',
-                code: '2',
-              },
-              {
-                label: 'Uppercase',
-                code: '3',
-              },
-            ],
-            value: '2',
-          },
-          {
-            property: 'checkbox',
-            type: 'checkbox',
-            id: 'id10',
-            name: 'DEPENDENCY_CHECKBOX',
-            required: false,
-            label: 'Checkbox',
-            value: 'on',
-            checked: true,
-            disabled: false,
-            hint_external: 'Active checkbox',
-          },
-          {
             property: 'file',
             id: 'id11',
             name: 'FILE_LOGO',
@@ -177,6 +143,28 @@
             disabled: false,
           },
           {
+            property: 'select',
+            type: 'radio',
+            id: 'id9',
+            name: 'SELECT_BUTTON_TEXT',
+            label: 'Buttons',
+            options: [
+              {
+                label: 'Thin',
+                code: '1',
+              },
+              {
+                label: 'Thick',
+                code: '2',
+              },
+              {
+                label: 'Uppercase',
+                code: '3',
+              },
+            ],
+            value: '2',
+          },
+          {
             property: 'checkbox',
             type: 'switch',
             id: 'id14',
@@ -189,8 +177,56 @@
             hint_external: '',
             dependency: 'id6',
           },
+          {
+            property: 'checkbox',
+            type: 'checkbox',
+            id: 'id10',
+            name: 'DEPENDENCY_CHECKBOX',
+            required: false,
+            label: 'Checkbox',
+            value: 'on',
+            checked: true,
+            disabled: false,
+            hint_external: 'Active checkbox',
+          },
         ],
       };
+    },
+    actions: {
+      changeControlValue: function changeControlValue(_ref) {
+        var control = _ref.control,
+          value = _ref.value,
+          checked = _ref.checked;
+        switch (control.property) {
+          case 'text':
+          case 'tel':
+          case 'email':
+          case 'hidden':
+          case 'hint':
+          case 'password':
+          case 'date':
+          case 'checkbox':
+          case 'textarea':
+            control.value = value;
+            break;
+          case 'select':
+            this[
+              'changeSelect'
+                .concat(control.type.substring(0, 1).toUpperCase())
+                .concat(control.type.substring(1).toLowerCase(), 'Value')
+            ]({
+              control: control,
+              value: value,
+            });
+            break;
+          // case 'file':
+          //   commit('changeFileValue', { control, value });
+          //   break;
+          // case 'color':
+          //   commit('changeColorValue', { control, value });
+          //   break;
+        }
+      },
     },
   });
 
@@ -238,12 +274,30 @@
     // language=Vue
 
     template:
-      '\n    <div>\n      <div v-for="control in controls" :key="control.id">\n        <h3>{{ control.property }} {{ control.type }}</h3>\n        <ControlComponent :control="control" />\n      </div>\n    </div>\n\t',
+      '\n    <div>\n      <div v-for="control in controls" :key="control.id">\n        <h3>{{ control.property }} {{ control.type }}</h3>\n        <ControlComponent :control="control" @input="input" />\n      </div>\n    </div>\n\t',
     computed: _objectSpread(
       {},
       ui_vue3_pinia.mapState(dataStore, ['controls'])
     ),
-    methods: _objectSpread({}, ui_vue3_pinia.mapActions(dataStore, [])),
+    methods: _objectSpread(
+      _objectSpread(
+        {},
+        ui_vue3_pinia.mapActions(dataStore, ['changeControlValue'])
+      ),
+      {},
+      {
+        input: function input(_ref) {
+          var control = _ref.control,
+            value = _ref.value,
+            checked = _ref.checked;
+          this.changeControlValue({
+            control: control,
+            value: value,
+            checked: checked,
+          });
+        },
+      }
+    ),
   };
 
   function _classPrivateFieldInitSpec(obj, privateMap, value) {
