@@ -1,6 +1,6 @@
 .twpx-form-control--file {
   position: relative;
-  margin-bottom: var(--slr2-gap-middle);
+  margin-bottom: 16px;
 }
 .twpx-form-control__file__disabled-icon {
   position: absolute;

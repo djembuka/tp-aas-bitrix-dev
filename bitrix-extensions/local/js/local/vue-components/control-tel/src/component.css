@@ -1,6 +1,6 @@
 .twpx-form-control--tel {
   position: relative;
-  margin-bottom: var(--slr2-gap-middle);
+  margin-bottom: 16px;
   width: 100%;
 
   --twpx-form-control-background: #f0f5fc;

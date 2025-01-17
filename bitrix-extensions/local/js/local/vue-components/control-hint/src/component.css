@@ -9,7 +9,7 @@
     (48px - var(--aas-input-right-icon-width)) / 2
   );
   position: relative;
-  margin-bottom: var(--slr2-gap-middle);
+  margin-bottom: 16px;
   width: 100%;
 }
 .twpx-form-control--hint.twpx-form-control--active .twpx-form-control__label {

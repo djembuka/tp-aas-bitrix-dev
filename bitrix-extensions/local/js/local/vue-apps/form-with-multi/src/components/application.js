@@ -18,7 +18,7 @@ export const Application = {
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
       <form action="">
         <div v-for="control in controls" :key="control.id">
-          <ControlChoice v-else :control="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlChoice>
+          <ControlChoice :control="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlChoice>
           <hr>
         </div>
 

@@ -6,9 +6,9 @@ window.twinpx.vue['form-with-multi'].controls = [
   {
 	  property: 'file',
     type: 'upload',
-	  id: 'id_logo',
+	  id: 'id_upload_logo',
 	  name: 'FILE_LOGO',
-	  label: 'Логотип',
+	  label: 'Логотип с загрузкой на сервер',
     value: null,
     upload: {},
 	  hint_external:
@@ -23,7 +23,7 @@ window.twinpx.vue['form-with-multi'].controls = [
 	  property: 'file',
 	  id: 'id_logo',
 	  name: 'FILE_LOGO',
-	  label: 'Логотип',
+	  label: 'Логотип без загрузки на сервер',
     value: null,
 	  hint_external:
 		'Этот логотип будет отображаться на вашем сайте.',

@@ -131,7 +131,6 @@ export const formStore = defineStore('form', {
     async uploadFile({ control, file }) {
       control.upload = control.upload || {};
       let formData = new FormData();
-      console.log(control, file);
 
       if (file === null) {
         //delete
@@ -156,7 +155,6 @@ export const formStore = defineStore('form', {
       //progress
       let first = true;
       xhr.upload.addEventListener('progress', ({ loaded, total }) => {
-        console.log('progress', loaded, total);
         control.upload.progress = { first, loaded, total };
         first = false;
       });
