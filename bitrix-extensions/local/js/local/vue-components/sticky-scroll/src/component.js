@@ -151,18 +151,26 @@ export const StickyScroll = {
       if (this.resizeTimeoutId) {
         clearInterval(this.resizeTimeoutId);
       }
-      this.resizeTimeoutId = setTimeout(() => {
-        this.$refs.content.style.width = `${
-          this.$refs.content.querySelector('table.table').clientWidth
-        }px`;
-        setTimeout(() => {
-          this.init();
-        }, 0);
-      }, 200);
+      if (
+        this.$refs.content &&
+        this.$refs.content.querySelector('table.table')
+      ) {
+        this.resizeTimeoutId = setTimeout(() => {
+          this.$refs.content.style.width = `${
+            this.$refs.content.querySelector('table.table').clientWidth
+          }px`;
+          setTimeout(() => {
+            this.init();
+          }, 0);
+        }, 200);
+      }
     },
     async initContentWidth() {
       do {
-        if (!this.$refs.content.querySelector('table.table')) {
+        if (
+          !this.$refs.content ||
+          !this.$refs.content.querySelector('table.table')
+        ) {
           await new Promise((r) => setTimeout(r, 500));
         } else {
           this.setContentWidth();

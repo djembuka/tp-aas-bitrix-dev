@@ -119,12 +119,14 @@ this.BX = this.BX || {};
         if (this.resizeTimeoutId) {
           clearInterval(this.resizeTimeoutId);
         }
-        this.resizeTimeoutId = setTimeout(function () {
-          _this3.$refs.content.style.width = "".concat(_this3.$refs.content.querySelector('table.table').clientWidth, "px");
-          setTimeout(function () {
-            _this3.init();
-          }, 0);
-        }, 200);
+        if (this.$refs.content && this.$refs.content.querySelector('table.table')) {
+          this.resizeTimeoutId = setTimeout(function () {
+            _this3.$refs.content.style.width = "".concat(_this3.$refs.content.querySelector('table.table').clientWidth, "px");
+            setTimeout(function () {
+              _this3.init();
+            }, 0);
+          }, 200);
+        }
       },
       initContentWidth: function initContentWidth() {
         var _this4 = this;
@@ -132,7 +134,7 @@ this.BX = this.BX || {};
           return _regeneratorRuntime().wrap(function _callee$(_context) {
             while (1) switch (_context.prev = _context.next) {
               case 0:
-                if (_this4.$refs.content.querySelector('table.table')) {
+                if (!(!_this4.$refs.content || !_this4.$refs.content.querySelector('table.table'))) {
                   _context.next = 5;
                   break;
                 }
