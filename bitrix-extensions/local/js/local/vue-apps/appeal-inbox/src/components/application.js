@@ -407,16 +407,6 @@ export const Application = {
             null,
             this.increaseAppealsCounter()
           );
-
-          this.runDefaultSort({
-            mode: 'class',
-            signedParameters: this.signedParameters,
-            data: {
-              userid: this.userid,
-              sessid: this.sessid,
-              profileid: this.defaultProfile.id,
-            },
-          });
         }
       );
     },

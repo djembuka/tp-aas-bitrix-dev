@@ -180,7 +180,7 @@ export const tableStore = defineStore('table', {
       );
 
       function resultFn(state, result) {
-        state.sort = result.data;
+        state.setSort(result.data);
         if (callback) {
           callback();
         }
@@ -212,11 +212,17 @@ export const tableStore = defineStore('table', {
       );
 
       function resultFn(state, result) {
-        state.sort = result.data;
+        state.setSort({
+          columnSort: data.data.columnSort,
+          sortType: data.data.sortType,
+        });
         if (callback) {
           callback();
         }
       }
+    },
+    setSort(sort) {
+      this.sort = sort;
     },
   },
 });

@@ -122,7 +122,7 @@
           }
         });
         function resultFn(state, data) {
-          state.sort = data;
+          state.setSort(data);
           if (callback) {
             callback();
           }
@@ -144,12 +144,15 @@
             });
           }
         });
-        function resultFn(state, data) {
-          state.sort = data;
+        function resultFn(state, result) {
+          state.setSort(data);
           if (callback) {
             callback();
           }
         }
+      },
+      setSort: function setSort(sort) {
+        this.sort = sort;
       }
     }
   });
@@ -358,12 +361,8 @@
             startIndex: _this.items.startIndex || 0,
             maxCountPerRequest: _this.maxCountPerRequest,
             filters: [],
-            columnSort: 1,
+            columnSort: column.id,
             sortType: 'asc'
-          });
-          _this.runDefaultSort({
-            signedParameters: _this.signedParameters,
-            sessionid: _this.sessionid
           });
         });
       },

@@ -119,14 +119,14 @@ this.BX = this.BX || {};
         if (this.resizeTimeoutId) {
           clearInterval(this.resizeTimeoutId);
         }
-        if (this.$refs.content && this.$refs.content.querySelector('table.table')) {
-          this.resizeTimeoutId = setTimeout(function () {
+        this.resizeTimeoutId = setTimeout(function () {
+          if (_this3.$refs.content && _this3.$refs.content.querySelector('table.table')) {
             _this3.$refs.content.style.width = "".concat(_this3.$refs.content.querySelector('table.table').clientWidth, "px");
             setTimeout(function () {
               _this3.init();
             }, 0);
-          }, 200);
-        }
+          }
+        }, 200);
       },
       initContentWidth: function initContentWidth() {
         var _this4 = this;

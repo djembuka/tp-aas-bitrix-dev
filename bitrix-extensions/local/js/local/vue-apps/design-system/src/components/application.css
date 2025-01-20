@@ -1,4 +1,12 @@
-.vue-ft-table-bottom {
-  display: flex;
-  justify-content: space-between;
+.twpx-dsign-system-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.twpx-dsign-system-block pre {
+  font-size: 12px;
+  background-color: var(--twpx-form-control-background);
+  border-radius: 16px;
+  padding: 12px;
 }

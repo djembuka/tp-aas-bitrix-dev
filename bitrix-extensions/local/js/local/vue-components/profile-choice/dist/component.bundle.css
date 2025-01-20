@@ -408,6 +408,7 @@
 .twpx-scroll-menu.twpx-scroll-menu--no-left .twpx-scroll-menu-arrow-right,
 .twpx-scroll-menu.twpx-scroll-menu--no-right .twpx-scroll-menu-arrow-left {
   opacity: 0 !important;
+  pointer-events: none;
 }
 @media (max-width: 767px) {
   .twpx-scroll-menu-wrapper {

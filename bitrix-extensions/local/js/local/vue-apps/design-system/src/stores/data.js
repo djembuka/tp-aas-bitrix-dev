@@ -48,7 +48,7 @@ export const dataStore = defineStore('data', {
         label: 'ORNZ',
         value: '',
         count: 3,
-        action: 'twinpx:ornz-hint',
+        action: '/markup/vue/design-system/hints.json',
         required: false,
         disabled: false,
       },
@@ -212,6 +212,14 @@ export const dataStore = defineStore('data', {
         //   commit('changeColorValue', { control, value });
         //   break;
       }
+    },
+    async runHints(control, action) {
+      const response = await fetch(action);
+      const result = await response.json();
+      this.setHints(control, result);
+    },
+    setHints(control, value) {
+      control.hints = value;
     },
   },
 });

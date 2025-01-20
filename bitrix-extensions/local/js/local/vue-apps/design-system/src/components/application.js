@@ -16,9 +16,14 @@ export const Application = {
 
   template: `
     <div>
-      <div v-for="control in controls" :key="control.id">
-        <h3>{{ control.property }} {{ control.type }}</h3>
-        <ControlComponent :control="control" @input="input" />
+      <div class="twpx-dsign-system-block" v-for="control in controls" :key="control.id">
+        <div>
+          <h3>{{ control.property }} {{ control.type }}</h3>
+          <ControlComponent :control="control" @input="input" @hints="hints" />
+        </div>
+        <pre>
+          {{ control }}
+        </pre>
       </div>
     </div>
 	`,
@@ -26,13 +31,20 @@ export const Application = {
     ...mapState(dataStore, ['controls']),
   },
   methods: {
-    ...mapActions(dataStore, ['changeControlValue']),
+    ...mapActions(dataStore, ['changeControlValue', 'runHints', 'setHints']),
     input({ control, value, checked }) {
       this.changeControlValue({
         control,
         value,
         checked,
       });
+    },
+    hints({ control, type, action, value }) {
+      if (type === 'get') {
+        this.runHints(control, action);
+      } else if (type === 'set') {
+        this.setHints(control, value);
+      }
     },
   },
 };

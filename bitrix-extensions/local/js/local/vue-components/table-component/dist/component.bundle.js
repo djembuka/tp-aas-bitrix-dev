@@ -34,7 +34,7 @@ this.BX = this.BX || {};
           if (!this.sortable) {
             return '';
           }
-          return this.sort.columnSort === td.id ? this.sort.sortType === 1 ? 'asc' : 'desc' : '';
+          return this.sort.columnSort === td.id ? this.sort.sortType.toLowerCase() : '';
         }
       }
     }

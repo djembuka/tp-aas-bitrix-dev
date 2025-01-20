@@ -72,9 +72,7 @@ export const TableComponent = {
         }
 
         return this.sort.columnSort === td.id
-          ? this.sort.sortType === 1
-            ? 'asc'
-            : 'desc'
+          ? this.sort.sortType.toLowerCase()
           : '';
       }
     },

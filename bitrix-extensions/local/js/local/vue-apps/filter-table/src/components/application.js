@@ -107,12 +107,8 @@ export const Application = {
             startIndex: this.items.startIndex || 0,
             maxCountPerRequest: this.maxCountPerRequest,
             filters: [],
-            columnSort: 1,
+            columnSort: column.id,
             sortType: 'asc',
-          });
-          this.runDefaultSort({
-            signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
           });
         }
       );
