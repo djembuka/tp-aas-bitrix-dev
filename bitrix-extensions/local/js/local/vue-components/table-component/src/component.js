@@ -57,10 +57,10 @@ export const TableComponent = {
       let target = item.target;
       if (!url) return;
 
-      if (target === '_self') {
-        window.location.href = url;
-      } else if (target === '_blank') {
+      if (target === '_blank') {
         window.open(url, 'new');
+      } else {
+        window.location.href = url;
       }
     },
     className({ tr, td }) {

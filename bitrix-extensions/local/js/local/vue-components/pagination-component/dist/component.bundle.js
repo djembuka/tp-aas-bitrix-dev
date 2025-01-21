@@ -5,7 +5,7 @@ this.BX = this.BX || {};
 
   var PaginationComponent = {
     // language=Vue
-    template: "\n    <div class=\"vue-pagination\" v-if=\"pagesArr.length\">\n      <div v-for=\"item in pagesArr\">\n        <a class=\"vue-pagination-page\" href=\"\" v-if=\"item.count && item.type === 'page'\" @click.prevent=\"$emit('clickPage', {count: item.count})\">{{ item.count }}</a>\n        <span class=\"vue-pagination-active\" v-else-if=\"item.count && item.type === 'active'\">{{ item.count }}</span>\n        <a class=\"vue-pagination-page\" href=\"\" v-else-if=\"item.count && item.type === 'ellipsis'\" @click.prevent=\"$emit('clickPage', {count: item.count})\">...</a>\n        <a class=\"vue-pagination-arrow\" href=\"\" v-else-if=\"item.count && item.type === 'prev'\" @click.prevent=\"$emit('clickPage', {count: item.count})\">\u041F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0430\u044F</a>\n        <a class=\"vue-pagination-arrow\" href=\"\" v-else-if=\"item.count && item.type === 'next'\" @click.prevent=\"$emit('clickPage', {count: item.count})\">\u0421\u043B\u0435\u0434\u0443\u044E\u0449\u0430\u044F</a>\n      </div>\n    </div>\n  ",
+    template: "\n    <div class=\"vue-pagination\" v-if=\"pagesArr.length\">\n      <div v-for=\"item in pagesArr\">\n        <a class=\"vue-pagination-page\" href=\"\" v-if=\"item.count && item.type === 'page'\" @click.prevent=\"$emit('clickPage', {count: item.count})\">{{ item.count }}</a>\n        <span class=\"vue-pagination-active\" v-else-if=\"item.count && item.type === 'active'\">{{ item.count }}</span>\n        <a class=\"vue-pagination-page\" href=\"\" v-else-if=\"item.count && item.type === 'ellipsis'\" @click.prevent=\"$emit('clickPage', {count: item.count})\" :data-count=\"item.count\">...</a>\n        <a class=\"vue-pagination-arrow\" href=\"\" v-else-if=\"item.count && item.type === 'prev'\" @click.prevent=\"$emit('clickPage', {count: item.count})\">\u041F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0430\u044F</a>\n        <a class=\"vue-pagination-arrow\" href=\"\" v-else-if=\"item.count && item.type === 'next'\" @click.prevent=\"$emit('clickPage', {count: item.count})\">\u0421\u043B\u0435\u0434\u0443\u044E\u0449\u0430\u044F</a>\n      </div>\n    </div>\n  ",
     props: ['pagesNum', 'pageActive'],
     emits: ['clickPage'],
     computed: {
@@ -86,16 +86,17 @@ this.BX = this.BX || {};
             a.push(index);
           }
         });
+        console.log(a);
         if (a[0] !== undefined) {
           pagesArr.splice(a[0] + 1, 0, {
             type: 'ellipsis',
-            count: Math.round(pagesArr[a[0]].count + pagesArr[a[0] + 1].count - pagesArr[a[0]].count / 2)
+            count: Math.round(pagesArr[a[0]].count + (pagesArr[a[0] + 1].count - pagesArr[a[0]].count) / 2)
           });
         }
         if (a[1] !== undefined) {
           pagesArr.splice(a[1] + 2, 0, {
             type: 'ellipsis',
-            count: Math.round(pagesArr[a[1]].count + pagesArr[a[1] + 1].count - pagesArr[a[1]].count / 2)
+            count: Math.round(pagesArr[a[1] + 1].count + (pagesArr[a[1] + 2].count - pagesArr[a[1] + 1].count) / 2)
           });
         }
         //prev next

@@ -7,7 +7,7 @@ export const PaginationComponent = {
       <div v-for="item in pagesArr">
         <a class="vue-pagination-page" href="" v-if="item.count && item.type === 'page'" @click.prevent="$emit('clickPage', {count: item.count})">{{ item.count }}</a>
         <span class="vue-pagination-active" v-else-if="item.count && item.type === 'active'">{{ item.count }}</span>
-        <a class="vue-pagination-page" href="" v-else-if="item.count && item.type === 'ellipsis'" @click.prevent="$emit('clickPage', {count: item.count})">...</a>
+        <a class="vue-pagination-page" href="" v-else-if="item.count && item.type === 'ellipsis'" @click.prevent="$emit('clickPage', {count: item.count})" :data-count="item.count">...</a>
         <a class="vue-pagination-arrow" href="" v-else-if="item.count && item.type === 'prev'" @click.prevent="$emit('clickPage', {count: item.count})">Предыдущая</a>
         <a class="vue-pagination-arrow" href="" v-else-if="item.count && item.type === 'next'" @click.prevent="$emit('clickPage', {count: item.count})">Следующая</a>
       </div>
@@ -96,13 +96,13 @@ export const PaginationComponent = {
           a.push(index);
         }
       });
+      console.log(a);
       if (a[0] !== undefined) {
         pagesArr.splice(a[0] + 1, 0, {
           type: 'ellipsis',
           count: Math.round(
             pagesArr[a[0]].count +
-              pagesArr[a[0] + 1].count -
-              pagesArr[a[0]].count / 2
+              (pagesArr[a[0] + 1].count - pagesArr[a[0]].count) / 2
           ),
         });
       }
@@ -110,9 +110,8 @@ export const PaginationComponent = {
         pagesArr.splice(a[1] + 2, 0, {
           type: 'ellipsis',
           count: Math.round(
-            pagesArr[a[1]].count +
-              pagesArr[a[1] + 1].count -
-              pagesArr[a[1]].count / 2
+            pagesArr[a[1] + 1].count +
+              (pagesArr[a[1] + 2].count - pagesArr[a[1] + 1].count) / 2
           ),
         });
       }
