@@ -395,6 +395,7 @@
       runColumnsNames: function runColumnsNames(data, callback) {
         var _this = this;
         this.loadingCols = true;
+        this.loadingAppeals = true;
         var a = window.BX.ajax.runComponentAction(
           this.actions.columnsNames.component,
           this.actions.columnsNames.method,
@@ -1523,4 +1524,5 @@
   BX.AAS,
   BX.AAS,
   BX.Vue3.Pinia
-); //# sourceMappingURL=application.bundle.js.map
+);
+//# sourceMappingURL=application.bundle.js.map

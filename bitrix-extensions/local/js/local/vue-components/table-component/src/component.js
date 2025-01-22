@@ -1,7 +1,10 @@
 import './component.css';
 import './placeholder.css';
 
+import { MessageComponent } from 'local.vue-components.message-component';
+
 export const TableComponent = {
+  components: { MessageComponent },
   template: `
     <div v-if="loading" class="vue-tf-table-ph">
       <div></div>
@@ -26,6 +29,7 @@ export const TableComponent = {
       <div></div>
       <div></div>
     </div>
+    <MessageComponent v-else-if="!items.items || !items.items.length" type="table-result" size="small" message="По выбранным фильтрам ничего не найдено. Измените параметры фильтра и попробуйте снова." :button="false" />
     <div v-else-if="columnsNames.length" class="vue-ft-table">
       <table class="table table-responsive" :class="{'table-sortable': sortable}">
         <colgroup>

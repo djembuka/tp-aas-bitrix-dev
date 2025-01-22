@@ -10,6 +10,7 @@ this.BX = this.BX || {};
     emits: ['clickPage'],
     computed: {
       pagesArr: function pagesArr() {
+        if (!this.pagesNum) return [];
         var pagesArr = [];
 
         //active
@@ -86,7 +87,6 @@ this.BX = this.BX || {};
             a.push(index);
           }
         });
-        console.log(a);
         if (a[0] !== undefined) {
           pagesArr.splice(a[0] + 1, 0, {
             type: 'ellipsis',

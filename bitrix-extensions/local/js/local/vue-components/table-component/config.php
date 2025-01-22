@@ -13,6 +13,7 @@ return [
 	],
 	'rel' => [
 		'main.polyfill.core',
+		'local.vue-components.message-component',
 	],
 	'skip_core' => true,
 ];

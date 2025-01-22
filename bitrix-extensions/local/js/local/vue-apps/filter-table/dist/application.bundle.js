@@ -56,6 +56,7 @@
       runColumnsNames: function runColumnsNames(data, callback) {
         var _this = this;
         this.loadingCols = true;
+        this.loadingItems = true;
         var a = window.BX.ajax.runComponentAction(this.actions.columnsNames, data);
         var state = this;
         a.then(function (result) {
