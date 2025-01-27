@@ -33,9 +33,13 @@ export const Application = {
 
   template: `
     <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />
+
     <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length)">
+
     <PredefinedFilters :predefined="predefined" :selected="selected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />
+
     <hr class="hr--lg">
+    
     <div>
       <ErrorMessage :error="error" @hideError="hideError" />
       <div v-if="filters">
@@ -99,9 +103,25 @@ export const Application = {
       if (!this.defaultProfile) {
         return undefined;
       }
-      return this.defaultProfile.excelExportSupport
-        ? this.appeals.resultCount
-        : undefined;
+
+      let filtersSelected = false;
+
+      if (this.filters) {
+        filtersSelected = this.filters.find((f) => {
+          if (f.property === 'select' && typeof f.value === 'object') {
+            return f.value.code;
+          } else {
+            return f.value;
+          }
+        });
+        console.log(filtersSelected);
+      }
+
+      if (this.defaultProfile.excelExportSupport && filtersSelected) {
+        return this.appeals.resultCount;
+      } else {
+        return undefined;
+      }
     },
   },
   methods: {
@@ -114,6 +134,7 @@ export const Application = {
     ...mapActions(predefinedStore, [
       'runPredefinedFilters',
       'setPredefinedActive',
+      'runExportFile',
     ]),
     clickProfile({ id }) {
       this.setDefaultProfile({ id });
@@ -342,7 +363,7 @@ export const Application = {
         });
     },
     clickSelected() {
-      console.log('clickSelected');
+      this.runExportFile();
     },
     ...mapActions(profileStore, ['hideErrorProfile']),
     ...mapActions(tableStore, [

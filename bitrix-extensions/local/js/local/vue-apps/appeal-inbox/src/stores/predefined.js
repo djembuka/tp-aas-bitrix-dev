@@ -66,5 +66,46 @@ export const predefinedStore = defineStore('predefined', {
         }
       }
     },
+    runExportFile(data, callback) {
+      console.log('runExportFile');
+
+      let a = window.BX.ajax.runExportFile(
+        this.actions.exportFile.component,
+        this.actions.exportFile.method,
+        data
+      );
+      let state = this;
+
+      return a.then(
+        (result) => {
+          this.loadingSelected = false;
+          resultFn(state, result.data);
+
+          return result;
+        },
+        (error) => {
+          this.loadingSelected = false;
+          if (
+            window.twinpx &&
+            window.twinpx.vue.markup &&
+            window.twinpx.vue['appeal-inbox']
+          ) {
+            resultFn(
+              state,
+              window.twinpx.vue['appeal-inbox'].predefinedFilters
+            );
+          } else {
+            this.showError({ error, method: 'predefinedFilters' });
+          }
+        }
+      );
+
+      function resultFn(state, data) {
+        state.predefined = data;
+        if (callback) {
+          callback();
+        }
+      }
+    },
   },
 });
