@@ -48,6 +48,10 @@ export class AppealInbox {
             component: 'twinpx:journal.vue',
             method: 'predefinedFilters',
           },
+          exportFile: {
+            component: 'twinpx:journal.vue',
+            method: 'exportFile',
+          },
         };
 
         filterStore().filterCols = ['1', '2', '2', '2'];

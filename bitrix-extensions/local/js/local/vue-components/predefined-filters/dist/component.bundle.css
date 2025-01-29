@@ -71,6 +71,47 @@
   width: auto;
   cursor: pointer;
 }
+.vue-predefined-filters__item--selected-loading {
+  position: relative;
+  min-height: 70px;
+}
+.vue-predefined-filters__item--selected-loading:after {
+  content: '';
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  top: calc(50% - 20px);
+  right: calc(50% - 20px);
+  -webkit-animation: vue-predefined-filters-selected-loading 1.3s infinite
+    linear;
+  animation: vue-predefined-filters-selected-loading 1.3s infinite linear;
+  border: 4px solid #245a28;
+  border-radius: 50%;
+  border-right-color: transparent;
+}
+.vue-predefined-filters__item--selected-loading * {
+  visibility: hidden;
+}
+
+@-webkit-keyframes vue-predefined-filters-selected-loading {
+  0% {
+    -webkit-transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes vue-predefined-filters-selected-loading {
+  0% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
 .vue-predefined-filters__item.vue-predefined-filters__item--active {
   background-color: #8393aa;
   color: #fff;

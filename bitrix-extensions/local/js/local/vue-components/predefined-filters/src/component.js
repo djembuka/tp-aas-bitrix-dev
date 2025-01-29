@@ -15,8 +15,12 @@ export const PredefinedFilters = {
       default: true,
     },
     selected: {
-      type: Boolean,
+      type: [Number, Boolean],
       default: false,
+    },
+    loadingSelected: {
+      type: Boolean,
+      default: true,
     },
   },
   // language=Vue
@@ -26,7 +30,7 @@ export const PredefinedFilters = {
       <div></div>
       <div></div>
     </div>
-    <div v-else-if="predefined && predefined.fields && predefined.fields.length">
+    <div v-else-if="(predefined && predefined.fields && predefined.fields.length) || selected !== false">
       <h3 class="mt-0" v-if="predefined.predefinedFiltersTitle">{{ predefined.predefinedFiltersTitle }}</h3>
       <div class="vue-predefined-filters">
       
@@ -40,12 +44,12 @@ export const PredefinedFilters = {
           </div>
         </div>
         
-        <div class="vue-predefined-filters__item vue-predefined-filters__item--selected"
-          v-if="selected"
+        <div class="vue-predefined-filters__item vue-predefined-filters__item--selected" :class="{'vue-predefined-filters__item--selected-loading' :loadingSelected}"
+          v-if="selected !== false"
           @click="clickSelected">
           <div class="vue-predefined-filters__item__data">
             <i>Выбрано</i>
-            <b>{{ selected }}</b>
+            <b>{{ typeof selected === 'number' ? selected : '&nbsp;' }}</b>
           </div>
           <div class="vue-predefined-filters__item__icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="23.177" height="32" viewBox="0 0 23.177 32">
@@ -72,8 +76,12 @@ export const PredefinedFilters = {
     click(field) {
       this.$emit('clickPredefined', { field });
     },
-    clickSelected() {
-      this.$emit('clickSelected');
+    clickSelected(e) {
+      if (typeof this.selected === 'number' && this.selected > 0) {
+        this.$emit('clickSelected');
+      } else {
+        e.preventDefault();
+      }
     },
   },
 };

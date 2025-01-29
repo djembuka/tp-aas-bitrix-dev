@@ -34,9 +34,9 @@ export const Application = {
   template: `
     <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />
 
-    <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length)">
+    <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || selected !== false">
 
-    <PredefinedFilters :predefined="predefined" :selected="selected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />
+    <PredefinedFilters :predefined="predefined" :selected="selected" :loadingSelected="loadingSelected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />
 
     <hr class="hr--lg">
     
@@ -71,6 +71,7 @@ export const Application = {
       'predefined',
       'predefinedActive',
       'loadingPredefined',
+      'loadingSelected',
     ]),
     ...mapState(tableStore, [
       'loadingTable',
@@ -101,7 +102,7 @@ export const Application = {
     },
     selected() {
       if (!this.defaultProfile) {
-        return undefined;
+        return false;
       }
 
       let filtersSelected = false;
@@ -114,13 +115,16 @@ export const Application = {
             return f.value;
           }
         });
-        console.log(filtersSelected);
       }
 
       if (this.defaultProfile.excelExportSupport && filtersSelected) {
-        return this.appeals.resultCount;
+        if (!this.loadingTable) {
+          return this.appeals.resultCount;
+        } else {
+          return this.loadingTable;
+        }
       } else {
-        return undefined;
+        return false;
       }
     },
   },
@@ -363,7 +367,23 @@ export const Application = {
         });
     },
     clickSelected() {
-      this.runExportFile();
+      const predefinedFilter = this.predefinedActive
+        ? this.predefinedActive.id
+        : undefined;
+
+      this.runExportFile({
+        mode: 'class',
+        signedParameters: this.signedParameters,
+        data: {
+          userid: this.userid,
+          sessid: this.sessid,
+          profileid: this.defaultProfile.id,
+          predefinedFilter,
+          filters: this.filters,
+          columnSort: this.sort.columnSort,
+          sortType: this.sort.sortType,
+        },
+      });
     },
     ...mapActions(profileStore, ['hideErrorProfile']),
     ...mapActions(tableStore, [

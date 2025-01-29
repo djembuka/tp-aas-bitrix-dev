@@ -7,6 +7,7 @@ export const predefinedStore = defineStore('predefined', {
     },
     predefined: [],
     loadingPredefined: true,
+    loadingSelected: false,
   }),
   getters: {
     predefinedActive() {
@@ -67,9 +68,10 @@ export const predefinedStore = defineStore('predefined', {
       }
     },
     runExportFile(data, callback) {
-      console.log('runExportFile');
+      console.log(data);
+      this.loadingSelected = true;
 
-      let a = window.BX.ajax.runExportFile(
+      let a = window.BX.ajax.runComponentAction(
         this.actions.exportFile.component,
         this.actions.exportFile.method,
         data
@@ -100,8 +102,8 @@ export const predefinedStore = defineStore('predefined', {
         }
       );
 
-      function resultFn(state, data) {
-        state.predefined = data;
+      function resultFn(_, data) {
+        window.open(data.link);
         if (callback) {
           callback();
         }

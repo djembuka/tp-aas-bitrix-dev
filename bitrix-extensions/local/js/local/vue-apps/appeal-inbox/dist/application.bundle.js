@@ -229,6 +229,7 @@
         },
         predefined: [],
         loadingPredefined: true,
+        loadingSelected: false,
       };
     },
     getters: {
@@ -290,6 +291,48 @@
         );
         function resultFn(state, data) {
           state.predefined = data;
+          if (callback) {
+            callback();
+          }
+        }
+      },
+      runExportFile: function runExportFile(data, callback) {
+        var _this2 = this;
+        console.log(data);
+        this.loadingSelected = true;
+        var a = window.BX.ajax.runComponentAction(
+          this.actions.exportFile.component,
+          this.actions.exportFile.method,
+          data
+        );
+        var state = this;
+        return a.then(
+          function (result) {
+            _this2.loadingSelected = false;
+            resultFn(state, result.data);
+            return result;
+          },
+          function (error) {
+            _this2.loadingSelected = false;
+            if (
+              window.twinpx &&
+              window.twinpx.vue.markup &&
+              window.twinpx.vue['appeal-inbox']
+            ) {
+              resultFn(
+                state,
+                window.twinpx.vue['appeal-inbox'].predefinedFilters
+              );
+            } else {
+              _this2.showError({
+                error: error,
+                method: 'predefinedFilters',
+              });
+            }
+          }
+        );
+        function resultFn(_, data) {
+          window.open(data.link);
           if (callback) {
             callback();
           }
@@ -833,7 +876,7 @@
     // language=Vue
 
     template:
-      '\n    <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />\n    <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length)">\n    <PredefinedFilters :predefined="predefined" :selected="selected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />\n    <hr class="hr--lg">\n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <div v-if="filters">\n        <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n      </div>\n      <hr>\n      <div v-if="appeals">\n        <StickyScroll>\n          <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n        </StickyScroll> \n        <hr>\n        <div class="vue-ft-table-bottom">\n          <div class="vue-ft-table-all" v-if="appeals.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ appeals.resultCount }}</div>\n          <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n        </div>\n      </div>\n    </div>\n\t',
+      '\n    <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />\n\n    <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || selected !== false">\n\n    <PredefinedFilters :predefined="predefined" :selected="selected" :loadingSelected="loadingSelected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />\n\n    <hr class="hr--lg">\n    \n    <div>\n      <ErrorMessage :error="error" @hideError="hideError" />\n      <div v-if="filters">\n        <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n      </div>\n      <hr>\n      <div v-if="appeals">\n        <StickyScroll>\n          <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n        </StickyScroll> \n        <hr>\n        <div class="vue-ft-table-bottom">\n          <div class="vue-ft-table-all" v-if="appeals.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ appeals.resultCount }}</div>\n          <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n        </div>\n      </div>\n    </div>\n\t',
     computed: _objectSpread(
       _objectSpread(
         _objectSpread(
@@ -859,6 +902,7 @@
               'predefined',
               'predefinedActive',
               'loadingPredefined',
+              'loadingSelected',
             ])
           ),
           ui_vue3_pinia.mapState(tableStore, [
@@ -894,11 +938,30 @@
         },
         selected: function selected() {
           if (!this.defaultProfile) {
-            return undefined;
+            return false;
           }
-          return this.defaultProfile.excelExportSupport
-            ? this.appeals.resultCount
-            : undefined;
+          var filtersSelected = false;
+          if (this.filters) {
+            filtersSelected = this.filters.find(function (f) {
+              if (
+                f.property === 'select' &&
+                babelHelpers['typeof'](f.value) === 'object'
+              ) {
+                return f.value.code;
+              } else {
+                return f.value;
+              }
+            });
+          }
+          if (this.defaultProfile.excelExportSupport && filtersSelected) {
+            if (!this.loadingTable) {
+              return this.appeals.resultCount;
+            } else {
+              return this.loadingTable;
+            }
+          } else {
+            return false;
+          }
         },
       }
     ),
@@ -919,6 +982,7 @@
               ui_vue3_pinia.mapActions(predefinedStore, [
                 'runPredefinedFilters',
                 'setPredefinedActive',
+                'runExportFile',
               ])
             ),
             {},
@@ -1168,7 +1232,22 @@
                   });
               },
               clickSelected: function clickSelected() {
-                console.log('clickSelected');
+                var predefinedFilter = this.predefinedActive
+                  ? this.predefinedActive.id
+                  : undefined;
+                this.runExportFile({
+                  mode: 'class',
+                  signedParameters: this.signedParameters,
+                  data: {
+                    userid: this.userid,
+                    sessid: this.sessid,
+                    profileid: this.defaultProfile.id,
+                    predefinedFilter: predefinedFilter,
+                    filters: this.filters,
+                    columnSort: this.sort.columnSort,
+                    sortType: this.sort.sortType,
+                  },
+                });
               },
             },
             ui_vue3_pinia.mapActions(profileStore, ['hideErrorProfile'])
@@ -1460,6 +1539,10 @@
                     component: 'twinpx:journal.vue',
                     method: 'predefinedFilters',
                   },
+                  exportFile: {
+                    component: 'twinpx:journal.vue',
+                    method: 'exportFile',
+                  },
                 };
                 filterStore().filterCols = ['1', '2', '2', '2'];
                 filterStore().actions = {
@@ -1524,5 +1607,4 @@
   BX.AAS,
   BX.AAS,
   BX.Vue3.Pinia
-);
-//# sourceMappingURL=application.bundle.js.map
+); //# sourceMappingURL=application.bundle.js.map
