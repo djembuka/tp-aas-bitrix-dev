@@ -1,7 +1,5 @@
 import './application.css';
 
-import { ControlChoice } from 'local.vue-components.control-choice';
-
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { formStore } from '../stores/form';
 
@@ -16,7 +14,6 @@ export const Application = {
     return {};
   },
   components: {
-    ControlChoice,
     HiddenFields,
     DocsBlock,
     DataToChange,
@@ -40,7 +37,7 @@ export const Application = {
       </div>
 
       <div v-if="confirmDocsBlock && confirmDocsBlock.items && confirmDocsBlock.items.length">
-        <ConfirmDocsBlock :confirmDocsBlock="confirmDocsBlock" @timeoutAutosave="timeoutAutosave" @autosave="autosave" />
+        <ConfirmDocsBlock :confirmDocsBlock="confirmDocsBlock" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"  @timeoutAutosave="timeoutAutosave" @autosave="autosave" />
         <hr class="hr--lg">
       </div>
 

@@ -15,7 +15,7 @@ export const Application = {
   // language=Vue
 
   template: `
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 32px;">
       <form action="">
         <div v-for="control in controls" :key="control.id">
           <ControlChoice :control="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlChoice>
@@ -23,7 +23,7 @@ export const Application = {
         </div>
 
       </form>
-      <pre style="font-size: 9pt;">{{controls}}</pre>
+      <pre style="font-size: 9pt; height: 700px; overflow: auto;">{{controls}}</pre>
     </div>
 	`,
   computed: {

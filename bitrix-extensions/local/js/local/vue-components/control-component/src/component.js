@@ -60,7 +60,7 @@ export const ControlComponent = {
       @hints="hintsAddControl"
     ></component>
 	`,
-  emits: ['input', 'focus', 'blur', 'hints', 'upload'],
+  emits: ['input', 'focus', 'blur', 'hints'],
   methods: {
     componentName() {
       return `control-${this.componentType}`;

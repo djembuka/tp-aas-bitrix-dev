@@ -28,7 +28,17 @@ export const DataToChange = {
     </div>
   </div>
   `,
-  emits: ['autosave', 'timeoutAutosave'],
+  emits: [
+    'autosave',
+    'timeoutAutosave',
+    'create',
+    'add',
+    'remove',
+    'input',
+    'focus',
+    'blur',
+    'enter',
+  ],
   methods: {
     autosave() {
       this.$emit('autosave');

@@ -61,7 +61,7 @@ export const formStore = defineStore('form', {
     changeFileValue({ control, value }) {
       control.value = value;
       if (control.type === 'upload') {
-        this.uploadFile({ control, file: value });
+        this.uploadFile(control, value);
       }
     },
     changeControlValue({ control, value, checked }) {
@@ -128,8 +128,8 @@ export const formStore = defineStore('form', {
     },
 
     //file
-    async uploadFile({ control, file }) {
-      control.upload = control.upload || {};
+    async uploadFile(control, file) {
+      control.upload = {};
       let formData = new FormData();
 
       if (file === null) {

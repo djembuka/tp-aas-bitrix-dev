@@ -78,10 +78,7 @@
           value = _ref8.value;
         control.value = value;
         if (control.type === 'upload') {
-          this.uploadFile({
-            control: control,
-            file: value
-          });
+          this.uploadFile(control, value);
         }
       },
       changeControlValue: function changeControlValue(_ref9) {
@@ -148,14 +145,13 @@
         }
       },
       //file
-      uploadFile: function uploadFile(_ref10) {
+      uploadFile: function uploadFile(control, file) {
         return babelHelpers.asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-          var control, file, formData, xhr, first;
+          var formData, xhr, first;
           return _regeneratorRuntime().wrap(function _callee$(_context) {
             while (1) switch (_context.prev = _context.next) {
               case 0:
-                control = _ref10.control, file = _ref10.file;
-                control.upload = control.upload || {};
+                control.upload = {};
                 formData = new FormData();
                 if (file === null) {
                   //delete
@@ -178,9 +174,9 @@
 
                 //progress
                 first = true;
-                xhr.upload.addEventListener('progress', function (_ref11) {
-                  var loaded = _ref11.loaded,
-                    total = _ref11.total;
+                xhr.upload.addEventListener('progress', function (_ref10) {
+                  var loaded = _ref10.loaded,
+                    total = _ref10.total;
                   control.upload.progress = {
                     first: first,
                     loaded: loaded,
@@ -213,7 +209,7 @@
                   }
                 };
                 xhr.send(formData);
-              case 17:
+              case 16:
               case "end":
                 return _context.stop();
             }
@@ -234,7 +230,7 @@
     },
     // language=Vue
 
-    template: "\n    <div style=\"display: grid; grid-template-columns: 1fr 1fr; gap: 32px;\">\n      <form action=\"\">\n        <div v-for=\"control in controls\" :key=\"control.id\">\n          <ControlChoice :control=\"control\" @create=\"createMulti\" @add=\"addMulti\" @remove=\"removeMulti\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"></ControlChoice>\n          <hr>\n        </div>\n\n      </form>\n      <pre style=\"font-size: 9pt;\">{{controls}}</pre>\n    </div>\n\t",
+    template: "\n    <div style=\"display: grid; grid-template-columns: 1fr 2fr; gap: 32px;\">\n      <form action=\"\">\n        <div v-for=\"control in controls\" :key=\"control.id\">\n          <ControlChoice :control=\"control\" @create=\"createMulti\" @add=\"addMulti\" @remove=\"removeMulti\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"></ControlChoice>\n          <hr>\n        </div>\n\n      </form>\n      <pre style=\"font-size: 9pt; height: 700px; overflow: auto;\">{{controls}}</pre>\n    </div>\n\t",
     computed: _objectSpread$1({}, ui_vue3_pinia.mapState(formStore, ['loadingControls', 'controls'])),
     methods: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapActions(formStore, ['runControls', 'changeControlValue', 'createMulti', 'addMulti', 'removeMulti', 'bitrixLogs', 'autosave', 'timeoutAutosave'])), {}, {
       input: function input(args) {

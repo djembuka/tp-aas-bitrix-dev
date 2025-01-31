@@ -99,10 +99,10 @@ export const ControlFileUpload = {
   emits: ['input', 'focus', 'blur', 'enter'],
   computed: {
     progress() {
-      return this.control.upload.progress;
+      return this.control.upload.progress || {};
     },
     response() {
-      return this.control.upload.response;
+      return this.control.upload.response || {};
     },
     readyState() {
       return this.control.upload.readyState;

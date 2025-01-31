@@ -33,10 +33,10 @@ this.BX = this.BX || {};
     emits: ['input', 'focus', 'blur', 'enter'],
     computed: {
       progress: function progress() {
-        return this.control.upload.progress;
+        return this.control.upload.progress || {};
       },
       response: function response() {
-        return this.control.upload.response;
+        return this.control.upload.response || {};
       },
       readyState: function readyState() {
         return this.control.upload.readyState;

@@ -2,7 +2,7 @@
   padding-left: 38px;
   position: relative;
 }
-.twpx-form-control-sub-item svg {
+.twpx-form-control-sub-item > svg {
   position: absolute;
   width: 24px;
   height: 24px;

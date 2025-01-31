@@ -34,7 +34,7 @@ this.BX = this.BX || {};
     props: ['control'],
     // language=Vue
     template: "\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n      @focus=\"focusAddControl\"\n      @blur=\"blurAddControl\"\n      @enter=\"enterAddControl\"\n      @hints=\"hintsAddControl\"\n    ></component>\n\t",
-    emits: ['input', 'focus', 'blur', 'hints', 'upload'],
+    emits: ['input', 'focus', 'blur', 'hints'],
     methods: {
       componentName: function componentName() {
         return "control-".concat(this.componentType);

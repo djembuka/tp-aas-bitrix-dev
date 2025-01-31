@@ -167,28 +167,56 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 			},
 			"confirmDocsBlock": {
 				"title": "Документы заявления",
-				"text": "",
+				"text": "Для принятия решения",
 				"items": [
 					{
 						"id": 0,
-						"checked": true,
 						"title": "Пакет документов 1",
 						"text": "<ul><li>Согласие кандидата на обработку персональных данных</li><li>Если документ подписан отсоединённой электронной подписью, добавьте ее.</li><li>Согласие кандидата на избрание, выдвижение</li><li>Если документ подписан отсоединённой электронной подписью, добавьте ее.</li><li>Резюме кандидата, включая информацию об участии в деятельности СРО ААС, работе общественных, профессиональных и/или иных организаций (представляется в произвольной форме)</li></ul>",
-						"name": "FIELDS_ATTACHE",
-						"value": 0,
 						"controls": [
+              {
+                "property": 'file',
+                "type": 'upload',
+                "id": 'id_upload_logo',
+                "name": 'FILE_LOGO',
+                "label": 'Файл с подписью',
+                "value": null,
+                "upload": {},
+                "required": true,
+                "disabled": false,
+                "accept": ['svg', 'png', 'jpg', 'jpeg'],
+                "image": true,
+                "maxsize": 10000000,
+                "multi": 3,
+                "sub": [
+                  {
+                    "property": 'file',
+                    "type": 'upload',
+                    "id": 'id01',
+                    "name": 'SIG',
+                    "label": 'Отсоединённая электронная подпись',
+                    "value": null,
+                    "multi": 3,
+                    "upload": {},
+                    "required": false,
+                    "disabled": false,
+                    "accept": ['svg', 'png', 'jpg', 'jpeg'],
+                    "maxsize": 10000000,
+                    "multi": 3,
+                  },
+                ],
+              },
 							{
-								"property": 109,
-								"word": "FILES[0]",
+								"property": 'file',
+								"type": "upload",
+								"name": "FILES[0]",
 								"label": "Согласие кандидата на обработку ПД *",
-								"type": "file",
-								"multy": false,
-								"maxSize": 10240000,
+								"multi": false,
+								"maxsize": 10240000,
 								"required": true,
-								"filename": "",
-								"value": "",
-								"default": "<a href>Выберите файл</a> (pdf, jpg, jpeg, png, doc, docx, до 10МБ)",
-								"ext": [
+								"value": null,
+                "upload": {},
+								"accept": [
 									"pdf",
 									"jpg",
 									"jpeg",
@@ -196,96 +224,7 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 									"doc",
 									"docx"
 								],
-								"completeBlock": {
-									"comment": "Согласие кандидата на обработку персональных данных"
-								}
 							},
-							{
-								"property": 87,
-								"word": "FILES[0]",
-								"label": "Отсоединённая электронная подпись",
-								"type": "file",
-								"multy": false,
-								"maxSize": 10240000,
-								"required": false,
-								"filename": "",
-								"value": "",
-								"default": "<a href>Выберите файл</a> (sig, sgn, p7s, до 10МБ)",
-								"ext": [
-									"sig",
-									"sgn",
-									"p7s"
-								],
-								"completeBlock": {
-									"comment": "Если документ подписан отсоединённой электронной подписью, добавьте ее."
-								}
-							},
-							{
-								"property": 108,
-								"word": "FILES[0]",
-								"label": "Согласие кандидата на избрание, выдвижение *",
-								"type": "file",
-								"multy": false,
-								"maxSize": 10240000,
-								"required": true,
-								"filename": "",
-								"value": "",
-								"default": "<a href>Выберите файл</a> (pdf, jpg, jpeg, png, doc, docx, до 10МБ)",
-								"ext": [
-									"pdf",
-									"jpg",
-									"jpeg",
-									"png",
-									"doc",
-									"docx"
-								],
-								"completeBlock": {
-									"comment": "Согласие кандидата на избрание, выдвижение"
-								}
-							},
-							{
-								"property": 90,
-								"word": "FILES[0]",
-								"label": "Отсоединённая электронная подпись",
-								"type": "file",
-								"multy": false,
-								"maxSize": 10240000,
-								"required": false,
-								"filename": "",
-								"value": "",
-								"default": "<a href>Выберите файл</a> (sig, sgn, p7s, до 10МБ)",
-								"ext": [
-									"sig",
-									"sgn",
-									"p7s"
-								],
-								"completeBlock": {
-									"comment": "Если документ подписан отсоединённой электронной подписью, добавьте ее."
-								}
-							},
-							{
-								"property": 110,
-								"word": "FILES[0]",
-								"label": "Резюме кандидата *",
-								"type": "file",
-								"multy": false,
-								"maxSize": 10240000,
-								"required": true,
-								"filename": "",
-								"value": "",
-								"default": "<a href>Выберите файл</a> (pdf, jpg, jpeg, png, doc, docx, до 10МБ)",
-								"ext": [
-									"pdf",
-									"jpg",
-									"jpeg",
-									"png",
-									"doc",
-									"docx"
-								],
-								"completeBlock": {
-									"comment": "Резюме кандидата, включая информацию об участии в деятельности СРО ААС, работе общественных, профессиональных и/или иных организаций (представляется в произвольной форме)"
-								}
-							}
 						]
 					}
 				]
