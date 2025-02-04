@@ -196,7 +196,6 @@
       },
       runExportFile: function runExportFile(data, callback) {
         var _this2 = this;
-        console.log(data);
         this.loadingSelected = true;
         var a = window.BX.ajax.runComponentAction(this.actions.exportFile.component, this.actions.exportFile.method, data);
         var state = this;

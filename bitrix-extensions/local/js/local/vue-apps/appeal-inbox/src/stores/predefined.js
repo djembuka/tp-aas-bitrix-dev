@@ -68,7 +68,6 @@ export const predefinedStore = defineStore('predefined', {
       }
     },
     runExportFile(data, callback) {
-      console.log(data);
       this.loadingSelected = true;
 
       let a = window.BX.ajax.runComponentAction(

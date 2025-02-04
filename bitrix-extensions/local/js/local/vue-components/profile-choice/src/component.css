@@ -2,8 +2,8 @@
 }
 .vue-profile-choice__item {
   background-color: #f0f5fc;
-  border-radius: 8px;
-  padding: 0 16px;
+  border-radius: 7px;
+  padding: 0 14px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,14 +16,14 @@
 }
 .vue-profile-choice__item i {
   font-style: normal;
-  font-size: 0.75rem;
+  font-size: 14px;
   background-color: #5f7696;
   border-radius: 20px;
   color: #fff;
   height: 19px;
   display: flex;
   align-items: center;
-  padding: 0 8px;
+  padding: 0 7px;
   transition: opacity 0.3s ease;
   -webkit-transition: opacity 0.3s ease;
 }
