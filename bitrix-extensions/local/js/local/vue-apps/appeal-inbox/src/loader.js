@@ -54,7 +54,7 @@ export class AppealInbox {
           },
         };
 
-        filterStore().filterCols = ['1', '2', '2', '2'];
+        filterStore().filterCols = ['1', '1', '1', '1'];
         filterStore().actions = {
           filters: {
             component: 'twinpx:journal.vue',

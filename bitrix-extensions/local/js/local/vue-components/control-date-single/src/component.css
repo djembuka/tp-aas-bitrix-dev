@@ -11,6 +11,7 @@
   position: relative;
   margin-bottom: 16px;
   width: 100%;
+  z-index: 10;
 }
 .twpx-form-control--date.twpx-form-control--active .twpx-form-control__label {
   -webkit-transform: translateY(var(--twpx-form-control-active-translate));

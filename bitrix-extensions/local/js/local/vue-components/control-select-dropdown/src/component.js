@@ -6,6 +6,7 @@ export const ControlSelectDropdown = {
       id: Math.floor(Math.random() * 100000),
       optionsArray: [],
       opened: false,
+      animation: false,
       arrowIcon: `
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -25,6 +26,7 @@ export const ControlSelectDropdown = {
             <path
               d="M3.822,0a.57.57,0,0,0-.386.147L.16,3.157a.473.473,0,0,0,0,.709.581.581,0,0,0,.772,0l2.89-2.655,2.89,2.655a.581.581,0,0,0,.772,0,.473.473,0,0,0,0-.709L4.208.147A.57.57,0,0,0,3.822,0Z"
               transform="translate(4.855 5.23)"
+              fill="#003B78"
             />
           </g>
         </svg>`,
@@ -39,7 +41,10 @@ export const ControlSelectDropdown = {
         'twpx-form-control--active': active,
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,
+        'twpx-form-control--opened': opened,
+        'twpx-form-control--animation': animation,
       }"
+      @close="console.log('close')"
     >
       <img
         :src="disabled"
@@ -49,7 +54,6 @@ export const ControlSelectDropdown = {
       <div class="twpx-form-control__label">{{ control.label }}</div>
       <div
         class="twpx-form-control-select"
-        :class="{ 'twpx-form-control-select--dropdown': opened }"
         :data-id="id"
         id="id"
       >
@@ -57,7 +61,7 @@ export const ControlSelectDropdown = {
         <div class="twpx-form-control-select__arrow" v-html="arrowIcon"></div>
         <div
           class="twpx-form-control-select__content"
-          @click.prevent="openDropdown"
+          @click.prevent="openHideDropdown"
         >
           {{ text }}
         </div>
@@ -115,6 +119,9 @@ export const ControlSelectDropdown = {
         this.customOnChange();
       }
     },
+    openHideDropdown() {
+      this.opened ? this.hideDropdown() : this.openDropdown();
+    },
     openDropdown() {
       // if (window.twpxSelectManager) {
       //   Object.values(window.twpxSelectManager.selectObject).forEach(
@@ -123,17 +130,26 @@ export const ControlSelectDropdown = {
       //     }
       //   );
       // }
+
+      document
+        .querySelectorAll(
+          '.twpx-form-control--select.twpx-form-control--opened'
+        )
+        .forEach((select) => {
+          const close = new Event('close');
+          select.dispatchEvent(close);
+        });
+
       this.opened = true;
       this.$emit('focus');
     },
     hideDropdown() {
-      // if (this.selectDiv.classList.contains('twpx-select--dropdown')) {
-      //   this.selectDiv.classList.remove('twpx-select--dropdown');
-      //   this.selectDiv.classList.add('twpx-select--animate');
-      //   setTimeout(() => {
-      //     this.selectDiv.classList.remove('twpx-select--animate');
-      //   }, 200);
-      // }
+      if (this.opened) {
+        this.animation = true;
+        setTimeout(() => {
+          this.animation = false;
+        }, 300);
+      }
       this.opened = false;
       this.$emit('blur');
     },
