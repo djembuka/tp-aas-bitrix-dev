@@ -4,6 +4,7 @@ import './component.css';
 export const ControlDateSingle = {
   data() {
     return {
+      open: false,
       hint: this.control.hint_external,
       calendarIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="15.9" height="17.499" viewBox="0 0 15.9 17.499">
         <g transform="translate(0.75 0.75)">
@@ -29,6 +30,7 @@ export const ControlDateSingle = {
         'twpx-form-control--active': active,
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,
+        'twpx-form-control--open': open,
       }"
     >
       <img
@@ -40,6 +42,8 @@ export const ControlDateSingle = {
       <div class="twpx-form-control__label">{{ control.label }}</div>
       <ControlDatepicker
         v-model="date"
+        @open="onOpen"
+        @closed="onClosed"
         @date-update="update"
         locale="ru"
         ref="controlDate"
@@ -85,6 +89,12 @@ export const ControlDateSingle = {
     },
   },
   methods: {
+    onOpen() {
+      this.open = true;
+    },
+    onClosed() {
+      this.open = false;
+    },
     update(date) {
       this.date = this.formatDate(date);
       this.$refs.controlDate.closeMenu();

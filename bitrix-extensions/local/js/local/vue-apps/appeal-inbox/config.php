@@ -20,7 +20,7 @@ return [
 		'local.vue-components.table-component',
 		'local.vue-components.sticky-scroll',
 		'local.vue-components.pagination-component',
-		'local.vue-components.error-message',
+		'local.vue-components.message-component',
 		'ui.vue3.pinia',
 	],
 	'skip_core' => true,

@@ -164,8 +164,13 @@
   top: calc(48px + 3px);
   left: 0;
   width: 100%;
+  max-height: 300px;
+  overflow-y: auto;
+  overflow: scroll;
+  scrollbar-color: #eee #fff;
+  scrollbar-width: thin;
   border-radius: var(--twpx-form-control-border-radius);
-  overflow: hidden;
+  /* overflow: hidden; */
   box-shadow: 0px 5px 10px #0000000f;
   opacity: 0;
   -webkit-transition: all 0.2s linear;
@@ -189,6 +194,10 @@
 }
 .twpx-form-control-select__dropdown-item:hover {
   background-color: var(--twpx-form-control-background);
+}
+.twpx-form-control-select__dropdown-item--current {
+  background-color: #f0f5fc;
+  color: #5f7696;
 }
 /* .twpx-form-control-select.twpx-form-control-select--animate,
 .twpx-form-control-select.twpx-form-control-select--dropdown {

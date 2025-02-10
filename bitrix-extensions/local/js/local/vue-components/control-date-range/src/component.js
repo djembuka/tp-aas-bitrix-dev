@@ -4,6 +4,7 @@ import './component.css';
 export const ControlDateRange = {
   data() {
     return {
+      open: false,
       start: '',
       hint: this.control.hint_external,
       calendarIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="15.9" height="17.499" viewBox="0 0 15.9 17.499">
@@ -30,6 +31,7 @@ export const ControlDateRange = {
         'twpx-form-control--active': active,
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,
+        'twpx-form-control--open': open,
       }"
     >
       <img
@@ -41,6 +43,8 @@ export const ControlDateRange = {
       <div class="twpx-form-control__label">{{ control.label }}</div>
       <ControlDatepicker
         v-model="date"
+        @open="onOpen"
+        @closed="onClosed"
         @range-start="onRangeStart"
         @range-end="onRangeEnd"
         locale="ru"
@@ -98,6 +102,12 @@ export const ControlDateRange = {
     },
   },
   methods: {
+    onOpen() {
+      this.open = true;
+    },
+    onClosed() {
+      this.open = false;
+    },
     onRangeStart(start) {
       this.start = start;
     },

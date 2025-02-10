@@ -68,6 +68,7 @@ export const ControlSelectDropdown = {
         <div class="twpx-form-control-select__dropdown">
           <div
             class="twpx-form-control-select__dropdown-item"
+            :class="{'twpx-form-control-select__dropdown-item': true, 'twpx-form-control-select__dropdown-item--current': option.code === control.value}"
             v-for="(option, i) in control.options"
             :key="option.code"
             @click.prevent="clickItem(i)"

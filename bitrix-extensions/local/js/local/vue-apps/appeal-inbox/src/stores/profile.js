@@ -82,7 +82,7 @@ export const profileStore = defineStore('profile', {
     runProfiles(data, callback) {
       this.loadingProfiles = true;
       let a = window.BX.ajax.runComponentAction(
-        this.actions.profiles.component,
+        this.actions.profiles.component + '0',
         this.actions.profiles.method,
         data
       );
@@ -97,11 +97,11 @@ export const profileStore = defineStore('profile', {
         },
         (error) => {
           this.loadingProfiles = false;
-          this.showError({ error, method: 'profiles' });
+          // this.showError({ error, method: 'profiles' });
           if (
             window.twinpx &&
             window.twinpx.vue.markup &&
-            window.twinpx.vue['appeal-inbox']
+            window.twinpx.vue['appeal-inbox0']
           ) {
             resultFn(state, window.twinpx.vue['appeal-inbox'].profiles);
           } else {

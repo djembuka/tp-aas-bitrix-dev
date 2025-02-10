@@ -3,7 +3,7 @@ import './component.css';
 export const PaginationComponent = {
   // language=Vue
   template: `
-    <div class="vue-pagination" v-if="pagesArr.length">
+    <div class="vue-pagination" v-if="pagesArr.length > 1">
       <div v-for="item in pagesArr">
         <a class="vue-pagination-page" href="" v-if="item.count && item.type === 'page'" @click.prevent="$emit('clickPage', {count: item.count})">{{ item.count }}</a>
         <span class="vue-pagination-active" v-else-if="item.count && item.type === 'active'">{{ item.count }}</span>

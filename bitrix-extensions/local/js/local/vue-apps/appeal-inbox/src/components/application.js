@@ -7,7 +7,7 @@ import { FilterComponent } from 'local.vue-components.filter-component';
 import { TableComponent } from 'local.vue-components.table-component';
 import { StickyScroll } from 'local.vue-components.sticky-scroll';
 import { PaginationComponent } from 'local.vue-components.pagination-component';
-import { ErrorMessage } from 'local.vue-components.error-message';
+import { MessageComponent } from 'local.vue-components.message-component';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data';
@@ -27,11 +27,13 @@ export const Application = {
     TableComponent,
     StickyScroll,
     PaginationComponent,
-    ErrorMessage,
+    MessageComponent,
   },
   // language=Vue
 
   template: `
+    <MessageComponent v-if="error" type="error" message="По выбранным фильтрам ничего не найдено. Измените параметры фильтра и попробуйте снова." :button="false" />
+
     <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />
 
     <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || selected !== false">
@@ -41,12 +43,11 @@ export const Application = {
     <hr class="hr--lg">
     
     <div>
-      <ErrorMessage :error="error" @hideError="hideError" />
       <div v-if="filters">
         <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />
       </div>
       <hr>
-      <div v-if="appeals">
+      <div v-if="appeals" ref="table">
         <StickyScroll>
           <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
         </StickyScroll> 
@@ -523,7 +524,17 @@ export const Application = {
             sortType: this.sort.sortType,
           },
         },
-        null,
+        () => {
+          if (this.$refs.table.getBoundingClientRect().top + 100 < 0) {
+            window.scrollTo({
+              top:
+                this.$refs.table.getBoundingClientRect().top +
+                window.scrollY -
+                100,
+              behavior: 'smooth',
+            });
+          }
+        },
         this.increaseAppealsCounter()
       );
     },

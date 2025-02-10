@@ -13,6 +13,9 @@
   width: 100%;
   z-index: 10;
 }
+.twpx-form-control--date.twpx-form-control--open {
+  z-index: 100;
+}
 .twpx-form-control--date.twpx-form-control--active .twpx-form-control__label {
   -webkit-transform: translateY(var(--twpx-form-control-active-translate));
   transform: translateY(var(--twpx-form-control-active-translate));
