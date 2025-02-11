@@ -17,7 +17,15 @@ this.BX = this.BX || {};
         resizeTimeoutId: undefined
       };
     },
+    props: ['reInitWatcher'],
     template: "\n    <div class=\"twpx-sticky-scroll\">\n      <div class=\"twpx-sticky-scroll-space-right\" ref=\"spaceRight\" @mouseover=\"spaceAndArrowMouseover('right')\" @mouseout=\"spaceAndArrowMouseout\" v-show=\"visible\"></div>\n      <div class=\"twpx-sticky-scroll-space-left\" ref=\"spaceLeft\" @mouseover=\"spaceAndArrowMouseover('left')\" @mouseout=\"spaceAndArrowMouseout\" v-show=\"visible\"></div>\n\n      <div class=\"twpx-sticky-scroll-arrows\" v-show=\"visible\">\n        <div class=\"twpx-sticky-scroll-arrow-right\" ref=\"arrowRight\" @mouseover=\"spaceAndArrowMouseover('right')\" @mouseout=\"spaceAndArrowMouseout\"></div>\n        <div class=\"twpx-sticky-scroll-arrow-left\" ref=\"arrowLeft\" @mouseover=\"spaceAndArrowMouseover('left')\" @mouseout=\"spaceAndArrowMouseout\"></div>\n      </div>\n\n      <div class=\"twpx-sticky-scroll-content-wrapper\" ref=\"contentWrapper\">\n        <div ref=\"content\">\n          <slot></slot>\n        </div>\n      </div>\n\n      <div class=\"twpx-sticky-scroll-scrollbar\" ref=\"scrollbar\" @click=\"scrollbarClick($event)\" v-show=\"visible\">\n        <div class=\"twpx-sticky-scroll-scrollbar-thumb\" ref=\"thumb\" @mousedown=\"thumbMousedown($event)\" @click=\"thumbClick($event)\"></div>\n      </div>\n    </div>\n  ",
+    watch: {
+      reInitWatcher: function reInitWatcher(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.setContentWidth();
+        }
+      }
+    },
     methods: {
       init: function init() {
         if (window.matchMedia('(min-width: 768px)').matches) {

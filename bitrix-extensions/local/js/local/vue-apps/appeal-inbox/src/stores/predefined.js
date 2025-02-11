@@ -5,7 +5,9 @@ export const predefinedStore = defineStore('predefined', {
     actions: {
       predefined: {},
     },
+    localize: {},
     predefined: [],
+    errorPredefined: '',
     loadingPredefined: true,
     loadingSelected: false,
   }),
@@ -17,7 +19,60 @@ export const predefinedStore = defineStore('predefined', {
   },
   actions: {
     showError({ error, method }) {
-      console.log(error, method);
+      if (typeof error === 'boolean') {
+        this.errorPredefined = error;
+      } else if (typeof error === 'object') {
+        if (
+          error.errors &&
+          typeof error.errors === 'object' &&
+          error.errors[0] &&
+          error.errors[0].code !== undefined
+        ) {
+          if (error.errors[0].code === 'NETWORK_ERROR') {
+            if (error.data && error.data.ajaxRejectData) {
+              if (error.data.ajaxRejectData.data) {
+                this.errorPredefined = `${
+                  this.localize.APPEAL_INBOX_ERROR_METHOD
+                }: ${method}. ${this.localize.APPEAL_INBOX_ERROR_CODE}: ${
+                  error.data.ajaxRejectData.data
+                }. ${this.localize.APPEAL_INBOX_ERROR_DESCRIPTION}: ${
+                  window.BX.message(
+                    'ERROR_' + error.data.ajaxRejectData.data
+                  ) || window.BX.message('ERROR_SERVER')
+                }.`;
+              }
+            } else if (window.BX.message) {
+              this.errorPredefined = `${
+                this.localize.APPEAL_INBOX_ERROR_METHOD
+              }: ${method}. ${
+                this.localize.APPEAL_INBOX_ERROR_CODE
+              }: NETWORK_ERROR. ${
+                this.localize.APPEAL_INBOX_ERROR_DESCRIPTION
+              }: ${window.BX.message('ERROR_OFFLINE')}.`;
+            }
+          } else {
+            this.errorPredefined = `${
+              this.localize.APPEAL_INBOX_ERROR_METHOD
+            }: ${method}.${
+              error.errors[0].code
+                ? ' ' +
+                  this.localize.APPEAL_INBOX_ERROR_CODE +
+                  ': ' +
+                  error.errors[0].code +
+                  '.'
+                : ''
+            } ${
+              error.errors[0].message
+                ? ' ' +
+                  this.localize.APPEAL_INBOX_ERROR_DESCRIPTION +
+                  ': ' +
+                  error.errors[0].message +
+                  '.'
+                : ''
+            }`;
+          }
+        }
+      }
     },
     setPredefinedActive({ field }) {
       this.predefined.fields.forEach((f) => {

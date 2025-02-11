@@ -9,8 +9,10 @@ export const tableStore = defineStore('table', {
       appeals: {},
       sort: {},
       actions: {},
+      localize: {},
       errorTable: '',
       appealsCounter: 0,
+      appealsFinished: false,
     };
   },
   getters: {
@@ -21,9 +23,6 @@ export const tableStore = defineStore('table', {
   actions: {
     increaseAppealsCounter() {
       return ++this.appealsCounter;
-    },
-    hideErrorTable() {
-      this.errorTable = '';
     },
     showError({ error, method }) {
       if (typeof error === 'boolean') {
@@ -38,36 +37,43 @@ export const tableStore = defineStore('table', {
           if (error.errors[0].code === 'NETWORK_ERROR') {
             if (error.data && error.data.ajaxRejectData) {
               if (error.data.ajaxRejectData.data) {
-                this.errorTable = `${window.BX.message('ERROR_SUPPORT')}
-                    <br>
-                    <br>
-                    Метод: ${method}. Код ошибки: ${
+                this.errorTable = `${
+                  this.localize.APPEAL_INBOX_ERROR_METHOD
+                }: ${method}. ${this.localize.APPEAL_INBOX_ERROR_CODE}: ${
                   error.data.ajaxRejectData.data
-                }. Описание: ${
+                }. ${this.localize.APPEAL_INBOX_ERROR_DESCRIPTION}: ${
                   window.BX.message(
                     'ERROR_' + error.data.ajaxRejectData.data
                   ) || window.BX.message('ERROR_SERVER')
                 }.`;
               }
             } else if (window.BX.message) {
-              this.errorTable = `${window.BX.message('ERROR_SUPPORT')}
-                <br>
-                <br>
-                Метод: ${method}. Код ошибки: NETWORK_ERROR. Описание: ${window.BX.message(
-                'ERROR_OFFLINE'
-              )}.`;
+              this.errorTable = `${
+                this.localize.APPEAL_INBOX_ERROR_METHOD
+              }: ${method}. ${
+                this.localize.APPEAL_INBOX_ERROR_CODE
+              }: NETWORK_ERROR. ${
+                this.localize.APPEAL_INBOX_ERROR_DESCRIPTION
+              }: ${window.BX.message('ERROR_OFFLINE')}.`;
             }
           } else {
-            this.errorTable = `${window.BX.message('ERROR_SUPPORT')}
-              <br>
-              <br>
-              Метод: ${method}.${
+            this.errorTable = `${
+              this.localize.APPEAL_INBOX_ERROR_METHOD
+            }: ${method}.${
               error.errors[0].code
-                ? ' Код ошибки: ' + error.errors[0].code + '.'
+                ? ' ' +
+                  this.localize.APPEAL_INBOX_ERROR_CODE +
+                  ': ' +
+                  error.errors[0].code +
+                  '.'
                 : ''
             } ${
               error.errors[0].message
-                ? ' Описание: ' + error.errors[0].message + '.'
+                ? ' ' +
+                  this.localize.APPEAL_INBOX_ERROR_DESCRIPTION +
+                  ': ' +
+                  error.errors[0].message +
+                  '.'
                 : ''
             }`;
           }
@@ -146,6 +152,7 @@ export const tableStore = defineStore('table', {
       function resultFn(state, result) {
         if (counter === state.appealsCounter) {
           state.appeals = result.data;
+          state.appealsFinished = !state.appealsFinished;
 
           if (callback) {
             callback();

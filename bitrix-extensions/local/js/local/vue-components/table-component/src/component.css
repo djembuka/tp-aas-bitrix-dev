@@ -27,6 +27,14 @@
   cursor: pointer;
 }
 
+.vue-tf-table--new td {
+  background-color: #f0f5fc;
+}
+.vue-tf-table--new td.desc,
+.vue-tf-table--new td.asc {
+  background-color: #f1f2f5;
+}
+
 .vue-ft-table-bottom {
   display: flex;
   align-items: center;

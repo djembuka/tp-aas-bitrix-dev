@@ -29,7 +29,9 @@ export const TableComponent = {
       <div></div>
       <div></div>
     </div>
+
     <MessageComponent v-else-if="!items.items || !items.items.length" type="table-result" size="small" message="По выбранным фильтрам ничего не найдено. Измените параметры фильтра и попробуйте снова." :button="false" />
+
     <div v-else-if="columnsNames.length" class="vue-ft-table">
       <table class="table table-responsive" :class="{'table-sortable': sortable}">
         <colgroup>
@@ -68,8 +70,15 @@ export const TableComponent = {
       }
     },
     className({ tr, td }) {
-      if (tr && tr.url) {
-        return 'vue-tf-table--clickable';
+      if (tr) {
+        let result = '';
+        if (tr.url) {
+          result += 'vue-tf-table--clickable';
+        }
+        if (tr.new) {
+          result += 'vue-tf-table--new';
+        }
+        return result;
       } else if (td) {
         if (!this.sortable) {
           return '';

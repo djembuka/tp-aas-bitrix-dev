@@ -1,11 +1,11 @@
 import { defineStore } from 'ui.vue3.pinia';
-import { dataStore } from './data';
 
 export const profileStore = defineStore('profile', {
   state: () => ({
     actions: {
       profiles: {},
     },
+    localize: {},
     profiles: [],
     profilesCounter: 0,
     errorProfile: '',
@@ -17,9 +17,6 @@ export const profileStore = defineStore('profile', {
     },
   },
   actions: {
-    hideErrorProfile() {
-      this.errorProfile = '';
-    },
     showError({ error, method }) {
       if (typeof error === 'boolean') {
         this.errorProfile = error;
@@ -33,36 +30,43 @@ export const profileStore = defineStore('profile', {
           if (error.errors[0].code === 'NETWORK_ERROR') {
             if (error.data && error.data.ajaxRejectData) {
               if (error.data.ajaxRejectData.data) {
-                this.errorProfile = `${window.BX.message('ERROR_SUPPORT')}
-                    <br>
-                    <br>
-                    Метод: ${method}. Код ошибки: ${
+                this.errorProfile = `${
+                  this.localize.APPEAL_INBOX_ERROR_METHOD
+                }: ${method}. ${this.localize.APPEAL_INBOX_ERROR_CODE}: ${
                   error.data.ajaxRejectData.data
-                }. Описание: ${
+                }. ${this.localize.APPEAL_INBOX_ERROR_DESCRIPTION}: ${
                   window.BX.message(
                     'ERROR_' + error.data.ajaxRejectData.data
                   ) || window.BX.message('ERROR_SERVER')
                 }.`;
               }
             } else if (window.BX.message) {
-              this.errorProfile = `${window.BX.message('ERROR_SUPPORT')}
-                <br>
-                <br>
-                Метод: ${method}. Код ошибки: NETWORK_ERROR. Описание: ${window.BX.message(
-                'ERROR_OFFLINE'
-              )}.`;
+              this.errorProfile = `${
+                this.localize.APPEAL_INBOX_ERROR_METHOD
+              }: ${method}. ${
+                this.localize.APPEAL_INBOX_ERROR_CODE
+              }: NETWORK_ERROR. ${
+                this.localize.APPEAL_INBOX_ERROR_DESCRIPTION
+              }: ${window.BX.message('ERROR_OFFLINE')}.`;
             }
           } else {
-            this.errorProfile = `${window.BX.message('ERROR_SUPPORT')}
-              <br>
-              <br>
-              Метод: ${method}.${
+            this.errorProfile = `${
+              this.localize.APPEAL_INBOX_ERROR_METHOD
+            }: ${method}.${
               error.errors[0].code
-                ? ' Код ошибки: ' + error.errors[0].code + '.'
+                ? ' ' +
+                  this.localize.APPEAL_INBOX_ERROR_CODE +
+                  ': ' +
+                  error.errors[0].code +
+                  '.'
                 : ''
             } ${
               error.errors[0].message
-                ? ' Описание: ' + error.errors[0].message + '.'
+                ? ' ' +
+                  this.localize.APPEAL_INBOX_ERROR_DESCRIPTION +
+                  ': ' +
+                  error.errors[0].message +
+                  '.'
                 : ''
             }`;
           }
@@ -82,7 +86,7 @@ export const profileStore = defineStore('profile', {
     runProfiles(data, callback) {
       this.loadingProfiles = true;
       let a = window.BX.ajax.runComponentAction(
-        this.actions.profiles.component + '0',
+        this.actions.profiles.component,
         this.actions.profiles.method,
         data
       );
@@ -97,11 +101,11 @@ export const profileStore = defineStore('profile', {
         },
         (error) => {
           this.loadingProfiles = false;
-          // this.showError({ error, method: 'profiles' });
+
           if (
             window.twinpx &&
             window.twinpx.vue.markup &&
-            window.twinpx.vue['appeal-inbox0']
+            window.twinpx.vue['appeal-inbox']
           ) {
             resultFn(state, window.twinpx.vue['appeal-inbox'].profiles);
           } else {
@@ -112,6 +116,19 @@ export const profileStore = defineStore('profile', {
 
       function resultFn(state, data) {
         state.profiles = data;
+        if (typeof data === 'object' && data.length === 0) {
+          state.showError({
+            error: {
+              errors: [
+                {
+                  code: '',
+                  message: 'No profiles found',
+                },
+              ],
+            },
+            method: 'profiles',
+          });
+        }
         if (callback) {
           callback();
         }

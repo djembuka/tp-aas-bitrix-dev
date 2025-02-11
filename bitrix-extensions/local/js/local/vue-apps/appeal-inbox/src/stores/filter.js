@@ -4,13 +4,11 @@ export const filterStore = defineStore('filter', {
   state: () => ({
     loadingFilter: false,
     actions: {},
+    localize: {},
     filters: [],
     errorFilter: '',
   }),
   actions: {
-    hideErrorFilter() {
-      this.errorFilter = '';
-    },
     showError({ error, method }) {
       if (typeof error === 'boolean') {
         this.errorFilter = error;
@@ -24,36 +22,43 @@ export const filterStore = defineStore('filter', {
           if (error.errors[0].code === 'NETWORK_ERROR') {
             if (error.data && error.data.ajaxRejectData) {
               if (error.data.ajaxRejectData.data) {
-                this.errorFilter = `${window.BX.message('ERROR_SUPPORT')}
-                    <br>
-                    <br>
-                    Метод: ${method}. Код ошибки: ${
+                this.errorFilter = `${
+                  this.localize.APPEAL_INBOX_ERROR_METHOD
+                }: ${method}. ${this.localize.APPEAL_INBOX_ERROR_CODE}: ${
                   error.data.ajaxRejectData.data
-                }. Описание: ${
+                }. ${this.localize.APPEAL_INBOX_ERROR_DESCRIPTION}: ${
                   window.BX.message(
                     'ERROR_' + error.data.ajaxRejectData.data
                   ) || window.BX.message('ERROR_SERVER')
                 }.`;
               }
             } else if (window.BX.message) {
-              this.errorFilter = `${window.BX.message('ERROR_SUPPORT')}
-                <br>
-                <br>
-                Метод: ${method}. Код ошибки: NETWORK_ERROR. Описание: ${window.BX.message(
-                'ERROR_OFFLINE'
-              )}.`;
+              this.errorFilter = `${
+                this.localize.APPEAL_INBOX_ERROR_METHOD
+              }: ${method}. ${
+                this.localize.APPEAL_INBOX_ERROR_CODE
+              }: NETWORK_ERROR. ${
+                this.localize.APPEAL_INBOX_ERROR_DESCRIPTION
+              }: ${window.BX.message('ERROR_OFFLINE')}.`;
             }
           } else {
-            this.errorFilter = `${window.BX.message('ERROR_SUPPORT')}
-              <br>
-              <br>
-              Метод: ${method}.${
+            this.errorFilter = `${
+              this.localize.APPEAL_INBOX_ERROR_METHOD
+            }: ${method}.${
               error.errors[0].code
-                ? ' Код ошибки: ' + error.errors[0].code + '.'
+                ? ' ' +
+                  this.localize.APPEAL_INBOX_ERROR_CODE +
+                  ': ' +
+                  error.errors[0].code +
+                  '.'
                 : ''
             } ${
               error.errors[0].message
-                ? ' Описание: ' + error.errors[0].message + '.'
+                ? ' ' +
+                  this.localize.APPEAL_INBOX_ERROR_DESCRIPTION +
+                  ': ' +
+                  error.errors[0].message +
+                  '.'
                 : ''
             }`;
           }

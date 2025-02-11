@@ -29,6 +29,7 @@
         actions: {
           profiles: {},
         },
+        localize: {},
         profiles: [],
         profilesCounter: 0,
         errorProfile: '',
@@ -43,9 +44,6 @@
       },
     },
     actions: {
-      hideErrorProfile: function hideErrorProfile() {
-        this.errorProfile = '';
-      },
       showError: function showError(_ref) {
         var error = _ref.error,
           method = _ref.method;
@@ -62,18 +60,11 @@
               if (error.data && error.data.ajaxRejectData) {
                 if (error.data.ajaxRejectData.data) {
                   this.errorProfile = ''
-                    .concat(
-                      window.BX.message('ERROR_SUPPORT'),
-                      '\n                    <br>\n                    <br>\n                    \u041C\u0435\u0442\u043E\u0434: '
-                    )
-                    .concat(
-                      method,
-                      '. \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: '
-                    )
-                    .concat(
-                      error.data.ajaxRejectData.data,
-                      '. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: '
-                    )
+                    .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
+                    .concat(method, '. ')
+                    .concat(this.localize.APPEAL_INBOX_ERROR_CODE, ': ')
+                    .concat(error.data.ajaxRejectData.data, '. ')
+                    .concat(this.localize.APPEAL_INBOX_ERROR_DESCRIPTION, ': ')
                     .concat(
                       window.BX.message(
                         'ERROR_' + error.data.ajaxRejectData.data
@@ -83,32 +74,36 @@
                 }
               } else if (window.BX.message) {
                 this.errorProfile = ''
+                  .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
+                  .concat(method, '. ')
                   .concat(
-                    window.BX.message('ERROR_SUPPORT'),
-                    '\n                <br>\n                <br>\n                \u041C\u0435\u0442\u043E\u0434: '
+                    this.localize.APPEAL_INBOX_ERROR_CODE,
+                    ': NETWORK_ERROR. '
                   )
-                  .concat(
-                    method,
-                    '. \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: NETWORK_ERROR. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: '
-                  )
+                  .concat(this.localize.APPEAL_INBOX_ERROR_DESCRIPTION, ': ')
                   .concat(window.BX.message('ERROR_OFFLINE'), '.');
               }
             } else {
               this.errorProfile = ''
-                .concat(
-                  window.BX.message('ERROR_SUPPORT'),
-                  '\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: '
-                )
+                .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
                 .concat(method, '.')
                 .concat(
                   error.errors[0].code
-                    ? ' ��� ������: ' + error.errors[0].code + '.'
+                    ? ' ' +
+                        this.localize.APPEAL_INBOX_ERROR_CODE +
+                        ': ' +
+                        error.errors[0].code +
+                        '.'
                     : '',
                   ' '
                 )
                 .concat(
                   error.errors[0].message
-                    ? ' ��������: ' + error.errors[0].message + '.'
+                    ? ' ' +
+                        this.localize.APPEAL_INBOX_ERROR_DESCRIPTION +
+                        ': ' +
+                        error.errors[0].message +
+                        '.'
                     : ''
                 );
             }
@@ -130,7 +125,7 @@
         var _this = this;
         this.loadingProfiles = true;
         var a = window.BX.ajax.runComponentAction(
-          this.actions.profiles.component + '0',
+          this.actions.profiles.component,
           this.actions.profiles.method,
           data
         );
@@ -143,11 +138,10 @@
           },
           function (error) {
             _this.loadingProfiles = false;
-            // this.showError({ error, method: 'profiles' });
             if (
               window.twinpx &&
               window.twinpx.vue.markup &&
-              window.twinpx.vue['appeal-inbox0']
+              window.twinpx.vue['appeal-inbox']
             ) {
               resultFn(state, window.twinpx.vue['appeal-inbox'].profiles);
             } else {
@@ -160,6 +154,19 @@
         );
         function resultFn(state, data) {
           state.profiles = data;
+          if (babelHelpers['typeof'](data) === 'object' && data.length === 0) {
+            state.showError({
+              error: {
+                errors: [
+                  {
+                    code: '',
+                    message: 'No profiles found',
+                  },
+                ],
+              },
+              method: 'profiles',
+            });
+          }
           if (callback) {
             callback();
           }
@@ -224,7 +231,9 @@
         actions: {
           predefined: {},
         },
+        localize: {},
         predefined: [],
+        errorPredefined: '',
         loadingPredefined: true,
         loadingSelected: false,
       };
@@ -241,7 +250,68 @@
       showError: function showError(_ref) {
         var error = _ref.error,
           method = _ref.method;
-        console.log(error, method);
+        if (typeof error === 'boolean') {
+          this.errorPredefined = error;
+        } else if (babelHelpers['typeof'](error) === 'object') {
+          if (
+            error.errors &&
+            babelHelpers['typeof'](error.errors) === 'object' &&
+            error.errors[0] &&
+            error.errors[0].code !== undefined
+          ) {
+            if (error.errors[0].code === 'NETWORK_ERROR') {
+              if (error.data && error.data.ajaxRejectData) {
+                if (error.data.ajaxRejectData.data) {
+                  this.errorPredefined = ''
+                    .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
+                    .concat(method, '. ')
+                    .concat(this.localize.APPEAL_INBOX_ERROR_CODE, ': ')
+                    .concat(error.data.ajaxRejectData.data, '. ')
+                    .concat(this.localize.APPEAL_INBOX_ERROR_DESCRIPTION, ': ')
+                    .concat(
+                      window.BX.message(
+                        'ERROR_' + error.data.ajaxRejectData.data
+                      ) || window.BX.message('ERROR_SERVER'),
+                      '.'
+                    );
+                }
+              } else if (window.BX.message) {
+                this.errorPredefined = ''
+                  .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
+                  .concat(method, '. ')
+                  .concat(
+                    this.localize.APPEAL_INBOX_ERROR_CODE,
+                    ': NETWORK_ERROR. '
+                  )
+                  .concat(this.localize.APPEAL_INBOX_ERROR_DESCRIPTION, ': ')
+                  .concat(window.BX.message('ERROR_OFFLINE'), '.');
+              }
+            } else {
+              this.errorPredefined = ''
+                .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
+                .concat(method, '.')
+                .concat(
+                  error.errors[0].code
+                    ? ' ' +
+                        this.localize.APPEAL_INBOX_ERROR_CODE +
+                        ': ' +
+                        error.errors[0].code +
+                        '.'
+                    : '',
+                  ' '
+                )
+                .concat(
+                  error.errors[0].message
+                    ? ' ' +
+                        this.localize.APPEAL_INBOX_ERROR_DESCRIPTION +
+                        ': ' +
+                        error.errors[0].message +
+                        '.'
+                    : ''
+                );
+            }
+          }
+        }
       },
       setPredefinedActive: function setPredefinedActive(_ref2) {
         var field = _ref2.field;
@@ -346,8 +416,10 @@
         appeals: {},
         sort: {},
         actions: {},
+        localize: {},
         errorTable: '',
         appealsCounter: 0,
+        appealsFinished: false,
       };
     },
     getters: {
@@ -358,9 +430,6 @@
     actions: {
       increaseAppealsCounter: function increaseAppealsCounter() {
         return ++this.appealsCounter;
-      },
-      hideErrorTable: function hideErrorTable() {
-        this.errorTable = '';
       },
       showError: function showError(_ref) {
         var error = _ref.error,
@@ -378,18 +447,11 @@
               if (error.data && error.data.ajaxRejectData) {
                 if (error.data.ajaxRejectData.data) {
                   this.errorTable = ''
-                    .concat(
-                      window.BX.message('ERROR_SUPPORT'),
-                      '\n                    <br>\n                    <br>\n                    \u041C\u0435\u0442\u043E\u0434: '
-                    )
-                    .concat(
-                      method,
-                      '. \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: '
-                    )
-                    .concat(
-                      error.data.ajaxRejectData.data,
-                      '. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: '
-                    )
+                    .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
+                    .concat(method, '. ')
+                    .concat(this.localize.APPEAL_INBOX_ERROR_CODE, ': ')
+                    .concat(error.data.ajaxRejectData.data, '. ')
+                    .concat(this.localize.APPEAL_INBOX_ERROR_DESCRIPTION, ': ')
                     .concat(
                       window.BX.message(
                         'ERROR_' + error.data.ajaxRejectData.data
@@ -399,32 +461,36 @@
                 }
               } else if (window.BX.message) {
                 this.errorTable = ''
+                  .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
+                  .concat(method, '. ')
                   .concat(
-                    window.BX.message('ERROR_SUPPORT'),
-                    '\n                <br>\n                <br>\n                \u041C\u0435\u0442\u043E\u0434: '
+                    this.localize.APPEAL_INBOX_ERROR_CODE,
+                    ': NETWORK_ERROR. '
                   )
-                  .concat(
-                    method,
-                    '. \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: NETWORK_ERROR. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: '
-                  )
+                  .concat(this.localize.APPEAL_INBOX_ERROR_DESCRIPTION, ': ')
                   .concat(window.BX.message('ERROR_OFFLINE'), '.');
               }
             } else {
               this.errorTable = ''
-                .concat(
-                  window.BX.message('ERROR_SUPPORT'),
-                  '\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: '
-                )
+                .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
                 .concat(method, '.')
                 .concat(
                   error.errors[0].code
-                    ? ' ��� ������: ' + error.errors[0].code + '.'
+                    ? ' ' +
+                        this.localize.APPEAL_INBOX_ERROR_CODE +
+                        ': ' +
+                        error.errors[0].code +
+                        '.'
                     : '',
                   ' '
                 )
                 .concat(
                   error.errors[0].message
-                    ? ' ��������: ' + error.errors[0].message + '.'
+                    ? ' ' +
+                        this.localize.APPEAL_INBOX_ERROR_DESCRIPTION +
+                        ': ' +
+                        error.errors[0].message +
+                        '.'
                     : ''
                 );
             }
@@ -506,6 +572,7 @@
         function resultFn(state, result) {
           if (counter === state.appealsCounter) {
             state.appeals = result.data;
+            state.appealsFinished = !state.appealsFinished;
             if (callback) {
               callback();
             }
@@ -595,14 +662,12 @@
       return {
         loadingFilter: false,
         actions: {},
+        localize: {},
         filters: [],
         errorFilter: '',
       };
     },
     actions: {
-      hideErrorFilter: function hideErrorFilter() {
-        this.errorFilter = '';
-      },
       showError: function showError(_ref) {
         var error = _ref.error,
           method = _ref.method;
@@ -619,18 +684,11 @@
               if (error.data && error.data.ajaxRejectData) {
                 if (error.data.ajaxRejectData.data) {
                   this.errorFilter = ''
-                    .concat(
-                      window.BX.message('ERROR_SUPPORT'),
-                      '\n                    <br>\n                    <br>\n                    \u041C\u0435\u0442\u043E\u0434: '
-                    )
-                    .concat(
-                      method,
-                      '. \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: '
-                    )
-                    .concat(
-                      error.data.ajaxRejectData.data,
-                      '. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: '
-                    )
+                    .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
+                    .concat(method, '. ')
+                    .concat(this.localize.APPEAL_INBOX_ERROR_CODE, ': ')
+                    .concat(error.data.ajaxRejectData.data, '. ')
+                    .concat(this.localize.APPEAL_INBOX_ERROR_DESCRIPTION, ': ')
                     .concat(
                       window.BX.message(
                         'ERROR_' + error.data.ajaxRejectData.data
@@ -640,32 +698,36 @@
                 }
               } else if (window.BX.message) {
                 this.errorFilter = ''
+                  .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
+                  .concat(method, '. ')
                   .concat(
-                    window.BX.message('ERROR_SUPPORT'),
-                    '\n                <br>\n                <br>\n                \u041C\u0435\u0442\u043E\u0434: '
+                    this.localize.APPEAL_INBOX_ERROR_CODE,
+                    ': NETWORK_ERROR. '
                   )
-                  .concat(
-                    method,
-                    '. \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: NETWORK_ERROR. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: '
-                  )
+                  .concat(this.localize.APPEAL_INBOX_ERROR_DESCRIPTION, ': ')
                   .concat(window.BX.message('ERROR_OFFLINE'), '.');
               }
             } else {
               this.errorFilter = ''
-                .concat(
-                  window.BX.message('ERROR_SUPPORT'),
-                  '\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: '
-                )
+                .concat(this.localize.APPEAL_INBOX_ERROR_METHOD, ': ')
                 .concat(method, '.')
                 .concat(
                   error.errors[0].code
-                    ? ' ��� ������: ' + error.errors[0].code + '.'
+                    ? ' ' +
+                        this.localize.APPEAL_INBOX_ERROR_CODE +
+                        ': ' +
+                        error.errors[0].code +
+                        '.'
                     : '',
                   ' '
                 )
                 .concat(
                   error.errors[0].message
-                    ? ' ��������: ' + error.errors[0].message + '.'
+                    ? ' ' +
+                        this.localize.APPEAL_INBOX_ERROR_DESCRIPTION +
+                        ': ' +
+                        error.errors[0].message +
+                        '.'
                     : ''
                 );
             }
@@ -872,7 +934,7 @@
     // language=Vue
 
     template:
-      '\n    <MessageComponent v-if="error" type="error" message="\u041F\u043E \u0432\u044B\u0431\u0440\u0430\u043D\u043D\u044B\u043C \u0444\u0438\u043B\u044C\u0442\u0440\u0430\u043C \u043D\u0438\u0447\u0435\u0433\u043E \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E. \u0418\u0437\u043C\u0435\u043D\u0438\u0442\u0435 \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u044B \u0444\u0438\u043B\u044C\u0442\u0440\u0430 \u0438 \u043F\u043E\u043F\u0440\u043E\u0431\u0443\u0439\u0442\u0435 \u0441\u043D\u043E\u0432\u0430." :button="false" />\n\n    <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />\n\n    <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || selected !== false">\n\n    <PredefinedFilters :predefined="predefined" :selected="selected" :loadingSelected="loadingSelected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />\n\n    <hr class="hr--lg">\n    \n    <div>\n      <div v-if="filters">\n        <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n      </div>\n      <hr>\n      <div v-if="appeals" ref="table">\n        <StickyScroll>\n          <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n        </StickyScroll> \n        <hr>\n        <div class="vue-ft-table-bottom">\n          <div class="vue-ft-table-all" v-if="appeals.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ appeals.resultCount }}</div>\n          <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n        </div>\n      </div>\n    </div>\n\t',
+      '\n\n    <MessageComponent v-if="errorProfile" type="error" :message="errorProfile" :button="false" />\n\n    <div v-else>\n\n      <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />\n\n\n      <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || selected !== false || errorPredefined">\n\n\n      <MessageComponent v-if="errorPredefined" type="error" :message="errorPredefined" :button="false" />\n\n      <PredefinedFilters v-else :predefined="predefined" :selected="selected" :loadingSelected="loadingSelected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />\n\n\n      <hr class="hr--lg">\n      \n      <div>\n        <div v-if="filters">\n\n          <MessageComponent v-if="errorFilter" type="error" :message="errorFilter" :button="false" />\n\n          <FilterComponent v-else :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n\n        </div>\n        <hr>\n\n\n        <MessageComponent v-if="errorTable" type="error" :message="errorTable" :button="false" />\n\n        <div v-else-if="appeals" ref="table">\n\n          <StickyScroll :reInitWatcher="appealsFinished">\n            <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n          </StickyScroll> \n          <hr>\n          <div class="vue-ft-table-bottom">\n            <div class="vue-ft-table-all" v-if="appeals.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ appeals.resultCount }}</div>\n            <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n          </div>\n        </div>\n      </div>\n    </div>\n\t',
     computed: _objectSpread(
       _objectSpread(
         _objectSpread(
@@ -899,6 +961,7 @@
               'predefinedActive',
               'loadingPredefined',
               'loadingSelected',
+              'errorPredefined',
             ])
           ),
           ui_vue3_pinia.mapState(tableStore, [
@@ -909,6 +972,7 @@
             'tableCols',
             'maxCountPerRequest',
             'errorTable',
+            'appealsFinished',
           ])
         ),
         ui_vue3_pinia.mapState(filterStore, [
@@ -930,7 +994,12 @@
           return this.appeals.startIndex / this.maxCountPerRequest + 1;
         },
         error: function error() {
-          return this.errorProfile || this.errorTable || this.errorFilter;
+          return (
+            this.errorProfile ||
+            this.errorPredefined ||
+            this.errorFilter ||
+            this.errorTable
+          );
         },
         selected: function selected() {
           if (!this.defaultProfile) {
@@ -966,164 +1035,240 @@
         _objectSpread(
           _objectSpread(
             _objectSpread(
-              _objectSpread(
-                {},
-                ui_vue3_pinia.mapActions(profileStore, [
-                  'runProfiles',
-                  'runSetDefaultProfile',
-                  'setDefaultProfile',
-                  'increaseProfilesCounter',
-                ])
-              ),
-              ui_vue3_pinia.mapActions(predefinedStore, [
-                'runPredefinedFilters',
-                'setPredefinedActive',
-                'runExportFile',
+              {},
+              ui_vue3_pinia.mapActions(profileStore, [
+                'runProfiles',
+                'runSetDefaultProfile',
+                'setDefaultProfile',
+                'increaseProfilesCounter',
               ])
             ),
-            {},
-            {
-              clickProfile: function clickProfile(_ref) {
-                var _this = this;
-                var id = _ref.id;
-                this.setDefaultProfile({
-                  id: id,
-                });
-                this.increaseProfilesCounter();
-                new Promise(function (resolve) {
-                  resolve(
-                    _this.runSetDefaultProfile(
+            ui_vue3_pinia.mapActions(predefinedStore, [
+              'runPredefinedFilters',
+              'setPredefinedActive',
+              'runExportFile',
+            ])
+          ),
+          {},
+          {
+            clickProfile: function clickProfile(_ref) {
+              var _this = this;
+              var id = _ref.id;
+              this.setDefaultProfile({
+                id: id,
+              });
+              this.increaseProfilesCounter();
+              new Promise(function (resolve) {
+                resolve(
+                  _this.runSetDefaultProfile(
+                    {
+                      mode: 'class',
+                      signedParameters: _this.signedParameters,
+                      data: {
+                        userid: _this.userid,
+                        sessid: _this.sessid,
+                        profileid: id,
+                      },
+                    },
+                    function () {},
+                    _this.profilesCounter
+                  )
+                );
+              })
+                .then(
+                  function (result) {
+                    if (result && result.status === 'success') {
+                      if (!_this.defaultProfile) return;
+                      return _this.runPredefinedFilters({
+                        mode: 'class',
+                        signedParameters: _this.signedParameters,
+                        data: {
+                          userid: _this.userid,
+                          sessid: _this.sessid,
+                          profileid: _this.defaultProfile.id,
+                        },
+                      });
+                    } else if (result && result.status === 'error') {
+                      _this.showError({
+                        error: result.errors[0],
+                      });
+                    }
+                  },
+                  function (error) {
+                    console.log(error);
+                  }
+                )
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this.runFilters({
+                      mode: 'class',
+                      signedParameters: _this.signedParameters,
+                      data: {
+                        userid: _this.userid,
+                        sessid: _this.sessid,
+                        profileid: _this.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this.runColumnsNames({
+                      mode: 'class',
+                      signedParameters: _this.signedParameters,
+                      data: {
+                        userid: _this.userid,
+                        sessid: _this.sessid,
+                        profileid: _this.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this.runDefaultSort({
+                      mode: 'class',
+                      signedParameters: _this.signedParameters,
+                      data: {
+                        userid: _this.userid,
+                        sessid: _this.sessid,
+                        profileid: _this.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    var predefinedFilter = _this.predefinedActive
+                      ? _this.predefinedActive.id
+                      : undefined;
+                    _this.runAppeals(
                       {
                         mode: 'class',
                         signedParameters: _this.signedParameters,
                         data: {
                           userid: _this.userid,
                           sessid: _this.sessid,
-                          profileid: id,
+                          profileid: _this.defaultProfile.id,
+                          startIndex: _this.appeals.startIndex || 0,
+                          maxCountPerRequest: _this.maxCountPerRequest,
+                          predefinedFilter: predefinedFilter,
+                          filters: _this.filters,
+                          columnSort: _this.sort.columnSort,
+                          sortType: _this.sort.sortType,
                         },
                       },
-                      function () {},
-                      _this.profilesCounter
-                    )
-                  );
-                })
-                  .then(
-                    function (result) {
-                      if (result && result.status === 'success') {
-                        if (!_this.defaultProfile) return;
-                        return _this.runPredefinedFilters({
-                          mode: 'class',
-                          signedParameters: _this.signedParameters,
-                          data: {
-                            userid: _this.userid,
-                            sessid: _this.sessid,
-                            profileid: _this.defaultProfile.id,
-                          },
-                        });
-                      } else if (result && result.status === 'error') {
-                        _this.showError({
-                          error: result.errors[0],
-                        });
-                      }
-                    },
-                    function (error) {
-                      console.log(error);
-                    }
-                  )
-                  .then(function (result) {
-                    if (result && result.status === 'success') {
-                      return _this.runFilters({
-                        mode: 'class',
-                        signedParameters: _this.signedParameters,
-                        data: {
-                          userid: _this.userid,
-                          sessid: _this.sessid,
-                          profileid: _this.defaultProfile.id,
-                        },
-                      });
-                    } else if (result && result.status === 'error') {
-                      _this.showError({
-                        error: result.errors[0],
-                      });
-                    }
-                  })
-                  .then(function (result) {
-                    if (result && result.status === 'success') {
-                      return _this.runColumnsNames({
-                        mode: 'class',
-                        signedParameters: _this.signedParameters,
-                        data: {
-                          userid: _this.userid,
-                          sessid: _this.sessid,
-                          profileid: _this.defaultProfile.id,
-                        },
-                      });
-                    } else if (result && result.status === 'error') {
-                      _this.showError({
-                        error: result.errors[0],
-                      });
-                    }
-                  })
-                  .then(function (result) {
-                    if (result && result.status === 'success') {
-                      return _this.runDefaultSort({
-                        mode: 'class',
-                        signedParameters: _this.signedParameters,
-                        data: {
-                          userid: _this.userid,
-                          sessid: _this.sessid,
-                          profileid: _this.defaultProfile.id,
-                        },
-                      });
-                    } else if (result && result.status === 'error') {
-                      _this.showError({
-                        error: result.errors[0],
-                      });
-                    }
-                  })
-                  .then(function (result) {
-                    if (result && result.status === 'success') {
-                      var predefinedFilter = _this.predefinedActive
-                        ? _this.predefinedActive.id
-                        : undefined;
-                      _this.runAppeals(
-                        {
-                          mode: 'class',
-                          signedParameters: _this.signedParameters,
-                          data: {
-                            userid: _this.userid,
-                            sessid: _this.sessid,
-                            profileid: _this.defaultProfile.id,
-                            startIndex: _this.appeals.startIndex || 0,
-                            maxCountPerRequest: _this.maxCountPerRequest,
-                            predefinedFilter: predefinedFilter,
-                            filters: _this.filters,
-                            columnSort: _this.sort.columnSort,
-                            sortType: _this.sort.sortType,
-                          },
-                        },
-                        null,
-                        _this.increaseAppealsCounter()
-                      );
-                    } else if (result && result.status === 'error') {
-                      _this.showError({
-                        error: result.errors[0],
-                      });
-                    }
-                  });
-              },
-              clickPredefined: function clickPredefined(_ref2) {
-                var _this2 = this;
-                var field = _ref2.field;
-                this.setPredefinedActive({
-                  field: field,
+                      null,
+                      _this.increaseAppealsCounter()
+                    );
+                  } else if (result && result.status === 'error') {
+                    _this.showError({
+                      error: result.errors[0],
+                    });
+                  }
                 });
-                if (!this.defaultProfile) return;
-                var predefinedFilter = this.predefinedActive
-                  ? this.predefinedActive.id
-                  : undefined;
-                new Promise(function (resolve) {
-                  resolve(
+            },
+            clickPredefined: function clickPredefined(_ref2) {
+              var _this2 = this;
+              var field = _ref2.field;
+              this.setPredefinedActive({
+                field: field,
+              });
+              if (!this.defaultProfile) return;
+              var predefinedFilter = this.predefinedActive
+                ? this.predefinedActive.id
+                : undefined;
+              new Promise(function (resolve) {
+                resolve(
+                  _this2.runAppeals(
+                    {
+                      mode: 'class',
+                      signedParameters: _this2.signedParameters,
+                      data: {
+                        userid: _this2.userid,
+                        sessid: _this2.sessid,
+                        profileid: _this2.defaultProfile.id,
+                        startIndex: 0,
+                        maxCountPerRequest: _this2.maxCountPerRequest,
+                        predefinedFilter: predefinedFilter,
+                        filters: _this2.filters,
+                        columnSort: _this2.sort.columnSort,
+                        sortType: _this2.sort.sortType,
+                      },
+                    },
+                    null,
+                    _this2.increaseAppealsCounter()
+                  )
+                );
+              })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this2.runFilters({
+                      mode: 'class',
+                      signedParameters: _this2.signedParameters,
+                      data: {
+                        userid: _this2.userid,
+                        sessid: _this2.sessid,
+                        profileid: _this2.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this2.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this2.runColumnsNames({
+                      mode: 'class',
+                      signedParameters: _this2.signedParameters,
+                      data: {
+                        userid: _this2.userid,
+                        sessid: _this2.sessid,
+                        profileid: _this2.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this2.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this2.runDefaultSort({
+                      mode: 'class',
+                      signedParameters: _this2.signedParameters,
+                      data: {
+                        userid: _this2.userid,
+                        sessid: _this2.sessid,
+                        profileid: _this2.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this2.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    var _predefinedFilter = _this2.predefinedActive
+                      ? _this2.predefinedActive.id
+                      : undefined;
                     _this2.runAppeals(
                       {
                         mode: 'class',
@@ -1132,9 +1277,9 @@
                           userid: _this2.userid,
                           sessid: _this2.sessid,
                           profileid: _this2.defaultProfile.id,
-                          startIndex: 0,
+                          startIndex: _this2.appeals.startIndex || 0,
                           maxCountPerRequest: _this2.maxCountPerRequest,
-                          predefinedFilter: predefinedFilter,
+                          predefinedFilter: _predefinedFilter,
                           filters: _this2.filters,
                           columnSort: _this2.sort.columnSort,
                           sortType: _this2.sort.sortType,
@@ -1142,112 +1287,33 @@
                       },
                       null,
                       _this2.increaseAppealsCounter()
-                    )
-                  );
-                })
-                  .then(function (result) {
-                    if (result && result.status === 'success') {
-                      return _this2.runFilters({
-                        mode: 'class',
-                        signedParameters: _this2.signedParameters,
-                        data: {
-                          userid: _this2.userid,
-                          sessid: _this2.sessid,
-                          profileid: _this2.defaultProfile.id,
-                        },
-                      });
-                    } else if (result && result.status === 'error') {
-                      _this2.showError({
-                        error: result.errors[0],
-                      });
-                    }
-                  })
-                  .then(function (result) {
-                    if (result && result.status === 'success') {
-                      return _this2.runColumnsNames({
-                        mode: 'class',
-                        signedParameters: _this2.signedParameters,
-                        data: {
-                          userid: _this2.userid,
-                          sessid: _this2.sessid,
-                          profileid: _this2.defaultProfile.id,
-                        },
-                      });
-                    } else if (result && result.status === 'error') {
-                      _this2.showError({
-                        error: result.errors[0],
-                      });
-                    }
-                  })
-                  .then(function (result) {
-                    if (result && result.status === 'success') {
-                      return _this2.runDefaultSort({
-                        mode: 'class',
-                        signedParameters: _this2.signedParameters,
-                        data: {
-                          userid: _this2.userid,
-                          sessid: _this2.sessid,
-                          profileid: _this2.defaultProfile.id,
-                        },
-                      });
-                    } else if (result && result.status === 'error') {
-                      _this2.showError({
-                        error: result.errors[0],
-                      });
-                    }
-                  })
-                  .then(function (result) {
-                    if (result && result.status === 'success') {
-                      var _predefinedFilter = _this2.predefinedActive
-                        ? _this2.predefinedActive.id
-                        : undefined;
-                      _this2.runAppeals(
-                        {
-                          mode: 'class',
-                          signedParameters: _this2.signedParameters,
-                          data: {
-                            userid: _this2.userid,
-                            sessid: _this2.sessid,
-                            profileid: _this2.defaultProfile.id,
-                            startIndex: _this2.appeals.startIndex || 0,
-                            maxCountPerRequest: _this2.maxCountPerRequest,
-                            predefinedFilter: _predefinedFilter,
-                            filters: _this2.filters,
-                            columnSort: _this2.sort.columnSort,
-                            sortType: _this2.sort.sortType,
-                          },
-                        },
-                        null,
-                        _this2.increaseAppealsCounter()
-                      );
-                    } else if (result && result.status === 'error') {
-                      _this2.showError({
-                        error: result.errors[0],
-                      });
-                    }
-                  });
-              },
-              clickSelected: function clickSelected() {
-                var predefinedFilter = this.predefinedActive
-                  ? this.predefinedActive.id
-                  : undefined;
-                this.runExportFile({
-                  mode: 'class',
-                  signedParameters: this.signedParameters,
-                  data: {
-                    userid: this.userid,
-                    sessid: this.sessid,
-                    profileid: this.defaultProfile.id,
-                    predefinedFilter: predefinedFilter,
-                    filters: this.filters,
-                    columnSort: this.sort.columnSort,
-                    sortType: this.sort.sortType,
-                  },
+                    );
+                  } else if (result && result.status === 'error') {
+                    _this2.showError({
+                      error: result.errors[0],
+                    });
+                  }
                 });
-              },
             },
-            ui_vue3_pinia.mapActions(profileStore, ['hideErrorProfile'])
-          ),
+            clickSelected: function clickSelected() {
+              var predefinedFilter = this.predefinedActive
+                ? this.predefinedActive.id
+                : undefined;
+              this.runExportFile({
+                mode: 'class',
+                signedParameters: this.signedParameters,
+                data: {
+                  userid: this.userid,
+                  sessid: this.sessid,
+                  profileid: this.defaultProfile.id,
+                  predefinedFilter: predefinedFilter,
+                  filters: this.filters,
+                  columnSort: this.sort.columnSort,
+                  sortType: this.sort.sortType,
+                },
+              });
+            },
+          },
           ui_vue3_pinia.mapActions(tableStore, [
             'hideErrorTable',
             'runColumnsNames',
@@ -1258,7 +1324,6 @@
           ])
         ),
         ui_vue3_pinia.mapActions(filterStore, [
-          'hideErrorFilter',
           'runFilters',
           'changeControlValue',
           'runHintsAction',
@@ -1267,11 +1332,6 @@
       ),
       {},
       {
-        hideError: function hideError() {
-          this.hideErrorProfile();
-          this.hideErrorTable();
-          this.hideErrorFilter();
-        },
         clickTh: function clickTh(_ref3) {
           var _this3 = this;
           var column = _ref3.column;
@@ -1526,6 +1586,12 @@
                 Application: Application,
               },
               template: '<Application/>',
+              computed: {
+                localize: function localize() {
+                  return this.$Bitrix.Loc.getMessages();
+                  // return BitrixVue.getFilteredPhrases('APPEAL_INBOX_');
+                },
+              },
               beforeMount: function beforeMount() {
                 dataStore().userid = self.options.userid || '';
                 dataStore().sessid = self.options.sessid || '';
@@ -1541,6 +1607,7 @@
                     method: 'setDefaultProfile',
                   },
                 };
+                profileStore().localize = this.localize;
                 predefinedStore().actions = {
                   predefinedFilters: {
                     component: 'twinpx:journal.vue',
@@ -1551,6 +1618,7 @@
                     method: 'exportFile',
                   },
                 };
+                predefinedStore().localize = this.localize;
                 filterStore().filterCols = ['1', '1', '1', '1'];
                 filterStore().actions = {
                   filters: {
@@ -1558,6 +1626,7 @@
                     method: 'filters',
                   },
                 };
+                filterStore().localize = this.localize;
                 tableStore().tableCols = ['auto', '20%', '20%', '20%', '100px'];
                 tableStore().maxCountPerRequest =
                   self.options.maxCountPerRequest || 50;
@@ -1579,6 +1648,7 @@
                     method: 'setDefaultSort',
                   },
                 };
+                tableStore().localize = this.localize;
               },
             })
           );
@@ -1614,4 +1684,5 @@
   BX.AAS,
   BX.AAS,
   BX.Vue3.Pinia
-); //# sourceMappingURL=application.bundle.js.map
+);
+//# sourceMappingURL=application.bundle.js.map

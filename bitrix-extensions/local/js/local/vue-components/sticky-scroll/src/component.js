@@ -13,6 +13,7 @@ export const StickyScroll = {
       resizeTimeoutId: undefined,
     };
   },
+  props: ['reInitWatcher'],
   template: `
     <div class="twpx-sticky-scroll">
       <div class="twpx-sticky-scroll-space-right" ref="spaceRight" @mouseover="spaceAndArrowMouseover('right')" @mouseout="spaceAndArrowMouseout" v-show="visible"></div>
@@ -34,6 +35,13 @@ export const StickyScroll = {
       </div>
     </div>
   `,
+  watch: {
+    reInitWatcher(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.setContentWidth();
+      }
+    },
+  },
   methods: {
     init() {
       if (window.matchMedia('(min-width: 768px)').matches) {

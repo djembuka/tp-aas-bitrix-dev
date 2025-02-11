@@ -32,29 +32,47 @@ export const Application = {
   // language=Vue
 
   template: `
-    <MessageComponent v-if="error" type="error" message="По выбранным фильтрам ничего не найдено. Измените параметры фильтра и попробуйте снова." :button="false" />
 
-    <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />
+    <MessageComponent v-if="errorProfile" type="error" :message="errorProfile" :button="false" />
 
-    <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || selected !== false">
+    <div v-else>
 
-    <PredefinedFilters :predefined="predefined" :selected="selected" :loadingSelected="loadingSelected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />
+      <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />
 
-    <hr class="hr--lg">
-    
-    <div>
-      <div v-if="filters">
-        <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />
-      </div>
-      <hr>
-      <div v-if="appeals" ref="table">
-        <StickyScroll>
-          <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
-        </StickyScroll> 
+
+      <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || selected !== false || errorPredefined">
+
+
+      <MessageComponent v-if="errorPredefined" type="error" :message="errorPredefined" :button="false" />
+
+      <PredefinedFilters v-else :predefined="predefined" :selected="selected" :loadingSelected="loadingSelected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />
+
+
+      <hr class="hr--lg">
+      
+      <div>
+        <div v-if="filters">
+
+          <MessageComponent v-if="errorFilter" type="error" :message="errorFilter" :button="false" />
+
+          <FilterComponent v-else :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />
+
+        </div>
         <hr>
-        <div class="vue-ft-table-bottom">
-          <div class="vue-ft-table-all" v-if="appeals.resultCount">Всего: {{ appeals.resultCount }}</div>
-          <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />
+
+
+        <MessageComponent v-if="errorTable" type="error" :message="errorTable" :button="false" />
+
+        <div v-else-if="appeals" ref="table">
+
+          <StickyScroll :reInitWatcher="appealsFinished">
+            <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
+          </StickyScroll> 
+          <hr>
+          <div class="vue-ft-table-bottom">
+            <div class="vue-ft-table-all" v-if="appeals.resultCount">Всего: {{ appeals.resultCount }}</div>
+            <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />
+          </div>
         </div>
       </div>
     </div>
@@ -73,6 +91,7 @@ export const Application = {
       'predefinedActive',
       'loadingPredefined',
       'loadingSelected',
+      'errorPredefined',
     ]),
     ...mapState(tableStore, [
       'loadingTable',
@@ -82,6 +101,7 @@ export const Application = {
       'tableCols',
       'maxCountPerRequest',
       'errorTable',
+      'appealsFinished',
     ]),
     ...mapState(filterStore, [
       'loadingFilter',
@@ -99,7 +119,12 @@ export const Application = {
       return this.appeals.startIndex / this.maxCountPerRequest + 1;
     },
     error() {
-      return this.errorProfile || this.errorTable || this.errorFilter;
+      return (
+        this.errorProfile ||
+        this.errorPredefined ||
+        this.errorFilter ||
+        this.errorTable
+      );
     },
     selected() {
       if (!this.defaultProfile) {
@@ -386,7 +411,6 @@ export const Application = {
         },
       });
     },
-    ...mapActions(profileStore, ['hideErrorProfile']),
     ...mapActions(tableStore, [
       'hideErrorTable',
       'runColumnsNames',
@@ -396,17 +420,11 @@ export const Application = {
       'increaseAppealsCounter',
     ]),
     ...mapActions(filterStore, [
-      'hideErrorFilter',
       'runFilters',
       'changeControlValue',
       'runHintsAction',
       'setHints',
     ]),
-    hideError() {
-      this.hideErrorProfile();
-      this.hideErrorTable();
-      this.hideErrorFilter();
-    },
     clickTh({ column }) {
       const sortType =
         this.sort.columnSort === column.id && this.sort.sortType === 'ASC'

@@ -27,6 +27,12 @@ export class AppealInbox {
         Application,
       },
       template: '<Application/>',
+      computed: {
+        localize() {
+          return this.$Bitrix.Loc.getMessages();
+          // return BitrixVue.getFilteredPhrases('APPEAL_INBOX_');
+        },
+      },
       beforeMount() {
         dataStore().userid = self.options.userid || '';
         dataStore().sessid = self.options.sessid || '';
@@ -42,6 +48,7 @@ export class AppealInbox {
             method: 'setDefaultProfile',
           },
         };
+        profileStore().localize = this.localize;
 
         predefinedStore().actions = {
           predefinedFilters: {
@@ -53,6 +60,7 @@ export class AppealInbox {
             method: 'exportFile',
           },
         };
+        predefinedStore().localize = this.localize;
 
         filterStore().filterCols = ['1', '1', '1', '1'];
         filterStore().actions = {
@@ -61,6 +69,7 @@ export class AppealInbox {
             method: 'filters',
           },
         };
+        filterStore().localize = this.localize;
 
         tableStore().tableCols = ['auto', '20%', '20%', '20%', '100px'];
         tableStore().maxCountPerRequest = self.options.maxCountPerRequest || 50;
@@ -82,6 +91,7 @@ export class AppealInbox {
             method: 'setDefaultSort',
           },
         };
+        tableStore().localize = this.localize;
       },
     });
 
