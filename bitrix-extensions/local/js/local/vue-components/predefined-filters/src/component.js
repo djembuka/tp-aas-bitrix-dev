@@ -45,7 +45,7 @@ export const PredefinedFilters = {
         </div>
         
         <div class="vue-predefined-filters__item vue-predefined-filters__item--selected" :class="{'vue-predefined-filters__item--selected-loading' :loadingSelected}"
-          v-if="selected !== false"
+          v-if="selected !== false && selected !== 0"
           @click="clickSelected">
           <div class="vue-predefined-filters__item__data">
             <i>Выбрано</i>

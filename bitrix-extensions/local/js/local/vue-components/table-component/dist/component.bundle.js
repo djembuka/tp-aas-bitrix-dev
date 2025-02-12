@@ -34,10 +34,10 @@ this.BX = this.BX || {};
         if (tr) {
           var result = '';
           if (tr.url) {
-            result += 'vue-tf-table--clickable';
+            result += 'vue-tf-table--clickable ';
           }
           if (tr["new"]) {
-            result += 'vue-tf-table--new';
+            result += 'vue-tf-table--new ';
           }
           return result;
         } else if (td) {

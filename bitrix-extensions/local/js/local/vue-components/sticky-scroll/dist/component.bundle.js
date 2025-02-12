@@ -128,8 +128,12 @@ this.BX = this.BX || {};
           clearInterval(this.resizeTimeoutId);
         }
         this.resizeTimeoutId = setTimeout(function () {
-          if (_this3.$refs.content && _this3.$refs.content.querySelector('table.table')) {
-            _this3.$refs.content.style.width = "".concat(_this3.$refs.content.querySelector('table.table').clientWidth, "px");
+          if (_this3.$refs.content) {
+            if (_this3.$refs.content.querySelector('table.table')) {
+              _this3.$refs.content.style.width = "".concat(_this3.$refs.content.querySelector('table.table').clientWidth, "px");
+            } else if (_this3.$refs.content.firstElementChild) {
+              _this3.$refs.content.style.width = "".concat(_this3.$refs.content.firstElementChild.clientWidth, "px");
+            }
             setTimeout(function () {
               _this3.init();
             }, 0);

@@ -6,7 +6,7 @@ export const tableStore = defineStore('table', {
       loadingCols: false,
       loadingAppeals: false,
       columnsNames: [],
-      appeals: {},
+      appeals: null,
       sort: {},
       actions: {},
       localize: {},
@@ -152,6 +152,7 @@ export const tableStore = defineStore('table', {
       function resultFn(state, result) {
         if (counter === state.appealsCounter) {
           state.appeals = result.data;
+          //reInitWatcher - set sticky-scroll width
           state.appealsFinished = !state.appealsFinished;
 
           if (callback) {

@@ -31,7 +31,10 @@
   background-color: #f0f5fc;
 }
 .vue-tf-table--new td.desc,
-.vue-tf-table--new td.asc {
+.table .vue-tf-table--new td.desc,
+.table-responsive .vue-tf-table--new td.desc,
+.vue-tf-table--new td.asc,
+.table .vue-tf-table--new td.asc .table-responsive .vue-tf-table--new td.asc {
   background-color: #f1f2f5;
 }
 

@@ -161,13 +161,15 @@ export const StickyScroll = {
       }
 
       this.resizeTimeoutId = setTimeout(() => {
-        if (
-          this.$refs.content &&
-          this.$refs.content.querySelector('table.table')
-        ) {
-          this.$refs.content.style.width = `${
-            this.$refs.content.querySelector('table.table').clientWidth
-          }px`;
+        if (this.$refs.content) {
+          if (this.$refs.content.querySelector('table.table')) {
+            this.$refs.content.style.width = `${
+              this.$refs.content.querySelector('table.table').clientWidth
+            }px`;
+          } else if (this.$refs.content.firstElementChild) {
+            this.$refs.content.style.width = `${this.$refs.content.firstElementChild.clientWidth}px`;
+          }
+
           setTimeout(() => {
             this.init();
           }, 0);
