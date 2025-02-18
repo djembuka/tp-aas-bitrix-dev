@@ -60,24 +60,33 @@ export const Application = {
     },
     clickPage({ count }) {
       this.runItems({
-        signedParameters: this.signedParameters,
-        sessionid: this.sessionid,
-        startIndex: (count - 1) * this.maxCountPerRequest,
-        maxCountPerRequest: this.maxCountPerRequest,
+        mode: 'class',
+        data: {
+          signedParameters: this.signedParameters,
+          sessionid: this.sessionid,
+          startIndex: (count - 1) * this.maxCountPerRequest,
+          maxCountPerRequest: this.maxCountPerRequest,
+        },
       });
     },
   },
   mounted() {
     this.runColumnsNames({
-      signedParameters: this.signedParameters,
-      sessionid: this.sessionid,
+      mode: 'class',
+      data: {
+        signedParameters: this.signedParameters,
+        sessionid: this.sessionid,
+      },
     });
 
     this.runItems({
-      signedParameters: this.signedParameters,
-      sessionid: this.sessionid,
-      startIndex: this.items.startIndex || 0,
-      maxCountPerRequest: this.maxCountPerRequest,
+      mode: 'class',
+      data: {
+        signedParameters: this.signedParameters,
+        sessionid: this.sessionid,
+        startIndex: this.items.startIndex || 0,
+        maxCountPerRequest: this.maxCountPerRequest,
+      },
     });
   },
 };

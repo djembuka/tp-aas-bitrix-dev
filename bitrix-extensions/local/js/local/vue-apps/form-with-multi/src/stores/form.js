@@ -97,7 +97,11 @@ export const formStore = defineStore('form', {
     },
     runControls(data, callback) {
       this.loadingControls = true;
-      let a = window.BX.ajax.runComponentAction(this.actions.controls, data);
+      let a = window.BX.ajax.runComponentAction(
+        this.actions.controls.component,
+        this.actions.controls.method,
+        data
+      );
       let state = this;
 
       a.then(

@@ -67,8 +67,11 @@ export const Application = {
   },
   mounted() {
     this.runControls({
-      signedParameters: this.signedParameters,
-      sessionid: this.sessionid,
+      mode: 'class',
+      data: {
+        signedParameters: this.signedParameters,
+        sessionid: this.sessionid,
+      },
     });
   },
 };

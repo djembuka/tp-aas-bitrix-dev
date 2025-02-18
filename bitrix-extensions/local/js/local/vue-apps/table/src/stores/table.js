@@ -72,7 +72,8 @@ export const tableStore = defineStore('table', {
     runColumnsNames(data, callback) {
       this.loadingCols = true;
       let a = window.BX.ajax.runComponentAction(
-        this.actions.columnsNames,
+        this.actions.columnsNames.component,
+        this.actions.columnsNames.method,
         data
       );
       let state = this;
@@ -108,7 +109,11 @@ export const tableStore = defineStore('table', {
     },
     runItems(data, callback) {
       this.loadingItems = true;
-      let a = window.BX.ajax.runComponentAction(this.actions.items, data);
+      let a = window.BX.ajax.runComponentAction(
+        this.actions.items.component,
+        this.actions.items.method,
+        data
+      );
       let state = this;
 
       a.then(

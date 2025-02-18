@@ -73,7 +73,8 @@ export const tableStore = defineStore('table', {
     runColumnsNames(data, callback) {
       this.loadingCols = true;
       let a = window.BX.ajax.runComponentAction(
-        this.actions.columnsNames,
+        this.actions.columnsNames.component,
+        this.actions.columnsNames.method,
         data
       );
       let state = this;
@@ -109,7 +110,11 @@ export const tableStore = defineStore('table', {
     },
     runItems(data, callback) {
       this.loadingItems = true;
-      let a = window.BX.ajax.runComponentAction(this.actions.items, data);
+      let a = window.BX.ajax.runComponentAction(
+        this.actions.items.component,
+        this.actions.items.method,
+        data
+      );
       let state = this;
 
       a.then(
@@ -143,7 +148,11 @@ export const tableStore = defineStore('table', {
       }
     },
     runDefaultSort(data, callback) {
-      let a = window.BX.ajax.runComponentAction(this.actions.defaultSort, data);
+      let a = window.BX.ajax.runComponentAction(
+        this.actions.defaultSort.component,
+        this.actions.defaultSort.method,
+        data
+      );
       let state = this;
 
       a.then(
@@ -175,7 +184,8 @@ export const tableStore = defineStore('table', {
     },
     runSetDefaultSort(data, callback) {
       let a = window.BX.ajax.runComponentAction(
-        this.actions.setDefaultSort,
+        this.actions.setDefaultSort.component,
+        this.actions.setDefaultSort.method,
         data
       );
       let state = this;

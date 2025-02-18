@@ -115,7 +115,8 @@
         this.loadingCols = true;
         this.loadingItems = true;
         var a = window.BX.ajax.runComponentAction(
-          this.actions.columnsNames,
+          this.actions.columnsNames.component,
+          this.actions.columnsNames.method,
           data
         );
         var state = this;
@@ -150,7 +151,11 @@
       runItems: function runItems(data, callback) {
         var _this2 = this;
         this.loadingItems = true;
-        var a = window.BX.ajax.runComponentAction(this.actions.items, data);
+        var a = window.BX.ajax.runComponentAction(
+          this.actions.items.component,
+          this.actions.items.method,
+          data
+        );
         var state = this;
         a.then(
           function (result) {
@@ -186,7 +191,8 @@
       runDefaultSort: function runDefaultSort(data, callback) {
         var _this3 = this;
         var a = window.BX.ajax.runComponentAction(
-          this.actions.defaultSort,
+          this.actions.defaultSort.component,
+          this.actions.defaultSort.method,
           data
         );
         var state = this;
@@ -219,7 +225,8 @@
       runSetDefaultSort: function runSetDefaultSort(data, callback) {
         var _this4 = this;
         var a = window.BX.ajax.runComponentAction(
-          this.actions.setDefaultSort,
+          this.actions.setDefaultSort.component,
+          this.actions.setDefaultSort.method,
           data
         );
         var state = this;
@@ -403,7 +410,11 @@
       runFilters: function runFilters(data, callback) {
         var _this = this;
         this.loadingFilter = true;
-        var a = window.BX.ajax.runComponentAction(this.actions.filters, data);
+        var a = window.BX.ajax.runComponentAction(
+          this.actions.filters.component,
+          this.actions.filters.method,
+          data
+        );
         var state = this;
         a.then(
           function (result) {
@@ -602,20 +613,26 @@
               : 'ASC';
           this.runSetDefaultSort(
             {
-              signedParameters: this.signedParameters,
-              sessionid: this.sessionid,
-              columnSort: column.id,
-              sortType: sortType,
+              mode: 'class',
+              data: {
+                signedParameters: this.signedParameters,
+                sessionid: this.sessionid,
+                columnSort: column.id,
+                sortType: sortType,
+              },
             },
             function () {
               _this.runItems({
-                signedParameters: _this.signedParameters,
-                sessionid: _this.sessionid,
-                startIndex: _this.items.startIndex || 0,
-                maxCountPerRequest: _this.maxCountPerRequest,
-                filters: [],
-                columnSort: column.id,
-                sortType: 'ASC',
+                mode: 'class',
+                data: {
+                  signedParameters: _this.signedParameters,
+                  sessionid: _this.sessionid,
+                  startIndex: _this.items.startIndex || 0,
+                  maxCountPerRequest: _this.maxCountPerRequest,
+                  filters: [],
+                  columnSort: column.id,
+                  sortType: 'ASC',
+                },
               });
             }
           );
@@ -630,13 +647,16 @@
             checked: checked,
           });
           this.runItems({
-            signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
-            startIndex: this.items.startIndex || 0,
-            maxCountPerRequest: this.maxCountPerRequest,
-            filters: this.filters,
-            columnSort: this.sort.columnSort,
-            sortType: this.sort.sortType,
+            mode: 'class',
+            data: {
+              signedParameters: this.signedParameters,
+              sessionid: this.sessionid,
+              startIndex: this.items.startIndex || 0,
+              maxCountPerRequest: this.maxCountPerRequest,
+              filters: this.filters,
+              columnSort: this.sort.columnSort,
+              sortType: this.sort.sortType,
+            },
           });
         },
         hints: function hints(_ref3) {
@@ -662,13 +682,16 @@
         clickPage: function clickPage(_ref4) {
           var count = _ref4.count;
           this.runItems({
-            signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
-            startIndex: (count - 1) * this.maxCountPerRequest,
-            maxCountPerRequest: this.maxCountPerRequest,
-            filters: this.filters,
-            columnSort: this.sort.columnSort,
-            sortType: this.sort.sortType,
+            mode: 'class',
+            data: {
+              signedParameters: this.signedParameters,
+              sessionid: this.sessionid,
+              startIndex: (count - 1) * this.maxCountPerRequest,
+              maxCountPerRequest: this.maxCountPerRequest,
+              filters: this.filters,
+              columnSort: this.sort.columnSort,
+              sortType: this.sort.sortType,
+            },
           });
         },
       }
@@ -676,29 +699,41 @@
     mounted: function mounted() {
       var _this2 = this;
       this.runColumnsNames({
-        signedParameters: this.signedParameters,
-        sessionid: this.sessionid,
-      });
-      this.runDefaultSort(
-        {
+        mode: 'class',
+        data: {
           signedParameters: this.signedParameters,
           sessionid: this.sessionid,
         },
+      });
+      this.runDefaultSort(
+        {
+          mode: 'class',
+          data: {
+            signedParameters: this.signedParameters,
+            sessionid: this.sessionid,
+          },
+        },
         function () {
           _this2.runItems({
-            signedParameters: _this2.signedParameters,
-            sessionid: _this2.sessionid,
-            startIndex: _this2.items.startIndex || 0,
-            maxCountPerRequest: _this2.maxCountPerRequest,
-            filters: _this2.filters,
-            columnSort: _this2.sort.columnSort,
-            sortType: _this2.sort.sortType,
+            mode: 'class',
+            data: {
+              signedParameters: _this2.signedParameters,
+              sessionid: _this2.sessionid,
+              startIndex: _this2.items.startIndex || 0,
+              maxCountPerRequest: _this2.maxCountPerRequest,
+              filters: _this2.filters,
+              columnSort: _this2.sort.columnSort,
+              sortType: _this2.sort.sortType,
+            },
           });
         }
       );
       this.runFilters({
-        signedParameters: this.signedParameters,
-        sessionid: this.sessionid,
+        mode: 'class',
+        data: {
+          signedParameters: this.signedParameters,
+          sessionid: this.sessionid,
+        },
       });
     },
   };

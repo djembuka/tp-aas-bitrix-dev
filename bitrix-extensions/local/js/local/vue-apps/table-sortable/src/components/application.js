@@ -67,13 +67,73 @@ export const Application = {
 
       this.runSetDefaultSort(
         {
-          signedParameters: this.signedParameters,
-          sessionid: this.sessionid,
-          columnSort: column.id,
-          sortType,
+          mode: 'class',
+          data: {
+            signedParameters: this.signedParameters,
+            sessionid: this.sessionid,
+            columnSort: column.id,
+            sortType,
+          },
         },
         () => {
           this.runItems({
+            mode: 'class',
+            data: {
+              signedParameters: this.signedParameters,
+              sessionid: this.sessionid,
+              startIndex: this.items.startIndex || 0,
+              maxCountPerRequest: this.maxCountPerRequest,
+              filters: [],
+              columnSort: this.sort.columnSort,
+              sortType: this.sort.sortType,
+            },
+          });
+          this.runDefaultSort({
+            mode: 'class',
+            data: {
+              signedParameters: this.signedParameters,
+              sessionid: this.sessionid,
+            },
+          });
+        }
+      );
+    },
+    clickPage({ count }) {
+      this.runItems({
+        mode: 'class',
+        data: {
+          signedParameters: this.signedParameters,
+          sessionid: this.sessionid,
+          startIndex: (count - 1) * this.maxCountPerRequest,
+          maxCountPerRequest: this.maxCountPerRequest,
+          filters: [],
+          columnSort: this.sort.columnSort,
+          sortType: this.sort.sortType,
+        },
+      });
+    },
+  },
+  mounted() {
+    this.runColumnsNames({
+      mode: 'class',
+      data: {
+        signedParameters: this.signedParameters,
+        sessionid: this.sessionid,
+      },
+    });
+
+    this.runDefaultSort(
+      {
+        mode: 'class',
+        data: {
+          signedParameters: this.signedParameters,
+          sessionid: this.sessionid,
+        },
+      },
+      () => {
+        this.runItems({
+          mode: 'class',
+          data: {
             signedParameters: this.signedParameters,
             sessionid: this.sessionid,
             startIndex: this.items.startIndex || 0,
@@ -81,46 +141,7 @@ export const Application = {
             filters: [],
             columnSort: this.sort.columnSort,
             sortType: this.sort.sortType,
-          });
-          this.runDefaultSort({
-            signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
-          });
-        }
-      );
-    },
-    clickPage({ count }) {
-      this.runItems({
-        signedParameters: this.signedParameters,
-        sessionid: this.sessionid,
-        startIndex: (count - 1) * this.maxCountPerRequest,
-        maxCountPerRequest: this.maxCountPerRequest,
-        filters: [],
-        columnSort: this.sort.columnSort,
-        sortType: this.sort.sortType,
-      });
-    },
-  },
-  mounted() {
-    this.runColumnsNames({
-      signedParameters: this.signedParameters,
-      sessionid: this.sessionid,
-    });
-
-    this.runDefaultSort(
-      {
-        signedParameters: this.signedParameters,
-        sessionid: this.sessionid,
-      },
-      () => {
-        this.runItems({
-          signedParameters: this.signedParameters,
-          sessionid: this.sessionid,
-          startIndex: this.items.startIndex || 0,
-          maxCountPerRequest: this.maxCountPerRequest,
-          filters: [],
-          columnSort: this.sort.columnSort,
-          sortType: this.sort.sortType,
+          },
         });
       }
     );

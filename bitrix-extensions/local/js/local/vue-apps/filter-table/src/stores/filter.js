@@ -105,7 +105,11 @@ export const filterStore = defineStore('filter', {
     },
     runFilters(data, callback) {
       this.loadingFilter = true;
-      let a = window.BX.ajax.runComponentAction(this.actions.filters, data);
+      let a = window.BX.ajax.runComponentAction(
+        this.actions.filters.component,
+        this.actions.filters.method,
+        data
+      );
       let state = this;
 
       a.then(

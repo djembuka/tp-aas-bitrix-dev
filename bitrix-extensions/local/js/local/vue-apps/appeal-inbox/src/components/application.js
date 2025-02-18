@@ -179,8 +179,8 @@ export const Application = {
           this.runSetDefaultProfile(
             {
               mode: 'class',
-              signedParameters: this.signedParameters,
               data: {
+                signedParameters: this.signedParameters,
                 userid: this.userid,
                 sessid: this.sessid,
                 profileid: id,
@@ -198,8 +198,8 @@ export const Application = {
 
               return this.runPredefinedFilters({
                 mode: 'class',
-                signedParameters: this.signedParameters,
                 data: {
+                  signedParameters: this.signedParameters,
                   userid: this.userid,
                   sessid: this.sessid,
                   profileid: this.defaultProfile.id,
@@ -217,8 +217,8 @@ export const Application = {
           if (result && result.status === 'success') {
             return this.runFilters({
               mode: 'class',
-              signedParameters: this.signedParameters,
               data: {
+                signedParameters: this.signedParameters,
                 userid: this.userid,
                 sessid: this.sessid,
                 profileid: this.defaultProfile.id,
@@ -232,8 +232,8 @@ export const Application = {
           if (result && result.status === 'success') {
             return this.runColumnsNames({
               mode: 'class',
-              signedParameters: this.signedParameters,
               data: {
+                signedParameters: this.signedParameters,
                 userid: this.userid,
                 sessid: this.sessid,
                 profileid: this.defaultProfile.id,
@@ -247,8 +247,8 @@ export const Application = {
           if (result && result.status === 'success') {
             return this.runDefaultSort({
               mode: 'class',
-              signedParameters: this.signedParameters,
               data: {
+                signedParameters: this.signedParameters,
                 userid: this.userid,
                 sessid: this.sessid,
                 profileid: this.defaultProfile.id,
@@ -267,8 +267,8 @@ export const Application = {
             this.runAppeals(
               {
                 mode: 'class',
-                signedParameters: this.signedParameters,
                 data: {
+                  signedParameters: this.signedParameters,
                   userid: this.userid,
                   sessid: this.sessid,
                   profileid: this.defaultProfile.id,
@@ -302,8 +302,8 @@ export const Application = {
           this.runAppeals(
             {
               mode: 'class',
-              signedParameters: this.signedParameters,
               data: {
+                signedParameters: this.signedParameters,
                 userid: this.userid,
                 sessid: this.sessid,
                 profileid: this.defaultProfile.id,
@@ -324,8 +324,8 @@ export const Application = {
           if (result && result.status === 'success') {
             return this.runFilters({
               mode: 'class',
-              signedParameters: this.signedParameters,
               data: {
+                signedParameters: this.signedParameters,
                 userid: this.userid,
                 sessid: this.sessid,
                 profileid: this.defaultProfile.id,
@@ -339,8 +339,8 @@ export const Application = {
           if (result && result.status === 'success') {
             return this.runColumnsNames({
               mode: 'class',
-              signedParameters: this.signedParameters,
               data: {
+                signedParameters: this.signedParameters,
                 userid: this.userid,
                 sessid: this.sessid,
                 profileid: this.defaultProfile.id,
@@ -354,8 +354,8 @@ export const Application = {
           if (result && result.status === 'success') {
             return this.runDefaultSort({
               mode: 'class',
-              signedParameters: this.signedParameters,
               data: {
+                signedParameters: this.signedParameters,
                 userid: this.userid,
                 sessid: this.sessid,
                 profileid: this.defaultProfile.id,
@@ -374,8 +374,8 @@ export const Application = {
             this.runAppeals(
               {
                 mode: 'class',
-                signedParameters: this.signedParameters,
                 data: {
+                  signedParameters: this.signedParameters,
                   userid: this.userid,
                   sessid: this.sessid,
                   profileid: this.defaultProfile.id,
@@ -402,8 +402,8 @@ export const Application = {
 
       this.runExportFile({
         mode: 'class',
-        signedParameters: this.signedParameters,
         data: {
+          signedParameters: this.signedParameters,
           userid: this.userid,
           sessid: this.sessid,
           profileid: this.defaultProfile.id,
@@ -437,8 +437,8 @@ export const Application = {
       this.runSetDefaultSort(
         {
           mode: 'class',
-          signedParameters: this.signedParameters,
           data: {
+            signedParameters: this.signedParameters,
             userid: this.userid,
             sessid: this.sessid,
             profileid: this.defaultProfile.id,
@@ -454,8 +454,8 @@ export const Application = {
           this.runAppeals(
             {
               mode: 'class',
-              signedParameters: this.signedParameters,
               data: {
+                signedParameters: this.signedParameters,
                 userid: this.userid,
                 sessid: this.sessid,
                 profileid: this.defaultProfile.id,
@@ -487,8 +487,8 @@ export const Application = {
       this.runAppeals(
         {
           mode: 'class',
-          signedParameters: this.signedParameters,
           data: {
+            signedParameters: this.signedParameters,
             userid: this.userid,
             sessid: this.sessid,
             profileid: this.defaultProfile.id,
@@ -509,8 +509,8 @@ export const Application = {
         case 'get':
           this.runHintsAction({
             mode: 'class',
-            signedParameters: this.signedParameters,
             data: {
+              signedParameters: this.signedParameters,
               control,
               action,
             },
@@ -532,8 +532,8 @@ export const Application = {
       this.runAppeals(
         {
           mode: 'class',
-          signedParameters: this.signedParameters,
           data: {
+            signedParameters: this.signedParameters,
             userid: this.userid,
             sessid: this.sessid,
             profileid: this.defaultProfile.id,
@@ -563,8 +563,8 @@ export const Application = {
   mounted() {
     const data = {
       mode: 'class',
-      signedParameters: this.signedParameters,
       data: {
+        signedParameters: this.signedParameters,
         userid: this.userid,
         sessid: this.sessid,
       },
