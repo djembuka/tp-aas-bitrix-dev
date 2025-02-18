@@ -27,11 +27,11 @@ export const Application = {
   template: `
     <div>
       <ErrorMessage :error="error" @hideError="hideError" />
-      <div v-else>
+      <div v-if="!error">
         <FilterComponent :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />
       </div>
       <hr>
-      <div v-else>
+      <div v-if="!error">
         <StickyScroll>
           <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="items" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
         </StickyScroll> 
@@ -91,7 +91,9 @@ export const Application = {
     },
     clickTh({ column }) {
       const sortType =
-        this.sort.columnSort === column.id && this.sort.sortType === 0 ? 1 : 0;
+        this.sort.columnSort === column.id && this.sort.sortType === 'ASC'
+          ? 'DESC'
+          : 'ASC';
 
       this.runSetDefaultSort(
         {
@@ -108,7 +110,7 @@ export const Application = {
             maxCountPerRequest: this.maxCountPerRequest,
             filters: [],
             columnSort: column.id,
-            sortType: 'asc',
+            sortType: 'ASC',
           });
         }
       );

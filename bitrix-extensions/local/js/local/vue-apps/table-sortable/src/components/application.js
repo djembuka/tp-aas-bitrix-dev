@@ -61,7 +61,9 @@ export const Application = {
     },
     clickTh({ column }) {
       const sortType =
-        this.sort.columnSort === column.id && this.sort.sortType === 0 ? 1 : 0;
+        this.sort.columnSort === column.id && this.sort.sortType === 'ASC'
+          ? 'DESC'
+          : 'ASC';
 
       this.runSetDefaultSort(
         {

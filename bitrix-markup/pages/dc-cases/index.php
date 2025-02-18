@@ -22,14 +22,29 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 		'SESSION_ID': '123',
 		'SIGNED_PARAMETERS': 'signedParameters',
 		
-		'FILTER_COLS': ['1','2','2','2'],
+		'FILTER_COLS': ['2','2','2','2'],
 		'TABLE_COLS': ['20%','180px','auto','180px','150px'],
 		
-		'columnsNames': 'twinpx.dc-cases:columnsNames',
-		'items': 'twinpx.dc-cases:items',
-		'defaultSort': 'twinpx.dc-cases:defaultSort',
-		'setDefaultSort': 'twinpx.dc-cases:setDefaultSort',
-		'filters': 'twinpx.dc-cases:filters',
+		'columnsNames': {
+      component: 'twinpx.dc-cases',
+      method: 'columnsNames',
+    },
+		'items': {
+      component: 'twinpx.dc-cases',
+      method: 'items',
+    },
+		'defaultSort': {
+      component: 'twinpx.dc-cases',
+      method: 'defaultSort',
+    },
+		'setDefaultSort': {
+      component: 'twinpx.dc-cases',
+      method: 'setDefaultSort',
+    },
+		'filters': {
+      component: 'twinpx.dc-cases',
+      method: 'filters',
+    },
 		
 		'maxCountPerRequest': 3,
 	});

@@ -68,12 +68,12 @@ window.twinpx.vue['filter-table'].filters = [
 
 window.twinpx.vue['filter-table'].setDefaultSort = {
               columnSort: 2,
-              sortType: 0,
+              sortType: 'ASC',
             };
 			
 window.twinpx.vue['filter-table'].defaultSort = {
               columnSort: 2,
-              sortType: 0,
+              sortType:'ASC',
             };
 			
 window.twinpx.vue['filter-table'].items = (startIndex) => {

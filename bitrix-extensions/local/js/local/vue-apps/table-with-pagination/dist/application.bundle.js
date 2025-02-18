@@ -186,7 +186,7 @@
       clickTh: function clickTh(_ref) {
         var _this = this;
         var column = _ref.column;
-        var sortType = this.sort.columnSort === column.id && this.sort.sortType === 0 ? 1 : 0;
+        var sortType = this.sort.columnSort === column.id && this.sort.sortType === 'ASC' ? 'DESC' : 'ASC';
         this.runSetDefaultSort({
           signedParameters: this.signedParameters,
           sessionid: this.sessionid,
