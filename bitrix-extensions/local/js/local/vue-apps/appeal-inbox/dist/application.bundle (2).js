@@ -413,12 +413,13 @@
         loadingCols: false,
         loadingAppeals: false,
         columnsNames: [],
-        appeals: {},
+        appeals: null,
         sort: {},
         actions: {},
         localize: {},
         errorTable: '',
         appealsCounter: 0,
+        appealsFinished: false,
       };
     },
     getters: {
@@ -571,6 +572,8 @@
         function resultFn(state, result) {
           if (counter === state.appealsCounter) {
             state.appeals = result.data;
+            //reInitWatcher - set sticky-scroll width
+            state.appealsFinished = !state.appealsFinished;
             if (callback) {
               callback();
             }
@@ -916,7 +919,9 @@
   }
   var Application = {
     data: function data() {
-      return {};
+      return {
+        selectedPrev: 0,
+      };
     },
     components: {
       ProfileChoice: local_vueComponents_profileChoice.ProfileChoice,
@@ -932,7 +937,7 @@
     // language=Vue
 
     template:
-      '\n\n    <MessageComponent v-if="errorProfile" type="error" :message="errorProfile" :button="false" />\n\n    <div v-else>\n\n      <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />\n\n\n      <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || selected !== false || errorPredefined">\n\n\n      <MessageComponent v-if="errorPredefined" type="error" :message="errorPredefined" :button="false" />\n\n      <PredefinedFilters v-else :predefined="predefined" :selected="selected" :loadingSelected="loadingSelected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />\n\n\n      <hr class="hr--lg"\n      >\n      \n      <div>\n        <div v-if="filters">\n\n          <MessageComponent v-if="errorFilter" type="error" :message="errorFilter" :button="false" />\n\n          <FilterComponent v-else :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n\n        </div>\n        <hr>\n\n\n        <MessageComponent v-if="errorTable" type="error" :message="errorTable" :button="false" />\n\n        <div v-else-if="appeals" ref="table">\n\n          <StickyScroll>\n            <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n          </StickyScroll> \n          <hr>\n          <div class="vue-ft-table-bottom">\n            <div class="vue-ft-table-all" v-if="appeals.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ appeals.resultCount }}</div>\n            <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n          </div>\n        </div>\n      </div>\n    </div>\n\t',
+      '\n\n    <MessageComponent v-if="errorProfile" type="error" :message="errorProfile" :button="false" />\n\n    <div v-else>\n\n      <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />\n\n\n      <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || (selected !== false && selected !== 0) || errorPredefined">\n\n\n      <MessageComponent v-if="errorPredefined" type="error" :message="errorPredefined" :button="false" />\n\n      <PredefinedFilters v-else :predefined="predefined" :selected="selected" :loadingSelected="loadingSelected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />\n\n\n      <hr class="hr--lg">\n      \n      <div>\n        <div v-if="filters">\n\n          <MessageComponent v-if="errorFilter" type="error" :message="errorFilter" :button="false" />\n\n          <FilterComponent v-else :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n\n        </div>\n        <hr>\n\n\n        <MessageComponent v-if="errorTable" type="error" :message="errorTable" :button="false" />\n\n        <div v-else-if="appeals" ref="table">\n\n          <StickyScroll :reInitWatcher="appealsFinished">\n            <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n          </StickyScroll> \n          <hr>\n          <div class="vue-ft-table-bottom">\n            <div class="vue-ft-table-all" v-if="appeals.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ appeals.resultCount }}</div>\n            <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n          </div>\n        </div>\n      </div>\n    </div>\n\t',
     computed: _objectSpread(
       _objectSpread(
         _objectSpread(
@@ -970,6 +975,7 @@
             'tableCols',
             'maxCountPerRequest',
             'errorTable',
+            'appealsFinished',
           ])
         ),
         ui_vue3_pinia.mapState(filterStore, [
@@ -1017,9 +1023,10 @@
           }
           if (this.defaultProfile.excelExportSupport && filtersSelected) {
             if (!this.loadingTable) {
+              this.selectedPrev = this.appeals.resultCount;
               return this.appeals.resultCount;
             } else {
-              return this.loadingTable;
+              return this.loadingTable && this.selectedPrev > 0;
             }
           } else {
             return false;
@@ -1159,7 +1166,7 @@
                           userid: _this.userid,
                           sessid: _this.sessid,
                           profileid: _this.defaultProfile.id,
-                          startIndex: _this.appeals.startIndex || 0,
+                          startIndex: 0,
                           maxCountPerRequest: _this.maxCountPerRequest,
                           predefinedFilter: predefinedFilter,
                           filters: _this.filters,
@@ -1274,7 +1281,7 @@
                           userid: _this2.userid,
                           sessid: _this2.sessid,
                           profileid: _this2.defaultProfile.id,
-                          startIndex: _this2.appeals.startIndex || 0,
+                          startIndex: 0,
                           maxCountPerRequest: _this2.maxCountPerRequest,
                           predefinedFilter: _predefinedFilter,
                           filters: _this2.filters,
@@ -1360,7 +1367,7 @@
                     userid: _this3.userid,
                     sessid: _this3.sessid,
                     profileid: _this3.defaultProfile.id,
-                    startIndex: _this3.appeals.startIndex || 0,
+                    startIndex: 0,
                     maxCountPerRequest: _this3.maxCountPerRequest,
                     predefinedFilter: predefinedFilter,
                     filters: _this3.filters,
@@ -1394,7 +1401,7 @@
                 userid: this.userid,
                 sessid: this.sessid,
                 profileid: this.defaultProfile.id,
-                startIndex: this.appeals.startIndex || 0,
+                startIndex: 0,
                 maxCountPerRequest: this.maxCountPerRequest,
                 predefinedFilter: predefinedFilter,
                 filters: this.filters,
@@ -1506,7 +1513,7 @@
             var predefinedFilter = self.predefinedActive
               ? self.predefinedActive.id
               : undefined;
-            data.data.startIndex = self.appeals.startIndex || 0;
+            data.data.startIndex = 0;
             data.data.maxCountPerRequest = self.maxCountPerRequest;
             data.data.predefinedFilter = predefinedFilter;
             data.data.filters = self.filters;
@@ -1681,5 +1688,4 @@
   BX.AAS,
   BX.AAS,
   BX.Vue3.Pinia
-);
-//# sourceMappingURL=application.bundle.js.map
+); //# sourceMappingURL=application.bundle.js.map

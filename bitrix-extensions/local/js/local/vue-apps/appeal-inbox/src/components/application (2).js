@@ -18,7 +18,9 @@ import { filterStore } from '../stores/filter';
 
 export const Application = {
   data() {
-    return {};
+    return {
+      selectedPrev: 0,
+    };
   },
   components: {
     ProfileChoice,
@@ -40,7 +42,7 @@ export const Application = {
       <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />
 
 
-      <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || selected !== false || errorPredefined">
+      <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || (selected !== false && selected !== 0) || errorPredefined">
 
 
       <MessageComponent v-if="errorPredefined" type="error" :message="errorPredefined" :button="false" />
@@ -48,8 +50,7 @@ export const Application = {
       <PredefinedFilters v-else :predefined="predefined" :selected="selected" :loadingSelected="loadingSelected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />
 
 
-      <hr class="hr--lg"
-      >
+      <hr class="hr--lg">
       
       <div>
         <div v-if="filters">
@@ -66,7 +67,7 @@ export const Application = {
 
         <div v-else-if="appeals" ref="table">
 
-          <StickyScroll>
+          <StickyScroll :reInitWatcher="appealsFinished">
             <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />
           </StickyScroll> 
           <hr>
@@ -102,6 +103,7 @@ export const Application = {
       'tableCols',
       'maxCountPerRequest',
       'errorTable',
+      'appealsFinished',
     ]),
     ...mapState(filterStore, [
       'loadingFilter',
@@ -145,9 +147,10 @@ export const Application = {
 
       if (this.defaultProfile.excelExportSupport && filtersSelected) {
         if (!this.loadingTable) {
+          this.selectedPrev = this.appeals.resultCount;
           return this.appeals.resultCount;
         } else {
-          return this.loadingTable;
+          return this.loadingTable && this.selectedPrev > 0;
         }
       } else {
         return false;
@@ -269,7 +272,7 @@ export const Application = {
                   userid: this.userid,
                   sessid: this.sessid,
                   profileid: this.defaultProfile.id,
-                  startIndex: this.appeals.startIndex || 0,
+                  startIndex: 0,
                   maxCountPerRequest: this.maxCountPerRequest,
                   predefinedFilter,
                   filters: this.filters,
@@ -376,7 +379,7 @@ export const Application = {
                   userid: this.userid,
                   sessid: this.sessid,
                   profileid: this.defaultProfile.id,
-                  startIndex: this.appeals.startIndex || 0,
+                  startIndex: 0,
                   maxCountPerRequest: this.maxCountPerRequest,
                   predefinedFilter,
                   filters: this.filters,
@@ -456,7 +459,7 @@ export const Application = {
                 userid: this.userid,
                 sessid: this.sessid,
                 profileid: this.defaultProfile.id,
-                startIndex: this.appeals.startIndex || 0,
+                startIndex: 0,
                 maxCountPerRequest: this.maxCountPerRequest,
                 predefinedFilter,
                 filters: this.filters,
@@ -489,7 +492,7 @@ export const Application = {
             userid: this.userid,
             sessid: this.sessid,
             profileid: this.defaultProfile.id,
-            startIndex: this.appeals.startIndex || 0,
+            startIndex: 0,
             maxCountPerRequest: this.maxCountPerRequest,
             predefinedFilter,
             filters: this.filters,
@@ -600,7 +603,7 @@ export const Application = {
             ? self.predefinedActive.id
             : undefined;
 
-          data.data.startIndex = self.appeals.startIndex || 0;
+          data.data.startIndex = 0;
           data.data.maxCountPerRequest = self.maxCountPerRequest;
           data.data.predefinedFilter = predefinedFilter;
           data.data.filters = self.filters;

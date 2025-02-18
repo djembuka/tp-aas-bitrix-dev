@@ -17,6 +17,7 @@ this.BX = this.BX || {};
         resizeTimeoutId: undefined
       };
     },
+    props: ['reInitWatcher'],
     template: "\n    <div class=\"twpx-sticky-scroll\">\n      <div class=\"twpx-sticky-scroll-space-right\" ref=\"spaceRight\" @mouseover=\"spaceAndArrowMouseover('right')\" @mouseout=\"spaceAndArrowMouseout\" v-show=\"visible\"></div>\n      <div class=\"twpx-sticky-scroll-space-left\" ref=\"spaceLeft\" @mouseover=\"spaceAndArrowMouseover('left')\" @mouseout=\"spaceAndArrowMouseout\" v-show=\"visible\"></div>\n\n      <div class=\"twpx-sticky-scroll-arrows\" v-show=\"visible\">\n        <div class=\"twpx-sticky-scroll-arrow-right\" ref=\"arrowRight\" @mouseover=\"spaceAndArrowMouseover('right')\" @mouseout=\"spaceAndArrowMouseout\"></div>\n        <div class=\"twpx-sticky-scroll-arrow-left\" ref=\"arrowLeft\" @mouseover=\"spaceAndArrowMouseover('left')\" @mouseout=\"spaceAndArrowMouseout\"></div>\n      </div>\n\n      <div class=\"twpx-sticky-scroll-content-wrapper\" ref=\"contentWrapper\">\n        <div ref=\"content\">\n          <slot></slot>\n        </div>\n      </div>\n\n      <div class=\"twpx-sticky-scroll-scrollbar\" ref=\"scrollbar\" @click=\"scrollbarClick($event)\" v-show=\"visible\">\n        <div class=\"twpx-sticky-scroll-scrollbar-thumb\" ref=\"thumb\" @mousedown=\"thumbMousedown($event)\" @click=\"thumbClick($event)\"></div>\n      </div>\n    </div>\n  ",
     watch: {
       reInitWatcher: function reInitWatcher(newVal, oldVal) {
@@ -127,8 +128,12 @@ this.BX = this.BX || {};
           clearInterval(this.resizeTimeoutId);
         }
         this.resizeTimeoutId = setTimeout(function () {
-          if (_this3.$refs.content && _this3.$refs.content.querySelector('table.table')) {
-            _this3.$refs.content.style.width = "".concat(_this3.$refs.content.querySelector('table.table').clientWidth, "px");
+          if (_this3.$refs.content) {
+            if (_this3.$refs.content.querySelector('table.table')) {
+              _this3.$refs.content.style.width = "".concat(_this3.$refs.content.querySelector('table.table').clientWidth, "px");
+            } else if (_this3.$refs.content.firstElementChild) {
+              _this3.$refs.content.style.width = "".concat(_this3.$refs.content.firstElementChild.clientWidth, "px");
+            }
             setTimeout(function () {
               _this3.init();
             }, 0);
