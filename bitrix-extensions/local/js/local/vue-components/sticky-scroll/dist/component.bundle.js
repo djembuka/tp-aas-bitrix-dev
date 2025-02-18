@@ -146,7 +146,7 @@ this.BX = this.BX || {};
           return _regeneratorRuntime().wrap(function _callee$(_context) {
             while (1) switch (_context.prev = _context.next) {
               case 0:
-                if (!(!_this4.$refs.content || !_this4.$refs.content.querySelector('table.table'))) {
+                if (!(!_this4.$refs.content || !_this4.$refs.content.querySelector('table.table') && !_this4.$refs.content.firstElementChild)) {
                   _context.next = 5;
                   break;
                 }

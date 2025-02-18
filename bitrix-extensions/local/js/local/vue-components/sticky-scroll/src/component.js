@@ -180,7 +180,8 @@ export const StickyScroll = {
       do {
         if (
           !this.$refs.content ||
-          !this.$refs.content.querySelector('table.table')
+          (!this.$refs.content.querySelector('table.table') &&
+            !this.$refs.content.firstElementChild)
         ) {
           await new Promise((r) => setTimeout(r, 500));
         } else {

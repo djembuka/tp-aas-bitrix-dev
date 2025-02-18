@@ -7,7 +7,7 @@
   var dataStore = ui_vue3_pinia.defineStore('data', {
     state: function state() {
       return {
-        sessionid: '',
+        sessid: '',
         signedParameters: '',
         templateFolder: '',
         lang: {},

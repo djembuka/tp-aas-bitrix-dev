@@ -24,9 +24,9 @@ export class TableSortable {
         Application,
       },
       template: '<Application/>',
-      mounted() {
-        dataStore().sessionid = self.options.SESSION_ID || '';
-        dataStore().signedParameters = self.options.SIGNED_PARAMETERS || '';
+      beforeMount() {
+        dataStore().sessid = self.options.sessid || '';
+        dataStore().signedParameters = self.options.signedParameters || '';
 
         tableStore().tableCols = self.options.TABLE_COLS || [];
         tableStore().maxCountPerRequest =

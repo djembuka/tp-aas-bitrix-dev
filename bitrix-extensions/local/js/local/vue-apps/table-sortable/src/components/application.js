@@ -28,7 +28,7 @@ export const Application = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['sessionid', 'signedParameters']),
+    ...mapState(dataStore, ['sessid', 'signedParameters']),
     ...mapState(tableStore, [
       'loadingTable',
       'columnsNames',
@@ -70,7 +70,7 @@ export const Application = {
           mode: 'class',
           data: {
             signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
+            sessid: this.sessid,
             columnSort: column.id,
             sortType,
           },
@@ -80,7 +80,7 @@ export const Application = {
             mode: 'class',
             data: {
               signedParameters: this.signedParameters,
-              sessionid: this.sessionid,
+              sessid: this.sessid,
               startIndex: this.items.startIndex || 0,
               maxCountPerRequest: this.maxCountPerRequest,
               filters: [],
@@ -92,7 +92,7 @@ export const Application = {
             mode: 'class',
             data: {
               signedParameters: this.signedParameters,
-              sessionid: this.sessionid,
+              sessid: this.sessid,
             },
           });
         }
@@ -103,7 +103,7 @@ export const Application = {
         mode: 'class',
         data: {
           signedParameters: this.signedParameters,
-          sessionid: this.sessionid,
+          sessid: this.sessid,
           startIndex: (count - 1) * this.maxCountPerRequest,
           maxCountPerRequest: this.maxCountPerRequest,
           filters: [],
@@ -118,7 +118,7 @@ export const Application = {
       mode: 'class',
       data: {
         signedParameters: this.signedParameters,
-        sessionid: this.sessionid,
+        sessid: this.sessid,
       },
     });
 
@@ -127,7 +127,7 @@ export const Application = {
         mode: 'class',
         data: {
           signedParameters: this.signedParameters,
-          sessionid: this.sessionid,
+          sessid: this.sessid,
         },
       },
       () => {
@@ -135,7 +135,7 @@ export const Application = {
           mode: 'class',
           data: {
             signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
+            sessid: this.sessid,
             startIndex: this.items.startIndex || 0,
             maxCountPerRequest: this.maxCountPerRequest,
             filters: [],

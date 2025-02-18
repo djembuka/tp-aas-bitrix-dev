@@ -51,7 +51,7 @@ export const TwoCols = {
 	`,
   computed: {
     ...mapState(dataStore, [
-      'sessionid',
+      'sessid',
       'signedParameters',
       'templateFolder',
       'lang',

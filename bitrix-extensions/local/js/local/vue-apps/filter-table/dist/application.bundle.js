@@ -14,7 +14,7 @@
   var dataStore = ui_vue3_pinia.defineStore('data', {
     state: function state() {
       return {
-        sessionid: '',
+        sessid: '',
         signedParameters: '',
       };
     },
@@ -546,7 +546,7 @@
         _objectSpread(
           _objectSpread(
             {},
-            ui_vue3_pinia.mapState(dataStore, ['sessionid', 'signedParameters'])
+            ui_vue3_pinia.mapState(dataStore, ['sessid', 'signedParameters'])
           ),
           ui_vue3_pinia.mapState(tableStore, [
             'loadingTable',
@@ -616,7 +616,7 @@
               mode: 'class',
               data: {
                 signedParameters: this.signedParameters,
-                sessionid: this.sessionid,
+                sessid: this.sessid,
                 columnSort: column.id,
                 sortType: sortType,
               },
@@ -626,7 +626,7 @@
                 mode: 'class',
                 data: {
                   signedParameters: _this.signedParameters,
-                  sessionid: _this.sessionid,
+                  sessid: _this.sessid,
                   startIndex: _this.items.startIndex || 0,
                   maxCountPerRequest: _this.maxCountPerRequest,
                   filters: [],
@@ -650,7 +650,7 @@
             mode: 'class',
             data: {
               signedParameters: this.signedParameters,
-              sessionid: this.sessionid,
+              sessid: this.sessid,
               startIndex: this.items.startIndex || 0,
               maxCountPerRequest: this.maxCountPerRequest,
               filters: this.filters,
@@ -685,7 +685,7 @@
             mode: 'class',
             data: {
               signedParameters: this.signedParameters,
-              sessionid: this.sessionid,
+              sessid: this.sessid,
               startIndex: (count - 1) * this.maxCountPerRequest,
               maxCountPerRequest: this.maxCountPerRequest,
               filters: this.filters,
@@ -702,7 +702,7 @@
         mode: 'class',
         data: {
           signedParameters: this.signedParameters,
-          sessionid: this.sessionid,
+          sessid: this.sessid,
         },
       });
       this.runDefaultSort(
@@ -710,7 +710,7 @@
           mode: 'class',
           data: {
             signedParameters: this.signedParameters,
-            sessionid: this.sessionid,
+            sessid: this.sessid,
           },
         },
         function () {
@@ -718,7 +718,7 @@
             mode: 'class',
             data: {
               signedParameters: _this2.signedParameters,
-              sessionid: _this2.sessionid,
+              sessid: _this2.sessid,
               startIndex: _this2.items.startIndex || 0,
               maxCountPerRequest: _this2.maxCountPerRequest,
               filters: _this2.filters,
@@ -732,7 +732,7 @@
         mode: 'class',
         data: {
           signedParameters: this.signedParameters,
-          sessionid: this.sessionid,
+          sessid: this.sessid,
         },
       });
     },
@@ -793,10 +793,10 @@
                 Application: Application,
               },
               template: '<Application/>',
-              mounted: function mounted() {
-                dataStore().sessionid = self.options.SESSION_ID || '';
+              beforeMount: function beforeMount() {
+                dataStore().sessid = self.options.sessid || '';
                 dataStore().signedParameters =
-                  self.options.SIGNED_PARAMETERS || '';
+                  self.options.signedParameters || '';
                 tableStore().tableCols = self.options.TABLE_COLS || [];
                 tableStore().maxCountPerRequest =
                   self.options.maxCountPerRequest || 100;

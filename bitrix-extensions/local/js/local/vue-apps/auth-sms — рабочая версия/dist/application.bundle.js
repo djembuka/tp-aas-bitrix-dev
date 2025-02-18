@@ -7,7 +7,7 @@
   var dataStore = ui_vue3_pinia.defineStore('data', {
     state: function state() {
       return {
-        sessionid: '',
+        sessid: '',
         signedParameters: '',
         templateFolder: '',
         lang: {},
@@ -717,7 +717,7 @@
     // language=Vue
 
     template: "\n    <div class=\"vue-auth-sms\">\n      <div class=\"vue-auth-sms-left\">\n\n        <h3 class=\"mt-0\">{{ title }}</h3>\n\n        <MessageComponent type=\"info\" :message=\"info\" :button=\"lang.AUTH_SMS_INFO_BUTTON\" @clickButton=\"clickInfoButton\" />\n        <hr v-if=\"info && error\">\n        <MessageComponent v-if=\"error\" type=\"error\" :message=\"error\" :button=\"errorButton\" @clickButton=\"clickErrorButton\" />\n\n        <Sms v-if=\"state === 'sms'\" />\n        <Ornz v-else-if=\"state === 'ornz'\" />\n        <Code v-else-if=\"state === 'code'\" />\n\n        <hr class=\"hr--line hr--none\" />\n\n        <div class=\"vue-auth-sms-alt\">\n          <div><ButtonComponent :text=\"altButton\" :props=\"['medium', 'primary']\" @clickButton=\"clickAlt\" /></div>\n          <div><router-link to=\"/two-cols/ornz\">{{ lang.AUTH_SMS_ENTER_LINK }}</router-link></div>\n        </div>\n\n      </div>\n      <div class=\"vue-auth-sms-right\">\n        <img :src=\"templateFolder + '/auth-sms-ill.png'\" alt=\"\">\n      </div>\n      \n    </div>\n\t",
-    computed: _objectSpread$4(_objectSpread$4(_objectSpread$4(_objectSpread$4({}, ui_vue3_pinia.mapState(dataStore, ['sessionid', 'signedParameters', 'templateFolder', 'lang', 'info', 'state', 'error', 'errorButton'])), ui_vue3_pinia.mapState(smsStore, ['errorButton'])), ui_vue3_pinia.mapState(codeStore, ['uuid'])), {}, {
+    computed: _objectSpread$4(_objectSpread$4(_objectSpread$4(_objectSpread$4({}, ui_vue3_pinia.mapState(dataStore, ['sessid', 'signedParameters', 'templateFolder', 'lang', 'info', 'state', 'error', 'errorButton'])), ui_vue3_pinia.mapState(smsStore, ['errorButton'])), ui_vue3_pinia.mapState(codeStore, ['uuid'])), {}, {
       title: function title() {
         return this.lang["AUTH_SMS_".concat(String(this.state).toUpperCase(), "_TITLE")];
       },
@@ -956,7 +956,7 @@
     // language=Vue
 
     template: "\n    <div class=\"vue-auth-sms\">\n      <div class=\"vue-auth-sms-left\">\n\n        <h3 class=\"mt-0\">{{ title }}</h3>\n\n        <MessageComponent v-if=\"info\" type=\"info\" :message=\"info\" :button=\"infoButton\" @clickButton=\"clickInfoButton\" />\n        <hr v-if=\"info && error\">\n        <MessageComponent v-if=\"error\" type=\"error\" :message=\"error\" :button=\"errorButton\" @clickButton=\"clickErrorButton\" />\n\n        <router-view />\n\n        <hr class=\"hr--line hr--none\" />\n\n        <div class=\"vue-auth-sms-alt\">\n          <div><ButtonComponent :text=\"altButton\" :props=\"['medium', 'primary']\" @clickButton=\"clickAlt\" /></div>\n          <div><router-link to=\"/center-col/restore\">{{ lang.AUTH_SMS_ENTER_LINK }}</router-link></div>\n        </div>\n\n      </div>\n      <div class=\"vue-auth-sms-right\">\n        <img :src=\"templateFolder + '/auth-sms-ill.png'\" alt=\"\">\n      </div>\n      \n    </div>\n\t",
-    computed: _objectSpread$5(_objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapState(dataStore, ['sessionid', 'signedParameters', 'templateFolder', 'lang', 'info', 'infoButton', 'state', 'error', 'errorButton'])), ui_vue3_pinia.mapState(smsStore, ['errorButton'])), ui_vue3_pinia.mapState(codeStore, ['uuid'])), {}, {
+    computed: _objectSpread$5(_objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapState(dataStore, ['sessid', 'signedParameters', 'templateFolder', 'lang', 'info', 'infoButton', 'state', 'error', 'errorButton'])), ui_vue3_pinia.mapState(smsStore, ['errorButton'])), ui_vue3_pinia.mapState(codeStore, ['uuid'])), {}, {
       title: function title() {
         return this.lang["AUTH_SMS_".concat(String(this.state).toUpperCase(), "_TITLE")];
       },

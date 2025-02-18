@@ -29,7 +29,7 @@ export const Application = {
 	`,
   computed: {
     ...mapState(dataStore, [
-      'sessionid',
+      'sessid',
       'signedParameters',
       'templateFolder',
       'lang',
