@@ -565,7 +565,9 @@
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var Application = {
     data: function data() {
-      return {};
+      return {
+        selectedPrev: 0,
+      };
     },
     components: {
       ProfileChoice: local_vueComponents_profileChoice.ProfileChoice,
@@ -578,6 +580,7 @@
     },
     // language=Vue
 
+<<<<<<< HEAD
     template: "\n\n    <MessageComponent v-if=\"errorProfile\" type=\"error\" :message=\"errorProfile\" :button=\"false\" />\n\n    <div v-else>\n\n      <ProfileChoice :profiles=\"profiles\" :loading=\"loadingProfiles\" @clickProfile=\"clickProfile\" />\n\n\n      <hr class=\"hr--sl\" v-if=\"loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || selected !== false || errorPredefined\">\n\n\n      <MessageComponent v-if=\"errorPredefined\" type=\"error\" :message=\"errorPredefined\" :button=\"false\" />\n\n      <PredefinedFilters v-else :predefined=\"predefined\" :selected=\"selected\" :loadingSelected=\"loadingSelected\" :loading=\"loadingPredefined\" @clickPredefined=\"clickPredefined\" @clickSelected=\"clickSelected\" />\n\n\n      <hr class=\"hr--lg\"\n      >\n      \n      <div>\n        <div v-if=\"filters\">\n\n          <MessageComponent v-if=\"errorFilter\" type=\"error\" :message=\"errorFilter\" :button=\"false\" />\n\n          <FilterComponent v-else :cols=\"filterCols\" :filters=\"filters\" :loading=\"loadingFilter\" @input=\"input\" @hints=\"hints\" />\n\n        </div>\n        <hr>\n\n\n        <MessageComponent v-if=\"errorTable\" type=\"error\" :message=\"errorTable\" :button=\"false\" />\n\n        <div v-else-if=\"appeals\" ref=\"table\">\n\n          <StickyScroll>\n            <TableComponent :sortable=\"true\" :cols=\"tableCols\" :columnsNames=\"columnsNames\" :items=\"appeals\" :sort=\"sort\" :loading=\"loadingTable\" :maxCountPerRequest=\"maxCountPerRequest\" @clickTh=\"clickTh\" @clickPage=\"clickPage\" />\n          </StickyScroll> \n          <hr>\n          <div class=\"vue-ft-table-bottom\">\n            <div class=\"vue-ft-table-all\" v-if=\"appeals.resultCount\">\u0412\u0441\u0435\u0433\u043E: {{ appeals.resultCount }}</div>\n            <PaginationComponent :pagesNum=\"pagesNum\" :pageActive=\"pageActive\" @clickPage=\"clickPage\" />\n          </div>\n        </div>\n      </div>\n    </div>\n\t",
     computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['userid', 'sessid', 'signedParameters'])), ui_vue3_pinia.mapState(profileStore, ['profiles', 'defaultProfile', 'profilesCounter', 'loadingProfiles', 'errorProfile'])), ui_vue3_pinia.mapState(predefinedStore, ['predefined', 'predefinedActive', 'loadingPredefined', 'loadingSelected', 'errorPredefined'])), ui_vue3_pinia.mapState(tableStore, ['loadingTable', 'columnsNames', 'appeals', 'sort', 'tableCols', 'maxCountPerRequest', 'errorTable'])), ui_vue3_pinia.mapState(filterStore, ['loadingFilter', 'filters', 'filterCols', 'errorFilter'])), {}, {
       showError: function showError(error) {
@@ -653,6 +656,60 @@
             });
           }
         }, function (error) {
+=======
+    template:
+      '\n\n    <MessageComponent v-if="errorProfile" type="error" :message="errorProfile" :button="false" />\n\n    <div v-else>\n\n      <ProfileChoice :profiles="profiles" :loading="loadingProfiles" @clickProfile="clickProfile" />\n\n\n      <hr class="hr--sl" v-if="loadingPredefined || (predefined && predefined.fields && predefined.fields.length) || (selected !== false && selected !== 0) || errorPredefined">\n\n\n      <MessageComponent v-if="errorPredefined" type="error" :message="errorPredefined" :button="false" />\n\n      <PredefinedFilters v-else :predefined="predefined" :selected="selected" :loadingSelected="loadingSelected" :loading="loadingPredefined" @clickPredefined="clickPredefined" @clickSelected="clickSelected" />\n\n\n      <hr class="hr--lg">\n      \n      <div>\n        <div v-if="filters">\n\n          <MessageComponent v-if="errorFilter" type="error" :message="errorFilter" :button="false" />\n\n          <FilterComponent v-else :cols="filterCols" :filters="filters" :loading="loadingFilter" @input="input" @hints="hints" />\n\n        </div>\n        <hr>\n\n\n        <MessageComponent v-if="errorTable" type="error" :message="errorTable" :button="false" />\n\n        <div v-else-if="appeals" ref="table">\n\n          <StickyScroll :reInitWatcher="appealsFinished">\n            <TableComponent :sortable="true" :cols="tableCols" :columnsNames="columnsNames" :items="appeals" :sort="sort" :loading="loadingTable" :maxCountPerRequest="maxCountPerRequest" @clickTh="clickTh" @clickPage="clickPage" />\n          </StickyScroll> \n          <hr>\n          <div class="vue-ft-table-bottom">\n            <div class="vue-ft-table-all" v-if="appeals.resultCount">\u0412\u0441\u0435\u0433\u043E: {{ appeals.resultCount }}</div>\n            <PaginationComponent :pagesNum="pagesNum" :pageActive="pageActive" @clickPage="clickPage" />\n          </div>\n        </div>\n      </div>\n    </div>\n\t',
+    computed: _objectSpread(
+      _objectSpread(
+        _objectSpread(
+          _objectSpread(
+            _objectSpread(
+              _objectSpread(
+                {},
+                ui_vue3_pinia.mapState(dataStore, [
+                  'userid',
+                  'sessid',
+                  'signedParameters',
+                ])
+              ),
+              ui_vue3_pinia.mapState(profileStore, [
+                'profiles',
+                'defaultProfile',
+                'profilesCounter',
+                'loadingProfiles',
+                'errorProfile',
+              ])
+            ),
+            ui_vue3_pinia.mapState(predefinedStore, [
+              'predefined',
+              'predefinedActive',
+              'loadingPredefined',
+              'loadingSelected',
+              'errorPredefined',
+            ])
+          ),
+          ui_vue3_pinia.mapState(tableStore, [
+            'loadingTable',
+            'columnsNames',
+            'appeals',
+            'sort',
+            'tableCols',
+            'maxCountPerRequest',
+            'errorTable',
+            'appealsFinished',
+          ])
+        ),
+        ui_vue3_pinia.mapState(filterStore, [
+          'loadingFilter',
+          'filters',
+          'filterCols',
+          'errorFilter',
+        ])
+      ),
+      {},
+      {
+        showError: function showError(error) {
+>>>>>>> b22bead50b1a8d5cd22ca3001a53b4d727f9818f
           console.log(error);
         }).then(function (result) {
           if (result && result.status === 'success') {
@@ -686,69 +743,366 @@
               error: result.errors[0]
             });
           }
-        }).then(function (result) {
-          if (result && result.status === 'success') {
-            return _this.runDefaultSort({
+
+          if (this.defaultProfile.excelExportSupport && filtersSelected) {
+            if (!this.loadingTable) {
+              this.selectedPrev = this.appeals.resultCount;
+              return this.appeals.resultCount;
+            } else {
+              return this.loadingTable && this.selectedPrev > 0;
+            }
+          } else {
+            return false;
+          }
+        },
+      }
+    ),
+    methods: _objectSpread(
+      _objectSpread(
+        _objectSpread(
+          _objectSpread(
+            _objectSpread(
+              {},
+              ui_vue3_pinia.mapActions(profileStore, [
+                'runProfiles',
+                'runSetDefaultProfile',
+                'setDefaultProfile',
+                'increaseProfilesCounter',
+              ])
+            ),
+            ui_vue3_pinia.mapActions(predefinedStore, [
+              'runPredefinedFilters',
+              'setPredefinedActive',
+              'runExportFile',
+            ])
+          ),
+          {},
+          {
+            clickProfile: function clickProfile(_ref) {
+              var _this = this;
+              var id = _ref.id;
+              this.setDefaultProfile({
+                id: id,
+              });
+              this.increaseProfilesCounter();
+              new Promise(function (resolve) {
+                resolve(
+                  _this.runSetDefaultProfile(
+                    {
+                      mode: 'class',
+                      signedParameters: _this.signedParameters,
+                      data: {
+                        userid: _this.userid,
+                        sessid: _this.sessid,
+                        profileid: id,
+                      },
+                    },
+                    function () {},
+                    _this.profilesCounter
+                  )
+                );
+              })
+                .then(
+                  function (result) {
+                    if (result && result.status === 'success') {
+                      if (!_this.defaultProfile) return;
+                      return _this.runPredefinedFilters({
+                        mode: 'class',
+                        signedParameters: _this.signedParameters,
+                        data: {
+                          userid: _this.userid,
+                          sessid: _this.sessid,
+                          profileid: _this.defaultProfile.id,
+                        },
+                      });
+                    } else if (result && result.status === 'error') {
+                      _this.showError({
+                        error: result.errors[0],
+                      });
+                    }
+                  },
+                  function (error) {
+                    console.log(error);
+                  }
+                )
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this.runFilters({
+                      mode: 'class',
+                      signedParameters: _this.signedParameters,
+                      data: {
+                        userid: _this.userid,
+                        sessid: _this.sessid,
+                        profileid: _this.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this.runColumnsNames({
+                      mode: 'class',
+                      signedParameters: _this.signedParameters,
+                      data: {
+                        userid: _this.userid,
+                        sessid: _this.sessid,
+                        profileid: _this.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this.runDefaultSort({
+                      mode: 'class',
+                      signedParameters: _this.signedParameters,
+                      data: {
+                        userid: _this.userid,
+                        sessid: _this.sessid,
+                        profileid: _this.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    var predefinedFilter = _this.predefinedActive
+                      ? _this.predefinedActive.id
+                      : undefined;
+                    _this.runAppeals(
+                      {
+                        mode: 'class',
+                        signedParameters: _this.signedParameters,
+                        data: {
+                          userid: _this.userid,
+                          sessid: _this.sessid,
+                          profileid: _this.defaultProfile.id,
+                          startIndex: 0,
+                          maxCountPerRequest: _this.maxCountPerRequest,
+                          predefinedFilter: predefinedFilter,
+                          filters: _this.filters,
+                          columnSort: _this.sort.columnSort,
+                          sortType: _this.sort.sortType,
+                        },
+                      },
+                      null,
+                      _this.increaseAppealsCounter()
+                    );
+                  } else if (result && result.status === 'error') {
+                    _this.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                });
+            },
+            clickPredefined: function clickPredefined(_ref2) {
+              var _this2 = this;
+              var field = _ref2.field;
+              this.setPredefinedActive({
+                field: field,
+              });
+              if (!this.defaultProfile) return;
+              var predefinedFilter = this.predefinedActive
+                ? this.predefinedActive.id
+                : undefined;
+              new Promise(function (resolve) {
+                resolve(
+                  _this2.runAppeals(
+                    {
+                      mode: 'class',
+                      signedParameters: _this2.signedParameters,
+                      data: {
+                        userid: _this2.userid,
+                        sessid: _this2.sessid,
+                        profileid: _this2.defaultProfile.id,
+                        startIndex: 0,
+                        maxCountPerRequest: _this2.maxCountPerRequest,
+                        predefinedFilter: predefinedFilter,
+                        filters: _this2.filters,
+                        columnSort: _this2.sort.columnSort,
+                        sortType: _this2.sort.sortType,
+                      },
+                    },
+                    null,
+                    _this2.increaseAppealsCounter()
+                  )
+                );
+              })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this2.runFilters({
+                      mode: 'class',
+                      signedParameters: _this2.signedParameters,
+                      data: {
+                        userid: _this2.userid,
+                        sessid: _this2.sessid,
+                        profileid: _this2.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this2.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this2.runColumnsNames({
+                      mode: 'class',
+                      signedParameters: _this2.signedParameters,
+                      data: {
+                        userid: _this2.userid,
+                        sessid: _this2.sessid,
+                        profileid: _this2.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this2.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    return _this2.runDefaultSort({
+                      mode: 'class',
+                      signedParameters: _this2.signedParameters,
+                      data: {
+                        userid: _this2.userid,
+                        sessid: _this2.sessid,
+                        profileid: _this2.defaultProfile.id,
+                      },
+                    });
+                  } else if (result && result.status === 'error') {
+                    _this2.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                })
+                .then(function (result) {
+                  if (result && result.status === 'success') {
+                    var _predefinedFilter = _this2.predefinedActive
+                      ? _this2.predefinedActive.id
+                      : undefined;
+                    _this2.runAppeals(
+                      {
+                        mode: 'class',
+                        signedParameters: _this2.signedParameters,
+                        data: {
+                          userid: _this2.userid,
+                          sessid: _this2.sessid,
+                          profileid: _this2.defaultProfile.id,
+                          startIndex: 0,
+                          maxCountPerRequest: _this2.maxCountPerRequest,
+                          predefinedFilter: _predefinedFilter,
+                          filters: _this2.filters,
+                          columnSort: _this2.sort.columnSort,
+                          sortType: _this2.sort.sortType,
+                        },
+                      },
+                      null,
+                      _this2.increaseAppealsCounter()
+                    );
+                  } else if (result && result.status === 'error') {
+                    _this2.showError({
+                      error: result.errors[0],
+                    });
+                  }
+                });
+            },
+            clickSelected: function clickSelected() {
+              var predefinedFilter = this.predefinedActive
+                ? this.predefinedActive.id
+                : undefined;
+              this.runExportFile({
+                mode: 'class',
+                signedParameters: this.signedParameters,
+                data: {
+                  userid: this.userid,
+                  sessid: this.sessid,
+                  profileid: this.defaultProfile.id,
+                  predefinedFilter: predefinedFilter,
+                  filters: this.filters,
+                  columnSort: this.sort.columnSort,
+                  sortType: this.sort.sortType,
+                },
+              });
+            },
+          },
+          ui_vue3_pinia.mapActions(tableStore, [
+            'hideErrorTable',
+            'runColumnsNames',
+            'runAppeals',
+            'runDefaultSort',
+            'runSetDefaultSort',
+            'increaseAppealsCounter',
+          ])
+        ),
+        ui_vue3_pinia.mapActions(filterStore, [
+          'runFilters',
+          'changeControlValue',
+          'runHintsAction',
+          'setHints',
+        ])
+      ),
+      {},
+      {
+        clickTh: function clickTh(_ref3) {
+          var _this3 = this;
+          var column = _ref3.column;
+          var sortType =
+            this.sort.columnSort === column.id && this.sort.sortType === 'ASC'
+              ? 'DESC'
+              : 'ASC';
+          this.runSetDefaultSort(
+            {
               mode: 'class',
               signedParameters: _this.signedParameters,
               data: {
-                userid: _this.userid,
-                sessid: _this.sessid,
-                profileid: _this.defaultProfile.id
-              }
-            });
-          } else if (result && result.status === 'error') {
-            _this.showError({
-              error: result.errors[0]
-            });
-          }
-        }).then(function (result) {
-          if (result && result.status === 'success') {
-            var predefinedFilter = _this.predefinedActive ? _this.predefinedActive.id : undefined;
-            _this.runAppeals({
-              mode: 'class',
-              signedParameters: _this.signedParameters,
-              data: {
-                userid: _this.userid,
-                sessid: _this.sessid,
-                profileid: _this.defaultProfile.id,
-                startIndex: _this.appeals.startIndex || 0,
-                maxCountPerRequest: _this.maxCountPerRequest,
-                predefinedFilter: predefinedFilter,
-                filters: _this.filters,
-                columnSort: _this.sort.columnSort,
-                sortType: _this.sort.sortType
-              }
-            }, null, _this.increaseAppealsCounter());
-          } else if (result && result.status === 'error') {
-            _this.showError({
-              error: result.errors[0]
-            });
-          }
-        });
-      },
-      clickPredefined: function clickPredefined(_ref2) {
-        var _this2 = this;
-        var field = _ref2.field;
-        this.setPredefinedActive({
-          field: field
-        });
-        if (!this.defaultProfile) return;
-        var predefinedFilter = this.predefinedActive ? this.predefinedActive.id : undefined;
-        new Promise(function (resolve) {
-          resolve(_this2.runAppeals({
-            mode: 'class',
-            signedParameters: _this2.signedParameters,
-            data: {
-              userid: _this2.userid,
-              sessid: _this2.sessid,
-              profileid: _this2.defaultProfile.id,
-              startIndex: 0,
-              maxCountPerRequest: _this2.maxCountPerRequest,
-              predefinedFilter: predefinedFilter,
-              filters: _this2.filters,
-              columnSort: _this2.sort.columnSort,
-              sortType: _this2.sort.sortType
+
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+                columnSort: column.id,
+                sortType: sortType,
+              },
+            },
+            function () {
+              var predefinedFilter = _this3.predefinedActive
+                ? _this3.predefinedActive.id
+                : undefined;
+              _this3.runAppeals(
+                {
+                  mode: 'class',
+                  signedParameters: _this3.signedParameters,
+                  data: {
+                    userid: _this3.userid,
+                    sessid: _this3.sessid,
+                    profileid: _this3.defaultProfile.id,
+                    startIndex: 0,
+                    maxCountPerRequest: _this3.maxCountPerRequest,
+                    predefinedFilter: predefinedFilter,
+                    filters: _this3.filters,
+                    columnSort: column.id,
+                    sortType: sortType,
+                  },
+                },
+                null,
+                _this3.increaseAppealsCounter()
+              );
+
             }
           }, null, _this2.increaseAppealsCounter()));
         }).then(function (result) {
@@ -757,15 +1111,45 @@
               mode: 'class',
               signedParameters: _this2.signedParameters,
               data: {
-                userid: _this2.userid,
-                sessid: _this2.sessid,
-                profileid: _this2.defaultProfile.id
-              }
-            });
-          } else if (result && result.status === 'error') {
-            _this2.showError({
-              error: result.errors[0]
-            });
+
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+                startIndex: 0,
+                maxCountPerRequest: this.maxCountPerRequest,
+                predefinedFilter: predefinedFilter,
+                filters: this.filters,
+                columnSort: this.sort.columnSort,
+                sortType: this.sort.sortType,
+              },
+            },
+            null,
+            this.increaseAppealsCounter()
+          );
+        },
+        hints: function hints(_ref5) {
+          var type = _ref5.type,
+            control = _ref5.control,
+            action = _ref5.action,
+            value = _ref5.value;
+          switch (type) {
+            case 'get':
+              this.runHintsAction({
+                mode: 'class',
+                signedParameters: this.signedParameters,
+                data: {
+                  control: control,
+                  action: action,
+                },
+              });
+              break;
+            case 'set':
+              this.setHints({
+                control: control,
+                value: value,
+              });
+              break;
+
           }
         }).then(function (result) {
           if (result && result.status === 'success') {
@@ -982,8 +1366,12 @@
             data.data.profileid = self.defaultProfile.id;
           }
           if (methodName === 'runAppeals') {
-            var predefinedFilter = self.predefinedActive ? self.predefinedActive.id : undefined;
-            data.data.startIndex = self.appeals.startIndex || 0;
+
+            var predefinedFilter = self.predefinedActive
+              ? self.predefinedActive.id
+              : undefined;
+            data.data.startIndex = 0;
+
             data.data.maxCountPerRequest = self.maxCountPerRequest;
             data.data.predefinedFilter = predefinedFilter;
             data.data.filters = self.filters;
@@ -1116,5 +1504,16 @@
 
   exports.AppealInbox = AppealInbox;
 
-}((this.BX = this.BX || {}),BX,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX));
-//# sourceMappingURL=application.bundle.js.map
+})(
+  (this.BX = this.BX || {}),
+  BX.Vue3,
+  BX.AAS,
+  BX.AAS,
+  BX.AAS,
+  BX.AAS,
+  BX.AAS,
+  BX.AAS,
+  BX.AAS,
+  BX.Vue3.Pinia
+); //# sourceMappingURL=application.bundle.js.map
+
