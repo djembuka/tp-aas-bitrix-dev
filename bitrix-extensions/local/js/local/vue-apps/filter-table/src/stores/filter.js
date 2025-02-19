@@ -115,7 +115,7 @@ export const filterStore = defineStore('filter', {
       a.then(
         (result) => {
           this.loadingFilter = false;
-          resultFn(state, result);
+          resultFn(state, result.data);
         },
         (error) => {
           this.loadingFilter = false;

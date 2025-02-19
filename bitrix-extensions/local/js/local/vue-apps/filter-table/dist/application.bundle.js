@@ -123,7 +123,7 @@
         a.then(
           function (result) {
             _this.loadingCols = false;
-            resultFn(state, result);
+            resultFn(state, result.data);
           },
           function (error) {
             _this.loadingCols = false;
@@ -160,7 +160,7 @@
         a.then(
           function (result) {
             _this2.loadingItems = false;
-            resultFn(state, result);
+            resultFn(state, result.data);
           },
           function (error) {
             _this2.loadingItems = false;
@@ -198,7 +198,7 @@
         var state = this;
         a.then(
           function (result) {
-            resultFn(state, result);
+            resultFn(state, result.data);
           },
           function (error) {
             if (
@@ -232,7 +232,7 @@
         var state = this;
         a.then(
           function (result) {
-            resultFn(state, result);
+            resultFn(state, result.data);
           },
           function (error) {
             if (
@@ -249,7 +249,7 @@
             }
           }
         );
-        function resultFn(state, result) {
+        function resultFn(state, data) {
           state.setSort(data);
           if (callback) {
             callback();
@@ -419,7 +419,7 @@
         a.then(
           function (result) {
             _this.loadingFilter = false;
-            resultFn(state, result);
+            resultFn(state, result.data);
           },
           function (error) {
             _this.loadingFilter = false;

@@ -83,7 +83,7 @@ export const tableStore = defineStore('table', {
       a.then(
         (result) => {
           this.loadingCols = false;
-          resultFn(state, result);
+          resultFn(state, result.data);
         },
         (error) => {
           this.loadingCols = false;
@@ -118,7 +118,7 @@ export const tableStore = defineStore('table', {
       a.then(
         (result) => {
           this.loadingItems = false;
-          resultFn(state, result);
+          resultFn(state, result.data);
         },
         (error) => {
           this.loadingItems = false;
@@ -155,7 +155,7 @@ export const tableStore = defineStore('table', {
 
       a.then(
         (result) => {
-          resultFn(state, result);
+          resultFn(state, result.data);
         },
         (error) => {
           if (
@@ -187,7 +187,7 @@ export const tableStore = defineStore('table', {
 
       a.then(
         (result) => {
-          resultFn(state, result);
+          resultFn(state, result.data);
         },
         (error) => {
           if (
@@ -202,7 +202,7 @@ export const tableStore = defineStore('table', {
         }
       );
 
-      function resultFn(state, result) {
+      function resultFn(state, data) {
         state.setSort(data);
         if (callback) {
           callback();
