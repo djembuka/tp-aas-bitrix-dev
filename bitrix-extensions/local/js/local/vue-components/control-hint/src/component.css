@@ -16,9 +16,9 @@
   z-index: 101;
 }
 .twpx-form-control--hint.twpx-form-control--active .twpx-form-control__label {
-  -webkit-transform: translateY(var(--twpx-form-control-active-translate));
-  transform: translateY(var(--twpx-form-control-active-translate));
-  font-size: 0.69rem;
+  -webkit-transform: translateY(var(--twpx-form-control-translate-active));
+  transform: translateY(var(--twpx-form-control-translate-active));
+  font-size: var(--twpx-form-control-font-size-active, 0.69rem);
   color: #2b2b2b;
 }
 .twpx-form-control--hint .twpx-form-control__disabled-icon {
@@ -33,16 +33,16 @@
 .twpx-form-control--hint .twpx-form-control__label {
   position: absolute;
   top: 0;
-  left: 14px;
+  left: var(--twpx-form-control-padding-x, 14px);
   margin: 0;
   padding: 0;
   color: #2b2b2b;
-  font-size: 0.69rem;
+  font-size: var(--twpx-form-control-font-size, 0.69rem);
   -webkit-transition: -webkit-transform 0.2s ease-out,
     -webkit-font-size 0.2s ease-out;
   transition: transform 0.2s ease-out, font-size 0.2s ease-out;
-  -webkit-transform: translateY(1.1rem);
-  transform: translateY(1.1rem);
+  -webkit-transform: translateY(var(--twpx-form-control-translate, 1.1rem));
+  transform: translateY(var(--twpx-form-control-translate, 1.1rem));
   pointer-events: none;
   line-height: 1.1;
 }
@@ -55,10 +55,15 @@
 }
 .twpx-form-control--hint .twpx-form-control-loader {
   position: absolute;
-  top: var(--aas-input-right-icon-top);
-  right: var(--aas-input-right-icon-right);
-  width: var(--aas-input-right-icon-width);
-  height: var(--aas-input-right-icon-height);
+  top: calc(
+    (
+        var(--twpx-form-control-height, 48px) -
+          var(--twpx-form-control-loader-size, 20px)
+      ) / 2
+  );
+  right: var(--twpx-form-control-loader-right, 14px);
+  width: var(--twpx-form-control-loader-size, 20px);
+  height: var(--twpx-form-control-loader-size, 20px);
 }
 .twpx-form-control--hint .twpx-form-control-loader:after {
   content: '';
@@ -92,10 +97,15 @@
 }
 .twpx-form-control-clear {
   position: absolute;
-  top: var(--aas-input-right-icon-top);
-  right: var(--aas-input-right-icon-right);
-  width: var(--aas-input-right-icon-width);
-  height: var(--aas-input-right-icon-height);
+  top: calc(
+    (
+        var(--twpx-form-control-height, 48px) -
+          var(--twpx-form-control-clear-size, 20px)
+      ) / 2
+  );
+  right: var(--twpx-form-control-clear-right, 14px);
+  width: var(--twpx-form-control-clear-size, 20px);
+  height: var(--twpx-form-control-clear-size, 20px);
   cursor: pointer;
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
@@ -106,10 +116,10 @@
 .twpx-form-control-clear:before {
   content: '';
   position: absolute;
-  top: 9px;
-  right: -2px;
-  border-top: 1px solid var(--aas-primary-color);
-  width: 24px;
+  top: calc(var(--twpx-form-control-clear-size, 20px) * 0.5);
+  right: calc(var(--twpx-form-control-clear-size, 20px) * -0.1);
+  border-top: 1px solid var(--twpx-form-control-clear-color, #074c86);
+  width: calc(var(--twpx-form-control-clear-size, 20px) * 1.2);
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
   z-index: 10;
@@ -117,10 +127,10 @@
 .twpx-form-control-clear:after {
   content: '';
   position: absolute;
-  top: 9px;
-  right: -2px;
-  border-top: 1px solid var(--aas-primary-color);
-  width: 24px;
+  top: calc(var(--twpx-form-control-clear-size, 20px) * 0.5);
+  right: calc(var(--twpx-form-control-clear-size, 20px) * -0.1);
+  border-top: 1px solid var(--twpx-form-control-clear-color, #074c86);
+  width: calc(var(--twpx-form-control-clear-size, 20px) * 1.2);
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
   z-index: 10;
@@ -129,14 +139,18 @@
   display: block !important;
   width: 100%;
   margin: 0 !important;
-  padding: 0 14px !important;
+  padding-top: var(--twpx-form-control-padding-top, 0) !important;
+  padding-right: var(--twpx-form-control-padding-right, 14px) !important;
+  padding-bottom: var(--twpx-form-control-padding-bottom, 0) !important;
+  padding-left: var(--twpx-form-control-padding-left, 14px) !important;
+  padding: 0 var(--twpx-form-control-padding-x, 14px) !important;
   background-color: var(--twpx-form-control-background) !important;
-  border: 1px solid var(--twpx-form-control-background) !important;
-  height: 48px !important;
-  line-height: 48px;
-  border-radius: 3px !important;
+  border: 1px solid var(--twpx-form-control-border) !important;
+  height: var(--twpx-form-control-height, 48px) !important;
+  line-height: var(--twpx-form-control-height, 48px);
+  border-radius: var(--twpx-form-control-border-radius, 3px) !important;
   font-family: 'Open Sans', sans-serif;
-  font-size: 14px !important;
+  font-size: var(--twpx-form-control-font-size, 14px) !important;
   -webkit-transition: border-color 0.3s ease;
   transition: border-color 0.3s ease;
   outline: none !important;
@@ -172,13 +186,13 @@
 
 .twpx-form-control-hint {
   position: absolute;
-  top: calc(100% + 1px + 3px);
+  top: calc(var(--twpx-form-control-height, 48px) + 1px + 5px);
   left: 0;
   width: 100%;
   background: #fff;
-  box-shadow: 0 5px 10px #0000000d;
-  border-radius: 0 0 5px 5px;
-  font-size: 14px;
+  box-shadow: var(--twpx-form-control-hint-box-shadow, 0 0 5px 5px);
+  border-radius: var(--twpx-form-control-hint-border-radius, 0 0 5px 5px);
+  font-size: var(--twpx-form-control-hint-font-size, 14px);
   line-height: 1.2;
   z-index: 50;
 }
@@ -187,12 +201,17 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 20px;
+  padding: var(--twpx-form-control-hint-padding, 20px);
+  -webkit-transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .twpx-form-control-hint__item:hover,
 .twpx-form-control-hint__item.active {
-  background-color: var(--twpx-form-control-background);
+  background-color: var(
+    --twpx-form-control-hint-active-background,
+    var(--twpx-form-control-background)
+  );
   color: #5f7696;
   cursor: pointer;
 }
