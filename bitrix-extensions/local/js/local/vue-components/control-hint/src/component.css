@@ -1,15 +1,6 @@
 .twpx-form-control--hint {
-  --aas-primary-color: #074c86;
-  --aas-input-right-icon-height: 20px;
-  --aas-input-right-icon-width: var(--aas-input-right-icon-height);
-  --aas-input-right-icon-top: calc(
-    (48px - var(--aas-input-right-icon-height)) / 2
-  );
-  --aas-input-right-icon-right: calc(
-    (48px - var(--aas-input-right-icon-width)) / 2
-  );
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: var(--twpx-form-control-margin-bottom, 16px);
   width: 100%;
 }
 .twpx-form-control--hint.twpx-form-control--active {
@@ -68,13 +59,13 @@
 .twpx-form-control--hint .twpx-form-control-loader:after {
   content: '';
   position: absolute;
-  height: var(--aas-input-right-icon-height);
-  width: var(--aas-input-right-icon-width);
+  height: var(--twpx-form-control-loader-size, 20px);
+  width: var(--twpx-form-control-loader-size, 20px);
   top: 0;
   right: 0;
   -webkit-animation: vue-hint-loader-circle 1.3s infinite linear;
   animation: vue-hint-loader-circle 1.3s infinite linear;
-  border: 1px solid var(--aas-primary-color);
+  border: 1px solid var(--twpx-form-control-loader-color, #074c86);
   border-radius: 50%;
   border-right-color: transparent;
 }

@@ -1,4 +1,5 @@
 :root {
+  --twpx-form-control-margin-bottom: 16px;
   --twpx-form-control-background: #f0f5fc;
   --twpx-form-control-border: var(--twpx-form-control-background);
   --twpx-form-control-border-active: #4f74d1;
@@ -19,6 +20,10 @@
   --twpx-form-control-clear-size: 20px;
   --twpx-form-control-clear-right: 16px;
   --twpx-form-control-clear-color: #074c86;
+
+  --twpx-form-control-loader-size: 20px;
+  --twpx-form-control-loader-right: 16px;
+  --twpx-form-control-loader-color: #074c86;
 
   --twpx-form-control-hint-active-background: var(
     --twpx-form-control-background
