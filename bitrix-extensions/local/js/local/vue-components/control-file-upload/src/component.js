@@ -149,6 +149,7 @@ export const ControlFileUpload = {
       return this.control.value;
     },
     invalidString() {
+      console.log('inv');
       if (this.control.upload && this.control.upload.xhrStatus === 'E') {
         return 'Ошибка загрузки';
       } else if (this.files[0] && this.files[0].size && this.files[0].name) {
