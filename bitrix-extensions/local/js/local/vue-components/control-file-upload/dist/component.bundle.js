@@ -79,7 +79,6 @@ this.BX = this.BX || {};
         return this.control.value;
       },
       invalidString: function invalidString() {
-        console.log('inv');
         if (this.control.upload && this.control.upload.xhrStatus === 'E') {
           return 'Ошибка загрузки';
         } else if (this.files[0] && this.files[0].size && this.files[0].name) {
@@ -164,10 +163,12 @@ this.BX = this.BX || {};
             _this3.$refs.inputFile.value = '';
           }, 100);
         }
-        this.$refs.progressbar.style = '';
-        this.percentage = 0;
-        this.loading = false;
-        this.loadCircle = false;
+        if (this.percentage === 100) {
+          this.$refs.progressbar.style = '';
+          this.percentage = 0;
+          this.loading = false;
+          this.loadCircle = false;
+        }
       },
       clearInputFile: function clearInputFile() {
         this.loadCircle = true;
@@ -222,11 +223,23 @@ this.BX = this.BX || {};
               return;
             }
             _this4.percentage = Math.floor(counter * 100 / 10);
+            if (_this4.percentage === 100) {
+              _this4.$refs.progressbar.style = '';
+              _this4.percentage = 0;
+              _this4.loading = false;
+              _this4.loadCircle = false;
+            }
           }, minimalTime / 10);
         } else {
-          this.percentage = Math.floor(loaded / total * 100);
+          this.percentage = Math.floor(loaded / total * 100) || 0;
           this.$refs.progressbar.style.width = "calc(46px + (100% - 46px ) * ".concat(this.percentage, " / 100)");
           this.loadCircle = false;
+          if (this.percentage === 100) {
+            this.$refs.progressbar.style = '';
+            this.percentage = 0;
+            this.loading = false;
+            this.loadCircle = false;
+          }
         }
       },
       focus: function focus() {

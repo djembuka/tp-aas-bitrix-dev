@@ -5,7 +5,7 @@ import { formStore } from '../stores/form';
 
 import { HiddenFields } from './hidden-fields';
 import { DocsBlock } from './docs-block';
-import { DataToChange } from './data-to-change';
+import { ControlsBlock } from './controls-block';
 import { ConfirmDocsBlock } from './confirm-docs-block';
 import { SubmitButton } from './submit-button';
 
@@ -16,7 +16,7 @@ export const Application = {
   components: {
     HiddenFields,
     DocsBlock,
-    DataToChange,
+    ControlsBlock,
     ConfirmDocsBlock,
     SubmitButton,
   },
@@ -32,7 +32,7 @@ export const Application = {
       </div>
 
       <div v-if="controlsBlock && controlsBlock.controls && controlsBlock.controls.length">
-        <DataToChange :controlsBlock="controlsBlock" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" @timeoutAutosave="timeoutAutosave" @autosave="autosave" />
+        <ControlsBlock :controlsBlock="controlsBlock" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" @timeoutAutosave="timeoutAutosave" @autosave="autosave" />
         <hr class="hr--lg">
       </div>
 
@@ -68,6 +68,7 @@ export const Application = {
       'removeMulti',
     ]),
     hints({ type, control, action, value }) {
+      console.log({ type, control, action, value });
       switch (type) {
         case 'get':
           this.runHintsAction({
@@ -91,13 +92,13 @@ export const Application = {
       });
     },
     focus() {
-      console.log('focus');
+      // console.log('focus');
     },
     blur() {
-      console.log('blur');
+      // console.log('blur');
     },
     enter() {
-      console.log('enter');
+      // console.log('enter');
     },
   },
 };

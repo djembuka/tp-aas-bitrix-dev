@@ -49,7 +49,6 @@ export const formStore = defineStore('form', {
       parent.multi.splice(index, 1);
     },
     changeTextControlValue({ control, value }) {
-      console.log(control, value);
       control.value = value;
     },
     changeSelectRadioValue({ control, value }) {
@@ -71,6 +70,8 @@ export const formStore = defineStore('form', {
       switch (control.property) {
         case 'text':
         case 'textarea':
+        case 'tel':
+        case 'email':
         case 'hint':
           this.changeTextControlValue({ control, value });
           break;
@@ -97,6 +98,15 @@ export const formStore = defineStore('form', {
         //   commit('changeColorValue', { control, value });
         //   break;
       }
+    },
+    //hint
+    async runHintsAction({ control, action }) {
+      const response = await fetch(action);
+      const result = await response.json();
+      this.setHints({ control, value: result });
+    },
+    setHints({ control, value }) {
+      control.hints = value;
     },
     //file
     async uploadFile(control, file) {

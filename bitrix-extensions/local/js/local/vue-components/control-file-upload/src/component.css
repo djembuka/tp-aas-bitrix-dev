@@ -286,11 +286,9 @@
 
 .twpx-form-control__file__progressbar {
   width: 0%;
-  height: 100%;
-  -webkit-transition: width 0.5s linear;
-  transition: width 0.5s linear;
+  height: calc(100% - 2px);
   position: absolute;
-  top: 0;
+  top: 1px;
   left: 0;
   background-color: #4375d8;
   color: #fff;
@@ -301,6 +299,8 @@
   border-radius: 5px;
   overflow: hidden;
   z-index: 1;
+  transition: width 0.3s ease-in-out;
+  /* width: var(--progress-width, 0); */
 }
 
 .twpx-form-control__file__progressbar.minimal {

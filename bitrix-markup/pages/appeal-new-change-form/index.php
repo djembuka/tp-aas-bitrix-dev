@@ -72,7 +72,7 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 			"controlsBlock": {
 				"title": "Данные заявления",
 				"text": "",
-				"controls": [	  
+				"controls": [
 					{
 						"property": 'text',
 						id: 'PROPERTY_355_0',
@@ -80,14 +80,18 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 						"label": "ФИО кандидата *",
 						"required": true,
 						"value": "",
-					},	  
+					},
 					{
 						"property": 'hint',
 						id: 'PROPERTY_358_0',
 						name: 'PROPERTY[358][0]',
 						"label": "ОРНЗ кандидата",
-						"required": false,
 						"value": "",
+            "count": 3,
+            "action": "/markup/vue/design-system/hints.json",
+						"required": false,
+            "disabled": false,
+            "hints": [],
 						"completeBlock": {
 							"title": "",
 							"value": "",
@@ -112,9 +116,12 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 						id: 'PROPERTY_375_0',
 						name: 'PROPERTY[375][0]',
 						"label": "ОРНЗ организации",
-						"required": false,
 						"value": "",
-						"pattern": "^\\d{11}$",
+            "count": 3,
+            "action": "/markup/vue/design-system/hints.json",
+						"required": false,
+            "disabled": false,
+            "hints": [],
 						"completeBlock": {
 							"title": "",
 							"value": "",
@@ -122,12 +129,16 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 						}
 					},  
 					{
-						"property": 'text',
+						"property": 'hint',
 						id: 'PROPERTY_445_0',
 						name: 'PROPERTY[445][0]',
 						"label": "ОГРН организации",
-						"required": false,
 						"value": "",
+            "count": 3,
+            "action": "/markup/vue/design-system/hints.json",
+						"required": false,
+            "disabled": false,
+            "hints": [],
 						"completeBlock": {
 							"title": "",
 							"value": "",

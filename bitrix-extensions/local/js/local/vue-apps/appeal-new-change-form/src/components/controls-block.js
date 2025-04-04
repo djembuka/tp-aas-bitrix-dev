@@ -1,6 +1,6 @@
 import { ControlChoice } from 'local.vue-components.control-choice';
 
-export const DataToChange = {
+export const ControlsBlock = {
   data() {
     return {};
   },
@@ -58,14 +58,17 @@ export const DataToChange = {
     input(args) {
       this.$emit('input', args);
     },
-    focus() {
+    focus(args) {
       this.$emit('focus', args);
     },
-    blur() {
+    blur(args) {
       this.$emit('blur', args);
     },
-    enter() {
+    enter(args) {
       this.$emit('enter', args);
+    },
+    hints(args) {
+      this.$emit('hints', args);
     },
   },
 };
