@@ -193,10 +193,8 @@ export const dataStore = defineStore('data', {
         case 'hint':
         case 'password':
         case 'date':
-        case 'checkbox':
         case 'textarea':
           control.value = value;
-
           break;
         case 'select':
           this[
@@ -204,6 +202,9 @@ export const dataStore = defineStore('data', {
               .substring(0, 1)
               .toUpperCase()}${control.type.substring(1).toLowerCase()}Value`
           ]({ control, value });
+          break;
+        case 'checkbox':
+          control.checked = checked;
           break;
         // case 'file':
         //   commit('changeFileValue', { control, value });

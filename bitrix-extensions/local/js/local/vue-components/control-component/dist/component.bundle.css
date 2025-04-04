@@ -1,7 +1,35 @@
 :root {
+  --twpx-form-control-margin-bottom: 16px;
   --twpx-form-control-background: #f0f5fc;
-  --twpx-form-control-border: #4f74d1;
-  --twpx-form-control-active-translate: -22px;
+  --twpx-form-control-border: var(--twpx-form-control-background);
+  --twpx-form-control-border-active: #4f74d1;
+  --twpx-form-control-translate: 1.1rem;
+  --twpx-form-control-translate-active: -22px;
+
   --twpx-form-control-padding-x: 14px;
+  --twpx-form-control-padding-top: 0;
+  --twpx-form-control-padding-right: 14px;
+  --twpx-form-control-padding-bottom: 0;
+  --twpx-form-control-padding-left: 14px;
+
   --twpx-form-control-border-radius: 5px;
+  --twpx-form-control-font-size-active: 0.69rem;
+  --twpx-form-control-font-size: 14px;
+  --twpx-form-control-height: 48px;
+
+  --twpx-form-control-clear-size: 20px;
+  --twpx-form-control-clear-right: 16px;
+  --twpx-form-control-clear-color: #074c86;
+
+  --twpx-form-control-loader-size: 20px;
+  --twpx-form-control-loader-right: 16px;
+  --twpx-form-control-loader-color: #074c86;
+
+  --twpx-form-control-hint-active-background: var(
+    --twpx-form-control-background
+  );
+  --twpx-form-control-hint-padding: 20px;
+  --twpx-form-control-hint-font-size: 14px;
+  --twpx-form-control-hint-box-shadow: 0 0 5px 5px;
+  --twpx-form-control-hint-border-radius: 0 0 5px 5px;
 }

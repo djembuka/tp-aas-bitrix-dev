@@ -27,7 +27,9 @@ export const ControlCheckboxCheckbox = {
           type="checkbox"
           :id="controlId"
           :name="controlName"
-          v-model="value"
+          :value="control.value"
+          :checked="control.checked"
+          v-model="checked"
           @focus="focus"
           @blur="blur"
           :disabled="disabled"
@@ -42,12 +44,12 @@ export const ControlCheckboxCheckbox = {
 	`,
   emits: ['input', 'focus', 'blur'],
   computed: {
-    value: {
+    checked: {
       get() {
-        return this.control.value;
+        return this.control.checked;
       },
-      set(value) {
-        this.$emit('input', { value });
+      set(checked) {
+        this.$emit('input', { checked });
       },
     },
     active() {
@@ -86,9 +88,9 @@ export const ControlCheckboxCheckbox = {
       this.$emit('blur');
     },
     validate() {
-      if ((this.control.required && this.value) || !this.control.required) {
+      if ((this.control.required && this.checked) || !this.control.required) {
         return true;
-      } else if (this.control.required && !this.value) {
+      } else if (this.control.required && !this.checked) {
         return false;
       }
       return true;

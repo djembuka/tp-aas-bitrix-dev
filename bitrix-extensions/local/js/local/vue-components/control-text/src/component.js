@@ -1,17 +1,36 @@
 import './component.css';
 
 export const ControlText = {
+  props: {
+    control: {
+      type: Object,
+      required: true,
+    },
+    id: {
+      type: String,
+      default: null,
+    },
+    name: {
+      type: String,
+      default: null,
+    },
+  },
   data() {
+    // Проверяем существование control и его свойств
+    if (!this.control) {
+      console.error('ControlText: prop "control" is required');
+      return {};
+    }
+
     return {
       controlId: this.id || this.control.id || null,
       controlName: this.name || this.control.name || null,
       focused: false,
       blured: false,
       warning: '',
-      hint: this.control.hint_external,
+      hint: this.control?.hint_external || '',
     };
   },
-  props: ['control', 'id', 'name'],
   // language=Vue
   template: `
 		<div
@@ -41,6 +60,8 @@ export const ControlText = {
         ref="input"
         autocomplete="off"
         :placeholder="placeholder"
+        :aria-label="control.label"
+        :aria-invalid="invalid"
         class="twpx-form-control__input"
       />
       <div
@@ -55,28 +76,28 @@ export const ControlText = {
   computed: {
     value: {
       get() {
-        return this.control.value;
+        return this.control?.value || '';
       },
       set(value) {
+        if (!this.control) return;
         this.control.setInvalidWatcher = false;
         this.$emit('input', { value });
       },
     },
     placeholder() {
       if (this.focused && !this.value.trim()) {
-        return this.control.hint_internal;
-      } else {
-        return '';
+        return this.control?.hint_internal || '';
       }
+      return '';
     },
     active() {
-      return this.focused || !!this.control.value.trim();
+      return this.focused || !!this.control?.value?.trim();
     },
     invalid() {
       return (this.blured && !this.validate()) || this.setInvalidWatcher;
     },
     disabled() {
-      return this.control.disabled;
+      return !!this.control?.disabled;
     },
     validateWatcher() {
       return this.control.validateWatcher;
@@ -136,5 +157,16 @@ export const ControlText = {
       }
       return true;
     },
+  },
+  created() {
+    // Проверка обязательных свойств control при создании компонента
+    const requiredProps = ['value', 'label'];
+    requiredProps.forEach((prop) => {
+      if (!(prop in this.control)) {
+        console.warn(
+          `ControlText: Missing required control property "${prop}"`
+        );
+      }
+    });
   },
 };

@@ -22,14 +22,15 @@ export const ControlCheckboxSwitch = {
     <label>
       <span
         class="twpx-form-control__switch"
-        :class="{ 'twpx-form-control__switch--off': !value }"
+        :class="{ 'twpx-form-control__switch--off': !checked }"
       >
         <input
           type="checkbox"
           :id="controlId"
           :name="controlName"
           :value="control.value"
-          v-model="value"
+          :checked="control.checked"
+          v-model="checked"
       /></span>
       <span
         class="twpx-form-control__switch-text"
@@ -42,12 +43,12 @@ export const ControlCheckboxSwitch = {
 	`,
   emits: ['input', 'focus', 'blur'],
   computed: {
-    value: {
+    checked: {
       get() {
-        return this.control.value;
+        return this.control.checked;
       },
-      set(value) {
-        this.$emit('input', { value });
+      set(checked) {
+        this.$emit('input', { checked });
       },
     },
     invalid() {
@@ -61,7 +62,7 @@ export const ControlCheckboxSwitch = {
     validate() {
       if (
         !this.control.required ||
-        (this.control.required && this.control.value)
+        (this.control.required && this.control.checked)
       ) {
         return true;
       }

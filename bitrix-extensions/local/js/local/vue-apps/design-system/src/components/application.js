@@ -21,9 +21,10 @@ export const Application = {
           <h3>{{ control.property }} {{ control.type }}</h3>
           <ControlComponent :control="control" @input="input" @hints="hints" />
         </div>
-        <pre>
-          {{ control }}
-        </pre>
+        <pre>{{ control }}</pre>
+        <div>
+          <button @click="">Focus</button>
+        </div>
       </div>
     </div>
 	`,

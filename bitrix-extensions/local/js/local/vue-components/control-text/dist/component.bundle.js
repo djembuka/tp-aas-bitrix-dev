@@ -4,26 +4,47 @@ this.BX = this.BX || {};
   'use strict';
 
   var ControlText = {
+    props: {
+      control: {
+        type: Object,
+        required: true
+      },
+      id: {
+        type: String,
+        "default": null
+      },
+      name: {
+        type: String,
+        "default": null
+      }
+    },
     data: function data() {
+      var _this$control;
+      // Проверяем существование control и его свойств
+      if (!this.control) {
+        console.error('ControlText: prop "control" is required');
+        return {};
+      }
       return {
         controlId: this.id || this.control.id || null,
         controlName: this.name || this.control.name || null,
         focused: false,
         blured: false,
         warning: '',
-        hint: this.control.hint_external
+        hint: ((_this$control = this.control) === null || _this$control === void 0 ? void 0 : _this$control.hint_external) || ''
       };
     },
-    props: ['control', 'id', 'name'],
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--text': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <input\n        type=\"text\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"value\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keyup.enter=\"enter\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        class=\"twpx-form-control__input\"\n      />\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
+    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--text': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <input\n        type=\"text\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"value\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keyup.enter=\"enter\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        :aria-label=\"control.label\"\n        :aria-invalid=\"invalid\"\n        class=\"twpx-form-control__input\"\n      />\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
     emits: ['input', 'focus', 'blur', 'enter'],
     computed: {
       value: {
         get: function get() {
-          return this.control.value;
+          var _this$control2;
+          return ((_this$control2 = this.control) === null || _this$control2 === void 0 ? void 0 : _this$control2.value) || '';
         },
         set: function set(value) {
+          if (!this.control) return;
           this.control.setInvalidWatcher = false;
           this.$emit('input', {
             value: value
@@ -32,19 +53,21 @@ this.BX = this.BX || {};
       },
       placeholder: function placeholder() {
         if (this.focused && !this.value.trim()) {
-          return this.control.hint_internal;
-        } else {
-          return '';
+          var _this$control3;
+          return ((_this$control3 = this.control) === null || _this$control3 === void 0 ? void 0 : _this$control3.hint_internal) || '';
         }
+        return '';
       },
       active: function active() {
-        return this.focused || !!this.control.value.trim();
+        var _this$control4, _this$control4$value;
+        return this.focused || !!((_this$control4 = this.control) !== null && _this$control4 !== void 0 && (_this$control4$value = _this$control4.value) !== null && _this$control4$value !== void 0 && _this$control4$value.trim());
       },
       invalid: function invalid() {
         return this.blured && !this.validate() || this.setInvalidWatcher;
       },
       disabled: function disabled() {
-        return this.control.disabled;
+        var _this$control5;
+        return !!((_this$control5 = this.control) !== null && _this$control5 !== void 0 && _this$control5.disabled);
       },
       validateWatcher: function validateWatcher() {
         return this.control.validateWatcher;
@@ -99,6 +122,16 @@ this.BX = this.BX || {};
         }
         return true;
       }
+    },
+    created: function created() {
+      var _this = this;
+      // Проверка обязательных свойств control при создании компонента
+      var requiredProps = ['value', 'label'];
+      requiredProps.forEach(function (prop) {
+        if (!(prop in _this.control)) {
+          console.warn("ControlText: Missing required control property \"".concat(prop, "\""));
+        }
+      });
     }
   };
 
