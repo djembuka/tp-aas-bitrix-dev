@@ -1,6 +1,7 @@
-import { IconOpen } from './icon-open.js';
-import { IconItemClear } from './icon-item-clear.js';
-import { ControlComponent } from 'local.vue-components.control-component';
+import { Placeholder } from './placeholder.js';
+import { FilterClosed } from './filter-closed.js';
+import { FilterOpen } from './filter-open.js';
+
 import './component.css';
 
 export const FilterComponent = {
@@ -10,61 +11,21 @@ export const FilterComponent = {
     };
   },
   props: ['filters', 'loading'],
-  emits: ['input', 'hints'],
+  emits: ['input', 'hints', 'reset'],
   components: {
-    IconOpen,
-    IconItemClear,
-    ControlComponent,
+    Placeholder,
+    FilterClosed,
+    FilterOpen,
   },
   // language=Vue
   template: `
-    <div class="vue-tf-filter-ph" v-if="loading">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    <Placeholder v-if="loading" />
+
 		<div class="vue-tf-filter" v-else>
-    <pre>{{filters}}</pre>
 
-      <div class="twpx-vue-filter--closed" v-if="filterState === 'closed'">
+      <FilterClosed v-if="filterState === 'closed'" :filledControls="filledControls" @changeState="changeState" @input="input" />
 
-        <div class="twpx-vue-filter__open-button">
-          <IconOpen />
-          <span>Фильтр</span>
-        </div>
-
-        <div class="twpx-vue-filter__open-text" v-if="filledControls.length === 0">Нажмите и выберите фильтры, чтобы сузить выборку.</div>
-
-        <div class="twpx-vue-filter__filled-item" v-for="control in filledControls" :key="control.id">
-          <div class="twpx-vue-filter__filled-item__text">
-            <span>{{ control.label }}:</span>
-            <b>{{ getValue(control) }}</b>
-          </div>
-          <IconItemClear />
-        </div>
-
-        <div class="twpx-vue-filter__filled-items--mobile">
-          <div class="twpx-vue-filter__filled-item" v-for="control in filledControls" :key="control.id">
-            <div class="twpx-vue-filter__filled-item__text">
-              <span>{{ control.label }}:</span>
-              <b>{{ getValue(control) }}</b>
-            </div>
-            <IconItemClear />
-          </div>
-        </div>
-      </div>
-
-      <div class="twpx-vue-filter--open">
-        <div class="twpx-vue-filter__open-head">
-          <h3 class="twpx-vue-filter__open-title">Выберите фильтры</h3>
-          <div class="twpx-vue-filter__open-clear">Очистить фильтры</div>
-        </div>
-        <div class="twpx-vue-filter__controls">
-          <ControlComponent v-for="control in filters" :key="control.id" :control="control" @input="input" @hints="hints" />
-        </div>
-        <div class="twpx-vue-filter__close-button">Свернуть</div>
-      </div>
+      <FilterOpen v-else :filters="filters" @input="input" @hints="hints" @changeState="changeState" />
       
     </div>
 	`,
@@ -84,6 +45,9 @@ export const FilterComponent = {
     },
   },
   methods: {
+    changeState(value) {
+      this.filterState = value;
+    },
     input({ control, value, checked }) {
       this.$emit('input', { control, value, checked });
     },
@@ -94,17 +58,6 @@ export const FilterComponent = {
         action,
         value,
       });
-    },
-    getValue(c) {
-      if (c.property === 'select' && c.type === 'dropdown') {
-        return c.options.find((o) => o.code === c.value)?.label;
-      } else if (c.property === 'date' && c.type === 'range') {
-        if (c.value[0] && c.value[1]) {
-          return `${c.value[0]} - ${c.value[1]}`;
-        }
-      }
-
-      return c.value;
     },
   },
 };

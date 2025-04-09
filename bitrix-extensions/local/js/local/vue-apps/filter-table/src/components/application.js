@@ -13,7 +13,9 @@ import { filterStore } from '../stores/filter';
 
 export const Application = {
   data() {
-    return {};
+    return {
+      inputTimeoutId: null,
+    };
   },
   components: {
     FilterComponent,
@@ -128,18 +130,22 @@ export const Application = {
         checked,
       });
 
-      this.runItems({
-        mode: 'class',
-        data: {
-          signedParameters: this.signedParameters,
-          sessid: this.sessid,
-          startIndex: this.items.startIndex || 0,
-          maxCountPerRequest: this.maxCountPerRequest,
-          filters: this.filters,
-          columnSort: this.sort.columnSort,
-          sortType: this.sort.sortType,
-        },
-      });
+      clearTimeout(this.inputTimeoutId);
+
+      this.inputTimeoutId = setTimeout(() => {
+        this.runItems({
+          mode: 'class',
+          data: {
+            signedParameters: this.signedParameters,
+            sessid: this.sessid,
+            startIndex: this.items.startIndex || 0,
+            maxCountPerRequest: this.maxCountPerRequest,
+            filters: this.filters,
+            columnSort: this.sort.columnSort,
+            sortType: this.sort.sortType,
+          },
+        });
+      }, 300);
     },
     hints({ type, control, action, value }) {
       switch (type) {
