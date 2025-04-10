@@ -17,7 +17,7 @@ export const ControlEmail = {
 		<div
       :class="{
         'twpx-form-control': true,
-        'twpx-form-control--text': true,
+        'twpx-form-control--email': true,
         'twpx-form-control--active': active,
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,

@@ -1,4 +1,5 @@
 import { ControlDatepicker } from 'local.vue-components.control-datepicker';
+import { Icon } from './icon.js';
 import './component.css';
 
 export const ControlDateSingle = {
@@ -6,20 +7,6 @@ export const ControlDateSingle = {
     return {
       open: false,
       hint: this.control.hint_external,
-      calendarIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="15.9" height="17.499" viewBox="0 0 15.9 17.499">
-        <g transform="translate(0.75 0.75)">
-            <path d="M0,0V2.4" transform="translate(4)" fill="none" stroke="#2d3142" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-            <path d="M0,0V2.4" transform="translate(10.4)" fill="none" stroke="#2d3142" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-            <path d="M0,0H13.6" transform="translate(0.4 5.672)" fill="none" stroke="#2d3142" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-            <path d="M14.4,4v6.8c0,2.4-1.2,4-4,4H4c-2.8,0-4-1.6-4-4V4C0,1.6,1.2,0,4,0h6.4C13.2,0,14.4,1.6,14.4,4Z" transform="translate(0 1.199)" fill="none" stroke="#2d3142" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-            <path d="M.495.5H.5" transform="translate(9.662 8.859)" fill="none" stroke="#2d3142" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-            <path d="M.495.5H.5" transform="translate(9.662 11.26)" fill="none" stroke="#2d3142" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-            <path d="M.495.5H.5" transform="translate(6.701 8.859)" fill="none" stroke="#2d3142" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-            <path d="M.495.5H.5" transform="translate(6.701 11.26)" fill="none" stroke="#2d3142" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-            <path d="M.495.5H.5" transform="translate(3.74 8.859)" fill="none" stroke="#2d3142" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-            <path d="M.495.5H.5" transform="translate(3.74 11.26)" fill="none" stroke="#2d3142" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        </g>
-      </svg>`,
     };
   },
   template: `
@@ -38,7 +25,7 @@ export const ControlDateSingle = {
         class="twpx-form-control__disabled-icon"
         v-if="false"
       />
-      <div class="twpx-form-control__calendar-icon" v-html="calendarIcon"></div>
+      <Icon class="twpx-form-control__calendar-icon" />
       <div class="twpx-form-control__label">{{ control.label }}</div>
       <ControlDatepicker
         v-model="date"
@@ -112,5 +99,6 @@ export const ControlDateSingle = {
   },
   components: {
     ControlDatepicker,
+    Icon,
   },
 };

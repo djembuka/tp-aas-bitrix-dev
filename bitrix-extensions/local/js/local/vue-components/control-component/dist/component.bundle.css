@@ -1,4 +1,5 @@
 :root {
+  --twpx-form-control-color: var(--twpx-input-text-defaults, #3b3b3b);
   --twpx-form-control-margin-bottom: 16px;
   --twpx-form-control-background: #f0f5fc;
   --twpx-form-control-border: var(--twpx-form-control-background);
@@ -7,14 +8,17 @@
   --twpx-form-control-translate-active: -22px;
 
   --twpx-form-control-padding-x: 14px;
-  --twpx-form-control-padding-top: 0;
-  --twpx-form-control-padding-right: 14px;
+  --twpx-form-control-padding-top: 14px;
+  --twpx-form-control-padding-right: 16px;
   --twpx-form-control-padding-bottom: 0;
-  --twpx-form-control-padding-left: 14px;
+  --twpx-form-control-padding-left: 16px;
 
-  --twpx-form-control-border-radius: 5px;
-  --twpx-form-control-font-size-active: 0.69rem;
+  --twpx-form-control-icon-padding-left: 48px;
+
+  --twpx-form-control-border-radius: 4px;
+  --twpx-form-control-font-family: 'Roboto', sans-serif;
   --twpx-form-control-font-size: 14px;
+  --twpx-form-control-font-size-active: 0.69rem;
   --twpx-form-control-height: 48px;
 
   --twpx-form-control-clear-size: 20px;
@@ -32,4 +36,22 @@
   --twpx-form-control-hint-font-size: 14px;
   --twpx-form-control-hint-box-shadow: 0 0 5px 5px;
   --twpx-form-control-hint-border-radius: 0 0 5px 5px;
+
+  --twpx-form-control-label-font-size: 10px;
+  --twpx-form-control-label-translate: 18px;
+  --twpx-form-control-active-label-translate: 10px;
+
+  --twpx-form-control-invalid-color: #ff0000;
+  --twpx-form-control-invalid-border-color: #ff0000;
+  --twpx-form-control-invalid-background-color: #ff0000;
+
+  --twpx-form-control-disabled-color: #00000055;
+  --twpx-form-control-disabled-border-color: var(
+    --twpx-form-control-disabled-background-color
+  );
+  --twpx-form-control-disabled-background-color: #f2f2f2;
+
+  --twpx-form-control-external-hint-font-size: #f2f2f2;
+  --twpx-form-control-external-hint-margin: #f2f2f2;
+  --twpx-form-control-external-hint-line-height: #f2f2f2;
 }
