@@ -1,6 +1,6 @@
 import { defineStore } from 'ui.vue3.pinia';
 
-export const dataStore = defineStore('data', {
+export const formControlsStore = defineStore('form-controls-store', {
   state: () => ({
     controls: [
       {

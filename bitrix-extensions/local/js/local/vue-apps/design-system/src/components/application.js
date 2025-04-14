@@ -1,51 +1,12 @@
 import './application.css';
-
-import { ControlComponent } from 'local.vue-components.control-component';
-
-import { mapState, mapActions } from 'ui.vue3.pinia';
-import { dataStore } from '../stores/data';
+import { TheMenu } from './the-menu';
 
 export const Application = {
-  data() {
-    return {};
-  },
   components: {
-    ControlComponent,
+    TheMenu,
   },
-  // language=Vue
-
   template: `
-    <div>
-      <div class="twpx-dsign-system-block" v-for="control in controls" :key="control.id">
-        <div>
-          <h3>{{ control.property }} {{ control.type }}</h3>
-          <ControlComponent :control="control" @input="input" @hints="hints" />
-        </div>
-        <pre>{{ control }}</pre>
-        <div>
-          <button @click="">Focus</button>
-        </div>
-      </div>
-    </div>
+    <TheMenu />
+    <router-view />
 	`,
-  computed: {
-    ...mapState(dataStore, ['controls']),
-  },
-  methods: {
-    ...mapActions(dataStore, ['changeControlValue', 'runHints', 'setHints']),
-    input({ control, value, checked }) {
-      this.changeControlValue({
-        control,
-        value,
-        checked,
-      });
-    },
-    hints({ control, type, action, value }) {
-      if (type === 'get') {
-        this.runHints(control, action);
-      } else if (type === 'set') {
-        this.setHints(control, value);
-      }
-    },
-  },
 };

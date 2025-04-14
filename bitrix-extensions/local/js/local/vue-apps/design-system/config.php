@@ -14,8 +14,10 @@ return [
 	'rel' => [
 		'main.polyfill.core',
 		'ui.vue3',
+		'ui.vue3.router',
 		'local.vue-components.control-component',
 		'ui.vue3.pinia',
+		'local.vue-components.button-component',
 	],
 	'skip_core' => true,
 ];

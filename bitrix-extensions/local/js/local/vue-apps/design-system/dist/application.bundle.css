@@ -1,12 +1,38 @@
-.twpx-dsign-system-block {
+.twpx-design-system-block {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 32px;
 }
 
-.twpx-dsign-system-block pre {
+.twpx-design-system-block pre {
   font-size: 12px;
   background-color: var(--twpx-form-control-background);
   border-radius: 16px;
   padding: 12px;
+}
+
+.twpx-desing-system-menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.twpx-desing-system-menu a {
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #06417c;
+  border: 1px solid #06417c;
+  color: #fff;
+}
+.twpx-desing-system-menu a:hover {
+  color: #fff;
+}
+.twpx-desing-system-menu a.router-link-exact-active {
+  cursor: default;
+  background-color: #fff;
+  color: #06417c;
 }
