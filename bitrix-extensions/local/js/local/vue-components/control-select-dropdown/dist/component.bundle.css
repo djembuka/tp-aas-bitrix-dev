@@ -90,10 +90,12 @@
 }
 .twpx-form-control-select__arrow {
   position: absolute;
-  top: calc(50% - 12px);
-  right: 13px;
-  width: 24px;
-  height: 24px;
+  top: calc(
+    (var(--twpx-form-control-height) - var(--twpx-form-control-clear-size)) / 2
+  );
+  right: var(--twpx-form-control-dropdown-right);
+  width: var(--twpx-form-control-dropdown-size);
+  height: var(--twpx-form-control-dropdown-size);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

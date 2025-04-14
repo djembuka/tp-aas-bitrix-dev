@@ -1,5 +1,6 @@
 import { ControlDatepicker } from 'local.vue-components.control-datepicker';
 import { Icon } from './icon.js';
+import { IconClear } from './IconClear.js';
 import './component.css';
 
 export const ControlDateSingle = {
@@ -19,6 +20,7 @@ export const ControlDateSingle = {
         'twpx-form-control--disabled': disabled,
         'twpx-form-control--open': open,
       }"
+      ref="control"
     >
       <img
         :src="disabled"
@@ -85,6 +87,7 @@ export const ControlDateSingle = {
     update(date) {
       this.date = this.formatDate(date);
       this.$refs.controlDate.closeMenu();
+      this.replaceClear();
     },
     formatDate(date) {
       const d = new Date(date);
@@ -96,9 +99,20 @@ export const ControlDateSingle = {
 
       return `${day}.${month}.${d.getFullYear()}`;
     },
+    replaceClear() {
+      setTimeout(() => {
+        const clear = this.$refs.control.querySelector('.dp--clear-btn');
+        if (clear) {
+          clear.innerHTML = IconClear;
+        }
+      }, 100);
+    },
   },
   components: {
     ControlDatepicker,
     Icon,
+  },
+  mounted() {
+    this.replaceClear();
   },
 };

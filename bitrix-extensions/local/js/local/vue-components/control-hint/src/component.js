@@ -1,3 +1,5 @@
+import { IconLoad } from './IconLoad';
+import { IconClear } from './IconClear';
 import './component.css';
 
 export const ControlHint = {
@@ -15,6 +17,10 @@ export const ControlHint = {
       hover: false,
       compare: this.controlValue,
     };
+  },
+  components: {
+    IconLoad,
+    IconClear,
   },
   props: ['control', 'id', 'name'],
   // language=Vue
@@ -55,8 +61,9 @@ export const ControlHint = {
         class="twpx-form-control__input"
       />
 
-      <div class="twpx-form-control-clear" @click.prevent="clearInput()" v-show="isClearable"></div>
-      <div class="twpx-form-control-loader" v-show="isLoading"></div>
+      <IconClear class="twpx-form-control-clear" @click.prevent="clearInput()" v-show="isClearable" />
+
+      <IconLoad class="twpx-form-control-loader" v-show="isLoading" />
 
       <div class="twpx-form-control-hint" v-if="hintItems.length">
         <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHintArray[index]}" class="twpx-form-control-hint__item" @click.prevent="clickHint(hint)">{{ hint.value }}</div>

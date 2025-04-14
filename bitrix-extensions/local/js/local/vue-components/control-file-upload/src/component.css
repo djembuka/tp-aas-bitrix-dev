@@ -45,12 +45,16 @@
   z-index: -1;
 }
 .twpx-form-control__file label {
-  display: block;
+  display: flex;
+  align-items: center;
   background-color: var(--twpx-form-control-background);
   font-size: 14px;
   height: 48px;
   line-height: 48px;
-  padding: 0 20px 0 46px;
+  padding: var(--twpx-form-control-padding-top)
+    var(--twpx-form-control-padding-right)
+    var(--twpx-form-control-padding-bottom)
+    var(--twpx-form-control-left-icon-padding-left) !important;
   border-radius: 3px;
   border: 1px solid var(--twpx-form-control-background);
   cursor: pointer;
@@ -206,10 +210,15 @@
 
 .twpx-form-control__file__label {
   position: absolute;
-  top: var(--twpx-form-control-active-translate);
-  left: 15px;
-  font-size: 9px;
-  color: #2b2b2b;
+  top: 0;
+  left: var(--twpx-form-control-left-icon-padding-left);
+  -webkit-transform: translateY(
+    var(--twpx-form-control-active-label-translate)
+  );
+  transform: translateY(var(--twpx-form-control-active-label-translate));
+  font-size: var(--twpx-form-control-label-font-size);
+  font-family: var(--twpx-form-control-font-family);
+  color: var(--twpx-form-control-color);
   pointer-events: none;
   line-height: 1.1;
   z-index: 10;

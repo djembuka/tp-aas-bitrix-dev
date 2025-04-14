@@ -1,3 +1,4 @@
+import { IconDropdown } from './IconDropdown.js';
 import './component.css';
 
 export const ControlSelectDropdown = {
@@ -7,30 +8,10 @@ export const ControlSelectDropdown = {
       optionsArray: [],
       opened: false,
       animation: false,
-      arrowIcon: `
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="16"
-          viewBox="0 0 18 16"
-        >
-          <g transform="translate(17.589 16) rotate(180)">
-            <ellipse
-              cx="9"
-              cy="8"
-              rx="9"
-              ry="8"
-              transform="translate(-0.411)"
-              fill="#fff"
-            />
-            <path
-              d="M3.822,0a.57.57,0,0,0-.386.147L.16,3.157a.473.473,0,0,0,0,.709.581.581,0,0,0,.772,0l2.89-2.655,2.89,2.655a.581.581,0,0,0,.772,0,.473.473,0,0,0,0-.709L4.208.147A.57.57,0,0,0,3.822,0Z"
-              transform="translate(4.855 5.23)"
-              fill="#003B78"
-            />
-          </g>
-        </svg>`,
     };
+  },
+  components: {
+    IconDropdown,
   },
   // language=Vue
   template: `
@@ -58,7 +39,7 @@ export const ControlSelectDropdown = {
         id="id"
       >
         <input type="hidden" :name="name" :value="value" />
-        <div class="twpx-form-control-select__arrow" v-html="arrowIcon"></div>
+        <IconDropdown class="twpx-form-control-select__arrow" />
         <div
           class="twpx-form-control-select__content"
           @click.prevent="openHideDropdown"

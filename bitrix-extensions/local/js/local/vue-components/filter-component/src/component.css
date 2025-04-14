@@ -10,7 +10,7 @@
 /* Closed */
 .twpx-vue-filter--closed {
   display: flex;
-  padding: 16px 32px;
+  padding: 16px;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 32px;
@@ -20,13 +20,13 @@
 }
 .twpx-vue-filter__open-button {
   display: flex;
-  height: 48px;
-  padding: 16px 24px;
+  height: 32px;
+  padding: 8px 16px;
   justify-content: center;
   align-items: center;
   gap: 16px;
   border-radius: 4px;
-  background: var(--twpx-button-background-secondary);
+  background: var(--twpx-background-light-blue);
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
   cursor: pointer;
@@ -36,7 +36,7 @@
   opacity: 0.7;
 }
 .twpx-vue-filter__open-button span {
-  color: #fff;
+  color: var(--twpx-button-text-dark-blue);
   text-align: center;
   font-family: Roboto;
   font-size: 12px;
@@ -45,7 +45,7 @@
   line-height: normal;
 }
 .twpx-vue-filter__open-text {
-  height: 48px;
+  height: 32px;
   display: flex;
   align-items: center;
   color: var(--twpx-text-primary);

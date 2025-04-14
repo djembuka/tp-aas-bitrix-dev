@@ -17,7 +17,7 @@ export const FilterOpen = {
 
         <h3 class="twpx-vue-filter__open-title">Выберите фильтры</h3>
 
-        <div class="twpx-vue-filter__clear-button" @click="reset">
+        <div class="twpx-vue-filter__clear-button" @click="clickClear">
           <IconClear />
           <span>Очистить фильтр</span>
         </div>
@@ -28,7 +28,7 @@ export const FilterOpen = {
         <ControlComponent v-for="control in filters" :key="control.id" :control="control" @input="input" @hints="hints" />
       </div>
 
-      <div class="twpx-vue-filter__close-button" @click="$emit('changeState', 'closed')">
+      <div class="twpx-vue-filter__close-button" @click="close">
         <IconClose />
         <span>Свернуть</span>
       </div>
@@ -46,6 +46,9 @@ export const FilterOpen = {
         value,
       });
     },
+    close() {
+      this.$emit('changeState', 'closed');
+    },
     reset() {
       this.filters.forEach((control) => {
         this.$emit('input', {
@@ -53,6 +56,10 @@ export const FilterOpen = {
           value: control.property === 'date' ? null : '',
         });
       });
+    },
+    clickClear() {
+      this.reset();
+      this.close();
     },
   },
 };

@@ -1,16 +1,16 @@
 .twpx-form-control--hint {
   position: relative;
-  margin-bottom: var(--twpx-form-control-margin-bottom, 16px);
+  margin-bottom: var(--twpx-form-control-margin-bottom);
   width: 100%;
 }
 .twpx-form-control--hint.twpx-form-control--active {
   z-index: 101;
 }
 .twpx-form-control--hint.twpx-form-control--active .twpx-form-control__label {
-  -webkit-transform: translateY(var(--twpx-form-control-translate-active));
-  transform: translateY(var(--twpx-form-control-translate-active));
-  font-size: var(--twpx-form-control-font-size-active, 0.69rem);
-  color: #2b2b2b;
+  -webkit-transform: translateY(
+    var(--twpx-form-control-active-label-translate)
+  );
+  transform: translateY(var(--twpx-form-control-active-label-translate));
 }
 .twpx-form-control--hint .twpx-form-control__disabled-icon {
   position: absolute;
@@ -24,50 +24,38 @@
 .twpx-form-control--hint .twpx-form-control__label {
   position: absolute;
   top: 0;
-  left: var(--twpx-form-control-padding-x, 14px);
+  left: var(--twpx-form-control-padding-left);
   margin: 0;
   padding: 0;
-  color: #2b2b2b;
-  font-size: var(--twpx-form-control-font-size, 0.69rem);
+  color: var(--twpx-form-control-color);
+  font-size: var(--twpx-form-control-label-font-size);
+  font-family: var(--twpx-form-control-font-family);
   -webkit-transition: -webkit-transform 0.2s ease-out,
     -webkit-font-size 0.2s ease-out;
   transition: transform 0.2s ease-out, font-size 0.2s ease-out;
-  -webkit-transform: translateY(var(--twpx-form-control-translate, 1.1rem));
-  transform: translateY(var(--twpx-form-control-translate, 1.1rem));
+  -webkit-transform: translateY(var(--twpx-form-control-label-translate));
+  transform: translateY(var(--twpx-form-control-label-translate));
   pointer-events: none;
   line-height: 1.1;
 }
 .twpx-form-control--hint.twpx-form-control--invalid .twpx-form-control__label {
-  color: #ff0000;
+  color: var(--twpx-form-control-invalid-color);
 }
 .twpx-form-control--hint.twpx-form-control--disabled .twpx-form-control__label {
-  color: #2b2b2b;
+  color: var(--twpx-form-control-color);
   opacity: 0.3;
 }
 .twpx-form-control--hint .twpx-form-control-loader {
   position: absolute;
   top: calc(
-    (
-        var(--twpx-form-control-height, 48px) -
-          var(--twpx-form-control-loader-size, 20px)
-      ) / 2
+    (var(--twpx-form-control-height) - var(--twpx-form-control-loader-size)) / 2
   );
-  right: var(--twpx-form-control-loader-right, 14px);
-  width: var(--twpx-form-control-loader-size, 20px);
-  height: var(--twpx-form-control-loader-size, 20px);
-}
-.twpx-form-control--hint .twpx-form-control-loader:after {
-  content: '';
-  position: absolute;
-  height: var(--twpx-form-control-loader-size, 20px);
-  width: var(--twpx-form-control-loader-size, 20px);
-  top: 0;
-  right: 0;
+  right: var(--twpx-form-control-loader-right);
+  width: var(--twpx-form-control-loader-size);
+  height: var(--twpx-form-control-loader-size);
   -webkit-animation: vue-hint-loader-circle 1.3s infinite linear;
   animation: vue-hint-loader-circle 1.3s infinite linear;
-  border: 1px solid var(--twpx-form-control-loader-color, #074c86);
-  border-radius: 50%;
-  border-right-color: transparent;
+  z-index: 10;
 }
 
 @-webkit-keyframes vue-hint-loader-circle {
@@ -89,14 +77,11 @@
 .twpx-form-control-clear {
   position: absolute;
   top: calc(
-    (
-        var(--twpx-form-control-height, 48px) -
-          var(--twpx-form-control-clear-size, 20px)
-      ) / 2
+    (var(--twpx-form-control-height) - var(--twpx-form-control-clear-size)) / 2
   );
-  right: var(--twpx-form-control-clear-right, 14px);
-  width: var(--twpx-form-control-clear-size, 20px);
-  height: var(--twpx-form-control-clear-size, 20px);
+  right: var(--twpx-form-control-clear-right);
+  width: var(--twpx-form-control-clear-size);
+  height: var(--twpx-form-control-clear-size);
   cursor: pointer;
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
@@ -104,44 +89,20 @@
 .twpx-form-control-clear:hover {
   opacity: 0.7;
 }
-.twpx-form-control-clear:before {
-  content: '';
-  position: absolute;
-  top: calc(var(--twpx-form-control-clear-size, 20px) * 0.5);
-  right: calc(var(--twpx-form-control-clear-size, 20px) * -0.1);
-  border-top: 1px solid var(--twpx-form-control-clear-color, #074c86);
-  width: calc(var(--twpx-form-control-clear-size, 20px) * 1.2);
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-  z-index: 10;
-}
-.twpx-form-control-clear:after {
-  content: '';
-  position: absolute;
-  top: calc(var(--twpx-form-control-clear-size, 20px) * 0.5);
-  right: calc(var(--twpx-form-control-clear-size, 20px) * -0.1);
-  border-top: 1px solid var(--twpx-form-control-clear-color, #074c86);
-  width: calc(var(--twpx-form-control-clear-size, 20px) * 1.2);
-  -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-  z-index: 10;
-}
 .twpx-form-control--hint .twpx-form-control__input {
   display: block !important;
   width: 100%;
   margin: 0 !important;
-  padding-top: var(--twpx-form-control-padding-top, 0) !important;
-  padding-right: var(--twpx-form-control-padding-right, 14px) !important;
-  padding-bottom: var(--twpx-form-control-padding-bottom, 0) !important;
-  padding-left: var(--twpx-form-control-padding-left, 14px) !important;
-  padding: 0 var(--twpx-form-control-padding-x, 14px) !important;
+  padding: var(--twpx-form-control-padding-top)
+    var(--twpx-form-control-padding-right)
+    var(--twpx-form-control-padding-bottom)
+    var(--twpx-form-control-padding-left) !important;
   background-color: var(--twpx-form-control-background) !important;
   border: 1px solid var(--twpx-form-control-border) !important;
-  height: var(--twpx-form-control-height, 48px) !important;
-  line-height: var(--twpx-form-control-height, 48px);
-  border-radius: var(--twpx-form-control-border-radius, 3px) !important;
-  font-family: 'Open Sans', sans-serif;
-  font-size: var(--twpx-form-control-font-size, 14px) !important;
+  height: var(--twpx-form-control-height) !important;
+  border-radius: var(--twpx-form-control-border-radius) !important;
+  font-family: var(--twpx-form-control-font-family);
+  font-size: var(--twpx-form-control-font-size) !important;
   -webkit-transition: border-color 0.3s ease;
   transition: border-color 0.3s ease;
   outline: none !important;
@@ -151,28 +112,32 @@
 .twpx-form-control--hint .twpx-form-control__input:focus,
 .twpx-form-control--hint .twpx-form-control__input:hover {
   outline: none !important;
-  border-color: var(--twpx-form-control-border) !important;
+  border-color: var(--twpx-form-control-border-active) !important;
 }
 .twpx-form-control--hint.twpx-form-control--invalid .twpx-form-control__input {
-  background-color: #fff5f5 !important;
-  border-color: #e38080 !important;
+  background-color: var(
+    --twpx-form-control-invalid-background-color
+  ) !important;
+  border-color: var(--twpx-form-control-invalid-border-color) !important;
   outline: none !important;
-  color: #ff0000 !important;
+  color: var(--twpx-form-control-invalid-color) !important;
 }
 .twpx-form-control--hint.twpx-form-control--disabled .twpx-form-control__input {
-  color: #00000055;
+  color: var(--twpx-form-control-disabled-color);
   pointer-events: none;
-  background-color: var(--twpx-form-control-background) 55 !important;
-  border: 1px solid var(--twpx-form-control-background) 55 !important;
+  background-color: var(
+    --twpx-form-control-disabled-background-color
+  ) !important;
+  border: 1px solid var(--twpx-form-control-disabled-border-color) !important;
 }
 .twpx-form-control--hint .twpx-form-control__warning,
 .twpx-form-control--hint .twpx-form-control__hint {
-  font-size: 9pt;
-  margin: 5px;
-  line-height: 1.1;
+  font-size: var(--twpx-form-control-external-hint-font-size);
+  margin: var(--twpx-form-control-external-hint-margin);
+  line-height: var(--twpx-form-control-external-hint-line-height);
 }
 .twpx-form-control--hint .twpx-form-control__warning {
-  color: #ff0000;
+  color: var(--twpx-form-control-invalid-color);
 }
 
 .twpx-form-control-hint {
@@ -181,7 +146,7 @@
   left: 0;
   width: 100%;
   background: #fff;
-  box-shadow: var(--twpx-form-control-hint-box-shadow, 0 0 5px 5px);
+  box-shadow: var(--twpx-form-control-hint-box-shadow);
   border-radius: var(--twpx-form-control-hint-border-radius, 0 0 5px 5px);
   font-size: var(--twpx-form-control-hint-font-size, 14px);
   line-height: 1.2;

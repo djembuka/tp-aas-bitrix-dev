@@ -12,7 +12,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  padding: 16px 32px;
+  padding: 16px;
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
@@ -29,8 +29,8 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 48px;
-  padding: 16px 24px;
+  height: 32px;
+  padding: 8px 16px;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -39,7 +39,7 @@
           align-items: center;
   gap: 16px;
   border-radius: 4px;
-  background: var(--twpx-button-background-secondary);
+  background: var(--twpx-background-light-blue);
   -webkit-transition: opacity 0.3s ease;
   -o-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
@@ -53,7 +53,7 @@
   opacity: 0.7;
 }
 .twpx-vue-filter__open-button span {
-  color: #fff;
+  color: var(--twpx-button-text-dark-blue);
   text-align: center;
   font-family: Roboto;
   font-size: 12px;
@@ -62,7 +62,7 @@
   line-height: normal;
 }
 .twpx-vue-filter__open-text {
-  height: 48px;
+  height: 32px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

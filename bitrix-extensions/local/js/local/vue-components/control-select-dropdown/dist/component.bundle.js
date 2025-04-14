@@ -3,18 +3,24 @@ this.BX = this.BX || {};
 (function (exports) {
   'use strict';
 
+  var IconDropdown = {
+    template: "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\">\n      <path d=\"M8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8C16 12.4183 12.4183 16 8 16Z\" fill=\"white\"/>\n      <path d=\"M8.02698 10.77C8.09292 10.7702 8.15824 10.7572 8.21916 10.732C8.28009 10.7068 8.33542 10.6697 8.38198 10.623L11.392 7.61304C11.486 7.51902 11.5388 7.3915 11.5388 7.25854C11.5388 7.12558 11.486 6.99806 11.392 6.90404C11.298 6.81002 11.1704 6.7572 11.0375 6.7572C10.9045 6.7572 10.777 6.81002 10.683 6.90404L8.02798 9.55904L5.37298 6.90404C5.27896 6.81002 5.15144 6.7572 5.01848 6.7572C4.88552 6.7572 4.758 6.81002 4.66398 6.90404C4.56996 6.99806 4.51714 7.12558 4.51714 7.25854C4.51714 7.3915 4.56996 7.51902 4.66398 7.61304L7.67398 10.623C7.76752 10.7169 7.89448 10.7697 8.02698 10.77Z\" fill=\"#003B78\"/>\n    </svg>\n  "
+  };
+
   var ControlSelectDropdown = {
     data: function data() {
       return {
         id: Math.floor(Math.random() * 100000),
         optionsArray: [],
         opened: false,
-        animation: false,
-        arrowIcon: "\n        <svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          width=\"18\"\n          height=\"16\"\n          viewBox=\"0 0 18 16\"\n        >\n          <g transform=\"translate(17.589 16) rotate(180)\">\n            <ellipse\n              cx=\"9\"\n              cy=\"8\"\n              rx=\"9\"\n              ry=\"8\"\n              transform=\"translate(-0.411)\"\n              fill=\"#fff\"\n            />\n            <path\n              d=\"M3.822,0a.57.57,0,0,0-.386.147L.16,3.157a.473.473,0,0,0,0,.709.581.581,0,0,0,.772,0l2.89-2.655,2.89,2.655a.581.581,0,0,0,.772,0,.473.473,0,0,0,0-.709L4.208.147A.57.57,0,0,0,3.822,0Z\"\n              transform=\"translate(4.855 5.23)\"\n              fill=\"#003B78\"\n            />\n          </g>\n        </svg>"
+        animation: false
       };
     },
+    components: {
+      IconDropdown: IconDropdown
+    },
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--select': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n        'twpx-form-control--opened': opened,\n        'twpx-form-control--animation': animation,\n      }\"\n      @close=\"console.log('close')\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <div\n        class=\"twpx-form-control-select\"\n        :data-id=\"id\"\n        id=\"id\"\n      >\n        <input type=\"hidden\" :name=\"name\" :value=\"value\" />\n        <div class=\"twpx-form-control-select__arrow\" v-html=\"arrowIcon\"></div>\n        <div\n          class=\"twpx-form-control-select__content\"\n          @click.prevent=\"openHideDropdown\"\n        >\n          {{ text }}\n        </div>\n        <div class=\"twpx-form-control-select__dropdown\">\n          <div\n            class=\"twpx-form-control-select__dropdown-item\"\n            :class=\"{'twpx-form-control-select__dropdown-item': true, 'twpx-form-control-select__dropdown-item--current': option.code === control.value}\"\n            v-for=\"(option, i) in control.options\"\n            :key=\"option.code\"\n            @click.prevent=\"clickItem(i)\"\n          >\n            {{ option.label }}\n          </div>\n        </div>\n      </div>\n    </div>\n\t",
+    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--select': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n        'twpx-form-control--opened': opened,\n        'twpx-form-control--animation': animation,\n      }\"\n      @close=\"console.log('close')\"\n    >\n      <img\n        :src=\"disabled\"\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"false\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <div\n        class=\"twpx-form-control-select\"\n        :data-id=\"id\"\n        id=\"id\"\n      >\n        <input type=\"hidden\" :name=\"name\" :value=\"value\" />\n        <IconDropdown class=\"twpx-form-control-select__arrow\" />\n        <div\n          class=\"twpx-form-control-select__content\"\n          @click.prevent=\"openHideDropdown\"\n        >\n          {{ text }}\n        </div>\n        <div class=\"twpx-form-control-select__dropdown\">\n          <div\n            class=\"twpx-form-control-select__dropdown-item\"\n            :class=\"{'twpx-form-control-select__dropdown-item': true, 'twpx-form-control-select__dropdown-item--current': option.code === control.value}\"\n            v-for=\"(option, i) in control.options\"\n            :key=\"option.code\"\n            @click.prevent=\"clickItem(i)\"\n          >\n            {{ option.label }}\n          </div>\n        </div>\n      </div>\n    </div>\n\t",
     props: ['control', 'name', 'customOnChange'],
     emits: ['input', 'focus', 'blur'],
     computed: {

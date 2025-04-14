@@ -34,7 +34,7 @@
 .twpx-form-control--date .twpx-form-control__label {
   position: absolute;
   top: 0;
-  left: var(--twpx-form-control-icon-padding-left);
+  left: var(--twpx-form-control-left-icon-padding-left);
   margin: 0;
   padding: 0;
   color: var(--twpx-form-control-color);
@@ -61,9 +61,9 @@
   width: 100%;
   margin: 0 !important;
   padding: var(--twpx-form-control-padding-top)
-    var(--twpx-form-control-padding-right)
+    var(--twpx-form-control-right-icon-padding-right)
     var(--twpx-form-control-padding-bottom)
-    var(--twpx-form-control-icon-padding-left) !important;
+    var(--twpx-form-control-left-icon-padding-left) !important;
   background-color: var(--twpx-form-control-background);
   border: 1px solid var(--twpx-form-control-background) !important;
   background-color: var(--twpx-form-control-background) !important;
@@ -246,15 +246,14 @@
 .twpx-form-control--date .dp__clear_icon:hover {
   opacity: 0.7;
 }
-.twpx-form-control--date .dp--clear-btn svg {
-  display: none !important;
-}
 .twpx-form-control--date .dp--clear-btn {
   position: absolute;
-  top: var(--aas-input-right-icon-top);
-  right: var(--aas-input-right-icon-right);
-  width: var(--aas-input-right-icon-width);
-  height: var(--aas-input-right-icon-height);
+  top: calc(
+    (var(--twpx-form-control-height) - var(--twpx-form-control-clear-size)) / 2
+  );
+  right: var(--twpx-form-control-clear-right);
+  width: var(--twpx-form-control-clear-size);
+  height: var(--twpx-form-control-clear-size);
   cursor: pointer;
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
@@ -264,28 +263,6 @@
 }
 .twpx-form-control--date .dp--clear-btn:hover {
   opacity: 0.7;
-}
-.twpx-form-control--date .dp--clear-btn:before {
-  content: '';
-  position: absolute;
-  top: 9px;
-  right: -2px;
-  border-top: 1px solid var(--aas-primary-color);
-  width: 24px;
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-  z-index: 10;
-}
-.twpx-form-control--date .dp--clear-btn:after {
-  content: '';
-  position: absolute;
-  top: 9px;
-  right: -2px;
-  border-top: 1px solid var(--aas-primary-color);
-  width: 24px;
-  -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-  z-index: 10;
 }
 .twpx-form-control--date:hover .dp--clear-btn {
   opacity: 1;
