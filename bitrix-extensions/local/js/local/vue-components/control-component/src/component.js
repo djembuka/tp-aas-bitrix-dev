@@ -2,6 +2,7 @@ import './component.css';
 
 import { ControlHidden } from 'local.vue-components.control-hidden';
 import { ControlText } from 'local.vue-components.control-text';
+import { ControlTextarea } from 'local.vue-components.control-textarea';
 import { ControlPassword } from 'local.vue-components.control-password';
 import { ControlTel } from 'local.vue-components.control-tel';
 import { ControlEmail } from 'local.vue-components.control-email';
@@ -30,6 +31,7 @@ export const ControlComponent = {
   components: {
     ControlHidden,
     ControlText,
+    ControlTextarea,
     ControlPassword,
     ControlTel,
     ControlEmail,

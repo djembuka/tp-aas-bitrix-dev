@@ -1,6 +1,6 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_controlHidden,local_vueComponents_controlText,local_vueComponents_controlPassword,local_vueComponents_controlTel,local_vueComponents_controlEmail,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlSelectRadio,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange,local_vueComponents_controlFile,local_vueComponents_controlFileUpload,local_vueComponents_controlCheckbox,local_vueComponents_controlCheckboxCheckbox,local_vueComponents_controlCheckboxSwitch) {
+(function (exports,local_vueComponents_controlHidden,local_vueComponents_controlText,local_vueComponents_controlTextarea,local_vueComponents_controlPassword,local_vueComponents_controlTel,local_vueComponents_controlEmail,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlSelectRadio,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange,local_vueComponents_controlFile,local_vueComponents_controlFileUpload,local_vueComponents_controlCheckbox,local_vueComponents_controlCheckboxCheckbox,local_vueComponents_controlCheckboxSwitch) {
   'use strict';
 
   function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -16,6 +16,7 @@ this.BX = this.BX || {};
     components: {
       ControlHidden: local_vueComponents_controlHidden.ControlHidden,
       ControlText: local_vueComponents_controlText.ControlText,
+      ControlTextarea: local_vueComponents_controlTextarea.ControlTextarea,
       ControlPassword: local_vueComponents_controlPassword.ControlPassword,
       ControlTel: local_vueComponents_controlTel.ControlTel,
       ControlEmail: local_vueComponents_controlEmail.ControlEmail,
@@ -69,5 +70,5 @@ this.BX = this.BX || {};
 
   exports.ControlComponent = ControlComponent;
 
-}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
+}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
 //# sourceMappingURL=component.bundle.js.map

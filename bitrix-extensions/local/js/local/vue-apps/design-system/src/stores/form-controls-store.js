@@ -14,6 +14,16 @@ export const formControlsStore = defineStore('form-controls-store', {
         disabled: false,
       },
       {
+        id: 'id1-1',
+        property: 'textarea',
+        name: 'TEXT',
+        label: 'Message',
+        value: '',
+        multi: 3,
+        required: false,
+        disabled: false,
+      },
+      {
         id: 'id2',
         property: 'tel',
         name: 'NUM',
