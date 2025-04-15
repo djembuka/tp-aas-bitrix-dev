@@ -146,7 +146,8 @@
 .twpx-form-control__file.filled label a,
 .twpx-form-control__file:active .twpx-form-control__file__label,
 .twpx-form-control__file.dragover .twpx-form-control__file__label,
-.twpx-form-control__file.filled .twpx-form-control__file__label {
+.twpx-form-control__file.filled .twpx-form-control__file__label,
+.twpx-form-control__file.progressing .twpx-form-control__file__label {
   color: #fff;
 }
 /*invalid*/
@@ -289,7 +290,8 @@
   margin: 5px;
   line-height: 1.1;
 }
-.twpx-form-control__warning {
+.twpx-form-control__warning,
+.twpx-form-control__warning * {
   color: #ff0000;
 }
 
@@ -313,8 +315,8 @@
 }
 
 .twpx-form-control__file__progressbar.minimal {
-  -webkit-transition: width 1s linear;
-  transition: width 1s linear;
+  -webkit-transition: width 0.5s linear;
+  transition: width 0.5s linear;
 }
 
 .twpx-form-control__file__progressbar span {

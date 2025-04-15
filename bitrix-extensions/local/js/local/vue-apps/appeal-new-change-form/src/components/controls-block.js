@@ -12,7 +12,6 @@ export const ControlsBlock = {
     <p v-html="controlsBlock.text"></p>
     <hr class="hr--sl">
     <div v-for="(formControl, controlIndex) in controlsBlock.controls" :key="formControl.id">
-
       <div class="row align-items-center">
         <div class="col-lg-6 col-12">
           <ControlChoice :control="formControl" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />

@@ -68,7 +68,6 @@ export const Application = {
       'removeMulti',
     ]),
     hints({ type, control, action, value }) {
-      console.log({ type, control, action, value });
       switch (type) {
         case 'get':
           this.runHintsAction({

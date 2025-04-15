@@ -1,4 +1,5 @@
 import './component.css';
+import { IconFile } from './IconFile';
 
 export const ControlFileUpload = {
   data() {
@@ -7,30 +8,20 @@ export const ControlFileUpload = {
       controlName: this.name || this.control.name || null,
       focused: false,
       blured: false,
-      warning: '',
       hint: this.control.hint_external,
-
       minimalLoading: false,
       loading: false,
       loadCircle: false,
       percentage: 0, //%
       isFileLoaded: false,
-      xhrStatus: '', //'Y', 'E'
-      active: true,
       files: [],
       default: '<a href="">Выберите файл</a>&nbsp;или перетащите в поле',
       required: this.control.required,
-      icon: `<g transform="translate(-4.461)">
-          <g transform="translate(4.461)">
-            <g>
-              <path d="M21.844,6.573v15.88A1.547,1.547,0,0,1,20.3,24H6.008a1.546,1.546,0,0,1-1.547-1.547V1.547A1.546,1.546,0,0,1,6.008,0H15.27Z" transform="translate(-4.461)" class="a"/>
-            </g>
-            <path d="M20.036,8.289l5.677,2.339v-2.2l-3.218-.951Z" transform="translate(-8.33 -1.858)" class="b"/>
-            <path d="M25.416,6.573H20.389a1.546,1.546,0,0,1-1.547-1.547V0Z" transform="translate(-8.033)" class="c"/>
-          </g>
-          <path d="M18.117,19.012l-2.85-2.85a.555.555,0,0,0-.785,0l-2.85,2.85a.555.555,0,0,0,.785.784l1.9-1.9v5.024a.555.555,0,1,0,1.109,0V17.894l1.9,1.9a.555.555,0,0,0,.785-.784Z" transform="translate(-1.741 -3.974)" class="d"/>
-        </g>`,
+      warning: '',
     };
+  },
+  components: {
+    IconFile,
   },
   props: ['control', 'id', 'name'],
   // language=Vue
@@ -39,8 +30,7 @@ export const ControlFileUpload = {
       :class="{
         'twpx-form-control': true,
         'twpx-form-control--file': true,
-        'twpx-form-control--active': active,
-        'twpx-form-control--invalid': invalid,
+        'twpx-form-control--invalid': isInvalid,
         'twpx-form-control--disabled': disabled,
       }"
     >
@@ -65,18 +55,12 @@ export const ControlFileUpload = {
       >
         <span class="twpx-form-control__file__label">{{ control.label }}</span>
 
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="17.383"
-          height="24"
-          viewBox="0 0 17.383 24"
-          v-html="icon"
-        ></svg>
+        <IconFile />
 
         <input
           type="file"
-          :name="control.name"
-          :id="control.id"
+          :name="controlName"
+          :id="controlId"
           @change="uploadFile($refs.inputFile.files)"
           ref="inputFile"
         />
@@ -87,12 +71,16 @@ export const ControlFileUpload = {
         </div>
 
         <label
-          :for="control.id"
-          class="active"
+          :for="controlId"
           v-html="label"
           ref="dropzone"
         ></label>
       </div>
+      <div
+        class="twpx-form-control__warning"
+        v-html="warning"
+        v-if="warning"
+      ></div>
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
     </div>
 	`,
@@ -113,12 +101,6 @@ export const ControlFileUpload = {
       } else {
         return '';
       }
-    },
-    active() {
-      return this.focused || !!this.control.value.trim();
-    },
-    invalid() {
-      return this.blured && !this.validate();
     },
     disabled() {
       return this.control.disabled;
@@ -153,7 +135,6 @@ export const ControlFileUpload = {
         return 'Ошибка загрузки';
       } else if (this.files[0] && this.files[0].size && this.files[0].name) {
         if (this.files[0].size >= this.control.maxSize) {
-          this.files = [];
           return `Размер файла превышает ${this.formatSize(
             this.control.maxSize
           )}`;
@@ -164,7 +145,6 @@ export const ControlFileUpload = {
         const regExp = new RegExp(this.control.accept.join('|'));
 
         if (!regExp.test(filename.substring(lastIndex + 1).toLowerCase())) {
-          this.files = [];
           return `Прикладывайте файлы ${this.control.accept
             .map((w) => w.toUpperCase())
             .join(', ')}.`;
@@ -178,6 +158,9 @@ export const ControlFileUpload = {
       }
       if (this.isInvalid) {
         return this.invalidString;
+      }
+      if (this.filename) {
+        return this.filename;
       }
       if (this.files[0] && this.files[0].name) {
         return this.files[0].name;
@@ -214,23 +197,29 @@ export const ControlFileUpload = {
   methods: {
     uploadFile(files) {
       this.files = files;
-      // this.xhrStatus = '';
       this.percentage = 0;
-      //invalid and label change
+
+      // Проверка файла перед загрузкой
       setTimeout(() => {
         if (this.isInvalid) {
           this.$refs.inputFile.value = '';
-        } else {
-          this.loading = true;
-          this.$emit('input', { value: files[0] });
+          // this.files = [];
+          return;
         }
+
+        // Если проверки пройдены, начинаем загрузку
+        this.loading = true;
+        this.$emit('input', { value: files[0] });
       }, 0);
     },
     onResponse() {
       if (this.response.STATUS === 'success') {
         setTimeout(() => {
           this.$refs.inputFile.value = '';
+          this.isFileLoaded = true;
         }, 100);
+      } else if (this.response.STATUS === 'error') {
+        this.showError(this.response.errors[0].message);
       }
 
       if (this.percentage === 100) {
@@ -239,6 +228,11 @@ export const ControlFileUpload = {
         this.loading = false;
         this.loadCircle = false;
       }
+    },
+    showError(message) {
+      this.warning = message;
+      this.$refs.inputFile.value = '';
+      this.files = [];
     },
     clearInputFile() {
       this.loadCircle = true;
@@ -279,7 +273,7 @@ export const ControlFileUpload = {
       if (first && loaded === total) {
         //loaded too fast, show minimal animation 1s
         let counter = 0,
-          minimalTime = 1000,
+          minimalTime = 500,
           intervalId;
 
         this.minimalLoading = true;
@@ -288,30 +282,20 @@ export const ControlFileUpload = {
         intervalId = setInterval(() => {
           if (++counter === 11) {
             clearInterval(intervalId);
-            // this.dataLoaded(xhr);
             this.loadCircle = false;
             this.minimalLoading = false;
-            return;
-          }
-          this.percentage = Math.floor((counter * 100) / 10);
-          if (this.percentage === 100) {
+
             this.$refs.progressbar.style = '';
             this.percentage = 0;
             this.loading = false;
-            this.loadCircle = false;
+            return;
           }
+          this.percentage = Math.floor((counter * 100) / 10);
         }, minimalTime / 10);
       } else {
         this.percentage = Math.floor((loaded / total) * 100) || 0;
         this.$refs.progressbar.style.width = `calc(46px + (100% - 46px ) * ${this.percentage} / 100)`;
         this.loadCircle = false;
-
-        if (this.percentage === 100) {
-          this.$refs.progressbar.style = '';
-          this.percentage = 0;
-          this.loading = false;
-          this.loadCircle = false;
-        }
       }
     },
 
@@ -337,11 +321,6 @@ export const ControlFileUpload = {
           const match = String(this.value.trim()).match(
             RegExp(this.control.regexp)
           );
-          if (!match) {
-            this.warning = this.control.regexp_description;
-          } else {
-            this.warning = '';
-          }
           return match;
         } else {
           return true;

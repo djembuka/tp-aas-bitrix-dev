@@ -51,6 +51,20 @@ export const formStore = defineStore('form', {
     changeTextControlValue({ control, value }) {
       control.value = value;
     },
+    changeHintControlValue({ control, value }) {
+      control.value = value;
+
+      if (value.autocomplete && value.autocomplete.forEach) {
+        value.autocomplete.forEach((o) => {
+          const control = this.controlsBlock.controls.find(
+            (c) => c.id === o.id
+          );
+          if (control) {
+            control.value = o.value;
+          }
+        });
+      }
+    },
     changeSelectRadioValue({ control, value }) {
       control.value = value;
     },
@@ -72,8 +86,10 @@ export const formStore = defineStore('form', {
         case 'textarea':
         case 'tel':
         case 'email':
-        case 'hint':
           this.changeTextControlValue({ control, value });
+          break;
+        case 'hint':
+          this.changeHintControlValue({ control, value });
           break;
         // case 'multiselect':
         //   commit('changeMultiselectValue', { control, value, checked });
@@ -129,7 +145,8 @@ export const formStore = defineStore('form', {
       }
 
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', '/markup/upload.php');
+      const url = control.action;
+      xhr.open('POST', url /*'/markup/upload.php'*/);
       //xhr.setRequestHeader('Content-Type', 'multipart/form-data');
       xhr.setRequestHeader('Authentication', BX.bitrix_sessid());
 
@@ -145,8 +162,17 @@ export const formStore = defineStore('form', {
       xhr.upload.addEventListener('abort', () => {
         // console.log('abort');
       });
-      xhr.upload.addEventListener('error', () => {
-        // console.log('error');
+      xhr.upload.addEventListener('error', (err) => {
+        console.log('error', err);
+
+        control.upload.response = {
+          STATUS: 'error',
+          errors: [
+            {
+              message: err,
+            },
+          ],
+        };
       });
       xhr.upload.addEventListener('load', () => {
         // console.log('load');
@@ -162,7 +188,19 @@ export const formStore = defineStore('form', {
         control.upload.readyState = xhr.readyState;
 
         if (xhr.readyState === 4) {
-          control.upload.response = JSON.parse(xhr.response);
+          try {
+            control.upload.response = JSON.parse(xhr.response);
+          } catch (err) {
+            control.upload.response = {
+              STATUS: 'error',
+              errors: [
+                {
+                  message: err,
+                },
+              ],
+            };
+            console.log(err);
+          }
         }
       };
 
