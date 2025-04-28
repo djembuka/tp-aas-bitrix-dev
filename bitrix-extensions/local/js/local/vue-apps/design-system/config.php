@@ -16,8 +16,8 @@ return [
 		'ui.vue3',
 		'ui.vue3.router',
 		'local.vue-components.control-component',
-		'ui.vue3.pinia',
 		'local.vue-components.button-component',
+		'ui.vue3.pinia',
 	],
 	'skip_core' => true,
 ];

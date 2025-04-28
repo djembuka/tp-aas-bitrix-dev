@@ -8,8 +8,8 @@ this.BX = this.BX || {};
   var ControlComponent = {
     data: function data() {
       return {
-        id: "PROPERTY_".concat(this.control.id),
-        name: "PROPERTY_".concat(this.control.id),
+        id: this.id || this.control.id,
+        name: this.name || this.control.name,
         componentType: "".concat(this.control.property).concat(this.control.type ? '-' + this.control.type : '')
       };
     },
@@ -32,7 +32,7 @@ this.BX = this.BX || {};
       ControlCheckboxCheckbox: local_vueComponents_controlCheckboxCheckbox.ControlCheckboxCheckbox,
       ControlCheckboxSwitch: local_vueComponents_controlCheckboxSwitch.ControlCheckboxSwitch
     },
-    props: ['control'],
+    props: ['control', 'name', 'id'],
     // language=Vue
     template: "\n\t\t<component\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n      @focus=\"focusAddControl\"\n      @blur=\"blurAddControl\"\n      @enter=\"enterAddControl\"\n      @hints=\"hintsAddControl\"\n    ></component>\n\t",
     emits: ['input', 'focus', 'blur', 'hints'],

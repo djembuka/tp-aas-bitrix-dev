@@ -669,25 +669,32 @@
         var _this2 = this;
         return babelHelpers.asyncToGenerator(
           /*#__PURE__*/ _regeneratorRuntime().mark(function _callee() {
-            var control, action, response, result;
+            var control, action, sign, response, result;
             return _regeneratorRuntime().wrap(function _callee$(_context) {
               while (1)
                 switch ((_context.prev = _context.next)) {
                   case 0:
                     (control = _ref12.control), (action = _ref12.action);
-                    _context.next = 3;
+                    if (control.value && typeof control.value === 'string') {
+                      sign = action.indexOf('?') < 0 ? '?' : '&';
+                      action = ''
+                        .concat(action)
+                        .concat(sign, 's=')
+                        .concat(control.value);
+                    }
+                    _context.next = 4;
                     return fetch(action);
-                  case 3:
+                  case 4:
                     response = _context.sent;
-                    _context.next = 6;
+                    _context.next = 7;
                     return response.json();
-                  case 6:
+                  case 7:
                     result = _context.sent;
                     _this2.setHints({
                       control: control,
                       value: result,
                     });
-                  case 8:
+                  case 9:
                   case 'end':
                     return _context.stop();
                 }
@@ -831,7 +838,7 @@
     },
     props: ['controlsBlock'],
     template:
-      '\n  <div>\n    <h2>{{ controlsBlock.title }}</h2>\n    <p v-html="controlsBlock.text"></p>\n    <hr class="hr--sl">\n    <div v-for="(formControl, controlIndex) in controlsBlock.controls" :key="formControl.id">\n      <div class="row align-items-center">\n        <div class="col-lg-6 col-12">\n          <ControlChoice :control="formControl" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />\n        </div>\n        <hr class="hr--xs d-block d-lg-none w-100">\n        <div class="col-lg-6 col-12 small">\n          <div v-if="formControl.completeBlock && formControl.completeBlock.comment" class="text-muted b-complete-comment">{{formControl.completeBlock.comment}}</div>\n        </div>\n      </div>\n\n      <hr class="hr--sl">\n\n    </div>\n  </div>\n  ',
+      '\n  <div>\n    <h2>{{ controlsBlock.title }}</h2>\n    <p v-html="controlsBlock.text"></p>\n    <hr class="hr--sl">\n    <div v-for="(formControl, controlIndex) in controlsBlock.controls" :key="formControl.id">\n      <pre>{{ formControl }}</pre>\n      <div class="row align-items-center">\n        <div class="col-lg-6 col-12">\n          <ControlChoice :control="formControl" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />\n        </div>\n        <hr class="hr--xs d-block d-lg-none w-100">\n        <div class="col-lg-6 col-12 small">\n          <div v-if="formControl.completeBlock && formControl.completeBlock.comment" class="text-muted b-complete-comment">{{formControl.completeBlock.comment}}</div>\n        </div>\n      </div>\n\n      <hr class="hr--sl">\n\n    </div>\n  </div>\n  ',
     emits: [
       'autosave',
       'timeoutAutosave',
@@ -1318,4 +1325,5 @@
   })();
 
   exports.AppealNewChangeForm = AppealNewChangeForm;
-})((this.BX = this.BX || {}), BX.Vue3, BX.Controls, BX.Vue3.Pinia); //# sourceMappingURL=application.bundle.js.map
+})((this.BX = this.BX || {}), BX.Vue3, BX.Controls, BX.Vue3.Pinia);
+//# sourceMappingURL=application.bundle.js.map

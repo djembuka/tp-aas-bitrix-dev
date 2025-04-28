@@ -66,7 +66,7 @@ export const ControlHint = {
       <IconLoad class="twpx-form-control-loader" v-show="isLoading" />
 
       <div class="twpx-form-control-hint" v-if="hintItems.length">
-        <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHintArray[index]}" class="twpx-form-control-hint__item" @click.prevent="clickHint(hint)">{{ hint.value }}</div>
+        <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHintArray[index]}" class="twpx-form-control-hint__item" @click.prevent="clickHint(hint)" v-html="hint.value"></div>
       </div>
 
       <div
@@ -116,6 +116,15 @@ export const ControlHint = {
     controlValue: {
       get() {
         if (typeof this.control.value === 'object') {
+          if (
+            typeof this.control.value.value === 'string' &&
+            this.control.value.value.indexOf('data-value') >= 0
+          ) {
+            // если html и есть элемент, содержащий значение
+            let div = document.createElement('div');
+            div.innerHTML = this.control.value.value;
+            return div.querySelector('[data-value]').textContent;
+          }
           return this.control.value.value;
         }
         return this.control.value;

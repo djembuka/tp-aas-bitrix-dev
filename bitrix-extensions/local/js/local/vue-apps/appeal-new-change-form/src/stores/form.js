@@ -117,6 +117,10 @@ export const formStore = defineStore('form', {
     },
     //hint
     async runHintsAction({ control, action }) {
+      if (control.value && typeof control.value === 'string') {
+        const sign = action.indexOf('?') < 0 ? '?' : '&';
+        action = `${action}${sign}s=${control.value}`;
+      }
       const response = await fetch(action);
       const result = await response.json();
       this.setHints({ control, value: result });

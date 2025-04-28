@@ -21,8 +21,8 @@ import { ControlCheckboxSwitch } from 'local.vue-components.control-checkbox-swi
 export const ControlComponent = {
   data() {
     return {
-      id: `PROPERTY_${this.control.id}`,
-      name: `PROPERTY_${this.control.id}`,
+      id: this.id || this.control.id,
+      name: this.name || this.control.name,
       componentType: `${this.control.property}${
         this.control.type ? '-' + this.control.type : ''
       }`,
@@ -47,7 +47,7 @@ export const ControlComponent = {
     ControlCheckboxCheckbox,
     ControlCheckboxSwitch,
   },
-  props: ['control'],
+  props: ['control', 'name', 'id'],
   // language=Vue
   template: `
 		<component

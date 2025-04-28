@@ -4,8 +4,8 @@
   ui_vue3,
   ui_vue3_router,
   local_vueComponents_controlComponent,
-  ui_vue3_pinia,
-  local_vueComponents_buttonComponent
+  local_vueComponents_buttonComponent,
+  ui_vue3_pinia
 ) {
   'use strict';
 
@@ -504,8 +504,8 @@
           {
             id: 'id1',
             property: 'text',
-            name: 'NUM',
-            label: 'Case number',
+            name: 'SOME_TEXT',
+            label: 'Some text',
             value: '',
             multi: 3,
             required: false,
@@ -514,7 +514,7 @@
           {
             id: 'id1-1',
             property: 'textarea',
-            name: 'TEXT',
+            name: 'MESSAGE',
             label: 'Message',
             value: '',
             multi: 3,
@@ -524,7 +524,7 @@
           {
             id: 'id2',
             property: 'tel',
-            name: 'NUM',
+            name: 'PHONE',
             label: 'Phone number',
             value: '',
             multi: 3,
@@ -534,7 +534,7 @@
           {
             id: 'id3',
             property: 'email',
-            name: 'NUM',
+            name: 'EMAIL',
             label: 'Your email',
             value: '',
             multi: 3,
@@ -544,7 +544,7 @@
           {
             id: 'id4',
             property: 'hidden',
-            name: 'NUM',
+            name: 'HIDDEN_FIELD',
             value: '',
             required: false,
             disabled: false,
@@ -552,11 +552,22 @@
           {
             property: 'hint',
             id: 'id5',
-            name: 'OBJECT',
+            name: 'AUDITOR_ORNZ',
             label: 'ORNZ',
             value: '',
             count: 3,
             action: '/markup/vue/design-system/hints.json',
+            required: false,
+            disabled: false,
+          },
+          {
+            property: 'hint',
+            id: 'id51',
+            name: 'AUDITOR_ORNZ_WITH_PHOTO',
+            label: 'Auditor ORNZ with photo',
+            value: '',
+            count: 3,
+            action: '/markup/vue/design-system/hints-html.json',
             required: false,
             disabled: false,
           },
@@ -574,7 +585,7 @@
             type: 'range',
             id: 'id7',
             label: 'Calendar',
-            name: 'DATE',
+            name: 'DATE_FROM_TO',
             required: true,
             value: ['20.02.2024', '28.02.2024'],
           },
@@ -608,7 +619,7 @@
             property: 'file',
             type: 'upload',
             id: 'id12',
-            name: 'FILE_LOGO',
+            name: 'FILE_LOGO_UPLOADED',
             label: 'Upload logo',
             value: null,
             upload: {},
@@ -853,17 +864,236 @@
     template: '\n    <FormControlsComponent />\n  ',
   };
 
-  var ButtonsComponent = {
-    data: function data() {
+  var buttonsStore = ui_vue3_pinia.defineStore('buttons-store', {
+    state: function state() {
       return {
-        text: '���������',
+        buttons: [
+          {
+            id: '1',
+            text: 'Primary',
+            props: ['primary', 'medium'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '2',
+            text: 'Secondary',
+            props: ['secondary', 'medium'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '3',
+            text: 'Small',
+            props: ['primary', 'small'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '4',
+            text: 'Medium',
+            props: ['primary', 'medium'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '4',
+            text: 'Large',
+            props: ['primary', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '5',
+            text: 'More',
+            props: ['more', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '6',
+            text: 'Dark',
+            props: ['dark', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '7',
+            text: 'Success',
+            props: ['success', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '8',
+            text: 'Danger',
+            props: ['danger', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '9',
+            text: 'Serve',
+            props: ['serve', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '10',
+            text: 'Disabled',
+            props: ['disabled', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '11',
+            text: 'Link-color',
+            props: ['link-color', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '11',
+            text: 'Blue-color',
+            props: ['blue-color', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '12',
+            text: 'Gray-color',
+            props: ['gray-color', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '13',
+            text: 'Red-color',
+            props: ['red-color', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '14',
+            text: 'Wide',
+            props: ['wide', 'secondary', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '15',
+            text: 'Tag',
+            props: ['tag'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '16',
+            text: 'Load-circle',
+            props: ['load-circle', 'secondary', 'large'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '17',
+            text: 'Delete',
+            props: ['delete', 'secondary'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '18',
+            text: 'Remove',
+            props: ['remove', 'secondary'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+          {
+            id: '19',
+            text: 'Edit',
+            props: ['edit', 'secondary'],
+            clickButton: function clickButton() {
+              alert('click');
+            },
+          },
+        ],
       };
     },
+    actions: {},
+  });
+
+  function ownKeys$1(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly &&
+        (symbols = symbols.filter(function (sym) {
+          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+        })),
+        keys.push.apply(keys, symbols);
+    }
+    return keys;
+  }
+  function _objectSpread$1(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2
+        ? ownKeys$1(Object(source), !0).forEach(function (key) {
+            babelHelpers.defineProperty(target, key, source[key]);
+          })
+        : Object.getOwnPropertyDescriptors
+        ? Object.defineProperties(
+            target,
+            Object.getOwnPropertyDescriptors(source)
+          )
+        : ownKeys$1(Object(source)).forEach(function (key) {
+            Object.defineProperty(
+              target,
+              key,
+              Object.getOwnPropertyDescriptor(source, key)
+            );
+          });
+    }
+    return target;
+  }
+  var ButtonsComponent = {
+    data: function data() {},
     components: {
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
     },
     template:
-      '\n    <div>buttons component\n    \n    <ButtonComponent :text="text" :props="[\'small\', \'secondary\', \'wide-mobile\']" @clickButton="clickButton" />\n    \n    </div>\n  ',
+      '\n    <div>\n      <div class="twpx-design-system-block" v-for="button in buttons" :key="button.id">\n        <div>\n          <ButtonComponent :text="button.text" :props="button.props" @clickButton="button.clickButton" />\n        </div>\n        <pre>{{ getButtonCode(button) }}</pre>\n      </div>\n    </div>\n  ',
+    computed: _objectSpread$1(
+      {},
+      ui_vue3_pinia.mapState(buttonsStore, ['buttons'])
+    ),
+    methods: {
+      getButtonCode: function getButtonCode(button) {
+        return '&lt;ButtonComponent :text="'
+          .concat(button.text, '" :props="[')
+          .concat(button.props, ']" @clickButton="" /&gt;');
+      },
+    },
   };
 
   var Buttons = {
@@ -996,6 +1226,6 @@
   BX.Vue3,
   BX.Vue3.VueRouter,
   BX.Controls,
-  BX.Vue3.Pinia,
-  BX.AAS
+  BX.AAS,
+  BX.Vue3.Pinia
 ); //# sourceMappingURL=application.bundle.js.map
