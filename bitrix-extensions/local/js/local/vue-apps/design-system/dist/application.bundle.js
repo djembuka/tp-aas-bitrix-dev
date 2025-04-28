@@ -502,6 +502,39 @@
       return {
         controls: [
           {
+            property: 'hint',
+            id: 'id5',
+            name: 'AUDITOR_ORNZ',
+            label: 'Simple',
+            value: '',
+            count: 3,
+            action: '/markup/vue/design-system/hints.json',
+            required: false,
+            disabled: false,
+          },
+          {
+            property: 'hint',
+            id: 'id5-1',
+            name: 'AUDITOR_ORNZ_WITH_PHOTO',
+            label: 'With HTML - data-value',
+            value: '',
+            count: 3,
+            action: '/markup/vue/design-system/hints-html.json',
+            required: false,
+            disabled: false,
+          },
+          {
+            property: 'hint',
+            id: 'id5-2',
+            name: 'AUDITOR_ORNZ_WITH_PHOTO',
+            label: 'Autocomplete',
+            value: '',
+            count: 3,
+            action: '/markup/vue/design-system/hints-autocomplete.json',
+            required: false,
+            disabled: false,
+          },
+          {
             id: 'id1',
             property: 'text',
             name: 'SOME_TEXT',
@@ -546,28 +579,6 @@
             property: 'hidden',
             name: 'HIDDEN_FIELD',
             value: '',
-            required: false,
-            disabled: false,
-          },
-          {
-            property: 'hint',
-            id: 'id5',
-            name: 'AUDITOR_ORNZ',
-            label: 'ORNZ',
-            value: '',
-            count: 3,
-            action: '/markup/vue/design-system/hints.json',
-            required: false,
-            disabled: false,
-          },
-          {
-            property: 'hint',
-            id: 'id51',
-            name: 'AUDITOR_ORNZ_WITH_PHOTO',
-            label: 'Auditor ORNZ with photo',
-            value: '',
-            count: 3,
-            action: '/markup/vue/design-system/hints-html.json',
             required: false,
             disabled: false,
           },
@@ -713,11 +724,16 @@
           case 'tel':
           case 'email':
           case 'hidden':
-          case 'hint':
           case 'password':
           case 'date':
           case 'textarea':
             control.value = value;
+            break;
+          case 'hint':
+            this.changeHintControlValue({
+              control: control,
+              value: value,
+            });
             break;
           case 'select':
             this[
@@ -744,30 +760,94 @@
         var _this = this;
         return babelHelpers.asyncToGenerator(
           /*#__PURE__*/ _regeneratorRuntime().mark(function _callee() {
-            var response, result;
-            return _regeneratorRuntime().wrap(function _callee$(_context) {
-              while (1)
-                switch ((_context.prev = _context.next)) {
-                  case 0:
-                    _context.next = 2;
-                    return fetch(action);
-                  case 2:
-                    response = _context.sent;
-                    _context.next = 5;
-                    return response.json();
-                  case 5:
-                    result = _context.sent;
-                    _this.setHints(control, result);
-                  case 7:
-                  case 'end':
-                    return _context.stop();
-                }
-            }, _callee);
+            var controller, timeoutId, response, result;
+            return _regeneratorRuntime().wrap(
+              function _callee$(_context) {
+                while (1)
+                  switch ((_context.prev = _context.next)) {
+                    case 0:
+                      _context.prev = 0;
+                      // ������� AbortController ��� ����������� ������ �������
+                      controller = new AbortController();
+                      timeoutId = setTimeout(function () {
+                        return controller.abort();
+                      }, 20000); // 20 ������ �������
+                      _context.next = 5;
+                      return fetch(action, {
+                        signal: controller.signal,
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      });
+                    case 5:
+                      response = _context.sent;
+                      clearTimeout(timeoutId);
+                      if (response.ok) {
+                        _context.next = 9;
+                        break;
+                      }
+                      throw new Error(
+                        'HTTP error! status: '.concat(response.status)
+                      );
+                    case 9:
+                      _context.next = 11;
+                      return response.json();
+                    case 11:
+                      result = _context.sent;
+                      if (!(result.status === 'success' && result.data)) {
+                        _context.next = 16;
+                        break;
+                      }
+                      _this.setHints(control, result.data);
+                      _context.next = 21;
+                      break;
+                    case 16:
+                      if (!result.errors) {
+                        _context.next = 20;
+                        break;
+                      }
+                      console.error('Server returned errors:', result.errors);
+                      _context.next = 21;
+                      break;
+                    case 20:
+                      throw new Error('Invalid response format');
+                    case 21:
+                      _context.next = 26;
+                      break;
+                    case 23:
+                      _context.prev = 23;
+                      _context.t0 = _context['catch'](0);
+                      console.error('Error fetching hints:', _context.t0);
+                    case 26:
+                    case 'end':
+                      return _context.stop();
+                  }
+              },
+              _callee,
+              null,
+              [[0, 23]]
+            );
           })
         )();
       },
       setHints: function setHints(control, value) {
         control.hints = value;
+      },
+      changeHintControlValue: function changeHintControlValue(_ref2) {
+        var _this2 = this;
+        var control = _ref2.control,
+          value = _ref2.value;
+        control.value = value;
+        if (value.autocomplete && value.autocomplete.forEach) {
+          value.autocomplete.forEach(function (o) {
+            var control = _this2.controls.find(function (c) {
+              return c.id === o.id;
+            });
+            if (control) {
+              control.value = o.value;
+            }
+          });
+        }
       },
     },
   });
