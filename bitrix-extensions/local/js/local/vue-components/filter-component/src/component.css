@@ -13,7 +13,7 @@
   padding: 16px;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 32px;
+  gap: 16px;
   flex-wrap: wrap;
   border-radius: 8px;
   border: 1px solid var(--twpx-border-neutral);
@@ -59,7 +59,7 @@
 .twpx-vue-filter--open {
   display: grid;
   padding: 32px;
-  gap: 32px;
+  gap: 16px;
   border-radius: 8px;
   border: 1px solid var(--twpx-border-neutral);
 }
@@ -67,6 +67,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.twpx-vue-filter__open-head__right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
 }
 h3.twpx-vue-filter__open-title {
   margin: 0;
@@ -95,7 +101,7 @@ h3.twpx-vue-filter__open-title {
 }
 .twpx-vue-filter__controls {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
 }
 .twpx-vue-filter__close-button {

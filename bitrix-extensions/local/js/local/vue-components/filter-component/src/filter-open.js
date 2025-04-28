@@ -17,20 +17,22 @@ export const FilterOpen = {
 
         <h3 class="twpx-vue-filter__open-title">Выберите фильтры</h3>
 
-        <div class="twpx-vue-filter__clear-button" @click="clickClear">
-          <IconClear />
-          <span>Очистить фильтр</span>
+        <div class="twpx-vue-filter__open-head__right">
+          <div class="twpx-vue-filter__clear-button" @click="clickClear">
+            <IconClear />
+            <span>Очистить фильтр</span>
+          </div>
+
+          <div class="twpx-vue-filter__close-button" @click="close">
+            <IconClose />
+            <span>Свернуть</span>
+          </div>
         </div>
 
       </div>
 
       <div class="twpx-vue-filter__controls">
         <ControlComponent v-for="control in filters" :key="control.id" :control="control" @input="input" @hints="hints" />
-      </div>
-
-      <div class="twpx-vue-filter__close-button" @click="close">
-        <IconClose />
-        <span>Свернуть</span>
       </div>
     </div>
   `,

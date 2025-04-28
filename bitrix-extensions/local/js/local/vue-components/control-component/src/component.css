@@ -1,6 +1,6 @@
 :root {
   --twpx-form-control-color: var(--twpx-input-text-defaults, #3b3b3b);
-  --twpx-form-control-margin-bottom: 16px;
+  --twpx-form-control-margin-bottom: 0;
   --twpx-form-control-background: #f0f5fc;
   --twpx-form-control-border: var(--twpx-form-control-background);
   --twpx-form-control-border-active: #4f74d1;
@@ -65,4 +65,18 @@
   --twpx-form-control-external-hint-font-size: #f2f2f2;
   --twpx-form-control-external-hint-margin: #f2f2f2;
   --twpx-form-control-external-hint-line-height: #f2f2f2;
+}
+
+.twpx-control-component {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.twpx-control-tab {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
 }

@@ -13,6 +13,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         action: '/markup/vue/design-system/hints.json',
         required: false,
         disabled: false,
+        tab: 1,
       },
       {
         property: 'hint',
@@ -294,6 +295,9 @@ export const formControlsStore = defineStore('form-controls-store', {
           }
         });
       }
+    },
+    addTab(control) {
+      control.tab = control.tab ? ++control.tab : 1;
     },
   },
 });

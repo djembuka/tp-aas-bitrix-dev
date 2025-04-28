@@ -4,7 +4,7 @@ import { ControlComponent } from 'local.vue-components.control-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
-import { formControlsStore } from '../stores/form-controls-store';
+import { formControlsMultiStore } from '../stores/form-controls-multi-store';
 
 export const FormControlsComponent = {
   data() {
@@ -15,7 +15,6 @@ export const FormControlsComponent = {
     ButtonComponent,
   },
   // language=Vue
-
   template: `
     <div>
       <div class="twpx-design-system-block" v-for="control in controls" :key="control.id">
@@ -31,10 +30,10 @@ export const FormControlsComponent = {
     </div>
 	`,
   computed: {
-    ...mapState(formControlsStore, ['controls']),
+    ...mapState(formControlsMultiStore, ['controls']),
   },
   methods: {
-    ...mapActions(formControlsStore, [
+    ...mapActions(formControlsMultiStore, [
       'changeControlValue',
       'runHints',
       'setHints',

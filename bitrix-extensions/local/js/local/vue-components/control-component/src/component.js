@@ -1,4 +1,5 @@
 import './component.css';
+import { TabIcon } from './TabIcon.js';
 
 import { ControlHidden } from 'local.vue-components.control-hidden';
 import { ControlText } from 'local.vue-components.control-text';
@@ -29,6 +30,7 @@ export const ControlComponent = {
     };
   },
   components: {
+    TabIcon,
     ControlHidden,
     ControlText,
     ControlTextarea,
@@ -50,20 +52,28 @@ export const ControlComponent = {
   props: ['control', 'name', 'id'],
   // language=Vue
   template: `
-		<component
-      :is="componentName()"
-      :control="control"
-      :id="id"
-      :name="name"
-      @input="inputAddControl"
-      @focus="focusAddControl"
-      @blur="blurAddControl"
-      @enter="enterAddControl"
-      @hints="hintsAddControl"
-    ></component>
+    <div class="twpx-control-component">
+      <div class="twpx-control-tab" v-if="control.tab" :style="tabWidth(control.tab)">
+        <TabIcon />
+      </div>
+      <component
+        :is="componentName()"
+        :control="control"
+        :id="id"
+        :name="name"
+        @input="inputAddControl"
+        @focus="focusAddControl"
+        @blur="blurAddControl"
+        @enter="enterAddControl"
+        @hints="hintsAddControl"
+      ></component>
+    </div>
 	`,
   emits: ['input', 'focus', 'blur', 'hints'],
   methods: {
+    tabWidth(tab) {
+      return `width: ${48 * Number(tab) - 16}px`;
+    },
     componentName() {
       return `control-${this.componentType}`;
     },

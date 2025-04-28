@@ -9,6 +9,7 @@
   background-color: var(--twpx-form-control-background);
   border-radius: 16px;
   padding: 12px;
+  max-height: 300px;
 }
 
 .twpx-desing-system-menu {
