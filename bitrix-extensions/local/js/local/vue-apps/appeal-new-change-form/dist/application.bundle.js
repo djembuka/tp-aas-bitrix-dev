@@ -56,54 +56,10 @@
           index = _ref4.index;
         parent.multi.splice(index, 1);
       },
-      changeTextControlValue: function changeTextControlValue(_ref5) {
+      changeControlValue: function changeControlValue(_ref5) {
         var control = _ref5.control,
-          value = _ref5.value;
-        control.value = value;
-      },
-      changeHintControlValue: function changeHintControlValue(_ref6) {
-        var _this = this;
-        var control = _ref6.control,
-          value = _ref6.value;
-        control.value = value;
-        if (value.autocomplete && value.autocomplete.forEach) {
-          value.autocomplete.forEach(function (o) {
-            var control = _this.controlsBlock.controls.find(function (c) {
-              return c.id === o.id;
-            });
-            if (control) {
-              control.value = o.value;
-            }
-          });
-        }
-      },
-      changeSelectRadioValue: function changeSelectRadioValue(_ref7) {
-        var control = _ref7.control,
-          value = _ref7.value;
-        control.value = value;
-      },
-      changeSelectDropdownValue: function changeSelectDropdownValue(_ref8) {
-        var control = _ref8.control,
-          value = _ref8.value;
-        control.value = value;
-      },
-      changeDateValue: function changeDateValue(_ref9) {
-        var control = _ref9.control,
-          value = _ref9.value;
-        control.value = value;
-      },
-      changeFileValue: function changeFileValue(_ref10) {
-        var control = _ref10.control,
-          value = _ref10.value;
-        control.value = value;
-        if (control.type === 'upload') {
-          this.uploadFile(control, value);
-        }
-      },
-      changeControlValue: function changeControlValue(_ref11) {
-        var control = _ref11.control,
-          value = _ref11.value,
-          checked = _ref11.checked;
+          value = _ref5.value,
+          checked = _ref5.checked;
         switch (control.property) {
           case 'text':
           case 'textarea':
@@ -147,6 +103,50 @@
           // case 'color':
           //   commit('changeColorValue', { control, value });
           //   break;
+        }
+      },
+      changeTextControlValue: function changeTextControlValue(_ref6) {
+        var control = _ref6.control,
+          value = _ref6.value;
+        control.value = value;
+      },
+      changeHintControlValue: function changeHintControlValue(_ref7) {
+        var _this = this;
+        var control = _ref7.control,
+          value = _ref7.value;
+        control.value = value;
+        if (value.autocomplete && value.autocomplete.forEach) {
+          value.autocomplete.forEach(function (o) {
+            var control = _this.controlsBlock.controls.find(function (c) {
+              return c.id === o.id;
+            });
+            if (control) {
+              control.value = o.value;
+            }
+          });
+        }
+      },
+      changeSelectRadioValue: function changeSelectRadioValue(_ref8) {
+        var control = _ref8.control,
+          value = _ref8.value;
+        control.value = value;
+      },
+      changeSelectDropdownValue: function changeSelectDropdownValue(_ref9) {
+        var control = _ref9.control,
+          value = _ref9.value;
+        control.value = value;
+      },
+      changeDateValue: function changeDateValue(_ref10) {
+        var control = _ref10.control,
+          value = _ref10.value;
+        control.value = value;
+      },
+      changeFileValue: function changeFileValue(_ref11) {
+        var control = _ref11.control,
+          value = _ref11.value;
+        control.value = value;
+        if (control.type === 'upload') {
+          this.uploadFile(control, value);
         }
       },
       //hint

@@ -48,38 +48,7 @@ export const formStore = defineStore('form', {
     removeMulti({ parent, index }) {
       parent.multi.splice(index, 1);
     },
-    changeTextControlValue({ control, value }) {
-      control.value = value;
-    },
-    changeHintControlValue({ control, value }) {
-      control.value = value;
 
-      if (value.autocomplete && value.autocomplete.forEach) {
-        value.autocomplete.forEach((o) => {
-          const control = this.controlsBlock.controls.find(
-            (c) => c.id === o.id
-          );
-          if (control) {
-            control.value = o.value;
-          }
-        });
-      }
-    },
-    changeSelectRadioValue({ control, value }) {
-      control.value = value;
-    },
-    changeSelectDropdownValue({ control, value }) {
-      control.value = value;
-    },
-    changeDateValue({ control, value }) {
-      control.value = value;
-    },
-    changeFileValue({ control, value }) {
-      control.value = value;
-      if (control.type === 'upload') {
-        this.uploadFile(control, value);
-      }
-    },
     changeControlValue({ control, value, checked }) {
       switch (control.property) {
         case 'text':
@@ -115,6 +84,39 @@ export const formStore = defineStore('form', {
         //   break;
       }
     },
+    changeTextControlValue({ control, value }) {
+      control.value = value;
+    },
+    changeHintControlValue({ control, value }) {
+      control.value = value;
+
+      if (value.autocomplete && value.autocomplete.forEach) {
+        value.autocomplete.forEach((o) => {
+          const control = this.controlsBlock.controls.find(
+            (c) => c.id === o.id
+          );
+          if (control) {
+            control.value = o.value;
+          }
+        });
+      }
+    },
+    changeSelectRadioValue({ control, value }) {
+      control.value = value;
+    },
+    changeSelectDropdownValue({ control, value }) {
+      control.value = value;
+    },
+    changeDateValue({ control, value }) {
+      control.value = value;
+    },
+    changeFileValue({ control, value }) {
+      control.value = value;
+      if (control.type === 'upload') {
+        this.uploadFile(control, value);
+      }
+    },
+
     //hint
     async runHintsAction({ control, action }) {
       if (control.value && typeof control.value === 'string') {
@@ -128,6 +130,7 @@ export const formStore = defineStore('form', {
     setHints({ control, value }) {
       control.hints = value;
     },
+
     //file
     async uploadFile(control, file) {
       control.upload = {};

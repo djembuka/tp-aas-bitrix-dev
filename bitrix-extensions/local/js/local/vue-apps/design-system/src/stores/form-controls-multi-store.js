@@ -1,6 +1,6 @@
 import { defineStore } from 'ui.vue3.pinia';
 
-export const formControlsStore = defineStore('form-controls-store', {
+export const formControlsMultiStore = defineStore('form-controls-multi-store', {
   state: () => ({
     controls: [
       {
@@ -13,7 +13,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         action: '/markup/vue/design-system/hints.json',
         required: false,
         disabled: false,
-        tab: 1,
+        multi: 3,
       },
       {
         property: 'hint',
@@ -25,6 +25,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         action: '/markup/vue/design-system/hints-html.json',
         required: false,
         disabled: false,
+        multi: 3,
       },
       {
         property: 'hint',
@@ -36,6 +37,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         action: '/markup/vue/design-system/hints-autocomplete.json',
         required: false,
         disabled: false,
+        multi: 3,
       },
       {
         id: 'id1',
@@ -46,6 +48,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
+        multi: 3,
       },
       {
         id: 'id1-1',
@@ -56,6 +59,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
+        multi: 3,
       },
       {
         id: 'id2',
@@ -66,6 +70,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
+        multi: 3,
       },
       {
         id: 'id3',
@@ -76,6 +81,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
+        multi: 3,
       },
       {
         id: 'id4',
@@ -84,6 +90,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: '',
         required: false,
         disabled: false,
+        multi: 3,
       },
       {
         property: 'password',
@@ -93,6 +100,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: '',
         required: false,
         disabled: false,
+        multi: 3,
       },
       {
         property: 'date',
@@ -101,7 +109,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         label: 'Calendar',
         name: 'DATE_FROM_TO',
         required: true,
-        value: ['20.02.2024', '28.02.2024'],
+        value: [],
+        multi: 3,
       },
       {
         property: 'date',
@@ -110,9 +119,10 @@ export const formControlsStore = defineStore('form-controls-store', {
         label: 'Calendar',
         name: 'DATE',
         required: true,
-        value: '28.02.2024',
-        hint_external: 'Hint',
+        value: '',
+        hint_external: '',
         dependency: 'id6',
+        multi: 3,
       },
       {
         property: 'file',
@@ -121,11 +131,12 @@ export const formControlsStore = defineStore('form-controls-store', {
         label: 'Logo',
         value: '',
         file: '',
-        hint_external: 'For your site',
+        hint_external: '',
         required: true,
         disabled: false,
         accept: ['svg', 'png', 'jpg', 'jpeg'],
         image: true,
+        multi: 5,
         maxsize: 10000000,
       },
       {
@@ -136,12 +147,13 @@ export const formControlsStore = defineStore('form-controls-store', {
         label: 'Upload logo',
         value: null,
         upload: {},
-        hint_external: 'For your site',
+        hint_external: '',
         required: true,
         disabled: false,
         accept: ['svg', 'png', 'jpg', 'jpeg'],
         image: true,
         maxsize: 10000000,
+        multi: 3,
       },
       {
         property: 'select',
@@ -165,6 +177,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         ],
         value: '',
         disabled: false,
+        multi: 3,
       },
       {
         property: 'select',
@@ -187,6 +200,7 @@ export const formControlsStore = defineStore('form-controls-store', {
           },
         ],
         value: '2',
+        multi: 3,
       },
       {
         property: 'checkbox',
@@ -200,6 +214,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         disabled: false,
         hint_external: '',
         dependency: 'id6',
+        multi: 3,
       },
       {
         property: 'checkbox',
@@ -212,6 +227,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         checked: true,
         disabled: false,
         hint_external: 'Active checkbox',
+        multi: 3,
       },
     ],
   }),
@@ -295,8 +311,27 @@ export const formControlsStore = defineStore('form-controls-store', {
         });
       }
     },
-    addTab(control) {
-      control.tab = control.tab ? ++control.tab : 1;
+    createMulti({ parent }) {
+      parent.property = 'multi';
+      parent.multi = [];
+    },
+    addMulti({ parent, add }) {
+      const randomId = Math.round(Math.random() * 1000);
+      const sub = [];
+
+      if (add.sub && add.sub.forEach) {
+        add.sub.forEach((s) => {
+          s.id = `${s.id}${randomId}`;
+          sub.push({ ...s });
+        });
+        add.sub = sub;
+      }
+
+      add.id = `${add.id}${randomId}`;
+      parent.multi.push(add);
+    },
+    removeMulti({ parent, index }) {
+      parent.multi.splice(index, 1);
     },
   },
 });

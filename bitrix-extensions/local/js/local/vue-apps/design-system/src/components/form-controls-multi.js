@@ -1,30 +1,27 @@
 import './application.css';
 
-import { ControlComponent } from 'local.vue-components.control-component';
-import { ButtonComponent } from 'local.vue-components.button-component';
+import { ControlChoice } from 'local.vue-components.control-choice';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { formControlsMultiStore } from '../stores/form-controls-multi-store';
 
-export const FormControlsComponent = {
+export const FormControlsMultiComponent = {
   data() {
     return {};
   },
   components: {
-    ControlComponent,
-    ButtonComponent,
+    ControlChoice,
   },
   // language=Vue
   template: `
     <div>
       <div class="twpx-design-system-block" v-for="control in controls" :key="control.id">
         <div>
-          <h3>{{ control.property }} {{ control.type }}</h3>
-          <ControlComponent :control="control" @input="input" @hints="hints" />
+          <h3>{{ heading3(control) }}</h3>
+          <ControlChoice :control="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
         </div>
         <pre>{{ control }}</pre>
         <div>
-          <ButtonComponent text="+ tab" :props="['secondary','medium']" @clickButton="addTab(control)" />
         </div>
       </div>
     </div>
@@ -37,8 +34,22 @@ export const FormControlsComponent = {
       'changeControlValue',
       'runHints',
       'setHints',
-      'addTab',
+
+      'createMulti',
+      'addMulti',
+      'removeMulti',
     ]),
+    heading3(control) {
+      return `${
+        typeof control.multi === 'object'
+          ? control.multi[0].property
+          : control.property
+      } ${
+        typeof control.multi === 'object'
+          ? control.multi[0].type || ''
+          : control.type || ''
+      }`;
+    },
     input({ control, value, checked }) {
       this.changeControlValue({
         control,
@@ -52,6 +63,15 @@ export const FormControlsComponent = {
       } else if (type === 'set') {
         this.setHints(control, value);
       }
+    },
+    focus() {
+      // console.log('focus');
+    },
+    blur() {
+      // console.log('blur');
+    },
+    enter() {
+      // console.log('enter');
     },
   },
 };

@@ -1,6 +1,6 @@
 import { FormControlsMultiComponent } from '../components/form-controls-multi';
 
-export const FormControls = {
+export const FormControlsMulti = {
   components: {
     FormControlsMultiComponent,
   },
