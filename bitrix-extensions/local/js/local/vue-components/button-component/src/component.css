@@ -1,3 +1,16 @@
+.vue-button,
+.vue-button--icon {
+  --twpx-button-background-primary: #ff8318;
+  --twpx-button-background-secondary: #074c86;
+  --twpx-button-background-error: #f00;
+  --twpx-button-size-large: 64px;
+  --twpx-button-size-medium: 48px;
+  --twpx-button-size-small: 32px;
+  --twpx-button-border-radius-large: 8px;
+  --twpx-button-border-radius-medium: 4px;
+  --twpx-button-border-radius-small: 4px;
+}
+
 .vue-button:not(:disabled):not(.disabled) {
   cursor: pointer;
 }
@@ -58,8 +71,8 @@ button.vue-button {
 .vue-button--primary:focus,
 .vue-button--primary.vue-button--disabled,
 .vue-button--primary:disabled {
-  background-color: #074c86;
-  border-color: #074c86;
+  background-color: var(--twpx-button-background-secondary);
+  border-color: var(--twpx-button-background-secondary);
 }
 .vue-button--primary.focus,
 .vue-button--primary:focus {
@@ -67,8 +80,8 @@ button.vue-button {
 }
 .vue-button--primary:not(:disabled):not(.vue-button--disabled).active,
 .vue-button--primary:not(:disabled):not(.vue-button--disabled):active {
-  background-color: #074c86;
-  border-color: #074c86;
+  background-color: var(--twpx-button-background-secondary);
+  border-color: var(--twpx-button-background-secondary);
 }
 .vue-button--primary:not(:disabled):not(.vue-button--disabled).active:focus,
 .vue-button--primary:not(:disabled):not(.vue-button--disabled):active:focus {
@@ -80,8 +93,8 @@ button.vue-button {
 .vue-button--secondary:focus,
 .vue-button--secondary.vue-button--disabled,
 .vue-button--secondary:disabled {
-  background-color: #ff9300;
-  border-color: #ff9300;
+  background-color: var(--twpx-button-background-primary);
+  border-color: var(--twpx-button-background-primary);
 }
 .vue-button--secondary.focus,
 .vue-button--secondary:focus {
@@ -89,8 +102,8 @@ button.vue-button {
 }
 .vue-button--secondary:not(:disabled):not(.vue-button--disabled).active,
 .vue-button--secondary:not(:disabled):not(.vue-button--disabled):active {
-  background-color: #ff9300;
-  border-color: #ff9300;
+  background-color: var(--twpx-button-background-primary);
+  border-color: var(--twpx-button-background-primary);
 }
 .vue-button--secondary:not(:disabled):not(.vue-button--disabled).active:focus,
 .vue-button--secondary:not(:disabled):not(.vue-button--disabled):active:focus {
@@ -138,7 +151,7 @@ button.vue-button {
 }
 .vue-button--light:not(:disabled):not(.vue-button--disabled).active,
 .vue-button--light:not(:disabled):not(.vue-button--disabled):active {
-  color: #074c86;
+  color: var(--twpx-button-background-secondary);
   background-color: #f0f0f0;
   border-color: #f0f0f0;
 }
@@ -162,7 +175,7 @@ button.vue-button {
 }
 .vue-button--dark:not(:disabled):not(.vue-button--disabled).active,
 .vue-button--dark:not(:disabled):not(.vue-button--disabled):active {
-  color: #074c86;
+  color: var(--twpx-button-background-secondary);
   background-color: #0a355a;
   border-color: #0a355a;
 }
@@ -394,6 +407,7 @@ button.vue-button {
   ):active {
   background-color: #fff7f7;
 }
+
 /*Size*/
 .vue-button--wide {
   width: 100%;
@@ -403,24 +417,34 @@ button.vue-button {
     width: 100%;
   }
 }
+
 .vue-button--large {
+  height: var(--twpx-button-size-large);
+  border-radius: var(--twpx-button-border-radius-large);
+}
+.vue-button.vue-button--large {
   min-width: 192px;
   padding: 1rem 2rem;
-  border-radius: 8px;
   font-weight: 400;
   font-size: 16px;
 }
 .vue-button--medium {
+  height: var(--twpx-button-size-medium);
+  border-radius: var(--twpx-button-border-radius-medium);
+}
+.vue-button.vue-button--medium {
   min-width: 0;
   padding: 12px 24px;
-  border-radius: 8px;
   font-weight: 400;
   font-size: 12px;
 }
 .vue-button--small {
+  height: var(--twpx-button-size-small);
+  border-radius: var(--twpx-button-border-radius-small);
+}
+.vue-button.vue-button--small {
   min-width: 0;
   padding: 0.5rem 1rem;
-  border-radius: 4px;
   font-weight: 400;
   font-size: 12px;
 }
@@ -467,35 +491,58 @@ button.vue-button {
   border-radius: 50%;
   border-right-color: transparent;
 }
-.vue-button--delete {
-  display: inline-block;
-  width: 32px;
-  height: 32px;
-  background-image: url('images/btn-delete.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+
+/*Icon*/
+.vue-button--icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: #fafafa;
   cursor: pointer;
-  transition: opacity 0.5s ease;
-  -webkit-transition: opacity 0.5s ease;
+  transition: background 0.3s ease;
+  -webkit-transition: background 0.3s ease;
 }
-button.vue-button--delete {
+.vue-button--icon.vue-button--large {
+  width: var(--twpx-button-size-large);
+}
+.vue-button--icon.vue-button--medium {
+  width: var(--twpx-button-size-medium);
+}
+.vue-button--icon.vue-button--small {
+  width: var(--twpx-button-size-small);
+}
+button.vue-button--icon {
   border: none;
 }
-.vue-button--delete:hover {
+.vue-button--icon:hover {
   opacity: 0.7;
 }
-.vue-button--delete.vue-button--load-circle {
-  background-image: none;
-  background-color: #e03e41;
-  border-radius: 10px;
+.vue-button--delete.vue-button--load-circle svg {
+  display: none;
 }
-.vue-button--delete.vue-button--load-circle:after {
-  width: 20px;
-  height: 20px;
-  top: calc(50% - 10px);
-  right: calc(50% - 10px);
+
+/* .vue-button--icon svg path {
+  fill: none;
+  stroke: #9b9b9b;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  transition: fill 0.3s ease;
+  -webkit-transition: fill 0.3s ease;
 }
+.vue-button--icon:hover svg path {
+  stroke: var(--twpx-button-background-primary);
+}
+.vue-button--icon:active svg path {
+  stroke: #fff;
+} */
+
+/*Delete*/
+.vue-button--delete {
+  background-color: var(--twpx-button-background-error);
+}
+
+/*Remove*/
 .vue-button--remove {
   display: inline-flex;
   justify-content: center;
@@ -525,8 +572,7 @@ button.vue-button--remove {
 .vue-button--remove:active svg path {
   fill: #fff;
 }
-.vue-button--edit,
-.vue-button--icon {
+.vue-button--edit {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -538,12 +584,10 @@ button.vue-button--remove {
   -webkit-transition: background 0.3s ease;
   border-radius: 10px;
 }
-button.vue-button--edit,
-button.vue-button--icon {
+button.vue-button--edit {
   border: none;
 }
-.vue-button--edit svg path,
-.vue-button--icon svg path {
+.vue-button--edit svg path {
   fill: none;
   stroke: #9b9b9b;
   stroke-linecap: round;
@@ -552,16 +596,13 @@ button.vue-button--icon {
   transition: fill 0.3s ease;
   -webkit-transition: fill 0.3s ease;
 }
-.vue-button--edit:hover svg path,
-.vue-button--icon:hover svg path {
-  stroke: #ff9300;
+.vue-button--edit:hover svg path {
+  stroke: var(--twpx-button-background-primary);
 }
-.vue-button--edit:active,
-.vue-button--icon:active {
-  background: #ff9300;
+.vue-button--edit:active {
+  background: var(--twpx-button-background-primary);
 }
-.vue-button--edit:active svg path,
-.vue-button--icon:active svg path {
+.vue-button--edit:active svg path {
   stroke: #fff;
 }
 @-webkit-keyframes load-circle {

@@ -23,7 +23,7 @@ export const ButtonsComponent = {
   },
   methods: {
     getButtonCode(button) {
-      return `&lt;ButtonComponent :text="${button.text}" :props="[${button.props}]" @clickButton="" /&gt;`;
+      return `ButtonComponent :text="${button.text}" :props="[${button.props}]" @clickButton=""`;
     },
   },
 };

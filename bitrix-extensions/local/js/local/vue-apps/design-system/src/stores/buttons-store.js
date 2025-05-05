@@ -150,7 +150,7 @@ export const buttonsStore = defineStore('buttons-store', {
       {
         id: '17',
         text: 'Delete',
-        props: ['delete', 'secondary'],
+        props: ['icon', 'delete', 'medium'],
         clickButton() {
           alert('click');
         },
@@ -158,7 +158,7 @@ export const buttonsStore = defineStore('buttons-store', {
       {
         id: '18',
         text: 'Remove',
-        props: ['remove', 'secondary'],
+        props: ['icon', 'remove', 'medium'],
         clickButton() {
           alert('click');
         },
@@ -166,7 +166,7 @@ export const buttonsStore = defineStore('buttons-store', {
       {
         id: '19',
         text: 'Edit',
-        props: ['edit', 'secondary'],
+        props: ['icon', 'edit', 'medium'],
         clickButton() {
           alert('click');
         },

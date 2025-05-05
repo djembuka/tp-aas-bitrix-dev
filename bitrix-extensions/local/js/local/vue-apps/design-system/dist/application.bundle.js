@@ -2139,7 +2139,7 @@
           {
             id: '17',
             text: 'Delete',
-            props: ['delete', 'secondary'],
+            props: ['icon', 'delete', 'medium'],
             clickButton: function clickButton() {
               alert('click');
             },
@@ -2147,7 +2147,7 @@
           {
             id: '18',
             text: 'Remove',
-            props: ['remove', 'secondary'],
+            props: ['icon', 'remove', 'medium'],
             clickButton: function clickButton() {
               alert('click');
             },
@@ -2155,7 +2155,7 @@
           {
             id: '19',
             text: 'Edit',
-            props: ['edit', 'secondary'],
+            props: ['icon', 'edit', 'medium'],
             clickButton: function clickButton() {
               alert('click');
             },
@@ -2213,9 +2213,9 @@
     ),
     methods: {
       getButtonCode: function getButtonCode(button) {
-        return '&lt;ButtonComponent :text="'
+        return 'ButtonComponent :text="'
           .concat(button.text, '" :props="[')
-          .concat(button.props, ']" @clickButton="" /&gt;');
+          .concat(button.props, ']" @clickButton=""');
       },
     },
   };
@@ -2356,4 +2356,5 @@
   BX.Controls,
   BX.AAS,
   BX.Vue3.Pinia
-); //# sourceMappingURL=application.bundle.js.map
+);
+//# sourceMappingURL=application.bundle.js.map

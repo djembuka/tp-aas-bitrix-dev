@@ -20,6 +20,7 @@ export const Code = {
   template: `
       <div class="vue-auth-sms-code-form">
         <div class="vue-auth-sms-code-form-body">
+
           <div :class="{'vue-auth-sms-code-inputs': true, 'vue-auth-sms-code-inputs--invalid': invalidInputs}">
 
             <div :class="{'vue-auth-sms-code-inputs-label': true, 'vue-auth-sms-code-inputs-label--disabled': inputs.every(i => i.disabled)}">{{ lang.AUTH_SMS_CODE_LABEL_INPUTS }}</div>
@@ -40,9 +41,14 @@ export const Code = {
             <div class="vue-auth-sms-code-inputs__warning">{{ error }}</div>
           </div>
 
-          <div><ButtonComponent :text="lang.AUTH_SMS_CODE_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="runCheck" /></div>
+          <div>
+            <ButtonComponent :text="lang.AUTH_SMS_CODE_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="runCheck" />
+          </div>
 
-          <div><ButtonComponent v-if="timer === 0 || !!timer" :text="buttonTimerText" :props="Object.keys(timerProps)" :disabled="timerDisabled" @clickButton="clickNewCode" /></div>
+          <div>
+            <ButtonComponent v-if="timer === 0 || !!timer" :text="buttonTimerText" :props="Object.keys(timerProps)" :disabled="timerDisabled" @clickButton="clickNewCode" />
+          </div>
+
         </div>
       </div>
 	`,
@@ -181,7 +187,7 @@ export const Code = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['setInfoButton', 'setError', 'setAltButton']),
+    ...mapActions(dataStore, ['setInfoButton', 'setError']),
     ...mapActions(smsStore, ['runSend']),
     ...mapActions(codeStore, [
       'changeInputValue',
@@ -225,8 +231,6 @@ export const Code = {
     },
   },
   mounted() {
-    this.setTitle(this.lang[`AUTH_SMS_CODE_TITLE`]);
-    this.setAltButton(this.lang[`AUTH_SMS_CODE_ALT_BUTTON`]);
     this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
     this.setInfoButton('');
   },

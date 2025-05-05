@@ -1,13 +1,13 @@
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
-import { telStore } from '../stores/tel.js';
+import { smsStore } from '../stores/sms.js';
 
 import '../style/sms.css';
 
 import { ControlComponent } from 'local.vue-components.control-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
 
-export const Tel = {
+export const Sms = {
   data() {
     return {};
   },
@@ -16,16 +16,29 @@ export const Tel = {
     ButtonComponent,
   },
   // language=Vue
+
   template: `
-    <div class="twpx-auth-simple-tel">
-      <ControlComponent :control="control" @input="input" />
-      <ButtonComponent :text="buttonSubmitTimerText || lang.AUTH_SIMPLE_TEL_BUTTON" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />
+    <div class="vue-auth-sms-sms">
+
+      <div v-for="control in controls" :key="control.id">
+        <ControlComponent :control="control" @input="input" />
+        <hr />
+        <div v-if="control.value">
+          <ButtonComponent text="Изменить" :props="['secondary', 'medium']" @clickButton="clickChange" />
+
+          <ButtonComponent text="Delete" :props="['icon','delete','medium']" @clickButton="clickDelete" />
+           
+        </div>
+      </div>
+
+      <ButtonComponent :text="buttonSubmitTimerText || lang.AUTH_SMS_SMS_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />
+      
     </div>
 	`,
   computed: {
     ...mapState(dataStore, ['lang', 'state', 'infoMessage']),
-    ...mapState(telStore, [
-      'control',
+    ...mapState(smsStore, [
+      'controls',
       'submitProps',
       'buttonDisabled',
       'buttonSubmitTimerText',
@@ -44,17 +57,13 @@ export const Tel = {
       'setInfoButton',
       'setError',
       'setQuery',
-      'setAltButton',
-      'setTitle',
     ]),
-    ...mapActions(telStore, ['input', 'runSend']),
+    ...mapActions(smsStore, ['input', 'runSend']),
     clickSubmit() {
       this.runSend();
     },
   },
   mounted() {
-    this.setTitle(this.lang[`AUTH_SMS_SMS_TITLE`]);
-    this.setAltButton(this.lang[`AUTH_SMS_SMS_ALT_BUTTON`]);
     if (this.infoMessage) {
       this.setInfo(this.infoMessage);
     } else {

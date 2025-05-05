@@ -1,19 +1,31 @@
 import { defineStore } from 'ui.vue3.pinia';
 import { dataStore } from './data.js';
+import { codeStore } from './code.js';
 
-export const telStore = defineStore('tel', {
+export const smsStore = defineStore('sms', {
   state: () => ({
     lang: {},
-    state: 'tel',
-    control: {
-      property: 'tel',
-      id: 'id0',
-      name: 'PHONE',
-      label: '',
-      value: '',
-      required: true,
-      disabled: false,
-    },
+    state: 'A1',
+    controls: [
+      {
+        property: 'tel',
+        id: 'id0',
+        name: 'PHONE',
+        label: '',
+        value: '',
+        required: true,
+        disabled: false,
+      },
+      {
+        property: 'checkbox',
+        id: 'id1',
+        name: 'NUM',
+        label: '',
+        value: '',
+        required: true,
+        disabled: false,
+      },
+    ],
     submitProps: { large: true, secondary: true, wide: true },
     timerEnd: 0,
     timer: 0,
@@ -36,7 +48,7 @@ export const telStore = defineStore('tel', {
     },
     buttonSubmitTimerText() {
       return this.timer
-        ? `${this.lang.AUTH_SIMPLE_TEL_BUTTON_TIMER} ${new Date(
+        ? `${this.lang.AUTH_SMS_SMS_BUTTON_SUBMIT_TIMER} ${new Date(
             this.timer * 1000
           )
             .toISOString()

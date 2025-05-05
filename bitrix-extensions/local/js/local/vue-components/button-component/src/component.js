@@ -1,4 +1,5 @@
 import './component.css';
+import { DeleteIcon } from './icons/delete.js';
 
 export const ButtonComponent = {
   data() {
@@ -6,9 +7,16 @@ export const ButtonComponent = {
   },
   props: ['text', 'props', 'disabled'],
   emits: ['clickButton'],
+  components: {
+    DeleteIcon,
+  },
   // language=Vue
   template: `
-		<button class="vue-button" :class="propsClass" @click="clickButton">{{ text }}</button>
+    <button v-if="props.find(e => e === 'icon')" :class="propsClass" @click="clickButton" :title="text">
+      <DeleteIcon />
+    </button>
+
+		<button v-else class="vue-button" :class="propsClass" @click="clickButton">{{ text }}</button>
 	`,
   computed: {
     propsClass() {

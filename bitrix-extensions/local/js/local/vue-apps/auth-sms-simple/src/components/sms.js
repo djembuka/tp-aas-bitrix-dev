@@ -2,7 +2,7 @@ import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
 import { smsStore } from '../stores/sms.js';
 
-import '../style/sms.css';
+import './sms.css';
 
 import { ControlComponent } from 'local.vue-components.control-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
@@ -18,7 +18,7 @@ export const Sms = {
   // language=Vue
 
   template: `
-    <div class="vue-auth-sms-sms">
+    <div class="vue-auth-sms-sms">Timer: {{timerEnd}}, {{timer}}
       <div class="vue-auth-sms-sms-form">
         <div class="vue-auth-sms-sms-form-body">
           <div v-for="control in controls" :key="control.id">
@@ -31,45 +31,29 @@ export const Sms = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang', 'state', 'infoMessage']),
+    ...mapState(dataStore, ['lang']),
     ...mapState(smsStore, [
       'controls',
       'submitProps',
       'buttonDisabled',
       'buttonSubmitTimerText',
+      'timer',
+      'timerEnd',
     ]),
-  },
-  watch: {
-    state(val) {
-      if (val === 'code') {
-        this.$router.push('/two-cols/code');
-      }
-    },
   },
   methods: {
-    ...mapActions(dataStore, [
-      'setInfo',
-      'setInfoButton',
-      'setError',
-      'setQuery',
-      'setAltButton',
-      'setTitle',
+    ...mapActions(smsStore, [
+      'input',
+      'runSend',
+      'changeSubmitProps',
+      'buttonSubmitTimer',
     ]),
-    ...mapActions(smsStore, ['input', 'runSend']),
     clickSubmit() {
+      this.changeSubmitProps({ 'load-circle': true });
       this.runSend();
     },
   },
   mounted() {
-    this.setTitle(this.lang[`AUTH_SMS_SMS_TITLE`]);
-    this.setAltButton(this.lang[`AUTH_SMS_SMS_ALT_BUTTON`]);
-    if (this.infoMessage) {
-      this.setInfo(this.infoMessage);
-    } else {
-      this.setInfo('');
-    }
-    this.setInfoButton(this.lang.AUTH_SMS_INFO_BUTTON);
-    this.setError('');
-    this.setQuery({ type: 'sms' });
+    this.buttonSubmitTimer(60);
   },
 };

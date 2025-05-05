@@ -2,16 +2,19 @@ import { BitrixVue } from 'ui.vue3';
 import { createRouter, createMemoryHistory } from 'ui.vue3.router';
 import { createPinia, setActivePinia } from 'ui.vue3.pinia';
 
+import { Application } from './components/application';
+
 import { dataStore } from './stores/data';
-import { telStore } from './stores/tel';
+import { smsStore } from './stores/sms';
 import { codeStore } from './stores/code';
-import { changeDeleteStore } from './stores/change-delete';
 
-import { Tel } from './pages/tel';
+import { TwoCols } from './layouts/two-cols';
+import { Sms } from './pages/sms';
 import { Code } from './pages/code';
-import { ChangeDelete } from './pages/change-delete';
 
-export class AuthSMS {
+import './style/auth-sms.css';
+
+export class AuthSMSSimple {
   #store;
   #router;
   #rootNode;
@@ -24,15 +27,27 @@ export class AuthSMS {
       routes: [
         {
           path: '/',
-          component: Tel,
+          component: TwoCols,
+          children: [
+            {
+              path: '/',
+              component: Sms,
+            },
+          ],
         },
         {
-          path: '/code',
-          component: Code,
-        },
-        {
-          path: '/change-delete',
-          component: ChangeDelete,
+          path: '/two-cols',
+          component: TwoCols,
+          children: [
+            {
+              path: 'sms',
+              component: Sms,
+            },
+            {
+              path: 'code',
+              component: Code,
+            },
+          ],
         },
       ],
     });
@@ -44,54 +59,36 @@ export class AuthSMS {
     const self = this;
 
     this.#application = BitrixVue.createApp({
-      name: 'Table Application',
-      components: {},
+      name: 'Authorization for non auditors',
+      components: {
+        Application,
+      },
       template: '<router-view />',
       mounted() {
         dataStore().sessid = self.options.sessid || '';
         dataStore().signedParameters = self.options.signedParameters || '';
-        dataStore().templateFolder = self.options.templateFolder || '';
+
         dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH');
+
         dataStore().info = self.options.infoMessage || '';
         dataStore().infoMessage = self.options.infoMessage || '';
 
-        telStore().controls[0].label = this.$Bitrix.Loc.getMessage(
-          'AUTH_SIMPLE_TEL_LABEL'
+        smsStore().controls[0].label = this.$Bitrix.Loc.getMessage(
+          'AUTH_SMS_SMS_LABEL_TEL'
         );
-        telStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SIMPLE_TEL');
+        smsStore().controls[1].label = self.options.checkboxLabel || '';
+        smsStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
 
-        codeStore().controls[0].label = this.$Bitrix.Loc.getMessage(
-          'AUTH_SIMPLE_CODE_LABEL'
-        );
-        codeStore().lang = BitrixVue.getFilteredPhrases(
-          this,
-          'AUTH_SIMPLE_CODE'
-        );
-
-        changeDeleteStore().controls[0].label = this.$Bitrix.Loc.getMessage(
-          'AUTH_SIMPLE_CHANGE_DELETE_LABEL'
-        );
-        changeDeleteStore().lang = BitrixVue.getFilteredPhrases(
-          this,
-          'AUTH_SIMPLE_CHANGE'
-        );
+        codeStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_CODE');
 
         //query
         const urlQuery = self.parseQuery(window.location.search);
 
         if (urlQuery.type) {
           switch (urlQuery.type) {
-            case 'tel':
-              dataStore().state = 'tel';
-              this.$router.push('/tel');
-              break;
-            case 'code':
-              dataStore().state = 'code';
-              this.$router.push('/code');
-              break;
-            case 'change_delete':
-              dataStore().state = 'change-delete';
-              this.$router.push('/change-delete');
+            case 'sms':
+              dataStore().state = 'sms';
+              this.$router.push('/two-cols/sms');
               break;
           }
         }
@@ -105,10 +102,6 @@ export class AuthSMS {
 
   initStorageBeforeStartApplication(): void {
     setActivePinia(this.#store);
-  }
-
-  getTableStore(): Object {
-    return tableStore;
   }
 
   getQuery(queryObject) {

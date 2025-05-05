@@ -62,9 +62,9 @@
   );
   --twpx-form-control-disabled-background-color: #f2f2f2;
 
-  --twpx-form-control-external-hint-font-size: #f2f2f2;
-  --twpx-form-control-external-hint-margin: #f2f2f2;
-  --twpx-form-control-external-hint-line-height: #f2f2f2;
+  --twpx-form-control-external-hint-font-size: 9pt;
+  --twpx-form-control-external-hint-margin: 5px;
+  --twpx-form-control-external-hint-line-height: 1.1;
 }
 
 .twpx-control-component {

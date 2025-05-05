@@ -1,23 +1,20 @@
-import '../style/application.css';
 import { Sms } from '../pages/sms.js';
-import { Ornz } from '../pages/ornz.js';
 import { Code } from '../pages/code.js';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
-import { dataStore } from '../stores/data';
-import { smsStore } from '../stores/sms';
-import { codeStore } from '../stores/code';
+import { dataStore } from '../stores/data.js';
+import { smsStore } from '../stores/sms.js';
+import { codeStore } from '../stores/code.js';
 
 import { MessageComponent } from 'local.vue-components.message-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
 
-export const Application = {
+export const TwoCols = {
   data() {
     return {};
   },
   components: {
     Sms,
-    Ornz,
     Code,
     MessageComponent,
     ButtonComponent,
@@ -25,15 +22,27 @@ export const Application = {
   // language=Vue
 
   template: `
-    <router-view />
+    <div class="vue-auth-sms">
+
+      <h3 class="mt-0">{{ title }}</h3>
+
+      <p>{{ text }}</p>
+
+      <MessageComponent v-if="error" type="error" :message="error" :button="errorButton" @clickButton="clickErrorButton" />
+
+      <hr v-if="error" />
+
+      <router-view />
+      
+    </div>
 	`,
   computed: {
     ...mapState(dataStore, [
       'sessid',
       'signedParameters',
-      'templateFolder',
       'lang',
       'info',
+      'infoButton',
       'state',
       'error',
       'errorButton',
@@ -41,7 +50,10 @@ export const Application = {
     ...mapState(smsStore, ['errorButton']),
     ...mapState(codeStore, ['uuid']),
     title() {
-      return this.lang[`AUTH_SMS_${String(this.state).toUpperCase()}_TITLE`];
+      return this.lang[`AUTH_SMS_SIMPLE_TITLE`];
+    },
+    text() {
+      return this.lang[`AUTH_SMS_SIMPLE_TEXT`];
     },
     altButton() {
       return this.lang[
@@ -50,21 +62,12 @@ export const Application = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['changeState', 'setInfo']),
+    ...mapActions(dataStore, ['changeState', 'setInfo', 'setInfoMessage']),
     clickInfoButton() {
       this.setInfo('');
+      this.setInfoMessage('');
     },
-    clickAlt() {
-      if (this.state === 'ornz') {
-        this.changeState('sms');
-      } else {
-        this.changeState('ornz');
-      }
-      // window.location.href = '/auth/';
-    },
-    clickErrorButton() {
-      this.changeState('ornz');
-    },
+    clickErrorButton() {},
   },
   mounted() {},
 };
