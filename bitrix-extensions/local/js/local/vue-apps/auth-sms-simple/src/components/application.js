@@ -38,7 +38,6 @@ export const Application = {
     ...mapState(dataStore, [
       'sessid',
       'signedParameters',
-      'templateFolder',
       'lang',
       'info',
       'state',
