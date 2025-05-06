@@ -38,10 +38,6 @@
 .twpx-form-control--text.twpx-form-control--invalid .twpx-form-control__label {
   color: var(--twpx-form-control-invalid-color);
 }
-.twpx-form-control--text.twpx-form-control--disabled .twpx-form-control__label {
-  color: var(--twpx-form-control-color);
-  opacity: 0.3;
-}
 .twpx-form-control--text .twpx-form-control__input {
   display: block !important;
   width: 100%;
@@ -82,6 +78,9 @@
     --twpx-form-control-disabled-background-color
   ) !important;
   border: 1px solid var(--twpx-form-control-disabled-border-color) !important;
+}
+.twpx-form-control--text.twpx-form-control--disabled .twpx-form-control__label {
+  color: var(--twpx-form-control-disabled-color);
 }
 .twpx-form-control--text .twpx-form-control__warning,
 .twpx-form-control--text .twpx-form-control__hint {

@@ -56,11 +56,11 @@
   --twpx-form-control-invalid-border-color: #ff0000;
   --twpx-form-control-invalid-background-color: #fff4f4;
 
-  --twpx-form-control-disabled-color: #00000055;
+  --twpx-form-control-disabled-color: #9b9b9b;
   --twpx-form-control-disabled-border-color: var(
     --twpx-form-control-disabled-background-color
   );
-  --twpx-form-control-disabled-background-color: #f2f2f2;
+  --twpx-form-control-disabled-background-color: #fafafa;
 
   --twpx-form-control-external-hint-font-size: 9pt;
   --twpx-form-control-external-hint-margin: 5px;

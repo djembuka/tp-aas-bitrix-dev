@@ -3,6 +3,14 @@ this.BX = this.BX || {};
 (function (exports) {
   'use strict';
 
+  var IconFile = {
+    template: "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"17.383\" height=\"24\" viewBox=\"0 0 17.383 24\" >\n      <g transform=\"translate(-4.461)\">\n        <g transform=\"translate(4.461)\">\n          <g>\n            <path d=\"M21.844,6.573v15.88A1.547,1.547,0,0,1,20.3,24H6.008a1.546,1.546,0,0,1-1.547-1.547V1.547A1.546,1.546,0,0,1,6.008,0H15.27Z\" transform=\"translate(-4.461)\" class=\"a\"/>\n          </g>\n          <path d=\"M20.036,8.289l5.677,2.339v-2.2l-3.218-.951Z\" transform=\"translate(-8.33 -1.858)\" class=\"b\"/>\n          <path d=\"M25.416,6.573H20.389a1.546,1.546,0,0,1-1.547-1.547V0Z\" transform=\"translate(-8.033)\" class=\"c\"/>\n        </g>\n        <path d=\"M18.117,19.012l-2.85-2.85a.555.555,0,0,0-.785,0l-2.85,2.85a.555.555,0,0,0,.785.784l1.9-1.9v5.024a.555.555,0,1,0,1.109,0V17.894l1.9,1.9a.555.555,0,0,0,.785-.784Z\" transform=\"translate(-1.741 -3.974)\" class=\"d\"/>\n      </g>\n    </svg>\n  "
+  };
+
+  var IconLock = {
+    template: "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"16\" viewBox=\"0 0 12 16\" fill=\"none\">\n      <path d=\"M2.25 5.66667V5C2.25 2.78413 3.92262 1 6 1C8.07738 1 9.75 2.78413 9.75 5V5.66667M2.25 5.66667C1.5625 5.66667 1 6.26667 1 7V13.6667C1 14.4 1.5625 15 2.25 15H9.75C10.4375 15 11 14.4 11 13.6667V7C11 6.26667 10.4375 5.66667 9.75 5.66667M2.25 5.66667H9.75\" stroke=\"#9B9B9B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>\n    </svg>\n  "
+  };
+
   var ControlFile = {
     data: function data() {
       return {
@@ -14,13 +22,16 @@ this.BX = this.BX || {};
         active: true,
         files: [],
         "default": '<a href="">Выберите файл</a>&nbsp;или перетащите в поле',
-        hint: this.control.hint_external,
-        icon: "<g transform=\"translate(-4.461)\">\n          <g transform=\"translate(4.461)\">\n            <g>\n              <path d=\"M21.844,6.573v15.88A1.547,1.547,0,0,1,20.3,24H6.008a1.546,1.546,0,0,1-1.547-1.547V1.547A1.546,1.546,0,0,1,6.008,0H15.27Z\" transform=\"translate(-4.461)\" class=\"a\"/>\n            </g>\n            <path d=\"M20.036,8.289l5.677,2.339v-2.2l-3.218-.951Z\" transform=\"translate(-8.33 -1.858)\" class=\"b\"/>\n            <path d=\"M25.416,6.573H20.389a1.546,1.546,0,0,1-1.547-1.547V0Z\" transform=\"translate(-8.033)\" class=\"c\"/>\n          </g>\n          <path d=\"M18.117,19.012l-2.85-2.85a.555.555,0,0,0-.785,0l-2.85,2.85a.555.555,0,0,0,.785.784l1.9-1.9v5.024a.555.555,0,1,0,1.109,0V17.894l1.9,1.9a.555.555,0,0,0,.785-.784Z\" transform=\"translate(-1.741 -3.974)\" class=\"d\"/>\n        </g>"
+        hint: this.control.hint_external
       };
     },
     props: ['control', 'id', 'name'],
+    components: {
+      IconFile: IconFile,
+      IconLock: IconLock
+    },
     // language=Vue
-    template: "\n\t\t<div\n    :class=\"{\n      'twpx-form-control': true,\n      'twpx-form-control--file': true,\n      'twpx-form-control--active': active,\n      'twpx-form-control--invalid': invalid,\n      'twpx-form-control--disabled': disabled,\n    }\"\n  >\n    <img\n      :src=\"disabled\"\n      class=\"twpx-form-control__file__disabled-icon\"\n      v-if=\"false\"\n    />\n    <span\n      class=\"twpx-form-control__file__clear\"\n      @click.prevent=\"clearInputFile\"\n      v-if=\"isClearable\"\n    ></span>\n    <div\n      class=\"twpx-form-control__file\"\n      :class=\"{\n        filled: isFilled,\n        clearable: isClearable,\n      }\"\n      ref=\"controlFile\"\n    >\n      <span class=\"twpx-form-control__file__label\">{{ control.label }}</span>\n\n      <svg\n        xmlns=\"http://www.w3.org/2000/svg\"\n        width=\"17.383\"\n        height=\"24\"\n        viewBox=\"0 0 17.383 24\"\n        v-html=\"icon\"\n      ></svg>\n\n      <input\n        type=\"file\"\n        :name=\"control.name\"\n        :id=\"control.id\"\n        @change=\"uploadFile($refs.inputFile.files)\"\n        ref=\"inputFile\"\n      />\n      <label\n        :for=\"control.id\"\n        class=\"active\"\n        v-html=\"label\"\n        ref=\"dropzone\"\n      ></label>\n    </div>\n    <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n  </div>\n\t",
+    template: "\n\t\t<div\n    :class=\"{\n      'twpx-form-control': true,\n      'twpx-form-control--file': true,\n      'twpx-form-control--active': active,\n      'twpx-form-control--invalid': invalid,\n      'twpx-form-control--disabled': disabled,\n    }\"\n  >\n    <IconLock\n      class=\"twpx-form-control__file__disabled-icon\"\n      v-if=\"disabled\"\n    />\n    <span\n      class=\"twpx-form-control__file__clear\"\n      @click.prevent=\"clearInputFile\"\n      v-if=\"isClearable\"\n    ></span>\n    <div\n      class=\"twpx-form-control__file\"\n      :class=\"{\n        filled: isFilled,\n        clearable: isClearable,\n      }\"\n      ref=\"controlFile\"\n    >\n      <span class=\"twpx-form-control__file__label\">{{ control.label }}</span>\n\n      <IconFile class=\"twpx-form-control__file__icon\" />\n\n      <input\n        type=\"file\"\n        :name=\"control.name\"\n        :id=\"control.id\"\n        @change=\"uploadFile($refs.inputFile.files)\"\n        ref=\"inputFile\"\n      />\n      <label\n        :for=\"control.id\"\n        class=\"active\"\n        v-html=\"label\"\n        ref=\"dropzone\"\n      ></label>\n    </div>\n    <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n  </div>\n\t",
     emits: ['input', 'focus', 'blur', 'enter'],
     computed: {
       disabled: function disabled() {

@@ -40,11 +40,6 @@
   .twpx-form-control__label {
   color: var(--twpx-form-control-invalid-color);
 }
-.twpx-form-control--textarea.twpx-form-control--disabled
-  .twpx-form-control__label {
-  color: var(--twpx-form-control-color);
-  opacity: 0.3;
-}
 .twpx-form-control--textarea .twpx-form-control__textarea {
   display: block !important;
   width: 100%;
@@ -117,10 +112,14 @@
   color: var(--twpx-form-control-invalid-color) !important;
 }
 .twpx-form-control--textarea.twpx-form-control--disabled
+  .twpx-form-control__label {
+  color: var(--twpx-form-control-disabled-color);
+}
+.twpx-form-control--textarea.twpx-form-control--disabled
   .twpx-form-control__textarea,
 .twpx-form-control--textarea.twpx-form-control--disabled
   .twpx-form-control__textarea-content {
-  color: var(--twpx-form-control-disabled-color);
+  color: var(--twpx-form-control-disabled-color) !important;
   pointer-events: none;
   background-color: var(
     --twpx-form-control-disabled-background-color

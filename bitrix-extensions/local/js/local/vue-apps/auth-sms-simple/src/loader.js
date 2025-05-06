@@ -70,12 +70,10 @@ export class AuthSMSSimple {
 
         dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH');
 
-        dataStore().info = self.options.infoMessage || '';
-        dataStore().infoMessage = self.options.infoMessage || '';
-
         smsStore().controls[0].label = this.$Bitrix.Loc.getMessage(
           'AUTH_SMS_SMS_LABEL_TEL'
         );
+        smsStore().controls[0].value = self.options.tel || '';
         smsStore().controls[1].label = self.options.checkboxLabel || '';
         smsStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
 

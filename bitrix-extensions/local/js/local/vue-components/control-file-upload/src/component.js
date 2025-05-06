@@ -1,5 +1,7 @@
 import './component.css';
+
 import { IconFile } from './IconFile';
+import { IconLock } from './IconLock.js';
 
 export const ControlFileUpload = {
   data() {
@@ -22,6 +24,7 @@ export const ControlFileUpload = {
   },
   components: {
     IconFile,
+    IconLock,
   },
   props: ['control', 'id', 'name'],
   // language=Vue
@@ -34,10 +37,9 @@ export const ControlFileUpload = {
         'twpx-form-control--disabled': disabled,
       }"
     >
-      <img
-        :src="disabled"
+      <IconLock
         class="twpx-form-control__file__disabled-icon"
-        v-if="false"
+        v-if="disabled"
       />
       <span
         class="twpx-form-control__file__clear" :class="{'btn--load-circle': loadCircle}"
@@ -55,7 +57,7 @@ export const ControlFileUpload = {
       >
         <span class="twpx-form-control__file__label">{{ control.label }}</span>
 
-        <IconFile />
+        <IconFile class="twpx-form-control__file__icon" />
 
         <input
           type="file"

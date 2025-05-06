@@ -13,15 +13,6 @@
   );
   transform: translateY(var(--twpx-form-control-active-label-translate));
 }
-.twpx-form-control--date .twpx-form-control__disabled-icon {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 16px;
-  height: 16px;
-  pointer-events: none;
-  z-index: 10;
-}
 .twpx-form-control--date .twpx-form-control__calendar-icon {
   position: absolute;
   top: calc((var(--twpx-form-control-height) - 16px) / 2);
@@ -51,10 +42,6 @@
 }
 .twpx-form-control--date.twpx-form-control--invalid .twpx-form-control__label {
   color: var(--twpx-form-control-invalid-color);
-}
-.twpx-form-control--date.twpx-form-control--disabled .twpx-form-control__label {
-  color: var(--twpx-form-control-color);
-  opacity: 0.3;
 }
 .twpx-form-control--date .dp__input {
   display: block !important;
@@ -93,16 +80,6 @@
   outline: none !important;
   color: var(--twpx-form-control-invalid-color) !important;
 }
-.twpx-form-control--date.twpx-form-control--disabled
-  .twpx-form-control
-  .dp__input {
-  color: var(--twpx-form-control-disabled-color);
-  pointer-events: none;
-  background-color: var(
-    --twpx-form-control-disabled-background-color
-  ) !important;
-  border: 1px solid var(--twpx-form-control-disabled-border-color) !important;
-}
 .twpx-form-control--date .twpx-form-control__warning,
 .twpx-form-control--date .twpx-form-control__hint {
   font-size: var(--twpx-form-control-external-hint-font-size);
@@ -111,6 +88,36 @@
 }
 .twpx-form-control--date .twpx-form-control__warning {
   color: var(--twpx-form-control-invalid-color);
+}
+
+/*Disabled*/
+.twpx-form-control--date .twpx-form-control__disabled-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 10;
+}
+.twpx-form-control--date.twpx-form-control--disabled {
+  pointer-events: none;
+  cursor: default;
+}
+.twpx-form-control--date.twpx-form-control--disabled .twpx-form-control__label {
+  color: var(--twpx-form-control-disabled-color);
+}
+.twpx-form-control--date.twpx-form-control--disabled .dp__input {
+  color: var(--twpx-form-control-disabled-color);
+  background-color: var(
+    --twpx-form-control-disabled-background-color
+  ) !important;
+}
+.twpx-form-control--date.twpx-form-control--disabled .twpx-form-control__hint {
+  color: var(--twpx-form-control-disabled-color);
+}
+.twpx-form-control--date.twpx-form-control--disabled svg path {
+  stroke: var(--twpx-form-control-disabled-color);
 }
 
 :root {

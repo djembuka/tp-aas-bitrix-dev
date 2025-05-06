@@ -39,23 +39,23 @@
   }
 }
 
-.vue-auth-sms-sms-form {
-  padding: 32px;
+.vue-auth-sms-sms__tel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 16px;
 }
-.vue-auth-sms-sms-form-body {
+.vue-auth-sms-sms__tel .twpx-control-component {
   width: 100%;
-  max-width: 400px;
-  margin: 20px auto 0;
 }
-.vue-auth-sms-sms-ornz-enter {
-  width: 100%;
-  max-width: 400px;
-  margin: 32px auto;
-  display: grid;
-  gap: 32px;
-}
-.vue-auth-sms-sms-ornz-enter > div {
-  text-align: center;
+.vue-auth-sms-sms__buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 16px;
 }
 hr.hr--none {
   padding: 0;

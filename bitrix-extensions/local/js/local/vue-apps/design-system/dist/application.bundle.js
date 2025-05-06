@@ -850,8 +850,21 @@
           });
         }
       },
+      changeSelectRadioValue: function changeSelectRadioValue(_ref3) {
+        var control = _ref3.control,
+          value = _ref3.value;
+        control.value = value;
+      },
+      changeSelectDropdownValue: function changeSelectDropdownValue(_ref4) {
+        var control = _ref4.control,
+          value = _ref4.value;
+        control.value = value;
+      },
       addTab: function addTab(control) {
         control.tab = control.tab ? ++control.tab : 1;
+      },
+      setDisabled: function setDisabled(control, value) {
+        control.disabled = value;
       },
     },
   });
@@ -901,7 +914,7 @@
     // language=Vue
 
     template:
-      '\n    <div>\n      <div class="twpx-design-system-block" v-for="control in controls" :key="control.id">\n        <div>\n          <h3>{{ control.property }} {{ control.type }}</h3>\n          <ControlComponent :control="control" @input="input" @hints="hints" />\n        </div>\n        <pre>{{ control }}</pre>\n        <div>\n          <ButtonComponent text="+ tab" :props="[\'secondary\',\'medium\']" @clickButton="addTab(control)" />\n        </div>\n      </div>\n    </div>\n\t',
+      '\n    <div>\n      <div class="twpx-design-system-block" v-for="control in controls" :key="control.id">\n        <div>\n          <h3>{{ control.property }} {{ control.type }}</h3>\n          <ControlComponent :control="control" @input="input" @hints="hints" />\n        </div>\n        <pre>{{ control }}</pre>\n        <div>\n          <ButtonComponent text="+ tab" :props="[\'secondary\',\'medium\']" @clickButton="addTab(control)" />\n\n          <ButtonComponent :text="textDisabled(control)" :props="[\'light\',\'medium\']" @clickButton="setDisabledEnabled(control)" />\n        </div>\n      </div>\n    </div>\n\t',
     computed: _objectSpread(
       {},
       ui_vue3_pinia.mapState(formControlsStore, ['controls'])
@@ -914,6 +927,7 @@
           'runHints',
           'setHints',
           'addTab',
+          'setDisabled',
         ])
       ),
       {},
@@ -938,6 +952,12 @@
           } else if (type === 'set') {
             this.setHints(control, value);
           }
+        },
+        setDisabledEnabled: function setDisabledEnabled(control) {
+          this.setDisabled(control, !control.disabled);
+        },
+        textDisabled: function textDisabled(control) {
+          return 'set '.concat(control.disabled ? 'enabled' : 'disabled');
         },
       }
     ),
@@ -2356,5 +2376,4 @@
   BX.Controls,
   BX.AAS,
   BX.Vue3.Pinia
-);
-//# sourceMappingURL=application.bundle.js.map
+); //# sourceMappingURL=application.bundle.js.map

@@ -26,6 +26,8 @@ export const FormControlsComponent = {
         <pre>{{ control }}</pre>
         <div>
           <ButtonComponent text="+ tab" :props="['secondary','medium']" @clickButton="addTab(control)" />
+
+          <ButtonComponent :text="textDisabled(control)" :props="['light','medium']" @clickButton="setDisabledEnabled(control)" />
         </div>
       </div>
     </div>
@@ -39,6 +41,7 @@ export const FormControlsComponent = {
       'runHints',
       'setHints',
       'addTab',
+      'setDisabled',
     ]),
     input({ control, value, checked }) {
       this.changeControlValue({
@@ -53,6 +56,12 @@ export const FormControlsComponent = {
       } else if (type === 'set') {
         this.setHints(control, value);
       }
+    },
+    setDisabledEnabled(control) {
+      this.setDisabled(control, !control.disabled);
+    },
+    textDisabled(control) {
+      return `set ${control.disabled ? 'enabled' : 'disabled'}`;
     },
   },
 };

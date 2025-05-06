@@ -1,4 +1,6 @@
 import { IconDropdown } from './IconDropdown.js';
+import { IconLock } from './IconLock.js';
+
 import './component.css';
 
 export const ControlSelectDropdown = {
@@ -12,6 +14,7 @@ export const ControlSelectDropdown = {
   },
   components: {
     IconDropdown,
+    IconLock,
   },
   // language=Vue
   template: `
@@ -27,10 +30,9 @@ export const ControlSelectDropdown = {
       }"
       @close="console.log('close')"
     >
-      <img
-        :src="disabled"
+      <IconLock
         class="twpx-form-control__disabled-icon"
-        v-if="false"
+        v-if="disabled"
       />
       <div class="twpx-form-control__label">{{ control.label }}</div>
       <div

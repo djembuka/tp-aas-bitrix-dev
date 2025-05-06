@@ -14,7 +14,7 @@ export const smsStore = defineStore('sms', {
         label: '',
         value: '',
         required: true,
-        disabled: false,
+        disabled: true,
       },
       {
         property: 'checkbox',
@@ -29,6 +29,7 @@ export const smsStore = defineStore('sms', {
     submitProps: { large: true, secondary: true, wide: true },
     timerEnd: 0,
     timer: 0,
+    telIsFilled: false,
   }),
   getters: {
     buttonDisabled() {
@@ -57,6 +58,12 @@ export const smsStore = defineStore('sms', {
     },
   },
   actions: {
+    setTelIsFilled(value) {
+      this.telIsFilled = value;
+    },
+    changeTel() {
+      this.controls.find((c) => c.property === 'tel').disabled = false;
+    },
     buttonSubmitTimer(start) {
       this.timerEnd = Math.round(new Date().getTime() / 1000) + Number(start);
       this.timer = Number(start);
@@ -162,5 +169,6 @@ export const smsStore = defineStore('sms', {
           );
       }
     },
+    runDelete() {},
   },
 });

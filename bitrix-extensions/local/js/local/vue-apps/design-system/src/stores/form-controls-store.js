@@ -295,8 +295,17 @@ export const formControlsStore = defineStore('form-controls-store', {
         });
       }
     },
+    changeSelectRadioValue({ control, value }) {
+      control.value = value;
+    },
+    changeSelectDropdownValue({ control, value }) {
+      control.value = value;
+    },
     addTab(control) {
       control.tab = control.tab ? ++control.tab : 1;
+    },
+    setDisabled(control, value) {
+      control.disabled = value;
     },
   },
 });

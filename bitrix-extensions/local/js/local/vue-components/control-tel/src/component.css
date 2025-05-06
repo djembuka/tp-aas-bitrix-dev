@@ -39,8 +39,7 @@
   color: var(--twpx-form-control-invalid-color);
 }
 .twpx-form-control--tel.twpx-form-control--disabled .twpx-form-control__label {
-  color: var(--twpx-form-control-color);
-  opacity: 0.3;
+  color: var(--twpx-form-control-disabled-color);
 }
 .twpx-form-control--tel .twpx-form-control__input {
   display: block !important;

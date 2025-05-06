@@ -1,6 +1,7 @@
 import { ControlDatepicker } from 'local.vue-components.control-datepicker';
 import { Icon } from './Icon.js';
 import { IconClear } from './IconClear.js';
+import { IconLock } from './IconLock.js';
 import './component.css';
 
 export const ControlDateRange = {
@@ -14,6 +15,7 @@ export const ControlDateRange = {
   components: {
     ControlDatepicker,
     Icon,
+    IconLock,
   },
   template: `
     <div
@@ -27,10 +29,9 @@ export const ControlDateRange = {
       }"
       ref="control"
     >
-      <img
-        :src="disabled"
+      <IconLock
         class="twpx-form-control__disabled-icon"
-        v-if="false"
+        v-if="disabled"
       />
       <Icon class="twpx-form-control__calendar-icon" />
       <div class="twpx-form-control__label">{{ control.label }}</div>

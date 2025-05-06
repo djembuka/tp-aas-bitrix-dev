@@ -310,7 +310,7 @@
             label: '',
             value: '',
             required: true,
-            disabled: false,
+            disabled: true,
           },
           {
             property: 'checkbox',
@@ -329,6 +329,7 @@
         },
         timerEnd: 0,
         timer: 0,
+        telIsFilled: false,
       };
     },
     getters: {
@@ -357,6 +358,14 @@
       },
     },
     actions: {
+      setTelIsFilled: function setTelIsFilled(value) {
+        this.telIsFilled = value;
+      },
+      changeTel: function changeTel() {
+        this.controls.find(function (c) {
+          return c.property === 'tel';
+        }).disabled = false;
+      },
       buttonSubmitTimer: function buttonSubmitTimer(start) {
         var _this = this;
         this.timerEnd = Math.round(new Date().getTime() / 1000) + Number(start);
@@ -471,6 +480,7 @@
             );
         }
       },
+      runDelete: function runDelete() {},
     },
   });
 
@@ -517,19 +527,16 @@
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
     },
     // language=Vue
-
     template:
-      '\n    <div class="vue-auth-sms-sms">\n\n      <div v-for="control in controls" :key="control.id">\n        <ControlComponent :control="control" @input="input" />\n        <hr />\n        <div v-if="control.value">\n          <ButtonComponent text="\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C" :props="[\'secondary\', \'medium\']" @clickButton="clickChange" />\n\n          <ButtonComponent text="Delete" :props="[\'icon\',\'delete\',\'medium\']" @clickButton="clickDelete" />\n           \n        </div>\n      </div>\n\n      <ButtonComponent :text="buttonSubmitTimerText || lang.AUTH_SMS_SMS_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />\n      \n    </div>\n\t',
+      '\n    <div class="vue-auth-sms-sms">\n\n      <div v-for="control in controls" :key="control.id">\n        <div v-if="control.property === \'tel\' && telIsFilled" class="vue-auth-sms-sms__tel">\n          <ControlComponent :control="control" @input="input" />\n          <div class="vue-auth-sms-sms__buttons">\n            <ButtonComponent text="\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C" :props="[\'secondary\', \'medium\']" @clickButton="clickChange" />\n\n            <ButtonComponent text="Delete" :props="[\'icon\',\'delete\',\'medium\']" @clickButton="clickDelete" />\n          </div>\n        </div>\n        <div v-else>\n          <ControlComponent :control="control" @input="input" />\n        </div>\n        <hr />\n        \n      </div>\n\n      <ButtonComponent :text="buttonSubmitTimerText || lang.AUTH_SMS_SMS_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />\n      \n    </div>\n\t',
     computed: _objectSpread$1(
-      _objectSpread$1(
-        {},
-        ui_vue3_pinia.mapState(dataStore, ['lang', 'state', 'infoMessage'])
-      ),
+      _objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'state'])),
       ui_vue3_pinia.mapState(smsStore, [
         'controls',
         'submitProps',
         'buttonDisabled',
         'buttonSubmitTimerText',
+        'telIsFilled',
       ])
     ),
     watch: {
@@ -543,33 +550,47 @@
       _objectSpread$1(
         _objectSpread$1(
           {},
-          ui_vue3_pinia.mapActions(dataStore, [
-            'setInfo',
-            'setInfoButton',
-            'setError',
-            'setQuery',
-          ])
+          ui_vue3_pinia.mapActions(dataStore, ['setError', 'setQuery'])
         ),
-        ui_vue3_pinia.mapActions(smsStore, ['input', 'runSend'])
+        ui_vue3_pinia.mapActions(smsStore, [
+          'input',
+          'runSend',
+          'runDelete',
+          'changeTel',
+          'setTelIsFilled',
+        ])
       ),
       {},
       {
         clickSubmit: function clickSubmit() {
           this.runSend();
         },
+        clickChange: function clickChange() {
+          var telControl = this.controls.find(function (c) {
+            return c.property === 'tel';
+          });
+          if (telControl) {
+            telControl.disabled = false;
+          }
+          this.setTelIsFilled(false);
+        },
+        clickDelete: function clickDelete() {
+          this.runDelete();
+        },
       }
     ),
     mounted: function mounted() {
-      if (this.infoMessage) {
-        this.setInfo(this.infoMessage);
-      } else {
-        this.setInfo('');
-      }
-      this.setInfoButton(this.lang.AUTH_SMS_INFO_BUTTON);
       this.setError('');
       this.setQuery({
         type: 'sms',
       });
+      // if tel
+      var telControl = this.controls.find(function (c) {
+        return c.property === 'tel';
+      });
+      if (telControl && telControl.value) {
+        this.setTelIsFilled(true);
+      }
     },
   };
 
@@ -878,7 +899,6 @@
             ui_vue3_pinia.mapState(dataStore, [
               'sessid',
               'signedParameters',
-              'templateFolder',
               'lang',
               'info',
               'state',
@@ -1116,11 +1136,10 @@
                   this,
                   'AUTH'
                 );
-                dataStore().info = self.options.infoMessage || '';
-                dataStore().infoMessage = self.options.infoMessage || '';
                 smsStore().controls[0].label = this.$Bitrix.Loc.getMessage(
                   'AUTH_SMS_SMS_LABEL_TEL'
                 );
+                smsStore().controls[0].value = self.options.tel || '';
                 smsStore().controls[1].label = self.options.checkboxLabel || '';
                 smsStore().lang = ui_vue3.BitrixVue.getFilteredPhrases(
                   this,

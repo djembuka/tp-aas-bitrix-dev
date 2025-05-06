@@ -1,6 +1,7 @@
 import { ControlDatepicker } from 'local.vue-components.control-datepicker';
 import { Icon } from './icon.js';
 import { IconClear } from './IconClear.js';
+import { IconLock } from './IconLock.js';
 import './component.css';
 
 export const ControlDateSingle = {
@@ -9,6 +10,11 @@ export const ControlDateSingle = {
       open: false,
       hint: this.control.hint_external,
     };
+  },
+  components: {
+    ControlDatepicker,
+    Icon,
+    IconLock,
   },
   template: `
     <div
@@ -22,10 +28,9 @@ export const ControlDateSingle = {
       }"
       ref="control"
     >
-      <img
-        :src="disabled"
+      <IconLock
         class="twpx-form-control__disabled-icon"
-        v-if="false"
+        v-if="disabled"
       />
       <Icon class="twpx-form-control__calendar-icon" />
       <div class="twpx-form-control__label">{{ control.label }}</div>
@@ -107,10 +112,6 @@ export const ControlDateSingle = {
         }
       }, 100);
     },
-  },
-  components: {
-    ControlDatepicker,
-    Icon,
   },
   mounted() {
     this.replaceClear();

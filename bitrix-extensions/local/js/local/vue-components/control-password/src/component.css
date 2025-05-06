@@ -13,7 +13,7 @@
 .twpx-form-control--password .twpx-form-control__disabled-icon {
   position: absolute;
   top: 16px;
-  right: 16px;
+  right: calc(16px + 8px + 16px);
   width: 16px;
   height: 16px;
   pointer-events: none;
@@ -30,20 +30,43 @@
 }
 .twpx-form-control--password
   .twpx-form-control__password-icon--password
-  svg:first-child,
+  .twpx-form-control__visible-icon,
 .twpx-form-control--password
   .twpx-form-control__password-icon--text
-  svg:last-child {
+  .twpx-form-control__invisible-icon {
   display: block;
 }
 .twpx-form-control--password
   .twpx-form-control__password-icon--text
-  svg:first-child,
+  .twpx-form-control__visible-icon,
 .twpx-form-control--password
   .twpx-form-control__password-icon--password
-  svg:last-child {
+  .twpx-form-control__invisible-icon {
   display: none;
 }
+.twpx-form-control--password.twpx-form-control--invalid
+  .twpx-form-control__visible-icon {
+  fill: #ff0000;
+}
+.twpx-form-control--password.twpx-form-control--invalid
+  .twpx-form-control__invisible-icon {
+  stroke: #ff0000;
+}
+.twpx-form-control--password.twpx-form-control--disabled
+  .twpx-form-control__visible-icon
+  path {
+  fill: var(--twpx-form-control-disabled-color);
+}
+.twpx-form-control--password.twpx-form-control--disabled
+  .twpx-form-control__invisible-icon
+  path {
+  stroke: var(--twpx-form-control-disabled-color);
+}
+.twpx-form-control--password.twpx-form-control--disabled
+  input:--twpx-form-control-disabled-color {
+  background-color: var(--twpx-form-control-disabled-color);
+}
+
 .twpx-form-control--password .twpx-form-control__label {
   position: absolute;
   top: 0;
@@ -67,8 +90,7 @@
 }
 .twpx-form-control--password.twpx-form-control--disabled
   .twpx-form-control__label {
-  color: var(--twpx-form-control-color);
-  opacity: 0.3;
+  color: var(--twpx-form-control-disabled-color);
 }
 .twpx-form-control--password .twpx-form-control__input {
   display: block !important;
@@ -106,8 +128,9 @@
 }
 .twpx-form-control--password.twpx-form-control--disabled
   .twpx-form-control__input {
-  color: var(--twpx-form-control-disabled-color);
+  color: var(--twpx-form-control-disabled-color) !important;
   pointer-events: none;
+  cursor: pointer;
   background-color: var(
     --twpx-form-control-disabled-background-color
   ) !important;

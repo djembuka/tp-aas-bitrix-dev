@@ -16,19 +16,23 @@ export const Sms = {
     ButtonComponent,
   },
   // language=Vue
-
   template: `
     <div class="vue-auth-sms-sms">
 
       <div v-for="control in controls" :key="control.id">
-        <ControlComponent :control="control" @input="input" />
-        <hr />
-        <div v-if="control.value">
-          <ButtonComponent text="Изменить" :props="['secondary', 'medium']" @clickButton="clickChange" />
+        <div v-if="control.property === 'tel' && telIsFilled" class="vue-auth-sms-sms__tel">
+          <ControlComponent :control="control" @input="input" />
+          <div class="vue-auth-sms-sms__buttons">
+            <ButtonComponent text="Изменить" :props="['secondary', 'medium']" @clickButton="clickChange" />
 
-          <ButtonComponent text="Delete" :props="['icon','delete','medium']" @clickButton="clickDelete" />
-           
+            <ButtonComponent text="Delete" :props="['icon','delete','medium']" @clickButton="clickDelete" />
+          </div>
         </div>
+        <div v-else>
+          <ControlComponent :control="control" @input="input" />
+        </div>
+        <hr />
+        
       </div>
 
       <ButtonComponent :text="buttonSubmitTimerText || lang.AUTH_SMS_SMS_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />
@@ -36,12 +40,13 @@ export const Sms = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang', 'state', 'infoMessage']),
+    ...mapState(dataStore, ['lang', 'state']),
     ...mapState(smsStore, [
       'controls',
       'submitProps',
       'buttonDisabled',
       'buttonSubmitTimerText',
+      'telIsFilled',
     ]),
   },
   watch: {
@@ -52,25 +57,35 @@ export const Sms = {
     },
   },
   methods: {
-    ...mapActions(dataStore, [
-      'setInfo',
-      'setInfoButton',
-      'setError',
-      'setQuery',
+    ...mapActions(dataStore, ['setError', 'setQuery']),
+    ...mapActions(smsStore, [
+      'input',
+      'runSend',
+      'runDelete',
+      'changeTel',
+      'setTelIsFilled',
     ]),
-    ...mapActions(smsStore, ['input', 'runSend']),
     clickSubmit() {
       this.runSend();
     },
+    clickChange() {
+      const telControl = this.controls.find((c) => c.property === 'tel');
+      if (telControl) {
+        telControl.disabled = false;
+      }
+      this.setTelIsFilled(false);
+    },
+    clickDelete() {
+      this.runDelete();
+    },
   },
   mounted() {
-    if (this.infoMessage) {
-      this.setInfo(this.infoMessage);
-    } else {
-      this.setInfo('');
-    }
-    this.setInfoButton(this.lang.AUTH_SMS_INFO_BUTTON);
     this.setError('');
     this.setQuery({ type: 'sms' });
+    // if tel
+    const telControl = this.controls.find((c) => c.property === 'tel');
+    if (telControl && telControl.value) {
+      this.setTelIsFilled(true);
+    }
   },
 };

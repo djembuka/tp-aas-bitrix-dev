@@ -41,10 +41,6 @@
 .twpx-form-control--hint.twpx-form-control--invalid .twpx-form-control__label {
   color: var(--twpx-form-control-invalid-color);
 }
-.twpx-form-control--hint.twpx-form-control--disabled .twpx-form-control__label {
-  color: var(--twpx-form-control-color);
-  opacity: 0.3;
-}
 .twpx-form-control--hint .twpx-form-control-loader {
   position: absolute;
   top: calc(
@@ -121,6 +117,13 @@
   border-color: var(--twpx-form-control-invalid-border-color) !important;
   outline: none !important;
   color: var(--twpx-form-control-invalid-color) !important;
+}
+.twpx-form-control--hint.twpx-form-control--disabled {
+  pointer-events: none;
+  cursor: default;
+}
+.twpx-form-control--hint.twpx-form-control--disabled .twpx-form-control__label {
+  color: var(--twpx-form-control-disabled-color);
 }
 .twpx-form-control--hint.twpx-form-control--disabled .twpx-form-control__input {
   color: var(--twpx-form-control-disabled-color);

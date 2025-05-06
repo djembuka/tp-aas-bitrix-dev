@@ -499,8 +499,8 @@ button.vue-button {
   align-items: center;
   background: #fafafa;
   cursor: pointer;
-  transition: background 0.3s ease;
-  -webkit-transition: background 0.3s ease;
+  transition: opacity 0.3s ease;
+  -webkit-transition: opacity 0.3s ease;
 }
 .vue-button--icon.vue-button--large {
   width: var(--twpx-button-size-large);

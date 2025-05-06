@@ -44,11 +44,6 @@
 .twpx-form-control--email.twpx-form-control--invalid .twpx-form-control__label {
   color: var(--twpx-form-control-invalid-color);
 }
-.twpx-form-control--email.twpx-form-control--disabled
-  .twpx-form-control__label {
-  color: var(--twpx-form-control-color);
-  opacity: 0.3;
-}
 .twpx-form-control--email .twpx-form-control__input {
   display: block !important;
   width: 100%;
@@ -86,9 +81,14 @@
   color: var(--twpx-form-control-invalid-color) !important;
 }
 .twpx-form-control--email.twpx-form-control--disabled
+  .twpx-form-control__label {
+  color: var(--twpx-form-control-disabled-color);
+}
+.twpx-form-control--email.twpx-form-control--disabled
   .twpx-form-control__input {
   color: var(--twpx-form-control-disabled-color);
   pointer-events: none;
+  cursor: default;
   background-color: var(
     --twpx-form-control-disabled-background-color
   ) !important;

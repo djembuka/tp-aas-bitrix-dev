@@ -10,7 +10,6 @@
   height: 16px;
   pointer-events: none;
   z-index: 10;
-  display: none;
 }
 .twpx-form-control__file label span {
   color: #ea4420;
@@ -196,6 +195,8 @@
 .twpx-form-control--file.twpx-form-control--invalid:active label a {
   color: #ff0000;
 }
+
+/*Disabled*/
 .twpx-form-control--file.twpx-form-control--disabled .twpx-form-control__file {
   pointer-events: none;
 }
@@ -205,17 +206,19 @@
 .twpx-form-control--file.twpx-form-control--disabled:active
   .twpx-form-control__file
   label {
-  color: #00000055;
+  color: var(--twpx-form-control-disabled-color);
   pointer-events: none;
-  background-color: var(--twpx-form-control-background) 55;
-  border: 1px solid var(--twpx-form-control-background) 55 !important;
+  background-color: var(--twpx-form-control-disabled-background-color);
+  border: 1px solid var(--twpx-form-control-disabled-background-color) !important;
 }
 .twpx-form-control--file.twpx-form-control--disabled label a,
 .twpx-form-control--file.twpx-form-control--disabled:active label a {
   color: #0a16aa55;
 }
-.twpx-form-control--file.twpx-form-control--disabled svg {
-  opacity: 0.3;
+.twpx-form-control--file.twpx-form-control--disabled .twpx-form-control__hint,
+.twpx-form-control--file.twpx-form-control--disabled
+  .twpx-form-control__file__label {
+  color: var(--twpx-form-control-disabled-color);
 }
 
 .twpx-form-control__file__label {
@@ -237,11 +240,6 @@
 .twpx-form-control--file.twpx-form-control--invalid
   .twpx-form-control__file__label {
   color: #ff0000;
-}
-.twpx-form-control--file.twpx-form-control--disabled
-  .twpx-form-control__file__label {
-  color: #2d3142;
-  opacity: 0.3;
 }
 .twpx-form-control__file__clear {
   position: absolute;

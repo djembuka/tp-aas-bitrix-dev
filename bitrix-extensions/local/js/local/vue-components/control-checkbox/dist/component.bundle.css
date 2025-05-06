@@ -120,6 +120,18 @@
   background-color: #26a69a;
   border-color: #26a69a;
 }
+
+/*Disabled*/
+.twpx-form-control--checkbox
+  [type='checkbox'].twpx-form-control--filled-in:disabled
+  + .twpx-form-control__label {
+  color: var(--twpx-form-control-disabled-color);
+}
+.twpx-form-control--checkbox
+  [type='checkbox']:disabled
+  + .twpx-form-control__label {
+  cursor: default;
+}
 .twpx-form-control--checkbox
   [type='checkbox'].twpx-form-control--filled-in:disabled:not(:checked)
   + .twpx-form-control__label:before {
@@ -130,18 +142,20 @@
   [type='checkbox'].twpx-form-control--filled-in:disabled:not(:checked)
   + .twpx-form-control__label:after {
   border-color: transparent;
-  background-color: #949494;
+  background-color: var(--twpx-form-control-disabled-background-color);
 }
 .twpx-form-control--checkbox
   [type='checkbox'].twpx-form-control--filled-in:disabled:checked
   + .twpx-form-control__label:before {
   background-color: transparent;
+  border-right-color: var(--twpx-form-control-disabled-color);
+  border-bottom-color: var(--twpx-form-control-disabled-color);
 }
 .twpx-form-control--checkbox
   [type='checkbox'].twpx-form-control--filled-in:disabled:checked
   + .twpx-form-control__label:after {
-  background-color: #949494;
-  border-color: #949494;
+  background-color: var(--twpx-form-control-disabled-background-color);
+  border-color: var(--twpx-form-control-disabled-background-color);
 }
 .twpx-form-control--checkbox.invalid
   [type='checkbox'].twpx-form-control--filled-in:not(:checked)

@@ -1,3 +1,5 @@
+import { IconLock } from './IconLock.js';
+
 import './component.css';
 
 export const ControlTel = {
@@ -13,6 +15,9 @@ export const ControlTel = {
   },
   props: ['control', 'id', 'name'],
   // language=Vue
+  components: {
+    IconLock,
+  },
   template: `
 		<div
       :class="{
@@ -23,10 +28,9 @@ export const ControlTel = {
         'twpx-form-control--disabled': disabled,
       }"
     >
-      <img
-        :src="disabled"
+      <IconLock
         class="twpx-form-control__disabled-icon"
-        v-if="false"
+        v-if="disabled"
       />
       <div class="twpx-form-control__label">{{ control.label }}</div>
       <input
