@@ -1,5 +1,6 @@
 import { defineStore } from 'ui.vue3.pinia';
 import { dataStore } from './data.js';
+import { smsStore } from './sms.js';
 
 export const codeStore = defineStore('code', {
   state: () => ({
@@ -81,16 +82,26 @@ export const codeStore = defineStore('code', {
     runCheck() {
       if (window.BX) {
         BX.ajax
-          .runAction('twinpx:authorization.api.check', {
+          .runComponentAction('twinpx:profile.edit', 'confirm', {
+            mode: 'class',
             data: {
               code: this.code,
               uuid: this.uuid,
             },
+            signedParameters: dataStore().signedParameters,
           })
           .then(
             (response) => {
-              this.changeButtonProps({ 'load-circle': false }, 'submit');
-              window.location.href = response.data.redirect;
+              if (response.status === 'success' && response.data === true) {
+                this.changeButtonProps({ 'load-circle': false }, 'submit');
+                dataStore().changeState('sms');
+                smsStore().setTelIsFilled(true);
+
+                const telControl = smsStore().controls.find(
+                  (c) => c.property === 'tel'
+                );
+                telControl.disabled = true;
+              }
             },
             (response) => {
               this.changeButtonProps({ 'load-circle': false }, 'submit');

@@ -17,14 +17,10 @@
         infoMessage: '',
         infoButton: true,
         error: '',
-        errorButton: false,
-        altButton: ''
+        errorButton: false
       };
     },
     actions: {
-      setAltButton: function setAltButton(alt) {
-        this.altButton = alt;
-      },
       changeState: function changeState(value) {
         this.state = value;
       },
@@ -371,6 +367,46 @@
     }
   });
 
+  function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$1(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  var Sms = {
+    data: function data() {
+      return {};
+    },
+    components: {
+      ControlComponent: local_vueComponents_controlComponent.ControlComponent,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
+    },
+    // language=Vue
+
+    template: "\n    <div class=\"vue-auth-sms-sms\">\n      <div class=\"vue-auth-sms-sms-form\">\n        <div class=\"vue-auth-sms-sms-form-body\">\n          <div v-for=\"control in controls\" :key=\"control.id\">\n            <ControlComponent :control=\"control\" @input=\"input\" />\n            <hr />\n          </div>\n          <ButtonComponent :text=\"buttonSubmitTimerText || lang.AUTH_SMS_SMS_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"clickSubmit\" />\n        </div>\n      </div>\n    </div>\n\t",
+    computed: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'state', 'infoMessage'])), ui_vue3_pinia.mapState(smsStore, ['controls', 'submitProps', 'buttonDisabled', 'buttonSubmitTimerText'])),
+    watch: {
+      state: function state(val) {
+        if (val === 'code') {
+          this.$router.push('/two-cols/code');
+        }
+      }
+    },
+    methods: _objectSpread$1(_objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setError', 'setQuery'])), ui_vue3_pinia.mapActions(smsStore, ['input', 'runSend'])), {}, {
+      clickSubmit: function clickSubmit() {
+        this.runSend();
+      }
+    }),
+    mounted: function mounted() {
+      if (this.infoMessage) {
+        this.setInfo(this.infoMessage);
+      } else {
+        this.setInfo('');
+      }
+      this.setInfoButton(this.lang.AUTH_SMS_INFO_BUTTON);
+      this.setError('');
+      this.setQuery({
+        type: 'sms'
+      });
+    }
+  };
+
   var ornzStore = ui_vue3_pinia.defineStore('ornz', {
     state: function state() {
       return {
@@ -467,6 +503,246 @@
       }
     }
   });
+
+  function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$2(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  var Ornz = {
+    data: function data() {
+      return {};
+    },
+    components: {
+      ControlComponent: local_vueComponents_controlComponent.ControlComponent,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
+    },
+    // language=Vue
+
+    template: "\n    <div class=\"vue-auth-sms-ornz-form\">\n      <div class=\"vue-auth-sms-ornz-form-body\">\n        <div v-for=\"control in controls\" :key=\"control.id\">\n          <ControlComponent :control=\"control\" @input=\"input\" />\n          <hr />\n        </div>\n        <ButtonComponent :text=\"lang.AUTH_SMS_ORNZ_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"clickSubmit\" />\n      </div>\n    </div>\n\t",
+    computed: _objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'infoMessage'])), ui_vue3_pinia.mapState(ornzStore, ['controls', 'submitProps', 'errorORNZ', 'buttonDisabled', 'changeInputValue'])),
+    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setError', 'setTitle', 'setQuery'])), ui_vue3_pinia.mapActions(ornzStore, ['changeInputValue', 'runOrnz'])), {}, {
+      input: function input(args) {
+        this.changeInputValue(args);
+      },
+      clickSubmit: function clickSubmit() {
+        this.runOrnz();
+      }
+    }),
+    mounted: function mounted() {
+      this.setTitle(this.lang["AUTH_SMS_ORNZ_TITLE"]);
+      if (this.infoMessage) {
+        this.setInfo(this.infoMessage);
+      } else {
+        this.setInfo('');
+      }
+      this.setInfoButton(this.lang.AUTH_SMS_INFO_BUTTON);
+      this.setError('');
+      this.setQuery({
+        type: 'ornz'
+      });
+    }
+  };
+
+  function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$3(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  var Code = {
+    data: function data() {
+      return {};
+    },
+    components: {
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
+    },
+    emits: ['openOrnz'],
+    // language=Vue
+
+    template: "\n      <div class=\"vue-auth-sms-code-form\">\n        <div class=\"vue-auth-sms-code-form-body\">\n          <div :class=\"{'vue-auth-sms-code-inputs': true, 'vue-auth-sms-code-inputs--invalid': invalidInputs}\">\n\n            <div :class=\"{'vue-auth-sms-code-inputs-label': true, 'vue-auth-sms-code-inputs-label--disabled': inputs.every(i => i.disabled)}\">{{ lang.AUTH_SMS_CODE_LABEL_INPUTS }}</div>\n            \n            <div class=\"vue-auth-sms-code-inputs-body\" ref=\"inputs\">\n\n              <input v-for=\"(input, index) in inputs\"\n                :key=\"input.id\"\n                :type=\"inputType()\"\n                :class=\"{'vue-auth-sms-code-input': true, 'vue-auth-sms-code-input--disabled': input.disabled}\"\n                v-model=\"this['inputValue'+index]\"\n                @keydown.backspace=\"backspaceInput(input, index)\"\n                @focus=\"focusText()\"\n              />\n\n            </div>\n\n            <div class=\"vue-auth-sms-code-inputs__warning\">{{ error }}</div>\n          </div>\n\n          <div><ButtonComponent :text=\"lang.AUTH_SMS_CODE_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"runCheck\" /></div>\n\n          <div><ButtonComponent v-if=\"timer === 0 || !!timer\" :text=\"buttonTimerText\" :props=\"Object.keys(timerProps)\" :disabled=\"timerDisabled\" @clickButton=\"clickNewCode\" /></div>\n        </div>\n      </div>\n\t",
+    computed: _objectSpread$3(_objectSpread$3(_objectSpread$3({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'error'])), ui_vue3_pinia.mapState(codeStore, ['inputs', 'uuid', 'submitProps', 'buttonDisabled', 'buttonTimerText', 'timerDisabled', 'timerProps', 'timer', 'clearInputs', 'invalidInputs'])), {}, {
+      inputValue0: {
+        get: function get() {
+          var index = 0;
+          return this.inputs[index].value;
+        },
+        set: function set(value) {
+          var index = 0;
+          this.changeInputValue({
+            control: this.inputs[index],
+            value: value
+          });
+          var next = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index + 1];
+          if (String(value) && String(value).match(/[0-9]/) && next) {
+            next.focus();
+          }
+        }
+      },
+      inputValue1: {
+        get: function get() {
+          var index = 1;
+          return this.inputs[index].value;
+        },
+        set: function set(value) {
+          var index = 1;
+          this.changeInputValue({
+            control: this.inputs[index],
+            value: value
+          });
+          var next = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index + 1];
+          if (String(value) && String(value).match(/[0-9]/) && next) {
+            next.focus();
+          }
+        }
+      },
+      inputValue2: {
+        get: function get() {
+          var index = 2;
+          return this.inputs[index].value;
+        },
+        set: function set(value) {
+          var index = 2;
+          this.changeInputValue({
+            control: this.inputs[index],
+            value: value
+          });
+          var next = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index + 1];
+          if (String(value) && String(value).match(/[0-9]/) && next) {
+            next.focus();
+          }
+        }
+      },
+      inputValue3: {
+        get: function get() {
+          var index = 3;
+          return this.inputs[index].value;
+        },
+        set: function set(value) {
+          var index = 3;
+          this.changeInputValue({
+            control: this.inputs[index],
+            value: value
+          });
+          var next = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index + 1];
+          if (String(value) && String(value).match(/[0-9]/) && next) {
+            next.focus();
+          }
+        }
+      },
+      inputValue4: {
+        get: function get() {
+          var index = 4;
+          return this.inputs[index].value;
+        },
+        set: function set(value) {
+          var index = 4;
+          this.changeInputValue({
+            control: this.inputs[index],
+            value: value
+          });
+          var next = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index + 1];
+          if (String(value) && String(value).match(/[0-9]/) && next) {
+            next.focus();
+          }
+        }
+      },
+      inputValue5: {
+        get: function get() {
+          var index = 5;
+          return this.inputs[index].value;
+        },
+        set: function set(value) {
+          var index = 5;
+          this.changeInputValue({
+            control: this.inputs[index],
+            value: value
+          });
+          if (String(value)) {
+            this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index].blur();
+          }
+        }
+      }
+    }),
+    watch: {
+      clearInputs: function clearInputs() {
+        this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input").forEach(function (input) {
+          return input.value = '';
+        });
+      }
+    },
+    methods: _objectSpread$3(_objectSpread$3(_objectSpread$3(_objectSpread$3({}, ui_vue3_pinia.mapActions(dataStore, ['setInfoButton', 'setError'])), ui_vue3_pinia.mapActions(smsStore, ['runSend'])), ui_vue3_pinia.mapActions(codeStore, ['changeInputValue', 'runCheck', 'changeButtonProps', 'buttonTimer', 'setInvalidInputs'])), {}, {
+      clickNewCode: function clickNewCode() {
+        this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
+        this.runSend();
+      },
+      backspaceInput: function backspaceInput(input, index) {
+        if (String(input.value).trim() === '') {
+          var prev = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index - 1];
+          if (prev) {
+            prev.focus();
+          }
+        }
+      },
+      focusText: function focusText() {
+        if (this.invalidInputs) {
+          this.inputs.forEach(function (input) {
+            input.value = '';
+          });
+          this.setInvalidInputs(false);
+          this.setError('');
+          this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
+        }
+      },
+      inputType: function inputType() {
+        if (window.matchMedia('(max-width: 767px)').matches) {
+          return 'number';
+        } else {
+          return 'text';
+        }
+      }
+    }),
+    mounted: function mounted() {
+      this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
+      this.setInfoButton('');
+    }
+  };
+
+  function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$4(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  var Application = {
+    data: function data() {
+      return {};
+    },
+    components: {
+      Sms: Sms,
+      Ornz: Ornz,
+      Code: Code,
+      MessageComponent: local_vueComponents_messageComponent.MessageComponent,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
+    },
+    // language=Vue
+
+    template: "\n    <div class=\"vue-auth-sms\">\n      <div class=\"vue-auth-sms-left\">\n\n        <h3 class=\"mt-0\">{{ title }}</h3>\n\n        <MessageComponent type=\"info\" :message=\"info\" :button=\"lang.AUTH_SMS_INFO_BUTTON\" @clickButton=\"clickInfoButton\" />\n        <hr v-if=\"info && error\">\n        <MessageComponent v-if=\"error\" type=\"error\" :message=\"error\" :button=\"errorButton\" @clickButton=\"clickErrorButton\" />\n\n        <Sms v-if=\"state === 'sms'\" />\n        <Ornz v-else-if=\"state === 'ornz'\" />\n        <Code v-else-if=\"state === 'code'\" />\n\n        <hr class=\"hr--line hr--none\" />\n\n        <div class=\"vue-auth-sms-alt\">\n          <div><ButtonComponent :text=\"altButton\" :props=\"['medium', 'primary']\" @clickButton=\"clickAlt\" /></div>\n          <div><router-link to=\"/two-cols/ornz\">{{ lang.AUTH_SMS_ENTER_LINK }}</router-link></div>\n        </div>\n\n      </div>\n      <div class=\"vue-auth-sms-right\">\n        <img :src=\"templateFolder + '/auth-sms-ill.png'\" alt=\"\">\n      </div>\n      \n    </div>\n\t",
+    computed: _objectSpread$4(_objectSpread$4(_objectSpread$4(_objectSpread$4({}, ui_vue3_pinia.mapState(dataStore, ['sessid', 'signedParameters', 'templateFolder', 'lang', 'info', 'state', 'error', 'errorButton'])), ui_vue3_pinia.mapState(smsStore, ['errorButton'])), ui_vue3_pinia.mapState(codeStore, ['uuid'])), {}, {
+      title: function title() {
+        return this.lang["AUTH_SMS_".concat(String(this.state).toUpperCase(), "_TITLE")];
+      },
+      altButton: function altButton() {
+        return this.lang["AUTH_SMS_".concat(String(this.state).toUpperCase(), "_ALT_BUTTON")];
+      }
+    }),
+    methods: _objectSpread$4(_objectSpread$4({}, ui_vue3_pinia.mapActions(dataStore, ['changeState', 'setInfo'])), {}, {
+      clickInfoButton: function clickInfoButton() {
+        this.setInfo('');
+      },
+      clickAlt: function clickAlt() {
+        if (this.state === 'ornz') {
+          this.changeState('sms');
+        } else {
+          this.changeState('ornz');
+        }
+        // window.location.href = '/auth/';
+      },
+      clickErrorButton: function clickErrorButton() {
+        this.changeState('ornz');
+      }
+    }),
+    mounted: function mounted() {}
+  };
 
   var restoreInfoStore = ui_vue3_pinia.defineStore('restore-info', {
     state: function state() {
@@ -664,28 +940,34 @@
     }
   });
 
-  function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-  function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$1(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$5(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var TwoCols = {
     data: function data() {
       return {};
     },
     components: {
+      Sms: Sms,
+      Ornz: Ornz,
+      Code: Code,
       MessageComponent: local_vueComponents_messageComponent.MessageComponent,
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
     // language=Vue
 
     template: "\n    <div class=\"vue-auth-sms\">\n      <div class=\"vue-auth-sms-left\">\n\n        <h3 class=\"mt-0\">{{ title }}</h3>\n\n        <MessageComponent v-if=\"info\" type=\"info\" :message=\"info\" :button=\"infoButton\" @clickButton=\"clickInfoButton\" />\n        <hr v-if=\"info && error\">\n        <MessageComponent v-if=\"error\" type=\"error\" :message=\"error\" :button=\"errorButton\" @clickButton=\"clickErrorButton\" />\n\n        <router-view />\n\n        <hr class=\"hr--line hr--none\" />\n\n        <div class=\"vue-auth-sms-alt\">\n          <div><ButtonComponent :text=\"altButton\" :props=\"['medium', 'primary']\" @clickButton=\"clickAlt\" /></div>\n          <div><router-link to=\"/center-col/restore\">{{ lang.AUTH_SMS_ENTER_LINK }}</router-link></div>\n        </div>\n\n      </div>\n      <div class=\"vue-auth-sms-right\">\n        <img :src=\"templateFolder + '/auth-sms-ill.png'\" alt=\"\">\n      </div>\n      \n    </div>\n\t",
-    computed: _objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['templateFolder', 'lang', 'title', 'info', 'infoButton', 'state', 'error', 'errorButton', 'altButton'])),
-    methods: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapActions(dataStore, ['changeState', 'setInfo', 'setInfoMessage'])), {}, {
+    computed: _objectSpread$5(_objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapState(dataStore, ['sessid', 'signedParameters', 'templateFolder', 'lang', 'info', 'infoButton', 'state', 'error', 'errorButton'])), ui_vue3_pinia.mapState(smsStore, ['errorButton'])), ui_vue3_pinia.mapState(codeStore, ['uuid'])), {}, {
+      title: function title() {
+        return this.lang["AUTH_SMS_".concat(String(this.state).toUpperCase(), "_TITLE")];
+      },
+      altButton: function altButton() {
+        return this.lang["AUTH_SMS_".concat(String(this.state).toUpperCase(), "_ALT_BUTTON")];
+      }
+    }),
+    methods: _objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapActions(dataStore, ['changeState', 'setInfo', 'setInfoMessage'])), {}, {
       clickInfoButton: function clickInfoButton() {
         this.setInfo('');
         this.setInfoMessage('');
-      },
-      clickErrorButton: function clickErrorButton() {
-        this.$router.push('/two-cols/ornz');
-        this.changeState('ornz');
       },
       clickAlt: function clickAlt() {
         if (this.$route.path === '/two-cols/ornz') {
@@ -695,13 +977,17 @@
           this.$router.push('/two-cols/ornz');
           this.changeState('ornz');
         }
+      },
+      clickErrorButton: function clickErrorButton() {
+        this.$router.push('/two-cols/ornz');
+        this.changeState('ornz');
       }
     }),
     mounted: function mounted() {}
   };
 
-  function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-  function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$2(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$6(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var Restore = {
     data: function data() {
       return {};
@@ -713,7 +999,7 @@
     // language=Vue
 
     template: "\n    <div class=\"vue-auth-sms-restore\">\n      <div v-for=\"control in controls\" :key=\"control.id\">\n        <ControlComponent :control=\"control\" @input=\"input\" />\n        <hr />\n      </div>\n      <ButtonComponent :text=\"lang.AUTH_RESTORE_BUTTON\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"runRestore\" />\n    </div>\n\t",
-    computed: _objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['lang'])), ui_vue3_pinia.mapState(restoreStore, ['controls', 'submitProps', 'buttonDisabled', 'input', 'state'])),
+    computed: _objectSpread$6(_objectSpread$6({}, ui_vue3_pinia.mapState(dataStore, ['lang'])), ui_vue3_pinia.mapState(restoreStore, ['controls', 'submitProps', 'buttonDisabled', 'input', 'state'])),
     watch: {
       state: function state(val) {
         if (val === 'restore-info') {
@@ -721,7 +1007,7 @@
         }
       }
     },
-    methods: _objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setTitle', 'setQuery'])), ui_vue3_pinia.mapActions(restoreStore, ['runRestore'])),
+    methods: _objectSpread$6(_objectSpread$6({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setTitle', 'setQuery'])), ui_vue3_pinia.mapActions(restoreStore, ['runRestore'])),
     mounted: function mounted() {
       this.setTitle(this.lang["AUTH_RESTORE_TITLE"]);
       this.setInfo(this.lang.AUTH_RESTORE_MESSAGE);
@@ -732,8 +1018,8 @@
     }
   };
 
-  function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-  function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$3(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$7(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$7(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var CenterCol = {
     data: function data() {
       return {};
@@ -746,8 +1032,8 @@
     // language=Vue
 
     template: "\n    <div class=\"vue-auth-center\">\n\n      <h3 class=\"mt-0\">{{ title }}</h3>\n\n      <hr>\n\n      <MessageComponent v-if=\"info\" type=\"info\" :message=\"info\" :button=\"infoButton\" @clickButton=\"clickInfoButton\" />\n      <hr v-if=\"info && error\">\n      <MessageComponent v-if=\"error\" type=\"error\" :message=\"error\" :button=\"false\" />\n\n      <div class=\"vue-auth-center-body\">\n        <router-view />\n      </div>\n\n      <div v-if=\"$route.fullPath !== '/center-col/change-password-info'\">\n        <hr class=\"hr--line hr--none\" />\n\n        <div class=\"vue-auth-sms-alt\">\n          <div>\n            <ButtonComponent :text=\"lang.AUTH_SMS_CODE_ALT_BUTTON\" :props=\"['medium', 'primary']\" @clickButton=\"clickAltButton\" />\n          </div>\n        </div>\n      </div>\n\n    </div>\n\t",
-    computed: _objectSpread$3(_objectSpread$3({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'info', 'infoButton', 'error', 'title'])), ui_vue3_pinia.mapState(restoreStore, [])),
-    methods: _objectSpread$3(_objectSpread$3({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo'])), {}, {
+    computed: _objectSpread$7(_objectSpread$7({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'info', 'infoButton', 'error', 'title'])), ui_vue3_pinia.mapState(restoreStore, [])),
+    methods: _objectSpread$7(_objectSpread$7({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo'])), {}, {
       clickInfoButton: function clickInfoButton() {
         this.setInfo('');
       },
@@ -757,250 +1043,8 @@
     })
   };
 
-  function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-  function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$4(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-  var Sms = {
-    data: function data() {
-      return {};
-    },
-    components: {
-      ControlComponent: local_vueComponents_controlComponent.ControlComponent,
-      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
-    },
-    // language=Vue
-
-    template: "\n    <div class=\"vue-auth-sms-sms\">\n      <div class=\"vue-auth-sms-sms-form\">\n        <div class=\"vue-auth-sms-sms-form-body\">\n          <div v-for=\"control in controls\" :key=\"control.id\">\n            <ControlComponent :control=\"control\" @input=\"input\" />\n            <hr />\n          </div>\n          <ButtonComponent :text=\"buttonSubmitTimerText || lang.AUTH_SMS_SMS_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"clickSubmit\" />\n        </div>\n      </div>\n    </div>\n\t",
-    computed: _objectSpread$4(_objectSpread$4({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'state', 'infoMessage'])), ui_vue3_pinia.mapState(smsStore, ['controls', 'submitProps', 'buttonDisabled', 'buttonSubmitTimerText'])),
-    watch: {
-      state: function state(val) {
-        if (val === 'code') {
-          this.$router.push('/two-cols/code');
-        }
-      }
-    },
-    methods: _objectSpread$4(_objectSpread$4(_objectSpread$4({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setError', 'setQuery', 'setAltButton', 'setTitle'])), ui_vue3_pinia.mapActions(smsStore, ['input', 'runSend'])), {}, {
-      clickSubmit: function clickSubmit() {
-        this.runSend();
-      }
-    }),
-    mounted: function mounted() {
-      this.setTitle(this.lang["AUTH_SMS_SMS_TITLE"]);
-      this.setAltButton(this.lang["AUTH_SMS_SMS_ALT_BUTTON"]);
-      if (this.infoMessage) {
-        this.setInfo(this.infoMessage);
-      } else {
-        this.setInfo('');
-      }
-      this.setInfoButton(this.lang.AUTH_SMS_INFO_BUTTON);
-      this.setError('');
-      this.setQuery({
-        type: 'sms'
-      });
-    }
-  };
-
-  function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-  function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$5(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-  var Code = {
-    data: function data() {
-      return {};
-    },
-    components: {
-      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
-    },
-    emits: ['openOrnz'],
-    // language=Vue
-
-    template: "\n      <div class=\"vue-auth-sms-code-form\">\n        <div class=\"vue-auth-sms-code-form-body\">\n          <div :class=\"{'vue-auth-sms-code-inputs': true, 'vue-auth-sms-code-inputs--invalid': invalidInputs}\">\n\n            <div :class=\"{'vue-auth-sms-code-inputs-label': true, 'vue-auth-sms-code-inputs-label--disabled': inputs.every(i => i.disabled)}\">{{ lang.AUTH_SMS_CODE_LABEL_INPUTS }}</div>\n            \n            <div class=\"vue-auth-sms-code-inputs-body\" ref=\"inputs\">\n\n              <input v-for=\"(input, index) in inputs\"\n                :key=\"input.id\"\n                :type=\"inputType()\"\n                :class=\"{'vue-auth-sms-code-input': true, 'vue-auth-sms-code-input--disabled': input.disabled}\"\n                v-model=\"this['inputValue'+index]\"\n                @keydown.backspace=\"backspaceInput(input, index)\"\n                @focus=\"focusText()\"\n              />\n\n            </div>\n\n            <div class=\"vue-auth-sms-code-inputs__warning\">{{ error }}</div>\n          </div>\n\n          <div><ButtonComponent :text=\"lang.AUTH_SMS_CODE_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"runCheck\" /></div>\n\n          <div><ButtonComponent v-if=\"timer === 0 || !!timer\" :text=\"buttonTimerText\" :props=\"Object.keys(timerProps)\" :disabled=\"timerDisabled\" @clickButton=\"clickNewCode\" /></div>\n        </div>\n      </div>\n\t",
-    computed: _objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'error'])), ui_vue3_pinia.mapState(codeStore, ['inputs', 'uuid', 'submitProps', 'buttonDisabled', 'buttonTimerText', 'timerDisabled', 'timerProps', 'timer', 'clearInputs', 'invalidInputs'])), {}, {
-      inputValue0: {
-        get: function get() {
-          var index = 0;
-          return this.inputs[index].value;
-        },
-        set: function set(value) {
-          var index = 0;
-          this.changeInputValue({
-            control: this.inputs[index],
-            value: value
-          });
-          var next = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index + 1];
-          if (String(value) && String(value).match(/[0-9]/) && next) {
-            next.focus();
-          }
-        }
-      },
-      inputValue1: {
-        get: function get() {
-          var index = 1;
-          return this.inputs[index].value;
-        },
-        set: function set(value) {
-          var index = 1;
-          this.changeInputValue({
-            control: this.inputs[index],
-            value: value
-          });
-          var next = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index + 1];
-          if (String(value) && String(value).match(/[0-9]/) && next) {
-            next.focus();
-          }
-        }
-      },
-      inputValue2: {
-        get: function get() {
-          var index = 2;
-          return this.inputs[index].value;
-        },
-        set: function set(value) {
-          var index = 2;
-          this.changeInputValue({
-            control: this.inputs[index],
-            value: value
-          });
-          var next = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index + 1];
-          if (String(value) && String(value).match(/[0-9]/) && next) {
-            next.focus();
-          }
-        }
-      },
-      inputValue3: {
-        get: function get() {
-          var index = 3;
-          return this.inputs[index].value;
-        },
-        set: function set(value) {
-          var index = 3;
-          this.changeInputValue({
-            control: this.inputs[index],
-            value: value
-          });
-          var next = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index + 1];
-          if (String(value) && String(value).match(/[0-9]/) && next) {
-            next.focus();
-          }
-        }
-      },
-      inputValue4: {
-        get: function get() {
-          var index = 4;
-          return this.inputs[index].value;
-        },
-        set: function set(value) {
-          var index = 4;
-          this.changeInputValue({
-            control: this.inputs[index],
-            value: value
-          });
-          var next = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index + 1];
-          if (String(value) && String(value).match(/[0-9]/) && next) {
-            next.focus();
-          }
-        }
-      },
-      inputValue5: {
-        get: function get() {
-          var index = 5;
-          return this.inputs[index].value;
-        },
-        set: function set(value) {
-          var index = 5;
-          this.changeInputValue({
-            control: this.inputs[index],
-            value: value
-          });
-          if (String(value)) {
-            this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index].blur();
-          }
-        }
-      }
-    }),
-    watch: {
-      clearInputs: function clearInputs() {
-        this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input").forEach(function (input) {
-          return input.value = '';
-        });
-      }
-    },
-    methods: _objectSpread$5(_objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapActions(dataStore, ['setInfoButton', 'setError', 'setAltButton'])), ui_vue3_pinia.mapActions(smsStore, ['runSend'])), ui_vue3_pinia.mapActions(codeStore, ['changeInputValue', 'runCheck', 'changeButtonProps', 'buttonTimer', 'setInvalidInputs'])), {}, {
-      clickNewCode: function clickNewCode() {
-        this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
-        this.runSend();
-      },
-      backspaceInput: function backspaceInput(input, index) {
-        if (String(input.value).trim() === '') {
-          var prev = this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input")[index - 1];
-          if (prev) {
-            prev.focus();
-          }
-        }
-      },
-      focusText: function focusText() {
-        if (this.invalidInputs) {
-          this.inputs.forEach(function (input) {
-            input.value = '';
-          });
-          this.setInvalidInputs(false);
-          this.setError('');
-          this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
-        }
-      },
-      inputType: function inputType() {
-        if (window.matchMedia('(max-width: 767px)').matches) {
-          return 'number';
-        } else {
-          return 'text';
-        }
-      }
-    }),
-    mounted: function mounted() {
-      this.setTitle(this.lang["AUTH_SMS_CODE_TITLE"]);
-      this.setAltButton(this.lang["AUTH_SMS_CODE_ALT_BUTTON"]);
-      this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
-      this.setInfoButton('');
-    }
-  };
-
-  function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-  function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$6(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-  var Ornz = {
-    data: function data() {
-      return {};
-    },
-    components: {
-      ControlComponent: local_vueComponents_controlComponent.ControlComponent,
-      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
-    },
-    // language=Vue
-
-    template: "\n    <div class=\"vue-auth-sms-ornz-form\">\n      <div class=\"vue-auth-sms-ornz-form-body\">\n        <div v-for=\"control in controls\" :key=\"control.id\">\n          <ControlComponent :control=\"control\" @input=\"input\" />\n          <hr />\n        </div>\n        <ButtonComponent :text=\"lang.AUTH_SMS_ORNZ_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"clickSubmit\" />\n      </div>\n    </div>\n\t",
-    computed: _objectSpread$6(_objectSpread$6({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'infoMessage'])), ui_vue3_pinia.mapState(ornzStore, ['controls', 'submitProps', 'errorORNZ', 'buttonDisabled', 'changeInputValue'])),
-    methods: _objectSpread$6(_objectSpread$6(_objectSpread$6({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setError', 'setTitle', 'setQuery', 'setAltButton'])), ui_vue3_pinia.mapActions(ornzStore, ['changeInputValue', 'runOrnz'])), {}, {
-      input: function input(args) {
-        this.changeInputValue(args);
-      },
-      clickSubmit: function clickSubmit() {
-        this.runOrnz();
-      }
-    }),
-    mounted: function mounted() {
-      this.setTitle(this.lang["AUTH_SMS_ORNZ_TITLE"]);
-      this.setAltButton(this.lang["AUTH_SMS_ORNZ_ALT_BUTTON"]);
-      if (this.infoMessage) {
-        this.setInfo(this.infoMessage);
-      } else {
-        this.setInfo('');
-      }
-      this.setInfoButton(this.lang.AUTH_SMS_INFO_BUTTON);
-      this.setError('');
-      this.setQuery({
-        type: 'ornz'
-      });
-    }
-  };
-
-  function ownKeys$7(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-  function _objectSpread$7(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$7(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$7(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$8(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var RestoreInfo = {
     data: function data() {
       return {};
@@ -1011,8 +1055,8 @@
     // language=Vue
 
     template: "\n    <div class=\"vue-auth-sms-restore-info\">\n      <ButtonComponent :text=\"lang.AUTH_RESTORE_INFO_BUTTON\" :props=\"['large', 'more']\" @clickButton=\"clickButton\" />\n    </div>\n\t",
-    computed: _objectSpread$7(_objectSpread$7({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'info'])), ui_vue3_pinia.mapState(restoreInfoStore, ['email'])),
-    methods: _objectSpread$7(_objectSpread$7({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setTitle', 'setError'])), {}, {
+    computed: _objectSpread$8(_objectSpread$8({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'info'])), ui_vue3_pinia.mapState(restoreInfoStore, ['email'])),
+    methods: _objectSpread$8(_objectSpread$8({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setTitle', 'setError'])), {}, {
       clickButton: function clickButton() {
         this.$router.push('/two-cols/sms');
         this.setInfo('');
@@ -1025,8 +1069,8 @@
     }
   };
 
-  function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-  function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$8(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$9(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var ChangePassword = {
     data: function data() {
       return {
@@ -1041,7 +1085,7 @@
     // language=Vue
 
     template: "\n    <div class=\"vue-auth-sms-restore\">\n      <div v-for=\"control in controls\" :key=\"control.id\">\n        <ControlComponent :control=\"control\" @input=\"input\" />\n        <hr />\n      </div>\n      <ButtonComponent :text=\"lang.AUTH_CHANGE_PASSWORD_BUTTON\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"clickButton\" />\n    </div>\n\t",
-    computed: _objectSpread$8(_objectSpread$8({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'error'])), ui_vue3_pinia.mapState(changePasswordStore, ['controls', 'submitProps', 'buttonDisabled', 'state'])),
+    computed: _objectSpread$9(_objectSpread$9({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'error'])), ui_vue3_pinia.mapState(changePasswordStore, ['controls', 'submitProps', 'buttonDisabled', 'state'])),
     watch: {
       state: function state(val) {
         if (val === 'change-password-info') {
@@ -1049,7 +1093,7 @@
         }
       }
     },
-    methods: _objectSpread$8(_objectSpread$8(_objectSpread$8({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setTitle', 'setError', 'setQuery'])), ui_vue3_pinia.mapActions(changePasswordStore, ['runChange', 'input'])), {}, {
+    methods: _objectSpread$9(_objectSpread$9(_objectSpread$9({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setTitle', 'setError', 'setQuery'])), ui_vue3_pinia.mapActions(changePasswordStore, ['runChange', 'input'])), {}, {
       clickButton: function clickButton() {
         this.runChange({
           login: this.login,
@@ -1085,8 +1129,8 @@
     }
   };
 
-  function ownKeys$9(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-  function _objectSpread$9(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$9(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$9(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  function ownKeys$a(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$a(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$a(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$a(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var ChangePasswordInfo = {
     data: function data() {
       return {};
@@ -1097,8 +1141,8 @@
     // language=Vue
 
     template: "\n    <div class=\"vue-auth-sms-restore\" style=\"text-align: center;\">\n      <ButtonComponent :text=\"lang.AUTH_SMS_CODE_ALT_BUTTON\" :props=\"['large', 'primary']\" @clickButton=\"clickButton\" />\n    </div>\n\t",
-    computed: _objectSpread$9({}, ui_vue3_pinia.mapState(dataStore, ['lang'])),
-    methods: _objectSpread$9(_objectSpread$9({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setTitle', 'setError', 'setQuery'])), {}, {
+    computed: _objectSpread$a({}, ui_vue3_pinia.mapState(dataStore, ['lang'])),
+    methods: _objectSpread$a(_objectSpread$a({}, ui_vue3_pinia.mapActions(dataStore, ['setInfo', 'setInfoButton', 'setTitle', 'setError', 'setQuery'])), {}, {
       clickButton: function clickButton() {
         this.$router.push('/two-cols/ornz');
       }
@@ -1188,7 +1232,9 @@
         var self = this;
         babelHelpers.classPrivateFieldSet(this, _application, ui_vue3.BitrixVue.createApp({
           name: 'Table Application',
-          components: {},
+          components: {
+            Application: Application
+          },
           template: '<router-view />',
           mounted: function mounted() {
             dataStore().sessid = self.options.sessid || '';

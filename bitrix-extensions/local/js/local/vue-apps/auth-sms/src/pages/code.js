@@ -181,7 +181,7 @@ export const Code = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['setInfoButton', 'setError', 'setAltButton']),
+    ...mapActions(dataStore, ['setInfoButton', 'setError']),
     ...mapActions(smsStore, ['runSend']),
     ...mapActions(codeStore, [
       'changeInputValue',
@@ -225,8 +225,6 @@ export const Code = {
     },
   },
   mounted() {
-    this.setTitle(this.lang[`AUTH_SMS_CODE_TITLE`]);
-    this.setAltButton(this.lang[`AUTH_SMS_CODE_ALT_BUTTON`]);
     this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
     this.setInfoButton('');
   },

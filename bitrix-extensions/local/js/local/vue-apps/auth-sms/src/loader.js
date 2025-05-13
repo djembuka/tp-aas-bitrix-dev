@@ -2,6 +2,8 @@ import { BitrixVue } from 'ui.vue3';
 import { createRouter, createMemoryHistory } from 'ui.vue3.router';
 import { createPinia, setActivePinia } from 'ui.vue3.pinia';
 
+import { Application } from './components/application';
+
 import { dataStore } from './stores/data';
 import { smsStore } from './stores/sms';
 import { ornzStore } from './stores/ornz';
@@ -19,7 +21,7 @@ import { RestoreInfo } from './pages/restore-info';
 import { ChangePassword } from './pages/change-password';
 import { ChangePasswordInfo } from './pages/change-password-info';
 
-import './style/layout.css';
+import './style/auth-sms.css';
 
 export class AuthSMS {
   #store;
@@ -93,7 +95,9 @@ export class AuthSMS {
 
     this.#application = BitrixVue.createApp({
       name: 'Table Application',
-      components: {},
+      components: {
+        Application,
+      },
       template: '<router-view />',
       mounted() {
         dataStore().sessid = self.options.sessid || '';

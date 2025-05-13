@@ -31,23 +31,14 @@ export const Application = {
       'signedParameters',
       'lang',
       'info',
-      'state',
       'error',
       'errorButton',
     ]),
     ...mapState(smsStore, ['errorButton']),
     ...mapState(codeStore, ['uuid']),
-    title() {
-      return this.lang[`AUTH_SMS_${String(this.state).toUpperCase()}_TITLE`];
-    },
-    altButton() {
-      return this.lang[
-        `AUTH_SMS_${String(this.state).toUpperCase()}_ALT_BUTTON`
-      ];
-    },
   },
   methods: {
-    ...mapActions(dataStore, ['changeState', 'setInfo']),
+    ...mapActions(dataStore, ['setInfo']),
     clickInfoButton() {
       this.setInfo('');
     },

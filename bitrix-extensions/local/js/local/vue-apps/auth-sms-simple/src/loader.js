@@ -30,17 +30,7 @@ export class AuthSMSSimple {
           component: TwoCols,
           children: [
             {
-              path: '/',
-              component: Sms,
-            },
-          ],
-        },
-        {
-          path: '/two-cols',
-          component: TwoCols,
-          children: [
-            {
-              path: 'sms',
+              path: '',
               component: Sms,
             },
             {
@@ -67,6 +57,14 @@ export class AuthSMSSimple {
       mounted() {
         dataStore().sessid = self.options.sessid || '';
         dataStore().signedParameters = self.options.signedParameters || '';
+        dataStore().heading =
+          self.options.heading ||
+          this.$Bitrix.Loc.getMessage('AUTH_SMS_SIMPLE_TITLE') ||
+          '';
+        dataStore().text =
+          self.options.text ||
+          this.$Bitrix.Loc.getMessage('AUTH_SMS_SIMPLE_TEXT') ||
+          '';
 
         dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH');
 
@@ -78,18 +76,6 @@ export class AuthSMSSimple {
         smsStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
 
         codeStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_CODE');
-
-        //query
-        const urlQuery = self.parseQuery(window.location.search);
-
-        if (urlQuery.type) {
-          switch (urlQuery.type) {
-            case 'sms':
-              dataStore().state = 'sms';
-              this.$router.push('/two-cols/sms');
-              break;
-          }
-        }
       },
     });
 

@@ -14,7 +14,7 @@ export const smsStore = defineStore('sms', {
         label: '',
         value: '',
         required: true,
-        disabled: true,
+        disabled: false,
       },
       {
         property: 'checkbox',
@@ -27,6 +27,7 @@ export const smsStore = defineStore('sms', {
       },
     ],
     submitProps: { large: true, secondary: true, wide: true },
+    deleteProps: { icon: true, delete: true, medium: true },
     timerEnd: 0,
     timer: 0,
     telIsFilled: false,
@@ -84,6 +85,15 @@ export const smsStore = defineStore('sms', {
         }
       });
     },
+    changeDeleteProps(obj) {
+      Object.keys(obj).forEach((key) => {
+        if (obj[key]) {
+          this.deleteProps[key] = true;
+        } else {
+          delete this.deleteProps[key];
+        }
+      });
+    },
     input({ control, value }) {
       control.value = value;
       if (control.property === 'tel') {
@@ -92,13 +102,16 @@ export const smsStore = defineStore('sms', {
     },
     runSend() {
       this.changeSubmitProps({ 'load-circle': true });
+      const phone = this.controls[0].value;
 
       if (window.BX) {
         BX.ajax
-          .runAction('twinpx:authorization.api.send', {
+          .runComponentAction('twinpx:profile.edit', 'add', {
+            mode: 'class',
             data: {
-              phone: this.controls[0].value,
+              phone,
             },
+            signedParameters: dataStore().signedParameters,
           })
           .then(
             (response) => {
@@ -169,6 +182,27 @@ export const smsStore = defineStore('sms', {
           );
       }
     },
-    runDelete() {},
+    runDelete() {
+      this.changeDeleteProps({ 'load-circle': true });
+      const telControl = this.controls.find((c) => c.property === 'tel');
+      const phone = telControl.value;
+
+      BX.ajax
+        .runComponentAction('twinpx:profile.edit', 'remove', {
+          mode: 'class',
+          data: {
+            phone,
+          },
+          signedParameters: dataStore().signedParameters,
+        })
+        .then((response) => {
+          if (response.status === 'success' && response.data === true) {
+            this.changeDeleteProps({ 'load-circle': false });
+            this.setTelIsFilled(false);
+            telControl.value = '';
+            telControl.disabled = false;
+          }
+        });
+    },
   },
 });

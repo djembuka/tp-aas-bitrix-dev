@@ -24,9 +24,9 @@ export const TwoCols = {
   template: `
     <div class="vue-auth-sms">
 
-      <h3 class="mt-0">{{ title }}</h3>
+      <h3 class="mt-0">{{ heading }}</h3>
 
-      <p>{{ text }}</p>
+      <div v-html="text"></div>
 
       <MessageComponent v-if="error" type="error" :message="error" :button="errorButton" @clickButton="clickErrorButton" />
 
@@ -40,6 +40,8 @@ export const TwoCols = {
     ...mapState(dataStore, [
       'sessid',
       'signedParameters',
+      'heading',
+      'text',
       'lang',
       'info',
       'infoButton',
@@ -49,12 +51,6 @@ export const TwoCols = {
     ]),
     ...mapState(smsStore, ['errorButton']),
     ...mapState(codeStore, ['uuid']),
-    title() {
-      return this.lang[`AUTH_SMS_SIMPLE_TITLE`];
-    },
-    text() {
-      return this.lang[`AUTH_SMS_SIMPLE_TEXT`];
-    },
     altButton() {
       return this.lang[
         `AUTH_SMS_${String(this.state).toUpperCase()}_ALT_BUTTON`

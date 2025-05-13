@@ -25,7 +25,7 @@ export const Sms = {
           <div class="vue-auth-sms-sms__buttons">
             <ButtonComponent text="Изменить" :props="['secondary', 'medium']" @clickButton="clickChange" />
 
-            <ButtonComponent text="Delete" :props="['icon','delete','medium']" @clickButton="clickDelete" />
+            <ButtonComponent text="Delete" :props="Object.keys(deleteProps)" @clickButton="clickDelete" />
           </div>
         </div>
         <div v-else>
@@ -44,6 +44,7 @@ export const Sms = {
     ...mapState(smsStore, [
       'controls',
       'submitProps',
+      'deleteProps',
       'buttonDisabled',
       'buttonSubmitTimerText',
       'telIsFilled',
@@ -52,7 +53,7 @@ export const Sms = {
   watch: {
     state(val) {
       if (val === 'code') {
-        this.$router.push('/two-cols/code');
+        this.$router.push('/code');
       }
     },
   },
@@ -61,6 +62,7 @@ export const Sms = {
     ...mapActions(smsStore, [
       'input',
       'runSend',
+      'runUpdate',
       'runDelete',
       'changeTel',
       'setTelIsFilled',
@@ -86,6 +88,9 @@ export const Sms = {
     const telControl = this.controls.find((c) => c.property === 'tel');
     if (telControl && telControl.value) {
       this.setTelIsFilled(true);
+      this.controls.forEach((c) => {
+        c.disabled = true;
+      });
     }
   },
 };
