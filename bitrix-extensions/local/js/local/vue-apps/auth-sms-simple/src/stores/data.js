@@ -56,18 +56,5 @@ export const dataStore = defineStore('data', {
       }
       return '?' + result.join('&');
     },
-    setQuery(queryObject) {
-      const obj = {
-        ...this.parseQuery(window.location.search),
-        ...queryObject,
-      };
-
-      const url = new URL(location);
-      Object.keys(obj).forEach((key) => {
-        url.searchParams.set(key, obj[key]);
-      });
-
-      history.pushState({}, '', url);
-    },
   },
 });

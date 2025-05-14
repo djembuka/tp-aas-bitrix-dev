@@ -47,6 +47,9 @@ export const codeStore = defineStore('code', {
     },
   },
   actions: {
+    invertClearInputs() {
+      this.clearInputs = !this.clearInputs;
+    },
     setInvalidInputs(val) {
       this.invalidInputs = val;
     },
@@ -94,13 +97,14 @@ export const codeStore = defineStore('code', {
             (response) => {
               if (response.status === 'success' && response.data === true) {
                 this.changeButtonProps({ 'load-circle': false }, 'submit');
+                this.invertClearInputs();
+                this.inputs.forEach((input) => {
+                  input.disabled = true;
+                  input.value = '';
+                });
                 dataStore().changeState('sms');
                 smsStore().setTelIsFilled(true);
-
-                const telControl = smsStore().controls.find(
-                  (c) => c.property === 'tel'
-                );
-                telControl.disabled = true;
+                smsStore().changeInterface('filled');
               }
             },
             (response) => {
@@ -109,7 +113,7 @@ export const codeStore = defineStore('code', {
               dataStore().error = response.errors[0].message;
 
               if (String(response.errors[0].code) === String(0)) {
-                this.clearInputs = !this.clearInputs;
+                this.invertClearInputs();
                 this.inputs.forEach((input) => {
                   input.disabled = true;
                   input.value = '';
@@ -121,7 +125,7 @@ export const codeStore = defineStore('code', {
                 //disabled inputs
                 //disabled button
                 dataStore().errorButton = true;
-                this.clearInputs = !this.clearInputs;
+                this.invertClearInputs();
                 this.inputs.forEach((input) => {
                   input.disabled = true;
                   input.value = '';

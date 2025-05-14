@@ -6,6 +6,7 @@ export const smsStore = defineStore('sms', {
   state: () => ({
     lang: {},
     state: 'A1',
+    interface: 'add',
     controls: [
       {
         property: 'tel',
@@ -59,6 +60,33 @@ export const smsStore = defineStore('sms', {
     },
   },
   actions: {
+    changeInterface(value) {
+      this.interface = value;
+
+      const tel = this.controls.find((c) => c.property === 'tel');
+      const checkbox = this.controls.find((c) => c.property === 'checkbox');
+
+      switch (value) {
+        case 'add':
+          this.controls.forEach((c) => {
+            c.disabled = false;
+          });
+          tel.value = '';
+          checkbox.value = false;
+          break;
+        case 'filled':
+          this.controls.forEach((c) => {
+            c.disabled = true;
+          });
+          break;
+        case 'change':
+          this.controls.forEach((c) => {
+            c.disabled = false;
+          });
+          checkbox.value = false;
+          break;
+      }
+    },
     setTelIsFilled(value) {
       this.telIsFilled = value;
     },
@@ -102,11 +130,14 @@ export const smsStore = defineStore('sms', {
     },
     runSend() {
       this.changeSubmitProps({ 'load-circle': true });
-      const phone = this.controls[0].value;
+      const telControl = this.controls.find((c) => c.property === 'tel');
+      const phone = telControl.value;
+
+      const method = this.interface === 'add' ? 'add' : 'update';
 
       if (window.BX) {
         BX.ajax
-          .runComponentAction('twinpx:profile.edit', 'add', {
+          .runComponentAction('twinpx:profile.edit', method, {
             mode: 'class',
             data: {
               phone,
@@ -119,9 +150,9 @@ export const smsStore = defineStore('sms', {
               dataStore().setError('');
 
               //show code
-              this.controls[0].focusWatcher = false;
-              this.controls[0].setInvalidWatcher = false;
-              this.controls[0].regexp_description = '';
+              telControl.focusWatcher = false;
+              telControl.setInvalidWatcher = false;
+              telControl.regexp_description = '';
               dataStore().setErrorButton('');
 
               codeStore().uuid = response.data.uuid;
@@ -133,7 +164,7 @@ export const smsStore = defineStore('sms', {
 
               dataStore().changeState('code');
 
-              const tel = this.controls[0].value.split('-');
+              const tel = telControl.value.split('-');
               dataStore().setInfo(
                 `${
                   dataStore().lang.AUTH_SMS_CODE_INFO_MESSAGE
@@ -148,7 +179,7 @@ export const smsStore = defineStore('sms', {
               if (String(response.errors[0].code) === String(1001)) {
                 //B1
                 this.state = 'B1';
-                this.controls[0].disabled = true;
+                telControl.disabled = true;
                 dataStore().setErrorButton(this.lang.AUTH_SMS_SMS_ERROR_BUTTON);
               } else if (String(response.errors[0].code) === String(1002)) {
                 //C1
@@ -157,30 +188,33 @@ export const smsStore = defineStore('sms', {
               } else if (String(response.errors[0].code) === String(1003)) {
                 //A2
                 this.state = 'A2';
-                this.controls[0].focusWatcher = true;
-                this.controls[0].setInvalidWatcher = true;
-                this.controls[0].regexp_description =
+                telControl.focusWatcher = true;
+                telControl.setInvalidWatcher = true;
+                telControl.regexp_description =
                   response.errors[0].message || '';
               } else if (String(response.errors[0].code) === String(1004)) {
                 //B2
               } else if (String(response.errors[0].code) === String(1005)) {
                 //A3
                 this.state = 'A3';
-                this.controls[0].focusWatcher = true;
-                this.controls[0].setInvalidWatcher = true;
-                this.controls[0].regexp_description =
+                telControl.focusWatcher = true;
+                telControl.setInvalidWatcher = true;
+                telControl.regexp_description =
                   response.errors[0].message || '';
               } else if (String(response.errors[0].code) === String(1006)) {
                 //A3
                 this.state = 'A3';
-                this.controls[0].focusWatcher = true;
-                this.controls[0].setInvalidWatcher = true;
-                this.controls[0].regexp_description =
+                telControl.focusWatcher = true;
+                telControl.setInvalidWatcher = true;
+                telControl.regexp_description =
                   response.errors[0].message || '';
               }
             }
           );
       }
+    },
+    runUpdate() {
+      this.runSend();
     },
     runDelete() {
       this.changeDeleteProps({ 'load-circle': true });
@@ -199,8 +233,7 @@ export const smsStore = defineStore('sms', {
           if (response.status === 'success' && response.data === true) {
             this.changeDeleteProps({ 'load-circle': false });
             this.setTelIsFilled(false);
-            telControl.value = '';
-            telControl.disabled = false;
+            this.changeInterface('add');
           }
         });
     },

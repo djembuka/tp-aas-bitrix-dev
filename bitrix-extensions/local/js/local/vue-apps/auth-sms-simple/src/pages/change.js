@@ -20,7 +20,7 @@ export const Sms = {
     <div class="vue-auth-sms-sms">
 
       <div v-for="control in controls" :key="control.id">
-        <div v-if="control.property === 'tel' && interface === 'filled'" class="vue-auth-sms-sms__tel">
+        <div v-if="control.property === 'tel'" class="vue-auth-sms-sms__tel">
           <ControlComponent :control="control" @input="input" />
           <div class="vue-auth-sms-sms__buttons">
             <ButtonComponent text="Изменить" :props="['secondary', 'medium']" @clickButton="clickChange" />
@@ -42,7 +42,6 @@ export const Sms = {
   computed: {
     ...mapState(dataStore, ['lang', 'state']),
     ...mapState(smsStore, [
-      'interface',
       'controls',
       'submitProps',
       'deleteProps',
@@ -67,17 +66,15 @@ export const Sms = {
       'runDelete',
       'changeTel',
       'setTelIsFilled',
-      'changeInterface',
     ]),
     clickSubmit() {
-      if (this.interface === 'add') {
-        this.runSend();
-      } else if (this.interface === 'change') {
-        this.runUpdate();
-      }
+      this.runSend();
     },
     clickChange() {
-      this.changeInterface('change');
+      const telControl = this.controls.find((c) => c.property === 'tel');
+      if (telControl) {
+        telControl.disabled = false;
+      }
       this.setTelIsFilled(false);
     },
     clickDelete() {
@@ -86,11 +83,14 @@ export const Sms = {
   },
   mounted() {
     this.setError('');
+    this.setQuery({ type: 'sms' });
     // if tel
     const telControl = this.controls.find((c) => c.property === 'tel');
     if (telControl && telControl.value) {
       this.setTelIsFilled(true);
-      this.changeInterface('filled');
+      this.controls.forEach((c) => {
+        c.disabled = true;
+      });
     }
   },
 };

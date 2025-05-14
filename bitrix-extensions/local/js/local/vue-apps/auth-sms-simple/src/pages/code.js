@@ -195,6 +195,7 @@ export const Code = {
     ...mapActions(dataStore, ['setInfoButton', 'setError']),
     ...mapActions(smsStore, ['runSend']),
     ...mapActions(codeStore, [
+      'invertClearInputs',
       'changeInputValue',
       'runCheck',
       'changeButtonProps',
