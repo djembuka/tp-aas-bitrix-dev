@@ -20,6 +20,7 @@ export const Application = {
   data() {
     return {
       selectedPrev: 0,
+      inputTimeoutId: null,
     };
   },
   components: {
@@ -480,29 +481,33 @@ export const Application = {
         checked,
       });
 
-      const predefinedFilter = this.predefinedActive
-        ? this.predefinedActive.id
-        : undefined;
+      clearTimeout(this.inputTimeoutId);
 
-      this.runAppeals(
-        {
-          mode: 'class',
-          data: {
-            signedParameters: this.signedParameters,
-            userid: this.userid,
-            sessid: this.sessid,
-            profileid: this.defaultProfile.id,
-            startIndex: 0,
-            maxCountPerRequest: this.maxCountPerRequest,
-            predefinedFilter,
-            filters: this.filters,
-            columnSort: this.sort.columnSort,
-            sortType: this.sort.sortType,
+      this.inputTimeoutId = setTimeout(() => {
+        const predefinedFilter = this.predefinedActive
+          ? this.predefinedActive.id
+          : undefined;
+
+        this.runAppeals(
+          {
+            mode: 'class',
+            data: {
+              signedParameters: this.signedParameters,
+              userid: this.userid,
+              sessid: this.sessid,
+              profileid: this.defaultProfile.id,
+              startIndex: 0,
+              maxCountPerRequest: this.maxCountPerRequest,
+              predefinedFilter,
+              filters: this.filters,
+              columnSort: this.sort.columnSort,
+              sortType: this.sort.sortType,
+            },
           },
-        },
-        null,
-        this.increaseAppealsCounter()
-      );
+          null,
+          this.increaseAppealsCounter()
+        );
+      }, 300);
     },
     hints({ type, control, action, value }) {
       switch (type) {
