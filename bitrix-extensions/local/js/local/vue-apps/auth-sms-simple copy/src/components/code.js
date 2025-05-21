@@ -1,9 +1,9 @@
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
 import { codeStore } from '../stores/code.js';
-import { smsStore } from '../stores/auth.js';
+import { smsStore } from '../stores/sms.js';
 
-import '../style/code.css';
+import './code.css';
 
 import { ButtonComponent } from 'local.vue-components.button-component';
 
@@ -19,8 +19,6 @@ export const Code = {
 
   template: `
       <div class="vue-auth-sms-code-form">
-        <div class="vue-auth-sms-code-form-body">
-
           <div :class="{'vue-auth-sms-code-inputs': true, 'vue-auth-sms-code-inputs--invalid': invalidInputs}">
 
             <div :class="{'vue-auth-sms-code-inputs-label': true, 'vue-auth-sms-code-inputs-label--disabled': inputs.every(i => i.disabled)}">{{ lang.AUTH_SMS_CODE_LABEL_INPUTS }}</div>
@@ -29,7 +27,7 @@ export const Code = {
 
               <input v-for="(input, index) in inputs"
                 :key="input.id"
-                :type="inputType()"
+                type="text"
                 :class="{'vue-auth-sms-code-input': true, 'vue-auth-sms-code-input--disabled': input.disabled}"
                 v-model="this['inputValue'+index]"
                 @keydown.backspace="backspaceInput(input, index)"
@@ -49,11 +47,10 @@ export const Code = {
             <ButtonComponent v-if="timer === 0 || !!timer" :text="buttonTimerText" :props="Object.keys(timerProps)" :disabled="timerDisabled" @clickButton="clickNewCode" />
           </div>
 
-        </div>
       </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang', 'state', 'error']),
+    ...mapState(dataStore, ['lang', 'error']),
     ...mapState(codeStore, [
       'inputs',
       'uuid',
@@ -73,14 +70,16 @@ export const Code = {
       },
       set(value) {
         const index = 0;
-
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
+        }
         this.changeInputValue({ control: this.inputs[index], value });
 
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (String(value) && String(value).match(/[0-9]/) && next) {
+        if (value && next) {
           next.focus();
         }
       },
@@ -92,14 +91,16 @@ export const Code = {
       },
       set(value) {
         const index = 1;
-
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
+        }
         this.changeInputValue({ control: this.inputs[index], value });
 
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (String(value) && String(value).match(/[0-9]/) && next) {
+        if (value && next) {
           next.focus();
         }
       },
@@ -111,14 +112,16 @@ export const Code = {
       },
       set(value) {
         const index = 2;
-
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
+        }
         this.changeInputValue({ control: this.inputs[index], value });
 
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (String(value) && String(value).match(/[0-9]/) && next) {
+        if (value && next) {
           next.focus();
         }
       },
@@ -130,14 +133,16 @@ export const Code = {
       },
       set(value) {
         const index = 3;
-
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
+        }
         this.changeInputValue({ control: this.inputs[index], value });
 
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (String(value) && String(value).match(/[0-9]/) && next) {
+        if (value && next) {
           next.focus();
         }
       },
@@ -149,14 +154,16 @@ export const Code = {
       },
       set(value) {
         const index = 4;
-
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
+        }
         this.changeInputValue({ control: this.inputs[index], value });
 
         const next = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (String(value) && String(value).match(/[0-9]/) && next) {
+        if (value && next) {
           next.focus();
         }
       },
@@ -168,14 +175,10 @@ export const Code = {
       },
       set(value) {
         const index = 5;
-
-        this.changeInputValue({ control: this.inputs[index], value });
-
-        if (String(value)) {
-          this.$refs.inputs
-            .querySelectorAll(`.vue-auth-sms-code-input`)
-            [index].blur();
+        if (value.length > 1) {
+          value = value.substring(value.length - 1);
         }
+        this.changeInputValue({ control: this.inputs[index], value });
       },
     },
   },
@@ -185,17 +188,11 @@ export const Code = {
         .querySelectorAll(`.vue-auth-sms-code-input`)
         .forEach((input) => (input.value = ''));
     },
-    state(val) {
-      if (val === 'sms') {
-        this.$router.push('/');
-      }
-    },
   },
   methods: {
-    ...mapActions(dataStore, ['setInfoButton', 'setError']),
+    ...mapActions(dataStore, ['changeState', 'setError']),
     ...mapActions(smsStore, ['runSend']),
     ...mapActions(codeStore, [
-      'invertClearInputs',
       'changeInputValue',
       'runCheck',
       'changeButtonProps',
@@ -203,11 +200,10 @@ export const Code = {
       'setInvalidInputs',
     ]),
     clickNewCode() {
-      this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
       this.runSend();
     },
     backspaceInput(input, index) {
-      if (String(input.value).trim() === '') {
+      if (input.value.trim() === '') {
         const prev = this.$refs.inputs.querySelectorAll(
           `.vue-auth-sms-code-input`
         )[index - 1];
@@ -228,16 +224,8 @@ export const Code = {
         this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
       }
     },
-    inputType() {
-      if (window.matchMedia('(max-width: 767px)').matches) {
-        return 'number';
-      } else {
-        return 'text';
-      }
-    },
   },
   mounted() {
     this.$refs.inputs.querySelector('.vue-auth-sms-code-input').focus();
-    this.setInfoButton('');
   },
 };

@@ -1,0 +1,16 @@
+.vue-auth-sms-sms__tel {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.vue-auth-sms-sms__tel .twpx-control-component {
+  width: 100%;
+}
+.vue-auth-sms-sms__buttons {
+  display: flex;
+  gap: 16px;
+}
+hr.hr--none {
+  padding: 0;
+  margin: 0;
+}

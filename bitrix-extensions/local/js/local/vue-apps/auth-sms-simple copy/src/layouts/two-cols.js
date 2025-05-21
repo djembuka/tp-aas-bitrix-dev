@@ -1,16 +1,15 @@
-import '../style/application.css';
-import { Sms } from '../pages/auth.js';
+import { Sms } from '../pages/sms.js';
 import { Code } from '../pages/code.js';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
-import { dataStore } from '../stores/data';
-import { smsStore } from '../stores/auth.js';
-import { codeStore } from '../stores/code';
+import { dataStore } from '../stores/data.js';
+import { smsStore } from '../stores/sms.js';
+import { codeStore } from '../stores/code.js';
 
 import { MessageComponent } from 'local.vue-components.message-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
 
-export const Application = {
+export const TwoCols = {
   data() {
     return {};
   },
@@ -25,12 +24,15 @@ export const Application = {
   template: `
     <div class="vue-auth-sms">
 
-      <h3 class="mt-0">{{ title }}</h3>
+      <h3 class="mt-0">{{ heading }}</h3>
+
+      <div v-html="text"></div>
 
       <MessageComponent v-if="error" type="error" :message="error" :button="errorButton" @clickButton="clickErrorButton" />
 
-      <Sms v-if="state === 'sms'" />
-      <Code v-else-if="state === 'code'" />
+      <hr v-if="error" />
+
+      <router-view />
       
     </div>
 	`,
@@ -38,17 +40,17 @@ export const Application = {
     ...mapState(dataStore, [
       'sessid',
       'signedParameters',
+      'heading',
+      'text',
       'lang',
       'info',
+      'infoButton',
       'state',
       'error',
       'errorButton',
     ]),
     ...mapState(smsStore, ['errorButton']),
     ...mapState(codeStore, ['uuid']),
-    title() {
-      return this.lang[`AUTH_SMS_${String(this.state).toUpperCase()}_TITLE`];
-    },
     altButton() {
       return this.lang[
         `AUTH_SMS_${String(this.state).toUpperCase()}_ALT_BUTTON`
@@ -56,7 +58,12 @@ export const Application = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['changeState', 'setInfo']),
+    ...mapActions(dataStore, ['changeState', 'setInfo', 'setInfoMessage']),
+    clickInfoButton() {
+      this.setInfo('');
+      this.setInfoMessage('');
+    },
+    clickErrorButton() {},
   },
   mounted() {},
 };

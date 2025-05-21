@@ -1,7 +1,7 @@
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
 import { codeStore } from '../stores/code.js';
-import { smsStore } from '../stores/auth.js';
+import { smsStore } from '../stores/sms.js';
 
 import '../style/code.css';
 

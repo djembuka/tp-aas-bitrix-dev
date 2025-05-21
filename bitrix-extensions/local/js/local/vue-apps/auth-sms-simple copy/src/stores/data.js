@@ -5,7 +5,7 @@ export const dataStore = defineStore('data', {
     sessid: '',
     signedParameters: '',
     lang: {},
-    state: 'auth',
+    state: 'sms',
     title: '',
     info: '',
     infoMessage: '',

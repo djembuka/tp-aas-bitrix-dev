@@ -1,9 +1,11 @@
-import { Sms } from '../pages/sms.js';
+import { Auth } from '../pages/auth.js';
 import { Code } from '../pages/code.js';
+import { Edit } from '../pages/edit.js';
+import { Info } from '../pages/info.js';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
-import { smsStore } from '../stores/sms.js';
+import { authStore } from '../stores/auth.js';
 import { codeStore } from '../stores/code.js';
 
 import { MessageComponent } from 'local.vue-components.message-component';
@@ -14,8 +16,10 @@ export const TwoCols = {
     return {};
   },
   components: {
-    Sms,
+    Auth,
     Code,
+    Edit,
+    Info,
     MessageComponent,
     ButtonComponent,
   },
@@ -49,7 +53,7 @@ export const TwoCols = {
       'error',
       'errorButton',
     ]),
-    ...mapState(smsStore, ['errorButton']),
+    ...mapState(authStore, ['errorButton']),
     ...mapState(codeStore, ['uuid']),
     altButton() {
       return this.lang[
@@ -59,10 +63,6 @@ export const TwoCols = {
   },
   methods: {
     ...mapActions(dataStore, ['changeState', 'setInfo', 'setInfoMessage']),
-    clickInfoButton() {
-      this.setInfo('');
-      this.setInfoMessage('');
-    },
     clickErrorButton() {},
   },
   mounted() {},

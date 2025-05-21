@@ -1,6 +1,6 @@
 import { defineStore } from 'ui.vue3.pinia';
 import { dataStore } from './data.js';
-import { authStore } from './auth.js';
+import { smsStore } from './sms.js';
 
 export const codeStore = defineStore('code', {
   state: () => ({
@@ -103,8 +103,8 @@ export const codeStore = defineStore('code', {
                   input.value = '';
                 });
                 dataStore().changeState('sms');
-                authStore().setTelIsFilled(true);
-                authStore().changeInterface('filled');
+                smsStore().setTelIsFilled(true);
+                smsStore().changeInterface('filled');
               }
             },
             (response) => {

@@ -5,16 +5,12 @@ import { createPinia, setActivePinia } from 'ui.vue3.pinia';
 import { Application } from './components/application';
 
 import { dataStore } from './stores/data';
-import { authStore } from './stores/auth';
+import { smsStore } from './stores/sms';
 import { codeStore } from './stores/code';
-import { editStore } from './stores/edit';
-import { infoStore } from './stores/info';
 
 import { TwoCols } from './layouts/two-cols';
-import { Auth } from './pages/auth';
+import { Sms } from './pages/sms';
 import { Code } from './pages/code';
-import { Edit } from './pages/edit';
-import { Info } from './pages/info';
 
 import './style/auth-sms.css';
 
@@ -35,19 +31,11 @@ export class AuthSMSSimple {
           children: [
             {
               path: '',
-              component: Auth,
+              component: Sms,
             },
             {
               path: 'code',
               component: Code,
-            },
-            {
-              path: 'edit',
-              component: Edit,
-            },
-            {
-              path: 'info',
-              component: Info,
             },
           ],
         },
@@ -80,19 +68,14 @@ export class AuthSMSSimple {
 
         dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH');
 
-        authStore().controls[0].label = this.$Bitrix.Loc.getMessage(
+        smsStore().controls[0].label = this.$Bitrix.Loc.getMessage(
           'AUTH_SMS_SMS_LABEL_TEL'
         );
-        authStore().controls[0].value = self.options.tel || '';
-        authStore().controls[1].label = self.options.checkboxLabel || '';
-        authStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
+        smsStore().controls[0].value = self.options.tel || '';
+        smsStore().controls[1].label = self.options.checkboxLabel || '';
+        smsStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
 
         codeStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_CODE');
-
-        infoStore().heading =
-          self.options.heading ||
-          this.$Bitrix.Loc.getMessage('AUTH_SMS_SIMPLE_INFO_TITLE') ||
-          '';
       },
     });
 
