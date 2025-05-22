@@ -118,14 +118,51 @@ export const formStore = defineStore('form', {
     },
 
     //hint
+    // async runHintsAction({ control, action }) {
+    //   if (control.value && typeof control.value === 'string') {
+    //     const sign = action.indexOf('?') < 0 ? '?' : '&';
+    //     action = `${action}${sign}s=${control.value}`;
+    //   }
+    //   const response = await fetch(action);
+    //   const result = await response.json();
+    //   this.setHints({ control, value: result });
+    // },
+
     async runHintsAction({ control, action }) {
       if (control.value && typeof control.value === 'string') {
         const sign = action.indexOf('?') < 0 ? '?' : '&';
         action = `${action}${sign}s=${control.value}`;
       }
-      const response = await fetch(action);
-      const result = await response.json();
-      this.setHints({ control, value: result });
+      try {
+        // Создаем AbortController для возможности отмены запроса
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 секунд таймаут
+
+        const response = await fetch(action, {
+          signal: controller.signal,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.status === 'success' && result.data) {
+          this.setHints({ control, value: result.data });
+        } else if (result.errors) {
+          console.error('Server returned errors:', result.errors);
+        } else {
+          throw new Error('Invalid response format');
+        }
+      } catch (error) {
+        console.error('Error fetching hints:', error);
+      }
     },
     setHints({ control, value }) {
       control.hints = value;
