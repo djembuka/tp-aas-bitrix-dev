@@ -35,6 +35,7 @@ export const ControlHint = {
         'twpx-form-control--active': active,
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,
+        'twpx-form-control--open': !!hintItems.length,
       }"
         @mouseenter="mouseenter"
         @mouseleave="mouseleave"

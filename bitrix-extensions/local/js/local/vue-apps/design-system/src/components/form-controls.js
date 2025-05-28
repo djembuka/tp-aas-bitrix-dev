@@ -43,7 +43,7 @@ export const FormControlsComponent = {
       'addTab',
       'setDisabled',
     ]),
-    input({ control, value, checked }) {
+    input({ control, value, checked }) {1, console.log(value),
       this.changeControlValue({
         control,
         value,

@@ -28,7 +28,7 @@ export const ControlMulti = {
         <hr>
 
       </div>
-      <div class="btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="add">Добавить</div>
+      <div class="btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="add()">Добавить</div>
     </div>
 	`,
   emits: [
@@ -57,11 +57,18 @@ export const ControlMulti = {
     },
   },
   methods: {
-    add() {
+    add(value) {
       if (!this.isDisabled) {
+
+        let copy = Object.assign({}, this.copy);
+        if(value) {
+          copy.value = value;
+        }
+
+
         this.$emit('add', {
           parent: this.parent,
-          add: Object.assign({}, this.copy),
+          add: copy,
         });
       }
     },
@@ -89,8 +96,17 @@ export const ControlMulti = {
 
     this.copy = Object.assign({}, this.parent);
     delete this.copy.multi;
+    this.copy.value = '';
 
     this.$emit('create', { parent: this.parent });
-    this.add();
+
+    if (this.parent.value !== null && typeof this.parent.value === 'object' && this.parent.value.forEach && this.parent.value.length) {
+      this.parent.value.forEach(v => {
+        this.add(v);
+      })
+      this.parent.value = [];
+    } else {
+      this.add();
+    }
   },
 };

@@ -1,6 +1,7 @@
 .twpx-form-control--file {
   position: relative;
   margin-bottom: var(--twpx-form-control-margin-bottom);
+  width: 100%;
 }
 .twpx-form-control__file__disabled-icon {
   position: absolute;

@@ -3,7 +3,7 @@
   margin-bottom: var(--twpx-form-control-margin-bottom);
   width: 100%;
 }
-.twpx-form-control--hint.twpx-form-control--active {
+.twpx-form-control--hint.twpx-form-control--open {
   z-index: 101;
 }
 .twpx-form-control--hint.twpx-form-control--active .twpx-form-control__label {

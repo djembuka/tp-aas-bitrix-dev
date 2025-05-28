@@ -284,6 +284,7 @@ export const formControlsStore = defineStore('form-controls-store', {
       control.hints = value;
     },
     changeHintControlValue({ control, value }) {
+      console.log(value)
       control.value = value;
 
       if (value.autocomplete && value.autocomplete.forEach) {
