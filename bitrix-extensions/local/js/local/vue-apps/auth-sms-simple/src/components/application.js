@@ -1,10 +1,10 @@
 import '../style/application.css';
-import { Sms } from '../pages/sms.js';
+import { Sms } from '../pages/auth.js';
 import { Code } from '../pages/code.js';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data';
-import { smsStore } from '../stores/sms';
+import { smsStore } from '../stores/auth.js';
 import { codeStore } from '../stores/code';
 
 import { MessageComponent } from 'local.vue-components.message-component';

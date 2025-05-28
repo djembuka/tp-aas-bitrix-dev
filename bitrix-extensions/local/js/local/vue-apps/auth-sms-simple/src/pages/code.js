@@ -1,7 +1,7 @@
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
 import { codeStore } from '../stores/code.js';
-import { smsStore } from '../stores/sms.js';
+import { smsStore } from '../stores/auth.js';
 
 import '../style/code.css';
 
@@ -53,7 +53,7 @@ export const Code = {
       </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang', 'error']),
+    ...mapState(dataStore, ['lang', 'state', 'error']),
     ...mapState(codeStore, [
       'inputs',
       'uuid',
@@ -185,11 +185,17 @@ export const Code = {
         .querySelectorAll(`.vue-auth-sms-code-input`)
         .forEach((input) => (input.value = ''));
     },
+    state(val) {
+      if (val === 'sms') {
+        this.$router.push('/');
+      }
+    },
   },
   methods: {
     ...mapActions(dataStore, ['setInfoButton', 'setError']),
     ...mapActions(smsStore, ['runSend']),
     ...mapActions(codeStore, [
+      'invertClearInputs',
       'changeInputValue',
       'runCheck',
       'changeButtonProps',

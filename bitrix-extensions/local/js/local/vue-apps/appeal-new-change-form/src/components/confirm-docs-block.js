@@ -24,7 +24,6 @@ export const ConfirmDocsBlock = {
           <hr class="hr--line" style="margin-bottom: 2.5rem;">
 
           <div v-for="(control, index) in doc.controls" :key="control.id">
-          <pre>{{control}}</pre>
             <ControlChoice :control="control" @create="create" @add="add" @remove="remove" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"></ControlChoice>
             <hr>
           </div>

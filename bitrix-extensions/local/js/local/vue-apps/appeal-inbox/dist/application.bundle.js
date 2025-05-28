@@ -566,7 +566,8 @@
   var Application = {
     data: function data() {
       return {
-        selectedPrev: 0
+        selectedPrev: 0,
+        inputTimeoutId: null
       };
     },
     components: {
@@ -878,6 +879,7 @@
         });
       },
       input: function input(_ref4) {
+        var _this4 = this;
         var control = _ref4.control,
           value = _ref4.value,
           checked = _ref4.checked;
@@ -886,22 +888,25 @@
           value: value,
           checked: checked
         });
-        var predefinedFilter = this.predefinedActive ? this.predefinedActive.id : undefined;
-        this.runAppeals({
-          mode: 'class',
-          data: {
-            signedParameters: this.signedParameters,
-            userid: this.userid,
-            sessid: this.sessid,
-            profileid: this.defaultProfile.id,
-            startIndex: 0,
-            maxCountPerRequest: this.maxCountPerRequest,
-            predefinedFilter: predefinedFilter,
-            filters: this.filters,
-            columnSort: this.sort.columnSort,
-            sortType: this.sort.sortType
-          }
-        }, null, this.increaseAppealsCounter());
+        clearTimeout(this.inputTimeoutId);
+        this.inputTimeoutId = setTimeout(function () {
+          var predefinedFilter = _this4.predefinedActive ? _this4.predefinedActive.id : undefined;
+          _this4.runAppeals({
+            mode: 'class',
+            data: {
+              signedParameters: _this4.signedParameters,
+              userid: _this4.userid,
+              sessid: _this4.sessid,
+              profileid: _this4.defaultProfile.id,
+              startIndex: 0,
+              maxCountPerRequest: _this4.maxCountPerRequest,
+              predefinedFilter: predefinedFilter,
+              filters: _this4.filters,
+              columnSort: _this4.sort.columnSort,
+              sortType: _this4.sort.sortType
+            }
+          }, null, _this4.increaseAppealsCounter());
+        }, 300);
       },
       hints: function hints(_ref5) {
         var type = _ref5.type,
@@ -928,7 +933,7 @@
         }
       },
       clickPage: function clickPage(_ref6) {
-        var _this4 = this;
+        var _this5 = this;
         var count = _ref6.count;
         var predefinedFilter = this.predefinedActive ? this.predefinedActive.id : undefined;
         this.runAppeals({
@@ -946,9 +951,9 @@
             sortType: this.sort.sortType
           }
         }, function () {
-          if (_this4.$refs.table.getBoundingClientRect().top + 100 < 0) {
+          if (_this5.$refs.table.getBoundingClientRect().top + 100 < 0) {
             window.scrollTo({
-              top: _this4.$refs.table.getBoundingClientRect().top + window.scrollY - 100,
+              top: _this5.$refs.table.getBoundingClientRect().top + window.scrollY - 100,
               behavior: 'smooth'
             });
           }

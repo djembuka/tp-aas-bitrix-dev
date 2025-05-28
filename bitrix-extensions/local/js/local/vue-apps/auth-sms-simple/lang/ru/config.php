@@ -1,5 +1,7 @@
 <?php
 $MESS["AUTH_SMS_SIMPLE_TITLE"] = "Авторизация";
+$MESS["AUTH_SMS_SIMPLE_INFO_TITLE"] = "Подтвердите удаление";
+
 $MESS["AUTH_SMS_SIMPLE_TEXT"] = "Вы можете указать номер телефона и воспользоваться авторизацией по СМС-коду.";
 
 $MESS["AUTH_SMS_CODE_LABEL_INPUTS"] = "Введите код";
@@ -23,6 +25,12 @@ $MESS["AUTH_SMS_SMS_ERROR_BUTTON"] = "Перейти";
 
 $MESS["AUTH_SMS_SMS_BUTTON_SUBMIT"] = "Получить код";
 $MESS["AUTH_SMS_SMS_BUTTON_SUBMIT_TIMER"] = "Получите новый код через:";
+
+
+
+
+
+
 
 $MESS["AUTH_SMS_ORNZ_BUTTON_SUBMIT"] = "Войти";
 $MESS["AUTH_SMS_ORNZ_BUTTON_ORNZ"] = "Вход по СМС";

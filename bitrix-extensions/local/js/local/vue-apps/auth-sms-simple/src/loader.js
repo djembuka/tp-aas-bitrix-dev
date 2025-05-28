@@ -5,12 +5,16 @@ import { createPinia, setActivePinia } from 'ui.vue3.pinia';
 import { Application } from './components/application';
 
 import { dataStore } from './stores/data';
-import { smsStore } from './stores/sms';
+import { authStore } from './stores/auth';
 import { codeStore } from './stores/code';
+import { editStore } from './stores/edit';
+import { infoStore } from './stores/info';
 
 import { TwoCols } from './layouts/two-cols';
-import { Sms } from './pages/sms';
+import { Auth } from './pages/auth';
 import { Code } from './pages/code';
+import { Edit } from './pages/edit';
+import { Info } from './pages/info';
 
 import './style/auth-sms.css';
 
@@ -30,22 +34,20 @@ export class AuthSMSSimple {
           component: TwoCols,
           children: [
             {
-              path: '/',
-              component: Sms,
-            },
-          ],
-        },
-        {
-          path: '/two-cols',
-          component: TwoCols,
-          children: [
-            {
-              path: 'sms',
-              component: Sms,
+              path: '',
+              component: Auth,
             },
             {
               path: 'code',
               component: Code,
+            },
+            {
+              path: 'edit',
+              component: Edit,
+            },
+            {
+              path: 'info',
+              component: Info,
             },
           ],
         },
@@ -67,29 +69,30 @@ export class AuthSMSSimple {
       mounted() {
         dataStore().sessid = self.options.sessid || '';
         dataStore().signedParameters = self.options.signedParameters || '';
+        dataStore().heading =
+          self.options.heading ||
+          this.$Bitrix.Loc.getMessage('AUTH_SMS_SIMPLE_TITLE') ||
+          '';
+        dataStore().text =
+          self.options.text ||
+          this.$Bitrix.Loc.getMessage('AUTH_SMS_SIMPLE_TEXT') ||
+          '';
 
         dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH');
 
-        smsStore().controls[0].label = this.$Bitrix.Loc.getMessage(
+        authStore().controls[0].label = this.$Bitrix.Loc.getMessage(
           'AUTH_SMS_SMS_LABEL_TEL'
         );
-        smsStore().controls[0].value = self.options.tel || '';
-        smsStore().controls[1].label = self.options.checkboxLabel || '';
-        smsStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
+        authStore().controls[0].value = self.options.tel || '';
+        authStore().controls[1].label = self.options.checkboxLabel || '';
+        authStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
 
         codeStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_CODE');
 
-        //query
-        const urlQuery = self.parseQuery(window.location.search);
-
-        if (urlQuery.type) {
-          switch (urlQuery.type) {
-            case 'sms':
-              dataStore().state = 'sms';
-              this.$router.push('/two-cols/sms');
-              break;
-          }
-        }
+        infoStore().heading =
+          self.options.heading ||
+          this.$Bitrix.Loc.getMessage('AUTH_SMS_SIMPLE_INFO_TITLE') ||
+          '';
       },
     });
 

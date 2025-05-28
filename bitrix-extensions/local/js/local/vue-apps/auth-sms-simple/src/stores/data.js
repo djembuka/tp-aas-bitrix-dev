@@ -5,7 +5,7 @@ export const dataStore = defineStore('data', {
     sessid: '',
     signedParameters: '',
     lang: {},
-    state: 'sms',
+    state: 'auth',
     title: '',
     info: '',
     infoMessage: '',
@@ -55,19 +55,6 @@ export const dataStore = defineStore('data', {
         result.push(k + '=' + queryObject[k]);
       }
       return '?' + result.join('&');
-    },
-    setQuery(queryObject) {
-      const obj = {
-        ...this.parseQuery(window.location.search),
-        ...queryObject,
-      };
-
-      const url = new URL(location);
-      Object.keys(obj).forEach((key) => {
-        url.searchParams.set(key, obj[key]);
-      });
-
-      history.pushState({}, '', url);
     },
   },
 });

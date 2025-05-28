@@ -2,8 +2,10 @@
 (function (exports,ui_vue3,ui_vue3_router,local_vueComponents_controlComponent,ui_vue3_pinia,local_vueComponents_messageComponent,local_vueComponents_buttonComponent) {
   'use strict';
 
+
   function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
   var dataStore = ui_vue3_pinia.defineStore('data', {
     state: function state() {
       return {
@@ -60,6 +62,7 @@
         }
         return '?' + result.join('&');
       },
+
       setQuery: function setQuery(queryObject) {
         var obj = _objectSpread(_objectSpread({}, this.parseQuery(window.location.search)), queryObject);
         var url = new URL(location);
@@ -69,6 +72,7 @@
         history.pushState({}, '', url);
       }
     }
+
   });
 
   var codeStore = ui_vue3_pinia.defineStore('code', {
@@ -130,6 +134,9 @@
       }
     },
     actions: {
+      invertClearInputs: function invertClearInputs() {
+        this.clearInputs = !this.clearInputs;
+      },
       setInvalidInputs: function setInvalidInputs(val) {
         this.invalidInputs = val;
       },
@@ -167,6 +174,7 @@
       runCheck: function runCheck() {
         var _this3 = this;
         if (window.BX) {
+
           BX.ajax.runAction('twinpx:authorization.api.check', {
             data: {
               code: this.code,
@@ -227,6 +235,7 @@
       return {
         lang: {},
         state: 'A1',
+
         controls: [{
           property: 'tel',
           id: 'id0',
@@ -244,10 +253,16 @@
           required: true,
           disabled: false
         }],
+
         submitProps: {
           large: true,
           secondary: true,
           wide: true
+        },
+        deleteProps: {
+          icon: true,
+          delete: true,
+          medium: true,
         },
         timerEnd: 0,
         timer: 0,
@@ -269,6 +284,35 @@
       }
     },
     actions: {
+      changeInterface: function changeInterface(value) {
+        this['interface'] = value;
+        var tel = this.controls.find(function (c) {
+          return c.property === 'tel';
+        });
+        var checkbox = this.controls.find(function (c) {
+          return c.property === 'checkbox';
+        });
+        switch (value) {
+          case 'add':
+            this.controls.forEach(function (c) {
+              c.disabled = false;
+            });
+            tel.value = '';
+            checkbox.value = false;
+            break;
+          case 'filled':
+            this.controls.forEach(function (c) {
+              c.disabled = true;
+            });
+            break;
+          case 'change':
+            this.controls.forEach(function (c) {
+              c.disabled = false;
+            });
+            checkbox.value = false;
+            break;
+        }
+      },
       setTelIsFilled: function setTelIsFilled(value) {
         this.telIsFilled = value;
       },
@@ -299,6 +343,16 @@
           }
         });
       },
+      changeDeleteProps: function changeDeleteProps(obj) {
+        var _this3 = this;
+        Object.keys(obj).forEach(function (key) {
+          if (obj[key]) {
+            _this3.deleteProps[key] = true;
+          } else {
+            delete _this3.deleteProps[key];
+          }
+        });
+      },
       input: function input(_ref) {
         var control = _ref.control,
           value = _ref.value;
@@ -308,11 +362,17 @@
         }
       },
       runSend: function runSend() {
-        var _this3 = this;
+        var _this4 = this;
         this.changeSubmitProps({
           'load-circle': true
         });
+        var telControl = this.controls.find(function (c) {
+          return c.property === 'tel';
+        });
+        var phone = telControl.value;
+        var method = this['interface'] === 'add' ? 'add' : 'update';
         if (window.BX) {
+
           BX.ajax.runAction('twinpx:authorization.api.send', {
             data: {
               phone: this.controls[0].value
@@ -384,6 +444,7 @@
     },
     components: {
       ControlComponent: local_vueComponents_controlComponent.ControlComponent,
+
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
     // language=Vue
@@ -424,6 +485,7 @@
       });
       if (telControl && telControl.value) {
         this.setTelIsFilled(true);
+
       }
     }
   };
@@ -440,12 +502,14 @@
     emits: ['openOrnz'],
     // language=Vue
 
+
     template: "\n      <div class=\"vue-auth-sms-code-form\">\n        <div class=\"vue-auth-sms-code-form-body\">\n\n          <div :class=\"{'vue-auth-sms-code-inputs': true, 'vue-auth-sms-code-inputs--invalid': invalidInputs}\">\n\n            <div :class=\"{'vue-auth-sms-code-inputs-label': true, 'vue-auth-sms-code-inputs-label--disabled': inputs.every(i => i.disabled)}\">{{ lang.AUTH_SMS_CODE_LABEL_INPUTS }}</div>\n            \n            <div class=\"vue-auth-sms-code-inputs-body\" ref=\"inputs\">\n\n              <input v-for=\"(input, index) in inputs\"\n                :key=\"input.id\"\n                :type=\"inputType()\"\n                :class=\"{'vue-auth-sms-code-input': true, 'vue-auth-sms-code-input--disabled': input.disabled}\"\n                v-model=\"this['inputValue'+index]\"\n                @keydown.backspace=\"backspaceInput(input, index)\"\n                @focus=\"focusText()\"\n              />\n\n            </div>\n\n            <div class=\"vue-auth-sms-code-inputs__warning\">{{ error }}</div>\n          </div>\n\n          <div>\n            <ButtonComponent :text=\"lang.AUTH_SMS_CODE_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"runCheck\" />\n          </div>\n\n          <div>\n            <ButtonComponent v-if=\"timer === 0 || !!timer\" :text=\"buttonTimerText\" :props=\"Object.keys(timerProps)\" :disabled=\"timerDisabled\" @clickButton=\"clickNewCode\" />\n          </div>\n\n        </div>\n      </div>\n\t",
     computed: _objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'error'])), ui_vue3_pinia.mapState(codeStore, ['inputs', 'uuid', 'submitProps', 'buttonDisabled', 'buttonTimerText', 'timerDisabled', 'timerProps', 'timer', 'clearInputs', 'invalidInputs'])), {}, {
       inputValue0: {
         get: function get() {
           var index = 0;
           return this.inputs[index].value;
+
         },
         set: function set(value) {
           var index = 0;
@@ -546,9 +610,11 @@
     }),
     watch: {
       clearInputs: function clearInputs() {
+
         this.$refs.inputs.querySelectorAll(".vue-auth-sms-code-input").forEach(function (input) {
           return input.value = '';
         });
+
       }
     },
     methods: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['setInfoButton', 'setError'])), ui_vue3_pinia.mapActions(smsStore, ['runSend'])), ui_vue3_pinia.mapActions(codeStore, ['changeInputValue', 'runCheck', 'changeButtonProps', 'buttonTimer', 'setInvalidInputs'])), {}, {
@@ -588,6 +654,7 @@
     }
   };
 
+
   function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
   function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$3(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var Application = {
@@ -598,6 +665,7 @@
       Sms: Sms,
       Code: Code,
       MessageComponent: local_vueComponents_messageComponent.MessageComponent,
+
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
     // language=Vue
@@ -628,6 +696,7 @@
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
     // language=Vue
+
 
     template: "\n    <div class=\"vue-auth-sms\">\n\n      <h3 class=\"mt-0\">{{ title }}</h3>\n\n      <p>{{ text }}</p>\n\n      <MessageComponent v-if=\"error\" type=\"error\" :message=\"error\" :button=\"errorButton\" @clickButton=\"clickErrorButton\" />\n\n      <hr v-if=\"error\" />\n\n      <router-view />\n      \n    </div>\n\t",
     computed: _objectSpread$4(_objectSpread$4(_objectSpread$4(_objectSpread$4({}, ui_vue3_pinia.mapState(dataStore, ['sessid', 'signedParameters', 'lang', 'info', 'infoButton', 'state', 'error', 'errorButton'])), ui_vue3_pinia.mapState(smsStore, ['errorButton'])), ui_vue3_pinia.mapState(codeStore, ['uuid'])), {}, {
@@ -676,6 +745,7 @@
         writable: true,
         value: void 0
       });
+
       babelHelpers.classPrivateFieldSet(this, _store, ui_vue3_pinia.createPinia());
       babelHelpers.classPrivateFieldSet(this, _router, ui_vue3_router.createRouter({
         history: ui_vue3_router.createMemoryHistory(),

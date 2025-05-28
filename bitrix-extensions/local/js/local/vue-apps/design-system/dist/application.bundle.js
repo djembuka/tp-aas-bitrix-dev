@@ -251,6 +251,7 @@
             while (1) switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
+
                 // Создаем AbortController для возможности отмены запроса
                 controller = new AbortController();
                 timeoutId = setTimeout(function () {
@@ -365,6 +366,7 @@
         var control = _ref.control,
           value = _ref.value,
           checked = _ref.checked;
+
         console.log(value), this.changeControlValue({
           control: control,
           value: value,
@@ -420,6 +422,7 @@
           id: 'id5-1',
           name: 'AUDITOR_ORNZ_WITH_PHOTO',
           label: 'With HTML - data-value',
+
           value: [{
             "id": "1",
             "value": "First"
@@ -443,12 +446,14 @@
           required: false,
           disabled: false,
           multi: 3
+
         }, {
           id: 'id1',
           property: 'text',
           name: 'SOME_TEXT',
           label: 'Some text',
           value: '',
+
           required: false,
           disabled: false,
           multi: 3
@@ -466,6 +471,7 @@
           property: 'textarea',
           name: 'MESSAGE',
           label: 'Message',
+
           value: ['One', 'Two', 'Three'],
           required: false,
           disabled: false,
@@ -475,6 +481,7 @@
           property: 'tel',
           name: 'PHONE',
           label: 'Phone number',
+
           value: ['+7 (903) 255-50-50', '+7 (916) 255-52-52'],
           required: false,
           disabled: false,
@@ -484,6 +491,7 @@
           property: 'email',
           name: 'EMAIL',
           label: 'Your email',
+
           value: ['he@is.here', 'she@is.here', 'you@are.here'],
           required: false,
           disabled: false,
@@ -493,7 +501,9 @@
           id: 'id6',
           name: 'PASSWORD',
           label: 'Password',
+
           value: ['passwordone', 'passwordtwo'],
+
           required: false,
           disabled: false,
           multi: 3
@@ -504,6 +514,7 @@
           label: 'Calendar',
           name: 'DATE_FROM_TO',
           required: true,
+
           value: [["03.06.2025", "11.06.2025"], ["05.06.2025", "21.06.2025"], ["25.06.2025", "26.06.2025"]],
           multi: 3
         }, {
@@ -513,6 +524,7 @@
           label: 'Calendar',
           name: 'DATE',
           required: true,
+
           value: ["03.06.2025", "11.06.2025"],
           hint_external: '',
           dependency: 'id6',
@@ -522,6 +534,7 @@
           id: 'id11',
           name: 'FILE_LOGO',
           label: 'Logo',
+
           value: ['my-png-file.png', 'your-png-file.png'],
           file: null,
           hint_external: '',
@@ -537,7 +550,9 @@
           id: 'id12',
           name: 'FILE_LOGO_UPLOADED',
           label: 'Upload logo',
+
           value: ['my-png-file.png', 'your-png-file.png'],
+
           upload: {},
           hint_external: '',
           required: true,
@@ -562,6 +577,7 @@
             label: 'Very',
             code: '324234325'
           }],
+
           value: ['molestias', 'Farming'],
           disabled: false,
           multi: 3
@@ -581,7 +597,9 @@
             label: 'Uppercase',
             code: '3'
           }],
+
           value: ['2'],
+
           multi: 3
         }, {
           property: 'checkbox',
@@ -612,6 +630,7 @@
       };
     },
     actions: {
+
       changeControlValue: function changeControlValue(_ref) {
         var control = _ref.control,
           value = _ref.value,
@@ -657,6 +676,7 @@
             while (1) switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
+
                 // Создаем AbortController для возможности отмены запроса
                 controller = new AbortController();
                 timeoutId = setTimeout(function () {
@@ -716,10 +736,12 @@
       setHints: function setHints(control, value) {
         control.hints = value;
       },
+
       changeHintControlValue: function changeHintControlValue(_ref2) {
         var _this2 = this;
         var control = _ref2.control,
           value = _ref2.value;
+
         control.value = value;
         if (value.autocomplete && value.autocomplete.forEach) {
           value.autocomplete.forEach(function (o) {
@@ -732,6 +754,7 @@
           });
         }
       },
+
       createMulti: function createMulti(_ref3) {
         var parent = _ref3.parent;
         parent.property = 'multi';
@@ -740,6 +763,7 @@
       addMulti: function addMulti(_ref4) {
         var parent = _ref4.parent,
           add = _ref4.add;
+
         var randomId = Math.round(Math.random() * 1000);
         var sub = [];
         if (add.sub && add.sub.forEach) {
@@ -752,9 +776,11 @@
         add.id = "".concat(add.id).concat(randomId);
         parent.multi.push(add);
       },
+
       removeMulti: function removeMulti(_ref5) {
         var parent = _ref5.parent,
           index = _ref5.index;
+
         parent.multi.splice(index, 1);
       }
     }
@@ -1074,6 +1100,7 @@
   }();
 
   exports.DesignSystem = DesignSystem;
+
 
 }((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

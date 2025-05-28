@@ -1,9 +1,11 @@
-import { Sms } from '../pages/sms.js';
+import { Auth } from '../pages/auth.js';
 import { Code } from '../pages/code.js';
+import { Edit } from '../pages/edit.js';
+import { Info } from '../pages/info.js';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
-import { smsStore } from '../stores/sms.js';
+import { authStore } from '../stores/auth.js';
 import { codeStore } from '../stores/code.js';
 
 import { MessageComponent } from 'local.vue-components.message-component';
@@ -14,8 +16,10 @@ export const TwoCols = {
     return {};
   },
   components: {
-    Sms,
+    Auth,
     Code,
+    Edit,
+    Info,
     MessageComponent,
     ButtonComponent,
   },
@@ -24,9 +28,9 @@ export const TwoCols = {
   template: `
     <div class="vue-auth-sms">
 
-      <h3 class="mt-0">{{ title }}</h3>
+      <h3 class="mt-0">{{ heading }}</h3>
 
-      <p>{{ text }}</p>
+      <div v-html="text"></div>
 
       <MessageComponent v-if="error" type="error" :message="error" :button="errorButton" @clickButton="clickErrorButton" />
 
@@ -40,6 +44,8 @@ export const TwoCols = {
     ...mapState(dataStore, [
       'sessid',
       'signedParameters',
+      'heading',
+      'text',
       'lang',
       'info',
       'infoButton',
@@ -47,14 +53,8 @@ export const TwoCols = {
       'error',
       'errorButton',
     ]),
-    ...mapState(smsStore, ['errorButton']),
+    ...mapState(authStore, ['errorButton']),
     ...mapState(codeStore, ['uuid']),
-    title() {
-      return this.lang[`AUTH_SMS_SIMPLE_TITLE`];
-    },
-    text() {
-      return this.lang[`AUTH_SMS_SIMPLE_TEXT`];
-    },
     altButton() {
       return this.lang[
         `AUTH_SMS_${String(this.state).toUpperCase()}_ALT_BUTTON`
@@ -63,10 +63,6 @@ export const TwoCols = {
   },
   methods: {
     ...mapActions(dataStore, ['changeState', 'setInfo', 'setInfoMessage']),
-    clickInfoButton() {
-      this.setInfo('');
-      this.setInfoMessage('');
-    },
     clickErrorButton() {},
   },
   mounted() {},

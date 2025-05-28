@@ -1,5 +1,6 @@
 import { defineStore } from 'ui.vue3.pinia';
 import { dataStore } from './data.js';
+import { authStore } from './auth.js';
 
 export const codeStore = defineStore('code', {
   state: () => ({
@@ -46,6 +47,9 @@ export const codeStore = defineStore('code', {
     },
   },
   actions: {
+    invertClearInputs() {
+      this.clearInputs = !this.clearInputs;
+    },
     setInvalidInputs(val) {
       this.invalidInputs = val;
     },
@@ -81,16 +85,27 @@ export const codeStore = defineStore('code', {
     runCheck() {
       if (window.BX) {
         BX.ajax
-          .runAction('twinpx:authorization.api.check', {
+          .runComponentAction('twinpx:profile.edit', 'confirm', {
+            mode: 'class',
             data: {
               code: this.code,
               uuid: this.uuid,
             },
+            signedParameters: dataStore().signedParameters,
           })
           .then(
             (response) => {
-              this.changeButtonProps({ 'load-circle': false }, 'submit');
-              window.location.href = response.data.redirect;
+              if (response.status === 'success' && response.data === true) {
+                this.changeButtonProps({ 'load-circle': false }, 'submit');
+                this.invertClearInputs();
+                this.inputs.forEach((input) => {
+                  input.disabled = true;
+                  input.value = '';
+                });
+                dataStore().changeState('sms');
+                authStore().setTelIsFilled(true);
+                authStore().changeInterface('filled');
+              }
             },
             (response) => {
               this.changeButtonProps({ 'load-circle': false }, 'submit');
@@ -98,7 +113,7 @@ export const codeStore = defineStore('code', {
               dataStore().error = response.errors[0].message;
 
               if (String(response.errors[0].code) === String(0)) {
-                this.clearInputs = !this.clearInputs;
+                this.invertClearInputs();
                 this.inputs.forEach((input) => {
                   input.disabled = true;
                   input.value = '';
@@ -110,7 +125,7 @@ export const codeStore = defineStore('code', {
                 //disabled inputs
                 //disabled button
                 dataStore().errorButton = true;
-                this.clearInputs = !this.clearInputs;
+                this.invertClearInputs();
                 this.inputs.forEach((input) => {
                   input.disabled = true;
                   input.value = '';
