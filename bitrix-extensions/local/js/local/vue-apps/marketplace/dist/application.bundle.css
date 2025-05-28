@@ -1,0 +1,44 @@
+.twpx-vue-marketplace {
+    display: grid;
+    gap: var(--semantic-gap-s, 16px);
+    padding: 32px;
+    border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+}
+.twpx-vue-marketplace h2,
+.twpx-vue-marketplace h3 {
+    margin: 0;
+}
+.twpx-vue-marketplace-nav {
+    display: grid;
+    gap: 10px;
+}
+.twpx-vue-marketplace-nav-items {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+.twpx-vue-marketplace-nav__item {
+    color: var(--twpx-text-secondary, #9B9B9B);
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 200% */
+    cursor: default;
+    pointer-events: none;
+}
+.twpx-vue-marketplace-nav__item--active {
+    color: var(--twpx-text-orange, #F2762E);
+    cursor: pointer;
+    pointer-events: auto;
+}
+.twpx-vue-marketplace-nav-line {
+    height: 8px;
+    border-radius: var(--twpx-text-border-radius-small, 4px);
+    background: var(--Base-Grey-color-neutral-200, #F8F8F8);
+}
+.twpx-vue-marketplace-nav-line div {
+    height: 8px;
+    border-radius: var(--twpx-text-border-radius-small, 4px);
+    background: var(--Base-Orange-primary-500, #FF8318);
+    width: 200px;
+}

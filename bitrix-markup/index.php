@@ -26,6 +26,13 @@ $APPLICATION->SetTitle("Markup");
 
 <h2>Страницы</h2>
 
+<h3>Marketplace</h3>
+<ul>
+  <li>
+	<a href="/markup/pages/marketplace/">Marketplace</a>
+  </li>
+</ul>
+
 <h3>Аутентификация по смс</h3>
 <ul>
   <li>
