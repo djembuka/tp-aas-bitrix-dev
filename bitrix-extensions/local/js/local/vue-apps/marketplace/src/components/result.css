@@ -1,0 +1,35 @@
+.twpx-vue-marketplace-result {
+    display: grid;
+    gap: 48px;
+}
+.twpx-vue-marketplace-company {
+    display: flex;
+    padding: var(--twpx-table-padding-l, 32px);
+    align-items: flex-start;
+    gap: var(--semantic-gap-m, 32px);
+    align-self: stretch;
+    border-radius: var(--twpx-table-padding-s, 8px);
+    background: var(--twpx-background-neutral, #FAFAFA);
+}
+.twpx-vue-marketplace-company__logo {
+    width: 100px;
+    flex-shrink: 0;
+}
+.twpx-vue-marketplace-company__logo img {
+    width: 100px;
+    height: 100px;
+}
+.twpx-vue-marketplace-company__properties {
+    columns: 2 49%;
+}
+.twpx-vue-marketplace-company__prop {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: var(--semantic-gap-xs, 8px) 0px;
+}
+.twpx-vue-marketplace-company__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

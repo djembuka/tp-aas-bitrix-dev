@@ -1,10 +1,16 @@
 .twpx-vue-marketplace {
     display: grid;
-    gap: var(--semantic-gap-s, 16px);
+    gap: 32px;
     padding: 32px;
     border: 1px solid var(--twpx-border-neutral, #F2F2F2);
 }
 .twpx-vue-marketplace h2,
-.twpx-vue-marketplace h3 {
+.twpx-vue-marketplace h3,
+.twpx-vue-marketplace p {
     margin: 0;
+}
+.twpx-vue-marketplace-html,
+.twpx-vue-marketplace-controls {
+    display: grid;
+    gap: var(--semantic-gap-s, 16px);
 }

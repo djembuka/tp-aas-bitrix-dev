@@ -6,6 +6,7 @@ import { dataStore } from './stores/data';
 
 import { Application } from './components/application';
 import { Step } from './pages/step';
+import { Result } from './pages/result';
 
 export class Marketplace {
   #store;
@@ -26,6 +27,10 @@ export class Marketplace {
         {
           path: '/step/:id',
           component: Step,
+        },
+        {
+          path: '/result',
+          component: Result,
         },
       ],
     });

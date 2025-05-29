@@ -1,0 +1,7 @@
+.twpx-vue-marketplace-buttons {
+    display: flex;
+    gap: 32px;
+}
+.twpx-vue-marketplace-buttons .vue-button {
+    width: 100%;
+}

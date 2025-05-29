@@ -15,6 +15,7 @@
     line-height: 24px; /* 200% */
     cursor: default;
     pointer-events: none;
+    user-select: none;
 }
 .twpx-vue-marketplace-nav__item--active {
     color: var(--twpx-text-orange, #F2762E);
@@ -28,7 +29,12 @@
 }
 .twpx-vue-marketplace-nav-line div {
     height: 8px;
-    border-radius: var(--twpx-text-border-radius-small, 4px);
+    border-radius: var(--twpx-text-border-radius-small, 4px) 0 0 var(--twpx-text-border-radius-small, 4px);
     background: var(--Base-Orange-primary-500, #FF8318);
-    width: 200px;
+    width: 0;
+    -webkit-transition: width .3s cubic-bezier(.5, -0.5, 1, 1.5);
+    transition: width .3s cubic-bezier(.5, -0.5, 1, 1.5);
+}
+.twpx-vue-marketplace-nav-line--full div {
+    border-radius: var(--twpx-text-border-radius-small, 4px);
 }
