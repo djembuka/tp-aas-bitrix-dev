@@ -1,44 +1,14 @@
 
-#authSMS {
-  border: 1px solid #f2f2f2;
-  padding: 64px;
-}
-
 .vue-auth-sms {
   padding: 32px;
   border: 1px solid var(--twpx-border-neutral, #f2f2f2);
   display: grid;
-  gap: 10px;
+  gap: 16px;
 }
-.vue-auth-center {
-  margin: 0 auto;
-  width: 589px;
-  -webkit-box-sizing: content-box;
-          box-sizing: content-box;
+.vue-auth-sms h3,
+.vue-auth-sms p {
+  margin: 0;
 }
-.vue-auth-center-body {
-  margin: 0 auto;
-  width: 400px;
-}
-
-@media (max-width: 767px) {
-  #authSMS {
-    border: none;
-    padding: 0;
-  }
-
-  .vue-auth-center {
-    margin: 0;
-    width: auto;
-    -webkit-box-sizing: content-box;
-            box-sizing: content-box;
-  }
-  .vue-auth-center-body {
-    margin: 0;
-    width: auto;
-  }
-}
-
 .vue-auth-sms-sms__tel {
   display: -webkit-box;
   display: -ms-flexbox;

@@ -2,6 +2,17 @@
 $MESS["AUTH_SMS_SIMPLE_TITLE"] = "Авторизация";
 $MESS["AUTH_SMS_SIMPLE_INFO_TITLE"] = "Подтвердите удаление";
 
+$MESS["AUTH_SMS_SIMPLE_EDIT_TITLE"] = "Ваш телефон";
+$MESS["AUTH_SMS_SIMPLE_EDIT_TEXT"] = "Номер телефона, который используется для авторизации в личном кабинете.";
+$MESS["AUTH_SMS_SIMPLE_EDIT_BUTTON"] = "Изменить";
+
+
+
+
+
+
+
+
 $MESS["AUTH_SMS_SIMPLE_TEXT"] = "Вы можете указать номер телефона и воспользоваться авторизацией по СМС-коду.";
 
 $MESS["AUTH_SMS_CODE_LABEL_INPUTS"] = "Введите код";

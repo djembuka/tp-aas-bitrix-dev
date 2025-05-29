@@ -12,6 +12,7 @@ export const dataStore = defineStore('data', {
     infoButton: true,
     error: '',
     errorButton: false,
+    tel: ''
   }),
   actions: {
     changeState(value) {

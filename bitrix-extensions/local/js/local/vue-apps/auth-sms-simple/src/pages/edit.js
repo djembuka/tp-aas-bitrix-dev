@@ -1,11 +1,13 @@
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
-import { smsStore } from '../stores/sms.js';
+import { editStore } from '../stores/edit.js';
 
 import '../style/sms.css';
 
 import { ControlComponent } from 'local.vue-components.control-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
+import { MessageComponent } from 'local.vue-components.message-component';
+import { ModalYesNo } from 'local.vue-components.modal-yes-no';
 
 export const Edit = {
   data() {
@@ -14,40 +16,39 @@ export const Edit = {
   components: {
     ControlComponent,
     ButtonComponent,
+    MessageComponent,
+    ModalYesNo
   },
   // language=Vue
   template: `
+
+    <ModalYesNo />
+  
+    <h3>{{ lang.heading }}</h3>
+
+    <div v-html="lang.html"></div>
+
+    <MessageComponent v-if="error" type="error" :message="error" />
+
     <div class="vue-auth-sms-sms">
 
-      <div v-for="control in controls" :key="control.id">
-        <div v-if="control.property === 'tel'" class="vue-auth-sms-sms__tel">
-          <ControlComponent :control="control" @input="input" />
-          <div class="vue-auth-sms-sms__buttons">
-            <ButtonComponent text="Изменить" :props="['secondary', 'medium']" @clickButton="clickChange" />
-
-            <ButtonComponent text="Delete" :props="Object.keys(deleteProps)" @clickButton="clickDelete" />
-          </div>
+      <div class="vue-auth-sms-sms__tel">
+        <ControlComponent :control="controls[0]" />
+        <div class="vue-auth-sms-sms__buttons">
+          <ButtonComponent :text="lang.button" :props="Object.keys(editProps)" @clickButton="clickEdit" />
+          <ButtonComponent text="Delete" :props="Object.keys(deleteProps)" @clickButton="clickDelete" />
         </div>
-        <div v-else>
-          <ControlComponent :control="control" @input="input" />
-        </div>
-        <hr />
-        
       </div>
 
-      <ButtonComponent :text="buttonSubmitTimerText || lang.AUTH_SMS_SMS_BUTTON_SUBMIT" :props="Object.keys(submitProps)" :disabled="buttonDisabled" @clickButton="clickSubmit" />
-      
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang', 'state']),
-    ...mapState(smsStore, [
+    ...mapState(dataStore, ['error']),
+    ...mapState(editStore, [
+      'lang',
       'controls',
-      'submitProps',
-      'deleteProps',
-      'buttonDisabled',
-      'buttonSubmitTimerText',
-      'telIsFilled',
+      'editProps',
+      'deleteProps'
     ]),
   },
   watch: {
@@ -59,18 +60,8 @@ export const Edit = {
   },
   methods: {
     ...mapActions(dataStore, ['setError']),
-    ...mapActions(smsStore, [
-      'input',
-      'runSend',
-      'runUpdate',
-      'runDelete',
-      'changeTel',
-      'setTelIsFilled',
-    ]),
-    clickSubmit() {
-      this.runSend();
-    },
-    clickChange() {
+    ...mapActions(editStore, []),
+    clickEdit() {
       const telControl = this.controls.find((c) => c.property === 'tel');
       if (telControl) {
         telControl.disabled = false;

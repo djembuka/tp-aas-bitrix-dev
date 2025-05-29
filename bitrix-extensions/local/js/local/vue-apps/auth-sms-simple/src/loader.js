@@ -10,7 +10,6 @@ import { codeStore } from './stores/code';
 import { editStore } from './stores/edit';
 import { infoStore } from './stores/info';
 
-import { TwoCols } from './layouts/two-cols';
 import { Auth } from './pages/auth';
 import { Code } from './pages/code';
 import { Edit } from './pages/edit';
@@ -31,25 +30,20 @@ export class AuthSMSSimple {
       routes: [
         {
           path: '/',
-          component: TwoCols,
-          children: [
-            {
-              path: '',
-              component: Auth,
-            },
-            {
-              path: 'code',
-              component: Code,
-            },
-            {
-              path: 'edit',
-              component: Edit,
-            },
-            {
-              path: 'info',
-              component: Info,
-            },
-          ],
+          component: Auth,
+          alias: '/auth'
+        },
+        {
+          path: '/code',
+          component: Code,
+        },
+        {
+          path: '/edit',
+          component: Edit,
+        },
+        {
+          path: '/info',
+          component: Info,
         },
       ],
     });
@@ -65,7 +59,7 @@ export class AuthSMSSimple {
       components: {
         Application,
       },
-      template: '<router-view />',
+      template: '<Application />',
       mounted() {
         dataStore().sessid = self.options.sessid || '';
         dataStore().signedParameters = self.options.signedParameters || '';
@@ -79,6 +73,7 @@ export class AuthSMSSimple {
           '';
 
         dataStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH');
+        dataStore().tel = self.options.tel || '';
 
         authStore().controls[0].label = this.$Bitrix.Loc.getMessage(
           'AUTH_SMS_SMS_LABEL_TEL'
@@ -93,6 +88,11 @@ export class AuthSMSSimple {
           self.options.heading ||
           this.$Bitrix.Loc.getMessage('AUTH_SMS_SIMPLE_INFO_TITLE') ||
           '';
+
+        // routing
+        if (self.options.tel) {
+          this.$router.push('/edit')
+        }
       },
     });
 

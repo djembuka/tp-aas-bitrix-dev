@@ -16,9 +16,10 @@ return [
 		'ui.vue3',
 		'ui.vue3.router',
 		'local.vue-components.control-component',
+		'local.vue-components.button-component',
+		'local.vue-components.modal-yes-no',
 		'ui.vue3.pinia',
 		'local.vue-components.message-component',
-		'local.vue-components.button-component',
 	],
 	'skip_core' => true,
 ];

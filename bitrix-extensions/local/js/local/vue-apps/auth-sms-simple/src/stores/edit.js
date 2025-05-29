@@ -2,114 +2,34 @@ import { defineStore } from 'ui.vue3.pinia';
 import { dataStore } from './data.js';
 import { codeStore } from './code.js';
 
-export const eidtStore = defineStore('edit', {
+export const editStore = defineStore('edit', {
   state: () => ({
-    lang: {},
-    state: 'A1',
-    interface: 'add',
+    lang: {
+      heading: 'Ваш телефон',
+      html: '<p>Номер телефона, который используется для авторизации в личном кабинете.</p>',
+      label: 'Номер телефона',
+      button: 'Изменить'
+    },
     controls: [
       {
         property: 'tel',
         id: 'id0',
         name: 'PHONE',
-        label: '',
-        value: '',
-        required: true,
-        disabled: false,
-      },
-      {
-        property: 'checkbox',
-        id: 'id1',
-        name: 'NUM',
-        label: '',
-        value: '',
-        required: true,
-        disabled: false,
+        label: 'Номер телефона',
+        value: dataStore().tel,
+        disabled: true,
       },
     ],
-    submitProps: { large: true, secondary: true, wide: true },
+    editProps: { large: true, secondary: true, medium: true },
     deleteProps: { icon: true, delete: true, medium: true },
-    timerEnd: 0,
-    timer: 0,
-    telIsFilled: false,
   }),
-  getters: {
-    buttonDisabled() {
-      let result = false;
-
-      if (this.state === 'C1' && this.timer) {
-        result = true;
-      } else {
-        result =
-          this.controls[0].setInvalidWatcher ||
-          this.controls[0].disabled ||
-          !this.controls[0].value.trim() ||
-          this.controls[0].value.trim().length < 11 ||
-          !this.controls[1].value;
-      }
-      return result;
-    },
-    buttonSubmitTimerText() {
-      return this.timer
-        ? `${this.lang.AUTH_SMS_SMS_BUTTON_SUBMIT_TIMER} ${new Date(
-            this.timer * 1000
-          )
-            .toISOString()
-            .substring(14, 19)}`
-        : '';
-    },
-  },
   actions: {
-    changeInterface(value) {
-      this.interface = value;
-
-      const tel = this.controls.find((c) => c.property === 'tel');
-      const checkbox = this.controls.find((c) => c.property === 'checkbox');
-
-      switch (value) {
-        case 'add':
-          this.controls.forEach((c) => {
-            c.disabled = false;
-          });
-          tel.value = '';
-          checkbox.value = false;
-          break;
-        case 'filled':
-          this.controls.forEach((c) => {
-            c.disabled = true;
-          });
-          break;
-        case 'change':
-          this.controls.forEach((c) => {
-            c.disabled = false;
-          });
-          checkbox.value = false;
-          break;
-      }
-    },
-    setTelIsFilled(value) {
-      this.telIsFilled = value;
-    },
-    changeTel() {
-      this.controls.find((c) => c.property === 'tel').disabled = false;
-    },
-    buttonSubmitTimer(start) {
-      this.timerEnd = Math.round(new Date().getTime() / 1000) + Number(start);
-      this.timer = Number(start);
-      const intervalId = setInterval(() => {
-        if (this.timer <= 0) {
-          clearInterval(intervalId);
-        } else {
-          this.timer = this.timerEnd - Math.round(new Date().getTime() / 1000);
-        }
-      }, 1000);
-    },
-    changeSubmitProps(obj) {
+    changeEditProps(obj) {
       Object.keys(obj).forEach((key) => {
         if (obj[key]) {
-          this.submitProps[key] = true;
+          this.editProps[key] = true;
         } else {
-          delete this.submitProps[key];
+          delete this.editProps[key];
         }
       });
     },
@@ -122,14 +42,8 @@ export const eidtStore = defineStore('edit', {
         }
       });
     },
-    input({ control, value }) {
-      control.value = value;
-      if (control.property === 'tel') {
-        control.setInvalidWatcher = false;
-      }
-    },
     runSend() {
-      this.changeSubmitProps({ 'load-circle': true });
+      this.changeEditProps({ 'load-circle': true });
       const telControl = this.controls.find((c) => c.property === 'tel');
       const phone = telControl.value;
 

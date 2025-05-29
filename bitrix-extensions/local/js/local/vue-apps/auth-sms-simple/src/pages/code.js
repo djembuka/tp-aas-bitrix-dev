@@ -1,7 +1,7 @@
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
 import { codeStore } from '../stores/code.js';
-import { smsStore } from '../stores/auth.js';
+import { authStore } from '../stores/auth.js';
 
 import '../style/code.css';
 
@@ -193,7 +193,7 @@ export const Code = {
   },
   methods: {
     ...mapActions(dataStore, ['setInfoButton', 'setError']),
-    ...mapActions(smsStore, ['runSend']),
+    ...mapActions(authStore, ['runSend']),
     ...mapActions(codeStore, [
       'invertClearInputs',
       'changeInputValue',

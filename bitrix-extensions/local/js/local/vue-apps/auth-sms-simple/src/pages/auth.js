@@ -1,6 +1,6 @@
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
-import { smsStore } from '../stores/auth.js';
+import { authStore } from '../stores/auth.js';
 
 import '../style/sms.css';
 
@@ -41,7 +41,7 @@ export const Auth = {
 	`,
   computed: {
     ...mapState(dataStore, ['lang', 'state']),
-    ...mapState(smsStore, [
+    ...mapState(authStore, [
       'interface',
       'controls',
       'submitProps',
@@ -60,7 +60,7 @@ export const Auth = {
   },
   methods: {
     ...mapActions(dataStore, ['setError']),
-    ...mapActions(smsStore, [
+    ...mapActions(authStore, [
       'input',
       'runSend',
       'runUpdate',

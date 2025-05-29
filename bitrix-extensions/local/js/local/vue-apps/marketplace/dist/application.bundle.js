@@ -432,4 +432,5 @@
 
   exports.Marketplace = Marketplace;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Vue3.Pinia,BX.AAS));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX,BX.AAS));
+//# sourceMappingURL=application.bundle.js.map
