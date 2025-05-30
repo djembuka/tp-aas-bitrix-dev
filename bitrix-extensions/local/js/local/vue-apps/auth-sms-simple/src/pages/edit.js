@@ -2,7 +2,7 @@ import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
 import { editStore } from '../stores/edit.js';
 
-import '../style/sms.css';
+import '../style/edit.css';
 
 import { ControlComponent } from 'local.vue-components.control-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
@@ -11,7 +11,10 @@ import { ModalYesNo } from 'local.vue-components.modal-yes-no';
 
 export const Edit = {
   data() {
-    return {};
+    return {
+      modalStateWatcher: true,
+      clickType: ''
+    };
   },
   components: {
     ControlComponent,
@@ -22,7 +25,15 @@ export const Edit = {
   // language=Vue
   template: `
 
-    <ModalYesNo />
+    <ModalYesNo
+      heading="Подтверждение"
+      :text="getModalText()"
+      yes="Да"
+      no="Нет"
+      :stateWatcher="modalStateWatcher"
+      @clickYes="clickYes"
+      @clickNo="clickNo"
+    />
   
     <h3>{{ lang.heading }}</h3>
 
@@ -43,7 +54,7 @@ export const Edit = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['error']),
+    ...mapState(dataStore, ['routeWatcher','error']),
     ...mapState(editStore, [
       'lang',
       'controls',
@@ -52,36 +63,40 @@ export const Edit = {
     ]),
   },
   watch: {
-    state(val) {
-      if (val === 'code') {
-        this.$router.push('/code');
-      }
+    routeWatcher(val) {
+      this.$router.push(val);
     },
   },
   methods: {
     ...mapActions(dataStore, ['setError']),
-    ...mapActions(editStore, []),
+    ...mapActions(editStore, ['edit','delete']),
     clickEdit() {
-      const telControl = this.controls.find((c) => c.property === 'tel');
-      if (telControl) {
-        telControl.disabled = false;
-      }
-      this.setTelIsFilled(false);
+      this.clickType = 'edit';
+      this.modalStateWatcher = !this.modalStateWatcher
     },
     clickDelete() {
-      this.runDelete();
+      this.clickType = 'delete';
+      this.modalStateWatcher = !this.modalStateWatcher
     },
-  },
-  mounted() {
-    this.setError('');
-    this.setQuery({ type: 'sms' });
-    // if tel
-    const telControl = this.controls.find((c) => c.property === 'tel');
-    if (telControl && telControl.value) {
-      this.setTelIsFilled(true);
-      this.controls.forEach((c) => {
-        c.disabled = true;
-      });
+    clickYes() {
+      if (this.clickType === 'edit') {
+        this.edit();
+      } else if (this.clickType === 'delete') {
+        this.delete();
+      }
+
+      this.modalStateWatcher = !this.modalStateWatcher
+    },
+    clickNo() {
+      this.modalStateWatcher = !this.modalStateWatcher
+    },
+    getModalText() {
+      if (this.clickType === 'edit') {
+        return 'Вы действительно хотите изменить номер телефона?'
+      } else if (this.clickType === 'delete') {
+        return 'Вы действительно хотите удалить номер телефона?'
+      }
     }
   },
+  mounted() {},
 };

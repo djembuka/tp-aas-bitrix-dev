@@ -10,6 +10,9 @@
   display: flex;
   gap: 16px;
 }
+.vue-auth-sms-sms__buttons > .vue-button:first-of-type {
+  width: 192px;
+}
 hr.hr--none {
   padding: 0;
   margin: 0;

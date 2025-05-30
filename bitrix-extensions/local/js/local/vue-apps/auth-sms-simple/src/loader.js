@@ -15,8 +15,6 @@ import { Code } from './pages/code';
 import { Edit } from './pages/edit';
 import { Info } from './pages/info';
 
-import './style/auth-sms.css';
-
 export class AuthSMSSimple {
   #store;
   #router;
@@ -80,7 +78,7 @@ export class AuthSMSSimple {
         );
         authStore().controls[0].value = self.options.tel || '';
         authStore().controls[1].label = self.options.checkboxLabel || '';
-        authStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
+        // authStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
 
         codeStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_CODE');
 

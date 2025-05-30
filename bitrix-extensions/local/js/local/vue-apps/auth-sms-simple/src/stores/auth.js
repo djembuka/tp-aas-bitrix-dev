@@ -4,9 +4,20 @@ import { codeStore } from './code.js';
 
 export const authStore = defineStore('auth', {
   state: () => ({
-    lang: {},
+    lang: {
+      heading: 'Введите ваш номер',
+      html: '<p>Вы можете указать номер телефона и воспользоваться авторизацией по СМС-коду.</p>',
+      label: 'Номер телефона',
+      checkbox: 'Я даю согласие на обработку, хранение и использование персональных данных в целях осуществления функций саморегулируемой организации аудиторов.',
+      button: 'Получить код',
+      "AUTH_SMS_SMS_ALT_BUTTON": "Вход по ОРНЗ",
+      "AUTH_SMS_SMS_LABEL_TEL": "Номер телефона",
+      "AUTH_SMS_SMS_TITLE_INSERT": "Введите код",
+      "AUTH_SMS_SMS_ERROR_BUTTON": "Перейти",
+      "AUTH_SMS_SMS_BUTTON_SUBMIT": "Получить код",
+      "AUTH_SMS_SMS_BUTTON_SUBMIT_TIMER": "Получите новый код через:"
+    },
     state: 'A1',
-    interface: 'add',
     controls: [
       {
         property: 'tel',
@@ -31,7 +42,6 @@ export const authStore = defineStore('auth', {
     deleteProps: { icon: true, delete: true, medium: true },
     timerEnd: 0,
     timer: 0,
-    telIsFilled: false,
   }),
   getters: {
     buttonDisabled() {
@@ -60,39 +70,6 @@ export const authStore = defineStore('auth', {
     },
   },
   actions: {
-    changeInterface(value) {
-      this.interface = value;
-
-      const tel = this.controls.find((c) => c.property === 'tel');
-      const checkbox = this.controls.find((c) => c.property === 'checkbox');
-
-      switch (value) {
-        case 'add':
-          this.controls.forEach((c) => {
-            c.disabled = false;
-          });
-          tel.value = '';
-          checkbox.value = false;
-          break;
-        case 'filled':
-          this.controls.forEach((c) => {
-            c.disabled = true;
-          });
-          break;
-        case 'change':
-          this.controls.forEach((c) => {
-            c.disabled = false;
-          });
-          checkbox.value = false;
-          break;
-      }
-    },
-    setTelIsFilled(value) {
-      this.telIsFilled = value;
-    },
-    changeTel() {
-      this.controls.find((c) => c.property === 'tel').disabled = false;
-    },
     buttonSubmitTimer(start) {
       this.timerEnd = Math.round(new Date().getTime() / 1000) + Number(start);
       this.timer = Number(start);
@@ -133,11 +110,9 @@ export const authStore = defineStore('auth', {
       const telControl = this.controls.find((c) => c.property === 'tel');
       const phone = telControl.value;
 
-      const method = this.interface === 'add' ? 'add' : 'update';
-
       if (window.BX) {
         BX.ajax
-          .runComponentAction('twinpx:profile.edit', method, {
+          .runComponentAction('twinpx:profile.edit', 'add', {
             mode: 'class',
             data: {
               phone,
@@ -162,7 +137,7 @@ export const authStore = defineStore('auth', {
                 codeStore().buttonTimer(codeStore().timer);
               }
 
-              dataStore().changeState('code');
+              dataStore().routeWatcher = '/code'
 
               const tel = telControl.value.split('-');
               dataStore().setInfo(
@@ -212,30 +187,6 @@ export const authStore = defineStore('auth', {
             }
           );
       }
-    },
-    runUpdate() {
-      this.runSend();
-    },
-    runDelete() {
-      this.changeDeleteProps({ 'load-circle': true });
-      const telControl = this.controls.find((c) => c.property === 'tel');
-      const phone = telControl.value;
-
-      BX.ajax
-        .runComponentAction('twinpx:profile.edit', 'remove', {
-          mode: 'class',
-          data: {
-            phone,
-          },
-          signedParameters: dataStore().signedParameters,
-        })
-        .then((response) => {
-          if (response.status === 'success' && response.data === true) {
-            this.changeDeleteProps({ 'load-circle': false });
-            this.setTelIsFilled(false);
-            this.changeInterface('add');
-          }
-        });
     },
   },
 });

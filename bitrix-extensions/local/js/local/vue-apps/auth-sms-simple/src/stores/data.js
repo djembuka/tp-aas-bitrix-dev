@@ -5,7 +5,7 @@ export const dataStore = defineStore('data', {
     sessid: '',
     signedParameters: '',
     lang: {},
-    state: 'auth',
+    routeWatcher: '',
     title: '',
     info: '',
     infoMessage: '',
@@ -15,9 +15,6 @@ export const dataStore = defineStore('data', {
     tel: ''
   }),
   actions: {
-    changeState(value) {
-      this.state = value;
-    },
     setTitle(title) {
       this.title = title;
     },

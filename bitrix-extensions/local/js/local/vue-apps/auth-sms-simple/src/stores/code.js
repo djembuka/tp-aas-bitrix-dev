@@ -1,6 +1,7 @@
 import { defineStore } from 'ui.vue3.pinia';
 import { dataStore } from './data.js';
 import { authStore } from './auth.js';
+import { editStore } from './edit.js';
 
 export const codeStore = defineStore('code', {
   state: () => ({
@@ -102,9 +103,8 @@ export const codeStore = defineStore('code', {
                   input.disabled = true;
                   input.value = '';
                 });
-                dataStore().changeState('sms');
-                authStore().setTelIsFilled(true);
-                authStore().changeInterface('filled');
+                dataStore().routeWatcher = '/edit'
+                editStore().controls[0].value = authStore().controls[0].value;
               }
             },
             (response) => {

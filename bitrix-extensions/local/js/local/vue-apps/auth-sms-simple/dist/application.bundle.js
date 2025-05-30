@@ -13,7 +13,7 @@
         sessid: '',
         signedParameters: '',
         lang: {},
-        state: 'auth',
+        routeWatcher: '',
         title: '',
         info: '',
         infoMessage: '',
@@ -24,9 +24,6 @@
       };
     },
     actions: {
-      changeState: function changeState(value) {
-        this.state = value;
-      },
       setTitle: function setTitle(title) {
         this.title = title;
       },
@@ -63,6 +60,132 @@
           result.push(k + '=' + queryObject[k]);
         }
         return '?' + result.join('&');
+      }
+    }
+  });
+
+  var infoStore = ui_vue3_pinia.defineStore('info', {
+    state: function state() {
+      return {
+        heading: '',
+        text: ''
+      };
+    }
+  });
+
+  var editStore = ui_vue3_pinia.defineStore('edit', {
+    state: function state() {
+      return {
+        lang: {
+          heading: 'Ваш телефон',
+          html: '<p>Номер телефона, который используется для авторизации в личном кабинете.</p>',
+          label: 'Номер телефона',
+          button: 'Изменить'
+        },
+        controls: [{
+          property: 'tel',
+          id: 'id0',
+          name: 'PHONE',
+          label: 'Номер телефона',
+          value: dataStore().tel,
+          disabled: true
+        }],
+        editProps: {
+          large: true,
+          secondary: true,
+          medium: true
+        },
+        deleteProps: {
+          icon: true,
+          "delete": true,
+          medium: true
+        }
+      };
+    },
+    actions: {
+      changeEditProps: function changeEditProps(obj) {
+        var _this = this;
+        Object.keys(obj).forEach(function (key) {
+          if (obj[key]) {
+            _this.editProps[key] = true;
+          } else {
+            delete _this.editProps[key];
+          }
+        });
+      },
+      changeDeleteProps: function changeDeleteProps(obj) {
+        var _this2 = this;
+        Object.keys(obj).forEach(function (key) {
+          if (obj[key]) {
+            _this2.deleteProps[key] = true;
+          } else {
+            delete _this2.deleteProps[key];
+          }
+        });
+      },
+      edit: function edit() {
+        this.changeEditProps({
+          'load-circle': true
+        });
+        this.runDelete();
+      },
+      "delete": function _delete() {
+        this.changeDeleteProps({
+          'load-circle': true
+        });
+        this.runDelete();
+      },
+      runDelete: function runDelete() {
+        var _this3 = this;
+        BX.ajax.runComponentAction('twinpx:profile.edit', 'remove', {
+          mode: 'class',
+          data: {
+            phone: dataStore().tel
+          },
+          signedParameters: dataStore().signedParameters
+        }).then(function (response) {
+          if (response.status === 'success' && response.data === true) {
+            dataStore().routeWatcher = '/info';
+            infoStore().heading = 'Подтвердите права';
+            infoStore().text = 'На вашу почту отправлено письмо с подтверждением вашего действия, откройте письмо и действуйте по инструкции.';
+          }
+        }, function (response) {
+          _this3.changeDeleteProps({
+            'load-circle': false
+          });
+          _this3.changeEditProps({
+            'load-circle': false
+          });
+          dataStore().setError(response.errors[0].message);
+          if (String(response.errors[0].code) === String(1001)) {
+            //B1
+            _this3.state = 'B1';
+            telControl.disabled = true;
+            dataStore().setErrorButton(_this3.lang.AUTH_SMS_SMS_ERROR_BUTTON);
+          } else if (String(response.errors[0].code) === String(1002)) {
+            //C1
+            _this3.state = 'C1';
+            _this3.buttonSubmitTimer(response.errors[0].customData.remain);
+          } else if (String(response.errors[0].code) === String(1003)) {
+            //A2
+            _this3.state = 'A2';
+            telControl.focusWatcher = true;
+            telControl.setInvalidWatcher = true;
+            telControl.regexp_description = response.errors[0].message || '';
+          } else if (String(response.errors[0].code) === String(1004)) ; else if (String(response.errors[0].code) === String(1005)) {
+            //A3
+            _this3.state = 'A3';
+            telControl.focusWatcher = true;
+            telControl.setInvalidWatcher = true;
+            telControl.regexp_description = response.errors[0].message || '';
+          } else if (String(response.errors[0].code) === String(1006)) {
+            //A3
+            _this3.state = 'A3';
+            telControl.focusWatcher = true;
+            telControl.setInvalidWatcher = true;
+            telControl.regexp_description = response.errors[0].message || '';
+          }
+        });
       }
     }
   });
@@ -183,9 +306,8 @@
                 input.disabled = true;
                 input.value = '';
               });
-              dataStore().changeState('sms');
-              authStore().setTelIsFilled(true);
-              authStore().changeInterface('filled');
+              dataStore().routeWatcher = '/edit';
+              editStore().controls[0].value = authStore().controls[0].value;
             }
           }, function (response) {
             _this3.changeButtonProps({
@@ -235,9 +357,20 @@
   var authStore = ui_vue3_pinia.defineStore('auth', {
     state: function state() {
       return {
-        lang: {},
+        lang: {
+          heading: 'Введите ваш номер',
+          html: '<p>Вы можете указать номер телефона и воспользоваться авторизацией по СМС-коду.</p>',
+          label: 'Номер телефона',
+          checkbox: 'Я даю согласие на обработку, хранение и использование персональных данных в целях осуществления функций саморегулируемой организации аудиторов.',
+          button: 'Получить код',
+          "AUTH_SMS_SMS_ALT_BUTTON": "Вход по ОРНЗ",
+          "AUTH_SMS_SMS_LABEL_TEL": "Номер телефона",
+          "AUTH_SMS_SMS_TITLE_INSERT": "Введите код",
+          "AUTH_SMS_SMS_ERROR_BUTTON": "Перейти",
+          "AUTH_SMS_SMS_BUTTON_SUBMIT": "Получить код",
+          "AUTH_SMS_SMS_BUTTON_SUBMIT_TIMER": "Получите новый код через:"
+        },
         state: 'A1',
-        "interface": 'add',
         controls: [{
           property: 'tel',
           id: 'id0',
@@ -266,8 +399,7 @@
           medium: true
         },
         timerEnd: 0,
-        timer: 0,
-        telIsFilled: false
+        timer: 0
       };
     },
     getters: {
@@ -285,43 +417,6 @@
       }
     },
     actions: {
-      changeInterface: function changeInterface(value) {
-        this["interface"] = value;
-        var tel = this.controls.find(function (c) {
-          return c.property === 'tel';
-        });
-        var checkbox = this.controls.find(function (c) {
-          return c.property === 'checkbox';
-        });
-        switch (value) {
-          case 'add':
-            this.controls.forEach(function (c) {
-              c.disabled = false;
-            });
-            tel.value = '';
-            checkbox.value = false;
-            break;
-          case 'filled':
-            this.controls.forEach(function (c) {
-              c.disabled = true;
-            });
-            break;
-          case 'change':
-            this.controls.forEach(function (c) {
-              c.disabled = false;
-            });
-            checkbox.value = false;
-            break;
-        }
-      },
-      setTelIsFilled: function setTelIsFilled(value) {
-        this.telIsFilled = value;
-      },
-      changeTel: function changeTel() {
-        this.controls.find(function (c) {
-          return c.property === 'tel';
-        }).disabled = false;
-      },
       buttonSubmitTimer: function buttonSubmitTimer(start) {
         var _this = this;
         this.timerEnd = Math.round(new Date().getTime() / 1000) + Number(start);
@@ -371,9 +466,8 @@
           return c.property === 'tel';
         });
         var phone = telControl.value;
-        var method = this["interface"] === 'add' ? 'add' : 'update';
         if (window.BX) {
-          BX.ajax.runComponentAction('twinpx:profile.edit', method, {
+          BX.ajax.runComponentAction('twinpx:profile.edit', 'add', {
             mode: 'class',
             data: {
               phone: phone
@@ -395,7 +489,7 @@
             if (codeStore().timer) {
               codeStore().buttonTimer(codeStore().timer);
             }
-            dataStore().changeState('code');
+            dataStore().routeWatcher = '/code';
             var tel = telControl.value.split('-');
             dataStore().setInfo("".concat(dataStore().lang.AUTH_SMS_CODE_INFO_MESSAGE, " ").concat(tel[0].substring(0, tel[0].length - 3), "...-..-").concat(tel[2]));
           }, function (response) {
@@ -433,197 +527,7 @@
             }
           });
         }
-      },
-      runUpdate: function runUpdate() {
-        this.runSend();
-      },
-      runDelete: function runDelete() {
-        var _this5 = this;
-        this.changeDeleteProps({
-          'load-circle': true
-        });
-        var telControl = this.controls.find(function (c) {
-          return c.property === 'tel';
-        });
-        var phone = telControl.value;
-        BX.ajax.runComponentAction('twinpx:profile.edit', 'remove', {
-          mode: 'class',
-          data: {
-            phone: phone
-          },
-          signedParameters: dataStore().signedParameters
-        }).then(function (response) {
-          if (response.status === 'success' && response.data === true) {
-            _this5.changeDeleteProps({
-              'load-circle': false
-            });
-            _this5.setTelIsFilled(false);
-            _this5.changeInterface('add');
-          }
-        });
       }
-    }
-  });
-
-  var editStore = ui_vue3_pinia.defineStore('edit', {
-    state: function state() {
-      return {
-        lang: {
-          heading: 'Ваш телефон',
-          html: '<p>Номер телефона, который используется для авторизации в личном кабинете.</p>',
-          label: 'Номер телефона',
-          button: 'Изменить'
-        },
-        controls: [{
-          property: 'tel',
-          id: 'id0',
-          name: 'PHONE',
-          label: 'Номер телефона',
-          value: dataStore().tel,
-          disabled: true
-        }],
-        editProps: {
-          large: true,
-          secondary: true,
-          medium: true
-        },
-        deleteProps: {
-          icon: true,
-          "delete": true,
-          medium: true
-        }
-      };
-    },
-    actions: {
-      changeEditProps: function changeEditProps(obj) {
-        var _this = this;
-        Object.keys(obj).forEach(function (key) {
-          if (obj[key]) {
-            _this.editProps[key] = true;
-          } else {
-            delete _this.editProps[key];
-          }
-        });
-      },
-      changeDeleteProps: function changeDeleteProps(obj) {
-        var _this2 = this;
-        Object.keys(obj).forEach(function (key) {
-          if (obj[key]) {
-            _this2.deleteProps[key] = true;
-          } else {
-            delete _this2.deleteProps[key];
-          }
-        });
-      },
-      runSend: function runSend() {
-        var _this3 = this;
-        this.changeEditProps({
-          'load-circle': true
-        });
-        var telControl = this.controls.find(function (c) {
-          return c.property === 'tel';
-        });
-        var phone = telControl.value;
-        var method = this["interface"] === 'add' ? 'add' : 'update';
-        if (window.BX) {
-          BX.ajax.runComponentAction('twinpx:profile.edit', method, {
-            mode: 'class',
-            data: {
-              phone: phone
-            },
-            signedParameters: dataStore().signedParameters
-          }).then(function (response) {
-            _this3.changeSubmitProps({
-              'load-circle': false
-            });
-            dataStore().setError('');
-
-            //show code
-            telControl.focusWatcher = false;
-            telControl.setInvalidWatcher = false;
-            telControl.regexp_description = '';
-            dataStore().setErrorButton('');
-            codeStore().uuid = response.data.uuid;
-            codeStore().timer = response.data.remain || 0;
-            if (codeStore().timer) {
-              codeStore().buttonTimer(codeStore().timer);
-            }
-            dataStore().changeState('code');
-            var tel = telControl.value.split('-');
-            dataStore().setInfo("".concat(dataStore().lang.AUTH_SMS_CODE_INFO_MESSAGE, " ").concat(tel[0].substring(0, tel[0].length - 3), "...-..-").concat(tel[2]));
-          }, function (response) {
-            _this3.changeSubmitProps({
-              'load-circle': false
-            });
-            dataStore().setError(response.errors[0].message);
-            if (String(response.errors[0].code) === String(1001)) {
-              //B1
-              _this3.state = 'B1';
-              telControl.disabled = true;
-              dataStore().setErrorButton(_this3.lang.AUTH_SMS_SMS_ERROR_BUTTON);
-            } else if (String(response.errors[0].code) === String(1002)) {
-              //C1
-              _this3.state = 'C1';
-              _this3.buttonSubmitTimer(response.errors[0].customData.remain);
-            } else if (String(response.errors[0].code) === String(1003)) {
-              //A2
-              _this3.state = 'A2';
-              telControl.focusWatcher = true;
-              telControl.setInvalidWatcher = true;
-              telControl.regexp_description = response.errors[0].message || '';
-            } else if (String(response.errors[0].code) === String(1004)) ; else if (String(response.errors[0].code) === String(1005)) {
-              //A3
-              _this3.state = 'A3';
-              telControl.focusWatcher = true;
-              telControl.setInvalidWatcher = true;
-              telControl.regexp_description = response.errors[0].message || '';
-            } else if (String(response.errors[0].code) === String(1006)) {
-              //A3
-              _this3.state = 'A3';
-              telControl.focusWatcher = true;
-              telControl.setInvalidWatcher = true;
-              telControl.regexp_description = response.errors[0].message || '';
-            }
-          });
-        }
-      },
-      runUpdate: function runUpdate() {
-        this.runSend();
-      },
-      runDelete: function runDelete() {
-        var _this4 = this;
-        this.changeDeleteProps({
-          'load-circle': true
-        });
-        var telControl = this.controls.find(function (c) {
-          return c.property === 'tel';
-        });
-        var phone = telControl.value;
-        BX.ajax.runComponentAction('twinpx:profile.edit', 'remove', {
-          mode: 'class',
-          data: {
-            phone: phone
-          },
-          signedParameters: dataStore().signedParameters
-        }).then(function (response) {
-          if (response.status === 'success' && response.data === true) {
-            _this4.changeDeleteProps({
-              'load-circle': false
-            });
-            _this4.setTelIsFilled(false);
-            _this4.changeInterface('add');
-          }
-        });
-      }
-    }
-  });
-
-  var infoStore = ui_vue3_pinia.defineStore('info', {
-    state: function state() {
-      return {
-        heading: '',
-        info: 'На вашу почту отправлено письмо с подтверждением вашего действия, откройте письмо и действуйте по инструкции.'
-      };
     }
   });
 
@@ -638,41 +542,20 @@
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
     // language=Vue
-    template: "\n    <div class=\"vue-auth-sms-sms\">\n\n      <div v-for=\"control in controls\" :key=\"control.id\">\n        <div v-if=\"control.property === 'tel' && interface === 'filled'\" class=\"vue-auth-sms-sms__tel\">\n          <ControlComponent :control=\"control\" @input=\"input\" />\n          <div class=\"vue-auth-sms-sms__buttons\">\n            <ButtonComponent text=\"\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C\" :props=\"['secondary', 'medium']\" @clickButton=\"clickChange\" />\n\n            <ButtonComponent text=\"Delete\" :props=\"Object.keys(deleteProps)\" @clickButton=\"clickDelete\" />\n          </div>\n        </div>\n        <div v-else>\n          <ControlComponent :control=\"control\" @input=\"input\" />\n        </div>\n        <hr />\n        \n      </div>\n\n      <ButtonComponent :text=\"buttonSubmitTimerText || lang.AUTH_SMS_SMS_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"clickSubmit\" />\n      \n    </div>\n\t",
-    computed: _objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'state'])), ui_vue3_pinia.mapState(authStore, ['interface', 'controls', 'submitProps', 'deleteProps', 'buttonDisabled', 'buttonSubmitTimerText', 'telIsFilled'])),
+    template: "\n    <h3>{{ lang.heading }}</h3>\n\n    <div v-html=\"lang.html\"></div>\n\n    <MessageComponent v-if=\"error\" type=\"error\" :message=\"error\" />\n\n    <div class=\"vue-auth-sms-auth\">\n\n      <ControlComponent v-for=\"control in controls\" :key=\"control.id\" :control=\"control\" @input=\"input\" />\n\n      <ButtonComponent :text=\"buttonSubmitTimerText || lang.button\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"clickSubmit\" />\n      \n    </div>\n\t",
+    computed: _objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['routeWatcher'])), ui_vue3_pinia.mapState(authStore, ['lang', 'interface', 'controls', 'submitProps', 'deleteProps', 'buttonDisabled', 'buttonSubmitTimerText', 'telIsFilled'])),
     watch: {
-      state: function state(val) {
-        if (val === 'code') {
-          this.$router.push('/code');
-        }
+      routeWatcher: function routeWatcher(val) {
+        this.$router.push(val);
       }
     },
-    methods: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(dataStore, ['setError'])), ui_vue3_pinia.mapActions(authStore, ['input', 'runSend', 'runUpdate', 'runDelete', 'changeTel', 'setTelIsFilled', 'changeInterface'])), {}, {
+    methods: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(dataStore, ['setError'])), ui_vue3_pinia.mapActions(authStore, ['input', 'runSend'])), {}, {
       clickSubmit: function clickSubmit() {
-        if (this["interface"] === 'add') {
-          this.runSend();
-        } else if (this["interface"] === 'change') {
-          this.runUpdate();
-        }
-      },
-      clickChange: function clickChange() {
-        this.changeInterface('change');
-        this.setTelIsFilled(false);
-      },
-      clickDelete: function clickDelete() {
-        this.runDelete();
+        this.runSend();
       }
     }),
     mounted: function mounted() {
       this.setError('');
-      // if tel
-      var telControl = this.controls.find(function (c) {
-        return c.property === 'tel';
-      });
-      if (telControl && telControl.value) {
-        this.setTelIsFilled(true);
-        this.changeInterface('filled');
-      }
     }
   };
 
@@ -689,7 +572,7 @@
     // language=Vue
 
     template: "\n      <div class=\"vue-auth-sms-code-form\">\n        <div class=\"vue-auth-sms-code-form-body\">\n\n          <div :class=\"{'vue-auth-sms-code-inputs': true, 'vue-auth-sms-code-inputs--invalid': invalidInputs}\">\n\n            <div :class=\"{'vue-auth-sms-code-inputs-label': true, 'vue-auth-sms-code-inputs-label--disabled': inputs.every(i => i.disabled)}\">{{ lang.AUTH_SMS_CODE_LABEL_INPUTS }}</div>\n            \n            <div class=\"vue-auth-sms-code-inputs-body\" ref=\"inputs\">\n\n              <input v-for=\"(input, index) in inputs\"\n                :key=\"input.id\"\n                :type=\"inputType()\"\n                :class=\"{'vue-auth-sms-code-input': true, 'vue-auth-sms-code-input--disabled': input.disabled}\"\n                v-model=\"this['inputValue'+index]\"\n                @keydown.backspace=\"backspaceInput(input, index)\"\n                @focus=\"focusText()\"\n              />\n\n            </div>\n\n            <div class=\"vue-auth-sms-code-inputs__warning\">{{ error }}</div>\n          </div>\n\n          <div>\n            <ButtonComponent :text=\"lang.AUTH_SMS_CODE_BUTTON_SUBMIT\" :props=\"Object.keys(submitProps)\" :disabled=\"buttonDisabled\" @clickButton=\"runCheck\" />\n          </div>\n\n          <div>\n            <ButtonComponent v-if=\"timer === 0 || !!timer\" :text=\"buttonTimerText\" :props=\"Object.keys(timerProps)\" :disabled=\"timerDisabled\" @clickButton=\"clickNewCode\" />\n          </div>\n\n        </div>\n      </div>\n\t",
-    computed: _objectSpread$1(_objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'state', 'error'])), ui_vue3_pinia.mapState(codeStore, ['inputs', 'uuid', 'submitProps', 'buttonDisabled', 'buttonTimerText', 'timerDisabled', 'timerProps', 'timer', 'clearInputs', 'invalidInputs'])), {}, {
+    computed: _objectSpread$1(_objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'routeWatcher', 'error'])), ui_vue3_pinia.mapState(codeStore, ['inputs', 'uuid', 'submitProps', 'buttonDisabled', 'buttonTimerText', 'timerDisabled', 'timerProps', 'timer', 'clearInputs', 'invalidInputs'])), {}, {
       inputValue0: {
         get: function get() {
           var index = 0;
@@ -798,10 +681,8 @@
           return input.value = '';
         });
       },
-      state: function state(val) {
-        if (val === 'sms') {
-          this.$router.push('/');
-        }
+      routeWatcher: function routeWatcher(val) {
+        this.$router.push(val);
       }
     },
     methods: _objectSpread$1(_objectSpread$1(_objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapActions(dataStore, ['setInfoButton', 'setError'])), ui_vue3_pinia.mapActions(authStore, ['runSend'])), ui_vue3_pinia.mapActions(codeStore, ['invertClearInputs', 'changeInputValue', 'runCheck', 'changeButtonProps', 'buttonTimer', 'setInvalidInputs'])), {}, {
@@ -845,7 +726,10 @@
   function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$2(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var Edit = {
     data: function data() {
-      return {};
+      return {
+        modalStateWatcher: true,
+        clickType: ''
+      };
     },
     components: {
       ControlComponent: local_vueComponents_controlComponent.ControlComponent,
@@ -854,45 +738,42 @@
       ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo
     },
     // language=Vue
-    template: "\n\n    <ModalYesNo />\n  \n    <h3>{{ lang.heading }}</h3>\n\n    <div v-html=\"lang.html\"></div>\n\n    <MessageComponent v-if=\"error\" type=\"error\" :message=\"error\" />\n\n    <div class=\"vue-auth-sms-sms\">\n\n      <div class=\"vue-auth-sms-sms__tel\">\n        <ControlComponent :control=\"controls[0]\" />\n        <div class=\"vue-auth-sms-sms__buttons\">\n          <ButtonComponent :text=\"lang.button\" :props=\"Object.keys(editProps)\" @clickButton=\"clickEdit\" />\n          <ButtonComponent text=\"Delete\" :props=\"Object.keys(deleteProps)\" @clickButton=\"clickDelete\" />\n        </div>\n      </div>\n\n    </div>\n\t",
-    computed: _objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['error'])), ui_vue3_pinia.mapState(editStore, ['lang', 'controls', 'editProps', 'deleteProps'])),
+    template: "\n\n    <ModalYesNo\n      heading=\"\u041F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435\"\n      :text=\"getModalText()\"\n      yes=\"\u0414\u0430\"\n      no=\"\u041D\u0435\u0442\"\n      :stateWatcher=\"modalStateWatcher\"\n      @clickYes=\"clickYes\"\n      @clickNo=\"clickNo\"\n    />\n  \n    <h3>{{ lang.heading }}</h3>\n\n    <div v-html=\"lang.html\"></div>\n\n    <MessageComponent v-if=\"error\" type=\"error\" :message=\"error\" />\n\n    <div class=\"vue-auth-sms-sms\">\n\n      <div class=\"vue-auth-sms-sms__tel\">\n        <ControlComponent :control=\"controls[0]\" />\n        <div class=\"vue-auth-sms-sms__buttons\">\n          <ButtonComponent :text=\"lang.button\" :props=\"Object.keys(editProps)\" @clickButton=\"clickEdit\" />\n          <ButtonComponent text=\"Delete\" :props=\"Object.keys(deleteProps)\" @clickButton=\"clickDelete\" />\n        </div>\n      </div>\n\n    </div>\n\t",
+    computed: _objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['routeWatcher', 'error'])), ui_vue3_pinia.mapState(editStore, ['lang', 'controls', 'editProps', 'deleteProps'])),
     watch: {
-      state: function state(val) {
-        if (val === 'code') {
-          this.$router.push('/code');
-        }
+      routeWatcher: function routeWatcher(val) {
+        this.$router.push(val);
       }
     },
-    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['setError'])), ui_vue3_pinia.mapActions(editStore, [])), {}, {
+    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['setError'])), ui_vue3_pinia.mapActions(editStore, ['edit', 'delete'])), {}, {
       clickEdit: function clickEdit() {
-        var telControl = this.controls.find(function (c) {
-          return c.property === 'tel';
-        });
-        if (telControl) {
-          telControl.disabled = false;
-        }
-        this.setTelIsFilled(false);
+        this.clickType = 'edit';
+        this.modalStateWatcher = !this.modalStateWatcher;
       },
       clickDelete: function clickDelete() {
-        this.runDelete();
+        this.clickType = 'delete';
+        this.modalStateWatcher = !this.modalStateWatcher;
+      },
+      clickYes: function clickYes() {
+        if (this.clickType === 'edit') {
+          this.edit();
+        } else if (this.clickType === 'delete') {
+          this["delete"]();
+        }
+        this.modalStateWatcher = !this.modalStateWatcher;
+      },
+      clickNo: function clickNo() {
+        this.modalStateWatcher = !this.modalStateWatcher;
+      },
+      getModalText: function getModalText() {
+        if (this.clickType === 'edit') {
+          return 'Вы действительно хотите изменить номер телефона?';
+        } else if (this.clickType === 'delete') {
+          return 'Вы действительно хотите удалить номер телефона?';
+        }
       }
     }),
-    mounted: function mounted() {
-      this.setError('');
-      this.setQuery({
-        type: 'sms'
-      });
-      // if tel
-      var telControl = this.controls.find(function (c) {
-        return c.property === 'tel';
-      });
-      if (telControl && telControl.value) {
-        this.setTelIsFilled(true);
-        this.controls.forEach(function (c) {
-          c.disabled = true;
-        });
-      }
-    }
+    mounted: function mounted() {}
   };
 
   function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -905,8 +786,13 @@
       MessageComponent: local_vueComponents_messageComponent.MessageComponent
     },
     // language=Vue
-    template: "\n    <div class=\"vue-auth-simple-info\">\n\n      <h3 class=\"mt-0\">{{ heading }}</h3>\n\n      <MessageComponent v-if=\"info\" type=\"info\" :message=\"info\" :button=\"false\" />\n      \n    </div>\n\t",
-    computed: _objectSpread$3({}, ui_vue3_pinia.mapState(infoStore, ['info', 'heading']))
+    template: "\n    <div class=\"vue-auth-simple-info\">\n\n      <h3>{{ heading }}</h3>\n\n      <MessageComponent v-if=\"text\" type=\"info\" :message=\"text\" :button=\"false\" />\n      \n    </div>\n\t",
+    computed: _objectSpread$3(_objectSpread$3({}, ui_vue3_pinia.mapState(dataStore, ['routeWatcher', 'error'])), ui_vue3_pinia.mapState(infoStore, ['text', 'heading'])),
+    watch: {
+      routeWatcher: function routeWatcher(val) {
+        this.$router.push(val);
+      }
+    }
   };
 
   function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
@@ -975,7 +861,8 @@
             authStore().controls[0].label = this.$Bitrix.Loc.getMessage('AUTH_SMS_SMS_LABEL_TEL');
             authStore().controls[0].value = self.options.tel || '';
             authStore().controls[1].label = self.options.checkboxLabel || '';
-            authStore().lang = ui_vue3.BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
+            // authStore().lang = BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_SMS');
+
             codeStore().lang = ui_vue3.BitrixVue.getFilteredPhrases(this, 'AUTH_SMS_CODE');
             infoStore().heading = self.options.heading || this.$Bitrix.Loc.getMessage('AUTH_SMS_SIMPLE_INFO_TITLE') || '';
 
@@ -1023,5 +910,4 @@
 
   exports.AuthSMSSimple = AuthSMSSimple;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.AAS,BX.Controls,BX.Vue3.Pinia,BX.AAS));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.AAS,BX.Controls,BX.Vue3.Pinia,BX.AAS));//# sourceMappingURL=application.bundle.js.map

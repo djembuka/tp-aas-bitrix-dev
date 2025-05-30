@@ -11,9 +11,13 @@
   align-items: center;
   background: rgba(255, 255, 255, 0.90);
   backdrop-filter: blur(3.799999952316284px);
-  /* opacity: 0; */
+  opacity: 0;
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
+  z-index: -1;
+}
+.twpx-modal-yes-no.twpx-modal-yes-no--open {
+  opacity: 1;
   z-index: 1000;
 }
 .twpx-modal-yes-no-body {

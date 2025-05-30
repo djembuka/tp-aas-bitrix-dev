@@ -8,3 +8,6 @@
 .vue-auth-sms p {
   margin: 0;
 }
+.vue-auth-sms .twpx-form-control--checkbox {
+  margin-bottom: 0;
+}

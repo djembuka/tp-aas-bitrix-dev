@@ -53,7 +53,7 @@ export const Code = {
       </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang', 'state', 'error']),
+    ...mapState(dataStore, ['lang', 'routeWatcher', 'error']),
     ...mapState(codeStore, [
       'inputs',
       'uuid',
@@ -185,10 +185,8 @@ export const Code = {
         .querySelectorAll(`.vue-auth-sms-code-input`)
         .forEach((input) => (input.value = ''));
     },
-    state(val) {
-      if (val === 'sms') {
-        this.$router.push('/');
-      }
+    routeWatcher(val) {
+      this.$router.push(val);
     },
   },
   methods: {
