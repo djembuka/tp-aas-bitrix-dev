@@ -17,6 +17,7 @@ return [
 		'ui.vue3.router',
 		'local.vue-components.control-component',
 		'local.vue-components.control-choice',
+		'local.vue-components.modal-yes-no',
 		'local.vue-components.button-component',
 		'ui.vue3.pinia',
 	],

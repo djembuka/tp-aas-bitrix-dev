@@ -38,6 +38,15 @@ $APPLICATION->SetTitle("Markup");
   <li>
 	<a href="/markup/pages/auth-sms/">Аутентификация по смс</a>
   </li>
+  <li>
+	<a href="/markup/pages/auth-keys/">Аутентификация для неаудиторов</a>
+  </li>
+  <li>
+	<a href="/markup/pages/auth-keys/info.php">Аутентификация - info</a>
+  </li>
+  <li>
+	<a href="/markup/pages/auth-keys/error.php">Аутентификация - error</a>
+  </li>
 </ul>
 
 <h3>Обращения</h3>

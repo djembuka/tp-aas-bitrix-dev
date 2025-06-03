@@ -1,0 +1,19 @@
+.auth-keys-edit__tel {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+.auth-keys-edit__tel .twpx-control-component {
+  width: 100%;
+}
+.auth-keys-edit__buttons {
+  display: flex;
+  gap: 16px;
+}
+.auth-keys-edit__buttons > .vue-button:first-of-type {
+  width: 192px;
+}
+hr.hr--none {
+  padding: 0;
+  margin: 0;
+}

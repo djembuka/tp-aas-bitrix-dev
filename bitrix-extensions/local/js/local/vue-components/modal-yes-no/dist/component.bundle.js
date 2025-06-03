@@ -34,7 +34,8 @@ this.BX = this.BX || {};
     emits: ['clickYes', 'clickNo'],
     data: function data() {
       return {
-        isOpen: false
+        isOpen: false,
+        isAnimate: false
       };
     },
     components: {
@@ -42,7 +43,7 @@ this.BX = this.BX || {};
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
     // language=Vue
-    template: "\n\t\t<div :class=\"{'twpx-modal-yes-no': true, 'twpx-modal-yes-no--open': isOpen}\" @click=\"close\">\n      <div class=\"twpx-modal-yes-no-body\" @click.stop>\n        <div class=\"twpx-modal-yes-no-close\">\n          <IconClose @click.prevent=\"close\" />\n        </div>\n        <div class=\"twpx-modal-yes-no-heading\">{{ heading }}</div>\n        <div class=\"twpx-modal-yes-no-text\" v-html=\"text\"></div>\n        <div class=\"twpx-modal-yes-no-buttons\">\n          <ButtonComponent :text=\"no\" :props=\"['gray-color','large']\" @clickButton=\"$emit('clickNo')\" />\n          <ButtonComponent :text=\"yes\" :props=\"['secondary','large']\" @clickButton=\"$emit('clickYes')\" />\n        </div>\n      </div>\n    </div>\n\t"
+    template: "\n\t\t<div :class=\"{\n      'twpx-modal-yes-no': true,\n      'twpx-modal-yes-no--open': isOpen,\n      'twpx-modal-yes-no--animate': isAnimate\n    }\" @click=\"close\">\n\n      <div class=\"twpx-modal-yes-no-body\" @click.stop>\n        <div class=\"twpx-modal-yes-no-close\">\n          <IconClose @click.prevent=\"close\" />\n        </div>\n        <div class=\"twpx-modal-yes-no-heading\">{{ heading }}</div>\n        <div class=\"twpx-modal-yes-no-text\" v-html=\"text\"></div>\n        <div class=\"twpx-modal-yes-no-buttons\">\n          <ButtonComponent :text=\"no\" :props=\"['gray-color','large']\" @clickButton=\"$emit('clickNo')\" />\n          <ButtonComponent :text=\"yes\" :props=\"['secondary','large']\" @clickButton=\"$emit('clickYes')\" />\n        </div>\n      </div>\n    </div>\n\t"
   }, babelHelpers.defineProperty(_ModalYesNo, "emits", ['input', 'focus', 'blur', 'enter']), babelHelpers.defineProperty(_ModalYesNo, "watch", {
     stateWatcher: function stateWatcher() {
       if (this.isOpen) {
@@ -53,14 +54,22 @@ this.BX = this.BX || {};
     }
   }), babelHelpers.defineProperty(_ModalYesNo, "methods", {
     open: function open() {
+      var _this = this;
       this.isOpen = true;
+      setTimeout(function () {
+        _this.isAnimate = true;
+      }, 0);
     },
     close: function close() {
-      this.isOpen = false;
+      var _this2 = this;
+      this.isAnimate = false;
+      setTimeout(function () {
+        _this2.isOpen = false;
+      }, 300);
     }
   }), _ModalYesNo);
 
   exports.ModalYesNo = ModalYesNo;
 
-}((this.BX.Controls = this.BX.Controls || {}),BX.AAS));
+}((this.BX.Modals = this.BX.Modals || {}),BX.AAS));
 //# sourceMappingURL=component.bundle.js.map

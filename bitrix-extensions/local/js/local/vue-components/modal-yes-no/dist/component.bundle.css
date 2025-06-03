@@ -24,8 +24,10 @@
   transition: opacity 0.3s ease;
   z-index: -1;
 }
-.twpx-modal-yes-no.twpx-modal-yes-no--open {
+.twpx-modal-yes-no.twpx-modal-yes-no--animate {
   opacity: 1;
+}
+.twpx-modal-yes-no.twpx-modal-yes-no--open {
   z-index: 1000;
 }
 .twpx-modal-yes-no-body {

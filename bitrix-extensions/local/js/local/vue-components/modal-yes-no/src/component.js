@@ -29,7 +29,8 @@ export const ModalYesNo = {
   emits: ['clickYes', 'clickNo'],
   data() {
     return {
-      isOpen: false
+      isOpen: false,
+      isAnimate: false,
     }
   },
   components: {
@@ -38,7 +39,12 @@ export const ModalYesNo = {
   },
   // language=Vue
   template: `
-		<div :class="{'twpx-modal-yes-no': true, 'twpx-modal-yes-no--open': isOpen}" @click="close">
+		<div :class="{
+      'twpx-modal-yes-no': true,
+      'twpx-modal-yes-no--open': isOpen,
+      'twpx-modal-yes-no--animate': isAnimate
+    }" @click="close">
+
       <div class="twpx-modal-yes-no-body" @click.stop>
         <div class="twpx-modal-yes-no-close">
           <IconClose @click.prevent="close" />
@@ -65,9 +71,15 @@ export const ModalYesNo = {
   methods: {
     open() {
       this.isOpen = true;
+      setTimeout(() => {
+        this.isAnimate = true;
+      }, 0)
     },
     close() {
-      this.isOpen = false;
+      this.isAnimate = false;
+      setTimeout(() => {
+        this.isOpen = false;
+      }, 300)
     }
   },
 };

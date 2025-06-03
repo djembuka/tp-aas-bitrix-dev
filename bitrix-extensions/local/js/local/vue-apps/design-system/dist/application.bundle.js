@@ -1,9 +1,9 @@
 /* eslint-disable */
-(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_controlComponent,local_vueComponents_controlChoice,local_vueComponents_buttonComponent,ui_vue3_pinia) {
+(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_controlComponent,local_vueComponents_controlChoice,local_vueComponents_modalYesNo,local_vueComponents_buttonComponent,ui_vue3_pinia) {
   'use strict';
 
   var TheMenu = {
-    template: "\n    <div class=\"twpx-desing-system-menu\">\n      <router-link to=\"/\">Form controls</router-link>\n      <router-link to=\"/multi\">Form controls multi</router-link>\n      <router-link to=\"/buttons\">Buttons</router-link>\n      <router-link to=\"/filter\">Filter</router-link>\n    </div>\n  "
+    template: "\n    <div class=\"twpx-desing-system-menu\">\n      <router-link to=\"/\">Form controls</router-link>\n      <router-link to=\"/multi\">Form controls multi</router-link>\n      <router-link to=\"/buttons\">Buttons</router-link>\n      <router-link to=\"/filter\">Filter</router-link>\n      <router-link to=\"/modals\">Modals</router-link>\n    </div>\n  "
   };
 
   var Application = {
@@ -999,6 +999,52 @@
     template: "\n    <div>Filter</div>\n  "
   };
 
+  var modalsStore = ui_vue3_pinia.defineStore('modals-store', {
+    state: function state() {
+      return {
+        modal_yes_no: {
+          id: 1,
+          heading: "Подтверждение",
+          text: "Вы действительно хотите изменить номер телефона?",
+          yes: "Да",
+          no: "Нет",
+          stateWatcher: false,
+          clickYes: function clickYes() {
+            console.log('modal yes');
+          },
+          clickNo: function clickNo() {
+            console.log('modal no');
+          }
+        }
+      };
+    },
+    actions: {}
+  });
+
+  function ownKeys$4(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$4(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$4(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$4(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  var ModalsComponent = {
+    data: function data() {},
+    components: {
+      ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
+    },
+    template: "\n    <div>\n      <div class=\"twpx-design-system-block\">\n        <ModalYesNo\n          :heading=\"modal_yes_no.heading\"\n          :text=\"modal_yes_no.text\"\n          :yes=\"modal_yes_no.yes\"\n          :no=\"modal_yes_no.no\"\n          :stateWatcher=\"modal_yes_no.stateWatcher\"\n          @clickYes=\"modal_yes_no.clickYes\"\n          @clickNo=\"modal_yes_no.clickNo\"\n        />\n        <div>\n          <ButtonComponent text=\"Show\" :props=\"['secondary', 'medium']\" @clickButton=\"modal_yes_no.stateWatcher = !modal_yes_no.stateWatcher\" />\n        </div>\n        <pre>{{ getModalYesNoCode(button) }}</pre>\n      </div>\n    </div>\n  ",
+    computed: _objectSpread$4({}, ui_vue3_pinia.mapState(modalsStore, ['modal_yes_no'])),
+    methods: {
+      getModalYesNoCode: function getModalYesNoCode() {
+        return "ModalYesNo\n  :heading=\"heading\"\n  :text=\"text\"\n  :yes=\"yes\"\n  :no=\"no\"\n  :stateWatcher=\"stateWatcher\"\n  @clickYes=\"clickYes\"\n  @clickNo=\"clickNo\"\n/";
+      }
+    }
+  };
+
+  var Modals = {
+    components: {
+      ModalsComponent: ModalsComponent
+    },
+    template: "\n    <div><ModalsComponent /></div>\n  "
+  };
+
   function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
   function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
   var _store = /*#__PURE__*/new WeakMap();
@@ -1039,6 +1085,9 @@
         }, {
           path: '/filter',
           component: Filter
+        }, {
+          path: '/modals',
+          component: Modals
         }]
       }));
       babelHelpers.classPrivateFieldSet(this, _rootNode, document.querySelector(rootNode));
@@ -1075,5 +1124,5 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX.Controls,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map
