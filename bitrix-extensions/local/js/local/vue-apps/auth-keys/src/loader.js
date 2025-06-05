@@ -29,7 +29,7 @@ export class AuthKeys {
         {
           path: '/',
           component: Auth,
-          alias: '/auth'
+          alias: '/auth',
         },
         {
           path: '/code',
@@ -72,7 +72,7 @@ export class AuthKeys {
 
         // lang
         if (self.options.lang) {
-          const lang = JSON.parse(self.options.lang)
+          const lang = self.options.lang; //JSON.parse(self.options.lang)
           if (lang.auth) {
             authStore().lang = lang.auth;
           }
@@ -89,7 +89,7 @@ export class AuthKeys {
 
         // routing
         if (self.options.tel) {
-          this.$router.push('/edit')
+          this.$router.push('/edit');
         }
       },
     });
