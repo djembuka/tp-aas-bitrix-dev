@@ -251,11 +251,11 @@
             while (1) switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                // Создаем AbortController для возможности отмены запроса
+                // РЎРѕР·РґР°РµРј AbortController РґР»СЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РѕС‚РјРµРЅС‹ Р·Р°РїСЂРѕСЃР°
                 controller = new AbortController();
                 timeoutId = setTimeout(function () {
                   return controller.abort();
-                }, 20000); // 20 секунд таймаут
+                }, 20000); // 20 СЃРµРєСѓРЅРґ С‚Р°Р№РјР°СѓС‚
                 _context.next = 5;
                 return fetch(action, {
                   signal: controller.signal,
@@ -456,7 +456,7 @@
           id: 'id1-2',
           property: 'text',
           name: 'SOME_TEXT',
-          label: 'Поле text заполнено',
+          label: 'РџРѕР»Рµ text Р·Р°РїРѕР»РЅРµРЅРѕ',
           value: ['one', 'two', 'three'],
           required: false,
           disabled: false,
@@ -657,11 +657,11 @@
             while (1) switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                // Создаем AbortController для возможности отмены запроса
+                // РЎРѕР·РґР°РµРј AbortController РґР»СЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РѕС‚РјРµРЅС‹ Р·Р°РїСЂРѕСЃР°
                 controller = new AbortController();
                 timeoutId = setTimeout(function () {
                   return controller.abort();
-                }, 20000); // 20 секунд таймаут
+                }, 20000); // 20 СЃРµРєСѓРЅРґ С‚Р°Р№РјР°СѓС‚
                 _context.next = 5;
                 return fetch(action, {
                   signal: controller.signal,
@@ -1004,10 +1004,10 @@
       return {
         modal_yes_no: {
           id: 1,
-          heading: "Подтверждение",
-          text: "Вы действительно хотите изменить номер телефона?",
-          yes: "Да",
-          no: "Нет",
+          heading: "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ",
+          text: "Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ РёР·РјРµРЅРёС‚СЊ РЅРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°?",
+          yes: "Р”Р°",
+          no: "РќРµС‚",
           stateWatcher: false,
           clickYes: function clickYes() {
             console.log('modal yes');

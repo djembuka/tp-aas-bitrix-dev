@@ -15,6 +15,9 @@ export const dataStore = defineStore('data', {
     tel: ''
   }),
   actions: {
+    setTel(tel) {
+      this.tel = tel
+    },
     setTitle(title) {
       this.title = title;
     },

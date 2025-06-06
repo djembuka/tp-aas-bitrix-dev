@@ -52,7 +52,7 @@ export const Auth = {
     },
   },
   methods: {
-    ...mapActions(dataStore, ['setError']),
+    ...mapActions(dataStore, ['setError', 'setTel']),
     ...mapActions(authStore, [
       'input',
       'runSend',
@@ -60,6 +60,7 @@ export const Auth = {
     ]),
     clickSubmit() {
       this.runSend();
+      this.setTel(this.controls[0].value);
     },
   },
   mounted() {
