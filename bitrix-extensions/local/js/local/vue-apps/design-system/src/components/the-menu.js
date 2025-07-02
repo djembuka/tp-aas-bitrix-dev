@@ -6,6 +6,8 @@ export const TheMenu = {
       <router-link to="/buttons">Buttons</router-link>
       <router-link to="/filter">Filter</router-link>
       <router-link to="/modals">Modals</router-link>
+      <router-link to="/docs">Docs</router-link>
+      <router-link to="/loaders">Loaders</router-link>
     </div>
   `,
 };

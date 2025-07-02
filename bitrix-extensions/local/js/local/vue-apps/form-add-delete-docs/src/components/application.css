@@ -1,0 +1,58 @@
+.vue-fadd {
+  display: grid;
+  gap: 40px;
+}
+.vue-fadd-docs-block {
+  display: grid;
+  gap: 24px;
+}
+.vue-fadd-docs {
+  display: grid;
+  gap: 16px;
+}
+
+.vue-fadd-add-form {
+  display: grid;
+  padding: 32px;
+  gap: 20px;
+  background: var(--Grey-Blue-Block-Background, #FAFBFC);
+}
+.vue-fadd-control {
+  display: flex;
+  gap: 32px;
+}
+.vue-fadd-control .twpx-control-component {
+  width: 100%;
+}
+.vue-fadd-note {
+  width: 40%;
+  flex-shrink: 0;
+  max-width: 450px;
+  color: #9B9B9B;
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.vue-fadd-add-form .vue-button {
+  width: 100%;
+  max-width: 256px;
+}
+.vue-fadd-add-form__h4 {
+  color: #3B3B3B;
+  font-family: Roboto, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+#formAddDeleteDocs .vue-loader-circle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ffffff99;
+  z-index: 1000;
+}

@@ -26,6 +26,19 @@ this.BX = this.BX || {};
         type: String,
         "default": 'Нет'
       },
+      'buttons': {
+        type: Object,
+        "default": function _default() {
+          return {
+            yes: {
+              props: ['secondary', 'large']
+            },
+            no: {
+              props: ['gray-color', 'large']
+            }
+          };
+        }
+      },
       stateWatcher: {
         type: Boolean,
         "default": true
@@ -43,7 +56,7 @@ this.BX = this.BX || {};
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
     // language=Vue
-    template: "\n\t\t<div :class=\"{\n      'twpx-modal-yes-no': true,\n      'twpx-modal-yes-no--open': isOpen,\n      'twpx-modal-yes-no--animate': isAnimate\n    }\" @click=\"close\">\n\n      <div class=\"twpx-modal-yes-no-body\" @click.stop>\n        <div class=\"twpx-modal-yes-no-close\">\n          <IconClose @click.prevent=\"close\" />\n        </div>\n        <div class=\"twpx-modal-yes-no-heading\">{{ heading }}</div>\n        <div class=\"twpx-modal-yes-no-text\" v-html=\"text\"></div>\n        <div class=\"twpx-modal-yes-no-buttons\">\n          <ButtonComponent :text=\"no\" :props=\"['gray-color','large']\" @clickButton=\"$emit('clickNo')\" />\n          <ButtonComponent :text=\"yes\" :props=\"['secondary','large']\" @clickButton=\"$emit('clickYes')\" />\n        </div>\n      </div>\n    </div>\n\t"
+    template: "\n\t\t<div :class=\"{\n      'twpx-modal-yes-no': true,\n      'twpx-modal-yes-no--open': isOpen,\n      'twpx-modal-yes-no--animate': isAnimate\n    }\" @click=\"close\">\n\n      <div class=\"twpx-modal-yes-no-body\" @click.stop>\n        <div class=\"twpx-modal-yes-no-close\">\n          <IconClose @click.prevent=\"close\" />\n        </div>\n        <div class=\"twpx-modal-yes-no-heading\">{{ heading }}</div>\n        <div class=\"twpx-modal-yes-no-text\" v-html=\"text\"></div>\n        <div class=\"twpx-modal-yes-no-buttons\">\n          <ButtonComponent :text=\"no\" :props=\"buttons.no.props\" @clickButton=\"$emit('clickNo')\" />\n          <ButtonComponent :text=\"yes\" :props=\"buttons.yes.props\" @clickButton=\"$emit('clickYes')\" />\n        </div>\n      </div>\n    </div>\n\t"
   }, babelHelpers.defineProperty(_ModalYesNo, "emits", ['input', 'focus', 'blur', 'enter']), babelHelpers.defineProperty(_ModalYesNo, "watch", {
     stateWatcher: function stateWatcher() {
       if (this.isOpen) {

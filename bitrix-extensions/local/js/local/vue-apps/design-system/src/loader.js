@@ -8,6 +8,8 @@ import { FormControlsMulti } from './pages/form-controls-multi';
 import { Buttons } from './pages/buttons';
 import { Filter } from './pages/filter';
 import { Modals } from './pages/modals';
+import { Docs } from './pages/docs';
+import { Loaders } from './pages/loaders';
 
 export class DesignSystem {
   #store;
@@ -39,6 +41,14 @@ export class DesignSystem {
         {
           path: '/modals',
           component: Modals,
+        },
+        {
+          path: '/docs',
+          component: Docs,
+        },
+        {
+          path: '/loaders',
+          component: Loaders,
         },
       ],
     });

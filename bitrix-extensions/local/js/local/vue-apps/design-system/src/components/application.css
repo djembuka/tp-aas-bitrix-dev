@@ -3,6 +3,9 @@
   grid-template-columns: 2fr 2fr 1fr;
   gap: 32px;
 }
+.twpx-design-system-block--two-cols {
+  grid-template-columns: 4fr 1fr;
+}
 
 .twpx-design-system-block pre {
   font-size: 12px;

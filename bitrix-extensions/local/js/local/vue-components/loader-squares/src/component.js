@@ -1,6 +1,6 @@
 import './component.css';
 
-export const LoaderSquare = {
+export const LoaderSquares = {
   // language=Vue
   template: `
     <div class="vue-loader-square" v-if="show">

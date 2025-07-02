@@ -939,5 +939,5 @@
 
   exports.AuthKeys = AuthKeys;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.AAS,BX.Modals,BX.Vue3.Pinia,BX.AAS));
+}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX.AAS,BX.Modals,BX,BX.AAS));
 //# sourceMappingURL=application.bundle.js.map

@@ -1,9 +1,9 @@
 /* eslint-disable */
-(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_controlComponent,local_vueComponents_controlChoice,local_vueComponents_modalYesNo,local_vueComponents_buttonComponent,ui_vue3_pinia) {
+(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_controlComponent,local_vueComponents_controlChoice,local_vueComponents_modalYesNo,local_vueComponents_buttonComponent,local_vueComponents_docComponent,local_vueComponents_loaderCircle,local_vueComponents_loaderBubbles,local_vueComponents_loaderSquares,ui_vue3_pinia) {
   'use strict';
 
   var TheMenu = {
-    template: "\n    <div class=\"twpx-desing-system-menu\">\n      <router-link to=\"/\">Form controls</router-link>\n      <router-link to=\"/multi\">Form controls multi</router-link>\n      <router-link to=\"/buttons\">Buttons</router-link>\n      <router-link to=\"/filter\">Filter</router-link>\n      <router-link to=\"/modals\">Modals</router-link>\n    </div>\n  "
+    template: "\n    <div class=\"twpx-desing-system-menu\">\n      <router-link to=\"/\">Form controls</router-link>\n      <router-link to=\"/multi\">Form controls multi</router-link>\n      <router-link to=\"/buttons\">Buttons</router-link>\n      <router-link to=\"/filter\">Filter</router-link>\n      <router-link to=\"/modals\">Modals</router-link>\n      <router-link to=\"/docs\">Docs</router-link>\n      <router-link to=\"/loaders\">Loaders</router-link>\n    </div>\n  "
   };
 
   var Application = {
@@ -365,7 +365,7 @@
         var control = _ref.control,
           value = _ref.value,
           checked = _ref.checked;
-        console.log(value), this.changeControlValue({
+        this.changeControlValue({
           control: control,
           value: value,
           checked: checked
@@ -1045,6 +1045,82 @@
     template: "\n    <div><ModalsComponent /></div>\n  "
   };
 
+  var docsStore = ui_vue3_pinia.defineStore('docs-store', {
+    state: function state() {
+      return {
+        docs: [{
+          id: 123,
+          href: '/pages/Протокол заседания дисицплинарной комиссии 234.pdf',
+          size: 654000,
+          date: '15 января 2020',
+          author: 'Азарянц Ашот Александрович',
+          icon: '/template/images/pdf.svg',
+          remove: true
+        }]
+      };
+    },
+    actions: {}
+  });
+
+  function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$5(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  var DocsComponent = {
+    data: function data() {},
+    components: {
+      DocComponent: local_vueComponents_docComponent.DocComponent
+    },
+    template: "\n    <div>\n      <div class=\"twpx-design-system-block twpx-design-system-block--two-cols\" v-for=\"doc in docs\" :key=\"doc.id\">\n        <div>\n          <DocComponent :doc=\"doc\" @clickDelete.prevent=\"alert('delete')\" />\n        </div>\n        <pre>{{ doc }}</pre>\n      </div>\n    </div>\n  ",
+    computed: _objectSpread$5({}, ui_vue3_pinia.mapState(docsStore, ['docs'])),
+    methods: {}
+  };
+
+  var Docs = {
+    components: {
+      DocsComponent: DocsComponent
+    },
+    template: "\n    <div>&lt;DocComponent :doc=\"doc\" @clickDelete.prevent=\"alert('delete')\" /&gt;</div>\n    <div><DocsComponent /></div>\n  "
+  };
+
+  var loadersStore = ui_vue3_pinia.defineStore('loaders-store', {
+    state: function state() {
+      return {
+        loaders: [{
+          component: 'LoaderCircle'
+        }, {
+          component: 'LoaderBubbles'
+        }, {
+          component: 'LoaderSquares'
+        }]
+      };
+    },
+    actions: {}
+  });
+
+  function ownKeys$6(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$6(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$6(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$6(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  var LoadersComponent = {
+    data: function data() {},
+    components: {
+      LoaderCircle: local_vueComponents_loaderCircle.LoaderCircle,
+      LoaderBubbles: local_vueComponents_loaderBubbles.LoaderBubbles,
+      LoaderSquares: local_vueComponents_loaderSquares.LoaderSquares
+    },
+    template: "\n    <div>\n      <div class=\"twpx-design-system-block twpx-design-system-block--two-cols\" v-for=\"loader in loaders\" :key=\"loader.id\">\n        <div>\n          <component :is=\"loader.component\" :show=\"true\" />\n        </div>\n        <pre>{{ getLoaderCode(loader) }}</pre>\n      </div>\n    </div>\n  ",
+    computed: _objectSpread$6({}, ui_vue3_pinia.mapState(loadersStore, ['loaders'])),
+    methods: {
+      getLoaderCode: function getLoaderCode(loader) {
+        return "".concat(loader.component, " :show=\"true\"");
+      }
+    }
+  };
+
+  var Loaders = {
+    components: {
+      LoadersComponent: LoadersComponent
+    },
+    template: "\n    <div><LoadersComponent /></div>\n  "
+  };
+
   function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
   function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
   var _store = /*#__PURE__*/new WeakMap();
@@ -1088,6 +1164,12 @@
         }, {
           path: '/modals',
           component: Modals
+        }, {
+          path: '/docs',
+          component: Docs
+        }, {
+          path: '/loaders',
+          component: Loaders
         }]
       }));
       babelHelpers.classPrivateFieldSet(this, _rootNode, document.querySelector(rootNode));
@@ -1124,5 +1206,5 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.AAS,BX.Vue3.Pinia));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

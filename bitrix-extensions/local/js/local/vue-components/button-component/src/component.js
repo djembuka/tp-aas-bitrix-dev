@@ -12,11 +12,11 @@ export const ButtonComponent = {
   },
   // language=Vue
   template: `
-    <button v-if="props.find(e => e === 'icon')" :class="propsClass" @click="clickButton" :title="text">
+    <button v-if="props.find(e => e === 'icon')" :class="propsClass" @click.prevent="clickButton" :title="text">
       <DeleteIcon />
     </button>
 
-		<button v-else class="vue-button" :class="propsClass" @click="clickButton">{{ text }}</button>
+		<button v-else class="vue-button" :class="propsClass" @click.prevent="clickButton">{{ text }}</button>
 	`,
   computed: {
     propsClass() {
