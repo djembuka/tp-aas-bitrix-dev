@@ -1,5 +1,5 @@
 /* eslint-disable */
-(function (exports,ui_vue3,local_vueComponents_controlChoice,local_vueComponents_docComponent,local_vueComponents_modalYesNo,local_vueComponents_buttonComponent,local_vueComponents_loaderCircle,ui_vue3_pinia) {
+(function (exports,ui_vue3,local_vueComponents_controlChoice,local_vueComponents_docComponent,local_vueComponents_modalYesNo,local_vueComponents_buttonComponent,local_vueComponents_loaderCircle,local_vueComponents_messageComponent,ui_vue3_pinia) {
   'use strict';
 
   var dataStore = ui_vue3_pinia.defineStore('data', {
@@ -30,7 +30,7 @@
           "file": "",
           "required": true,
           "disabled": false,
-          "accept": ["pdf", "doc", "docx", "zip", "jpg", "jpeg", "png", "gif", "webp"],
+          "accept": [],
           "image": true,
           "maxsize": 10000000
         },
@@ -42,6 +42,9 @@
       };
     },
     actions: {
+      setUploadFileExt: function setUploadFileExt() {
+        this.formControl.accept = dataStore().uploadFileExt || [];
+      },
       clearFormControl: function clearFormControl() {
         this.formControl.clearWatcher = !this.formControl.clearWatcher;
       },
@@ -70,7 +73,7 @@
         this.modal.stateWatcher = !this.modal.stateWatcher;
       },
       changeModalText: function changeModalText(doc) {
-        this.modal.text = "".concat(dataStore().lang.modalText, " <b>").concat(doc.href.split('/').pop(), "</b>");
+        this.modal.text = "".concat(dataStore().lang.modalText, " <b>").concat(doc.name, "</b>");
       },
       changeDocs: function changeDocs(docs) {
         this.docs = docs;
@@ -94,6 +97,7 @@
             type: d.type
           }
         }).then(function (response) {
+          _this.changeError('');
           _this.loading = false;
           _this.changeDocs(response.data);
         }, function (response) {
@@ -115,6 +119,7 @@
             id: this.activeDoc.id
           }
         }).then(function () {
+          _this2.changeError('');
           _this2.runGetFiles();
         }, function (response) {
           _this2.loading = false;
@@ -137,6 +142,7 @@
           mode: 'class',
           data: formData
         }).then(function () {
+          _this3.changeError('');
           _this3.runGetFiles();
         }, function (response) {
           _this3.loading = false;
@@ -159,11 +165,12 @@
       DocComponent: local_vueComponents_docComponent.DocComponent,
       ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo,
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
-      LoaderCircle: local_vueComponents_loaderCircle.LoaderCircle
+      LoaderCircle: local_vueComponents_loaderCircle.LoaderCircle,
+      MessageComponent: local_vueComponents_messageComponent.MessageComponent
     },
     // language=Vue
-    template: "\n    <LoaderCircle :show=\"loading\" />\n\n    <ModalYesNo\n      :heading=\"lang.modalHeading\"\n      :text=\"modal.text\"\n      :yes=\"lang.modalYes\"\n      :no=\"lang.modalNo\"\n      :stateWatcher=\"modal.stateWatcher\"\n      :buttons=\"{\n        yes: {\n          props: ['danger', 'large']\n        },\n        no: {\n          props: ['gray-color', 'large']\n        }\n      }\"\n      @clickYes=\"clickYes\"\n      @clickNo=\"clickNo\"\n    />\n\n    <div class=\"vue-fadd\">\n\n      <div class=\"vue-fadd-docs-block\" v-if=\"docs && docs.length\">\n        <h3 v-if=\"lang.docsHeading\">{{ lang.docsHeading }}</h3>\n        <div class=\"vue-fadd-docs\">\n          <DocComponent v-for=\"doc in docs\" :doc=\"doc\" :key=\"doc.id\" @clickDelete=\"clickDelete(doc)\" />\n        </div>\n      </div>\n\n      <form action method>\n        <div class=\"vue-fadd-add-form\">\n          <div class=\"vue-fadd-add-form__h4\" v-if=\"lang.formHeading\">{{ lang.formHeading }}</div>\n          <div v-html=\"lang.formText\"></div>\n          <div class=\"vue-fadd-control\">\n            <ControlChoice :control=\"formControl\" @input=\"input\" />\n            <div class=\"vue-fadd-note\" v-html=\"lang.formNote\"></div>\n          </div>\n          <ButtonComponent :text=\"lang.formButton\" :props=\"formButtonProps\" @clickButton=\"submitForm\" />\n        </div>\n      </form>\n\n    </div>\n\t",
-    computed: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['lang'])), ui_vue3_pinia.mapState(formStore, ['loading', 'docs', 'formControl', 'modal', 'changeControlValue'])), {}, {
+    template: "\n    <LoaderCircle :show=\"loading\" />\n\n    <ModalYesNo\n      :heading=\"lang.modalHeading\"\n      :text=\"modal.text\"\n      :yes=\"lang.modalYes\"\n      :no=\"lang.modalNo\"\n      :stateWatcher=\"modal.stateWatcher\"\n      :buttons=\"{\n        yes: {\n          props: ['danger', 'large']\n        },\n        no: {\n          props: ['gray-color', 'large']\n        }\n      }\"\n      @clickYes=\"clickYes\"\n      @clickNo=\"clickNo\"\n    />\n\n    <div class=\"vue-fadd\">\n\n      <MessageComponent v-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n      <div class=\"vue-fadd-docs-block\" v-if=\"docs && docs.length\">\n        <h3 v-if=\"lang.docsHeading\">{{ lang.docsHeading }}</h3>\n        <div class=\"vue-fadd-docs\">\n          <DocComponent v-for=\"doc in docs\" :doc=\"doc\" :key=\"doc.id\" @clickDelete=\"clickDelete(doc)\" />\n        </div>\n      </div>\n\n      <h3 v-else-if=\"lang.noDocsHeading\">{{ lang.noDocsHeading }}</h3>\n\n      <div class=\"vue-fadd-add-form\" v-f=\"uploadForm\">\n        <div class=\"vue-fadd-add-form__h4\" v-if=\"lang.formHeading\">{{ lang.formHeading }}</div>\n        <div v-html=\"lang.formText\"></div>\n        <div class=\"vue-fadd-control\">\n          <ControlChoice :control=\"formControl\" @input=\"input\" />\n          <div class=\"vue-fadd-note\" v-html=\"lang.formNote\"></div>\n        </div>\n        <ButtonComponent :text=\"lang.formButton\" :props=\"formButtonProps\" @clickButton=\"submitForm\" />\n      </div>\n\n    </div>\n\t",
+    computed: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'uploadForm', 'uploadFileExt'])), ui_vue3_pinia.mapState(formStore, ['loading', 'docs', 'formControl', 'modal', 'changeControlValue', 'error'])), {}, {
       formButtonProps: function formButtonProps() {
         return this.formControl.file ? ['secondary', 'large'] : ['secondary', 'large', 'disabled'];
       }
@@ -236,7 +243,10 @@
             dataStore().id = self.options.id || '';
             dataStore().type = self.options.type || '';
             dataStore().actions = self.options.actions || {};
+            dataStore().uploadForm = self.options.uploadForm || false;
+            dataStore().uploadFileExt = self.options.uploadFileExt || [];
             formStore().runGetFiles();
+            formStore().setUploadFileExt();
           }
         }));
         babelHelpers.classPrivateFieldGet(this, _application).use(babelHelpers.classPrivateFieldGet(this, _store));
@@ -258,5 +268,4 @@
 
   exports.FormAddDeleteDocs = FormAddDeleteDocs;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Controls,BX.AAS,BX.Modals,BX.AAS,BX.Loaders,BX.Vue3.Pinia));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Controls,BX.AAS,BX.Modals,BX.AAS,BX.Loaders,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map

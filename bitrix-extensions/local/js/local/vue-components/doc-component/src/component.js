@@ -13,6 +13,7 @@ export const DocComponent = {
       type: Object,
       default: () => ({
         id: 123,
+        name: 'Протокол заседания дисицплинарной комиссии 234',
         href: '/pages/Протокол заседания дисицплинарной комиссии 234.pdf',
         size: 654000,
         date: '15 января 2020',
@@ -34,9 +35,9 @@ export const DocComponent = {
   template: `
 		<div class="twpx-doc twpx-doc--button twpx-doc--32x44 p-16 bg-fa">
       <div class="twpx-doc__body">
-        <a class="twpx-doc__icon" :href="doc.href" :style="getStyle()"></a>
+        <a class="twpx-doc__icon" :href="doc.href" :style="getStyle()" target="_blank"></a>
         <span class="twpx-doc__text">
-          <a :href="doc.href"><b>{{ getFileNameAndExt(doc.href).name }}</b></a>
+          <a :href="doc.href" target="_blank"><b>{{ doc.name }}</b></a>
           <span class="twpx-doc__data">
             <span>{{ formatFileSize(doc.size) }} {{ getFileNameAndExt(doc.href).ext }}</span>
             <span>Дата публикации: {{ formatDateToRussian(doc.date) }}</span>

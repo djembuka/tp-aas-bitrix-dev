@@ -5,6 +5,7 @@ import { DocComponent } from 'local.vue-components.doc-component';
 import { ModalYesNo } from 'local.vue-components.modal-yes-no';
 import { ButtonComponent } from 'local.vue-components.button-component';
 import { LoaderCircle } from 'local.vue-components.loader-circle';
+import { MessageComponent } from 'local.vue-components.message-component';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data';
@@ -19,7 +20,8 @@ export const Application = {
     DocComponent,
     ModalYesNo,
     ButtonComponent,
-    LoaderCircle
+    LoaderCircle,
+    MessageComponent
   },
   // language=Vue
   template: `
@@ -45,6 +47,8 @@ export const Application = {
 
     <div class="vue-fadd">
 
+      <MessageComponent v-if="error" type="error" size="big" :message="error" />
+
       <div class="vue-fadd-docs-block" v-if="docs && docs.length">
         <h3 v-if="lang.docsHeading">{{ lang.docsHeading }}</h3>
         <div class="vue-fadd-docs">
@@ -52,23 +56,23 @@ export const Application = {
         </div>
       </div>
 
-      <form action method>
-        <div class="vue-fadd-add-form">
-          <div class="vue-fadd-add-form__h4" v-if="lang.formHeading">{{ lang.formHeading }}</div>
-          <div v-html="lang.formText"></div>
-          <div class="vue-fadd-control">
-            <ControlChoice :control="formControl" @input="input" />
-            <div class="vue-fadd-note" v-html="lang.formNote"></div>
-          </div>
-          <ButtonComponent :text="lang.formButton" :props="formButtonProps" @clickButton="submitForm" />
+      <h3 v-else-if="lang.noDocsHeading">{{ lang.noDocsHeading }}</h3>
+
+      <div class="vue-fadd-add-form" v-f="uploadForm">
+        <div class="vue-fadd-add-form__h4" v-if="lang.formHeading">{{ lang.formHeading }}</div>
+        <div v-html="lang.formText"></div>
+        <div class="vue-fadd-control">
+          <ControlChoice :control="formControl" @input="input" />
+          <div class="vue-fadd-note" v-html="lang.formNote"></div>
         </div>
-      </form>
+        <ButtonComponent :text="lang.formButton" :props="formButtonProps" @clickButton="submitForm" />
+      </div>
 
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['lang']),
-    ...mapState(formStore, ['loading', 'docs', 'formControl', 'modal', 'changeControlValue']),
+    ...mapState(dataStore, ['lang', 'uploadForm', 'uploadFileExt']),
+    ...mapState(formStore, ['loading', 'docs', 'formControl', 'modal', 'changeControlValue', 'error']),
     formButtonProps() {
       return this.formControl.file ? ['secondary', 'large'] : ['secondary', 'large', 'disabled'];
     }

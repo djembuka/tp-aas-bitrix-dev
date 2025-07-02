@@ -31,8 +31,11 @@ export class FormAddDeleteDocs {
         dataStore().id = self.options.id || '';
         dataStore().type = self.options.type || '';
         dataStore().actions = self.options.actions || {};
+        dataStore().uploadForm = self.options.uploadForm || false;
+        dataStore().uploadFileExt = self.options.uploadFileExt || [];
 
         formStore().runGetFiles();
+        formStore().setUploadFileExt();
       },
     });
 

@@ -15,17 +15,7 @@ export const formStore = defineStore('form', {
       "file": "",
       "required": true,
       "disabled": false,
-      "accept": [
-        "pdf",
-        "doc",
-        "docx",
-        "zip",
-        "jpg",
-        "jpeg",
-        "png",
-        "gif",
-        "webp"
-      ],
+      "accept": [],
       "image": true,
       "maxsize": 10000000
     },
@@ -36,6 +26,9 @@ export const formStore = defineStore('form', {
     activeDoc: {}
   }),
   actions: {
+    setUploadFileExt() {
+      this.formControl.accept = dataStore().uploadFileExt || [];
+    },
     clearFormControl() {
       this.formControl.clearWatcher = !this.formControl.clearWatcher;
     },
@@ -54,7 +47,7 @@ export const formStore = defineStore('form', {
       this.modal.stateWatcher = !this.modal.stateWatcher;
     },
     changeModalText(doc){
-      this.modal.text = `${dataStore().lang.modalText} <b>${ doc.href.split('/').pop() }</b>`
+      this.modal.text = `${dataStore().lang.modalText} <b>${ doc.name }</b>`
     },
     changeDocs(docs) {
       this.docs = docs;
@@ -79,6 +72,7 @@ export const formStore = defineStore('form', {
           },
         })
         .then((response) => {
+          this.changeError('');
           this.loading = false;
           this.changeDocs(response.data)
         }, (response) => {
@@ -101,6 +95,7 @@ export const formStore = defineStore('form', {
           },
         })
         .then(() => {
+          this.changeError('');
           this.runGetFiles();
         }, (response) => {
           this.loading = false;
@@ -126,6 +121,7 @@ export const formStore = defineStore('form', {
           data: formData,
         })
         .then(() => {
+          this.changeError('');
           this.runGetFiles();
         }, (response) => {
           this.loading = false;

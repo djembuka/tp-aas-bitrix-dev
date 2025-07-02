@@ -19,6 +19,7 @@ return [
 		'local.vue-components.modal-yes-no',
 		'local.vue-components.button-component',
 		'local.vue-components.loader-circle',
+		'local.vue-components.message-component',
 		'ui.vue3.pinia',
 	],
 	'skip_core' => true,

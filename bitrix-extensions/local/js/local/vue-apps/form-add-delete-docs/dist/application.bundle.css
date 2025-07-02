@@ -2,6 +2,9 @@
   display: grid;
   gap: 40px;
 }
+.vue-fadd h3 {
+  margin: 0;
+}
 .vue-fadd-docs-block {
   display: grid;
   gap: 24px;
