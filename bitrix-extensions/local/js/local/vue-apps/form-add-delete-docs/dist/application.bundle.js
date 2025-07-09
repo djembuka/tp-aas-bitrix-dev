@@ -268,4 +268,5 @@
 
   exports.FormAddDeleteDocs = FormAddDeleteDocs;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Controls,BX.AAS,BX.Modals,BX.AAS,BX.Loaders,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX,BX.Controls,BX.AAS,BX.Modals,BX.AAS,BX.Loaders,BX.AAS,BX));
+//# sourceMappingURL=application.bundle.js.map

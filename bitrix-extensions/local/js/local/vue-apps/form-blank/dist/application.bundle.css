@@ -1,0 +1,51 @@
+.disciplinary-case-form .vue-loader-circle {
+  height: 400px;
+}
+.disciplinary-case-form__wrapper {
+  display: grid;
+  gap: var(--twpx-form-gap-block-gap, 32px);
+  padding: var(--twpx-form-padding-desktop, 32px);
+  border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+}
+.disciplinary-case-form__block {
+  display: grid;
+  gap: var(--twpx-form-gap-input-gap, 24px);
+}
+.disciplinary-case-form h2,
+.disciplinary-case-form h3 {
+  margin: 0;
+}
+.disciplinary-case-form__buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: var(--twpx-form-gap-block-gap, 32px);
+}
+.disciplinary-case-form__buttons .vue-button:nth-child(1) {
+  width: 256px;
+}
+.disciplinary-case-form__buttons .vue-button:nth-child(2) {
+  width: 100%;
+}
+@media(max-width: 767px) {
+  .disciplinary-case-form__wrapper {
+    padding: 32px var(--twpx-form-padding-mobile, 16px);
+  }
+  .disciplinary-case-form__buttons {
+    display: grid;
+    gap: var(--body-buttons-vertical-gap, 16px);
+  }
+  .disciplinary-case-form__buttons .vue-button:nth-child(1) {
+    width: auto;
+    padding: var(--8, 8px) var(--16, 16px);
+    font-size: 12px;
+    height: var(--twpx-button-small, 32px);
+    border-radius: 4px;
+  }
+  .disciplinary-case-form h2 {
+    font-size: 20px;
+  }
+  .disciplinary-case-form h3 {
+    font-size: 14px;
+  }
+}

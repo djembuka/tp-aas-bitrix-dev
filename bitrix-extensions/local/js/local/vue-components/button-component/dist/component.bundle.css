@@ -259,9 +259,9 @@ button.vue-button {
 .vue-button--serve:focus,
 .vue-button--serve.vue-button--disabled,
 .vue-button--serve:disabled {
-  color: #5f7696;
-  background-color: #f0f5fc;
-  border-color: #f0f5fc;
+  color: var(--twpx-button-text-service, #5F7696);
+  background-color: var(--twpx-button-background-service, #F2F7FF);
+  border-color: var(--twpx-button-background-service, #F2F7FF);
 }
 .vue-button--serve.focus,
 .vue-button--serve:focus {
@@ -270,9 +270,9 @@ button.vue-button {
 }
 .vue-button--serve:not(:disabled):not(.vue-button--disabled).active,
 .vue-button--serve:not(:disabled):not(.vue-button--disabled):active {
-  color: #5f7696;
-  background-color: #f0f5fc;
-  border-color: #f0f5fc;
+  color: var(--twpx-button-text-service, #5F7696);
+  background-color: var(--twpx-button-background-service, #F2F7FF);
+  border-color: var(--twpx-button-background-service, #F2F7FF);
 }
 .vue-button--serve:not(:disabled):not(.vue-button--disabled).active:focus,
 .vue-button--serve:not(:disabled):not(.vue-button--disabled):active:focus {
@@ -468,7 +468,7 @@ button.vue-button {
 }
 .vue-button.vue-button--small {
   min-width: 0;
-  padding: 0.5rem 1rem;
+  padding: 8px 16px;
   font-weight: 400;
   font-size: 12px;
 }

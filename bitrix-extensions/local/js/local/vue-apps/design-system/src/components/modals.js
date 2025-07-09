@@ -1,6 +1,7 @@
 import { ModalYesNo } from 'local.vue-components.modal-yes-no';
+import { ModalAnyContent } from 'local.vue-components.modal-any-content';
 import { ButtonComponent } from 'local.vue-components.button-component';
-
+import { DocComponent } from 'local.vue-components.doc-component';
 
 import { mapState } from 'ui.vue3.pinia';
 import { modalsStore } from '../stores/modals-store';
@@ -9,7 +10,9 @@ export const ModalsComponent = {
   data() {},
   components: {
     ModalYesNo,
-    ButtonComponent
+    ModalAnyContent,
+    ButtonComponent,
+    DocComponent
   },
   template: `
     <div>
@@ -28,10 +31,29 @@ export const ModalsComponent = {
         </div>
         <pre>{{ getModalYesNoCode(button) }}</pre>
       </div>
+
+      <div class="twpx-design-system-block">
+        <ModalAnyContent :stateWatcher="modal_any_content.stateWatcher">
+          <DocComponent :doc='{
+            "id": 123,
+            "href": "/pages/Протокол заседания дисицплинарной комиссии 234.pdf",
+            "size": 654000,
+            "date": "15 января 2020",
+            "author": "Азарянц Ашот Александрович",
+            "icon": "/template/images/pdf.svg",
+            "remove": true
+          }' @clickDelete.prevent="alert('delete')" />
+          <ButtonComponent text="Success" :props="['success','large']" @clickButton="" />
+        </ModalAnyContent>
+        <div>
+          <ButtonComponent text="Show" :props="['secondary', 'medium']" @clickButton="modal_any_content.stateWatcher = !modal_any_content.stateWatcher" />
+        </div>
+        <pre>{{ getModalAnyContentCode(button) }}</pre>
+      </div>
     </div>
   `,
   computed: {
-    ...mapState(modalsStore, ['modal_yes_no']),
+    ...mapState(modalsStore, ['modal_yes_no', 'modal_any_content']),
   },
   methods: {
     getModalYesNoCode() {
@@ -44,6 +66,11 @@ export const ModalsComponent = {
   @clickYes="clickYes"
   @clickNo="clickNo"
 /`;
+    },
+    getModalAnyContentCode() {
+      return `ModalAnyContent :stateWatcher="modal_any_content.stateWatcher"
+  Some text
+/ModalAnyContent`;
     },
   },
 };

@@ -1,0 +1,114 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "1",
+      "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >First</div>",
+      "autocomplete": [
+        {
+          "id": "id1",
+          "value": "Семён Семёнович"
+        },
+        {
+          "id": "id1-1",
+          "value": "ООО Ответственные аудиторы"
+        },
+        {
+          "id": "id2",
+          "value": "+7 903 488 85 54"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+      "autocomplete": [
+        {
+          "id": "id1",
+          "value": "Семён Семёнович"
+        },
+        {
+          "id": "id1-1",
+          "value": "ООО Ответственные аудиторы"
+        },
+        {
+          "id": "id2",
+          "value": "+7 905 488 85 54"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+      "autocomplete": [
+        {
+          "id": "id1",
+          "value": "Семён Семёнович"
+        },
+        {
+          "id": "id1-1",
+          "value": "ООО Ответственные аудиторы"
+        },
+        {
+          "id": "id2",
+          "value": "+7 812 488 85 54"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Forth</div>",
+      "autocomplete": [
+        {
+          "id": "id1",
+          "value": "Семён Семёнович"
+        },
+        {
+          "id": "id1-1",
+          "value": "ООО Ответственные аудиторы"
+        },
+        {
+          "id": "id2",
+          "value": "+7 926 488 85 54"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>",
+      "autocomplete": [
+        {
+          "id": "id1",
+          "value": "Семён Семёнович"
+        },
+        {
+          "id": "id1-1",
+          "value": "ООО Ответственные аудиторы"
+        },
+        {
+          "id": "id2",
+          "value": "+7 986 488 85 54"
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div  style='width: 10px'></div><div data-value >Sixth</ div>",
+      "autocomplete": [
+        {
+          "id": "id1",
+          "value": "Семён Семёнович"
+        },
+        {
+          "id": "id1-1",
+          "value": "ООО Ответственные аудиторы"
+        },
+        {
+          "id": "id2",
+          "value": "+7 901 488 85 54"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

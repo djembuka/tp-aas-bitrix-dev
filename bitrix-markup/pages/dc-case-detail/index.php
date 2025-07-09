@@ -5,6 +5,7 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
 \Bitrix\Main\UI\Extension::load("local.vue-apps.table");
 \Bitrix\Main\UI\Extension::load("local.extensions.tabs-menu");
 \Bitrix\Main\UI\Extension::load("local.extensions.copy-to-clipboard");
+\Bitrix\Main\UI\Extension::load("local.extensions.aas-buttons");
 ?>
 
 <link rel="stylesheet" href="style.css" />
@@ -23,7 +24,14 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
   <div class="b-dc-case-detail__block">
     <hr>
     <div class="b-dc-case-detail__data">
-      <h3 class="mt-0">Общие данные</h3>
+	
+      <div class="d-flex align-items-center" style="gap: 24px;">
+		<h3 class="mt-0 mb-0">Общие данные</h3>
+		<div class="vue-button vue-button--serve vue-button--small" data-id="123" data-type="456" onclick="window.disciplinarycaseform.run({id:19142, type:1})">Изменить</div>
+	  </div>
+	  
+	  <hr class="hr--sm">
+	  
       <div class="row">
         <div class="col-lg-6"> 
           <table class="table">

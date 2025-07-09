@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "data": [
+    { "id": "1", "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >First</div>" },
+    { "id": "2", "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>" },
+    { "id": "3", "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>" },
+    { "id": "4", "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Forth</div>" },
+    { "id": "5", "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>" },
+    { "id": "6", "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div  style='width: 10px'></div><div data-value >Sixth</ div>" }
+  ],
+  "errors": []
+}

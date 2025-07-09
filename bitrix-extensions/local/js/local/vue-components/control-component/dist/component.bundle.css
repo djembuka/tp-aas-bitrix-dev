@@ -63,7 +63,7 @@
   --twpx-form-control-disabled-background-color: #fafafa;
 
   --twpx-form-control-external-hint-font-size: 9pt;
-  --twpx-form-control-external-hint-margin: 5px;
+  --twpx-form-control-external-hint-margin: 5px 5px 0 5px;
   --twpx-form-control-external-hint-line-height: 1.1;
 }
 

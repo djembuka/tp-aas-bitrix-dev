@@ -6,6 +6,7 @@ import './component.css';
 export const ControlSelectDropdown = {
   data() {
     return {
+      controlName: this.name || this.control.name || null,
       id: Math.floor(Math.random() * 100000),
       optionsArray: [],
       opened: false,
@@ -40,7 +41,7 @@ export const ControlSelectDropdown = {
         :data-id="id"
         id="id"
       >
-        <input type="hidden" :name="name" :value="value" />
+        <input type="hidden" :name="controlName" :value="value" />
         <IconDropdown class="twpx-form-control-select__arrow" />
         <div
           class="twpx-form-control-select__content"

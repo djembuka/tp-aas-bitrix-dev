@@ -18,6 +18,7 @@ return [
 		'local.vue-components.control-component',
 		'local.vue-components.control-choice',
 		'local.vue-components.modal-yes-no',
+		'local.vue-components.modal-any-content',
 		'local.vue-components.button-component',
 		'local.vue-components.doc-component',
 		'local.vue-components.loader-circle',

@@ -10,6 +10,43 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
 <link rel="stylesheet" href="style.css" />
 <script src="script.js"></script>
 
+<script>
+const formadddeletedocs = new BX.FormAddDeleteDocs('#formAddDeleteDocs', {
+    "sessid": "fb961889a116870610e26550b61eaaca",
+    "signedParameters": "",
+    "id": 19139,
+    "type": 89,
+    "actions": {
+        "getFiles": [
+            "twinpx:disciplinar",
+            "getFiles"
+        ],
+        "uploadFile": [
+            "twinpx:disciplinar",
+            "uploadFile"
+        ],
+        "removeFile": [
+            "twinpx:disciplinar",
+            "removeFile"
+        ]
+    },
+    "lang": {
+        "docsHeading": "Файлы заседания",
+        "formHeading": "Добавление файла",
+        "formText": "Каждый файл или архив загружается отдельно, вы сможете удалить файл после загрузки.",
+        "formNote": "Выберите файл, добавьте его и сохраните.",
+        "formButton": "Сохранить",
+        "modalHeading": "Вы удаляете файл",
+        "modalText": "Вы удаляете файл",
+        "modalYes": "Удалить",
+        "modalNo": "Отменить",
+        "noDocsHeading": "Нет загруженных файлов"
+    },
+    "uploadForm": true
+});
+formadddeletedocs.run();
+</script>
+
 <div class="b-dc-case-detail__docs">
   <h3 class="mt-0">Документы</h3>
   <p>Документы дисциплинарного дела. Создаются сотрудником СРО ААС и доступны только членам дисциплинарной комиссии.

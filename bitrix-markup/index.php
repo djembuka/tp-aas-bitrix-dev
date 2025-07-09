@@ -58,6 +58,7 @@ $APPLICATION->SetTitle("Markup");
 
 <h3>Дисциплинарная комиссия</h3>
 <ul>
+  <li><a href="/markup/pages/dc-case-form/">Форма добавления/редактирования дисциплинарного дела</a>
   <li><a href="/markup/pages/dc-registry/">Реестр дисциплинарных дел</a>
 	<ul>
 	  <li><a href="/markup/pages/dc-case-detail/">Дисциплинарное дело детально - Общие данные</a></li>

@@ -1,5 +1,5 @@
 /* eslint-disable */
-(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_controlComponent,local_vueComponents_controlChoice,local_vueComponents_modalYesNo,local_vueComponents_buttonComponent,local_vueComponents_docComponent,local_vueComponents_loaderCircle,local_vueComponents_loaderBubbles,local_vueComponents_loaderSquares,ui_vue3_pinia) {
+(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_controlComponent,local_vueComponents_controlChoice,local_vueComponents_modalYesNo,local_vueComponents_modalAnyContent,local_vueComponents_buttonComponent,local_vueComponents_docComponent,local_vueComponents_loaderCircle,local_vueComponents_loaderBubbles,local_vueComponents_loaderSquares,ui_vue3_pinia) {
   'use strict';
 
   var TheMenu = {
@@ -1015,6 +1015,26 @@
           clickNo: function clickNo() {
             console.log('modal no');
           }
+        },
+        modal_any_content: {
+          id: 2,
+          buttons: {
+            yes: {
+              text: 'Да',
+              props: ['secondary', 'large']
+            },
+            no: {
+              text: 'Нет',
+              props: ['gray-color', 'large']
+            }
+          },
+          stateWatcher: false,
+          clickYes: function clickYes() {
+            console.log('modal yes');
+          },
+          clickNo: function clickNo() {
+            console.log('modal no');
+          }
         }
       };
     },
@@ -1027,13 +1047,18 @@
     data: function data() {},
     components: {
       ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo,
-      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
+      ModalAnyContent: local_vueComponents_modalAnyContent.ModalAnyContent,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
+      DocComponent: local_vueComponents_docComponent.DocComponent
     },
-    template: "\n    <div>\n      <div class=\"twpx-design-system-block\">\n        <ModalYesNo\n          :heading=\"modal_yes_no.heading\"\n          :text=\"modal_yes_no.text\"\n          :yes=\"modal_yes_no.yes\"\n          :no=\"modal_yes_no.no\"\n          :stateWatcher=\"modal_yes_no.stateWatcher\"\n          @clickYes=\"modal_yes_no.clickYes\"\n          @clickNo=\"modal_yes_no.clickNo\"\n        />\n        <div>\n          <ButtonComponent text=\"Show\" :props=\"['secondary', 'medium']\" @clickButton=\"modal_yes_no.stateWatcher = !modal_yes_no.stateWatcher\" />\n        </div>\n        <pre>{{ getModalYesNoCode(button) }}</pre>\n      </div>\n    </div>\n  ",
-    computed: _objectSpread$4({}, ui_vue3_pinia.mapState(modalsStore, ['modal_yes_no'])),
+    template: "\n    <div>\n      <div class=\"twpx-design-system-block\">\n        <ModalYesNo\n          :heading=\"modal_yes_no.heading\"\n          :text=\"modal_yes_no.text\"\n          :yes=\"modal_yes_no.yes\"\n          :no=\"modal_yes_no.no\"\n          :stateWatcher=\"modal_yes_no.stateWatcher\"\n          @clickYes=\"modal_yes_no.clickYes\"\n          @clickNo=\"modal_yes_no.clickNo\"\n        />\n        <div>\n          <ButtonComponent text=\"Show\" :props=\"['secondary', 'medium']\" @clickButton=\"modal_yes_no.stateWatcher = !modal_yes_no.stateWatcher\" />\n        </div>\n        <pre>{{ getModalYesNoCode(button) }}</pre>\n      </div>\n\n      <div class=\"twpx-design-system-block\">\n        <ModalAnyContent :stateWatcher=\"modal_any_content.stateWatcher\">\n          <DocComponent :doc='{\n            \"id\": 123,\n            \"href\": \"/pages/\u041F\u0440\u043E\u0442\u043E\u043A\u043E\u043B \u0437\u0430\u0441\u0435\u0434\u0430\u043D\u0438\u044F \u0434\u0438\u0441\u0438\u0446\u043F\u043B\u0438\u043D\u0430\u0440\u043D\u043E\u0439 \u043A\u043E\u043C\u0438\u0441\u0441\u0438\u0438 234.pdf\",\n            \"size\": 654000,\n            \"date\": \"15 \u044F\u043D\u0432\u0430\u0440\u044F 2020\",\n            \"author\": \"\u0410\u0437\u0430\u0440\u044F\u043D\u0446 \u0410\u0448\u043E\u0442 \u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440\u043E\u0432\u0438\u0447\",\n            \"icon\": \"/template/images/pdf.svg\",\n            \"remove\": true\n          }' @clickDelete.prevent=\"alert('delete')\" />\n          <ButtonComponent text=\"Success\" :props=\"['success','large']\" @clickButton=\"\" />\n        </ModalAnyContent>\n        <div>\n          <ButtonComponent text=\"Show\" :props=\"['secondary', 'medium']\" @clickButton=\"modal_any_content.stateWatcher = !modal_any_content.stateWatcher\" />\n        </div>\n        <pre>{{ getModalAnyContentCode(button) }}</pre>\n      </div>\n    </div>\n  ",
+    computed: _objectSpread$4({}, ui_vue3_pinia.mapState(modalsStore, ['modal_yes_no', 'modal_any_content'])),
     methods: {
       getModalYesNoCode: function getModalYesNoCode() {
         return "ModalYesNo\n  :heading=\"heading\"\n  :text=\"text\"\n  :yes=\"yes\"\n  :no=\"no\"\n  :stateWatcher=\"stateWatcher\"\n  @clickYes=\"clickYes\"\n  @clickNo=\"clickNo\"\n/";
+      },
+      getModalAnyContentCode: function getModalAnyContentCode() {
+        return "ModalAnyContent :stateWatcher=\"modal_any_content.stateWatcher\"\n  Some text\n/ModalAnyContent";
       }
     }
   };
@@ -1206,5 +1231,5 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.Vue3.Pinia));
+}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX));
 //# sourceMappingURL=application.bundle.js.map

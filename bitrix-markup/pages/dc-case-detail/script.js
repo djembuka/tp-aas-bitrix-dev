@@ -8,8 +8,7 @@ window.addEventListener('load', () => {
   });
 
   if (document.querySelector('#removeDocConsent .btn-danger')) {
-    document
-      .querySelector('#removeDocConsent .btn-danger')
+    document.querySelector('#removeDocConsent .btn-danger')
       .addEventListener('click', (e) => {
         e.preventDefault();
 

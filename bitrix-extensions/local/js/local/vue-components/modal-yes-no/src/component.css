@@ -14,12 +14,14 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
+  pointer-events: none;
   z-index: -1;
 }
 .twpx-modal-yes-no.twpx-modal-yes-no--animate {
   opacity: 1;
 }
 .twpx-modal-yes-no.twpx-modal-yes-no--open {
+  pointer-events: auto;
   z-index: 1000;
 }
 .twpx-modal-yes-no-body {
