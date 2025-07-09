@@ -3,6 +3,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Дисциплинарное дело 150");
 
 \Bitrix\Main\UI\Extension::load("local.vue-apps.table");
+\Bitrix\Main\UI\Extension::load("local.vue-apps.disciplinary-case-table");
 \Bitrix\Main\UI\Extension::load("local.extensions.tabs-menu");
 \Bitrix\Main\UI\Extension::load("local.extensions.copy-to-clipboard");
 \Bitrix\Main\UI\Extension::load("local.extensions.aas-buttons");
@@ -185,179 +186,35 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
     </div>
     <div class="b-dc-case-detail-violations">
       <h3>Нарушения<span class="text-blue">&nbsp;&nbsp;3</span></h3>
-      <style>
-        #dcCaseDetailViolationsPh {
-          --aas-placeholder-color: #f2f2f2;
-        }
-
-        #dcCaseDetailViolationsPh {
-          display: grid;
-          grid-template-columns: calc(50% - 16px) calc(50% - 16px);
-          grid-template-rows: 80px;
-          grid-auto-rows: 32px;
-          row-gap: 16px;
-          column-gap: 32px;
-        }
-
-        #dcCaseDetailViolationsPh div {
-          border-radius: 4px;
-          background-color: var(--aas-placeholder-color);
-
-          background-image: repeating-linear-gradient(
-            -45deg,
-            transparent,
-            transparent 49%,
-            #ffffff88 50%,
-            #ffffff88 50%,
-            transparent 51%,
-            transparent 100%
-          );
-          background-size: 600% 600%;
-          animation: table-gradient 4s linear infinite;
-
-          background-attachment: fixed;
-        }
-
-        #dcCaseDetailViolationsPh div:first-child {
-          grid-column: span 2;
-        }
-
-        @keyframes table-gradient {
-          100% {
-            background-position: 200%;
-          }
-        }
-      </style>
-      <div id="dcCaseDetailViolations">
-        <div id="dcCaseDetailViolationsPh">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
+      <div id="dcCaseDetailViolations"></div>
       <script src="/markup/pages/dc-case-detail/bx.ajax.runAction.js"></script>
       <script>
-      (() => {
-        const table = new BX.Table('#dcCaseDetailViolations', {
-          'SESSION_ID': '123',
-          'SIGNED_PARAMETERS': 'signedParameters',
-          
-          'TABLE_COLS': ['auto','15%','15%','20%'],
-          
-          'columnsNames': 'twinpx:columnsNames:violations',
-          'items': 'twinpx:items:violations',
-          
-          'maxCountPerRequest': undefined,
-        });
-        table.run();
-      })();
+		  (() => {
+			window.disciplinaryCaseTableViolations = new BX.DisciplinaryCaseTable('#dcCaseDetailViolations', {
+			  data: {
+				  sessid: BX.bitrix_sessid(),
+				  signedParameters: '',
+				  id: 123
+			  },
+			  actions: {
+				columnsNames: ['twinpx:disciplinar.case.table', 'columnsNames'],
+				items: ['twinpx:disciplinar.case.table', 'items'],
+				deleteItem: ['twinpx:disciplinar.case.table', 'deleteItem'],
+				addItem: ['twinpx:disciplinar.case.table', 'addItem'],
+				editItem: ['twinpx:disciplinar.case.table', 'editItem'],
+			  },
+			  lang: {
+				  addButton: 'Добавить нарушение'
+			  }
+			});
+			window.disciplinaryCaseTableViolations.run();
+		  })();
       </script>
     </div>
     <div class="b-dc-case-detail-cases">
       <h3>Заседания<span class="text-blue">&nbsp;&nbsp;7</span></h3>
-      <style>
-        #dcCaseDetailCasesPh {
-          --aas-placeholder-color: #f2f2f2;
-        }
-
-        #dcCaseDetailCasesPh {
-          display: grid;
-          grid-template-columns: calc(50% - 16px) calc(50% - 16px);
-          grid-template-rows: 80px;
-          grid-auto-rows: 32px;
-          row-gap: 16px;
-          column-gap: 32px;
-        }
-
-        #dcCaseDetailCasesPh div {
-          border-radius: 4px;
-          background-color: var(--aas-placeholder-color);
-
-          background-image: repeating-linear-gradient(
-            -45deg,
-            transparent,
-            transparent 49%,
-            #ffffff88 50%,
-            #ffffff88 50%,
-            transparent 51%,
-            transparent 100%
-          );
-          background-size: 600% 600%;
-          animation: table-gradient 4s linear infinite;
-
-          background-attachment: fixed;
-        }
-
-        #dcCaseDetailCasesPh div:first-child {
-          grid-column: span 2;
-        }
-
-        @keyframes table-gradient {
-          100% {
-            background-position: 200%;
-          }
-        }
-      </style>
-      <div id="dcCaseDetailCases">
-        <div id="dcCaseDetailCasesPh">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-      <script src="/markup/pages/dc-case-detail/bx.ajax.runAction.js"></script>
-      <script>
-      (() => {
-        const table = new BX.Table('#dcCaseDetailCases', {
-          'SESSION_ID': '123',
-          'SIGNED_PARAMETERS': 'signedParameters',
-          
-          'TABLE_COLS': ['150px','100px','150px','100px','auto','130px'],
-          
-          'columnsNames': 'twinpx:columnsNames:cases',
-          'items': 'twinpx:items:cases',
-          
-          'maxCountPerRequest': 5,
-        });
-        table.run();
-      })();
-      </script>
+      <div id="dcCaseDetailCases"></div>
+      
       <hr class="hr--xl">
       <a class="btn btn-serve btn-md" href="/pages/dc-cases/">Все заседания</a>
     </div>

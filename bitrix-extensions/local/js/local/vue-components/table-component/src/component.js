@@ -2,9 +2,10 @@ import './component.css';
 import './placeholder.css';
 
 import { MessageComponent } from 'local.vue-components.message-component';
+import { ButtonComponent } from 'local.vue-components.button-component';
 
 export const TableComponent = {
-  components: { MessageComponent },
+  components: { MessageComponent, ButtonComponent },
   template: `
     <div v-if="loading" class="vue-tf-table-ph">
       <div></div>
@@ -45,14 +46,20 @@ export const TableComponent = {
         <tbody>
           <tr v-for="item in items.items" :key="item.id" :class="className({tr: item})" :data-id="item.id" :title="item.value" @click="clickTr(item)">
             <td v-for="cell in item.cell" v-html="cell.value" :class="className({td:cell})"></td>
+            <td v-if="item.buttons">
+              <ButtonComponent v-for="button in item.buttons" :text="button.text" :props="button.props" @clickButton="clickButton({itemId: item.id, code: button.code})" />
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
     `,
   props: ['cols', 'columnsNames', 'items', 'sort', 'loading', 'sortable'],
-  emits: ['clickTh'],
+  emits: ['clickTh', 'clickButton'],
   methods: {
+    clickButton(args) {
+      this.$emit('clickButton', args);
+    },
     clickTh(column) {
       if (this.sortable) {
         this.$emit('clickTh', { column });

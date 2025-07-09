@@ -1,0 +1,7 @@
+.disciplinary-case-table-wrapper {
+  display: grid;
+  gap: 16px;
+}
+.disciplinary-case-table-wrapper .vue-button--success {
+  width: 153px;
+}

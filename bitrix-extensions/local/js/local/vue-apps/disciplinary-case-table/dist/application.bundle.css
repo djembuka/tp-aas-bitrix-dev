@@ -1,0 +1,67 @@
+.disciplinary-case-table-wrapper {
+  display: grid;
+  gap: 16px;
+}
+.disciplinary-case-table-wrapper .vue-button--success {
+  width: 153px;
+}
+.vue-table-loader {
+    --aas-placeholder-color: #f2f2f2;
+}
+
+.vue-table-loader {
+    display: grid;
+    grid-template-columns: calc(50% - 16px) calc(50% - 16px);
+    grid-template-rows: 80px;
+    grid-auto-rows: 32px;
+    row-gap: 16px;
+    -webkit-column-gap: 32px;
+       -moz-column-gap: 32px;
+            column-gap: 32px;
+}
+
+.vue-table-loader div {
+    border-radius: 4px;
+    background-color: var(--aas-placeholder-color);
+
+    background-image: -o-repeating-linear-gradient(
+        135deg,
+        transparent,
+        transparent 49%,
+        #ffffff88 50%,
+        #ffffff88 50%,
+        transparent 51%,
+        transparent 100%
+        );
+
+    background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 49%,
+        #ffffff88 50%,
+        #ffffff88 50%,
+        transparent 51%,
+        transparent 100%
+        );
+    background-size: 600% 600%;
+    -webkit-animation: table-gradient 4s linear infinite;
+            animation: table-gradient 4s linear infinite;
+
+    background-attachment: fixed;
+}
+
+.vue-table-loader div:first-child {
+    grid-column: span 2;
+}
+
+@-webkit-keyframes table-gradient {
+    100% {
+        background-position: 200%;
+    }
+}
+
+@keyframes table-gradient {
+    100% {
+        background-position: 200%;
+    }
+}

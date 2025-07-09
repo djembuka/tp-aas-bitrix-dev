@@ -390,4 +390,5 @@
 
   exports.DisciplinaryCaseForm = DisciplinaryCaseForm;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX));
+//# sourceMappingURL=application.bundle.js.map
