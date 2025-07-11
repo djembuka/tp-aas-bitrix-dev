@@ -1,5 +1,5 @@
 /* eslint-disable */
-(function (exports,ui_vue3,local_vueComponents_tableComponent,local_vueComponents_stickyScroll,local_vueComponents_messageComponent,local_vueComponents_buttonComponent,ui_vue3_pinia) {
+(function (exports,ui_vue3,local_vueComponents_tableComponent,local_vueComponents_stickyScroll,local_vueComponents_messageComponent,local_vueComponents_buttonComponent,local_vueComponents_modalYesNo,ui_vue3_pinia) {
   'use strict';
 
   var Loader = {
@@ -10,29 +10,22 @@
     template: "\n    <div class=\"vue-table-loader\">\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n    </div>\n  "
   };
 
-  var dataStore = ui_vue3_pinia.defineStore('data', {
-    state: function state() {
-      return {
-        sessid: '',
-        signedParameters: '',
-        data: {},
-        actions: {},
-        lang: {}
-      };
-    }
-  });
-
   function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
   function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var tableStore = ui_vue3_pinia.defineStore('table', {
     state: function state() {
       return {
+        data: {},
+        ajax: {},
+        lang: {},
+        constructor: {},
         loadingCols: false,
         loadingItems: false,
         columnsNames: [],
         items: {},
-        actions: {},
-        errorTable: ''
+        errorTable: '',
+        deleteModalStateWatcher: false,
+        activeItemId: null
       };
     },
     getters: {
@@ -43,25 +36,29 @@
         if (!this.columnsNames.length) {
           return [];
         }
-        var length = this.columnsNames.length;
+        var length = this.columnsNames.length - 1;
         var value = "".concat(Math.floor(100 / length), "%");
-        var arr = Array(length - 1).fill(value);
-        arr.push('150px');
+        var arr = Array(length).fill(value);
+        arr.push('160px');
         return arr;
       }
     },
     actions: {
-      clickButton: function clickButton(_ref) {
-        var itemId = _ref.itemId,
-          code = _ref.code;
-        console.log(itemId, code);
+      getItemId: function getItemId() {
+        return this.activeItemId;
+      },
+      changeActiveItemId: function changeActiveItemId(itemId) {
+        this.activeItemId = itemId;
+      },
+      changeDeleteModalStateWatcher: function changeDeleteModalStateWatcher() {
+        this.deleteModalStateWatcher = !this.deleteModalStateWatcher;
       },
       hideErrorTable: function hideErrorTable() {
         this.errorTable = '';
       },
-      showError: function showError(_ref2) {
-        var error = _ref2.error,
-          method = _ref2.method;
+      showError: function showError(_ref) {
+        var error = _ref.error,
+          method = _ref.method;
         if (typeof error === 'boolean') {
           this.errorTable = error;
         } else if (babelHelpers["typeof"](error) === 'object') {
@@ -81,43 +78,18 @@
         }
       },
       loadTable: function loadTable() {
-        this.runColumnsNames(_objectSpread({}, dataStore().data));
-        this.runItems(_objectSpread({}, dataStore().data));
+        this.runColumnsNames();
+        this.runItems();
       },
-      runColumnsNames: function runColumnsNames(data) {
+      deleteItem: function deleteItem() {
+        this.runDelete();
+      },
+      runColumnsNames: function runColumnsNames() {
         var _this = this;
         this.loadingCols = true;
-        var d = dataStore();
-        setTimeout(function () {
-          _this.loadingCols = false;
-          // this.showError({ error: {errors: [{code: 500, message: 'Server error'}]}, method: 'columnsNames' });
-          _this.columnsNames = [{
-            id: 1,
-            name: 'Дата создания',
-            type: 'date'
-          }, {
-            id: 2,
-            name: 'Категория нарушений',
-            type: 'cat'
-          }, {
-            id: 3,
-            name: 'Название нарушения',
-            type: 'name'
-          }, {
-            id: 4,
-            name: 'Источник',
-            type: 'src'
-          }];
-          _this.columnsNames.push({
-            id: Math.floor(Math.random() * 100),
-            name: '',
-            type: 'buttons'
-          });
-        }, 1000);
-        return;
-        var a = window.BX.ajax.runComponentAction(d.actions.columnsNames[0], d.actions.columnsNames[1], {
+        var a = window.BX.ajax.runComponentAction(this.ajax.columnsNames[0], this.ajax.columnsNames[1], {
           mode: 'class',
-          data: data
+          data: this.data
         });
         a.then(function (result) {
           _this.loadingCols = false;
@@ -137,85 +109,27 @@
           });
         });
       },
-      runItems: function runItems(data) {
+      runItems: function runItems() {
         var _this2 = this;
         this.loadingItems = true;
-        setTimeout(function () {
-          var _this2$items, _this2$items$items;
-          _this2.loadingItems = false;
-          _this2.items = {
-            resultCount: 2,
-            startIndex: 0,
-            excelLink: false,
-            items: [{
-              id: 1,
-              cell: [{
-                id: 2,
-                type: 'date',
-                value: '14.07.2025'
-              }, {
-                id: 3,
-                type: 'cat',
-                value: 'Невнесение (несвоевременное) внесение сведений в реестр'
-              }, {
-                id: 4,
-                type: 'name',
-                value: 'Нарушение ч. 8 ст. 19 Федерального закона № 307-ФЗ  от 30.12.2008 г. «Об аудиторской деятельности»....'
-              }, {
-                id: 5,
-                type: 'src',
-                value: '<a href="/">831Ж040725</a>'
-              }]
-            }, {
-              id: 6,
-              cell: [{
-                id: 7,
-                type: 'date',
-                value: '14.07.2025'
-              }, {
-                id: 8,
-                type: 'cat',
-                value: 'Несоблюдение требования к доле в уставном капитале'
-              }, {
-                id: 9,
-                type: 'name',
-                value: 'Нарушение п.3 ч.2 ст.18 № 307-ФЗ от 30.12.2008 г. «Об аудиторской деятельности»...'
-              }, {
-                id: 10,
-                type: 'src',
-                value: '<a href="/">831Ж040725</a>'
-              }]
-            }]
-          };
-          (_this2$items = _this2.items) === null || _this2$items === void 0 ? void 0 : (_this2$items$items = _this2$items.items) === null || _this2$items$items === void 0 ? void 0 : _this2$items$items.forEach(function (i) {
-            i.buttons = [{
-              code: 'edit',
-              text: 'Edit',
-              props: ['icon', 'edit', 'medium']
-            }, {
-              code: 'delete',
-              text: 'Delete',
-              props: ['icon', 'delete', 'medium']
-            }];
-          });
-        }, 1000);
-        return;
-        var a = window.BX.ajax.runComponentAction(d.actions.items[0], d.actions.items[1], {
+        window.BX.ajax.runComponentAction(this.ajax.items[0], this.ajax.items[1], {
           mode: 'class',
-          data: data
-        });
-        a.then(function (result) {
+          data: this.data
+        }).then(function (result) {
           _this2.loadingItems = false;
           if (result.data) {
-            var _this2$items2, _this2$items2$items;
+            var _this2$items, _this2$items$items;
             _this2.items = result.data;
-            (_this2$items2 = _this2.items) === null || _this2$items2 === void 0 ? void 0 : (_this2$items2$items = _this2$items2.items) === null || _this2$items2$items === void 0 ? void 0 : _this2$items2$items.forEach(function (i) {
-              var _i$cell;
-              i === null || i === void 0 ? void 0 : (_i$cell = i.cell) === null || _i$cell === void 0 ? void 0 : _i$cell.push({
-                id: Math.floor(Math.random() * 1000),
-                type: 'buttons',
-                value: '<b>buttons</b>'
-              });
+            (_this2$items = _this2.items) === null || _this2$items === void 0 ? void 0 : (_this2$items$items = _this2$items.items) === null || _this2$items$items === void 0 ? void 0 : _this2$items$items.forEach(function (i) {
+              i.buttons = [{
+                code: 'edit',
+                text: 'Edit',
+                props: ['icon', 'edit', 'medium']
+              }, {
+                code: 'delete',
+                text: 'Delete',
+                props: ['icon', 'delete', 'medium']
+              }];
             });
           }
         }, function (error) {
@@ -223,6 +137,25 @@
           _this2.showError({
             error: error,
             method: 'items'
+          });
+        });
+      },
+      runDelete: function runDelete() {
+        var _this3 = this;
+        this.loadingItems = true;
+        window.BX.ajax.runComponentAction(this.ajax.deleteItem[0], this.ajax.deleteItem[1], {
+          mode: 'class',
+          data: _objectSpread(_objectSpread({}, this.data), {}, {
+            item_id: this.activeItemId
+          })
+        }).then(function (result) {
+          _this3.loadingItems = false;
+          _this3.loadTable();
+        }, function (error) {
+          _this3.loadingItems = false;
+          _this3.showError({
+            error: error,
+            method: 'deleteItem'
           });
         });
       }
@@ -240,19 +173,41 @@
       TableComponent: local_vueComponents_tableComponent.TableComponent,
       StickyScroll: local_vueComponents_stickyScroll.StickyScroll,
       MessageComponent: local_vueComponents_messageComponent.MessageComponent,
-      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
+      ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo
     },
     // language=Vue
 
-    template: "\n    <div>\n      <Loader v-if=\"loadingTable\" />\n\n      <div v-else class=\"disciplinary-case-table-wrapper\">\n\n        <MessageComponent v-if=\"errorTable\" type=\"error\" size=\"big\" :message=\"errorTable\" />\n\n        <StickyScroll>\n          <TableComponent :columnsNames=\"columnsNames\" :cols=\"cols\" :items=\"items\" @clickButton=\"clickButton\" />\n        </StickyScroll>\n\n        <ButtonComponent :text=\"lang.addButton\" :props=\"['success', 'small']\" @clickButton=\"clickAddButton\" />\n\n      </div>\n    </div>\n\t",
-    computed: _objectSpread$1(_objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['lang'])), ui_vue3_pinia.mapState(tableStore, ['cols', 'loadingTable', 'columnsNames', 'items', 'errorTable', 'clickButton'])), {}, {
+    template: "\n    <div>\n      <ModalYesNo\n        :heading=\"lang.deleteModal.heading\"\n        :text=\"lang.deleteModal.text\"\n        :yes=\"lang.deleteModal.yes\"\n        :no=\"lang.deleteModal.no\"\n        :buttons=\"{\n\t\t\t\t\tyes: {\n\t\t\t\t\t  props: ['danger', 'large']\n\t\t\t\t\t},\n\t\t\t\t\tno: {\n\t\t\t\t\t  props: ['gray-color', 'large']\n\t\t\t\t\t}\n\t\t\t\t}\"\n        :stateWatcher=\"deleteModalStateWatcher\"\n        @clickYes=\"clickYes\"\n        @clickNo=\"clickNo\"\n      />\n\n      <Loader v-if=\"loadingTable\" />\n\n      <div v-else class=\"disciplinary-case-table-wrapper\">\n\n        <MessageComponent v-if=\"errorTable\" type=\"error\" size=\"big\" :message=\"errorTable\" />\n\n        <StickyScroll>\n          <TableComponent :columnsNames=\"columnsNames\" :cols=\"cols\" :items=\"items\" @clickButton=\"clickButton\" />\n        </StickyScroll>\n\n        <ButtonComponent :text=\"lang.addButton\" :props=\"['success', 'small']\" @clickButton=\"clickAddButton\" />\n\n      </div>\n    </div>\n\t",
+    computed: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(tableStore, ['lang', 'constructor', 'data', 'cols', 'loadingTable', 'columnsNames', 'items', 'errorTable', 'deleteModalStateWatcher'])), {}, {
       error: function error() {
         return this.errorTable;
       }
     }),
-    methods: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapActions(tableStore, ['loadTable'])), {}, {
+    methods: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapActions(tableStore, ['loadTable', 'deleteItem', 'changeDeleteModalStateWatcher', 'changeActiveItemId'])), {}, {
+      clickButton: function clickButton(_ref) {
+        var itemId = _ref.itemId,
+          code = _ref.code;
+        if (code === 'edit' && this.constructor.editForm && window[this.constructor.editForm[0]]) {
+          window[this.constructor.editForm[0]][this.constructor.editForm[1]](_objectSpread$1(_objectSpread$1({}, this.data), {}, {
+            item_id: itemId
+          }));
+        } else if (code === 'delete') {
+          this.changeDeleteModalStateWatcher();
+          this.changeActiveItemId(itemId);
+        }
+      },
       clickAddButton: function clickAddButton() {
-        console.log('click add button');
+        if (this.constructor.addForm && window[this.constructor.addForm[0]]) {
+          window[this.constructor.addForm[0]][this.constructor.addForm[1]](_objectSpread$1({}, this.data));
+        }
+      },
+      clickYes: function clickYes() {
+        this.deleteItem();
+        this.changeDeleteModalStateWatcher();
+      },
+      clickNo: function clickNo() {
+        this.changeDeleteModalStateWatcher();
       }
     }),
     mounted: function mounted() {
@@ -295,15 +250,19 @@
           },
           template: '<Application/>',
           beforeMount: function beforeMount() {
-            dataStore().sessid = self.options.sessid || '';
-            dataStore().signedParameters = self.options.signedParameters || '';
-            dataStore().data = self.options.data || {};
-            dataStore().actions = self.options.actions || {};
-            dataStore().lang = self.options.lang || {};
+            tableStore().data = self.options.data || {};
+            tableStore().ajax = self.options.actions || {};
+            tableStore().lang = self.options.lang || {};
+            tableStore().constructor = self.options.constructor || {};
           }
         }));
         babelHelpers.classPrivateFieldGet(this, _application).use(babelHelpers.classPrivateFieldGet(this, _store));
         babelHelpers.classPrivateFieldGet(this, _application).mount(babelHelpers.classPrivateFieldGet(this, _rootNode));
+      }
+    }, {
+      key: "loadTable",
+      value: function loadTable() {
+        tableStore().loadTable();
       }
     }, {
       key: "initStorageBeforeStartApplication",
@@ -321,5 +280,4 @@
 
   exports.DisciplinaryCaseTable = DisciplinaryCaseTable;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.Vue3.Pinia));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.Modals,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map

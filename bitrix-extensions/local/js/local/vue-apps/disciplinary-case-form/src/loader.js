@@ -15,7 +15,7 @@ export class DisciplinaryCaseForm {
     this.options = options;
   }
 
-  run({id, type}): void {
+  run(args): void {
     const self = this;
 
     this.#application = BitrixVue.createApp({
@@ -31,23 +31,18 @@ export class DisciplinaryCaseForm {
         dataStore().actions = self.options.actions || [];
         dataStore().modal = self.options.modal || false;
         dataStore().cancelUrl = self.options.cancelUrl || '';
+        dataStore().constructor = self.options.constructor || {};
       },
       mounted() {
-        if (id && type) {
-          dataStore().id = id;
-          dataStore().type = type;
+        if (args) {
+          dataStore().args = args;
         }
 
         if (dataStore().modal) {
           dataStore().changeModalStateWatcher();
         }
 
-        if (self.options.blocks) {
-          //markup
-          formStore().blocks = self.options.blocks || [];
-        } else {
-          formStore().runGetForm();
-        }
+        formStore().runGetForm();
       },
     });
 

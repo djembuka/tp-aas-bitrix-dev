@@ -51,6 +51,16 @@
   gap: 30px;
 }
 
+.vue-table-td--buttons {
+  text-align: center;
+  vertical-align: middle;
+}
+.vue-table-td--buttons .vue-button,
+.vue-table-td--buttons .vue-button--icon {
+  margin-right: 12px;
+  margin-left: 12px;
+}
+
 .vue-tf-table-ph {
   position: relative;
   --aas-placeholder-color: #f2f2f2;

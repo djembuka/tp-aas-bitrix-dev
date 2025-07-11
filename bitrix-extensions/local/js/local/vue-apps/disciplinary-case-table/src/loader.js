@@ -1,7 +1,6 @@
 import { BitrixVue } from 'ui.vue3';
 import { Application } from './components/application';
 import { createPinia, setActivePinia } from 'ui.vue3.pinia';
-import { dataStore } from './stores/data';
 import { tableStore } from './stores/table';
 
 export class DisciplinaryCaseTable {
@@ -25,16 +24,19 @@ export class DisciplinaryCaseTable {
       },
       template: '<Application/>',
       beforeMount() {
-        dataStore().sessid = self.options.sessid || '';
-        dataStore().signedParameters = self.options.signedParameters || '';
-        dataStore().data = self.options.data || {};
-        dataStore().actions = self.options.actions || {};
-        dataStore().lang = self.options.lang || {};
+        tableStore().data = self.options.data || {};
+        tableStore().ajax = self.options.actions || {};
+        tableStore().lang = self.options.lang || {};
+        tableStore().constructor = self.options.constructor || {};
       },
     });
 
     this.#application.use(this.#store);
     this.#application.mount(this.#rootNode);
+  }
+
+  loadTable() {
+    tableStore().loadTable();
   }
 
   initStorageBeforeStartApplication(): void {

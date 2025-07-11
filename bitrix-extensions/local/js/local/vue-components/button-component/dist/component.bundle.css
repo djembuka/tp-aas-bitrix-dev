@@ -1,5 +1,4 @@
-.vue-button,
-.vue-button--icon {
+.vue-button {
   --twpx-button-background-primary: #ff8318;
   --twpx-button-background-secondary: #074c86;
   --twpx-button-background-error: #f00;
@@ -519,6 +518,17 @@ button.vue-button {
 
 /*Icon*/
 .vue-button--icon {
+  --twpx-button-background-primary: #ff8318; /* not defined */
+  --twpx-button-background-secondary: #074c86; /* not defined */
+  --twpx-button-background: #fff;
+  --twpx-button-size-large: 64px; /* not defined */
+  --twpx-button-size-medium: 32px;
+  --twpx-button-size-small: 16px; /* not defined */
+  --twpx-button-border-radius-large: 8px; /* not defined */
+  --twpx-button-border-radius-medium: 4px;
+  --twpx-button-border-radius-small: 4px; /* not defined */
+}
+.vue-button--icon {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -528,20 +538,31 @@ button.vue-button {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background: #fafafa;
+  background: var(--twpx-button-background);
   cursor: pointer;
   -o-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
   -webkit-transition: opacity 0.3s ease;
+  padding: 0;
+}
+.vue-button--icon svg {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
 }
 .vue-button--icon.vue-button--large {
   width: var(--twpx-button-size-large);
+  height: var(--twpx-button-size-large);
+  border-radius: var(--twpx-button-border-radius-large);
 }
 .vue-button--icon.vue-button--medium {
   width: var(--twpx-button-size-medium);
+  height: var(--twpx-button-size-medium);
+  border-radius: var(--twpx-button-border-radius-medium);
 }
 .vue-button--icon.vue-button--small {
   width: var(--twpx-button-size-small);
+  height: var(--twpx-button-size-small);
+  border-radius: var(--twpx-button-border-radius-small);
 }
 button.vue-button--icon {
   border: none;
@@ -571,7 +592,11 @@ button.vue-button--icon {
 
 /*Delete*/
 .vue-button--delete {
-  background-color: var(--twpx-button-background-error);
+  --twpx-button-background: #fff;
+}
+/*Edit*/
+.vue-button--edit {
+  --twpx-button-background: var(--twpx-button-border-service, #F0F5FC);
 }
 
 /*Remove*/
@@ -612,47 +637,8 @@ button.vue-button--remove {
 .vue-button--remove:active svg path {
   fill: #fff;
 }
-.vue-button--edit {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 38px;
-  height: 38px;
-  background: #fafafa;
-  cursor: pointer;
-  -o-transition: background 0.3s ease;
-  transition: background 0.3s ease;
-  -webkit-transition: background 0.3s ease;
-  border-radius: 10px;
-}
-button.vue-button--edit {
-  border: none;
-}
-.vue-button--edit svg path {
-  fill: none;
-  stroke: #9b9b9b;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.5;
-  -o-transition: fill 0.3s ease;
-  transition: fill 0.3s ease;
-  -webkit-transition: fill 0.3s ease;
-}
-.vue-button--edit:hover svg path {
-  stroke: var(--twpx-button-background-primary);
-}
-.vue-button--edit:active {
-  background: var(--twpx-button-background-primary);
-}
-.vue-button--edit:active svg path {
-  stroke: #fff;
-}
+
+
 @-webkit-keyframes load-circle {
   0% {
     transform: rotate(0);

@@ -5,17 +5,16 @@ export const dataStore = defineStore('data', {
     sessid: '',
     signedParameters: '',
     lang: {},
-    id: null,
     actions: [],
     modalStateWatcher: false,
     modal: false,
-    cancelUrl: ''
+    cancelUrl: '',
+    constructor: {},
+    args: null
   }),
   actions: {
     changeModalStateWatcher() {
-      console.log(1, this.modalStateWatcher)
       this.modalStateWatcher = !this.modalStateWatcher;
-      console.log(2, this.modalStateWatcher)
     }
   }
 });

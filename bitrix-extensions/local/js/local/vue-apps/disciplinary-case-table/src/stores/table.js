@@ -1,15 +1,19 @@
 import { defineStore } from 'ui.vue3.pinia';
-import { dataStore } from './data';
 
 export const tableStore = defineStore('table', {
   state: () => {
     return {
+      data: {},
+      ajax: {},
+      lang: {},
+      constructor: {},
       loadingCols: false,
       loadingItems: false,
       columnsNames: [],
       items: {},
-      actions: {},
       errorTable: '',
+      deleteModalStateWatcher: false,
+      activeItemId: null
     };
   },
   getters: {
@@ -21,18 +25,24 @@ export const tableStore = defineStore('table', {
         return [];
       }
 
-      const length = this.columnsNames.length;
+      const length = this.columnsNames.length - 1;
       const value = `${Math.floor(100 / length)}%`;
 
-      const arr = Array(length-1).fill(value);
-      arr.push('150px');
+      const arr = Array(length).fill(value);
+      arr.push('160px');
 
       return arr;
     }
   },
   actions: {
-    clickButton({itemId, code}) {
-      console.log(itemId, code)
+    getItemId() {
+      return this.activeItemId;
+    },
+    changeActiveItemId(itemId) {
+      this.activeItemId = itemId;
+    },
+    changeDeleteModalStateWatcher() {
+      this.deleteModalStateWatcher = !this.deleteModalStateWatcher;
     },
     hideErrorTable() {
       this.errorTable = '';
@@ -87,50 +97,18 @@ export const tableStore = defineStore('table', {
       }
     },
     loadTable() {
-      this.runColumnsNames({ ...dataStore().data });
-      this.runItems({ ...dataStore().data });
+      this.runColumnsNames();
+      this.runItems();
     },
-    runColumnsNames(data) {
+    deleteItem() {
+      this.runDelete()
+    },
+    runColumnsNames() {
       this.loadingCols = true;
-      const d = dataStore();
 
-      setTimeout(() => {
-        this.loadingCols = false;
-        // this.showError({ error: {errors: [{code: 500, message: 'Server error'}]}, method: 'columnsNames' });
-        this.columnsNames = [
-          {
-            id: 1,
-            name: 'Дата создания',
-            type: 'date'
-          },
-          {
-            id: 2,
-            name: 'Категория нарушений',
-            type: 'cat'
-          },
-          {
-            id: 3,
-            name: 'Название нарушения',
-            type: 'name'
-          },
-          {
-            id: 4,
-            name: 'Источник',
-            type: 'src'
-          }
-        ];
-        this.columnsNames.push({
-          id: Math.floor(Math.random() * 100),
-          name: '',
-          type: 'buttons'
-        })
-      }, 1000)
-
-      return;
-
-      let a = window.BX.ajax.runComponentAction( d.actions.columnsNames[0], d.actions.columnsNames[1], {
+      let a = window.BX.ajax.runComponentAction( this.ajax.columnsNames[0], this.ajax.columnsNames[1], {
         mode: 'class',
-        data,
+        data: this.data,
       });
 
       a.then(
@@ -151,99 +129,57 @@ export const tableStore = defineStore('table', {
         }
       );
     },
-    runItems(data) {
+    runItems() {
       this.loadingItems = true;
 
-      setTimeout(() => {
-        this.loadingItems = false;
-        this.items = {
-            resultCount: 2,
-            startIndex: 0,
-            excelLink: false,
-            items: [
-              {
-                id: 1,
-                cell: [{
-                    id: 2,
-                    type: 'date',
-                    value: '14.07.2025'
-                }, {
-                    id: 3,
-                    type: 'cat',
-                    value: 'Невнесение (несвоевременное) внесение сведений в реестр'
-                }, {
-                    id: 4,
-                    type: 'name',
-                    value: 'Нарушение ч. 8 ст. 19 Федерального закона № 307-ФЗ  от 30.12.2008 г. «Об аудиторской деятельности»....'
-                }, {
-                    id: 5,
-                    type: 'src',
-                    value: '<a href="/">831Ж040725</a>'
-                }]
-              },
-              {
-                id: 6,
-                cell: [{
-                    id: 7,
-                    type: 'date',
-                    value: '14.07.2025'
-                }, {
-                    id: 8,
-                    type: 'cat',
-                    value: 'Несоблюдение требования к доле в уставном капитале'
-                }, {
-                    id: 9,
-                    type: 'name',
-                    value: 'Нарушение п.3 ч.2 ст.18 № 307-ФЗ от 30.12.2008 г. «Об аудиторской деятельности»...'
-                }, {
-                    id: 10,
-                    type: 'src',
-                    value: '<a href="/">831Ж040725</a>'
-                }]
-              }]
-        };
-
-        this.items?.items?.forEach(i => {
-          i.buttons = [
-            {
-              code: 'edit',
-              text: 'Edit',
-              props: ['icon','edit','medium']
-            },
-            {
-              code: 'delete',
-              text: 'Delete',
-              props: ['icon','delete','medium']
-            }
-          ];
-        });
-        
-      }, 1000)
-
-      return;
-
-      let a = window.BX.ajax.runComponentAction( d.actions.items[0], d.actions.items[1], {
+      window.BX.ajax.runComponentAction( this.ajax.items[0], this.ajax.items[1], {
         mode: 'class',
-        data,
-      });
-
-      a.then(
+        data: this.data,
+      }).then(
         (result) => {
           this.loadingItems = false;
           if (result.data) {
             this.items = result.data;
+
             this.items?.items?.forEach(i => {
-              i?.cell?.push({
-                id: Math.floor(Math.random() * 1000),
-                type: 'buttons',
-                value: '<b>buttons</b>'
-              });
+              i.buttons = [
+                {
+                  code: 'edit',
+                  text: 'Edit',
+                  props: ['icon','edit','medium']
+                },
+                {
+                  code: 'delete',
+                  text: 'Delete',
+                  props: ['icon','delete','medium']
+                }
+              ];
             });
           }
         },
         (error) => {
           this.loadingItems = false;
           this.showError({ error, method: 'items' });
+        }
+      );
+    },
+    runDelete() {
+      this.loadingItems = true;
+
+      window.BX.ajax.runComponentAction( this.ajax.deleteItem[0], this.ajax.deleteItem[1], {
+        mode: 'class',
+        data: {
+          ...this.data,
+          item_id: this.activeItemId
+        },
+      }).then(
+        (result) => {
+          this.loadingItems = false;
+          this.loadTable();
+        },
+        (error) => {
+          this.loadingItems = false;
+          this.showError({ error, method: 'deleteItem' });
         }
       );
     },

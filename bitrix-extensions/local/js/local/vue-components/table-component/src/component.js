@@ -46,7 +46,7 @@ export const TableComponent = {
         <tbody>
           <tr v-for="item in items.items" :key="item.id" :class="className({tr: item})" :data-id="item.id" :title="item.value" @click="clickTr(item)">
             <td v-for="cell in item.cell" v-html="cell.value" :class="className({td:cell})"></td>
-            <td v-if="item.buttons">
+            <td v-if="item.buttons" class="vue-table-td--buttons">
               <ButtonComponent v-for="button in item.buttons" :text="button.text" :props="button.props" @clickButton="clickButton({itemId: item.id, code: button.code})" />
             </td>
           </tr>

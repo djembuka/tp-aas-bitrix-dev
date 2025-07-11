@@ -8,18 +8,17 @@
         sessid: '',
         signedParameters: '',
         lang: {},
-        id: null,
         actions: [],
         modalStateWatcher: false,
         modal: false,
-        cancelUrl: ''
+        cancelUrl: '',
+        constructor: {},
+        args: null
       };
     },
     actions: {
       changeModalStateWatcher: function changeModalStateWatcher() {
-        console.log(1, this.modalStateWatcher);
         this.modalStateWatcher = !this.modalStateWatcher;
-        console.log(2, this.modalStateWatcher);
       }
     }
   });
@@ -39,45 +38,71 @@
       changeError: function changeError(message) {
         this.error = message;
       },
-      changeTextControlValue: function changeTextControlValue(_ref) {
+      changeHintControlValue: function changeHintControlValue(_ref) {
+        var _this = this;
         var control = _ref.control,
           value = _ref.value;
         control.value = value;
+        if (babelHelpers["typeof"](value) === 'object' && value.autocomplete && babelHelpers["typeof"](value.autocomplete) === 'object') {
+          this.blocks.forEach(function (b) {
+            value.autocomplete.forEach(function (e) {
+              var control = b.controls.find(function (c) {
+                return String(c.id) === String(e.id);
+              });
+              if (control) {
+                _this.changeControlValue({
+                  control: control,
+                  value: e.value
+                });
+              }
+            });
+          });
+        }
       },
-      changeSelectRadioValue: function changeSelectRadioValue(_ref2) {
+      changeTextControlValue: function changeTextControlValue(_ref2) {
         var control = _ref2.control,
           value = _ref2.value;
         control.value = value;
       },
-      changeSelectDropdownValue: function changeSelectDropdownValue(_ref3) {
+      changeSelectRadioValue: function changeSelectRadioValue(_ref3) {
         var control = _ref3.control,
           value = _ref3.value;
         control.value = value;
       },
-      changeDateValue: function changeDateValue(_ref4) {
+      changeSelectDropdownValue: function changeSelectDropdownValue(_ref4) {
         var control = _ref4.control,
           value = _ref4.value;
         control.value = value;
       },
-      changeFileValue: function changeFileValue(_ref5) {
+      changeDateValue: function changeDateValue(_ref5) {
         var control = _ref5.control,
           value = _ref5.value;
+        control.value = value;
+      },
+      changeFileValue: function changeFileValue(_ref6) {
+        var control = _ref6.control,
+          value = _ref6.value;
         control.value = value;
         if (control.type === 'upload') {
           this.uploadFile(control, value);
         }
       },
-      changeControlValue: function changeControlValue(_ref6) {
-        var control = _ref6.control,
-          value = _ref6.value,
-          checked = _ref6.checked;
+      changeControlValue: function changeControlValue(_ref7) {
+        var control = _ref7.control,
+          value = _ref7.value,
+          checked = _ref7.checked;
         switch (control.property) {
           case 'text':
           case 'textarea':
-          case 'hint':
           case 'tel':
           case 'email':
             this.changeTextControlValue({
+              control: control,
+              value: value
+            });
+            break;
+          case 'hint':
+            this.changeHintControlValue({
               control: control,
               value: value
             });
@@ -115,7 +140,7 @@
         this.blocks = blocks;
       },
       runHints: function runHints(control, action) {
-        var _this = this;
+        var _this2 = this;
         return babelHelpers.asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
           var controller, timeoutId, url, response, result, _result$errors$;
           return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -150,18 +175,18 @@
               case 13:
                 result = _context.sent;
                 if (result.status === 'success' && result.data) {
-                  _this.setHints(control, result.data);
+                  _this2.setHints(control, result.data);
                 } else if (result.errors) {
-                  _this.error = (_result$errors$ = result.errors[0]) === null || _result$errors$ === void 0 ? void 0 : _result$errors$.message;
+                  _this2.error = (_result$errors$ = result.errors[0]) === null || _result$errors$ === void 0 ? void 0 : _result$errors$.message;
                 } else {
-                  _this.error = 'Invalid response format';
+                  _this2.error = 'Invalid response format';
                 }
                 _context.next = 20;
                 break;
               case 17:
                 _context.prev = 17;
                 _context.t0 = _context["catch"](0);
-                _this.error = _context.t0 === null || _context.t0 === void 0 ? void 0 : _context.t0.message;
+                _this2.error = _context.t0 === null || _context.t0 === void 0 ? void 0 : _context.t0.message;
               case 20:
               case "end":
                 return _context.stop();
@@ -177,59 +202,74 @@
       },
       sendForm: function sendForm() {
         this.runSaveForm();
+        dataStore().changeModalStateWatcher();
       },
       runGetForm: function runGetForm() {
-        var _this2 = this;
+        var _this3 = this;
+        console.log(dataStore().actions);
         this.error = '';
         this.loading = true;
         var d = dataStore();
-        var data = {
-          sessid: dataStore().sessid,
-          signedParameters: dataStore().signedParameters
-        };
-        if (d.id && d.type) {
-          data.id = d.id;
-          data.type = d.type;
+        var data = {};
+        if (dataStore().args) {
+          Object.keys(dataStore().args).forEach(function (key) {
+            data[key] = dataStore().args[key];
+          });
+        } else {
+          data.sessid = dataStore().sessid;
+          data.signedParameters = dataStore().signedParameters;
         }
         BX.ajax.runComponentAction(d.actions.getForm[0], d.actions.getForm[1], {
           mode: 'class',
           data: data
         }).then(function (res) {
-          _this2.loading = false;
-          _this2.changeError('');
-          if (res.data) {
-            _this2.changeBlocks(res.data);
-          }
-        }, function (response) {
-          _this2.loading = false;
-          if (response && response.errors.length) {
-            _this2.changeError(response.errors[0].message);
-          }
-        });
-      },
-      runSaveForm: function runSaveForm() {
-        var _this3 = this;
-        this.error = '';
-        this.loading = true;
-        var d = dataStore();
-        var formElem = document.querySelector("#".concat(this.formId, " form"));
-        var formData = new FormData(formElem);
-        formData.append('sessid', dataStore().sessid);
-        formData.append('signedParameters', dataStore().signedParameters);
-        BX.ajax.runComponentAction(d.actions.saveForm[0], d.actions.saveForm[1], {
-          mode: 'class',
-          data: formData
-        }).then(function (res) {
-          var _res$data;
           _this3.loading = false;
           _this3.changeError('');
-          if (res !== null && res !== void 0 && (_res$data = res.data) !== null && _res$data !== void 0 && _res$data.redirect) {
-            window.location.href = res.data.redirect;
+          if (res.data) {
+            _this3.changeBlocks(res.data);
           }
         }, function (response) {
           _this3.loading = false;
           if (response && response.errors.length) {
             _this3.changeError(response.errors[0].message);
+          }
+        });
+      },
+      runSaveForm: function runSaveForm() {
+        var _this4 = this;
+        this.error = '';
+        this.loading = true;
+        var d = dataStore();
+        var formElem = document.querySelector("#".concat(this.formId, " form"));
+        var formData = new FormData(formElem);
+        if (dataStore().args) {
+          Object.keys(dataStore().args).forEach(function (key) {
+            formData.append(key, dataStore().args[key]);
+          });
+        } else {
+          formData.append('sessid', dataStore().sessid);
+          formData.append('signedParameters', dataStore().signedParameters);
+        }
+        BX.ajax.runComponentAction(d.actions.saveForm[0], d.actions.saveForm[1], {
+          mode: 'class',
+          data: formData
+        }).then(function (res) {
+          var _dataStore, _dataStore$constructo, _dataStore2, _dataStore2$construct, _res$data;
+          _this4.loading = false;
+          _this4.changeError('');
+          console.log((_dataStore = dataStore()) === null || _dataStore === void 0 ? void 0 : (_dataStore$constructo = _dataStore.constructor) === null || _dataStore$constructo === void 0 ? void 0 : _dataStore$constructo.send[0]);
+          if ((_dataStore2 = dataStore()) !== null && _dataStore2 !== void 0 && (_dataStore2$construct = _dataStore2.constructor) !== null && _dataStore2$construct !== void 0 && _dataStore2$construct.send[0]) {
+            var _dataStore3, _dataStore3$construct, _dataStore4, _dataStore4$construct;
+            // load table
+            window[(_dataStore3 = dataStore()) === null || _dataStore3 === void 0 ? void 0 : (_dataStore3$construct = _dataStore3.constructor) === null || _dataStore3$construct === void 0 ? void 0 : _dataStore3$construct.send[0]][(_dataStore4 = dataStore()) === null || _dataStore4 === void 0 ? void 0 : (_dataStore4$construct = _dataStore4.constructor) === null || _dataStore4$construct === void 0 ? void 0 : _dataStore4$construct.send[1]]();
+          } else if (res !== null && res !== void 0 && (_res$data = res.data) !== null && _res$data !== void 0 && _res$data.redirect) {
+            // redirect
+            window.location.href = res.data.redirect;
+          }
+        }, function (response) {
+          _this4.loading = false;
+          if (response && response.errors.length) {
+            _this4.changeError(response.errors[0].message);
           }
         });
       }
@@ -337,9 +377,7 @@
     }
     babelHelpers.createClass(DisciplinaryCaseForm, [{
       key: "run",
-      value: function run(_ref) {
-        var id = _ref.id,
-          type = _ref.type;
+      value: function run(args) {
         var self = this;
         babelHelpers.classPrivateFieldSet(this, _application, ui_vue3.BitrixVue.createApp({
           name: 'DisciplinaryCaseForm',
@@ -354,21 +392,16 @@
             dataStore().actions = self.options.actions || [];
             dataStore().modal = self.options.modal || false;
             dataStore().cancelUrl = self.options.cancelUrl || '';
+            dataStore().constructor = self.options.constructor || {};
           },
           mounted: function mounted() {
-            if (id && type) {
-              dataStore().id = id;
-              dataStore().type = type;
+            if (args) {
+              dataStore().args = args;
             }
             if (dataStore().modal) {
               dataStore().changeModalStateWatcher();
             }
-            if (self.options.blocks) {
-              //markup
-              formStore().blocks = self.options.blocks || [];
-            } else {
-              formStore().runGetForm();
-            }
+            formStore().runGetForm();
           }
         }));
         babelHelpers.classPrivateFieldGet(this, _application).use(babelHelpers.classPrivateFieldGet(this, _store));
@@ -390,5 +423,4 @@
 
   exports.DisciplinaryCaseForm = DisciplinaryCaseForm;
 
-}((this.BX = this.BX || {}),BX,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map

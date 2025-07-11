@@ -8,21 +8,14 @@ export const ControlHidden = {
   props: ['control', 'id', 'name'],
   // language=Vue
   template: `
-		<div
-      :class="{
-        'twpx-form-control': true,
-        'twpx-form-control--hidden': true,
-      }"
-    >
-      <input
-        type="hidden"
-        :id="controlId"
-        :name="controlName"
-        v-model="value"
-        :disabled="disabled"
-        ref="input"
-      />
-    </div>
+		<input
+      type="hidden"
+      :id="controlId"
+      :name="controlName"
+      v-model="value"
+      :disabled="disabled"
+      ref="input"
+    />
 	`,
   emits: ['input'],
   computed: {

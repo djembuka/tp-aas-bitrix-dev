@@ -12,7 +12,7 @@ this.BX = this.BX || {};
     },
     props: ['control', 'id', 'name'],
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--hidden': true,\n      }\"\n    >\n      <input\n        type=\"hidden\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"value\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n      />\n    </div>\n\t",
+    template: "\n\t\t<input\n      type=\"hidden\"\n      :id=\"controlId\"\n      :name=\"controlName\"\n      v-model=\"value\"\n      :disabled=\"disabled\"\n      ref=\"input\"\n    />\n\t",
     emits: ['input'],
     computed: {
       value: {

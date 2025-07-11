@@ -13,6 +13,20 @@ export const formStore = defineStore('form', {
     changeError(message) {
       this.error = message;
     },
+    changeHintControlValue({ control, value }) {
+      control.value = value;
+
+      if (typeof value === 'object' && value.autocomplete && typeof value.autocomplete === 'object') {
+        this.blocks.forEach(b => {
+          value.autocomplete.forEach(e => {
+            const control = b.controls.find(c => String(c.id) === String(e.id));
+            if (control) {
+              this.changeControlValue({ control, value: e.value });
+            }
+          });
+        });
+      }
+    },
     changeTextControlValue({ control, value }) {
       control.value = value;
     },
@@ -35,10 +49,12 @@ export const formStore = defineStore('form', {
       switch (control.property) {
         case 'text':
         case 'textarea':
-        case 'hint':
         case 'tel':
         case 'email':
           this.changeTextControlValue({ control, value });
+          break;
+        case 'hint':
+          this.changeHintControlValue({ control, value });
           break;
         // case 'multiselect':
         //   commit('changeMultiselectValue', { control, value, checked });
@@ -110,20 +126,23 @@ export const formStore = defineStore('form', {
     },
     sendForm() {
       this.runSaveForm();
+      dataStore().changeModalStateWatcher();
     },
     runGetForm() {
+      console.log(dataStore().actions)
       this.error = '';
       this.loading = true;
       const d = dataStore();
 
-      const data = {
-        sessid: dataStore().sessid,
-        signedParameters: dataStore().signedParameters
-      };
-
-      if (d.id && d.type) {
-        data.id = d.id;
-        data.type = d.type;
+      const data = {};
+      
+      if (dataStore().args) {
+        Object.keys(dataStore().args).forEach(key => {
+          data[key] =  dataStore().args[key];
+        });
+      } else {
+        data.sessid = dataStore().sessid;
+        data.signedParameters = dataStore().signedParameters;
       }
 
       BX.ajax.runComponentAction(d.actions.getForm[0], d.actions.getForm[1], {
@@ -151,8 +170,15 @@ export const formStore = defineStore('form', {
 
       const formElem = document.querySelector(`#${this.formId} form`);
       const formData = new FormData(formElem);
-      formData.append('sessid', dataStore().sessid);
-      formData.append('signedParameters', dataStore().signedParameters);
+
+      if (dataStore().args) {
+        Object.keys(dataStore().args).forEach(key => {
+          formData.append(key, dataStore().args[key]);
+        });
+      } else {
+        formData.append('sessid', dataStore().sessid);
+        formData.append('signedParameters', dataStore().signedParameters);
+      }
 
       BX.ajax.runComponentAction(d.actions.saveForm[0], d.actions.saveForm[1], {
         mode: 'class',
@@ -161,7 +187,12 @@ export const formStore = defineStore('form', {
       .then((res) => {
         this.loading = false;
         this.changeError('');
-        if (res?.data?.redirect) {
+        console.log(dataStore()?.constructor?.send[0])
+        if (dataStore()?.constructor?.send[0]) {
+          // load table
+          window[dataStore()?.constructor?.send[0]][dataStore()?.constructor?.send[1]]();
+        } else if (res?.data?.redirect) {
+          // redirect
           window.location.href = res.data.redirect;
         }
       }, (response) => {

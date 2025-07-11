@@ -9,6 +9,8 @@ export const ControlDateSingle = {
     return {
       open: false,
       hint: this.control.hint_external,
+      controlId: this.id || this.control.id || null,
+      controlName: this.name || this.control.name || null,
     };
   },
   components: {
@@ -47,12 +49,19 @@ export const ControlDateSingle = {
         <template #action-preview></template>
         <template #time-picker></template>
       </ControlDatepicker>
+      <input type="hidden" :name="controlName" :value="dateFormatted" />
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
     </div>
   `,
   props: ['control'],
   emits: ['input'],
   computed: {
+    dateFormatted() {
+      if (this.date) {
+        return this.date.split('/').reverse().join('.').replace(/^(\d{4})\.(\d{2})\.(\d{2})$/, '$2.$3.$1');
+      }
+      return ''
+    },
     date: {
       get() {
         let date = this.control.value || null;

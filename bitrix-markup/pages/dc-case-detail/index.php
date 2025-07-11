@@ -3,10 +3,11 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Дисциплинарное дело 150");
 
 \Bitrix\Main\UI\Extension::load("local.vue-apps.table");
+\Bitrix\Main\UI\Extension::load("local.vue-apps.disciplinary-case-form");
 \Bitrix\Main\UI\Extension::load("local.vue-apps.disciplinary-case-table");
 \Bitrix\Main\UI\Extension::load("local.extensions.tabs-menu");
 \Bitrix\Main\UI\Extension::load("local.extensions.copy-to-clipboard");
-\Bitrix\Main\UI\Extension::load("local.extensions.aas-buttons");
+\Bitrix\Main\UI\Extension::load("local.vue-components.button-component");
 ?>
 
 <link rel="stylesheet" href="style.css" />
@@ -185,31 +186,65 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
       </div>
     </div>
     <div class="b-dc-case-detail-violations">
-      <h3>Нарушения<span class="text-blue">&nbsp;&nbsp;3</span></h3>
+      <h3>Нарушения</h3>
       <div id="dcCaseDetailViolations"></div>
-      <script src="/markup/pages/dc-case-detail/bx.ajax.runAction.js"></script>
       <script>
-		  (() => {
-			window.disciplinaryCaseTableViolations = new BX.DisciplinaryCaseTable('#dcCaseDetailViolations', {
-			  data: {
-				  sessid: BX.bitrix_sessid(),
-				  signedParameters: '',
-				  id: 123
-			  },
-			  actions: {
-				columnsNames: ['twinpx:disciplinar.case.table', 'columnsNames'],
-				items: ['twinpx:disciplinar.case.table', 'items'],
-				deleteItem: ['twinpx:disciplinar.case.table', 'deleteItem'],
-				addItem: ['twinpx:disciplinar.case.table', 'addItem'],
-				editItem: ['twinpx:disciplinar.case.table', 'editItem'],
-			  },
-			  lang: {
-				  addButton: 'Добавить нарушение'
+		window.disciplinaryCaseTableViolations = new BX.DisciplinaryCaseTable('#dcCaseDetailViolations', {
+		  data: {
+			  sessid: BX.bitrix_sessid(),
+			  signedParameters: '',
+			  id: 123,
+			  type: 2
+		  },
+		  actions: {
+			columnsNames: ['twinpx:disciplinar.case.table', 'columnsNames'],
+			items: ['twinpx:disciplinar.case.table', 'items'],
+			deleteItem: ['twinpx:disciplinar.case.table', 'deleteItem'],
+		  },
+		  lang: {
+			  addButton: 'Добавить нарушение',
+			  deleteModal: {
+				  heading: 'Подтвердите удаление',
+				  text: 'Вы хотите удалить нарушение, подтвердите пожалуйста действие.',
+				  yes: 'Удалить',
+				  no: 'Отменить'
 			  }
-			});
-			window.disciplinaryCaseTableViolations.run();
-		  })();
+		  },
+		  constructor: {
+			  addForm: ['disciplinaryCaseFormViolations', 'run'],
+			  editForm: ['disciplinaryCaseFormViolations', 'run']
+		  }
+		});
+		window.disciplinaryCaseTableViolations.run();
       </script>
+	  
+	  <div id="dcCaseFormViolations"></div>
+	  <script>
+		window.disciplinaryCaseFormViolations = new BX.DisciplinaryCaseForm('#dcCaseFormViolations', {
+			sessid: BX.bitrix_sessid(),
+			signedParameters: '',
+			modal: true,
+			lang: {
+				heading: 'Новое дисциплинарное дело',
+				nodata: 'Нет данных',
+				cancelButton: 'Отменить',
+				createButton: 'Создать',
+				modal: {
+					heading: 'Подтвердите создание',
+					text: 'Вы создаете новое дисциплинарное дело, после добавления вы сможете изменить его статус и добавить детальную информацию.',
+					yes: 'Создать',
+					no: 'Проверить'
+				}
+			},
+			actions: {
+				getForm: ['twinpx:disciplinar.case.add', 'getForm'],
+				saveForm: ['twinpx:disciplinar.case.add', 'saveForm']
+			},
+			constructor: {
+				send: ['disciplinaryCaseTableViolations', 'loadTable']
+			}
+		});
+	  </script>
     </div>
     <div class="b-dc-case-detail-cases">
       <h3>Заседания<span class="text-blue">&nbsp;&nbsp;7</span></h3>
@@ -220,92 +255,65 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
     </div>
     <hr class="hr--xxl">
     <div class="b-dc-case-detail-actions">
-      <h3>Меры<span class="text-blue">&nbsp;&nbsp;1</span></h3>
-      <style>
-        #dcCaseDetailActionsPh {
-          --aas-placeholder-color: #f2f2f2;
-        }
-
-        #dcCaseDetailActionsPh {
-          display: grid;
-          grid-template-columns: calc(50% - 16px) calc(50% - 16px);
-          grid-template-rows: 80px;
-          grid-auto-rows: 32px;
-          row-gap: 16px;
-          column-gap: 32px;
-        }
-
-        #dcCaseDetailActionsPh div {
-          border-radius: 4px;
-          background-color: var(--aas-placeholder-color);
-
-          background-image: repeating-linear-gradient(
-            -45deg,
-            transparent,
-            transparent 49%,
-            #ffffff88 50%,
-            #ffffff88 50%,
-            transparent 51%,
-            transparent 100%
-          );
-          background-size: 600% 600%;
-          animation: table-gradient 4s linear infinite;
-
-          background-attachment: fixed;
-        }
-
-        #dcCaseDetailActionsPh div:first-child {
-          grid-column: span 2;
-        }
-
-        @keyframes table-gradient {
-          100% {
-            background-position: 200%;
-          }
-        }
-      </style>
-      <div id="dcCaseDetailActions">
-        <div id="dcCaseDetailActionsPh">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
-      <script src="/markup/pages/dc-case-detail/bx.ajax.runAction.js"></script>
+      <h3>Меры</h3>
+      <div id="dcCaseDetailActions"></div>
       <script>
-      (() => {
-        const table = new BX.Table('#dcCaseDetailActions', {
-          'SESSION_ID': '123',
-          'SIGNED_PARAMETERS': 'signedParameters',
-          
-          'TABLE_COLS': ['200px','auto'],
-          
-          'columnsNames': 'twinpx:columnsNames:actions',
-          'items': 'twinpx:items:actions',
-          
-          'maxCountPerRequest': undefined,
-        });
-        table.run();
-      })();
+		window.disciplinaryCaseTableActions = new BX.DisciplinaryCaseTable('#dcCaseDetailActions', {
+		  data: {
+			  sessid: BX.bitrix_sessid(),
+			  signedParameters: '',
+			  id: 123,
+			  type: 2
+		  },
+		  actions: {
+			columnsNames: ['twinpx:disciplinar.case.table', 'columnsNames'],
+			items: ['twinpx:disciplinar.case.table', 'items'],
+			deleteItem: ['twinpx:disciplinar.case.table', 'deleteItem'],
+		  },
+		  lang: {
+			  addButton: 'Добавить нарушение',
+			  deleteModal: {
+				  heading: 'Подтвердите удаление',
+				  text: 'Вы хотите удалить нарушение, подтвердите пожалуйста действие.',
+				  yes: 'Удалить',
+				  no: 'Отменить'
+			  }
+		  },
+		  constructor: {
+			  addForm: ['disciplinaryCaseFormViolations', 'run'],
+			  editForm: ['disciplinaryCaseFormViolations', 'run']
+		  }
+		});
+		window.disciplinaryCaseTableActions.run();
       </script>
+	  
+	  <div id="dcCaseFormActions"></div>
+	  <script>
+		window.disciplinaryCaseFormActions = new BX.DisciplinaryCaseForm('#dcCaseFormActions', {
+			sessid: BX.bitrix_sessid(),
+			signedParameters: '',
+			modal: true,
+			lang: {
+				heading: 'Новое дисциплинарное дело',
+				nodata: 'Нет данных',
+				cancelButton: 'Отменить',
+				createButton: 'Создать',
+				modal: {
+					heading: 'Подтвердите создание',
+					text: 'Вы создаете новое дисциплинарное дело, после добавления вы сможете изменить его статус и добавить детальную информацию.',
+					yes: 'Создать',
+					no: 'Проверить'
+				}
+			},
+			actions: {
+				getForm: ['twinpx:disciplinar.case.add', 'getForm'],
+				saveForm: ['twinpx:disciplinar.case.add', 'saveForm']
+			},
+			constructor: {
+				send: ['disciplinaryCaseTableViolations', 'loadTable']
+			}
+		});
+	  </script>
     </div>
     <hr class="hr--sl">
     <div class="b-block-with-buttons">

@@ -18,6 +18,7 @@ return [
 		'local.vue-components.sticky-scroll',
 		'local.vue-components.message-component',
 		'local.vue-components.button-component',
+		'local.vue-components.modal-yes-no',
 		'ui.vue3.pinia',
 	],
 	'skip_core' => true,

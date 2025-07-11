@@ -39,7 +39,7 @@ this.BX = this.BX || {};
     },
     props: ['control', 'name', 'id'],
     // language=Vue
-    template: "\n    <div class=\"twpx-control-component\">\n      <div class=\"twpx-control-tab\" v-if=\"control.tab\" :style=\"tabWidth(control.tab)\">\n        <TabIcon />\n      </div>\n      <component\n        :is=\"componentName()\"\n        :control=\"control\"\n        :id=\"id\"\n        :name=\"name\"\n        @input=\"inputAddControl\"\n        @focus=\"focusAddControl\"\n        @blur=\"blurAddControl\"\n        @enter=\"enterAddControl\"\n        @hints=\"hintsAddControl\"\n      ></component>\n    </div>\n\t",
+    template: "\n    <component v-if=\"control.property==='hidden'\"\n      :is=\"componentName()\"\n      :control=\"control\"\n      :id=\"id\"\n      :name=\"name\"\n      @input=\"inputAddControl\"\n    ></component>\n\n    <div class=\"twpx-control-component\" v-else>\n      <div class=\"twpx-control-tab\" v-if=\"control.tab\" :style=\"tabWidth(control.tab)\">\n        <TabIcon />\n      </div>\n      <component\n        :is=\"componentName()\"\n        :control=\"control\"\n        :id=\"id\"\n        :name=\"name\"\n        @input=\"inputAddControl\"\n        @focus=\"focusAddControl\"\n        @blur=\"blurAddControl\"\n        @enter=\"enterAddControl\"\n        @hints=\"hintsAddControl\"\n      ></component>\n    </div>\n\t",
     emits: ['input', 'focus', 'blur', 'hints'],
     methods: {
       tabWidth: function tabWidth(tab) {

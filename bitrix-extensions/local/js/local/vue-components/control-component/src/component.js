@@ -52,7 +52,15 @@ export const ControlComponent = {
   props: ['control', 'name', 'id'],
   // language=Vue
   template: `
-    <div class="twpx-control-component">
+    <component v-if="control.property==='hidden'"
+      :is="componentName()"
+      :control="control"
+      :id="id"
+      :name="name"
+      @input="inputAddControl"
+    ></component>
+
+    <div class="twpx-control-component" v-else>
       <div class="twpx-control-tab" v-if="control.tab" :style="tabWidth(control.tab)">
         <TabIcon />
       </div>

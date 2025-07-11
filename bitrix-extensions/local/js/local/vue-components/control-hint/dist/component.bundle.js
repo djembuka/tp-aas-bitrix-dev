@@ -205,21 +205,26 @@ this.BX = this.BX || {};
         // }
       },
       validate: function validate() {
-        if (this.control.required && this.control.value.trim() || !this.control.required) {
-          if (this.control.regexp) {
-            var match = String(this.control.value.trim()).match(RegExp(this.control.regexp));
-            if (!match) {
-              this.warning = this.control.regexp_description;
-            } else {
-              this.warning = '';
-            }
-            return match;
-          } else {
-            return true;
-          }
-        } else if (this.control.required && !this.control.value) {
-          return false;
-        }
+        // if (
+        //   (this.control.required && this.control.value.trim()) ||
+        //   !this.control.required
+        // ) {
+        //   if (this.control.regexp) {
+        //     const match = String(this.control.value.trim()).match(
+        //       RegExp(this.control.regexp)
+        //     );
+        //     if (!match) {
+        //       this.warning = this.control.regexp_description;
+        //     } else {
+        //       this.warning = '';
+        //     }
+        //     return match;
+        //   } else {
+        //     return true;
+        //   }
+        // } else if (this.control.required && !this.control.value) {
+        //   return false;
+        // }
         return true;
       }
     }
