@@ -1,0 +1,75 @@
+.twpx-form-control--checkbox-block {
+  --aas-checkbox-width: 24px;
+  --aas-checkbox-height: 24px;
+  --aas-checkbox-checked-before-top: 4px;
+  --aas-checkbox-checked-before-left: 3px;
+  --aas-checkbox-checked-before-width: 8px;
+  --aas-checkbox-checked-before-height: 13px;
+  --aas-checkbox-span-min-height: 25px;
+  --aas-checkbox-span-padding-left: calc(var(--aas-checkbox-width) + 20px);
+
+  display: -webkit-box;
+
+  display: -ms-flexbox;
+
+  display: flex;
+  width: 100%;
+  padding: 12px var(--twpx-table-padding-m, 16px);
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: var(--semantic-gap-s, 16px);
+  border-radius: var(--twpx-checkbox-border-radius);
+  border: 1px solid var(--twpx-form-control-background);
+  cursor: pointer;
+  -webkit-transition: border-color .3s ease, background-color .3s ease;
+  -o-transition: border-color .3s ease, background-color .3s ease;
+  transition: border-color .3s ease, background-color .3s ease;
+}
+label.twpx-form-control--checkbox-block {
+  margin-bottom: 0;
+}
+.twpx-form-control--checkbox-block:hover {
+  border-color: var(--twpx-form-control-border-active);
+}
+.twpx-form-control--checkbox-block.twpx-form-control--checked {
+  background-color: var(--twpx-form-control-background-blue);
+}
+.twpx-form-control--checkbox-block svg rect {
+  -webkit-transition: fill .3s ease;
+  -o-transition: fill .3s ease;
+  transition: fill .3s ease;
+  fill: var(--twpx-form-control-background);
+}
+.twpx-form-control--checkbox-block svg path {
+  -webkit-transition: stroke .3s ease;
+  -o-transition: stroke .3s ease;
+  transition: stroke .3s ease;
+  stroke: var(--twpx-form-control-background);
+}
+.twpx-form-control--checkbox-block.twpx-form-control--checked svg rect {
+  fill: var(--twpx-form-control-border-active);
+}
+.twpx-form-control--checkbox-block.twpx-form-control--checked svg path {
+  stroke: var(--twpx-form-control-background-blue);
+}
+.twpx-form-control--checkbox-block [type='checkbox']:not(:checked),
+.twpx-form-control--checkbox-block [type='checkbox']:checked {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.twpx-form-control--checkbox-block [type='checkbox'] + .twpx-form-control__label {
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  color: var(--twpx-form-control-color);
+  font-family: var(--twpx-form-control-font-family);
+  font-size: var(--twpx-form-control-font-size);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+}

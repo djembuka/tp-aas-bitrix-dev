@@ -12,7 +12,7 @@
         modalStateWatcher: false,
         modal: false,
         cancelUrl: '',
-        constructor: {},
+        outerMethods: {},
         args: null
       };
     },
@@ -87,10 +87,15 @@
           this.uploadFile(control, value);
         }
       },
-      changeControlValue: function changeControlValue(_ref7) {
+      changeCheckboxValue: function changeCheckboxValue(_ref7) {
         var control = _ref7.control,
-          value = _ref7.value,
           checked = _ref7.checked;
+        control.checked = checked;
+      },
+      changeControlValue: function changeControlValue(_ref8) {
+        var control = _ref8.control,
+          value = _ref8.value,
+          checked = _ref8.checked;
         switch (control.property) {
           case 'text':
           case 'textarea':
@@ -110,9 +115,12 @@
           // case 'multiselect':
           //   commit('changeMultiselectValue', { control, value, checked });
           //   break;
-          // case 'checkbox':
-          //   commit('changeCheckboxValue', { control, checked });
-          //   break;
+          case 'checkbox':
+            this.changeCheckboxValue({
+              control: control,
+              checked: checked
+            });
+            break;
           case 'select':
             this["changeSelect".concat(control.type.substring(0, 1).toUpperCase()).concat(control.type.substring(1).toLowerCase(), "Value")]({
               control: control,
@@ -254,14 +262,13 @@
           mode: 'class',
           data: formData
         }).then(function (res) {
-          var _dataStore, _dataStore$constructo, _dataStore2, _dataStore2$construct, _res$data;
+          var _res$data;
           _this4.loading = false;
           _this4.changeError('');
-          console.log((_dataStore = dataStore()) === null || _dataStore === void 0 ? void 0 : (_dataStore$constructo = _dataStore.constructor) === null || _dataStore$constructo === void 0 ? void 0 : _dataStore$constructo.send[0]);
-          if ((_dataStore2 = dataStore()) !== null && _dataStore2 !== void 0 && (_dataStore2$construct = _dataStore2.constructor) !== null && _dataStore2$construct !== void 0 && _dataStore2$construct.send[0]) {
-            var _dataStore3, _dataStore3$construct, _dataStore4, _dataStore4$construct;
+          if (dataStore().outerMethods && dataStore().outerMethods.send) {
+            var _dataStore, _dataStore$outerMetho, _dataStore2, _dataStore2$outerMeth;
             // load table
-            window[(_dataStore3 = dataStore()) === null || _dataStore3 === void 0 ? void 0 : (_dataStore3$construct = _dataStore3.constructor) === null || _dataStore3$construct === void 0 ? void 0 : _dataStore3$construct.send[0]][(_dataStore4 = dataStore()) === null || _dataStore4 === void 0 ? void 0 : (_dataStore4$construct = _dataStore4.constructor) === null || _dataStore4$construct === void 0 ? void 0 : _dataStore4$construct.send[1]]();
+            window[(_dataStore = dataStore()) === null || _dataStore === void 0 ? void 0 : (_dataStore$outerMetho = _dataStore.outerMethods) === null || _dataStore$outerMetho === void 0 ? void 0 : _dataStore$outerMetho.send[0]][(_dataStore2 = dataStore()) === null || _dataStore2 === void 0 ? void 0 : (_dataStore2$outerMeth = _dataStore2.outerMethods) === null || _dataStore2$outerMeth === void 0 ? void 0 : _dataStore2$outerMeth.send[1]]();
           } else if (res !== null && res !== void 0 && (_res$data = res.data) !== null && _res$data !== void 0 && _res$data.redirect) {
             // redirect
             window.location.href = res.data.redirect;
@@ -392,7 +399,7 @@
             dataStore().actions = self.options.actions || [];
             dataStore().modal = self.options.modal || false;
             dataStore().cancelUrl = self.options.cancelUrl || '';
-            dataStore().constructor = self.options.constructor || {};
+            dataStore().outerMethods = self.options.outerMethods || {};
           },
           mounted: function mounted() {
             if (args) {

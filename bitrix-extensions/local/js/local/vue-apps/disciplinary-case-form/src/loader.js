@@ -17,6 +17,7 @@ export class DisciplinaryCaseForm {
 
   run(args): void {
     const self = this;
+    
 
     this.#application = BitrixVue.createApp({
       name: 'DisciplinaryCaseForm',
@@ -31,7 +32,7 @@ export class DisciplinaryCaseForm {
         dataStore().actions = self.options.actions || [];
         dataStore().modal = self.options.modal || false;
         dataStore().cancelUrl = self.options.cancelUrl || '';
-        dataStore().constructor = self.options.constructor || {};
+        dataStore().outerMethods = self.options.outerMethods || {};
       },
       mounted() {
         if (args) {

@@ -27,7 +27,7 @@ export class DisciplinaryCaseTable {
         tableStore().data = self.options.data || {};
         tableStore().ajax = self.options.actions || {};
         tableStore().lang = self.options.lang || {};
-        tableStore().constructor = self.options.constructor || {};
+        tableStore().outerMethods = self.options.outerMethods || {};
       },
     });
 

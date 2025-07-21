@@ -30,6 +30,7 @@ return [
 		'local.vue-components.control-checkbox',
 		'local.vue-components.control-checkbox-checkbox',
 		'local.vue-components.control-checkbox-switch',
+		'local.vue-components.control-checkbox-block',
 	],
 	'skip_core' => true,
 ];

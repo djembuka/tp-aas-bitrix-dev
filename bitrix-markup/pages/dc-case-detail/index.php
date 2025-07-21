@@ -210,7 +210,7 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
 				  no: 'Отменить'
 			  }
 		  },
-		  constructor: {
+		  outerMethods: {
 			  addForm: ['disciplinaryCaseFormViolations', 'run'],
 			  editForm: ['disciplinaryCaseFormViolations', 'run']
 		  }
@@ -240,7 +240,7 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
 				getForm: ['twinpx:disciplinar.case.add', 'getForm'],
 				saveForm: ['twinpx:disciplinar.case.add', 'saveForm']
 			},
-			constructor: {
+			outerMethods: {
 				send: ['disciplinaryCaseTableViolations', 'loadTable']
 			}
 		});
@@ -279,7 +279,7 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
 				  no: 'Отменить'
 			  }
 		  },
-		  constructor: {
+		  outerMethods: {
 			  addForm: ['disciplinaryCaseFormViolations', 'run'],
 			  editForm: ['disciplinaryCaseFormViolations', 'run']
 		  }
@@ -309,7 +309,7 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
 				getForm: ['twinpx:disciplinar.case.add', 'getForm'],
 				saveForm: ['twinpx:disciplinar.case.add', 'saveForm']
 			},
-			constructor: {
+			outerMethods: {
 				send: ['disciplinaryCaseTableViolations', 'loadTable']
 			}
 		});

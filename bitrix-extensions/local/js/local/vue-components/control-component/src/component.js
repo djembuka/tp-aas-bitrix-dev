@@ -18,6 +18,7 @@ import { ControlFileUpload } from 'local.vue-components.control-file-upload';
 import { ControlCheckbox } from 'local.vue-components.control-checkbox';
 import { ControlCheckboxCheckbox } from 'local.vue-components.control-checkbox-checkbox';
 import { ControlCheckboxSwitch } from 'local.vue-components.control-checkbox-switch';
+import { ControlCheckboxBlock } from 'local.vue-components.control-checkbox-block';
 
 export const ControlComponent = {
   data() {
@@ -48,6 +49,7 @@ export const ControlComponent = {
     ControlCheckbox,
     ControlCheckboxCheckbox,
     ControlCheckboxSwitch,
+    ControlCheckboxBlock,
   },
   props: ['control', 'name', 'id'],
   // language=Vue

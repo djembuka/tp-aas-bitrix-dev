@@ -45,6 +45,9 @@ export const formStore = defineStore('form', {
         this.uploadFile(control, value);
       }
     },
+    changeCheckboxValue({ control, checked }) {
+      control.checked = checked;
+    },
     changeControlValue({ control, value, checked }) {
       switch (control.property) {
         case 'text':
@@ -59,9 +62,9 @@ export const formStore = defineStore('form', {
         // case 'multiselect':
         //   commit('changeMultiselectValue', { control, value, checked });
         //   break;
-        // case 'checkbox':
-        //   commit('changeCheckboxValue', { control, checked });
-        //   break;
+        case 'checkbox':
+          this.changeCheckboxValue({ control, checked });
+          break;
         case 'select':
           this[
             `changeSelect${control.type
@@ -187,10 +190,9 @@ export const formStore = defineStore('form', {
       .then((res) => {
         this.loading = false;
         this.changeError('');
-        console.log(dataStore()?.constructor?.send[0])
-        if (dataStore()?.constructor?.send[0]) {
+        if (dataStore().outerMethods && dataStore().outerMethods.send) {
           // load table
-          window[dataStore()?.constructor?.send[0]][dataStore()?.constructor?.send[1]]();
+          window[dataStore()?.outerMethods?.send[0]][dataStore()?.outerMethods?.send[1]]();
         } else if (res?.data?.redirect) {
           // redirect
           window.location.href = res.data.redirect;

@@ -9,7 +9,7 @@ export const dataStore = defineStore('data', {
     modalStateWatcher: false,
     modal: false,
     cancelUrl: '',
-    constructor: {},
+    outerMethods: {},
     args: null
   }),
   actions: {

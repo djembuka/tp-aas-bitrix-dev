@@ -18,7 +18,7 @@
         data: {},
         ajax: {},
         lang: {},
-        constructor: {},
+        outerMethods: {},
         loadingCols: false,
         loadingItems: false,
         columnsNames: [],
@@ -179,7 +179,7 @@
     // language=Vue
 
     template: "\n    <div>\n      <ModalYesNo\n        :heading=\"lang.deleteModal.heading\"\n        :text=\"lang.deleteModal.text\"\n        :yes=\"lang.deleteModal.yes\"\n        :no=\"lang.deleteModal.no\"\n        :buttons=\"{\n\t\t\t\t\tyes: {\n\t\t\t\t\t  props: ['danger', 'large']\n\t\t\t\t\t},\n\t\t\t\t\tno: {\n\t\t\t\t\t  props: ['gray-color', 'large']\n\t\t\t\t\t}\n\t\t\t\t}\"\n        :stateWatcher=\"deleteModalStateWatcher\"\n        @clickYes=\"clickYes\"\n        @clickNo=\"clickNo\"\n      />\n\n      <Loader v-if=\"loadingTable\" />\n\n      <div v-else class=\"disciplinary-case-table-wrapper\">\n\n        <MessageComponent v-if=\"errorTable\" type=\"error\" size=\"big\" :message=\"errorTable\" />\n\n        <StickyScroll>\n          <TableComponent :columnsNames=\"columnsNames\" :cols=\"cols\" :items=\"items\" @clickButton=\"clickButton\" />\n        </StickyScroll>\n\n        <ButtonComponent :text=\"lang.addButton\" :props=\"['success', 'small']\" @clickButton=\"clickAddButton\" />\n\n      </div>\n    </div>\n\t",
-    computed: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(tableStore, ['lang', 'constructor', 'data', 'cols', 'loadingTable', 'columnsNames', 'items', 'errorTable', 'deleteModalStateWatcher'])), {}, {
+    computed: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(tableStore, ['lang', 'outerMethods', 'data', 'cols', 'loadingTable', 'columnsNames', 'items', 'errorTable', 'deleteModalStateWatcher'])), {}, {
       error: function error() {
         return this.errorTable;
       }
@@ -188,8 +188,8 @@
       clickButton: function clickButton(_ref) {
         var itemId = _ref.itemId,
           code = _ref.code;
-        if (code === 'edit' && this.constructor.editForm && window[this.constructor.editForm[0]]) {
-          window[this.constructor.editForm[0]][this.constructor.editForm[1]](_objectSpread$1(_objectSpread$1({}, this.data), {}, {
+        if (code === 'edit' && this.outerMethods.editForm && window[this.outerMethods.editForm[0]]) {
+          window[this.outerMethods.editForm[0]][this.outerMethods.editForm[1]](_objectSpread$1(_objectSpread$1({}, this.data), {}, {
             item_id: itemId
           }));
         } else if (code === 'delete') {
@@ -198,8 +198,8 @@
         }
       },
       clickAddButton: function clickAddButton() {
-        if (this.constructor.addForm && window[this.constructor.addForm[0]]) {
-          window[this.constructor.addForm[0]][this.constructor.addForm[1]](_objectSpread$1({}, this.data));
+        if (this.outerMethods.addForm && window[this.outerMethods.addForm[0]]) {
+          window[this.outerMethods.addForm[0]][this.outerMethods.addForm[1]](_objectSpread$1({}, this.data));
         }
       },
       clickYes: function clickYes() {
@@ -253,7 +253,7 @@
             tableStore().data = self.options.data || {};
             tableStore().ajax = self.options.actions || {};
             tableStore().lang = self.options.lang || {};
-            tableStore().constructor = self.options.constructor || {};
+            tableStore().outerMethods = self.options.outerMethods || {};
           }
         }));
         babelHelpers.classPrivateFieldGet(this, _application).use(babelHelpers.classPrivateFieldGet(this, _store));

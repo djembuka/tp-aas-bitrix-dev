@@ -4,6 +4,8 @@ $APPLICATION->SetTitle("Участники дисциплинарного зас
 
 \Bitrix\Main\UI\Extension::load("local.extensions.tabs-menu");
 \Bitrix\Main\UI\Extension::load("local.vue-apps.table-with-pagination");
+\Bitrix\Main\UI\Extension::load("local.vue-apps.disciplinary-case-form");
+\Bitrix\Main\UI\Extension::load("local.vue-components.button-component");
 ?>
 
 <div class="b-twpx-tabs-menu">
@@ -19,6 +21,34 @@ $APPLICATION->SetTitle("Участники дисциплинарного зас
 
 <h3 class="mt-0">Вопросы дисицплинарного заседания</h3>
 
+<hr>
+<button class="vue-button vue-button--secondary vue-button--medium" onclick="window.disciplinaryCaseFormQuestions.run({});">Добавить вопрос</button>
+<div id="dcCaseFormQuestions"></div>
+
+<script>
+window.disciplinaryCaseFormQuestions = new BX.DisciplinaryCaseForm('#dcCaseFormQuestions', {
+	sessid: BX.bitrix_sessid(),
+	signedParameters: '',
+	modal: true,
+	lang: {
+		heading: 'Новое дисциплинарное дело',
+		nodata: 'Нет данных',
+		cancelButton: 'Отменить',
+		createButton: 'Создать',
+		modal: {
+			heading: 'Подтвердите создание',
+			text: 'Вы создаете новое дисциплинарное дело, после добавления вы сможете изменить его статус и добавить детальную информацию.',
+			yes: 'Создать',
+			no: 'Проверить'
+		}
+	},
+	actions: {
+		getForm: ['twinpx:disciplinar.case.add', 'getForm'],
+		saveForm: ['twinpx:disciplinar.case.add', 'saveForm']
+	},
+});
+</script>
+	  
 <hr>
 
 <div id="dcMeetingsQuestion"></div>

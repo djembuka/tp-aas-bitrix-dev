@@ -6,7 +6,7 @@ export const tableStore = defineStore('table', {
       data: {},
       ajax: {},
       lang: {},
-      constructor: {},
+      outerMethods: {},
       loadingCols: false,
       loadingItems: false,
       columnsNames: [],

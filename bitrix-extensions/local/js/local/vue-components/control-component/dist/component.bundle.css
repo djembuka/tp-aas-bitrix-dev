@@ -2,6 +2,7 @@
   --twpx-form-control-color: var(--twpx-input-text-defaults, #3b3b3b);
   --twpx-form-control-margin-bottom: 0;
   --twpx-form-control-background: #f0f5fc;
+  --twpx-form-control-background-blue: var(--twpx-background-light-blue, #f2f7ff);
   --twpx-form-control-border: var(--twpx-form-control-background);
   --twpx-form-control-border-active: #4f74d1;
   --twpx-form-control-translate: 1.1rem;
@@ -44,7 +45,7 @@
   );
   --twpx-form-control-hint-padding: 20px;
   --twpx-form-control-hint-font-size: 14px;
-  --twpx-form-control-hint-box-shadow: 0px 6px 10px 0px #f2f7ff;
+  --twpx-form-control-hint-box-shadow: 0px 6px 10px 0px var(--twpx-form-control-background-blue);
   --twpx-form-control-hint-border-radius: 0 0 5px 5px;
 
   /* label */
@@ -65,6 +66,9 @@
   --twpx-form-control-external-hint-font-size: 9pt;
   --twpx-form-control-external-hint-margin: 5px 5px 0 5px;
   --twpx-form-control-external-hint-line-height: 1.1;
+
+  /* checkbox */
+  --twpx-checkbox-border-radius: var(--twpx-text-border-radius-medium, 8px);
 }
 
 .twpx-control-component {

@@ -61,7 +61,7 @@ export const Application = {
 	`,
   computed: {
     ...mapState(tableStore, [
-      'lang', 'constructor', 'data',
+      'lang', 'outerMethods', 'data',
       'cols',
       'loadingTable',
       'columnsNames',
@@ -76,16 +76,16 @@ export const Application = {
   methods: {
     ...mapActions(tableStore, [ 'loadTable', 'deleteItem', 'changeDeleteModalStateWatcher', 'changeActiveItemId' ]),
     clickButton({itemId, code}) {
-      if (code === 'edit' && this.constructor.editForm && window[this.constructor.editForm[0]]) {
-        window[this.constructor.editForm[0]][this.constructor.editForm[1]]({ ...this.data, item_id: itemId });
+      if (code === 'edit' && this.outerMethods.editForm && window[this.outerMethods.editForm[0]]) {
+        window[this.outerMethods.editForm[0]][this.outerMethods.editForm[1]]({ ...this.data, item_id: itemId });
       } else if (code === 'delete') {
         this.changeDeleteModalStateWatcher();
         this.changeActiveItemId(itemId);
       }
     },
     clickAddButton() {
-      if (this.constructor.addForm && window[this.constructor.addForm[0]]) {
-        window[this.constructor.addForm[0]][this.constructor.addForm[1]]({ ...this.data });
+      if (this.outerMethods.addForm && window[this.outerMethods.addForm[0]]) {
+        window[this.outerMethods.addForm[0]][this.outerMethods.addForm[1]]({ ...this.data });
       }
     },
     clickYes() {

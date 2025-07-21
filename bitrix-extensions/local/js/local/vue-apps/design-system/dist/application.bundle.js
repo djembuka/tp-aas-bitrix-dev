@@ -202,6 +202,27 @@
           checked: true,
           disabled: false,
           hint_external: 'Active checkbox'
+        }, {
+          property: 'checkbox',
+          id: 'id11',
+          name: 'SIMPLE_CHECKBOX',
+          required: false,
+          label: 'Checkbox',
+          value: 'on',
+          checked: true,
+          disabled: false,
+          hint_external: 'Simple checkbox'
+        }, {
+          property: 'checkbox',
+          type: 'block',
+          id: 'id12',
+          name: 'CHECKBOX_BLOCK',
+          required: false,
+          label: 'Checkbox block',
+          value: 'on',
+          checked: true,
+          disabled: false,
+          hint_external: 'Checkbox block'
         }]
       };
     },
@@ -1231,5 +1252,4 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
