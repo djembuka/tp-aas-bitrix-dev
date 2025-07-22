@@ -7,14 +7,14 @@ export const formStore = defineStore('form', {
     loading: false,
     error: '',
     stateWatcher: false,
-    historyItems: []
+    historyItems: [],
+    currentStatus: ''
   }),
   actions: {
     changeStateWatcher() {
       this.stateWatcher = !this.stateWatcher;
     },
     changeHistoryItems(historyItems) {
-      console.log(historyItems)
       this.historyItems = historyItems;
     },
     changeError(error) {
@@ -34,6 +34,13 @@ export const formStore = defineStore('form', {
         if (response.status === 'success') {
           this.changeError('');
           controlsStore().changeControls(response.data[0].controls);
+
+          // set current
+          response.data[0].controls.forEach(c => {
+            if (c.property === 'select') {
+              this.currentStatus = c.value;
+            }
+          })
         } else {
           this.changeError(response.errors[0].message);
         }
@@ -67,6 +74,7 @@ export const formStore = defineStore('form', {
           if (response.status === 'success') {
             this.changeError('');
             this.runGetHistory();
+            this.currentStatus = controlsStore().controls.find(c => c.property === 'select').value;
           } else {
             this.changeError(response.errors[0].message);
           }

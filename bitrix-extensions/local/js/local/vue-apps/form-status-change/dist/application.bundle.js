@@ -178,7 +178,8 @@
         loading: false,
         error: '',
         stateWatcher: false,
-        historyItems: []
+        historyItems: [],
+        currentStatus: ''
       };
     },
     actions: {
@@ -186,7 +187,6 @@
         this.stateWatcher = !this.stateWatcher;
       },
       changeHistoryItems: function changeHistoryItems(historyItems) {
-        console.log(historyItems);
         this.historyItems = historyItems;
       },
       changeError: function changeError(error) {
@@ -205,6 +205,13 @@
           if (response.status === 'success') {
             _this.changeError('');
             controlsStore().changeControls(response.data[0].controls);
+
+            // set current
+            response.data[0].controls.forEach(function (c) {
+              if (c.property === 'select') {
+                _this.currentStatus = c.value;
+              }
+            });
           } else {
             _this.changeError(response.errors[0].message);
           }
@@ -233,6 +240,9 @@
           if (response.status === 'success') {
             _this2.changeError('');
             _this2.runGetHistory();
+            _this2.currentStatus = controlsStore().controls.find(function (c) {
+              return c.property === 'select';
+            }).value;
           } else {
             _this2.changeError(response.errors[0].message);
           }
@@ -285,17 +295,24 @@
     },
     // language=Vue
     template: "\n  <div class=\"twpx-form-status-change\" :id=\"id\">\n\n    <LoaderCircle :show=\"loading\" />\n\n    <MessageComponent v-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n    <ModalYesNo\n      :heading=\"lang.modal.heading\"\n      :text=\"lang.modal.text\"\n      :yes=\"lang.modal.yes\"\n      :no=\"lang.modal.no\"\n      :stateWatcher=\"stateWatcher\"\n      @clickYes=\"clickYes\"\n      @clickNo=\"clickNo\"\n    />\n\n    <div class=\"twpx-form-status-change__grid\">\n      <div class=\"twpx-form-status-change__form\">\n        <form action=\"\">\n          <div class=\"twpx-form-status-change__form-wrapper\" v-if=\"!loading\">\n\n            <h3>{{ lang.form.heading }}</h3>\n            <ControlChoice  v-for=\"control in controls\" :key=\"control.id\" :control=\"control\" @input=\"input\"></ControlChoice>\n            <ButtonComponent :text=\"lang.form.button\" :props=\"buttonProps\" @clickButton=\"clickButton\" />\n\n          </div>\n        </form>\n      </div>\n\n      <div class=\"twpx-form-status-change__history\">\n\n        <h3>{{ lang.history.heading }}</h3>\n        <HistoryItem v-for=\"item in historyItems\" :key=\"item.id\" :item=\"item\" />\n\n      </div>\n    </div>\n  </div>\n\t",
-    computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'id'])), ui_vue3_pinia.mapState(formStore, ['loading', 'error', 'historyItems', 'stateWatcher'])), ui_vue3_pinia.mapState(controlsStore, ['controls'])), {}, {
+    computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'id'])), ui_vue3_pinia.mapState(formStore, ['loading', 'error', 'historyItems', 'stateWatcher', 'currentStatus'])), ui_vue3_pinia.mapState(controlsStore, ['controls'])), {}, {
       buttonProps: function buttonProps() {
-        var result = ['wide', 'secondary', 'large'];
+        var _this = this;
+        var result = new Set();
+        result.add('wide');
+        result.add('secondary');
+        result.add('large');
         if (babelHelpers["typeof"](this.controls) === 'object' && this.controls.forEach) {
           this.controls.forEach(function (c) {
             if (c.required && !c.value) {
-              result.push('disabled');
+              result.add('disabled');
+            }
+            if (c.property === 'select' && c.value === _this.currentStatus) {
+              result.add('disabled');
             }
           });
         }
-        return result;
+        return babelHelpers.toConsumableArray(result);
       }
     }),
     methods: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(formStore, ['runGetForm', 'runSaveForm', 'changeStateWatcher'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControlValue', 'runHints', 'setHints'])), {}, {
@@ -396,5 +413,4 @@
 
   exports.FormStatusChange = FormStatusChange;
 
-}((this.BX = this.BX || {}),BX,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map

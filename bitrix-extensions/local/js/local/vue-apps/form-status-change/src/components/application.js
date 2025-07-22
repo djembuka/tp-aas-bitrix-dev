@@ -6,10 +6,12 @@ import { LoaderCircle } from 'local.vue-components.loader-circle';
 import { MessageComponent } from 'local.vue-components.message-component';
 import { ModalYesNo } from 'local.vue-components.modal-yes-no';
 
+import HistoryItem from './historyItem.js';
+
 import { mapState, mapActions } from 'ui.vue3.pinia';
-import { dataStore } from '../stores/data.js';
-import { formStore } from '../stores/form.js';
-import { controlsStore } from '../stores/controls.js';
+import { dataStore } from '../stores/data';
+import { formStore } from '../stores/form';
+import { controlsStore } from '../stores/controls';
 
 export const Application = {
   data() {
@@ -20,7 +22,8 @@ export const Application = {
     ButtonComponent,
     LoaderCircle,
     MessageComponent,
-    ModalYesNo
+    ModalYesNo,
+    HistoryItem
   },
   // language=Vue
   template: `
@@ -52,12 +55,19 @@ export const Application = {
           </div>
         </form>
       </div>
+
+      <div class="twpx-form-status-change__history">
+
+        <h3>{{ lang.history.heading }}</h3>
+        <HistoryItem v-for="item in historyItems" :key="item.id" :item="item" />
+
+      </div>
     </div>
   </div>
 	`,
   computed: {
     ...mapState(dataStore, ['lang', 'id']),
-    ...mapState(formStore, ['loading', 'error', 'historyItems', 'stateWatcher']),
+    ...mapState(formStore, ['loading', 'error', 'historyItems', 'stateWatcher', 'currentStatus']),
     ...mapState(controlsStore, ['controls']),
     buttonProps() {
       const result = new Set();
@@ -68,6 +78,10 @@ export const Application = {
       if (typeof this.controls === 'object' && this.controls.forEach) {
         this.controls.forEach(c => {
           if (c.required && !c.value) {
+            result.add('disabled');
+          }
+
+          if (c.property === 'select' && c.value === this.currentStatus) {
             result.add('disabled');
           }
         })

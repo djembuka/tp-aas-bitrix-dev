@@ -74,6 +74,13 @@ $APPLICATION->SetTitle("Markup");
 	  <li><a href="/markup/pages/dc-meetings-detail/notifications.php">Заседание детально - Уведомления</a></li>
 	</ul>
   </li>
+  
+  <li><a href="/markup/pages/dc-questions/">Реестр вопросов заседания ДК</a>
+	<ul>
+	  <li><a href="/markup/pages/dc-question-detail/">Вопрос дисциплинарного засеания - Общие данные</a></li>
+	</ul>
+  </li>
+  
   <li><a href="/markup/pages/dc-questions/">Реестр вопросов заседания ДК</a></li>
   <li><a href="https://aas-markup.twpx.ru/pages/dc-detail/">Дисциплинарная комиссия детально</a></li>
   <li><a href="/markup/pages/dc-cases/">Заседание дисциплинарной комиссии</a></li>
