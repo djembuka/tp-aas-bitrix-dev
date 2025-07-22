@@ -117,7 +117,7 @@ export const Application = {
               maxCountPerRequest: this.maxCountPerRequest,
               filters: [],
               columnSort: column.id,
-              sortType: 'ASC',
+              sortType,
             },
           });
         }

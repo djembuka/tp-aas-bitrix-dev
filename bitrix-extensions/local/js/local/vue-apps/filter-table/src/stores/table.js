@@ -187,7 +187,9 @@ export const tableStore = defineStore('table', {
 
       a.then(
         (result) => {
-          resultFn(state, result.data);
+          if (result && typeof result === 'object' && String(result.status).toLowerCase() === 'success') {
+            resultFn(state, data.data);
+          }
         },
         (error) => {
           if (
@@ -195,7 +197,7 @@ export const tableStore = defineStore('table', {
             window.twinpx.vue.markup &&
             window.twinpx.vue['filter-table']
           ) {
-            resultFn(state, window.twinpx.vue['filter-table'].setDefaultSort);
+            resultFn(state, data.data);
           } else {
             this.showError({ error, method: 'setDefaultSort' });
           }
@@ -203,7 +205,10 @@ export const tableStore = defineStore('table', {
       );
 
       function resultFn(state, data) {
-        state.setSort(data);
+        state.setSort({
+          columnSort: data.columnSort,
+          sortType: data.sortType,
+        });
         if (callback) {
           callback();
         }

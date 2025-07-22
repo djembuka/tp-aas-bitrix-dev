@@ -13,6 +13,7 @@ import { ControlSelectRadio } from 'local.vue-components.control-select-radio';
 import { ControlDatepicker } from 'local.vue-components.control-datepicker';
 import { ControlDateSingle } from 'local.vue-components.control-date-single';
 import { ControlDateRange } from 'local.vue-components.control-date-range';
+import { ControlTimeSingle } from 'local.vue-components.control-time-single';
 import { ControlFile } from 'local.vue-components.control-file';
 import { ControlFileUpload } from 'local.vue-components.control-file-upload';
 import { ControlCheckbox } from 'local.vue-components.control-checkbox';
@@ -44,6 +45,7 @@ export const ControlComponent = {
     ControlDatepicker,
     ControlDateSingle,
     ControlDateRange,
+    ControlTimeSingle,
     ControlFile,
     ControlFileUpload,
     ControlCheckbox,

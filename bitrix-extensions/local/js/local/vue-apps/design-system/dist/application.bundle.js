@@ -18,6 +18,15 @@
     state: function state() {
       return {
         controls: [{
+          property: 'time',
+          type: 'single',
+          id: 'id50',
+          name: 'TIME',
+          label: 'Time single',
+          value: '11:00',
+          required: false,
+          disabled: false
+        }, {
           property: 'hint',
           id: 'id5',
           name: 'AUDITOR_ORNZ',
@@ -238,6 +247,7 @@
           case 'hidden':
           case 'password':
           case 'date':
+          case 'time':
           case 'textarea':
             control.value = value;
             break;
@@ -1252,4 +1262,5 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.Vue3.Pinia));
+//# sourceMappingURL=application.bundle.js.map

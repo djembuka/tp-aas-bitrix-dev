@@ -134,10 +134,12 @@
         var a = window.BX.ajax.runComponentAction(this.actions.setDefaultSort.component, this.actions.setDefaultSort.method, data);
         var state = this;
         a.then(function (result) {
-          resultFn(state, result.data);
+          if (result && babelHelpers["typeof"](result) === 'object' && String(result.status).toLowerCase() === 'success') {
+            resultFn(state, data.data);
+          }
         }, function (error) {
           if (window.twinpx && window.twinpx.vue.markup && window.twinpx.vue['filter-table']) {
-            resultFn(state, window.twinpx.vue['filter-table'].setDefaultSort);
+            resultFn(state, data.data);
           } else {
             _this4.showError({
               error: error,
@@ -146,7 +148,10 @@
           }
         });
         function resultFn(state, data) {
-          state.setSort(data);
+          state.setSort({
+            columnSort: data.columnSort,
+            sortType: data.sortType
+          });
           if (callback) {
             callback();
           }
@@ -370,7 +375,7 @@
               maxCountPerRequest: _this.maxCountPerRequest,
               filters: [],
               columnSort: column.id,
-              sortType: 'ASC'
+              sortType: sortType
             }
           });
         });
@@ -546,5 +551,5 @@
 
   exports.FilterTable = FilterTable;
 
-}((this.BX = this.BX || {}),BX,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map
