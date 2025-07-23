@@ -14,30 +14,21 @@
   padding: var(--twpx-form-padding-desktop, 32px);
   border: 1px solid var(--twpx-border-neutral, #F2F2F2);
 }
+.twpx-form-status-change__history-wrapper {
+  display: grid;
+  gap: 8px;
+}
 .twpx-form-status-change h3 {
   margin: 0;
 }
-.twpx-form-status-change__buttons {
-  display: flex;
-  gap: var(--twpx-form-gap-block-gap, 32px);
-}
 @media(max-width: 767px) {
-  .twpx-form-status-change__wrapper {
-    padding: 32px var(--twpx-form-padding-mobile, 16px);
+  .twpx-form-status-change__grid {
+    grid-template-columns: 1fr;
   }
-  .twpx-form-status-change__buttons {
-    display: grid;
-    gap: var(--body-buttons-vertical-gap, 16px);
-  }
-  .twpx-form-status-change__buttons .vue-button:nth-child(1) {
-    width: auto;
-    padding: var(--8, 8px) var(--16, 16px);
-    font-size: 12px;
-    height: var(--twpx-button-small, 32px);
-    border-radius: 4px;
-  }
-  .twpx-form-status-change h2 {
-    font-size: 20px;
+  .twpx-form-status-change__form-wrapper,
+  .twpx-form-status-change__history {
+    padding: var(--twpx-form-padding-mobile, 16px);
+    gap: var(--twpx-form-gap-block-gap, 16px);
   }
   .twpx-form-status-change h3 {
     font-size: 14px;

@@ -9,7 +9,7 @@ export default {
         <div class="twpx-status-history-item">
             <div>
                 <div>{{ formatDate(item.create) }} {{ item.state }}</div>
-                <div v-if="item.comment" v-html="item.comment"></div>
+                <pre v-if="item.comment">{{ item.comment }}</pre>
             </div>
             <a :href="item.author.url" class="twpx-status-history-item__author"  v-if="item.author.name || item.author.img">
                 <img :src="item.author.img" :alt="item.author.name" v-if="item.author.img" />

@@ -59,7 +59,10 @@ export const Application = {
       <div class="twpx-form-status-change__history">
 
         <h3>{{ lang.history.heading }}</h3>
-        <HistoryItem v-for="item in historyItems" :key="item.id" :item="item" />
+
+        <div class="twpx-form-status-change__history-wrapper">
+          <HistoryItem v-for="item in historyItems" :key="item.id" :item="item" />
+        </div>
 
       </div>
     </div>

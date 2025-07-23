@@ -16,32 +16,21 @@
   padding: var(--twpx-form-padding-desktop, 32px);
   border: 1px solid var(--twpx-border-neutral, #F2F2F2);
 }
+.twpx-form-status-change__history-wrapper {
+  display: grid;
+  gap: 8px;
+}
 .twpx-form-status-change h3 {
   margin: 0;
 }
-.twpx-form-status-change__buttons {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  gap: var(--twpx-form-gap-block-gap, 32px);
-}
 @media(max-width: 767px) {
-  .twpx-form-status-change__wrapper {
-    padding: 32px var(--twpx-form-padding-mobile, 16px);
+  .twpx-form-status-change__grid {
+    grid-template-columns: 1fr;
   }
-  .twpx-form-status-change__buttons {
-    display: grid;
-    gap: var(--body-buttons-vertical-gap, 16px);
-  }
-  .twpx-form-status-change__buttons .vue-button:nth-child(1) {
-    width: auto;
-    padding: var(--8, 8px) var(--16, 16px);
-    font-size: 12px;
-    height: var(--twpx-button-small, 32px);
-    border-radius: 4px;
-  }
-  .twpx-form-status-change h2 {
-    font-size: 20px;
+  .twpx-form-status-change__form-wrapper,
+  .twpx-form-status-change__history {
+    padding: var(--twpx-form-padding-mobile, 16px);
+    gap: var(--twpx-form-gap-block-gap, 16px);
   }
   .twpx-form-status-change h3 {
     font-size: 14px;
@@ -65,6 +54,17 @@
             align-items: center;
     gap: var(--8, 8px);
 }
+.twpx-status-history-item pre {
+    color: var(--Base-Black-color-black, #000);
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+    margin: 0;
+    padding: 0;
+    white-space: pre-wrap;
+}
 a.twpx-status-history-item__author {
     font-family: Roboto;
     font-size: 14px;
@@ -77,4 +77,5 @@ a.twpx-status-history-item__author {
     height: 32px;
     -ms-flex-negative: 0;
         flex-shrink: 0;
+    border-radius: 50%;
 }
