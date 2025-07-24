@@ -23,9 +23,6 @@ export const buttonsBlockAppStore = defineStore('buttons-block-app', {
       this.loading = true;
       const d = buttonsBlockDataStore();
 
-      this.loading = false;
-      return;
-
       BX.ajax.runComponentAction(action[0], action[1], {
         mode: 'class',
         data: d.data,
@@ -34,7 +31,7 @@ export const buttonsBlockAppStore = defineStore('buttons-block-app', {
         this.loading = false;
         if (response.status === 'success' && response.data.redirect) {
           this.changeError('');
-          this.window.location = response.data.redirect;
+          window.location.href = response.data.redirect;
         } else {
           this.changeError(response.errors[0].message);
         }

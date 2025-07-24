@@ -72,3 +72,8 @@
 .twpx-modal-yes-no-buttons .vue-button {
   width: 256px;
 }
+@media(max-width: 767px ) {
+  .twpx-modal-yes-no-buttons {
+    display: grid;
+  }
+}

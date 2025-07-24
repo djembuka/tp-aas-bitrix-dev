@@ -37,8 +37,6 @@
         this.error = '';
         this.loading = true;
         var d = buttonsBlockDataStore();
-        this.loading = false;
-        return;
         BX.ajax.runComponentAction(action[0], action[1], {
           mode: 'class',
           data: d.data
@@ -46,7 +44,7 @@
           _this.loading = false;
           if (response.status === 'success' && response.data.redirect) {
             _this.changeError('');
-            _this.window.location = response.data.redirect;
+            window.location.href = response.data.redirect;
           } else {
             _this.changeError(response.errors[0].message);
           }
