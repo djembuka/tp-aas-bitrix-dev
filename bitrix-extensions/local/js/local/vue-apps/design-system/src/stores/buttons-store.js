@@ -156,17 +156,17 @@ export const buttonsStore = defineStore('buttons-store', {
         },
       },
       {
-        id: '18',
-        text: 'Remove',
-        props: ['icon', 'remove', 'medium'],
+        id: '19',
+        text: 'Edit',
+        props: ['icon', 'edit', 'medium'],
         clickButton() {
           alert('click');
         },
       },
       {
-        id: '19',
-        text: 'Edit',
-        props: ['icon', 'edit', 'medium'],
+        id: '18',
+        text: 'Delete',
+        props: ['icon-delete', 'danger', 'large'],
         clickButton() {
           alert('click');
         },

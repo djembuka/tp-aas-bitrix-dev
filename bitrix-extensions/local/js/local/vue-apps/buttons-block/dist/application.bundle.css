@@ -1,0 +1,18 @@
+.twpx-buttons-block .vue-loader-circle {
+  height: 400px;
+}
+.twpx-buttons-block h3 {
+  margin: 0;
+}
+.twpx-buttons-block__wrapper {
+  display: grid;
+  padding: var(--body-margin, 32px);
+  gap: var(--body-gap, 32px);
+  border-radius: 10px;
+  border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+}
+@media(max-width: 767px) {
+  .twpx-buttons-block h3 {
+    font-size: 14px;
+  }
+}

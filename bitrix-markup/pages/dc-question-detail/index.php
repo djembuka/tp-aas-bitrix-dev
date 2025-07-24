@@ -3,6 +3,7 @@ require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Вопрос дисциплинарного засеания 6");
 
 \Bitrix\Main\UI\Extension::load("local.vue-apps.form-status-change");
+\Bitrix\Main\UI\Extension::load("local.vue-apps.buttons-block");
 \Bitrix\Main\UI\Extension::load("local.extensions.tabs-menu");
 ?>
 
@@ -19,6 +20,41 @@ $APPLICATION->SetTitle("Вопрос дисциплинарного засеан
       <a href="/markup/pages/dc-question-detail/">Обсуждение</a>
     </div>
   </div>
+  
+  <hr>
+  
+  <div id="dcQuestionDetailDelete"></div>
+  
+  <script>
+	const questionStatusDelete = new BX.ButtonsBlock('#dcQuestionDetailDelete', {
+	  data: {
+		  sessid: BX.bitrix_sessid(),
+		  signedParameters: '',
+		  id: 19153,
+		  type_id: 89
+	  },
+	  lang: {
+		  heading: 'Удаление дисциплинарного заседания',
+		  text: 'Обратите внимание: не рекомендуется удалять заседание, если его статус отличается от Запланировано.',
+	  },
+	  buttons: [
+		{
+			type: 'delete',
+			text: 'Удалить',
+		    modal: {
+			  heading: 'Подтвердите удаление',
+			  text: 'Вы хотите удалить нарушение, подтвердите пожалуйста действие.',
+			  yes: 'Удалить',
+			  no: 'Отменить'
+		    },
+			actions: {
+			  'delete': ['twinpx:disciplinar.comments', 'delete'],
+			},
+		}
+	  ]
+	});
+	questionStatusDelete.run();
+  </script>
   
   <hr>
   

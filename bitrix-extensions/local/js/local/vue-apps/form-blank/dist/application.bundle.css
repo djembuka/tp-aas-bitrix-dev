@@ -47,34 +47,3 @@
     font-size: 14px;
   }
 }
-
-.twpx-status-history-item {
-    display: grid;
-    padding: 32px;
-    gap: 16px;
-    border-radius: var(--twpx-text-border-radius-small, 4px);
-    background: var(--twpx-text-background-grey, #FAFAFA);
-}
-.twpx-status-history-item__author {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    padding: var(--twpx-table-padding-s, 8px) 0px;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    gap: var(--8, 8px);
-}
-a.twpx-status-history-item__author {
-    font-family: Roboto;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 16px; /* 114.286% */
-}
-.twpx-status-history-item__author img {
-    width: 32px;
-    height: 32px;
-    -ms-flex-negative: 0;
-        flex-shrink: 0;
-}

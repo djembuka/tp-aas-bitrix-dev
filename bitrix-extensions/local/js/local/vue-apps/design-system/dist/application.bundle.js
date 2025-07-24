@@ -984,16 +984,16 @@
             alert('click');
           }
         }, {
-          id: '18',
-          text: 'Remove',
-          props: ['icon', 'remove', 'medium'],
+          id: '19',
+          text: 'Edit',
+          props: ['icon', 'edit', 'medium'],
           clickButton: function clickButton() {
             alert('click');
           }
         }, {
-          id: '19',
-          text: 'Edit',
-          props: ['icon', 'edit', 'medium'],
+          id: '18',
+          text: 'Delete',
+          props: ['icon-delete', 'danger', 'large'],
           clickButton: function clickButton() {
             alert('click');
           }
@@ -1262,5 +1262,4 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map

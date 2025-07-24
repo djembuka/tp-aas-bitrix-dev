@@ -1,5 +1,6 @@
 import './component.css';
 import { DeleteIcon } from './icons/delete.js';
+import { DeleteWhiteIcon } from './icons/delete-white.js';
 import { EditIcon } from './icons/edit.js';
 
 export const ButtonComponent = {
@@ -10,6 +11,7 @@ export const ButtonComponent = {
   emits: ['clickButton'],
   components: {
     DeleteIcon,
+    DeleteWhiteIcon,
     EditIcon
   },
   // language=Vue
@@ -19,14 +21,19 @@ export const ButtonComponent = {
       <EditIcon v-else-if="props.find(e => e === 'edit')" />
     </button>
 
-		<button v-else class="vue-button" :class="propsClass" @click.prevent="clickButton">{{ text }}</button>
+		<button v-else class="vue-button" :class="propsClass" @click.prevent="clickButton">
+      <DeleteWhiteIcon v-if="props.find(e => e === 'icon-delete')" />
+      {{ text }}
+    </button>
 	`,
   computed: {
     propsClass() {
       const result = {};
       if (this.props) {
         this.props.forEach((p) => {
-          result[`vue-button--${p}`] = true;
+          if (!p.startsWith('icon-')) {
+            result[`vue-button--${p}`] = true;
+          }
         });
       }
 

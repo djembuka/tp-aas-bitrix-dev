@@ -2,23 +2,6 @@
 (function (exports,ui_vue3,local_vueComponents_controlChoice,local_vueComponents_buttonComponent,local_vueComponents_loaderCircle,local_vueComponents_messageComponent,local_vueComponents_modalYesNo,ui_vue3_pinia) {
   'use strict';
 
-  var HistoryItem = {
-    data: function data() {
-      return {};
-    },
-    props: ['item'],
-    template: "\n        <div class=\"twpx-status-history-item\">\n            <div>\n                <div>{{ formatDate(item.create) }} {{ item.state }}</div>\n                <div v-if=\"item.comment\" v-html=\"item.comment\"></div>\n            </div>\n            <a :href=\"item.author.url\" class=\"twpx-status-history-item__author\"  v-if=\"item.author.name || item.author.img\">\n                <img :src=\"item.author.img\" :alt=\"item.author.name\" v-if=\"item.author.img\" />\n                <span v-if=\"item.author.name\">{{ item.author.name }}</span>\n            </a>\n        </div>\n    ",
-    methods: {
-      formatDate: function formatDate(dateString) {
-        var date = new Date(dateString);
-        var pad = function pad(n) {
-          return n.toString().padStart(2, '0');
-        };
-        return pad(date.getDate()) + '.' + pad(date.getMonth() + 1) + '.' + date.getFullYear() + ' ' + pad(date.getHours()) + ':' + pad(date.getMinutes()) + ':' + pad(date.getSeconds());
-      }
-    }
-  };
-
   var dataStore = ui_vue3_pinia.defineStore('data', {
     state: function state() {
       return {
@@ -280,22 +263,24 @@
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
       LoaderCircle: local_vueComponents_loaderCircle.LoaderCircle,
       MessageComponent: local_vueComponents_messageComponent.MessageComponent,
-      ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo,
-      HistoryItem: HistoryItem
+      ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo
     },
     // language=Vue
-    template: "\n  <div class=\"twpx-form-status-change\" :id=\"id\">\n\n    <LoaderCircle :show=\"loading\" />\n\n    <MessageComponent v-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n    <ModalYesNo\n      :heading=\"lang.modal.heading\"\n      :text=\"lang.modal.text\"\n      :yes=\"lang.modal.yes\"\n      :no=\"lang.modal.no\"\n      :stateWatcher=\"stateWatcher\"\n      @clickYes=\"clickYes\"\n      @clickNo=\"clickNo\"\n    />\n\n    <div class=\"twpx-form-status-change__grid\">\n      <div class=\"twpx-form-status-change__form\">\n        <form action=\"\">\n          <div class=\"twpx-form-status-change__form-wrapper\" v-if=\"!loading\">\n\n            <h3>{{ lang.form.heading }}</h3>\n            <ControlChoice  v-for=\"control in controls\" :key=\"control.id\" :control=\"control\" @input=\"input\"></ControlChoice>\n            <ButtonComponent :text=\"lang.form.button\" :props=\"buttonProps\" @clickButton=\"clickButton\" />\n\n          </div>\n        </form>\n      </div>\n\n      <div class=\"twpx-form-status-change__history\">\n\n        <h3>{{ lang.history.heading }}</h3>\n        <HistoryItem v-for=\"item in historyItems\" :key=\"item.id\" :item=\"item\" />\n\n      </div>\n    </div>\n  </div>\n\t",
+    template: "\n  <div class=\"twpx-form-status-change\" :id=\"id\">\n\n    <LoaderCircle :show=\"loading\" />\n\n    <MessageComponent v-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n    <ModalYesNo\n      :heading=\"lang.modal.heading\"\n      :text=\"lang.modal.text\"\n      :yes=\"lang.modal.yes\"\n      :no=\"lang.modal.no\"\n      :stateWatcher=\"stateWatcher\"\n      @clickYes=\"clickYes\"\n      @clickNo=\"clickNo\"\n    />\n\n    <div class=\"twpx-form-status-change__grid\">\n      <div class=\"twpx-form-status-change__form\">\n        <form action=\"\">\n          <div class=\"twpx-form-status-change__form-wrapper\" v-if=\"!loading\">\n\n            <h3>{{ lang.form.heading }}</h3>\n            <ControlChoice  v-for=\"control in controls\" :key=\"control.id\" :control=\"control\" @input=\"input\"></ControlChoice>\n            <ButtonComponent :text=\"lang.form.button\" :props=\"buttonProps\" @clickButton=\"clickButton\" />\n\n          </div>\n        </form>\n      </div>\n    </div>\n  </div>\n\t",
     computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'id'])), ui_vue3_pinia.mapState(formStore, ['loading', 'error', 'historyItems', 'stateWatcher'])), ui_vue3_pinia.mapState(controlsStore, ['controls'])), {}, {
       buttonProps: function buttonProps() {
-        var result = ['wide', 'secondary', 'large'];
+        var result = new Set();
+        result.add('wide');
+        result.add('secondary');
+        result.add('large');
         if (babelHelpers["typeof"](this.controls) === 'object' && this.controls.forEach) {
           this.controls.forEach(function (c) {
             if (c.required && !c.value) {
-              result.push('disabled');
+              result.add('disabled');
             }
           });
         }
-        return result;
+        return babelHelpers.toConsumableArray(result);
       }
     }),
     methods: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(formStore, ['runGetForm', 'runSaveForm', 'changeStateWatcher'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControlValue', 'runHints', 'setHints'])), {}, {
