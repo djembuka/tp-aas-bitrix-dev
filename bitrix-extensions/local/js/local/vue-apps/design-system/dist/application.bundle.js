@@ -58,6 +58,16 @@
           required: false,
           disabled: false
         }, {
+          property: 'hint',
+          id: 'id5-3',
+          name: 'AUDITOR_ORNZ_WITH_HIDDEN',
+          label: 'With hidden data',
+          value: '',
+          count: 3,
+          action: '/markup/vue/design-system/hints-hidden.json',
+          required: false,
+          disabled: false
+        }, {
           id: 'id1',
           property: 'text',
           name: 'SOME_TEXT',
@@ -1262,5 +1272,5 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

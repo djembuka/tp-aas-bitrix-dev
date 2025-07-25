@@ -1,0 +1,60 @@
+{
+  "status": "success",
+  "data": [
+    {
+      "id": "1",
+      "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >First</div>",
+      "hidden": [
+        {
+          "name": "HIDDEN1",
+          "value": "789456"
+        },
+        {
+          "name": "HIDDEN2",
+          "value": "123123"
+        },
+        {
+          "name": "HIDDEN3",
+          "value": "456465"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+      "hidden": [
+        {
+          "name": "HIDDEN4",
+          "value": "qwe"
+        },
+        {
+          "name": "HIDDEN5",
+          "value": "asdasd"
+        },
+        {
+          "name": "HIDDEN6",
+          "value": "zxczxc"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+      "hidden": [
+        {
+          "name": "HIDDEN7",
+          "value": "fff"
+        },
+        {
+          "name": "HIDDEN8",
+          "value": "uu"
+        },
+        {
+          "name": "HIDDEN9",
+          "value": "0"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

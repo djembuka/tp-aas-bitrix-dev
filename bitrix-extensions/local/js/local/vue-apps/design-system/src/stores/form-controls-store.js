@@ -48,6 +48,17 @@ export const formControlsStore = defineStore('form-controls-store', {
         disabled: false,
       },
       {
+        property: 'hint',
+        id: 'id5-3',
+        name: 'AUDITOR_ORNZ_WITH_HIDDEN',
+        label: 'With hidden data',
+        value: '',
+        count: 3,
+        action: '/markup/vue/design-system/hints-hidden.json',
+        required: false,
+        disabled: false,
+      },
+      {
         id: 'id1',
         property: 'text',
         name: 'SOME_TEXT',

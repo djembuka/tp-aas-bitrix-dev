@@ -79,6 +79,11 @@ export const ControlHint = {
       ></div>
 
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
+
+      <div v-if="control.value.hidden">
+        <input v-for="hidden in control.value.hidden" :key="hidden.name" type="hidden" :name="hidden.name" :value="hidden.value" />
+      </div>
+      
     </div>
 	`,
   emits: ['input', 'focus', 'blur', 'enter', 'hints'],

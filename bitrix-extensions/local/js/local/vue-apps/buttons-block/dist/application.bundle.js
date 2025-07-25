@@ -196,4 +196,5 @@
 
   exports.ButtonsBlock = ButtonsBlock;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX));
+//# sourceMappingURL=application.bundle.js.map
