@@ -105,12 +105,14 @@ export const ControlTel = {
   },
   methods: {
     focus() {
-      if (this.value === '') {
-        this.value = '+7 (';
-      }
-      this.focused = true;
-      this.blured = false;
-      this.$emit('focus');
+	  setTimeout(() => {
+        if (this.input.value === '') {
+          this.input.value = '+7 ';
+        }
+        this.focused = true;
+        this.blured = false;
+        this.$emit('focus');
+      }, 0);
     },
     blur() {
       if (this.value === '+7 (') {
