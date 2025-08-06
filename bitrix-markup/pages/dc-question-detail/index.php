@@ -7,9 +7,6 @@ $APPLICATION->SetTitle("Вопрос дисциплинарного засеан
 \Bitrix\Main\UI\Extension::load("local.extensions.tabs-menu");
 ?>
 
-<link rel="stylesheet" href="style.css" />
-<script src="script.js"></script>
-
 <div class="ph-content">
 
   <div class="b-twpx-tabs-menu">
@@ -17,7 +14,7 @@ $APPLICATION->SetTitle("Вопрос дисциплинарного засеан
       <a href="/markup/pages/dc-question-detail/" class="b-twpx-tabs--active">Общие данные</a>
       <a href="/markup/pages/dc-question-detail/">Дисциплинарное дело</a>
       <a href="/markup/pages/dc-question-detail/">Жалоба</a>
-      <a href="/markup/pages/dc-question-detail/">Обсуждение</a>
+      <a href="/markup/pages/dc-question-detail/discussion.php">Обсуждение</a>
     </div>
   </div>
   

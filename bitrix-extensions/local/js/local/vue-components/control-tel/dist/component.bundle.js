@@ -75,12 +75,15 @@ this.BX = this.BX || {};
     },
     methods: {
       focus: function focus() {
-        if (this.value === '') {
-          this.value = '+7 (';
-        }
-        this.focused = true;
-        this.blured = false;
-        this.$emit('focus');
+        var _this = this;
+        setTimeout(function () {
+          if (_this.input.value === '') {
+            _this.input.value = '+7 ';
+          }
+          _this.focused = true;
+          _this.blured = false;
+          _this.$emit('focus');
+        }, 0);
       },
       blur: function blur() {
         if (this.value === '+7 (') {

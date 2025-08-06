@@ -27,7 +27,7 @@ this.BX = this.BX || {};
       EditIcon: EditIcon
     },
     // language=Vue
-    template: "\n    <button v-if=\"props.find(e => e === 'icon')\" :class=\"propsClass\" @click.prevent=\"clickButton\" :title=\"text\">\n      <DeleteIcon v-if=\"props.find(e => e === 'delete')\" />\n      <EditIcon v-else-if=\"props.find(e => e === 'edit')\" />\n    </button>\n\n\t\t<button v-else class=\"vue-button\" :class=\"propsClass\" @click.prevent=\"clickButton\">\n      <DeleteWhiteIcon v-if=\"props.find(e => e === 'icon-delete')\" />\n      {{ text }}\n    </button>\n\t",
+    template: "\n    <button v-if=\"props.find(e => e === 'icon')\" :class=\"propsClass\" @click.stop.prevent=\"clickButton\" :title=\"text\">\n      <DeleteIcon v-if=\"props.find(e => e === 'delete')\" />\n      <EditIcon v-else-if=\"props.find(e => e === 'edit')\" />\n    </button>\n\n\t\t<button v-else class=\"vue-button\" :class=\"propsClass\" @click.prevent=\"clickButton\">\n      <DeleteWhiteIcon v-if=\"props.find(e => e === 'icon-delete')\" />\n      {{ text }}\n    </button>\n\t",
     computed: {
       propsClass: function propsClass() {
         var result = {};

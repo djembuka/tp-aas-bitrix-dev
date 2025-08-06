@@ -1,0 +1,50 @@
+.twpx-dc-question-discussion {
+  display: grid;
+  gap: 32px;
+}
+.twpx-dc-question-discussion .vue-loader-circle {
+  height: 400px;
+}
+.twpx-dc-question-discussion__grid {
+  display: grid;
+  gap: 32px;
+}
+.twpx-dc-question-discussion h3 {
+  margin: 0;
+}
+.twpx-dc-question-discussion__comments {
+  display: grid;
+  gap: 10px;
+}
+.twpx-dc-question-discussion__form-wrapper {
+  display: grid;
+  gap: var(--twpx-form-gap-block-gap, 32px);
+  padding: var(--twpx-form-padding-desktop, 32px);
+  border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+}
+.twpx-dc-question-discussion__buttons {
+  display: flex;
+  gap: var(--twpx-form-gap-block-gap, 32px);
+}
+@media(max-width: 767px) {
+  .twpx-dc-question-discussion__wrapper {
+    padding: 32px var(--twpx-form-padding-mobile, 16px);
+  }
+  .twpx-dc-question-discussion__buttons {
+    display: grid;
+    gap: var(--body-buttons-vertical-gap, 16px);
+  }
+  .twpx-dc-question-discussion__buttons .vue-button:nth-child(1) {
+    width: auto;
+    padding: var(--8, 8px) var(--16, 16px);
+    font-size: 12px;
+    height: var(--twpx-button-small, 32px);
+    border-radius: 4px;
+  }
+  .twpx-dc-question-discussion h2 {
+    font-size: 20px;
+  }
+  .twpx-dc-question-discussion h3 {
+    font-size: 14px;
+  }
+}
