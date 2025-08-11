@@ -1,22 +1,18 @@
 import { defineStore } from 'ui.vue3.pinia';
 import { dataStore } from './data';
-import { controlsStore } from './controls';
 
 export const formStore = defineStore('form', {
   state: () => ({
     loading: false,
     error: '',
     deleteModalStateWatcher: false,
-    editModalStateWatcher: false,
     comments: [],
-    form: {}
+    form: {},
+    activeCommentId: ''
   }),
   actions: {
     changeDeleteModalStateWatcher() {
       this.deleteModalStateWatcher = !this.deleteModalStateWatcher;
-    },
-    changeEditModalStateWatcher() {
-      this.editModalStateWatcher = !this.editModalStateWatcher;
     },
     changeError(error) {
       this.error = error;
@@ -30,6 +26,9 @@ export const formStore = defineStore('form', {
     changeForm(obj) {
       this.form.heading = obj.heading;
       this.form.button = obj.button;
+    },
+    changeActiveCommentId(commentId) {
+      this.activeCommentId = commentId;
     },
     runGetForm() {
       this.error = '';
@@ -77,24 +76,7 @@ export const formStore = defineStore('form', {
       return BX.ajax.runComponentAction(d.actions.getForm[0], d.actions.getForm[1], {
         mode: 'class',
         data: d.data,
-      })
-      .then(
-        (response) => {
-          this.loading = false;
-          if (response.status === 'success') {
-            this.changeError('');
-            controlsStore().changeControls(response.data[0].controls);
-          } else {
-            this.changeError(response.errors[0].message);
-          }
-        },
-        (response) => {
-          this.loading = false;
-          if (response && response.errors.length) {
-            this.changeError(response.errors[0].message);
-          }
-        }
-      );
+      });
     },
     runSendForm() {
       this.error = '';
@@ -135,26 +117,10 @@ export const formStore = defineStore('form', {
         }, 1000);
       });
 
-      return BX.ajax.runComponentAction(d.actions.saveForm[0], d.actions.saveForm[1], {
+      return BX.ajax.runComponentAction(d.actions.sendForm[0], d.actions.sendForm[1], {
         mode: 'class',
         data: formData,
-      })
-      .then(
-        (response) => {
-          this.loading = false;
-          if (response.status === 'success') {
-            this.changeError('');
-            this.runGetHistory();
-          } else {
-            this.changeError(response.errors[0].message);
-          }
-        }, (response) => {
-          this.loading = false;
-          if (response && response.errors.length) {
-            this.changeError(response.errors[0].message);
-          }
-        }
-      );
+      });
     },
     runGetComments() {
       this.error = '';
@@ -221,25 +187,42 @@ export const formStore = defineStore('form', {
       return BX.ajax.runComponentAction(d.actions.getComments[0], d.actions.getComments[1], {
         mode: 'class',
         data: d.data,
-      })
-      //then поместить в вызов функции в application.js
-      .then(
-        (response) => {
-          this.loading = false;
-          if (response.status === 'success') {
-            this.changeError('');
-            this.changeHistoryItems(response.data);
-          } else {
-            this.changeError(response.errors[0].message);
-          }
-        },
-        (response) => {
-          this.loading = false;
-          if (response && response.errors.length) {
-            this.changeError(response.errors[0].message);
-          }
-        }
-      );
+      });
     },
+    runDeleteComment(commentId) {
+      this.error = '';
+      this.loading = true;
+      this.changeDeleteModalStateWatcher();
+      const d = dataStore();
+
+      let response;
+
+      return new Promise((resolve, reject) => {
+        response = {
+          status: 'success',
+          data: true
+        }
+
+        // response = {
+        //   status: 'error',
+        //   data: {},
+        //   errors: [
+        //     {
+        //       message: 'deleteComment error'
+        //     }
+        //   ]
+        // };
+
+        setTimeout(() => {
+          resolve(response);
+          // reject(response);
+        }, 1000);
+      });
+
+      return BX.ajax.runComponentAction(d.actions.sendEditForm[0], d.actions.sendEditForm[1], {
+        mode: 'class',
+        data: {...d.data, commentId},
+      });
+    }
   },
 });

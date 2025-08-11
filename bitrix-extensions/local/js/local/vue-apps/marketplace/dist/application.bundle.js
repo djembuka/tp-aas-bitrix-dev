@@ -220,25 +220,7 @@
   var Application = {
     template: "\n    <router-view />\n\t",
     computed: _objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['sessid', 'signedParameters'])),
-    mounted: function mounted() {
-      // this.runColumnsNames({
-      //   mode: 'class',
-      //   data: {
-      //     signedParameters: this.signedParameters,
-      //     sessid: this.sessid,
-      //   },
-      // });
-
-      // this.runItems({
-      //   mode: 'class',
-      //   data: {
-      //     signedParameters: this.signedParameters,
-      //     sessid: this.sessid,
-      //     startIndex: this.items.startIndex || 0,
-      //     maxCountPerRequest: this.maxCountPerRequest,
-      //   },
-      // });
-    }
+    mounted: function mounted() {}
   };
 
   var TheNavigation = {

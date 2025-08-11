@@ -1,39 +1,50 @@
+import './edit-form.css';
+
 import { ControlChoice } from 'local.vue-components.control-choice';
 import { ButtonComponent } from 'local.vue-components.button-component';
+import { LoaderCircle } from 'local.vue-components.loader-circle';
+import { MessageComponent } from 'local.vue-components.message-component';
 
-export const CommentItem = {
-    data() {
-        return {
-            controls: [
-                {
-                  "id": "id1-1",
-                  "property": "textarea",
-                  "name": "COMMENT",
-                  "label": "Комментарий",
-                  "value": "Опишите, пожалуйста, ваш вопрос, проблему или пожелание максимально подробно. Укажите, где и на каком этапе возникла сложность, что вы уже пробовали сделать, и какие сообщения (если были) вы получили. Чем больше информации вы предоставите, тем быстрее и точнее мы сможем вам помочь. При необходимости можно прикрепить скриншоты или ссылки. Мы внимательно прочтём каждое сообщение и постараемся дать вам исчерпывающий ответ.",
-                  "required": true,
-                  "disabled": false
-                }
-              ],
-        }
-    },
+export const EditForm = {
     components: {
         ControlChoice,
         ButtonComponent,
         LoaderCircle,
         MessageComponent
     },
-    props: ['heading', 'controls'],
-    emits: ['clickYes', 'clickNo'],
+    props: {
+        id: [String, Number],
+        h3: String,
+        heading: String,
+        controls: Array,
+        buttons: {
+            type: Array,
+            default() {
+                return [];
+            }
+        },
+        loading: Boolean,
+        error: String
+    },
+    emits: ['input', 'clickYes', 'clickNo'],
     template: `
-        <div class="twpx-comment-edit-form">
-            <div class="twpx-comment-edit-form__heading">{{  }}</div>
-            <div class="twpx-comment-edit-form__controls">{{ }}</div>
-            <div class="twpx-comment-edit-form__buttons">
-                <ButtonComponent :text="no" :props="['gray-color', 'large']" @clickButton="$emit('clickNo')" />
-                <ButtonComponent :text="yes" :props="['secondary', 'large']" @clickButton="$emit('clickYes')" />
+        <LoaderCircle :show="loading" />
+
+        <MessageComponent v-if="error" type="error" size="big" :message="error" />
+
+        <form action="" :id="id + 'EditForm'" v-if="!loading && !error">
+            <div class="twpx-comment-edit-form">
+                <h3>{{ h3 }}</h3>
+                <div class="twpx-comment-edit-form__body">
+                    <div class="twpx-comment-edit-form__heading">{{ heading }}</div>
+                    <ControlChoice v-for="control in controls" :key="control.id" :control="control" @input="input"></ControlChoice>
+                </div>
+                <div class="twpx-comment-edit-form__buttons">
+                    <ButtonComponent :text="buttons[0]" :props="['gray-color', 'large']" @clickButton="$emit('clickNo')" />
+                    <ButtonComponent :text="buttons[1]" :props="['secondary', 'large']" @clickButton="$emit('clickYes')" />
+                </div>
             </div>
-        </div>
+        </form>
     `,
     methods: {
         formatDate(dateString) {

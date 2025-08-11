@@ -2,7 +2,7 @@ import { defineStore } from 'ui.vue3.pinia';
 
 export const controlsStore = defineStore('controls', {
   state: () => ({
-    controls: []
+    controls: [],
   }),
   actions: {
     changeControls(controls) {
@@ -23,7 +23,7 @@ export const controlsStore = defineStore('controls', {
     changeFileValue({ control, value }) {
         control.value = value;
         if (control.type === 'upload') {
-        this.uploadFile(control, value);
+            this.uploadFile(control, value);
         }
     },
     changeControlValue({ control, value, checked }) {

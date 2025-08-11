@@ -10,23 +10,5 @@ export const Application = {
   computed: {
     ...mapState(dataStore, ['sessid', 'signedParameters']),
   },
-  mounted() {
-    // this.runColumnsNames({
-    //   mode: 'class',
-    //   data: {
-    //     signedParameters: this.signedParameters,
-    //     sessid: this.sessid,
-    //   },
-    // });
-
-    // this.runItems({
-    //   mode: 'class',
-    //   data: {
-    //     signedParameters: this.signedParameters,
-    //     sessid: this.sessid,
-    //     startIndex: this.items.startIndex || 0,
-    //     maxCountPerRequest: this.maxCountPerRequest,
-    //   },
-    // });
-  },
+  mounted() {},
 };

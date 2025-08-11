@@ -562,7 +562,7 @@ button.vue-button--icon {
 
 /*Delete*/
 .vue-button--delete {
-  --twpx-button-background: #fff;
+  --twpx-button-background: var(--twpx-button-border-service, #F0F5FC);
 }
 /*Edit*/
 .vue-button--edit {

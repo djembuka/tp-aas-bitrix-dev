@@ -13,6 +13,7 @@ import { EditForm } from './edit-form.js';
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
 import { formStore } from '../stores/form.js';
+import { editFormStore } from '../stores/edit-form.js';
 import { controlsStore } from '../stores/controls.js';
 
 export const Application = {
@@ -42,20 +43,32 @@ export const Application = {
       :text="lang.deleteModal.text"
       :yes="lang.deleteModal.yes"
       :no="lang.deleteModal.no"
+      :buttons="{
+        yes: {
+          props: ['danger', 'large']
+        },
+        no: {
+          props: ['gray-color', 'large']
+        }
+      }"
       :stateWatcher="deleteModalStateWatcher"
       @clickYes="clickDeleteModalYes"
       @clickNo="clickDeleteModalNo"
     />
 
-    <ModalAnyContent
-      :heading="lang.editModal.heading"
-      :yes="lang.editModal.yes"
-      :no="lang.editModal.no"
-      :stateWatcher="editModalStateWatcher"
-      @clickYes="clickEditModalYes"
-      @clickNo="clickEditModalNo"
-    >
-      <EditForm :heading="lang.editForm.heading" :co />
+    <ModalAnyContent :stateWatcher="editModalStateWatcher">
+      <EditForm
+        :id="id"
+        :h3="lang.editModal.heading"
+        :heading="editForm.heading"
+        :controls="editControls"
+        :buttons="editForm.buttons"
+        :loading="editLoading"
+        :error="editError"
+        @input="input"
+        @clickNo="clickEditModalNo"
+        @clickYes="clickEditModalYes"
+      />
     </ModalAnyContent>
 
     <div class="twpx-dc-question-discussion__grid">
@@ -68,7 +81,7 @@ export const Application = {
           <div class="twpx-dc-question-discussion__form-wrapper" v-if="!loading">
 
             <h3>{{ form.heading }}</h3>
-            <ControlChoice  v-for="control in controls" :key="control.id" :control="control" @input="input"></ControlChoice>
+            <ControlChoice v-for="control in controls" :key="control.id" :control="control" @input="input"></ControlChoice>
             <ButtonComponent :text="form.button" :props="buttonProps" @clickButton="clickButton" />
 
           </div>
@@ -85,9 +98,18 @@ export const Application = {
       'comments',
       'form',
       'deleteModalStateWatcher',
+      'activeCommentId'
+    ]),
+    ...mapState(editFormStore, [
+      'editLoading',
+      'editError',
+      'editForm',
       'editModalStateWatcher'
     ]),
-    ...mapState(controlsStore, ['controls']),
+    ...mapState(controlsStore, [
+      'controls',
+      'editControls'
+    ]),
     buttonProps() {
       const result = new Set();
       result.add('wide');
@@ -109,22 +131,108 @@ export const Application = {
       'runGetComments',
       'runGetForm',
       'runSendForm',
+      'runGetEditForm',
+      'runSendEditForm',
+      'runDeleteComment',
       'changeDeleteModalStateWatcher',
-      'changeEditModalStateWatcher',
       'changeComments',
       'changeForm',
+      'changeEditForm',
       'changeLoading',
       'changeError',
-      'runGetEditForm'
+      'changeActiveCommentId'
     ]),
-    ...mapActions(controlsStore, ['changeControls', 'changeControlValue', 'runHints', 'setHints']),
+    ...mapActions(editFormStore, [
+      'runGetEditForm',
+      'runSendEditForm',
+      'changeEditModalStateWatcher',
+      'changeEditForm',
+      'changeEditLoading',
+      'changeEditError',
+    ]),
+    ...mapActions(controlsStore, [
+        'changeControls',
+        'changeEditControls',
+        'changeControlValue',
+        'runHints',
+        'setHints'
+    ]),
+    clickEditModalNo() {
+      this.changeEditModalStateWatcher();
+      this.changeEditLoading(false);
+      this.changeEditError('');
+    },
+    clickEditModalYes() {
+      this.runSendEditForm()
+        .then(
+          (response) => {
+            this.changeEditLoading(false);
+            this.changeEditError('');
+            this.changeEditModalStateWatcher();
+            return this.runGetComments();
+          },
+          (response) => {
+            this.changeEditLoading(false);
+            this.changeEditError(response.errors[0].message);
+          }
+        )
+        .then(
+          (response) => {
+            this.changeLoading(false);
+            this.changeError('');
+            this.changeComments(response.data.comments);
+          },
+          (response) => {
+            this.changeLoading(false);
+            this.changeError(response.errors[0].message);
+          }
+        );
+    },
+    clickDeleteModalNo() {
+      this.changeDeleteModalStateWatcher();
+    },
+    clickDeleteModalYes() {
+      this.runDeleteComment(this.activeCommentId)
+        .then(
+          (response) => {
+            return this.runGetComments();
+          },
+          (response) => {
+            this.changeLoading(false);
+            this.changeError(response.errors[0].message);
+          }
+        )
+        .then(
+          (response) => {
+            this.changeLoading(false);
+            this.changeError('');
+            this.changeComments(response.data.comments);
+          },
+          (response) => {
+            this.changeLoading(false);
+            this.changeError(response.errors[0].message);
+          }
+        );
+    },
     clickEdit(commentId) {
-      this.runGetEditForm(commentId);
+      this.runGetEditForm(commentId)
+        .then(
+          (response) => {
+            this.changeEditLoading(false);
+            this.changeEditError('');
+            this.changeEditForm(response.data);
+            this.changeEditControls(response.data.controls);
+
+          },
+          (response) => {
+            this.changeEditLoading(false);
+            this.changeEditError(response.errors[0].message);
+          });
       this.changeEditModalStateWatcher();
     },
     clickDelete(commentId) {
-      // show modal
-      console.log(commentId)
+      this.changeActiveCommentId(commentId);
+      this.changeDeleteModalStateWatcher();
     },
     input(args) {
       this.changeControlValue(args);
@@ -148,20 +256,10 @@ export const Application = {
             this.changeLoading(false);
             this.changeError(response.errors[0].message);
           });
-    },
-    clickDeleteModalYes() {
-      this.runSaveForm();
-      this.changeDeleteModalStateWatcher();
-
-      const commentControl = this.controls.find(c => c.property === 'textarea');
-      this.changeControlValue({control: commentControl, value: ''});
-    },
-    clickDeleteModalNo() {
-      this.changeDeleteModalStateWatcher();
     }
   },
   mounted() {
-    formStore().runGetComments()
+    this.runGetComments()
       .then(
         (response) => {
           this.changeLoading(false);
@@ -174,7 +272,7 @@ export const Application = {
         });
 
     
-    formStore().runGetForm()
+    this.runGetForm()
       .then(
         (response) => {
           this.changeLoading(false);

@@ -1,0 +1,29 @@
+.twpx-comment-edit-form {
+    display: grid;
+    gap: 32px;
+}
+.twpx-comment-edit-form h3 {
+    margin: 0;
+}
+.twpx-comment-edit-form__body {
+    display: grid;
+    gap: 24px;
+}
+.twpx-comment-edit-form__heading {
+    color: var(--Base-Black-color-black, #000);
+    font-family: Roboto;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 120% */
+}
+.twpx-comment-edit-form__buttons {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+}
+@media(max-width: 767px) {
+    .twpx-comment-edit-form__buttons {
+        grid-template-columns: 1fr;
+    }
+}

@@ -2,9 +2,13 @@ import { defineStore } from 'ui.vue3.pinia';
 
 export const controlsStore = defineStore('controls', {
   state: () => ({
-    controls: []
+    controls: [],
+    editControls: []
   }),
   actions: {
+    changeEditControls(controls) {
+        this.editControls = controls;
+    },
     changeControls(controls) {
       this.controls = controls;
     },

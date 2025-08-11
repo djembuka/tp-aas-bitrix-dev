@@ -38,16 +38,8 @@ $APPLICATION->SetTitle("Обсуждение - Вопрос дисциплина
 			  yes: 'Удалить'
 		  },
 		  editModal: {
-			  heading: 'Изменить комментарий',
-			  no: 'Отменить',
-			  yes: 'Сохранить'
+			  heading: 'Изменить комментарий'
 		  },
-		  editForm: {
-			  heading: 'Комментарий',
-			  label: 'Название поля',
-			  yesButton: 'Сохранить',
-			  noButton: 'Отменить'
-		  }
 	  },
 	  actions: {
 		  getComments: ['twpx:getComments', 'getComments'],

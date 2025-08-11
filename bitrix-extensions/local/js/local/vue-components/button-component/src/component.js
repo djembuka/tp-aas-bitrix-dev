@@ -7,7 +7,22 @@ export const ButtonComponent = {
   data() {
     return {};
   },
-  props: ['text', 'props', 'disabled'],
+  props: {
+    text: {
+      type: String,
+      default: 'Button'
+    },
+    'props': {
+      type: Array,
+      default() {
+        return ['secondary', 'medium']
+      }
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+  },
   emits: ['clickButton'],
   components: {
     DeleteIcon,
@@ -15,7 +30,7 @@ export const ButtonComponent = {
     EditIcon
   },
   // language=Vue
-  template: `
+  template: ` 
     <button v-if="props.find(e => e === 'icon')" :class="propsClass" @click.stop.prevent="clickButton" :title="text">
       <DeleteIcon v-if="props.find(e => e === 'delete')" />
       <EditIcon v-else-if="props.find(e => e === 'edit')" />
