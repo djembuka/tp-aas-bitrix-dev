@@ -9,4 +9,12 @@ export const Application = {
     <TheMenu />
     <router-view />
 	`,
+  mounted() {
+    const url = new URL(window.location.href);
+    url.searchParams.entries().forEach(e => {
+      if (e[0] === 'tab') {
+        this.$router.push(e[1]);
+      }
+    });
+  }
 };

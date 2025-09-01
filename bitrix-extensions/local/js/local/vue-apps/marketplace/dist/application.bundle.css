@@ -1,16 +1,22 @@
-.twpx-vue-marketplace {
+/* Application */
+.twpx-vue-marketplace-application {
     display: grid;
-    gap: 32px;
+    gap: 32px;;
     padding: 32px;
     border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+    min-height: 300px;
 }
-.twpx-vue-marketplace h2,
-.twpx-vue-marketplace h3,
-.twpx-vue-marketplace p {
+.twpx-vue-marketplace-application__content {
+    display: grid;
+    gap: 32px;
+}
+.twpx-vue-marketplace-application h2,
+.twpx-vue-marketplace-application h3,
+.twpx-vue-marketplace-application p {
     margin: 0;
 }
-.twpx-vue-marketplace-html,
-.twpx-vue-marketplace-controls {
+.twpx-vue-marketplace-application-html,
+.twpx-vue-marketplace-application-controls {
     display: grid;
     gap: var(--semantic-gap-s, 16px);
 }
@@ -19,8 +25,14 @@
     gap: 10px;
 }
 .twpx-vue-marketplace-nav-items {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    /* display: grid;
+    grid-template-columns: repeat(6, 1fr); */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
 }
 .twpx-vue-marketplace-nav__item {
     color: var(--twpx-text-secondary, #9B9B9B);
@@ -68,42 +80,59 @@
     width: 100%;
 }
 .twpx-vue-marketplace-result {
+    min-height: 300px;
     display: grid;
     gap: 48px;
 }
+.twpx-vue-marketplace-result__content {
+    display: grid;
+    gap: 32px;
+}
+
 .twpx-vue-marketplace-company {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
+    display: grid;
+    gap: 32px;
     padding: var(--twpx-table-padding-l, 32px);
-    -webkit-box-align: start;
-        -ms-flex-align: start;
-            align-items: flex-start;
-    gap: var(--semantic-gap-m, 32px);
-    -ms-flex-item-align: stretch;
-        align-self: stretch;
     border-radius: var(--twpx-table-padding-s, 8px);
-    background: var(--twpx-background-neutral, #FAFAFA);
+    border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+    background: var(--twpx-background-default, #FFF);
 }
-.twpx-vue-marketplace-company__logo {
-    width: 100px;
-    -ms-flex-negative: 0;
-        flex-shrink: 0;
+.twpx-vue-marketplace-company__text {
+    display: grid;
+    gap: 16px;
 }
-.twpx-vue-marketplace-company__logo img {
-    width: 100px;
-    height: 100px;
+.twpx-vue-marketplace-company h3 {
+    margin: 0;
+}
+.twpx-vue-marketplace-company__text p {
+    margin: 0;
 }
 .twpx-vue-marketplace-company__properties {
-    -webkit-columns: 2 49%;
-       -moz-columns: 2 49%;
-            columns: 2 49%;
+    display: grid;
+    gap: 16px;
+}
+.twpx-vue-marketplace-company__props {
+    display: grid;
+    grid-template-columns: repeat(2, calc(50% - 24px));
+    -webkit-column-gap: 48px;
+       -moz-column-gap: 48px;
+            column-gap: 48px;
 }
 .twpx-vue-marketplace-company__prop {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, calc(50% - 8px));
     gap: 16px;
-    padding: var(--semantic-gap-xs, 8px) 0px;
+    padding: 16px var(--twpx-table-padding-m, 16px);
+    color: var(--twpx-text-primary, #3B3B3B);
+    font-size: 14px;
+    line-height: normal;
+    border-bottom: 1px solid var(--twpx-border-neutral, #F2F2F2);
+}
+.twpx-vue-marketplace-company__properties .vue-button {
+    justify-self: start;
+}
+.twpx-vue-marketplace-company .twpx-form-control--checkbox-block {
+    font-size: 14px;
 }
 .twpx-vue-marketplace-company__buttons {
     display: -webkit-box;
@@ -112,7 +141,114 @@
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    gap: 32px;
+}
+.twpx-vue-marketplace-company__buttons__right {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    gap: 32px;
+}
+
+/* Group application */
+.twpx-vue-marketplace-group-application {
+    border-radius: var(--twpx-text-border-radius-medium, 8px);
+    border: 1px solid var(--twpx-border-primary, #F2762E);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: var(--semantic-padding-s, 16px);
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+    -ms-flex-item-align: stretch;
+        align-self: stretch;
+    gap: 16px;
+}
+.twpx-vue-marketplace-group-application__text {
+    display: grid;
+    gap: 8px;
+}
+.twpx-vue-marketplace-group-application h4 {
+    margin: 0;
+}
+.twpx-vue-marketplace-group-application .vue-button {
+    -ms-flex-negative: 0;
+        flex-shrink: 0;
+}
+
+@media(max-width: 1100px) {
+    .twpx-vue-marketplace-company__properties {
+        gap: 4px;
+    }
+    .twpx-vue-marketplace-company__props {
+        grid-template-columns: 100%;
+        row-gap: 4px;
+    }
+    .twpx-vue-marketplace-company__buttons,
+    .twpx-vue-marketplace-company__buttons__right {
+        display: grid;
+        gap: 16px;
+        -webkit-box-pack: normal;
+            -ms-flex-pack: normal;
+                justify-content: normal;
+    }
+    .twpx-vue-marketplace-company__properties .vue-button {
+        justify-self: normal;
+    }
+    .twpx-vue-marketplace-company {
+        padding: var(--twpx-table-padding-m, 16px);
+        gap: 16px;
+    }
+}
+@media(max-width: 575px) {
+    .twpx-vue-marketplace-result__content {
+        gap: 16px;
+    }
+    .twpx-vue-marketplace-company__prop {
+        grid-template-columns: 100%;
+        row-gap: 4px;
+        padding: var(--semantic-gap-xs, 8px) 0;
+        border-bottom: none;
+    }
+    .twpx-vue-marketplace-group-application {
+        display: grid;
+        gap: 10px;
+        padding: var(--semantic-padding-s, 16px);
+    }
+    .twpx-vue-marketplace-group-application h4 {
+        font-size: 14px;
+        line-height: 16.8px;
+    }
+    .twpx-vue-marketplace-group-application__text {
+        font-size: 14px;
+        line-height: 21px;
+    }
+}
+
+
+.list-enter-active,
+.list-leave-active {
+  -webkit-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  -webkit-transform: translateY(-30px);
+      -ms-transform: translateY(-30px);
+          transform: translateY(-30px);
 }

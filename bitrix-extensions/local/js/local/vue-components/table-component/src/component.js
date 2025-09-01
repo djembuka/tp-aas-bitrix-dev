@@ -36,7 +36,7 @@ export const TableComponent = {
     <div v-else-if="columnsNames.length" class="vue-ft-table">
       <table class="table table-responsive" :class="{'table-sortable': sortable}">
         <colgroup>
-          <col v-for="(col, index) in columnsNames" :key="col.id" :style="'width:' +  (cols[index] || 'auto') + ';'">
+          <col v-for="(col, index) in columnsNames" :key="col.id" :style="'width:' +  (colsArray[index] || 'auto') + ';'">
         </colgroup>
         <thead>
           <tr>
@@ -56,6 +56,11 @@ export const TableComponent = {
     `,
   props: ['cols', 'columnsNames', 'items', 'sort', 'loading', 'sortable'],
   emits: ['clickTh', 'clickButton'],
+  computed: {
+    colsArray() {
+      return this.cols || []
+    }
+  },
   methods: {
     clickButton(args) {
       this.$emit('clickButton', args);

@@ -19,6 +19,7 @@ $APPLICATION->SetTitle("Markup");
 <h3>Table</h3>
 <ul>
   <li><a href="/markup/vue/filter-table/">Filter table</a></li>
+  <li><a href="/markup/vue/filter-table-button-choice/">Filter table с выбором - страничник, кнопка подгрузки, автоматическая подгрузка</a></li>
   <li><a href="/markup/vue/table/">Table</a></li>
   <li><a href="/markup/vue/table-sortable/">Table sortable</a></li>
   <li><a href="/markup/vue/table-with-pagination/">Table with pagination</a></li>

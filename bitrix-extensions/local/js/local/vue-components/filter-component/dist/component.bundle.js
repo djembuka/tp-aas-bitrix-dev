@@ -150,6 +150,29 @@ this.BX = this.BX || {};
           value: value,
           checked: checked
         });
+        var url = new URL(window.location.href);
+        if (control.name) {
+          var paramValue = value;
+
+          // Обработка hint элементов
+          if (control.property === 'hint') {
+            if (babelHelpers["typeof"](value) === 'object' && value !== null && value.id !== undefined) {
+              paramValue = JSON.stringify(value);
+            } else {
+              paramValue = '';
+            }
+          }
+
+          // Устанавливаем или удаляем параметр
+          if (paramValue && paramValue !== '') {
+            url.searchParams.set(control.name, paramValue);
+          } else {
+            url.searchParams["delete"](control.name);
+          }
+
+          // Обновляем URL
+          window.history.replaceState({}, '', url.toString());
+        }
       },
       hints: function hints(_ref2) {
         var type = _ref2.type,
@@ -163,6 +186,36 @@ this.BX = this.BX || {};
           value: value
         });
       }
+    },
+    mounted: function mounted() {
+      var _this = this;
+      var counter = 0;
+      var intervalId = setInterval(function () {
+        counter++;
+        if (counter > 100) {
+          clearInterval(intervalId);
+        }
+        if (_this.filters && babelHelpers["typeof"](_this.filters) === 'object' && _this.filters.length) {
+          clearInterval(intervalId);
+          var url = new URL(window.location.href);
+          url.searchParams.entries().forEach(function (e) {
+            var _this$filters;
+            var control = (_this$filters = _this.filters) === null || _this$filters === void 0 ? void 0 : _this$filters.find(function (c) {
+              return c.name === e[0];
+            });
+            if (control) {
+              var value = e[1];
+              if (String(control.property === 'date') && String(control.type === 'range')) {
+                value = String(e[1]).split(',');
+              }
+              _this.$emit('input', {
+                control: control,
+                value: control.property === 'hint' ? JSON.parse(e[1]) : value
+              });
+            }
+          });
+        }
+      }, 200);
     }
   };
 

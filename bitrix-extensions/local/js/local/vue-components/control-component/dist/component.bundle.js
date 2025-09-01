@@ -1,6 +1,6 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_controlHidden,local_vueComponents_controlText,local_vueComponents_controlTextarea,local_vueComponents_controlPassword,local_vueComponents_controlTel,local_vueComponents_controlEmail,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlSelectRadio,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange,local_vueComponents_controlTimeSingle,local_vueComponents_controlFile,local_vueComponents_controlFileUpload,local_vueComponents_controlCheckbox,local_vueComponents_controlCheckboxCheckbox,local_vueComponents_controlCheckboxSwitch,local_vueComponents_controlCheckboxBlock) {
+(function (exports,local_vueComponents_controlHidden,local_vueComponents_controlText,local_vueComponents_controlTextarea,local_vueComponents_controlPassword,local_vueComponents_controlTel,local_vueComponents_controlEmail,local_vueComponents_controlHint,local_vueComponents_controlSelectDropdown,local_vueComponents_controlSelectRadio,local_vueComponents_controlDatepicker,local_vueComponents_controlDateSingle,local_vueComponents_controlDateRange,local_vueComponents_controlTimeSingle,local_vueComponents_controlFile,local_vueComponents_controlFileUpload,local_vueComponents_controlCheckbox,local_vueComponents_controlCheckboxCheckbox,local_vueComponents_controlCheckboxSwitch,local_vueComponents_controlCheckboxBlock,local_vueComponents_controlNum) {
   'use strict';
 
   var TabIcon = {
@@ -37,7 +37,8 @@ this.BX = this.BX || {};
       ControlCheckbox: local_vueComponents_controlCheckbox.ControlCheckbox,
       ControlCheckboxCheckbox: local_vueComponents_controlCheckboxCheckbox.ControlCheckboxCheckbox,
       ControlCheckboxSwitch: local_vueComponents_controlCheckboxSwitch.ControlCheckboxSwitch,
-      ControlCheckboxBlock: local_vueComponents_controlCheckboxBlock.ControlCheckboxBlock
+      ControlCheckboxBlock: local_vueComponents_controlCheckboxBlock.ControlCheckboxBlock,
+      ControlNum: local_vueComponents_controlNum.ControlNum
     },
     props: ['control', 'name', 'id'],
     // language=Vue
@@ -80,5 +81,5 @@ this.BX = this.BX || {};
 
   exports.ControlComponent = ControlComponent;
 
-}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
+}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls,BX.Controls));
 //# sourceMappingURL=component.bundle.js.map

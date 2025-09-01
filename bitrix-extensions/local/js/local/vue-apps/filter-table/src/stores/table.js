@@ -1,4 +1,5 @@
 import { defineStore } from 'ui.vue3.pinia';
+import { dataStore } from './data';
 
 export const tableStore = defineStore('table', {
   state: () => {

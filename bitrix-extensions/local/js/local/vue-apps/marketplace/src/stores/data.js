@@ -2,8 +2,14 @@ import { defineStore } from 'ui.vue3.pinia';
 
 export const dataStore = defineStore('data', {
   state: () => ({
-    sessid: '',
+    customData: {},
     signedParameters: '',
+    lang: {},
+    actions: [],
+
+    error: '',
+    loading: false,
+    
     steps: [
       {
         id: 'one',
@@ -241,6 +247,36 @@ export const dataStore = defineStore('data', {
   actions: {
     setStepActive({ step, active }) {
       step.active = active;
-    }
+    },
+    changeError(value) {
+      this.error = value;
+    },
+    changeLoading(value) {
+      this.loading = value;
+    },
+    createUrl(controls) {
+        const url = new URL(window.location.href);
+        controls.forEach(c => {
+            url.searchParams.set(c.name, String(c.value));
+        });
+        window.history.pushState({}, '', url);
+    },
+    runApiMethod(method = 'applicationTemplate', data = {}, formData) {
+
+      if (formData) {
+        Object.entries(this.customData).forEach((key,value) => {
+          formData.append(key, value);
+        });
+      }
+      
+      return BX.ajax.runComponentAction(this.actions[method][0], this.actions[method][1], {
+        mode: 'class',
+        data: formData || {
+          ...this.customData,
+          ...data
+        },
+        signedParameters: this.signedParameters
+      })
+    },
   }
 });

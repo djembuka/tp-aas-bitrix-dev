@@ -35,6 +35,10 @@ label.twpx-form-control--checkbox-block {
 .twpx-form-control--checkbox-block.twpx-form-control--checked {
   background-color: var(--twpx-form-control-background-blue);
 }
+.twpx-form-control--checkbox-block svg {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
 .twpx-form-control--checkbox-block svg rect {
   -webkit-transition: fill .3s ease;
   -o-transition: fill .3s ease;

@@ -4,6 +4,7 @@ import { createPinia, setActivePinia } from 'ui.vue3.pinia';
 
 import { Application } from './components/application';
 import { FormControls } from './pages/form-controls';
+import { SelectDependency } from './pages/select-dependency';
 import { FormControlsMulti } from './pages/form-controls-multi';
 import { Buttons } from './pages/buttons';
 import { Filter } from './pages/filter';
@@ -25,6 +26,10 @@ export class DesignSystem {
         {
           path: '/',
           component: FormControls,
+        },
+        {
+          path: '/select-dependency',
+          component: SelectDependency,
         },
         {
           path: '/multi',

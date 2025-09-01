@@ -32,6 +32,7 @@ return [
 		'local.vue-components.control-checkbox-checkbox',
 		'local.vue-components.control-checkbox-switch',
 		'local.vue-components.control-checkbox-block',
+		'local.vue-components.control-num',
 	],
 	'skip_core' => true,
 ];

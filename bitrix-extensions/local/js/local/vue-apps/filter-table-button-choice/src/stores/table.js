@@ -1,0 +1,217 @@
+import { defineStore } from 'ui.vue3.pinia';
+
+export const tableStore = defineStore('table', {
+  state: () => {
+    return {
+      loadingCols: false,
+      loadingItems: false,
+      columnsNames: [],
+      items: {},
+      sort: {},
+      actions: {},
+      errorTable: '',
+      contentLoadingMode: 'pagination',
+      startIndex: 0,
+      loadingMore: false,
+      showMore: true
+    };
+  },
+  getters: {
+    loadingTable() {
+      return this.loadingCols || this.loadingItems;
+    },
+  },
+  actions: {
+    setQueryParam(key, value) {
+      const url = new URL(window.location.href);
+      if (value === null || value === undefined) {
+        url.searchParams.delete(key);
+      } else {
+        url.searchParams.set(key, String(value));
+      }
+      window.history.replaceState({}, '', url);
+    },
+    changeShowMore(value) {
+      this.showMore = value;
+    },
+    changeLoadingMore(value) {
+      this.loadingMore = value;
+    },
+    changeStartIndex(value) {
+      this.startIndex = value;
+    },
+    changeItems(items) {
+      this.items = items;
+    },
+    changeLoadingItems(value) {
+      this.loadingItems = value;
+    },
+    showErrorTable({ error, method }) {
+      if (typeof error === 'boolean') {
+        this.errorTable = error;
+      } else if (typeof error === 'object') {
+        if (
+          error.errors &&
+          typeof error.errors === 'object' &&
+          error.errors[0] &&
+          error.errors[0].code !== undefined
+        ) {
+          if (error.errors[0].code === 'NETWORK_ERROR') {
+            if (error.data && error.data.ajaxRejectData) {
+              if (error.data.ajaxRejectData.data) {
+                this.errorTable = `${window.BX.message('ERROR_SUPPORT')}
+                    <br>
+                    <br>
+                    Метод: ${method}. Код ошибки: ${
+                  error.data.ajaxRejectData.data
+                }. Описание: ${
+                  window.BX.message(
+                    'ERROR_' + error.data.ajaxRejectData.data
+                  ) || window.BX.message('ERROR_SERVER')
+                }.`;
+              }
+            } else if (window.BX.message) {
+              this.errorTable = `${window.BX.message('ERROR_SUPPORT')}
+                <br>
+                <br>
+                Метод: ${method}. Код ошибки: NETWORK_ERROR. Описание: ${window.BX.message(
+                'ERROR_OFFLINE'
+              )}.`;
+            }
+          } else {
+            this.errorTable = `${window.BX.message('ERROR_SUPPORT')}
+              <br>
+              <br>
+              Метод: ${method}.${
+              error.errors[0].code
+                ? ' Код ошибки: ' + error.errors[0].code + '.'
+                : ''
+            } ${
+              error.errors[0].message
+                ? ' Описание: ' + error.errors[0].message + '.'
+                : ''
+            }`;
+          }
+        }
+      }
+    },
+    hideErrorTable() {
+      this.errorTable = '';
+    },
+    runColumnsNames(data, callback) {
+      this.loadingCols = true;
+      this.loadingItems = true;
+      let a = window.BX.ajax.runComponentAction(
+        this.actions.columnsNames.component,
+        this.actions.columnsNames.method,
+        data
+      );
+      let state = this;
+
+      a.then(
+        (result) => {
+          this.loadingCols = false;
+          resultFn(state, result.data);
+        },
+        (error) => {
+          this.loadingCols = false;
+          if (
+            window.twinpx &&
+            window.twinpx.vue.markup &&
+            window.twinpx.vue['filter-table']
+          ) {
+            resultFn(state, window.twinpx.vue['filter-table'].columnsNames);
+          } else {
+            this.showErrorTable({ error, method: 'columnsNames' });
+          }
+        }
+      );
+
+      function resultFn(state, data) {
+        state.columnsNames = data;
+        if (callback) {
+          callback();
+        }
+      }
+    },
+    runItems(data) {
+      return window.BX.ajax.runComponentAction(
+        this.actions.items.component,
+        this.actions.items.method,
+        data
+      );
+    },
+    runDefaultSort(data, callback) {
+      let a = window.BX.ajax.runComponentAction(
+        this.actions.defaultSort.component,
+        this.actions.defaultSort.method,
+        data
+      );
+      let state = this;
+
+      a.then(
+        (result) => {
+          resultFn(state, result.data);
+        },
+        (error) => {
+          if (
+            window.twinpx &&
+            window.twinpx.vue.markup &&
+            window.twinpx.vue['filter-table']
+          ) {
+            resultFn(state, window.twinpx.vue['filter-table'].defaultSort);
+          } else {
+            this.showErrorTable({ error, method: 'defaultSort' });
+          }
+        }
+      );
+
+      function resultFn(state, data) {
+        state.setSort(data);
+        if (callback) {
+          callback();
+        }
+      }
+    },
+    runSetDefaultSort(data, callback) {
+      let a = window.BX.ajax.runComponentAction(
+        this.actions.setDefaultSort.component,
+        this.actions.setDefaultSort.method,
+        data
+      );
+      let state = this;
+
+      a.then(
+        (result) => {
+          if (result && typeof result === 'object' && String(result.status).toLowerCase() === 'success') {
+            resultFn(state, data.data);
+          }
+        },
+        (error) => {
+          if (
+            window.twinpx &&
+            window.twinpx.vue.markup &&
+            window.twinpx.vue['filter-table']
+          ) {
+            resultFn(state, data.data);
+          } else {
+            this.showErrorTable({ error, method: 'setDefaultSort' });
+          }
+        }
+      );
+
+      function resultFn(state, data) {
+        state.setSort({
+          columnSort: data.columnSort,
+          sortType: data.sortType,
+        });
+        if (callback) {
+          callback();
+        }
+      }
+    },
+    setSort(sort) {
+      this.sort = sort;
+    },
+  },
+});

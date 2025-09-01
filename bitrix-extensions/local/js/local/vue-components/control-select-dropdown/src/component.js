@@ -30,6 +30,8 @@ export const ControlSelectDropdown = {
         'twpx-form-control--animation': animation,
       }"
       @close="console.log('close')"
+      ref="twpxSelect"
+      :data-id="'twpxControl' + control.id"
     >
       <IconLock
         class="twpx-form-control__disabled-icon"
@@ -39,7 +41,6 @@ export const ControlSelectDropdown = {
       <div
         class="twpx-form-control-select"
         :data-id="id"
-        id="id"
       >
         <input type="hidden" :name="controlName" :value="value" />
         <IconDropdown class="twpx-form-control-select__arrow" />
@@ -52,7 +53,11 @@ export const ControlSelectDropdown = {
         <div class="twpx-form-control-select__dropdown">
           <div
             class="twpx-form-control-select__dropdown-item"
-            :class="{'twpx-form-control-select__dropdown-item': true, 'twpx-form-control-select__dropdown-item--current': option.code === control.value}"
+            :class="{
+              'twpx-form-control-select__dropdown-item': true,
+              'twpx-form-control-select__dropdown-item--current': option.code === control.value,
+              'twpx-form-control-select__dropdown-item--hidden': option.hidden
+            }"
             v-for="(option, i) in control.options"
             :key="option.code"
             @click.prevent="clickItem(i)"
@@ -72,10 +77,25 @@ export const ControlSelectDropdown = {
       },
       set(value) {
         this.$emit('input', { value });
+
+        // dependency
+        if (this.control.dependent_id) {
+          const dependentSelect = document.querySelector(`[data-id="twpxControl${this.control.dependent_id}"]`);
+          const option = this.control.options.find(o => o.code === value);
+
+          if (dependentSelect) {
+            const event = new CustomEvent('twpxFilterOptionsSelectEvent', {
+              detail: {
+                options: option.dependent_options
+              }
+            })
+            dependentSelect.dispatchEvent(event);
+          }
+        }
       },
     },
     text() {
-      let option = this.control.options.find((c) => c.code === this.value);
+      let option = this.control.options.find((c) => String(c.code) === String(this.value));
       if (option) {
         return option.label;
       }
@@ -108,32 +128,21 @@ export const ControlSelectDropdown = {
       this.opened ? this.hideDropdown() : this.openDropdown();
     },
     openDropdown() {
-      // if (window.twpxSelectManager) {
-      //   Object.values(window.twpxSelectManager.selectObject).forEach(
-      //     (select) => {
-      //       select.hideDropdown();
-      //     }
-      //   );
-      // }
+      const closeSelectEvent = new Event('twpxCloseSelectEvent');
 
-      document
-        .querySelectorAll(
-          '.twpx-form-control--select.twpx-form-control--opened'
-        )
-        .forEach((select) => {
-          const close = new Event('close');
-          select.dispatchEvent(close);
-        });
+      document.querySelectorAll('.twpx-form-control--select.twpx-form-control--opened').forEach(s => {
+        s.dispatchEvent(closeSelectEvent);
+      })
 
       this.opened = true;
       this.$emit('focus');
     },
-    hideDropdown() {
-      if (this.opened) {
+    hideDropdown(quickly) {
+      if (this.opened && !quickly) {
         this.animation = true;
         setTimeout(() => {
           this.animation = false;
-        }, 300);
+        }, 200);
       }
       this.opened = false;
       this.$emit('blur');
@@ -168,6 +177,24 @@ export const ControlSelectDropdown = {
         }
       });
     },
+    filterOptions(options) {
+      // options
+      this.control.options.forEach(o => {
+        o.hidden = options.find(elem => String(o.code) === String(elem)) ? false : true;
+      });
+
+      // value
+      if (this.control.options.find(o => !o.hidden && String(o.code) === String(this.value))) {
+        return;
+      }
+      
+      if (String(this.value).trim() !== '') {
+        const firstVisibleOption = this.control.options.find(o => !o.hidden);
+        if (firstVisibleOption) {
+          this.value = firstVisibleOption.code;
+        }
+      }
+    }
   },
   beforeMount() {
     document.addEventListener('click', (e) => {
@@ -179,4 +206,15 @@ export const ControlSelectDropdown = {
       }
     });
   },
+  mounted() {
+    // close when open another twpx select
+    this.$refs.twpxSelect.addEventListener('twpxCloseSelectEvent', () => {
+      this.hideDropdown(true);// true => quickly
+    });
+
+    // filter options if dependent
+    this.$refs.twpxSelect.addEventListener('twpxFilterOptionsSelectEvent', (event) => {
+      this.filterOptions(event.detail.options);
+    });
+  }
 };

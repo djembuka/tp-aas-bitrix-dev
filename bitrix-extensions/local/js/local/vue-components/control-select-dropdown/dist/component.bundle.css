@@ -118,11 +118,11 @@
       -ms-flex-align: center;
           align-items: center;
   pointer-events: none;
-  -webkit-transition: -webkit-transform 0.3s ease;
-  transition: -webkit-transform 0.3s ease;
-  -o-transition: transform 0.3s ease;
-  transition: transform 0.3s ease;
-  transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+  -webkit-transition: -webkit-transform 0.1s ease;
+  transition: -webkit-transform 0.1s ease;
+  -o-transition: transform 0.1s ease;
+  transition: transform 0.1s ease;
+  transition: transform 0.1s ease, -webkit-transform 0.1s ease;
   z-index: 2;
 }
 .twpx-form-control-select__label {
@@ -233,9 +233,9 @@
   -webkit-box-shadow: 0px 5px 10px #0000000f;
           box-shadow: 0px 5px 10px #0000000f;
   opacity: 0;
-  -webkit-transition: all 0.2s linear;
-  -o-transition: all 0.2s linear;
-  transition: all 0.2s linear;
+  -webkit-transition: all 0.1s linear;
+  -o-transition: all 0.1s linear;
+  transition: all 0.1s linear;
   pointer-events: none;
   -webkit-transform: translateY(-10px);
   -ms-transform: translateY(-10px);
@@ -267,6 +267,9 @@
 .twpx-form-control-select__dropdown-item--current {
   background-color: var(--twpx-form-control-background);
   color: #5f7696;
+}
+.twpx-form-control-select__dropdown-item--hidden {
+  display: none;
 }
 /* .twpx-form-control-select.twpx-form-control-select--animate,
 .twpx-form-control-select.twpx-form-control-select--dropdown {

@@ -3,6 +3,7 @@ import { createRouter, createMemoryHistory } from 'ui.vue3.router';
 import { createPinia, setActivePinia } from 'ui.vue3.pinia';
 
 import { dataStore } from './stores/data';
+import { resultStore } from './stores/result';
 
 import { Application } from './components/application';
 import { Step } from './pages/step';
@@ -14,7 +15,7 @@ export class Marketplace {
   #rootNode;
   #application;
 
-  constructor(rootNode, options): void {
+  constructor(rootNode, options) {
     this.#store = createPinia();
     this.#router = createRouter({
       history: createMemoryHistory(),
@@ -38,7 +39,7 @@ export class Marketplace {
     this.options = options;
   }
 
-  run(): void {
+  run() {
     const self = this;
 
     this.#application = BitrixVue.createApp({
@@ -48,7 +49,13 @@ export class Marketplace {
       },
       template: '<Application />',
       beforeMount() {
-        dataStore().sessid = self.options.sessid || '';
+        dataStore().customData = self.options.data || {};
+        dataStore().signedParameters = self.options.signedParameters || '';
+
+        dataStore().lang = self.options.lang || {};
+        dataStore().actions = self.options.actions || [];
+
+        resultStore().maxCountPerRequest = self.options.maxCountPerRequest || 3;
       },
     });
 
@@ -57,11 +64,11 @@ export class Marketplace {
     this.#application.mount(this.#rootNode);
   }
 
-  initStorageBeforeStartApplication(): void {
+  initStorageBeforeStartApplication() {
     setActivePinia(this.#store);
   }
 
-  getTableStore(): Object {
+  getTableStore() {
     return tableStore;
   }
 }

@@ -26,6 +26,7 @@ export class FilterTable {
       },
       template: '<Application/>',
       beforeMount() {
+        dataStore().customData = self.options.data || {};
         dataStore().sessid = self.options.sessid || '';
         dataStore().signedParameters = self.options.signedParameters || '';
 

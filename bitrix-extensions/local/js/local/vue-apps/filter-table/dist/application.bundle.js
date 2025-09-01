@@ -5,6 +5,7 @@
   var dataStore = ui_vue3_pinia.defineStore('data', {
     state: function state() {
       return {
+        customData: {},
         sessid: '',
         signedParameters: ''
       };
@@ -163,6 +164,8 @@
     }
   });
 
+  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var filterStore = ui_vue3_pinia.defineStore('filter', {
     state: function state() {
       return {
@@ -287,9 +290,9 @@
         var control = _ref7.control,
           hintsAction = _ref7.hintsAction;
         control.loading = true;
-        var a = window.BX.ajax.runComponentAction(hintsAction, {
+        var a = window.BX.ajax.runComponentAction(hintsAction, _objectSpread({
           string: babelHelpers["typeof"](control.value) === 'object' ? control.value.value : control.value
-        });
+        }, dataStore().data));
         a.then(function (result) {
           control.loading = false;
           resultFn(result);
@@ -319,8 +322,8 @@
     }
   });
 
-  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-  function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  function ownKeys$1(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$1(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$1(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$1(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var Application = {
     data: function data() {
       return {
@@ -337,7 +340,7 @@
     // language=Vue
 
     template: "\n    <div>\n      <ErrorMessage :error=\"error\" @hideError=\"hideError\" />\n      <div v-if=\"!error\">\n        <FilterComponent :cols=\"filterCols\" :filters=\"filters\" :loading=\"loadingFilter\" @input=\"input\" @hints=\"hints\" />\n      </div>\n      <hr>\n      <div v-if=\"!error\">\n        <StickyScroll>\n          <TableComponent :sortable=\"true\" :cols=\"tableCols\" :columnsNames=\"columnsNames\" :items=\"items\" :sort=\"sort\" :loading=\"loadingTable\" :maxCountPerRequest=\"maxCountPerRequest\" @clickTh=\"clickTh\" @clickPage=\"clickPage\" />\n        </StickyScroll> \n        <hr>\n        <div class=\"vue-ft-table-bottom\">\n          <div class=\"vue-ft-table-all\" v-if=\"items.resultCount\">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n          <PaginationComponent :pagesNum=\"pagesNum\" :pageActive=\"pageActive\" @clickPage=\"clickPage\" />\n        </div>\n      </div>\n    </div>\n\t",
-    computed: _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['sessid', 'signedParameters'])), ui_vue3_pinia.mapState(tableStore, ['loadingTable', 'columnsNames', 'items', 'sort', 'tableCols', 'maxCountPerRequest', 'errorTable'])), ui_vue3_pinia.mapState(filterStore, ['loadingFilter', 'filters', 'filterCols', 'errorFilter'])), {}, {
+    computed: _objectSpread$1(_objectSpread$1(_objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['sessid', 'signedParameters', 'customData'])), ui_vue3_pinia.mapState(tableStore, ['loadingTable', 'columnsNames', 'items', 'sort', 'tableCols', 'maxCountPerRequest', 'errorTable'])), ui_vue3_pinia.mapState(filterStore, ['loadingFilter', 'filters', 'filterCols', 'errorFilter'])), {}, {
       pagesNum: function pagesNum() {
         return Math.ceil(this.items.resultCount / this.maxCountPerRequest);
       },
@@ -348,7 +351,7 @@
         return this.errorTable || this.errorFilter;
       }
     }),
-    methods: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(tableStore, ['hideErrorTable', 'runColumnsNames', 'runItems', 'runDefaultSort', 'runSetDefaultSort'])), ui_vue3_pinia.mapActions(filterStore, ['hideErrorFilter', 'runFilters', 'changeControlValue', 'runHintsAction', 'setHints'])), {}, {
+    methods: _objectSpread$1(_objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapActions(tableStore, ['hideErrorTable', 'runColumnsNames', 'runItems', 'runDefaultSort', 'runSetDefaultSort'])), ui_vue3_pinia.mapActions(filterStore, ['hideErrorFilter', 'runFilters', 'changeControlValue', 'runHintsAction', 'setHints'])), {}, {
       hideError: function hideError() {
         this.hideErrorTable();
         this.hideErrorFilter();
@@ -359,24 +362,24 @@
         var sortType = this.sort.columnSort === column.id && this.sort.sortType === 'ASC' ? 'DESC' : 'ASC';
         this.runSetDefaultSort({
           mode: 'class',
-          data: {
+          data: _objectSpread$1({
             signedParameters: this.signedParameters,
             sessid: this.sessid,
             columnSort: column.id,
             sortType: sortType
-          }
+          }, this.customData)
         }, function () {
           _this.runItems({
             mode: 'class',
-            data: {
+            data: _objectSpread$1({
               signedParameters: _this.signedParameters,
               sessid: _this.sessid,
               startIndex: _this.items.startIndex || 0,
               maxCountPerRequest: _this.maxCountPerRequest,
-              filters: [],
+              filters: _this.filters,
               columnSort: column.id,
               sortType: sortType
-            }
+            }, _this.customData)
           });
         });
       },
@@ -394,7 +397,7 @@
         this.inputTimeoutId = setTimeout(function () {
           _this2.runItems({
             mode: 'class',
-            data: {
+            data: _objectSpread$1({
               signedParameters: _this2.signedParameters,
               sessid: _this2.sessid,
               startIndex: _this2.items.startIndex || 0,
@@ -402,7 +405,7 @@
               filters: _this2.filters,
               columnSort: _this2.sort.columnSort,
               sortType: _this2.sort.sortType
-            }
+            }, _this2.customData)
           });
         }, 300);
       },
@@ -430,7 +433,7 @@
         var count = _ref4.count;
         this.runItems({
           mode: 'class',
-          data: {
+          data: _objectSpread$1({
             signedParameters: this.signedParameters,
             sessid: this.sessid,
             startIndex: (count - 1) * this.maxCountPerRequest,
@@ -438,7 +441,7 @@
             filters: this.filters,
             columnSort: this.sort.columnSort,
             sortType: this.sort.sortType
-          }
+          }, this.customData)
         });
       }
     }),
@@ -446,21 +449,21 @@
       var _this3 = this;
       this.runColumnsNames({
         mode: 'class',
-        data: {
+        data: _objectSpread$1({
           signedParameters: this.signedParameters,
           sessid: this.sessid
-        }
+        }, this.customData)
       });
       this.runDefaultSort({
         mode: 'class',
-        data: {
+        data: _objectSpread$1({
           signedParameters: this.signedParameters,
           sessid: this.sessid
-        }
+        }, this.customData)
       }, function () {
         _this3.runItems({
           mode: 'class',
-          data: {
+          data: _objectSpread$1({
             signedParameters: _this3.signedParameters,
             sessid: _this3.sessid,
             startIndex: _this3.items.startIndex || 0,
@@ -468,15 +471,15 @@
             filters: _this3.filters,
             columnSort: _this3.sort.columnSort,
             sortType: _this3.sort.sortType
-          }
+          }, _this3.customData)
         });
       });
       this.runFilters({
         mode: 'class',
-        data: {
+        data: _objectSpread$1({
           signedParameters: this.signedParameters,
           sessid: this.sessid
-        }
+        }, this.customData)
       });
     }
   };
@@ -516,6 +519,7 @@
           },
           template: '<Application/>',
           beforeMount: function beforeMount() {
+            dataStore().customData = self.options.data || {};
             dataStore().sessid = self.options.sessid || '';
             dataStore().signedParameters = self.options.signedParameters || '';
             tableStore().tableCols = self.options.TABLE_COLS || [];
@@ -551,5 +555,5 @@
 
   exports.FilterTable = FilterTable;
 
-}((this.BX = this.BX || {}),BX,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

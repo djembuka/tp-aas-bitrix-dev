@@ -4,6 +4,15 @@ export const formControlsStore = defineStore('form-controls-store', {
   state: () => ({
     controls: [
       {
+        property: 'num',
+        id: 'id51',
+        name: 'NUMBER',
+        label: 'Number',
+        value: '123,54',
+        required: false,
+        disabled: false,
+      },
+      {
         property: 'time',
         type: 'single',
         id: 'id50',
@@ -270,6 +279,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         case 'date':
         case 'time':
         case 'textarea':
+        case 'num':
           control.value = value;
           break;
         case 'hint':

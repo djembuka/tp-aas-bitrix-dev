@@ -20,6 +20,7 @@ import { ControlCheckbox } from 'local.vue-components.control-checkbox';
 import { ControlCheckboxCheckbox } from 'local.vue-components.control-checkbox-checkbox';
 import { ControlCheckboxSwitch } from 'local.vue-components.control-checkbox-switch';
 import { ControlCheckboxBlock } from 'local.vue-components.control-checkbox-block';
+import { ControlNum } from 'local.vue-components.control-num';
 
 export const ControlComponent = {
   data() {
@@ -52,6 +53,7 @@ export const ControlComponent = {
     ControlCheckboxCheckbox,
     ControlCheckboxSwitch,
     ControlCheckboxBlock,
+    ControlNum
   },
   props: ['control', 'name', 'id'],
   // language=Vue

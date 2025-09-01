@@ -1,16 +1,22 @@
-.twpx-vue-marketplace {
+/* Application */
+.twpx-vue-marketplace-application {
     display: grid;
-    gap: 32px;
+    gap: 32px;;
     padding: 32px;
     border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+    min-height: 300px;
 }
-.twpx-vue-marketplace h2,
-.twpx-vue-marketplace h3,
-.twpx-vue-marketplace p {
+.twpx-vue-marketplace-application__content {
+    display: grid;
+    gap: 32px;
+}
+.twpx-vue-marketplace-application h2,
+.twpx-vue-marketplace-application h3,
+.twpx-vue-marketplace-application p {
     margin: 0;
 }
-.twpx-vue-marketplace-html,
-.twpx-vue-marketplace-controls {
+.twpx-vue-marketplace-application-html,
+.twpx-vue-marketplace-application-controls {
     display: grid;
     gap: var(--semantic-gap-s, 16px);
 }

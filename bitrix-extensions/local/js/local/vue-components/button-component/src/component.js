@@ -1,6 +1,7 @@
 import './component.css';
 import { DeleteIcon } from './icons/delete.js';
 import { DeleteWhiteIcon } from './icons/delete-white.js';
+import { ContentWhiteIcon } from './icons/content-white.js';
 import { EditIcon } from './icons/edit.js';
 
 export const ButtonComponent = {
@@ -27,6 +28,7 @@ export const ButtonComponent = {
   components: {
     DeleteIcon,
     DeleteWhiteIcon,
+    ContentWhiteIcon,
     EditIcon
   },
   // language=Vue
@@ -38,6 +40,7 @@ export const ButtonComponent = {
 
 		<button v-else class="vue-button" :class="propsClass" @click.prevent="clickButton">
       <DeleteWhiteIcon v-if="props.find(e => e === 'icon-delete')" />
+      <ContentWhiteIcon v-if="props.find(e => e === 'icon-content')" />
       {{ text }}
     </button>
 	`,

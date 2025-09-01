@@ -15,6 +15,10 @@
   max-height: 300px;
 }
 
+.twpx-design-system-block--small pre {
+  max-height: 150px;
+}
+
 .twpx-desing-system-menu {
   display: flex;
   align-items: center;

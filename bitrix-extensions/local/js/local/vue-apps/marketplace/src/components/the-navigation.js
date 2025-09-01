@@ -4,17 +4,17 @@ export const TheNavigation = {
     data(){
         return {}
     },
-    props: ['steps'],
+    props: ['groups'],
     emits: ['clickNavItem'],
     template: `
         <div class="twpx-vue-marketplace-nav">
             <div class="twpx-vue-marketplace-nav-items">
                 <div
-                    :class="{'twpx-vue-marketplace-nav__item': true, 'twpx-vue-marketplace-nav__item--active': isStepActive(stepIndex)}"
-                    v-for="(step, stepIndex) in steps"
-                    :key="step.id"
-                    @click.prevent="click(step)">
-                        {{ step.name }}
+                    :class="{'twpx-vue-marketplace-nav__item': true, 'twpx-vue-marketplace-nav__item--active': isGroupActive(groupIndex)}"
+                    v-for="(group, groupIndex) in groups"
+                    :key="group.id"
+                    @click.prevent="click(group)">
+                        {{ group.label }}
                 </div>
             </div>
             <div :class="{'twpx-vue-marketplace-nav-line': true, 'twpx-vue-marketplace-nav-line--full': lineWidth === '100%'}">
@@ -24,20 +24,19 @@ export const TheNavigation = {
     `,
     computed: {
         currentIndex() {
-            const index =  this.steps.findIndex(s => String(s.id) === String(this.$route.params.id)) || 0;
+            const index =  this.groups.findIndex(s => String(s.id) === String(this.$route.params.id)) || 0;
             return index === -1 ? 0 : index;
         },
         lineWidth() {
-            return ((this.currentIndex + 1) * 100 / this.steps.length) + '%';
+            return ((this.currentIndex + 1) * 100 / this.groups.length) + '%';
         }
     },
     methods: {
-        click(step) {
-            this.$emit('clickNavItem', {step});
-            this.highlightItem(step);
+        click(group) {
+            this.$emit('clickNavItem', {group});
         },
-        isStepActive(stepIndex) {
-            return stepIndex <= this.currentIndex;
+        isGroupActive(groupIndex) {
+            return groupIndex <= this.currentIndex;
         },
     },
 }

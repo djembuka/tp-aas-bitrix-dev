@@ -8,13 +8,12 @@
   --twpx-button-border-radius-large: 8px;
   --twpx-button-border-radius-medium: 4px;
   --twpx-button-border-radius-small: 4px;
+  --twpx-button-load-size: 30px;
+  --twpx-button-load-color: #fff;
 }
 
 .vue-button:not(:disabled):not(.disabled) {
   cursor: pointer;
-}
-button.vue-button {
-  border: none;
 }
 [type='button']:not(:disabled),
 [type='reset']:not(:disabled),
@@ -49,6 +48,9 @@ button.vue-button {
 }
 .vue-button:hover {
   opacity: 0.7;
+}
+.vue-button svg {
+  flex-shrink: 0;
 }
 .vue-button .icon {
   display: inline-block;
@@ -237,6 +239,7 @@ button.vue-button {
 .vue-button--serve:focus,
 .vue-button--serve.vue-button--disabled,
 .vue-button--serve:disabled {
+  --twpx-button-load-color: var(--twpx-button-text-service, #5F7696);
   color: var(--twpx-button-text-service, #5F7696);
   background-color: var(--twpx-button-background-service, #F2F7FF);
   border-color: var(--twpx-button-background-service, #F2F7FF);
@@ -420,6 +423,7 @@ button.vue-button {
 .vue-button--large {
   height: var(--twpx-button-size-large);
   border-radius: var(--twpx-button-border-radius-large);
+  --twpx-button-load-size: 30px;
 }
 .vue-button.vue-button--large {
   min-width: 192px;
@@ -431,6 +435,7 @@ button.vue-button {
 .vue-button--medium {
   height: var(--twpx-button-size-medium);
   border-radius: var(--twpx-button-border-radius-medium);
+  --twpx-button-load-size: 24px;
 }
 .vue-button.vue-button--medium {
   min-width: 0;
@@ -442,6 +447,7 @@ button.vue-button {
 .vue-button--small {
   height: var(--twpx-button-size-small);
   border-radius: var(--twpx-button-border-radius-small);
+  --twpx-button-load-size: 16px;/*?*/
 }
 .vue-button.vue-button--small {
   min-width: 0;
@@ -484,12 +490,14 @@ button.vue-button {
 .vue-button--load-circle:after {
   content: '';
   position: absolute;
-  height: 30px;
-  width: 30px;
-  top: calc(50% - 15px);
-  right: calc(50% - 15px);
+  height: var(--twpx-button-load-size);
+  width: var(--twpx-button-load-size);
+  top: calc(50% - var(--twpx-button-load-size) / 2);
+  right: calc(50% - var(--twpx-button-load-size) / 2);
   animation: load-circle 1.3s infinite linear;
-  border: 2px solid #fff;
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--twpx-button-load-color);
   border-radius: 50%;
   border-right-color: transparent;
 }

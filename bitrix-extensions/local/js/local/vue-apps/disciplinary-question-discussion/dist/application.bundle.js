@@ -740,4 +740,5 @@
 
   exports.DisciplinaryQuestionDiscussion = DisciplinaryQuestionDiscussion;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Modals,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX,BX.Modals,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX));
+//# sourceMappingURL=application.bundle.js.map

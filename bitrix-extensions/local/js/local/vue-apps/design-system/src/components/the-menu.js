@@ -1,13 +1,58 @@
 export const TheMenu = {
+  data() {
+    return {
+      items: [
+        {
+          path: '/',
+          name: 'Form controls'
+        },
+        {
+          path: 'select-dependency',
+          name: 'Select dependency'
+        },
+        {
+          path: 'multi',
+          name: 'Form controls multi'
+        },
+        {
+          path: 'buttons',
+          name: 'Buttons'
+        },
+        {
+          path: 'filter',
+          name: 'Filter'
+        },
+        {
+          path: 'modals',
+          name: 'Modals'
+        },
+        {
+          path: 'docs',
+          name: 'Docs'
+        },
+        {
+          path: 'loaders',
+          name: 'Loaders'
+        },
+      ]
+    }
+  },
   template: `
     <div class="twpx-desing-system-menu">
-      <router-link to="/">Form controls</router-link>
-      <router-link to="/multi">Form controls multi</router-link>
-      <router-link to="/buttons">Buttons</router-link>
-      <router-link to="/filter">Filter</router-link>
-      <router-link to="/modals">Modals</router-link>
-      <router-link to="/docs">Docs</router-link>
-      <router-link to="/loaders">Loaders</router-link>
+      <router-link v-for="item in items" :key="item.path" :to="item.path" @click="click(item.path)">{{ item.name }}</router-link>
     </div>
   `,
+  methods: {
+    click(tab) {
+      const url = new URL(window.location.href);
+      if (tab && tab !== '') {
+        url.searchParams.set('tab', tab);
+      } else {
+        url.searchParams.delete('tab');
+      }
+      
+      // Обновляем URL
+      window.history.replaceState({}, '', url.toString());
+    }
+  }
 };

@@ -50,6 +50,30 @@ export const FilterComponent = {
     },
     input({ control, value, checked }) {
       this.$emit('input', { control, value, checked });
+      const url = new URL(window.location.href);
+
+      if (control.name) {
+        let paramValue = value;
+        
+        // Обработка hint элементов
+        if (control.property === 'hint') {
+          if (typeof value === 'object' && value !== null && value.id !== undefined) {
+            paramValue = JSON.stringify(value);
+          } else {
+            paramValue = '';
+          }
+        }
+
+        // Устанавливаем или удаляем параметр
+        if (paramValue && paramValue !== '') {
+          url.searchParams.set(control.name, paramValue);
+        } else {
+          url.searchParams.delete(control.name);
+        }
+        
+        // Обновляем URL
+        window.history.replaceState({}, '', url.toString());
+      }
     },
     hints({ type, control, action, value }) {
       this.$emit('hints', {
@@ -60,4 +84,28 @@ export const FilterComponent = {
       });
     },
   },
+  mounted() {
+    let counter = 0;
+    const intervalId = setInterval(() => {
+      counter++;
+      if (counter > 100) {
+        clearInterval(intervalId);
+      }
+      if (this.filters && typeof this.filters === 'object' && this.filters.length) {
+        clearInterval(intervalId);
+
+        const url = new URL(window.location.href);
+        url.searchParams.entries().forEach(e => {
+          const control = this.filters?.find(c => c.name === e[0]);
+          if (control) {
+            let value = e[1];
+            if (String(control.property === 'date') && String(control.type === 'range')) {
+              value = String(e[1]).split(',');
+            }
+            this.$emit('input', { control, value: control.property === 'hint' ? JSON.parse(e[1]) : value });
+          }
+        });
+      }
+    }, 200);
+  }
 };

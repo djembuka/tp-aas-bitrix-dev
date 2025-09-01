@@ -46,7 +46,7 @@ export const Application = {
     </div>
 	`,
   computed: {
-    ...mapState(dataStore, ['sessid', 'signedParameters']),
+    ...mapState(dataStore, ['sessid', 'signedParameters', 'customData']),
     ...mapState(tableStore, [
       'loadingTable',
       'columnsNames',
@@ -105,6 +105,7 @@ export const Application = {
             sessid: this.sessid,
             columnSort: column.id,
             sortType,
+            ...this.customData
           },
         },
         () => {
@@ -115,9 +116,10 @@ export const Application = {
               sessid: this.sessid,
               startIndex: this.items.startIndex || 0,
               maxCountPerRequest: this.maxCountPerRequest,
-              filters: [],
+              filters: this.filters,
               columnSort: column.id,
               sortType,
+              ...this.customData
             },
           });
         }
@@ -143,6 +145,7 @@ export const Application = {
             filters: this.filters,
             columnSort: this.sort.columnSort,
             sortType: this.sort.sortType,
+            ...this.customData
           },
         });
       }, 300);
@@ -174,6 +177,7 @@ export const Application = {
           filters: this.filters,
           columnSort: this.sort.columnSort,
           sortType: this.sort.sortType,
+          ...this.customData
         },
       });
     },
@@ -184,6 +188,7 @@ export const Application = {
       data: {
         signedParameters: this.signedParameters,
         sessid: this.sessid,
+        ...this.customData
       },
     });
 
@@ -193,6 +198,7 @@ export const Application = {
         data: {
           signedParameters: this.signedParameters,
           sessid: this.sessid,
+        ...this.customData
         },
       },
       () => {
@@ -206,6 +212,7 @@ export const Application = {
             filters: this.filters,
             columnSort: this.sort.columnSort,
             sortType: this.sort.sortType,
+            ...this.customData
           },
         });
       }
@@ -216,6 +223,7 @@ export const Application = {
       data: {
         signedParameters: this.signedParameters,
         sessid: this.sessid,
+        ...this.customData
       },
     });
   },
