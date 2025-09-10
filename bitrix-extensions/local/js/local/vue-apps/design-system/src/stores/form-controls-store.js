@@ -219,6 +219,28 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: '2',
       },
       {
+        property: 'select',
+        type: 'multi',
+        id: 'id9-1',
+        name: 'SELECT_BUTTON_TEXT',
+        label: 'Multiselect',
+        options: [
+          {
+            label: 'Опыт работы с иностранными структурами',
+            code: '1',
+          },
+          {
+            label: 'Входит в международные сети',
+            code: '2',
+          },
+          {
+            label: 'Доступ к гос. тайне',
+            code: '3',
+          },
+        ],
+        value: ['2'],
+      },
+      {
         property: 'checkbox',
         type: 'switch',
         id: 'id14',
@@ -339,7 +361,7 @@ export const formControlsStore = defineStore('form-controls-store', {
       control.hints = value;
     },
     changeHintControlValue({ control, value }) {
-      console.log(value)
+      console.log(value);
       control.value = value;
 
       if (value.autocomplete && value.autocomplete.forEach) {
