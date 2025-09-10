@@ -18,24 +18,18 @@ export const editFormStore = defineStore('edit-form', {
     changeEditLoading(value) {
       this.editLoading = value;
     },
-    changeEditForm(obj) {
-      this.editForm.heading = obj.heading;
-      this.editForm.buttons = obj.buttons;
-    },
     runGetEditForm(commentId) {
       this.editError = '';
       this.editLoading = true;
       const d = dataStore();
       const data = {...d.data, commentId};
 
-
-      let response;
+      /*let response;
 
       return new Promise((resolve, reject) => {
         response = {
           status: 'success',
           data: {
-            heading: 'Комментарий',
             controls: [
               {
                 "id": "editHidden",
@@ -52,10 +46,6 @@ export const editFormStore = defineStore('edit-form', {
                 "required": true,
                 "disabled": false
               }
-            ],
-            buttons: [
-              'Отменить',
-              'Сохранить'
             ]
           }
         }
@@ -74,7 +64,7 @@ export const editFormStore = defineStore('edit-form', {
           resolve(response);
           // reject(response);
         }, 1000);
-      });
+      });*/
 
       return BX.ajax.runComponentAction(d.actions.getEditForm[0], d.actions.getEditForm[1], {
         mode: 'class',
@@ -93,7 +83,7 @@ export const editFormStore = defineStore('edit-form', {
         formData.append(key, d.data[key]);
       });
 
-      let response;
+      /*let response;
 
       return new Promise((resolve, reject) => {
         response = {
@@ -115,7 +105,7 @@ export const editFormStore = defineStore('edit-form', {
           resolve(response);
           // reject(response);
         }, 1000);
-      });
+      });*/
 
       return BX.ajax.runComponentAction(d.actions.sendEditForm[0], d.actions.sendEditForm[1], {
         mode: 'class',

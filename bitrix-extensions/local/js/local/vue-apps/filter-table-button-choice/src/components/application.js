@@ -193,13 +193,14 @@ export const Application = {
         () => {
           this.changeLoadingItems(true);
 
-          this.changeStartIndex(this.paginationMode ? this.items.startIndex || 0 : 0);
+          const maxCountPerRequest = this.startIndex + this.maxCountPerRequest;
+          const startIndex = this.paginationMode ? this.items.startIndex || 0 : 0;
 
           this.runItems({
             mode: 'class',
             data: {
-              startIndex: this.startIndex,
-              maxCountPerRequest: this.maxCountPerRequest,
+              startIndex,
+              maxCountPerRequest,
               filters: this.filters,
               columnSort: column.id,
               sortType,
@@ -212,7 +213,6 @@ export const Application = {
               this.changeLoadingItems(false);
               this.changeItems(result.data);
               this.changeShowMore(Number(this.items.items.length) >= Number(this.items.resultCount) ? false : true);
-              this.setQueryParam('ITEMS_NUM');
             },
             (error) => {
               this.changeLoadingItems(false);

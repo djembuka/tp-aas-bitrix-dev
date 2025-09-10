@@ -23,10 +23,6 @@ export const formStore = defineStore('form', {
     changeComments(comments) {
       this.comments = comments;
     },
-    changeForm(obj) {
-      this.form.heading = obj.heading;
-      this.form.button = obj.button;
-    },
     changeActiveCommentId(commentId) {
       this.activeCommentId = commentId;
     },
@@ -35,13 +31,12 @@ export const formStore = defineStore('form', {
       this.loading = true;
       const d = dataStore();
 
-      let response;
+      /*let response;
 
       return new Promise((resolve, reject) => {
         response = {
           status: 'success',
           data: {
-            heading: 'Написать комментарий',
             controls: [
               {
                 "id": "id1-1",
@@ -53,7 +48,6 @@ export const formStore = defineStore('form', {
                 "disabled": false
               }
             ],
-            button: 'Отправить'
           }
         }
 
@@ -71,7 +65,7 @@ export const formStore = defineStore('form', {
           resolve(response);
           // reject(response);
         }, 1000);
-      });
+      });*/
 
       return BX.ajax.runComponentAction(d.actions.getForm[0], d.actions.getForm[1], {
         mode: 'class',
@@ -83,14 +77,14 @@ export const formStore = defineStore('form', {
       this.loading = true;
       const d = dataStore();
 
-      const formElem = document.querySelector(`#${dataStore().id} form`);
+      const formElem = document.querySelector(`#${dataStore().id}Form`);
       const formData = new FormData(formElem);
       
       Object.keys(d.data).forEach(key => {
         formData.append(key, d.data[key]);
       });
 
-      let response;
+      /*let response;
 
       return new Promise((resolve, reject) => {
         response = {
@@ -115,7 +109,7 @@ export const formStore = defineStore('form', {
           resolve(response);
           // reject(response);
         }, 1000);
-      });
+      });*/
 
       return BX.ajax.runComponentAction(d.actions.sendForm[0], d.actions.sendForm[1], {
         mode: 'class',
@@ -127,7 +121,7 @@ export const formStore = defineStore('form', {
       this.loading = true;
       const d = dataStore();
 
-      let response;
+      /*let response;
 
       return new Promise((resolve, reject) => {
         response = {
@@ -182,7 +176,7 @@ export const formStore = defineStore('form', {
           resolve(response);
           // reject(response);
         }, 1000);
-      });
+      });*/
 
       return BX.ajax.runComponentAction(d.actions.getComments[0], d.actions.getComments[1], {
         mode: 'class',
@@ -195,7 +189,7 @@ export const formStore = defineStore('form', {
       this.changeDeleteModalStateWatcher();
       const d = dataStore();
 
-      let response;
+      /*let response;
 
       return new Promise((resolve, reject) => {
         response = {
@@ -217,9 +211,9 @@ export const formStore = defineStore('form', {
           resolve(response);
           // reject(response);
         }, 1000);
-      });
+      });*/
 
-      return BX.ajax.runComponentAction(d.actions.sendEditForm[0], d.actions.sendEditForm[1], {
+      return BX.ajax.runComponentAction(d.actions.deleteComment[0], d.actions.deleteComment[1], {
         mode: 'class',
         data: {...d.data, commentId},
       });

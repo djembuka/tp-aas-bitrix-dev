@@ -2,12 +2,7 @@ import { defineStore } from 'ui.vue3.pinia';
 
 export const resultStore = defineStore('result', {
   state: () => ({
-    formIdArray: [
-        'd4312f16-c2b4-45a4-b280-f85e62dd61a8',
-        'd4312f16-c2b4-45a4-b280-f85e62dd61a8',
-        'd4312f16-c2b4-45a4-b280-f85e62dd61a8',
-        'd4312f16-c2b4-45a4-b280-f85e62dd61a8'
-    ],
+    formIdArray: [],
     formDataArray: [],
     startIndex: 0,
     maxCountPerRequest: 3,

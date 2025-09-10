@@ -8,7 +8,7 @@
     },
     props: ['comment'],
     emits: ['clickEdit', 'clickDelete'],
-    template: "\n        <div class=\"twpx-comment\">\n            <div class=\"twpx-comment-wrapper\">\n                <div class=\"twpx-comment__text\" v-if=\"comment.text\">\n                    {{ comment.text }}\n                </div>\n                <div class=\"twpx-comment__buttons\">\n                    <ButtonComponent :text=\"Edit\" :props=\"['icon', 'edit', 'medium']\" @clickButton=\"$emit('clickEdit', comment.id)\" />\n                    <ButtonComponent :text=\"Delete\" :props=\"['icon', 'delete', 'medium']\" @clickButton=\"$emit('clickDelete', comment.id)\" />\n                </div>\n            </div>\n            <div class=\"twpx-comment__data\">\n                <div class=\"twpx-comment__user-img\" v-if=\"comment.user.img\">\n                    <a :href=\"comment.user.href\">\n                        <img :src=\"comment.user.img\" alt />\n                    </a>\n                </div>\n                <div class=\"twpx-comment__info\">\n                    <div class=\"twpx-comment__user-name\" v-if=\"comment.user.name\">\n                        <a :href=\"comment.user.href\">{{ comment.user.name }}</a>\n                    </div>\n                    <div class=\"twpx-comment__time\" v-if=\"comment.user.create\">{{ formatDate(comment.user.create) }}</div>\n                </div>\n            </div>\n        </div>\n    ",
+    template: "\n        <div class=\"twpx-comment\">\n            <div class=\"twpx-comment-wrapper\">\n                <div class=\"twpx-comment__text\" v-if=\"comment.text\">\n                    {{ comment.text }}\n                </div>\n                <div class=\"twpx-comment__data\">\n                    <div class=\"twpx-comment__user-img\" v-if=\"comment.user.img\">\n                        <a :href=\"comment.user.href\">\n                            <img :src=\"comment.user.img\" alt />\n                        </a>\n                    </div>\n                    <div class=\"twpx-comment__info\">\n                        <div class=\"twpx-comment__user-name\" v-if=\"comment.user.name\">\n                            <a :href=\"comment.user.href\">{{ comment.user.name }}</a>\n                        </div>\n                        <div class=\"twpx-comment__time\" v-if=\"comment.create\">{{ formatDate(comment.create) }}</div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"twpx-comment__buttons\" v-if=\"comment.editButton\">\n                <ButtonComponent :text=\"Edit\" :props=\"['icon', 'edit', 'medium']\" @clickButton=\"$emit('clickEdit', comment.id)\" />\n                <ButtonComponent :text=\"Delete\" :props=\"['icon', 'delete', 'medium']\" @clickButton=\"$emit('clickDelete', comment.id)\" />\n            </div>\n        </div>\n    ",
     methods: {
       formatDate: function formatDate(dateString) {
         var date = new Date(dateString);
@@ -44,12 +44,8 @@
     emits: ['input', 'clickYes', 'clickNo'],
     template: "\n        <LoaderCircle :show=\"loading\" />\n\n        <MessageComponent v-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n        <form action=\"\" :id=\"id + 'EditForm'\" v-if=\"!loading && !error\">\n            <div class=\"twpx-comment-edit-form\">\n                <h3>{{ h3 }}</h3>\n                <div class=\"twpx-comment-edit-form__body\">\n                    <div class=\"twpx-comment-edit-form__heading\">{{ heading }}</div>\n                    <ControlChoice v-for=\"control in controls\" :key=\"control.id\" :control=\"control\" @input=\"input\"></ControlChoice>\n                </div>\n                <div class=\"twpx-comment-edit-form__buttons\">\n                    <ButtonComponent :text=\"buttons[0]\" :props=\"['gray-color', 'large']\" @clickButton=\"$emit('clickNo')\" />\n                    <ButtonComponent :text=\"buttons[1]\" :props=\"['secondary', 'large']\" @clickButton=\"$emit('clickYes')\" />\n                </div>\n            </div>\n        </form>\n    ",
     methods: {
-      formatDate: function formatDate(dateString) {
-        var date = new Date(dateString);
-        var pad = function pad(n) {
-          return n.toString().padStart(2, '0');
-        };
-        return pad(date.getDate()) + '.' + pad(date.getMonth() + 1) + '.' + date.getFullYear() + ' ' + pad(date.getHours()) + ':' + pad(date.getMinutes()) + ':' + pad(date.getSeconds());
+      input: function input(args) {
+        this.$emit('input', args);
       }
     }
   };
@@ -91,10 +87,6 @@
       changeComments: function changeComments(comments) {
         this.comments = comments;
       },
-      changeForm: function changeForm(obj) {
-        this.form.heading = obj.heading;
-        this.form.button = obj.button;
-      },
       changeActiveCommentId: function changeActiveCommentId(commentId) {
         this.activeCommentId = commentId;
       },
@@ -102,26 +94,26 @@
         this.error = '';
         this.loading = true;
         var d = dataStore();
-        var response;
-        return new Promise(function (resolve, reject) {
+
+        /*let response;
+          return new Promise((resolve, reject) => {
           response = {
             status: 'success',
             data: {
-              heading: 'Написать комментарий',
-              controls: [{
-                "id": "id1-1",
-                "property": "textarea",
-                "name": "COMMENT",
-                "label": "Комментарий",
-                "value": "",
-                "required": true,
-                "disabled": false
-              }],
-              button: 'Отправить'
+              controls: [
+                {
+                  "id": "id1-1",
+                  "property": "textarea",
+                  "name": "COMMENT",
+                  "label": "Комментарий",
+                  "value": "",
+                  "required": true,
+                  "disabled": false
+                }
+              ],
             }
-          };
-
-          // response = {
+          }
+            // response = {
           //   status: 'error',
           //   data: {},
           //   errors: [
@@ -130,12 +122,12 @@
           //     }
           //   ]
           // };
-
-          setTimeout(function () {
+            setTimeout(() => {
             resolve(response);
             // reject(response);
           }, 1000);
-        });
+        });*/
+
         return BX.ajax.runComponentAction(d.actions.getForm[0], d.actions.getForm[1], {
           mode: 'class',
           data: d.data
@@ -145,21 +137,21 @@
         this.error = '';
         this.loading = true;
         var d = dataStore();
-        var formElem = document.querySelector("#".concat(dataStore().id, " form"));
+        var formElem = document.querySelector("#".concat(dataStore().id, "Form"));
         var formData = new FormData(formElem);
         Object.keys(d.data).forEach(function (key) {
           formData.append(key, d.data[key]);
         });
-        var response;
-        return new Promise(function (resolve, reject) {
+
+        /*let response;
+          return new Promise((resolve, reject) => {
           response = {
             status: 'success',
             data: {
               redirect: '/'
             }
-          };
-
-          // response = {
+          }
+            // response = {
           //   status: 'error',
           //   data: {},
           //   errors: [
@@ -168,13 +160,13 @@
           //     }
           //   ]
           // };
-
-          setTimeout(function () {
-            console.log('io');
+            setTimeout(() => {
+            console.log('io')
             resolve(response);
             // reject(response);
           }, 1000);
-        });
+        });*/
+
         return BX.ajax.runComponentAction(d.actions.sendForm[0], d.actions.sendForm[1], {
           mode: 'class',
           data: formData
@@ -184,43 +176,47 @@
         this.error = '';
         this.loading = true;
         var d = dataStore();
-        var response;
-        return new Promise(function (resolve, reject) {
+
+        /*let response;
+          return new Promise((resolve, reject) => {
           response = {
             status: 'success',
             data: {
-              comments: [{
-                id: 'comment1',
-                text: 'Саморегулируемая организация аудиторов Ассоциация «Содружество» (сокращенное название - СРО ААС) создано по инициативе Международной общественной организации «Ассоциация бухгалтеров и аудиторов «Содружество» (АБиАС). АБиАС была образована в 1989 году и стала общеизвестным и признанным в России профессиональным объединением ученых и практиков бухгалтерского учета, аудита и экономического анализа.',
-                user: {
-                  img: '/local/components/twinpx/disciplinar.comments/images/nopic.svg',
-                  name: 'Иванов Иван Иванович',
-                  url: "/person/19891/"
+              comments: [
+                {
+                  id: 'comment1',
+                  text: 'Саморегулируемая организация аудиторов Ассоциация «Содружество» (сокращенное название - СРО ААС) создано по инициативе Международной общественной организации «Ассоциация бухгалтеров и аудиторов «Содружество» (АБиАС). АБиАС была образована в 1989 году и стала общеизвестным и признанным в России профессиональным объединением ученых и практиков бухгалтерского учета, аудита и экономического анализа.',
+                  user: {
+                    img: '/local/components/twinpx/disciplinar.comments/images/nopic.svg',
+                    name: 'Иванов Иван Иванович',
+                    url: "/person/19891/"
+                  },
+                  create: "2025-07-22T20:09:26+03:00",
                 },
-                create: "2025-07-22T20:09:26+03:00"
-              }, {
-                id: 'comment2',
-                text: 'Саморегулируемая организация аудиторов Ассоциация «Содружество» (сокращенное название - СРО ААС) создано по инициативе Международной общественной организации «Ассоциация бухгалтеров и аудиторов «Содружество» (АБиАС). АБиАС была образована в 1989 году и стала общеизвестным и признанным в России профессиональным объединением ученых и практиков бухгалтерского учета, аудита и экономического анализа.',
-                user: {
-                  img: '/local/components/twinpx/disciplinar.comments/images/nopic.svg',
-                  name: 'Петров Пётр Петрович',
-                  url: "/person/19891/"
+                {
+                  id: 'comment2',
+                  text: 'Саморегулируемая организация аудиторов Ассоциация «Содружество» (сокращенное название - СРО ААС) создано по инициативе Международной общественной организации «Ассоциация бухгалтеров и аудиторов «Содружество» (АБиАС). АБиАС была образована в 1989 году и стала общеизвестным и признанным в России профессиональным объединением ученых и практиков бухгалтерского учета, аудита и экономического анализа.',
+                  user: {
+                    img: '/local/components/twinpx/disciplinar.comments/images/nopic.svg',
+                    name: 'Петров Пётр Петрович',
+                    url: "/person/19891/"
+                  },
+                  create: "2025-07-22T20:09:26+03:00",
                 },
-                create: "2025-07-22T20:09:26+03:00"
-              }, {
-                id: 'comment3',
-                text: 'Саморегулируемая организация аудиторов Ассоциация «Содружество» (сокращенное название - СРО ААС) создано по инициативе Международной общественной организации «Ассоциация бухгалтеров и аудиторов «Содружество» (АБиАС). АБиАС была образована в 1989 году и стала общеизвестным и признанным в России профессиональным объединением ученых и практиков бухгалтерского учета, аудита и экономического анализа.',
-                user: {
-                  img: '/local/components/twinpx/disciplinar.comments/images/nopic.svg',
-                  name: 'Савельев Савелий Савельевич',
-                  url: "/person/19891/"
-                },
-                create: "2025-07-22T20:09:26+03:00"
-              }]
+                {
+                  id: 'comment3',
+                  text: 'Саморегулируемая организация аудиторов Ассоциация «Содружество» (сокращенное название - СРО ААС) создано по инициативе Международной общественной организации «Ассоциация бухгалтеров и аудиторов «Содружество» (АБиАС). АБиАС была образована в 1989 году и стала общеизвестным и признанным в России профессиональным объединением ученых и практиков бухгалтерского учета, аудита и экономического анализа.',
+                  user: {
+                    img: '/local/components/twinpx/disciplinar.comments/images/nopic.svg',
+                    name: 'Савельев Савелий Савельевич',
+                    url: "/person/19891/"
+                  },
+                  create: "2025-07-22T20:09:26+03:00",
+                }
+              ]
             }
-          };
-
-          // response = {
+          }
+            // response = {
           //   status: 'error',
           //   data: {},
           //   errors: [
@@ -229,12 +225,12 @@
           //     }
           //   ]
           // };
-
-          setTimeout(function () {
+            setTimeout(() => {
             resolve(response);
             // reject(response);
           }, 1000);
-        });
+        });*/
+
         return BX.ajax.runComponentAction(d.actions.getComments[0], d.actions.getComments[1], {
           mode: 'class',
           data: d.data
@@ -245,14 +241,14 @@
         this.loading = true;
         this.changeDeleteModalStateWatcher();
         var d = dataStore();
-        var response;
-        return new Promise(function (resolve, reject) {
+
+        /*let response;
+          return new Promise((resolve, reject) => {
           response = {
             status: 'success',
             data: true
-          };
-
-          // response = {
+          }
+            // response = {
           //   status: 'error',
           //   data: {},
           //   errors: [
@@ -261,13 +257,13 @@
           //     }
           //   ]
           // };
-
-          setTimeout(function () {
+            setTimeout(() => {
             resolve(response);
             // reject(response);
           }, 1000);
-        });
-        return BX.ajax.runComponentAction(d.actions.sendEditForm[0], d.actions.sendEditForm[1], {
+        });*/
+
+        return BX.ajax.runComponentAction(d.actions.deleteComment[0], d.actions.deleteComment[1], {
           mode: 'class',
           data: _objectSpread(_objectSpread({}, d.data), {}, {
             commentId: commentId
@@ -298,10 +294,6 @@
       changeEditLoading: function changeEditLoading(value) {
         this.editLoading = value;
       },
-      changeEditForm: function changeEditForm(obj) {
-        this.editForm.heading = obj.heading;
-        this.editForm.buttons = obj.buttons;
-      },
       runGetEditForm: function runGetEditForm(commentId) {
         this.editError = '';
         this.editLoading = true;
@@ -309,31 +301,32 @@
         var data = _objectSpread$1(_objectSpread$1({}, d.data), {}, {
           commentId: commentId
         });
-        var response;
-        return new Promise(function (resolve, reject) {
+
+        /*let response;
+          return new Promise((resolve, reject) => {
           response = {
             status: 'success',
             data: {
-              heading: 'Комментарий',
-              controls: [{
-                "id": "editHidden",
-                "property": "hidden",
-                "name": "ID",
-                "value": "789"
-              }, {
-                "id": "id1-1",
-                "property": "textarea",
-                "name": "COMMENT",
-                "label": "Комментарий",
-                "value": "Опишите, пожалуйста, ваш вопрос, проблему или пожелание максимально подробно. Укажите, где и на каком этапе возникла сложность, что вы уже пробовали сделать, и какие сообщения (если были) вы получили. Чем больше информации вы предоставите, тем быстрее и точнее мы сможем вам помочь. При необходимости можно прикрепить скриншоты или ссылки. Мы внимательно прочтём каждое сообщение и постараемся дать вам исчерпывающий ответ.",
-                "required": true,
-                "disabled": false
-              }],
-              buttons: ['Отменить', 'Сохранить']
+              controls: [
+                {
+                  "id": "editHidden",
+                  "property": "hidden",
+                  "name": "ID",
+                  "value": "789",
+                },
+                {
+                  "id": "id1-1",
+                  "property": "textarea",
+                  "name": "COMMENT",
+                  "label": "Комментарий",
+                  "value": "Опишите, пожалуйста, ваш вопрос, проблему или пожелание максимально подробно. Укажите, где и на каком этапе возникла сложность, что вы уже пробовали сделать, и какие сообщения (если были) вы получили. Чем больше информации вы предоставите, тем быстрее и точнее мы сможем вам помочь. При необходимости можно прикрепить скриншоты или ссылки. Мы внимательно прочтём каждое сообщение и постараемся дать вам исчерпывающий ответ.",
+                  "required": true,
+                  "disabled": false
+                }
+              ]
             }
-          };
-
-          // response = {
+          }
+            // response = {
           //   status: 'error',
           //   data: {},
           //   errors: [
@@ -342,12 +335,12 @@
           //     }
           //   ]
           // };
-
-          setTimeout(function () {
+            setTimeout(() => {
             resolve(response);
             // reject(response);
           }, 1000);
-        });
+        });*/
+
         return BX.ajax.runComponentAction(d.actions.getEditForm[0], d.actions.getEditForm[1], {
           mode: 'class',
           data: data
@@ -362,14 +355,14 @@
         Object.keys(d.data).forEach(function (key) {
           formData.append(key, d.data[key]);
         });
-        var response;
-        return new Promise(function (resolve, reject) {
+
+        /*let response;
+          return new Promise((resolve, reject) => {
           response = {
             status: 'success',
             data: true
-          };
-
-          // response = {
+          }
+            // response = {
           //   status: 'error',
           //   data: {},
           //   errors: [
@@ -378,12 +371,12 @@
           //     }
           //   ]
           // };
-
-          setTimeout(function () {
+            setTimeout(() => {
             resolve(response);
             // reject(response);
           }, 1000);
-        });
+        });*/
+
         return BX.ajax.runComponentAction(d.actions.sendEditForm[0], d.actions.sendEditForm[1], {
           mode: 'class',
           data: formData
@@ -555,7 +548,7 @@
       EditForm: EditForm
     },
     // language=Vue
-    template: "\n  <div class=\"twpx-dc-question-discussion\" :id=\"id\">\n\n    <LoaderCircle :show=\"loading\" />\n\n    <MessageComponent v-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n    <ModalYesNo\n      :heading=\"lang.deleteModal.heading\"\n      :text=\"lang.deleteModal.text\"\n      :yes=\"lang.deleteModal.yes\"\n      :no=\"lang.deleteModal.no\"\n      :buttons=\"{\n        yes: {\n          props: ['danger', 'large']\n        },\n        no: {\n          props: ['gray-color', 'large']\n        }\n      }\"\n      :stateWatcher=\"deleteModalStateWatcher\"\n      @clickYes=\"clickDeleteModalYes\"\n      @clickNo=\"clickDeleteModalNo\"\n    />\n\n    <ModalAnyContent :stateWatcher=\"editModalStateWatcher\">\n      <EditForm\n        :id=\"id\"\n        :h3=\"lang.editModal.heading\"\n        :heading=\"editForm.heading\"\n        :controls=\"editControls\"\n        :buttons=\"editForm.buttons\"\n        :loading=\"editLoading\"\n        :error=\"editError\"\n        @input=\"input\"\n        @clickNo=\"clickEditModalNo\"\n        @clickYes=\"clickEditModalYes\"\n      />\n    </ModalAnyContent>\n\n    <div class=\"twpx-dc-question-discussion__grid\">\n      <div class=\"twpx-dc-question-discussion__comments\" v-if=\"comments.length\">\n        <h3>{{ lang.heading }}</h3>\n        <CommentItem v-for=\"comment in comments\" :comment=\"comment\" @clickEdit=\"clickEdit\" @clickDelete=\"clickDelete\" />\n      </div>\n      <div class=\"twpx-dc-question-discussion__form\" v-if=\"form.heading && controls.length && form.button\">\n        <form action=\"\">\n          <div class=\"twpx-dc-question-discussion__form-wrapper\" v-if=\"!loading\">\n\n            <h3>{{ form.heading }}</h3>\n            <ControlChoice v-for=\"control in controls\" :key=\"control.id\" :control=\"control\" @input=\"input\"></ControlChoice>\n            <ButtonComponent :text=\"form.button\" :props=\"buttonProps\" @clickButton=\"clickButton\" />\n\n          </div>\n        </form>\n      </div>\n    </div>\n  </div>\n\t",
+    template: "\n  <div class=\"twpx-dc-question-discussion\" :id=\"id\">\n\n    <LoaderCircle :show=\"loading\" />\n\n    <MessageComponent v-if=\"!loading && error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n    <ModalYesNo\n      :heading=\"lang.deleteModal.heading\"\n      :text=\"lang.deleteModal.text\"\n      :yes=\"lang.deleteModal.yes\"\n      :no=\"lang.deleteModal.no\"\n      :buttons=\"{\n        yes: {\n          props: ['danger', 'large']\n        },\n        no: {\n          props: ['gray-color', 'large']\n        }\n      }\"\n      :stateWatcher=\"deleteModalStateWatcher\"\n      @clickYes=\"clickDeleteModalYes\"\n      @clickNo=\"clickDeleteModalNo\"\n    />\n\n    <ModalAnyContent :stateWatcher=\"editModalStateWatcher\">\n      <EditForm\n        :id=\"id\"\n        :h3=\"lang.editModal.heading\"\n        :heading=\"lang.editForm.heading\"\n        :controls=\"editControls\"\n        :buttons=\"lang.editForm.buttons\"\n        :loading=\"editLoading\"\n        :error=\"editError\"\n        @input=\"input\"\n        @clickNo=\"clickEditModalNo\"\n        @clickYes=\"clickEditModalYes\"\n      />\n    </ModalAnyContent>\n\n    <div class=\"twpx-dc-question-discussion__grid\" v-if=\"!loading\">\n      <div class=\"twpx-dc-question-discussion__comments\" v-if=\"comments.length\">\n        <h3>{{ lang.heading }}</h3>\n        <CommentItem v-for=\"comment in comments\" :comment=\"comment\" @clickEdit=\"clickEdit\" @clickDelete=\"clickDelete\" />\n      </div>\n      <div class=\"twpx-dc-question-discussion__form\" v-if=\"controls.length\">\n        <form action=\"\" :id=\"id + 'Form'\">\n          <div class=\"twpx-dc-question-discussion__form-wrapper\" v-if=\"!loading\">\n\n            <h3>{{ lang.form.heading }}</h3>\n            <ControlChoice v-for=\"control in controls\" :key=\"control.id\" :control=\"control\" @input=\"input\"></ControlChoice>\n            <ButtonComponent :text=\"lang.form.button\" :props=\"buttonProps\" :disabled=\"isDisabled\" @clickButton=\"clickButton\" />\n\n          </div>\n        </form>\n      </div>\n    </div>\n  </div>\n\t",
     computed: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'id'])), ui_vue3_pinia.mapState(formStore, ['loading', 'error', 'comments', 'form', 'deleteModalStateWatcher', 'activeCommentId'])), ui_vue3_pinia.mapState(editFormStore, ['editLoading', 'editError', 'editForm', 'editModalStateWatcher'])), ui_vue3_pinia.mapState(controlsStore, ['controls', 'editControls'])), {}, {
       buttonProps: function buttonProps() {
         var result = new Set();
@@ -570,9 +563,20 @@
           });
         }
         return babelHelpers.toConsumableArray(result);
+      },
+      isDisabled: function isDisabled() {
+        if (this.controls && this.controls.length) {
+          var _this$controls;
+          var textarea = (_this$controls = this.controls) === null || _this$controls === void 0 ? void 0 : _this$controls.find(function (c) {
+            return c.property === 'textarea';
+          });
+          return !textarea.value;
+        } else {
+          return true;
+        }
       }
     }),
-    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(formStore, ['runGetComments', 'runGetForm', 'runSendForm', 'runGetEditForm', 'runSendEditForm', 'runDeleteComment', 'changeDeleteModalStateWatcher', 'changeComments', 'changeForm', 'changeEditForm', 'changeLoading', 'changeError', 'changeActiveCommentId'])), ui_vue3_pinia.mapActions(editFormStore, ['runGetEditForm', 'runSendEditForm', 'changeEditModalStateWatcher', 'changeEditForm', 'changeEditLoading', 'changeEditError'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControls', 'changeEditControls', 'changeControlValue', 'runHints', 'setHints'])), {}, {
+    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(formStore, ['runGetComments', 'runGetForm', 'runSendForm', 'runDeleteComment', 'changeDeleteModalStateWatcher', 'changeComments', 'changeForm', 'changeLoading', 'changeError', 'changeActiveCommentId'])), ui_vue3_pinia.mapActions(editFormStore, ['runGetEditForm', 'runSendEditForm', 'changeEditModalStateWatcher', 'changeEditLoading', 'changeEditError'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControls', 'changeEditControls', 'changeControlValue', 'runHints', 'setHints'])), {}, {
       clickEditModalNo: function clickEditModalNo() {
         this.changeEditModalStateWatcher();
         this.changeEditLoading(false);
@@ -621,7 +625,6 @@
         this.runGetEditForm(commentId).then(function (response) {
           _this3.changeEditLoading(false);
           _this3.changeEditError('');
-          _this3.changeEditForm(response.data);
           _this3.changeEditControls(response.data.controls);
         }, function (response) {
           _this3.changeEditLoading(false);
@@ -650,8 +653,8 @@
       clickButton: function clickButton() {
         var _this4 = this;
         formStore().runSendForm().then(function (response) {
-          _this4.changeLoading(false);
-          _this4.changeError('');
+          // this.changeLoading(false);
+          // this.changeError('');
           window.location.href = response.data.redirect;
         }, function (response) {
           _this4.changeLoading(false);
@@ -664,7 +667,15 @@
       this.runGetComments().then(function (response) {
         _this5.changeLoading(false);
         _this5.changeError('');
-        _this5.changeComments(response.data.comments);
+        _this5.changeComments(response.data.comments || []);
+        _this5.runGetEditForm(_this5.comments[0].id).then(function (response) {
+          _this5.changeEditLoading(false);
+          _this5.changeEditError('');
+          _this5.changeEditControls(response.data.controls);
+        }, function (response) {
+          _this5.changeEditLoading(false);
+          _this5.changeEditError(response.errors[0].message);
+        });
       }, function (response) {
         _this5.changeLoading(false);
         _this5.changeError(response.errors[0].message);
@@ -672,8 +683,7 @@
       this.runGetForm().then(function (response) {
         _this5.changeLoading(false);
         _this5.changeError('');
-        _this5.changeForm(response.data);
-        _this5.changeControls(response.data.controls);
+        _this5.changeControls(response.data.controls || []);
       }, function (response) {
         _this5.changeLoading(false);
         _this5.changeError(response.errors[0].message);
@@ -740,5 +750,5 @@
 
   exports.DisciplinaryQuestionDiscussion = DisciplinaryQuestionDiscussion;
 
-}((this.BX = this.BX || {}),BX,BX.Modals,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Modals,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

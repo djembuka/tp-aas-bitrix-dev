@@ -252,7 +252,7 @@
   var resultStore = ui_vue3_pinia.defineStore('result', {
     state: function state() {
       return {
-        formIdArray: ['d4312f16-c2b4-45a4-b280-f85e62dd61a8', 'd4312f16-c2b4-45a4-b280-f85e62dd61a8', 'd4312f16-c2b4-45a4-b280-f85e62dd61a8', 'd4312f16-c2b4-45a4-b280-f85e62dd61a8'],
+        formIdArray: [],
         formDataArray: [],
         startIndex: 0,
         maxCountPerRequest: 3,
@@ -328,31 +328,42 @@
 
   var StepComponent = {
     props: ['step'],
-    emits: ['input'],
+    emits: ['input', 'hints'],
     components: {
       ControlComponent: local_vueComponents_controlComponent.ControlComponent
     },
-    template: "\n        <div class=\"twpx-vue-marketplace-application-html\" v-if=\"step.title || step.subtitle\">\n            <h3 v-if=\"step.title\">{{ step.title }}</h3>\n            <p v-if=\"step.subtitle\">{{ step.subtitle }}</p>\n        </div>\n\n        <div class=\"twpx-vue-marketplace-application-controls\">\n            <ControlComponent v-for=\"control in step.controls\" :key=\"control.id\" :control=\"control\" @input=\"input\" />\n        </div>\n    ",
+    template: "\n        <div class=\"twpx-vue-marketplace-application-html\" v-if=\"step.title || step.subtitle\">\n            <h3 v-if=\"step.title\">{{ step.title }}</h3>\n            <p v-if=\"step.subtitle\">{{ step.subtitle }}</p>\n        </div>\n\n        <div class=\"twpx-vue-marketplace-application-controls\">\n            <ControlComponent v-for=\"control in step.controls\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n        </div>\n    ",
     methods: {
       input: function input(args) {
         this.$emit('input', args);
+      },
+      hints: function hints(args) {
+        console.log(args);
+        this.$emit('hints', args);
       }
     }
   };
 
   var TheButtons = {
-    props: ['groups', 'lang'],
+    props: ['groups', 'step', 'lang'],
     emits: ['send'],
     components: {
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
-    template: "\n        <div class=\"twpx-vue-marketplace-buttons\">\n            <ButtonComponent :text=\"lang.prevButton\" :props=\"['gray-color','large']\" @clickButton=\"goBack\" v-if=\"currentIndex > 0\" />\n            <ButtonComponent :text=\"lang.nextButton\" :props=\"['secondary','large']\" @clickButton=\"goForward\" v-if=\"currentIndex < groups.length - 1\" />\n            <ButtonComponent :text=\"lang.sendButton\" :props=\"['secondary','large']\" @clickButton=\"$emit('send')\" v-if=\"currentIndex == groups.length - 1\" />\n        </div>\n    ",
+    template: "\n        <div class=\"twpx-vue-marketplace-buttons\">\n            <ButtonComponent :text=\"lang.prevButton\" :props=\"['gray-color','large']\" @clickButton=\"goBack\" v-if=\"currentIndex > 0\" />\n            <ButtonComponent :text=\"lang.nextButton\" :props=\"['secondary','large']\" :disabled=\"isDisabled\" @clickButton=\"goForward\" v-if=\"currentIndex < groups.length - 1\" />\n            <ButtonComponent :text=\"lang.sendButton\" :props=\"['secondary','large']\" :disabled=\"isDisabled\" @clickButton=\"$emit('send')\" v-if=\"currentIndex == groups.length - 1\" />\n        </div>\n    ",
     computed: {
       currentIndex: function currentIndex() {
         var _this = this;
         return this.$route.params.id ? this.groups.findIndex(function (s) {
           return String(s.id) === String(_this.$route.params.id);
         }) : 0;
+      },
+      isDisabled: function isDisabled() {
+        if (this.step.controls && this.step.controls.find) {
+          return this.step.controls.find(function (c) {
+            return c.required && !c.value;
+          });
+        }
       }
     },
     methods: {
@@ -385,7 +396,12 @@
         step.active = active;
       },
       changeApplicationControls: function changeApplicationControls(controls) {
-        this.applicationControls = controls;
+        this.applicationControls = controls.map(function (c) {
+          if (c.required) {
+            c.label = "".concat(c.label, " *");
+          }
+          return c;
+        });
       },
       changeApplicationGroups: function changeApplicationGroups(groups) {
         this.applicationGroups = groups;
@@ -485,38 +501,41 @@
           //   break;
         }
       },
-      runHints: function runHints(control, action) {
+      runHintsAction: function runHintsAction(_ref8) {
         var _this = this;
         return babelHelpers.asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-          var controller, timeoutId, response, result, _result$errors$;
+          var control, action, url, controller, timeoutId, response, result, _result$errors$;
           return _regeneratorRuntime().wrap(function _callee$(_context) {
             while (1) switch (_context.prev = _context.next) {
               case 0:
-                _context.prev = 0;
+                control = _ref8.control, action = _ref8.action;
+                url = new URL(action, window.location.origin);
+                url.searchParams.append('s', control.value);
+                _context.prev = 3;
                 // Создаем AbortController для возможности отмены запроса
                 controller = new AbortController();
                 timeoutId = setTimeout(function () {
                   return controller.abort();
                 }, 20000); // 20 секунд таймаут
-                _context.next = 5;
-                return fetch(action, {
+                _context.next = 8;
+                return fetch(url, {
                   signal: controller.signal,
                   headers: {
                     'Content-Type': 'application/json'
                   }
                 });
-              case 5:
+              case 8:
                 response = _context.sent;
                 clearTimeout(timeoutId);
                 if (response.ok) {
-                  _context.next = 9;
+                  _context.next = 12;
                   break;
                 }
                 throw new Error("HTTP error! status: ".concat(response.status));
-              case 9:
-                _context.next = 11;
+              case 12:
+                _context.next = 14;
                 return response.json();
-              case 11:
+              case 14:
                 result = _context.sent;
                 if (result.status === 'success' && result.data) {
                   _this.setHints(control, result.data);
@@ -525,17 +544,17 @@
                 } else {
                   _this.error = 'Invalid response format';
                 }
-                _context.next = 18;
+                _context.next = 21;
                 break;
-              case 15:
-                _context.prev = 15;
-                _context.t0 = _context["catch"](0);
-                _this.error = _context.t0 === null || _context.t0 === void 0 ? void 0 : _context.t0.message;
               case 18:
+                _context.prev = 18;
+                _context.t0 = _context["catch"](3);
+                _this.error = _context.t0 === null || _context.t0 === void 0 ? void 0 : _context.t0.message;
+              case 21:
               case "end":
                 return _context.stop();
             }
-          }, _callee, null, [[0, 15]]);
+          }, _callee, null, [[3, 18]]);
         }))();
       },
       setHints: function setHints(control, value) {
@@ -554,7 +573,7 @@
       MessageComponent: local_vueComponents_messageComponent.MessageComponent,
       LoaderCircle: local_vueComponents_loaderCircle.LoaderCircle
     },
-    template: "\n        <div class=\"twpx-vue-marketplace-application\">\n\n            <LoaderCircle :show=\"loading\" />\n\n            <MessageComponent type=\"error\" size=\"big\" :message=\"error\" v-if=\"!loading && error\" />\n\n            <div v-if=\"!loading\" class=\"twpx-vue-marketplace-application__content\">\n\n                <h2>{{ lang.application.heading }}</h2>\n\n                <TheNavigation :groups=\"applicationGroups\" @clickNavItem=\"clickNavItem\" />\n\n                <StepComponent :step=\"step\" @input=\"input\" />\n\n                <TheButtons :groups=\"applicationGroups\" :lang=\"lang.application\" @send=\"send\" />\n\n            </div>\n\n        </div>\n    ",
+    template: "\n        <div class=\"twpx-vue-marketplace-application\">\n\n            <LoaderCircle :show=\"loading\" />\n\n            <MessageComponent type=\"error\" size=\"big\" :message=\"error\" v-if=\"!loading && error\" />\n\n            <div v-if=\"!loading\" class=\"twpx-vue-marketplace-application__content\">\n\n                <h2>{{ lang.application.heading }}</h2>\n\n                <TheNavigation :groups=\"applicationGroups\" @clickNavItem=\"clickNavItem\" />\n\n                <StepComponent :step=\"step\" @input=\"input\" @hints=\"hints\" />\n\n                <TheButtons :groups=\"applicationGroups\" :step=\"step\" :lang=\"lang.application\" @send=\"send\" />\n\n            </div>\n\n        </div>\n    ",
     computed: _objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'steps', 'error', 'loading'])), ui_vue3_pinia.mapState(applicationStore, ['applicationControls', 'applicationGroups'])), {}, {
       step: function step() {
         var groupId = this.$route.params.id || (this.applicationGroups.length ? this.applicationGroups[0].id : undefined);
@@ -572,7 +591,7 @@
         } : {};
       }
     }),
-    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['runApiMethod', 'changeError', 'changeLoading', 'createUrl'])), ui_vue3_pinia.mapActions(applicationStore, ['changeApplicationControls', 'changeApplicationGroups'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControlValue'])), ui_vue3_pinia.mapActions(resultStore, ['setFormTemplate', 'setFormDataArray'])), {}, {
+    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['runApiMethod', 'changeError', 'changeLoading', 'createUrl'])), ui_vue3_pinia.mapActions(applicationStore, ['changeApplicationControls', 'changeApplicationGroups'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControlValue', 'runHintsAction', 'setHints'])), ui_vue3_pinia.mapActions(resultStore, ['setFormTemplate', 'setFormDataArray'])), {}, {
       clickNavItem: function clickNavItem(_ref) {
         var group = _ref.group;
         this.$router.push("/step/".concat(group.id));
@@ -603,9 +622,7 @@
         }, function (r) {
           _this.showError(r, 'applicationSave');
         }).then(function (response) {
-          // this.setFormIdArray(response.data);
-          _this.setFormIdArray(['d4312f16-c2b4-45a4-b280-f85e62dd61a8', 'd4312f16-c2b4-45a4-b280-f85e62dd61a8', 'd4312f16-c2b4-45a4-b280-f85e62dd61a8', 'd4312f16-c2b4-45a4-b280-f85e62dd61a8']); //!!!!!убрать когда будет готов метод
-
+          _this.setFormIdArray(response.data);
           _this.createUrl(_this.applicationControls);
           _this.$router.push("/result");
         }, function (r) {
@@ -614,6 +631,26 @@
       },
       input: function input(args) {
         this.changeControlValue(args);
+      },
+      hints: function hints(_ref2) {
+        var type = _ref2.type,
+          control = _ref2.control,
+          action = _ref2.action,
+          value = _ref2.value;
+        switch (type) {
+          case 'get':
+            this.runHintsAction({
+              control: control,
+              action: action
+            });
+            break;
+          case 'set':
+            this.setHints({
+              control: control,
+              value: value
+            });
+            break;
+        }
       }
     }),
     mounted: function mounted() {
@@ -622,7 +659,6 @@
       this.changeError('');
       this.runApiMethod('applicationGroups').then(function (response) {
         _this2.changeApplicationGroups(response.data);
-        console.log(_this2.applicationGroups);
         return _this2.runApiMethod('applicationTemplate');
       }, function (r) {
         _this2.showError(r, 'applicationGroups');
@@ -630,7 +666,6 @@
         _this2.changeLoading(false);
         _this2.changeError('');
         _this2.changeApplicationControls(response.data);
-        console.log(_this2.applicationControls);
       }, function (r) {
         _this2.showError(r, 'applicationTemplate');
       });

@@ -6,7 +6,7 @@ export const controlsStore = defineStore('controls', {
   }),
   actions: {
     changeControls(controls) {
-      this.controls = controls;
+        this.controls = controls;
     },
     changeTextControlValue({ control, value }) {
         control.value = value;
@@ -63,13 +63,16 @@ export const controlsStore = defineStore('controls', {
         //   break;
         }
     },
-    async runHints(control, action) {
+    async runHintsAction({control, action}) {
+        const url = new URL(action, window.location.origin);
+        url.searchParams.append('s', control.value);
+
         try {
         // Создаем AbortController для возможности отмены запроса
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 секунд таймаут
 
-        const response = await fetch(action, {
+        const response = await fetch(url, {
             signal: controller.signal,
             headers: {
             'Content-Type': 'application/json',
@@ -92,7 +95,7 @@ export const controlsStore = defineStore('controls', {
             this.error = 'Invalid response format';
         }
         } catch (error) {
-        this.error = error?.message
+            this.error = error?.message
         }
     },
     setHints(control, value) {

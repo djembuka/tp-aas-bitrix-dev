@@ -32,9 +32,9 @@ export const Step = {
 
                 <TheNavigation :groups="applicationGroups" @clickNavItem="clickNavItem" />
 
-                <StepComponent :step="step" @input="input" />
+                <StepComponent :step="step" @input="input" @hints="hints" />
 
-                <TheButtons :groups="applicationGroups" :lang="lang.application" @send="send" />
+                <TheButtons :groups="applicationGroups" :step="step" :lang="lang.application" @send="send" />
 
             </div>
 
@@ -78,7 +78,9 @@ export const Step = {
             'changeApplicationGroups'
         ]),
         ...mapActions(controlsStore, [
-            'changeControlValue'
+            'changeControlValue',
+            'runHintsAction',
+            'setHints'
         ]),
         ...mapActions(resultStore, [
             'setFormTemplate',
@@ -113,13 +115,7 @@ export const Step = {
                 )
                 .then(
                     (response) => {
-                        // this.setFormIdArray(response.data);
-                        this.setFormIdArray([
-                            'd4312f16-c2b4-45a4-b280-f85e62dd61a8',
-                            'd4312f16-c2b4-45a4-b280-f85e62dd61a8',
-                            'd4312f16-c2b4-45a4-b280-f85e62dd61a8',
-                            'd4312f16-c2b4-45a4-b280-f85e62dd61a8'
-                        ]);//!!!!!убрать когда будет готов метод
+                        this.setFormIdArray(response.data);
 
                         this.createUrl(this.applicationControls);
                         this.$router.push(`/result`);
@@ -130,6 +126,22 @@ export const Step = {
         input(args) {
             this.changeControlValue(args)
         },
+        hints({ type, control, action, value }) {
+            switch (type) {
+                case 'get':
+                    this.runHintsAction({
+                        control,
+                        action,
+                    });
+                    break;
+                case 'set':
+                    this.setHints({
+                        control,
+                        value,
+                    });
+                    break;
+            }
+        },
     },
     mounted() {
         this.changeLoading(true);
@@ -139,7 +151,6 @@ export const Step = {
             .then(
                 (response) => {
                     this.changeApplicationGroups(response.data);
-                    console.log(this.applicationGroups);
 
                     return this.runApiMethod('applicationTemplate');
                 },
@@ -150,7 +161,6 @@ export const Step = {
                     this.changeLoading(false);
                     this.changeError('');
                     this.changeApplicationControls(response.data);
-                    console.log(this.applicationControls);
                 },
                 (r) => {this.showError(r, 'applicationTemplate')}
             );

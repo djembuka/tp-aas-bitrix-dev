@@ -10,7 +10,12 @@ export const applicationStore = defineStore('application', {
             step.active = active;
         },
         changeApplicationControls(controls) {
-            this.applicationControls = controls;
+            this.applicationControls = controls.map(c => {
+                if (c.required) {
+                    c.label = `${c.label} *`;
+                }
+                return c;
+            });
         },
         changeApplicationGroups(groups) {
             this.applicationGroups = groups;

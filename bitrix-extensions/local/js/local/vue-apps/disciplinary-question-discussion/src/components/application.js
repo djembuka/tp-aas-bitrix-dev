@@ -36,7 +36,7 @@ export const Application = {
 
     <LoaderCircle :show="loading" />
 
-    <MessageComponent v-if="error" type="error" size="big" :message="error" />
+    <MessageComponent v-if="!loading && error" type="error" size="big" :message="error" />
 
     <ModalYesNo
       :heading="lang.deleteModal.heading"
@@ -60,9 +60,9 @@ export const Application = {
       <EditForm
         :id="id"
         :h3="lang.editModal.heading"
-        :heading="editForm.heading"
+        :heading="lang.editForm.heading"
         :controls="editControls"
-        :buttons="editForm.buttons"
+        :buttons="lang.editForm.buttons"
         :loading="editLoading"
         :error="editError"
         @input="input"
@@ -71,18 +71,18 @@ export const Application = {
       />
     </ModalAnyContent>
 
-    <div class="twpx-dc-question-discussion__grid">
+    <div class="twpx-dc-question-discussion__grid" v-if="!loading">
       <div class="twpx-dc-question-discussion__comments" v-if="comments.length">
         <h3>{{ lang.heading }}</h3>
         <CommentItem v-for="comment in comments" :comment="comment" @clickEdit="clickEdit" @clickDelete="clickDelete" />
       </div>
-      <div class="twpx-dc-question-discussion__form" v-if="form.heading && controls.length && form.button">
-        <form action="">
+      <div class="twpx-dc-question-discussion__form" v-if="controls.length">
+        <form action="" :id="id + 'Form'">
           <div class="twpx-dc-question-discussion__form-wrapper" v-if="!loading">
 
-            <h3>{{ form.heading }}</h3>
+            <h3>{{ lang.form.heading }}</h3>
             <ControlChoice v-for="control in controls" :key="control.id" :control="control" @input="input"></ControlChoice>
-            <ButtonComponent :text="form.button" :props="buttonProps" @clickButton="clickButton" />
+            <ButtonComponent :text="lang.form.button" :props="buttonProps" :disabled="isDisabled" @clickButton="clickButton" />
 
           </div>
         </form>
@@ -124,6 +124,14 @@ export const Application = {
         })
       }
       return [...result];
+    },
+    isDisabled() {
+      if (this.controls && this.controls.length) {
+        const textarea = this.controls?.find(c => c.property === 'textarea');
+        return !textarea.value;
+      } else {
+        return true;
+      }
     }
   },
   methods: {
@@ -131,13 +139,10 @@ export const Application = {
       'runGetComments',
       'runGetForm',
       'runSendForm',
-      'runGetEditForm',
-      'runSendEditForm',
       'runDeleteComment',
       'changeDeleteModalStateWatcher',
       'changeComments',
       'changeForm',
-      'changeEditForm',
       'changeLoading',
       'changeError',
       'changeActiveCommentId'
@@ -146,7 +151,6 @@ export const Application = {
       'runGetEditForm',
       'runSendEditForm',
       'changeEditModalStateWatcher',
-      'changeEditForm',
       'changeEditLoading',
       'changeEditError',
     ]),
@@ -220,7 +224,6 @@ export const Application = {
           (response) => {
             this.changeEditLoading(false);
             this.changeEditError('');
-            this.changeEditForm(response.data);
             this.changeEditControls(response.data.controls);
 
           },
@@ -248,8 +251,8 @@ export const Application = {
       formStore().runSendForm()
         .then(
           (response) => {
-            this.changeLoading(false);
-            this.changeError('');
+            // this.changeLoading(false);
+            // this.changeError('');
             window.location.href = response.data.redirect;
           },
           (response) => {
@@ -264,7 +267,22 @@ export const Application = {
         (response) => {
           this.changeLoading(false);
           this.changeError('');
-          this.changeComments(response.data.comments);
+          this.changeComments(response.data.comments || []);
+
+          
+
+        this.runGetEditForm(this.comments[0].id)
+        .then(
+          (response) => {
+            this.changeEditLoading(false);
+            this.changeEditError('');
+            this.changeEditControls(response.data.controls);
+
+          },
+          (response) => {
+            this.changeEditLoading(false);
+            this.changeEditError(response.errors[0].message);
+          });
         },
         (response) => {
           this.changeLoading(false);
@@ -277,8 +295,7 @@ export const Application = {
         (response) => {
           this.changeLoading(false);
           this.changeError('');
-          this.changeForm(response.data);
-          this.changeControls(response.data.controls);
+          this.changeControls(response.data.controls || []);
         },
         (response) => {
           this.changeLoading(false);

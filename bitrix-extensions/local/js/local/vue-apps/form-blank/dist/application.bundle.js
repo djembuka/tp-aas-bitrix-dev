@@ -99,35 +99,37 @@
       runHints: function runHints(control, action) {
         var _this = this;
         return babelHelpers.asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-          var controller, timeoutId, response, result, _result$errors$;
+          var url, controller, timeoutId, response, result, _result$errors$;
           return _regeneratorRuntime().wrap(function _callee$(_context) {
             while (1) switch (_context.prev = _context.next) {
               case 0:
-                _context.prev = 0;
+                url = new URL(action, window.location.origin);
+                url.searchParams.append('s', control.value);
+                _context.prev = 2;
                 // Создаем AbortController для возможности отмены запроса
                 controller = new AbortController();
                 timeoutId = setTimeout(function () {
                   return controller.abort();
                 }, 20000); // 20 секунд таймаут
-                _context.next = 5;
-                return fetch(action, {
+                _context.next = 7;
+                return fetch(url, {
                   signal: controller.signal,
                   headers: {
                     'Content-Type': 'application/json'
                   }
                 });
-              case 5:
+              case 7:
                 response = _context.sent;
                 clearTimeout(timeoutId);
                 if (response.ok) {
-                  _context.next = 9;
+                  _context.next = 11;
                   break;
                 }
                 throw new Error("HTTP error! status: ".concat(response.status));
-              case 9:
-                _context.next = 11;
-                return response.json();
               case 11:
+                _context.next = 13;
+                return response.json();
+              case 13:
                 result = _context.sent;
                 if (result.status === 'success' && result.data) {
                   _this.setHints(control, result.data);
@@ -136,17 +138,17 @@
                 } else {
                   _this.error = 'Invalid response format';
                 }
-                _context.next = 18;
+                _context.next = 20;
                 break;
-              case 15:
-                _context.prev = 15;
-                _context.t0 = _context["catch"](0);
+              case 17:
+                _context.prev = 17;
+                _context.t0 = _context["catch"](2);
                 _this.error = _context.t0 === null || _context.t0 === void 0 ? void 0 : _context.t0.message;
-              case 18:
+              case 20:
               case "end":
                 return _context.stop();
             }
-          }, _callee, null, [[0, 15]]);
+          }, _callee, null, [[2, 17]]);
         }))();
       },
       setHints: function setHints(control, value) {

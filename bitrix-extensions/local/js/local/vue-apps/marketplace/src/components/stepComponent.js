@@ -2,7 +2,7 @@ import { ControlComponent } from 'local.vue-components.control-component';
 
 export const StepComponent = {
     props: ['step'],
-    emits: ['input'],
+    emits: ['input', 'hints'],
     components: {
         ControlComponent
     },
@@ -13,12 +13,16 @@ export const StepComponent = {
         </div>
 
         <div class="twpx-vue-marketplace-application-controls">
-            <ControlComponent v-for="control in step.controls" :key="control.id" :control="control" @input="input" />
+            <ControlComponent v-for="control in step.controls" :key="control.id" :control="control" @input="input" @hints="hints" />
         </div>
     `,
     methods: {
         input(args) {
             this.$emit('input', args);
+        },
+        hints(args) {
+            console.log(args)
+            this.$emit('hints', args);
         }
     }
 };

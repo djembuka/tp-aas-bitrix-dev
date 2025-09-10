@@ -10,11 +10,12 @@ $APPLICATION->SetTitle("Marketplace Bitrix Vue");
 <script>
 (() => {
 	const marketplace = new BX.Marketplace('#Marketplace', {
-		"data": {
-			"userid": 20039,
-			"sessid": BX.bitrix_sessid(),
+		data: {
+			userid: 20039,
+			sessid: BX.bitrix_sessid(),
 		},
-		"signedParameters": "",
+		signedParameters: "",
+		maxCountPerRequest: 3,
 		actions: {
 			applicationTemplate: ['twinpx:marketplace.applications', 'applicationTemplate'],
 			applicationData: ['twinpx:marketplace.applications', 'applicationData'],

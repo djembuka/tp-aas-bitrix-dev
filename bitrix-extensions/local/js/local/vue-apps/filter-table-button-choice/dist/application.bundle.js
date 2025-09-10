@@ -425,12 +425,13 @@
           signedParameters: this.signedParameters
         }, function () {
           _this2.changeLoadingItems(true);
-          _this2.changeStartIndex(_this2.paginationMode ? _this2.items.startIndex || 0 : 0);
+          var maxCountPerRequest = _this2.startIndex + _this2.maxCountPerRequest;
+          var startIndex = _this2.paginationMode ? _this2.items.startIndex || 0 : 0;
           _this2.runItems({
             mode: 'class',
             data: _objectSpread$1({
-              startIndex: _this2.startIndex,
-              maxCountPerRequest: _this2.maxCountPerRequest,
+              startIndex: startIndex,
+              maxCountPerRequest: maxCountPerRequest,
               filters: _this2.filters,
               columnSort: column.id,
               sortType: sortType
@@ -440,7 +441,6 @@
             _this2.changeLoadingItems(false);
             _this2.changeItems(result.data);
             _this2.changeShowMore(Number(_this2.items.items.length) >= Number(_this2.items.resultCount) ? false : true);
-            _this2.setQueryParam('ITEMS_NUM');
           }, function (error) {
             _this2.changeLoadingItems(false);
             _this2.showErrorTable({
@@ -656,4 +656,5 @@
 
   exports.FilterTableButtonChoice = FilterTableButtonChoice;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX));
+//# sourceMappingURL=application.bundle.js.map

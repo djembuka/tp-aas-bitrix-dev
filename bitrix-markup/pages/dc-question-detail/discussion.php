@@ -31,6 +31,17 @@ $APPLICATION->SetTitle("Обсуждение - Вопрос дисциплина
 	  },
 	  lang: {
 		  heading: 'Обсуждение',
+		  form: {
+			  heading: 'Написать комментарий',
+			  button: 'Отправить'
+		  },
+		  editForm: {
+			  heading: 'Комментарий',
+			  buttons: [
+				  'Отменить',
+				  'Сохранить'
+			  ]
+		  },
 		  deleteModal: {
 			  heading: 'Вы удаляете комменатрий',
 			  text: 'Вы хотите удалить комментарий?',
@@ -42,9 +53,12 @@ $APPLICATION->SetTitle("Обсуждение - Вопрос дисциплина
 		  },
 	  },
 	  actions: {
-		  getComments: ['twpx:getComments', 'getComments'],
-		  getForm: ['twpx:getForm', 'getForm'],
-		  sendForm: ['twpx:sendForm', 'sendForm'],
+		  getComments: ['twinpx:disciplinar.discussion', 'getComments'],
+		  getForm: ['twinpx:disciplinar.discussion', 'getForm'],
+		  sendForm: ['twinpx:disciplinar.discussion', 'sendForm'],
+		  deleteComment: ['twinpx:disciplinar.discussion', 'deleteComment'],
+		  getEditForm: ['twinpx:disciplinar.discussion', 'getEditForm'],
+		  sendEditForm: ['twinpx:disciplinar.discussion', 'sendEditForm'],
 	  }
 	});
 	questionDiscussion.run();
