@@ -22,6 +22,7 @@ return [
 		'local.vue-components.control-hint',
 		'local.vue-components.control-select-dropdown',
 		'local.vue-components.control-select-radio',
+		'local.vue-components.control-select-checkbox',
 		'local.vue-components.control-datepicker',
 		'local.vue-components.control-date-single',
 		'local.vue-components.control-date-range',

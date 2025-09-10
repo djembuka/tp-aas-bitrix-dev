@@ -48,7 +48,7 @@ export const ControlSelectDropdown = {
           class="twpx-form-control-select__content"
           @click.prevent="openHideDropdown"
         >
-          {{ text }}
+          <span>{{ text }}</span>
         </div>
         <div class="twpx-form-control-select__dropdown">
           <div
@@ -80,22 +80,26 @@ export const ControlSelectDropdown = {
 
         // dependency
         if (this.control.dependent_id) {
-          const dependentSelect = document.querySelector(`[data-id="twpxControl${this.control.dependent_id}"]`);
-          const option = this.control.options.find(o => o.code === value);
+          const dependentSelect = document.querySelector(
+            `[data-id="twpxControl${this.control.dependent_id}"]`
+          );
+          const option = this.control.options.find((o) => o.code === value);
 
           if (dependentSelect) {
             const event = new CustomEvent('twpxFilterOptionsSelectEvent', {
               detail: {
-                options: option.dependent_options
-              }
-            })
+                options: option.dependent_options,
+              },
+            });
             dependentSelect.dispatchEvent(event);
           }
         }
       },
     },
     text() {
-      let option = this.control.options.find((c) => String(c.code) === String(this.value));
+      let option = this.control.options.find(
+        (c) => String(c.code) === String(this.value)
+      );
       if (option) {
         return option.label;
       }
@@ -130,9 +134,13 @@ export const ControlSelectDropdown = {
     openDropdown() {
       const closeSelectEvent = new Event('twpxCloseSelectEvent');
 
-      document.querySelectorAll('.twpx-form-control--select.twpx-form-control--opened').forEach(s => {
-        s.dispatchEvent(closeSelectEvent);
-      })
+      document
+        .querySelectorAll(
+          '.twpx-form-control--select.twpx-form-control--opened'
+        )
+        .forEach((s) => {
+          s.dispatchEvent(closeSelectEvent);
+        });
 
       this.opened = true;
       this.$emit('focus');
@@ -179,22 +187,28 @@ export const ControlSelectDropdown = {
     },
     filterOptions(options) {
       // options
-      this.control.options.forEach(o => {
-        o.hidden = options.find(elem => String(o.code) === String(elem)) ? false : true;
+      this.control.options.forEach((o) => {
+        o.hidden = options.find((elem) => String(o.code) === String(elem))
+          ? false
+          : true;
       });
 
       // value
-      if (this.control.options.find(o => !o.hidden && String(o.code) === String(this.value))) {
+      if (
+        this.control.options.find(
+          (o) => !o.hidden && String(o.code) === String(this.value)
+        )
+      ) {
         return;
       }
-      
+
       if (String(this.value).trim() !== '') {
-        const firstVisibleOption = this.control.options.find(o => !o.hidden);
+        const firstVisibleOption = this.control.options.find((o) => !o.hidden);
         if (firstVisibleOption) {
           this.value = firstVisibleOption.code;
         }
       }
-    }
+    },
   },
   beforeMount() {
     document.addEventListener('click', (e) => {
@@ -209,12 +223,15 @@ export const ControlSelectDropdown = {
   mounted() {
     // close when open another twpx select
     this.$refs.twpxSelect.addEventListener('twpxCloseSelectEvent', () => {
-      this.hideDropdown(true);// true => quickly
+      this.hideDropdown(true); // true => quickly
     });
 
     // filter options if dependent
-    this.$refs.twpxSelect.addEventListener('twpxFilterOptionsSelectEvent', (event) => {
-      this.filterOptions(event.detail.options);
-    });
-  }
+    this.$refs.twpxSelect.addEventListener(
+      'twpxFilterOptionsSelectEvent',
+      (event) => {
+        this.filterOptions(event.detail.options);
+      }
+    );
+  },
 };

@@ -10,6 +10,7 @@ import { ControlEmail } from 'local.vue-components.control-email';
 import { ControlHint } from 'local.vue-components.control-hint';
 import { ControlSelectDropdown } from 'local.vue-components.control-select-dropdown';
 import { ControlSelectRadio } from 'local.vue-components.control-select-radio';
+import { ControlSelectCheckbox } from 'local.vue-components.control-select-checkbox';
 import { ControlDatepicker } from 'local.vue-components.control-datepicker';
 import { ControlDateSingle } from 'local.vue-components.control-date-single';
 import { ControlDateRange } from 'local.vue-components.control-date-range';
@@ -43,6 +44,7 @@ export const ControlComponent = {
     ControlHint,
     ControlSelectDropdown,
     ControlSelectRadio,
+    ControlSelectCheckbox,
     ControlDatepicker,
     ControlDateSingle,
     ControlDateRange,
@@ -53,7 +55,7 @@ export const ControlComponent = {
     ControlCheckboxCheckbox,
     ControlCheckboxSwitch,
     ControlCheckboxBlock,
-    ControlNum
+    ControlNum,
   },
   props: ['control', 'name', 'id'],
   // language=Vue

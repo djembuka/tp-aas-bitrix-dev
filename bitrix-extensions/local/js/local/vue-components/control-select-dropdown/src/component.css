@@ -152,12 +152,15 @@
   outline: none !important;
   box-shadow: none !important;
   box-sizing: border-box !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   user-select: none;
   position: relative;
   z-index: 1;
+}
+.twpx-form-control-select__content span {
+  pointer-events: none;
+  overflow: hidden;
+  display: block;
+  height: 24px;
 }
 .twpx-form-control-select:hover .twpx-form-control-select__content,
 .twpx-form-control--select.twpx-form-control--opened
