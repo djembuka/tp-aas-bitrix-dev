@@ -42,7 +42,7 @@
           url.searchParams["delete"]('tab');
         }
 
-        // РћР±РЅРѕРІР»СЏРµРј URL
+        // Обновляем URL
         window.history.replaceState({}, '', url.toString());
       }
     }
@@ -352,11 +352,11 @@
             while (1) switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                // РЎРѕР·РґР°РµРј AbortController РґР»СЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РѕС‚РјРµРЅС‹ Р·Р°РїСЂРѕСЃР°
+                // Создаем AbortController для возможности отмены запроса
                 controller = new AbortController();
                 timeoutId = setTimeout(function () {
                   return controller.abort();
-                }, 20000); // 20 СЃРµРєСѓРЅРґ С‚Р°Р№РјР°СѓС‚
+                }, 20000); // 20 секунд таймаут
                 _context.next = 5;
                 return fetch(action, {
                   signal: controller.signal,
@@ -509,19 +509,19 @@
           name: 'STATUS',
           label: 'Status',
           options: [{
-            label: 'Р‘СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 1, 2, 3',
+            label: 'Будут выбраны 1, 2, 3',
             code: '23423423423',
             dependent_options: ['1', '2', '3']
           }, {
-            label: 'Р‘СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 2, 3, 4',
+            label: 'Будут выбраны 2, 3, 4',
             code: '324234324',
             dependent_options: ['2', '3', '4']
           }, {
-            label: 'Р‘СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 3, 4, 5',
+            label: 'Будут выбраны 3, 4, 5',
             code: '324234325',
             dependent_options: ['3', '4', '5']
           }, {
-            label: 'Р‘СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 4, 5, 6',
+            label: 'Будут выбраны 4, 5, 6',
             code: '123',
             dependent_options: ['4', '5', '6']
           }],
@@ -535,27 +535,27 @@
           name: 'STATUS',
           label: 'Status',
           options: [{
-            label: 'РџСѓРЅРєС‚ 1, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 7, 9',
+            label: 'Пункт 1, будут выбраны 7, 9',
             code: '1',
             dependent_options: ['7', '9']
           }, {
-            label: 'РџСѓРЅРєС‚ 2, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 8, 10',
+            label: 'Пункт 2, будут выбраны 8, 10',
             code: '2',
             dependent_options: ['8', '10']
           }, {
-            label: 'РџСѓРЅРєС‚ 3, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 9, 11',
+            label: 'Пункт 3, будут выбраны 9, 11',
             code: '3',
             dependent_options: ['9', '11']
           }, {
-            label: 'РџСѓРЅРєС‚ 4, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 10, 12',
+            label: 'Пункт 4, будут выбраны 10, 12',
             code: '4',
             dependent_options: ['10', '12']
           }, {
-            label: 'РџСѓРЅРєС‚ 5, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 7, 10',
+            label: 'Пункт 5, будут выбраны 7, 10',
             code: '5',
             dependent_options: ['7', '10']
           }, {
-            label: 'РџСѓРЅРєС‚ 6, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 8, 11',
+            label: 'Пункт 6, будут выбраны 8, 11',
             code: '6',
             dependent_options: ['8', '11']
           }],
@@ -569,27 +569,27 @@
           name: 'STATUS',
           label: 'Status',
           options: [{
-            label: 'РџСѓРЅРєС‚ 7, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 13, 14',
+            label: 'Пункт 7, будут выбраны 13, 14',
             code: '7',
             dependent_options: ['13', '14']
           }, {
-            label: 'РџСѓРЅРєС‚ 8, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 13, 15',
+            label: 'Пункт 8, будут выбраны 13, 15',
             code: '8',
             dependent_options: ['13', '15']
           }, {
-            label: 'РџСѓРЅРєС‚ 9, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 14, 15',
+            label: 'Пункт 9, будут выбраны 14, 15',
             code: '9',
             dependent_options: ['14', '15']
           }, {
-            label: 'РџСѓРЅРєС‚ 10, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 15, 16',
+            label: 'Пункт 10, будут выбраны 15, 16',
             code: '10',
             dependent_options: ['15', '16']
           }, {
-            label: 'РџСѓРЅРєС‚ 11, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 16, 17',
+            label: 'Пункт 11, будут выбраны 16, 17',
             code: '11',
             dependent_options: ['16', '17']
           }, {
-            label: 'РџСѓРЅРєС‚ 12, Р±СѓРґСѓС‚ РІС‹Р±СЂР°РЅС‹ 17, 18',
+            label: 'Пункт 12, будут выбраны 17, 18',
             code: '12',
             dependent_options: ['17', '18']
           }],
@@ -603,22 +603,22 @@
           name: 'STATUS',
           label: 'Status',
           options: [{
-            label: 'РџСѓРЅРєС‚ 13',
+            label: 'Пункт 13',
             code: '13'
           }, {
-            label: 'РџСѓРЅРєС‚ 14',
+            label: 'Пункт 14',
             code: '14'
           }, {
-            label: 'РџСѓРЅРєС‚ 15',
+            label: 'Пункт 15',
             code: '15'
           }, {
-            label: 'РџСѓРЅРєС‚ 16',
+            label: 'Пункт 16',
             code: '16'
           }, {
-            label: 'РџСѓРЅРєС‚ 17',
+            label: 'Пункт 17',
             code: '17'
           }, {
-            label: 'РџСѓРЅРєС‚ 18',
+            label: 'Пункт 18',
             code: '18'
           }],
           value: '',
@@ -740,7 +740,7 @@
           id: 'id1-2',
           property: 'text',
           name: 'SOME_TEXT',
-          label: 'РџРѕР»Рµ text Р·Р°РїРѕР»РЅРµРЅРѕ',
+          label: 'Поле text заполнено',
           value: ['one', 'two', 'three'],
           required: false,
           disabled: false,
@@ -941,11 +941,11 @@
             while (1) switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                // РЎРѕР·РґР°РµРј AbortController РґР»СЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РѕС‚РјРµРЅС‹ Р·Р°РїСЂРѕСЃР°
+                // Создаем AbortController для возможности отмены запроса
                 controller = new AbortController();
                 timeoutId = setTimeout(function () {
                   return controller.abort();
-                }, 20000); // 20 СЃРµРєСѓРЅРґ С‚Р°Р№РјР°СѓС‚
+                }, 20000); // 20 секунд таймаут
                 _context.next = 5;
                 return fetch(action, {
                   signal: controller.signal,
@@ -1288,10 +1288,10 @@
       return {
         modal_yes_no: {
           id: 1,
-          heading: "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ",
-          text: "Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ РёР·РјРµРЅРёС‚СЊ РЅРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°?",
-          yes: "Р”Р°",
-          no: "РќРµС‚",
+          heading: "Подтверждение",
+          text: "Вы действительно хотите изменить номер телефона?",
+          yes: "Да",
+          no: "Нет",
           stateWatcher: false,
           clickYes: function clickYes() {
             console.log('modal yes');
@@ -1304,11 +1304,11 @@
           id: 2,
           buttons: {
             yes: {
-              text: 'Р”Р°',
+              text: 'Да',
               props: ['secondary', 'large']
             },
             no: {
-              text: 'РќРµС‚',
+              text: 'Нет',
               props: ['gray-color', 'large']
             }
           },
@@ -1359,10 +1359,10 @@
       return {
         docs: [{
           id: 123,
-          href: '/pages/РџСЂРѕС‚РѕРєРѕР» Р·Р°СЃРµРґР°РЅРёСЏ РґРёСЃРёС†РїР»РёРЅР°СЂРЅРѕР№ РєРѕРјРёСЃСЃРёРё 234.pdf',
+          href: '/pages/Протокол заседания дисицплинарной комиссии 234.pdf',
           size: 654000,
-          date: '15 СЏРЅРІР°СЂСЏ 2020',
-          author: 'РђР·Р°СЂСЏРЅС† РђС€РѕС‚ РђР»РµРєСЃР°РЅРґСЂРѕРІРёС‡',
+          date: '15 января 2020',
+          author: 'Азарянц Ашот Александрович',
           icon: '/template/images/pdf.svg',
           remove: true
         }]

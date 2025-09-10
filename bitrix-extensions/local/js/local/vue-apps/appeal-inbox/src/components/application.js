@@ -298,80 +298,12 @@ export const Application = {
         ? this.predefinedActive.id
         : undefined;
 
-      new Promise((resolve) => {
-        resolve(
-          this.runAppeals(
-            {
-              mode: 'class',
-              data: {
-                signedParameters: this.signedParameters,
-                userid: this.userid,
-                sessid: this.sessid,
-                profileid: this.defaultProfile.id,
-                startIndex: 0,
-                maxCountPerRequest: this.maxCountPerRequest,
-                predefinedFilter,
-                filters: this.filters,
-                columnSort: this.sort.columnSort,
-                sortType: this.sort.sortType,
-              },
-            },
-            null,
-            this.increaseAppealsCounter()
-          )
-        );
-      })
-        .then((result) => {
-          if (result && result.status === 'success') {
-            return this.runFilters({
-              mode: 'class',
-              data: {
-                signedParameters: this.signedParameters,
-                userid: this.userid,
-                sessid: this.sessid,
-                profileid: this.defaultProfile.id,
-              },
-            });
-          } else if (result && result.status === 'error') {
-            this.showError({ error: result.errors[0] });
-          }
-        })
-        .then((result) => {
-          if (result && result.status === 'success') {
-            return this.runColumnsNames({
-              mode: 'class',
-              data: {
-                signedParameters: this.signedParameters,
-                userid: this.userid,
-                sessid: this.sessid,
-                profileid: this.defaultProfile.id,
-              },
-            });
-          } else if (result && result.status === 'error') {
-            this.showError({ error: result.errors[0] });
-          }
-        })
-        .then((result) => {
-          if (result && result.status === 'success') {
-            return this.runDefaultSort({
-              mode: 'class',
-              data: {
-                signedParameters: this.signedParameters,
-                userid: this.userid,
-                sessid: this.sessid,
-                profileid: this.defaultProfile.id,
-              },
-            });
-          } else if (result && result.status === 'error') {
-            this.showError({ error: result.errors[0] });
-          }
-        })
-        .then((result) => {
-          if (result && result.status === 'success') {
-            const predefinedFilter = this.predefinedActive
-              ? this.predefinedActive.id
-              : undefined;
-
+      if (
+        this.sort.columnSort !== undefined ||
+        this.sort.sortType !== undefined
+      ) {
+        new Promise((resolve) => {
+          resolve(
             this.runAppeals(
               {
                 mode: 'class',
@@ -390,11 +322,84 @@ export const Application = {
               },
               null,
               this.increaseAppealsCounter()
-            );
-          } else if (result && result.status === 'error') {
-            this.showError({ error: result.errors[0] });
-          }
-        });
+            )
+          );
+        })
+          .then((result) => {
+            if (result && result.status === 'success') {
+              return this.runFilters({
+                mode: 'class',
+                data: {
+                  signedParameters: this.signedParameters,
+                  userid: this.userid,
+                  sessid: this.sessid,
+                  profileid: this.defaultProfile.id,
+                },
+              });
+            } else if (result && result.status === 'error') {
+              this.showError({ error: result.errors[0] });
+            }
+          })
+          .then((result) => {
+            if (result && result.status === 'success') {
+              return this.runColumnsNames({
+                mode: 'class',
+                data: {
+                  signedParameters: this.signedParameters,
+                  userid: this.userid,
+                  sessid: this.sessid,
+                  profileid: this.defaultProfile.id,
+                },
+              });
+            } else if (result && result.status === 'error') {
+              this.showError({ error: result.errors[0] });
+            }
+          })
+          .then((result) => {
+            if (result && result.status === 'success') {
+              return this.runDefaultSort({
+                mode: 'class',
+                data: {
+                  signedParameters: this.signedParameters,
+                  userid: this.userid,
+                  sessid: this.sessid,
+                  profileid: this.defaultProfile.id,
+                },
+              });
+            } else if (result && result.status === 'error') {
+              this.showError({ error: result.errors[0] });
+            }
+          })
+          .then((result) => {
+            if (result && result.status === 'success') {
+              const predefinedFilter = this.predefinedActive
+                ? this.predefinedActive.id
+                : undefined;
+
+              this.runAppeals(
+                {
+                  mode: 'class',
+                  data: {
+                    signedParameters: this.signedParameters,
+                    userid: this.userid,
+                    sessid: this.sessid,
+                    profileid: this.defaultProfile.id,
+                    startIndex: 0,
+                    maxCountPerRequest: this.maxCountPerRequest,
+                    predefinedFilter,
+                    filters: this.filters,
+                    columnSort: this.sort.columnSort,
+                    sortType: this.sort.sortType,
+                  },
+                },
+                null,
+                this.increaseAppealsCounter()
+              );
+            } else if (result && result.status === 'error') {
+              this.showError({ error: result.errors[0] });
+            }
+          });
+      }
     },
     clickSelected() {
       const predefinedFilter = this.predefinedActive

@@ -106,11 +106,11 @@
                 url = new URL(action, window.location.origin);
                 url.searchParams.append('s', control.value);
                 _context.prev = 2;
-                // РЎРѕР·РґР°РµРј AbortController РґР»СЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РѕС‚РјРµРЅС‹ Р·Р°РїСЂРѕСЃР°
+                // Создаем AbortController для возможности отмены запроса
                 controller = new AbortController();
                 timeoutId = setTimeout(function () {
                   return controller.abort();
-                }, 20000); // 20 СЃРµРєСѓРЅРґ С‚Р°Р№РјР°СѓС‚
+                }, 20000); // 20 секунд таймаут
                 _context.next = 7;
                 return fetch(url, {
                   signal: controller.signal,

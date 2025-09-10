@@ -739,74 +739,9 @@
         });
         if (!this.defaultProfile) return;
         var predefinedFilter = this.predefinedActive ? this.predefinedActive.id : undefined;
-        new Promise(function (resolve) {
-          resolve(_this2.runAppeals({
-            mode: 'class',
-            data: {
-              signedParameters: _this2.signedParameters,
-              userid: _this2.userid,
-              sessid: _this2.sessid,
-              profileid: _this2.defaultProfile.id,
-              startIndex: 0,
-              maxCountPerRequest: _this2.maxCountPerRequest,
-              predefinedFilter: predefinedFilter,
-              filters: _this2.filters,
-              columnSort: _this2.sort.columnSort,
-              sortType: _this2.sort.sortType
-            }
-          }, null, _this2.increaseAppealsCounter()));
-        }).then(function (result) {
-          if (result && result.status === 'success') {
-            return _this2.runFilters({
-              mode: 'class',
-              data: {
-                signedParameters: _this2.signedParameters,
-                userid: _this2.userid,
-                sessid: _this2.sessid,
-                profileid: _this2.defaultProfile.id
-              }
-            });
-          } else if (result && result.status === 'error') {
-            _this2.showError({
-              error: result.errors[0]
-            });
-          }
-        }).then(function (result) {
-          if (result && result.status === 'success') {
-            return _this2.runColumnsNames({
-              mode: 'class',
-              data: {
-                signedParameters: _this2.signedParameters,
-                userid: _this2.userid,
-                sessid: _this2.sessid,
-                profileid: _this2.defaultProfile.id
-              }
-            });
-          } else if (result && result.status === 'error') {
-            _this2.showError({
-              error: result.errors[0]
-            });
-          }
-        }).then(function (result) {
-          if (result && result.status === 'success') {
-            return _this2.runDefaultSort({
-              mode: 'class',
-              data: {
-                signedParameters: _this2.signedParameters,
-                userid: _this2.userid,
-                sessid: _this2.sessid,
-                profileid: _this2.defaultProfile.id
-              }
-            });
-          } else if (result && result.status === 'error') {
-            _this2.showError({
-              error: result.errors[0]
-            });
-          }
-        }).then(function (result) {
-          if (result && result.status === 'success') {
-            var _predefinedFilter = _this2.predefinedActive ? _this2.predefinedActive.id : undefined;
-            _this2.runAppeals({
+        if (this.sort.columnSort !== undefined || this.sort.sortType !== undefined) {
+          new Promise(function (resolve) {
+            resolve(_this2.runAppeals({
               mode: 'class',
               data: {
                 signedParameters: _this2.signedParameters,
@@ -815,18 +750,85 @@
                 profileid: _this2.defaultProfile.id,
                 startIndex: 0,
                 maxCountPerRequest: _this2.maxCountPerRequest,
-                predefinedFilter: _predefinedFilter,
+                predefinedFilter: predefinedFilter,
                 filters: _this2.filters,
                 columnSort: _this2.sort.columnSort,
                 sortType: _this2.sort.sortType
               }
-            }, null, _this2.increaseAppealsCounter());
-          } else if (result && result.status === 'error') {
-            _this2.showError({
-              error: result.errors[0]
-            });
-          }
-        });
+            }, null, _this2.increaseAppealsCounter()));
+          }).then(function (result) {
+            if (result && result.status === 'success') {
+              return _this2.runFilters({
+                mode: 'class',
+                data: {
+                  signedParameters: _this2.signedParameters,
+                  userid: _this2.userid,
+                  sessid: _this2.sessid,
+                  profileid: _this2.defaultProfile.id
+                }
+              });
+            } else if (result && result.status === 'error') {
+              _this2.showError({
+                error: result.errors[0]
+              });
+            }
+          }).then(function (result) {
+            if (result && result.status === 'success') {
+              return _this2.runColumnsNames({
+                mode: 'class',
+                data: {
+                  signedParameters: _this2.signedParameters,
+                  userid: _this2.userid,
+                  sessid: _this2.sessid,
+                  profileid: _this2.defaultProfile.id
+                }
+              });
+            } else if (result && result.status === 'error') {
+              _this2.showError({
+                error: result.errors[0]
+              });
+            }
+          }).then(function (result) {
+            if (result && result.status === 'success') {
+              return _this2.runDefaultSort({
+                mode: 'class',
+                data: {
+                  signedParameters: _this2.signedParameters,
+                  userid: _this2.userid,
+                  sessid: _this2.sessid,
+                  profileid: _this2.defaultProfile.id
+                }
+              });
+            } else if (result && result.status === 'error') {
+              _this2.showError({
+                error: result.errors[0]
+              });
+            }
+          }).then(function (result) {
+            if (result && result.status === 'success') {
+              var _predefinedFilter = _this2.predefinedActive ? _this2.predefinedActive.id : undefined;
+              _this2.runAppeals({
+                mode: 'class',
+                data: {
+                  signedParameters: _this2.signedParameters,
+                  userid: _this2.userid,
+                  sessid: _this2.sessid,
+                  profileid: _this2.defaultProfile.id,
+                  startIndex: 0,
+                  maxCountPerRequest: _this2.maxCountPerRequest,
+                  predefinedFilter: _predefinedFilter,
+                  filters: _this2.filters,
+                  columnSort: _this2.sort.columnSort,
+                  sortType: _this2.sort.sortType
+                }
+              }, null, _this2.increaseAppealsCounter());
+            } else if (result && result.status === 'error') {
+              _this2.showError({
+                error: result.errors[0]
+              });
+            }
+          });
+        }
       },
       clickSelected: function clickSelected() {
         var predefinedFilter = this.predefinedActive ? this.predefinedActive.id : undefined;
@@ -1124,5 +1126,5 @@
 
   exports.AppealInbox = AppealInbox;
 
-}((this.BX = this.BX || {}),BX,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map
