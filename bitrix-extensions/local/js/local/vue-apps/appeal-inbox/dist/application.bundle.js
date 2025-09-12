@@ -1126,5 +1126,5 @@
 
   exports.AppealInbox = AppealInbox;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.Vue3.Pinia));
+}((this.BX = this.BX || {}),BX,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX));
 //# sourceMappingURL=application.bundle.js.map

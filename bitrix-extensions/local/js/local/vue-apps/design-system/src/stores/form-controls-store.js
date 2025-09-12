@@ -226,15 +226,15 @@ export const formControlsStore = defineStore('form-controls-store', {
         label: 'Multiselect',
         options: [
           {
-            label: 'Опыт работы с иностранными структурами',
+            label: 'Experience working with foreign structures',
             code: '1',
           },
           {
-            label: 'Входит в международные сети',
+            label: 'Part of international networks',
             code: '2',
           },
           {
-            label: 'Доступ к гос. тайне',
+            label: 'Access to state secrets',
             code: '3',
           },
         ],
@@ -312,7 +312,7 @@ export const formControlsStore = defineStore('form-controls-store', {
             `changeSelect${control.type
               .substring(0, 1)
               .toUpperCase()}${control.type.substring(1).toLowerCase()}Value`
-          ]({ control, value });
+          ]({ control, value, checked });
           break;
         case 'checkbox':
           control.checked = checked;
@@ -361,7 +361,6 @@ export const formControlsStore = defineStore('form-controls-store', {
       control.hints = value;
     },
     changeHintControlValue({ control, value }) {
-      console.log(value);
       control.value = value;
 
       if (value.autocomplete && value.autocomplete.forEach) {
@@ -378,6 +377,15 @@ export const formControlsStore = defineStore('form-controls-store', {
     },
     changeSelectDropdownValue({ control, value }) {
       control.value = value;
+    },
+    changeSelectMultiValue({ control, value, checked }) {
+      console.log(control.value, value, checked);
+      if (checked) {
+        const set = new Set(control.value).add(value);
+        control.value = Array.from(set);
+      } else {
+        control.value.splice(control.value.indexOf(value), 1);
+      }
     },
     addTab(control) {
       control.tab = control.tab ? ++control.tab : 1;
