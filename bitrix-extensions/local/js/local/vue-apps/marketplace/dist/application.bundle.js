@@ -1,5 +1,5 @@
 /* eslint-disable */
-(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_messageComponent,local_vueComponents_loaderCircle,local_vueComponents_moreButton,local_vueComponents_controlComponent,local_vueComponents_buttonComponent,ui_vue3_pinia) {
+(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_messageComponent,local_vueComponents_loaderCircle,local_vueComponents_moreButton,local_vueComponents_modalAnyContent,local_vueComponents_controlComponent,local_vueComponents_buttonComponent,ui_vue3_pinia) {
   'use strict';
 
   function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -256,7 +256,8 @@
         formDataArray: [],
         startIndex: 0,
         maxCountPerRequest: 3,
-        loadingMore: false
+        loadingMore: false,
+        applicationModalStateWatcher: false
       };
     },
     getters: {
@@ -283,6 +284,9 @@
       },
       changeLoadingMore: function changeLoadingMore(value) {
         this.loadingMore = value;
+      },
+      changeProp: function changeProp(prop, value) {
+        this[prop] = value;
       }
     }
   });
@@ -591,7 +595,7 @@
         } : {};
       }
     }),
-    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['runApiMethod', 'changeError', 'changeLoading', 'createUrl'])), ui_vue3_pinia.mapActions(applicationStore, ['changeApplicationControls', 'changeApplicationGroups'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControlValue', 'runHintsAction', 'setHints'])), ui_vue3_pinia.mapActions(resultStore, ['setFormTemplate', 'setFormDataArray'])), {}, {
+    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['runApiMethod', 'changeError', 'changeLoading', 'createUrl'])), ui_vue3_pinia.mapActions(applicationStore, ['changeApplicationControls', 'changeApplicationGroups'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControlValue', 'runHintsAction', 'setHints'])), ui_vue3_pinia.mapActions(resultStore, ['setFormIdArray', 'setFormTemplate', 'setFormDataArray'])), {}, {
       clickNavItem: function clickNavItem(_ref) {
         var group = _ref.group;
         this.$router.push("/step/".concat(group.id));
@@ -685,7 +689,8 @@
       ControlComponent: local_vueComponents_controlComponent.ControlComponent
     },
     props: ['company'],
-    template: "\n        <div class=\"twpx-vue-marketplace-company\" :data-id=\"company.id\">\n            <div class=\"twpx-vue-marketplace-company__text\">\n                <h3 v-if=\"companyName\" v-html=\"companyName\"></h3>\n                <p v-if=\"companyDescription\">{{ companyDescription }}</p>\n            </div>\n            <div class=\"twpx-vue-marketplace-company__properties\">\n                <div class=\"twpx-vue-marketplace-company__props\">\n                    <div class=\"twpx-vue-marketplace-company__prop\" v-for=\"prop in getProperties().slice(0,6)\" :key=\"prop.id\">\n                        <b>{{ prop.label }}</b>\n                        <span v-html=\"getValue(prop)\"></span>\n                    </div>\n                    <TransitionGroup name=\"list\">\n                        <div class=\"twpx-vue-marketplace-company__prop\" v-for=\"prop in getProperties().slice(6)\" :key=\"prop.id\" v-show=\"s\">\n                            <b>{{ prop.label }}</b>\n                            <span v-html=\"getValue(prop)\"></span>\n                        </div>\n                    </TransitionGroup>\n                </div>\n                <ButtonComponent :text=\"lang.result.moreProps\" :props=\"['serve', 'small']\" @clickButton=\"moreProperties\" />\n            </div>\n            <div class=\"twpx-vue-marketplace-company__buttons\">\n                <ButtonComponent :text=\"lang.result.getButton\" :props=\"['icon-content', 'primary', 'medium']\" @clickButton=\"\" />\n                <div class=\"twpx-vue-marketplace-company__buttons__right\">\n                    <ControlComponent :control='company.checkbox' @input=\"input\" />\n                    <ButtonComponent :text=\"lang.result.sendButton\" :props=\"['secondary', 'medium']\" @clickButton=\"\" />\n                </div>\n            </div>\n        </div>\n    ",
+    emits: ['createApplication'],
+    template: "\n        <div class=\"twpx-vue-marketplace-company\" :data-id=\"company.id\">\n            <div class=\"twpx-vue-marketplace-company__text\">\n                <h3 v-if=\"companyName\" v-html=\"companyName\"></h3>\n                <p v-if=\"companyDescription\">{{ companyDescription }}</p>\n            </div>\n            <div class=\"twpx-vue-marketplace-company__properties\">\n                <div class=\"twpx-vue-marketplace-company__props\">\n                    <div class=\"twpx-vue-marketplace-company__prop\" v-for=\"prop in getProperties().slice(0,6)\" :key=\"prop.id\">\n                        <b>{{ prop.label }}</b>\n                        <span v-html=\"getValue(prop)\"></span>\n                    </div>\n                    <TransitionGroup name=\"list\">\n                        <div class=\"twpx-vue-marketplace-company__prop\" v-for=\"prop in getProperties().slice(6)\" :key=\"prop.id\" v-show=\"s\">\n                            <b>{{ prop.label }}</b>\n                            <span v-html=\"getValue(prop)\"></span>\n                        </div>\n                    </TransitionGroup>\n                </div>\n                <ButtonComponent :text=\"lang.result.moreProps\" :props=\"['serve', 'small']\" @clickButton=\"moreProperties\" />\n            </div>\n            <div class=\"twpx-vue-marketplace-company__buttons\">\n                <ButtonComponent :text=\"lang.result.getButton\" :props=\"['icon-content', 'primary', 'medium']\" @clickButton=\"\" />\n                <div class=\"twpx-vue-marketplace-company__buttons__right\">\n                    <ControlComponent :control='company.checkbox' @input=\"input\" />\n                    <ButtonComponent :text=\"lang.result.sendButton\" :props=\"['secondary', 'medium']\" @clickButton=\"createApplication\" />\n                </div>\n            </div>\n        </div>\n    ",
     computed: _objectSpread$3(_objectSpread$3(_objectSpread$3({}, ui_vue3_pinia.mapState(dataStore, ['lang'])), ui_vue3_pinia.mapState(resultStore, ['formTemplate', 'formData'])), {}, {
       dataObject: function dataObject() {
         var _this = this;
@@ -715,6 +720,11 @@
       }
     }),
     methods: {
+      createApplication: function createApplication() {
+        this.$emit('createApplication', {
+          groupApplicationArray: [this.company.id]
+        });
+      },
       getProperties: function getProperties() {
         var result = this.company.data.slice();
         result = result.filter(function (d) {
@@ -761,15 +771,18 @@
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
     props: ['groupApplicationArray'],
-    template: "\n        <div class=\"twpx-vue-marketplace-group-application\" v-if=\"groupApplicationArray.length > 0\">\n            <div class=\"twpx-vue-marketplace-group-application__text\">\n                <h4>{{ lang.result.groupApplicationHeading }}</h4>\n                <div>{{ lang.result.groupApplicationText }}: {{ num }} {{ pluralizeOrganization(num) }}.</div>\n            </div>\n            <ButtonComponent :text=\"lang.result.sendButton\" :props=\"['secondary', 'medium']\" @clickButton=\"getGroup\" />\n        </div>\n    ",
+    emits: ['createApplication'],
+    template: "\n        <div class=\"twpx-vue-marketplace-group-application\" v-if=\"groupApplicationArray.length > 0\">\n            <div class=\"twpx-vue-marketplace-group-application__text\">\n                <h4>{{ lang.result.groupApplicationHeading }}</h4>\n                <div>{{ lang.result.groupApplicationText }}: {{ num }} {{ pluralizeOrganization(num) }}.</div>\n            </div>\n            <ButtonComponent :text=\"lang.result.sendButton\" :props=\"['secondary', 'medium']\" @clickButton=\"createApplication\" />\n        </div>\n    ",
     computed: _objectSpread$4(_objectSpread$4({}, ui_vue3_pinia.mapState(dataStore, ['lang'])), {}, {
       num: function num() {
         return this.groupApplicationArray.length;
       }
     }),
     methods: {
-      getGroup: function getGroup() {
-        console.log(this.groupApplicationArray);
+      createApplication: function createApplication() {
+        this.$emit('createApplication', {
+          groupApplicationArray: this.groupApplicationArray
+        });
       },
       pluralizeOrganization: function pluralizeOrganization(n) {
         var forms = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.lang.result.groupApplicationCompany;
@@ -791,16 +804,21 @@
       MessageComponent: local_vueComponents_messageComponent.MessageComponent,
       LoaderCircle: local_vueComponents_loaderCircle.LoaderCircle,
       MoreButton: local_vueComponents_moreButton.MoreButton,
+      ModalAnyContent: local_vueComponents_modalAnyContent.ModalAnyContent,
       ResultItemComponent: ResultItemComponent,
       GroupApplicationComponent: GroupApplicationComponent
     },
-    template: "\n        <div class=\"twpx-vue-marketplace-result\">\n\n            <LoaderCircle :show=\"loading\" />\n\n            <MessageComponent type=\"error\" size=\"big\" :message=\"error\" v-if=\"!loading && error\" />\n\n            <div v-if=\"!loading\" class=\"twpx-vue-marketplace-result__content\">\n\n                <h2>{{ lang.result.heading }}</h2>\n\n                <ResultItemComponent v-for=\"company in formDataArray\" :key=\"company.id\" :company=\"company\" />\n\n                <MoreButton :loading=\"loadingMore\" :show=\"showMore\" @clickMore=\"clickMore\" />\n\n                <GroupApplicationComponent :groupApplicationArray=\"groupApplicationArray\" />\n\n            </div>\n\n        </div>\n    ",
-    computed: _objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'error', 'loading'])), ui_vue3_pinia.mapState(resultStore, ['formIdArray', 'formDataArray', 'groupApplicationArray', 'startIndex', 'maxCountPerRequest', 'loadingMore'])), {}, {
+    template: "\n        <div class=\"twpx-vue-marketplace-result\">\n\n            <LoaderCircle :show=\"loading\" />\n\n            <MessageComponent type=\"error\" size=\"big\" :message=\"error\" v-if=\"!loading && error\" />\n\n            <ModalAnyContent :stateWatcher=\"applicationModalStateWatcher\">text</ModalAnyContent>\n\n            <div v-if=\"!loading && !error\" class=\"twpx-vue-marketplace-result__content\">\n\n                <h2>{{ lang.result.heading }}</h2>\n\n                <ResultItemComponent v-for=\"company in formDataArray\" :key=\"company.id\" :company=\"company\" @createApplication=\"createApplication\" />\n\n                <MoreButton :loading=\"loadingMore\" :show=\"showMore\" @clickMore=\"clickMore\" />\n\n                <GroupApplicationComponent :groupApplicationArray=\"groupApplicationArray\" @createApplication=\"createApplication\" />\n\n            </div>\n\n        </div>\n    ",
+    computed: _objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'error', 'loading'])), ui_vue3_pinia.mapState(resultStore, ['formIdArray', 'formDataArray', 'groupApplicationArray', 'startIndex', 'maxCountPerRequest', 'loadingMore', 'applicationModalStateWatcher'])), {}, {
       showMore: function showMore() {
         return this.startIndex < this.formIdArray.length;
       }
     }),
-    methods: _objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapActions(dataStore, ['runApiMethod', 'changeError', 'changeLoading'])), ui_vue3_pinia.mapActions(resultStore, ['setFormIdArray', 'setFormDataArray', 'setStartIndex', 'setMaxCountPerRequest', 'changeLoadingMore'])), {}, {
+    methods: _objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapActions(dataStore, ['runApiMethod', 'changeError', 'changeLoading'])), ui_vue3_pinia.mapActions(resultStore, ['setFormDataArray', 'setStartIndex', 'setMaxCountPerRequest', 'changeLoadingMore', 'changeProp'])), {}, {
+      createApplication: function createApplication(_ref) {
+        var groupApplicationArray = _ref.groupApplicationArray;
+        this.changeProp('applicationModalStateWatcher', !this.applicationModalStateWatcher);
+      },
       clickMore: function clickMore() {
         this.loadNextPage();
       },
@@ -833,11 +851,10 @@
             _this.changeLoading(false);
             _this.changeLoadingMore(false);
             _this.setStartIndex(_this.startIndex + _this.maxCountPerRequest);
-          }, function (r) {
-            console.log('formData error: ', r);
+          })["catch"](function (response) {
             _this.changeLoading(false);
-            if (r && r.errors.length) {
-              _this.changeError("searchForms - ".concat(response.errors[0].message));
+            if (response && response.errors.length) {
+              _this.changeError("formData - ".concat(response.errors[0].message));
             }
           });
         } catch (err) {
@@ -932,5 +949,5 @@
 
   exports.Marketplace = Marketplace;
 
-}((this.BX = this.BX || {}),BX,BX,BX.AAS,BX.Loaders,BX.AAS,BX.Controls,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX,BX,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Controls,BX.AAS,BX));
 //# sourceMappingURL=application.bundle.js.map

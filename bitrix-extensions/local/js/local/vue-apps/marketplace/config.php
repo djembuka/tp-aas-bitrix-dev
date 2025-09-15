@@ -18,6 +18,7 @@ return [
 		'local.vue-components.message-component',
 		'local.vue-components.loader-circle',
 		'local.vue-components.more-button',
+		'local.vue-components.modal-any-content',
 		'local.vue-components.control-component',
 		'local.vue-components.button-component',
 		'ui.vue3.pinia',

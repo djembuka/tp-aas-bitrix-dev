@@ -80,13 +80,15 @@
     width: 100%;
 }
 .twpx-vue-marketplace-result {
-    min-height: 300px;
     display: grid;
     gap: 48px;
 }
 .twpx-vue-marketplace-result__content {
     display: grid;
     gap: 32px;
+}
+.twpx-vue-marketplace-result .vue-loader-circle {
+    min-height: 300px;
 }
 
 .twpx-vue-marketplace-company {

@@ -6,7 +6,8 @@ export const resultStore = defineStore('result', {
     formDataArray: [],
     startIndex: 0,
     maxCountPerRequest: 3,
-    loadingMore: false
+    loadingMore: false,
+    applicationModalStateWatcher: false
   }),
   getters: {
     groupApplicationArray(state) {
@@ -30,5 +31,8 @@ export const resultStore = defineStore('result', {
     },
     changeLoadingMore(value) {
       this.loadingMore = value;
+    },
+    changeProp(prop, value) {
+      this[prop] = value;
     }
   }});

@@ -83,6 +83,7 @@ export const Step = {
             'setHints'
         ]),
         ...mapActions(resultStore, [
+            'setFormIdArray',
             'setFormTemplate',
             'setFormDataArray'
         ]),

@@ -17,6 +17,7 @@ export const ResultItemComponent = {
         ControlComponent
     },
     props: ['company'],
+    emits: ['createApplication'],
     template: `
         <div class="twpx-vue-marketplace-company" :data-id="company.id">
             <div class="twpx-vue-marketplace-company__text">
@@ -42,7 +43,7 @@ export const ResultItemComponent = {
                 <ButtonComponent :text="lang.result.getButton" :props="['icon-content', 'primary', 'medium']" @clickButton="" />
                 <div class="twpx-vue-marketplace-company__buttons__right">
                     <ControlComponent :control='company.checkbox' @input="input" />
-                    <ButtonComponent :text="lang.result.sendButton" :props="['secondary', 'medium']" @clickButton="" />
+                    <ButtonComponent :text="lang.result.sendButton" :props="['secondary', 'medium']" @clickButton="createApplication" />
                 </div>
             </div>
         </div>
@@ -76,6 +77,9 @@ export const ResultItemComponent = {
         },
     },
     methods: {
+        createApplication() {
+            this.$emit('createApplication', {groupApplicationArray: [this.company.id]})
+        },
         getProperties() {
             let result = this.company.data.slice();
             result = result.filter(d => d.name !== 'UF_NAME' && d.name !== 'UF_DESCRIPTION');

@@ -1,6 +1,7 @@
 import { MessageComponent } from 'local.vue-components.message-component';
 import { LoaderCircle } from 'local.vue-components.loader-circle';
 import { MoreButton } from 'local.vue-components.more-button';
+import { ModalAnyContent } from 'local.vue-components.modal-any-content';
 
 import { ResultItemComponent } from '../components/resultItemComponent'
 import { GroupApplicationComponent } from '../components/groupApplicationComponent'
@@ -14,6 +15,7 @@ export const Result = {
         MessageComponent,
         LoaderCircle,
         MoreButton,
+        ModalAnyContent,
         ResultItemComponent,
         GroupApplicationComponent,
     },
@@ -24,15 +26,17 @@ export const Result = {
 
             <MessageComponent type="error" size="big" :message="error" v-if="!loading && error" />
 
-            <div v-if="!loading" class="twpx-vue-marketplace-result__content">
+            <ModalAnyContent :stateWatcher="applicationModalStateWatcher">text</ModalAnyContent>
+
+            <div v-if="!loading && !error" class="twpx-vue-marketplace-result__content">
 
                 <h2>{{ lang.result.heading }}</h2>
 
-                <ResultItemComponent v-for="company in formDataArray" :key="company.id" :company="company" />
+                <ResultItemComponent v-for="company in formDataArray" :key="company.id" :company="company" @createApplication="createApplication" />
 
                 <MoreButton :loading="loadingMore" :show="showMore" @clickMore="clickMore" />
 
-                <GroupApplicationComponent :groupApplicationArray="groupApplicationArray" />
+                <GroupApplicationComponent :groupApplicationArray="groupApplicationArray" @createApplication="createApplication" />
 
             </div>
 
@@ -50,7 +54,8 @@ export const Result = {
             'groupApplicationArray',
             'startIndex',
             'maxCountPerRequest',
-            'loadingMore'
+            'loadingMore',
+            'applicationModalStateWatcher'
         ]),
         showMore() {
             return this.startIndex < this.formIdArray.length
@@ -63,12 +68,15 @@ export const Result = {
             'changeLoading',
         ]),
         ...mapActions(resultStore, [
-            'setFormIdArray',
             'setFormDataArray',
             'setStartIndex',
             'setMaxCountPerRequest',
             'changeLoadingMore',
+            'changeProp'
         ]),
+        createApplication({groupApplicationArray}) {
+            this.changeProp('applicationModalStateWatcher', !this.applicationModalStateWatcher);
+        },
         clickMore() {
             this.loadNextPage();
         },
@@ -100,15 +108,13 @@ export const Result = {
                         this.changeLoading(false);
                         this.changeLoadingMore(false);
                         this.setStartIndex(this.startIndex + this.maxCountPerRequest);
-                    },
-                    (r) => {
-                        console.log('formData error: ', r)
+                    })
+                    .catch((response) => {
                         this.changeLoading(false);
-                        if (r && r.errors.length) {
-                            this.changeError(`searchForms - ${response.errors[0].message}`);
+                        if (response && response.errors.length) {
+                            this.changeError(`formData - ${response.errors[0].message}`);
                         }
-                    }
-                );
+                    });
             } catch(err) {
                 throw err;
             }

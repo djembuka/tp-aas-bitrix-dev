@@ -9,13 +9,14 @@ export const GroupApplicationComponent = {
         ButtonComponent
     },
     props: ['groupApplicationArray'],
+    emits: ['createApplication'],
     template: `
         <div class="twpx-vue-marketplace-group-application" v-if="groupApplicationArray.length > 0">
             <div class="twpx-vue-marketplace-group-application__text">
                 <h4>{{ lang.result.groupApplicationHeading }}</h4>
                 <div>{{ lang.result.groupApplicationText }}: {{ num }} {{ pluralizeOrganization(num) }}.</div>
             </div>
-            <ButtonComponent :text="lang.result.sendButton" :props="['secondary', 'medium']" @clickButton="getGroup" />
+            <ButtonComponent :text="lang.result.sendButton" :props="['secondary', 'medium']" @clickButton="createApplication" />
         </div>
     `,
     computed: {
@@ -27,8 +28,8 @@ export const GroupApplicationComponent = {
         }
     },
     methods: {
-        getGroup() {
-            console.log(this.groupApplicationArray)
+        createApplication() {
+            this.$emit('createApplication', {groupApplicationArray: this.groupApplicationArray})
         },
         pluralizeOrganization(n, forms = this.lang.result.groupApplicationCompany) {
             const abs = Math.abs(n);
