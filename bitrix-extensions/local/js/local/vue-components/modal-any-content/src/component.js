@@ -9,6 +9,7 @@ export const ModalAnyContent = {
       default: true
     }
   },
+  emits: ['onClose'],
   data() {
     return {
       isOpen: false,
@@ -57,6 +58,7 @@ export const ModalAnyContent = {
       this.isAnimate = false;
       setTimeout(() => {
         this.isOpen = false;
+        this.$emit('onClose');
       }, 300)
     }
   },

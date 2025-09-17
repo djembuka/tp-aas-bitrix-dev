@@ -75,7 +75,8 @@
           label: 'Number',
           value: '123,54',
           required: false,
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'time',
           type: 'single',
@@ -84,7 +85,8 @@
           label: 'Time single',
           value: '11:00',
           required: false,
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'hint',
           id: 'id5',
@@ -95,7 +97,8 @@
           action: '/markup/vue/design-system/hints.json',
           required: false,
           disabled: false,
-          tab: 1
+          tab: 1,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'hint',
           id: 'id5-1',
@@ -105,7 +108,8 @@
           count: 3,
           action: '/markup/vue/design-system/hints-html.json',
           required: false,
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'hint',
           id: 'id5-2',
@@ -115,7 +119,8 @@
           count: 3,
           action: '/markup/vue/design-system/hints-autocomplete.json',
           required: false,
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'hint',
           id: 'id5-3',
@@ -125,7 +130,8 @@
           count: 3,
           action: '/markup/vue/design-system/hints-hidden.json',
           required: false,
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           id: 'id1',
           property: 'text',
@@ -134,7 +140,8 @@
           value: '',
           multi: 3,
           required: false,
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           id: 'id1-1',
           property: 'textarea',
@@ -143,7 +150,8 @@
           value: '',
           multi: 3,
           required: false,
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           id: 'id2',
           property: 'tel',
@@ -152,7 +160,8 @@
           value: '',
           multi: 3,
           required: false,
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           id: 'id3',
           property: 'email',
@@ -161,14 +170,16 @@
           value: '',
           multi: 3,
           required: false,
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           id: 'id4',
           property: 'hidden',
           name: 'HIDDEN_FIELD',
           value: '',
           required: false,
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'password',
           id: 'id6',
@@ -176,7 +187,8 @@
           label: 'Password',
           value: '',
           required: false,
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'date',
           type: 'range',
@@ -184,7 +196,8 @@
           label: 'Calendar',
           name: 'DATE_FROM_TO',
           required: true,
-          value: ['20.02.2024', '28.02.2024']
+          value: ['20.02.2024', '28.02.2024'],
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'date',
           type: 'single',
@@ -193,7 +206,7 @@
           name: 'DATE',
           required: true,
           value: '28.02.2024',
-          hint_external: 'Hint',
+          hint_external: 'Обсуждаем проекты международных стандартов и документов',
           dependency: 'id6'
         }, {
           property: 'file',
@@ -202,7 +215,7 @@
           label: 'Logo',
           value: '',
           file: '',
-          hint_external: 'For your site',
+          hint_external: 'Обсуждаем проекты международных стандартов и документов',
           required: true,
           disabled: false,
           accept: ['svg', 'png', 'jpg', 'jpeg'],
@@ -216,7 +229,7 @@
           label: 'Upload logo',
           value: null,
           upload: {},
-          hint_external: 'For your site',
+          hint_external: 'Обсуждаем проекты международных стандартов и документов',
           required: true,
           disabled: false,
           accept: ['svg', 'png', 'jpg', 'jpeg'],
@@ -239,7 +252,8 @@
             code: '324234325'
           }],
           value: '',
-          disabled: false
+          disabled: false,
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'select',
           type: 'radio',
@@ -256,7 +270,8 @@
             label: 'Uppercase',
             code: '3'
           }],
-          value: '2'
+          value: '2',
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'select',
           type: 'multi',
@@ -273,7 +288,8 @@
             label: 'Access to state secrets',
             code: '3'
           }],
-          value: ['2']
+          value: ['2'],
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'checkbox',
           type: 'switch',
@@ -284,7 +300,7 @@
           value: 'on',
           checked: true,
           disabled: false,
-          hint_external: '',
+          hint_external: 'Обсуждаем проекты международных стандартов и документов',
           dependency: 'id6'
         }, {
           property: 'checkbox',
@@ -296,7 +312,7 @@
           value: 'on',
           checked: true,
           disabled: false,
-          hint_external: 'Active checkbox'
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'checkbox',
           id: 'id11',
@@ -306,7 +322,7 @@
           value: 'on',
           checked: true,
           disabled: false,
-          hint_external: 'Simple checkbox'
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'checkbox',
           type: 'block',
@@ -317,7 +333,7 @@
           value: 'on',
           checked: true,
           disabled: false,
-          hint_external: 'Checkbox block'
+          hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }]
       };
     },
@@ -1547,5 +1563,5 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

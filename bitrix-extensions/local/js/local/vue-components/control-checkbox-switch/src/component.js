@@ -5,7 +5,7 @@ export const ControlCheckboxSwitch = {
     return {
       controlId: this.id || this.control.id || null,
       controlName: this.name || this.control.name || null,
-      hint: this.control.hint_external,
+      hint: this.control?.hint_external || '',
     };
   },
   props: ['control', 'id', 'name'],
@@ -38,7 +38,7 @@ export const ControlCheckboxSwitch = {
         >{{ control.label }}</span
       >
     </label>
-    <div class="twpx-form-control-hint" v-if="hint" v-html="hint"></div>
+    <div class="twpx-form-control__hint" v-if="hint" v-html="hint"></div>
   </div>
 	`,
   emits: ['input', 'focus', 'blur'],

@@ -13,12 +13,14 @@ this.BX = this.BX || {};
 
   var ControlSelectDropdown = {
     data: function data() {
+      var _this$control;
       return {
         controlName: this.name || this.control.name || null,
         id: Math.floor(Math.random() * 100000),
         optionsArray: [],
         opened: false,
-        animation: false
+        animation: false,
+        hint: ((_this$control = this.control) === null || _this$control === void 0 ? void 0 : _this$control.hint_external) || ''
       };
     },
     components: {
@@ -26,7 +28,7 @@ this.BX = this.BX || {};
       IconLock: IconLock
     },
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--select': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n        'twpx-form-control--opened': opened,\n        'twpx-form-control--animation': animation,\n      }\"\n      @close=\"console.log('close')\"\n      ref=\"twpxSelect\"\n      :data-id=\"'twpxControl' + control.id\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <div\n        class=\"twpx-form-control-select\"\n        :data-id=\"id\"\n      >\n        <input type=\"hidden\" :name=\"controlName\" :value=\"value\" />\n        <IconDropdown class=\"twpx-form-control-select__arrow\" />\n        <div\n          class=\"twpx-form-control-select__content\"\n          @click.prevent=\"openHideDropdown\"\n        >\n          <span>{{ text }}</span>\n        </div>\n        <div class=\"twpx-form-control-select__dropdown\">\n          <div\n            class=\"twpx-form-control-select__dropdown-item\"\n            :class=\"{\n              'twpx-form-control-select__dropdown-item': true,\n              'twpx-form-control-select__dropdown-item--current': option.code === control.value,\n              'twpx-form-control-select__dropdown-item--hidden': option.hidden\n            }\"\n            v-for=\"(option, i) in control.options\"\n            :key=\"option.code\"\n            @click.prevent=\"clickItem(i)\"\n          >\n            {{ option.label }}\n          </div>\n        </div>\n      </div>\n    </div>\n\t",
+    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--select': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n        'twpx-form-control--opened': opened,\n        'twpx-form-control--animation': animation,\n      }\"\n      @close=\"console.log('close')\"\n      ref=\"twpxSelect\"\n      :data-id=\"'twpxControl' + control.id\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <div\n        class=\"twpx-form-control-select\"\n        :data-id=\"id\"\n      >\n        <input type=\"hidden\" :name=\"controlName\" :value=\"value\" />\n        <IconDropdown class=\"twpx-form-control-select__arrow\" />\n        <div\n          class=\"twpx-form-control-select__content\"\n          @click.prevent=\"openHideDropdown\"\n        >\n          <span>{{ text }}</span>\n        </div>\n        <div class=\"twpx-form-control-select__dropdown\">\n          <div\n            class=\"twpx-form-control-select__dropdown-item\"\n            :class=\"{\n              'twpx-form-control-select__dropdown-item': true,\n              'twpx-form-control-select__dropdown-item--current': option.code === control.value,\n              'twpx-form-control-select__dropdown-item--hidden': option.hidden\n            }\"\n            v-for=\"(option, i) in control.options\"\n            :key=\"option.code\"\n            @click.prevent=\"clickItem(i)\"\n          >\n            {{ option.label }}\n          </div>\n        </div>\n      </div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
     props: ['control', 'name', 'customOnChange'],
     emits: ['input', 'focus', 'blur'],
     computed: {

@@ -78,3 +78,9 @@
 .twpx-modal-any-content-buttons .vue-button {
   width: 256px;
 }
+
+@media(max-width: 767px) {
+  .twpx-modal-any-content-body {
+    padding: 32px 16px;
+  }
+}

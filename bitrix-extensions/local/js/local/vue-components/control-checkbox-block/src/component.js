@@ -9,7 +9,7 @@ export const ControlCheckboxBlock = {
       focused: false,
       blured: false,
       warning: '',
-      hint: this.control.hint_external,
+      hint: this.control?.hint_external || '',
     };
   },
   components: {
@@ -19,29 +19,32 @@ export const ControlCheckboxBlock = {
   emits: [],
   // language=Vue
   template: `
-		<label :class="{
-      'twpx-form-control': true,
-      'twpx-form-control--checkbox-block': true,
-      'twpx-form-control--active': active,
-      'twpx-form-control--checked': control.checked,
-      'twpx-form-control--invalid': invalid,
-      'twpx-form-control--disabled': disabled,
-    }">
-      <input
-        type="checkbox"
-        :id="controlId"
-        :name="controlName"
-        :value="control.value"
-        :checked="control.checked"
-        v-model="checked"
-        @focus="focus"
-        @blur="blur"
-        :disabled="disabled"
-        ref="input"
-      />
-      <CheckboxIcon />
-      <span class="twpx-form-control__label" v-if="control.label" v-html="control.label"></span>
-    </label>
+    <div>
+      <label :class="{
+        'twpx-form-control': true,
+        'twpx-form-control--checkbox-block': true,
+        'twpx-form-control--active': active,
+        'twpx-form-control--checked': control.checked,
+        'twpx-form-control--invalid': invalid,
+        'twpx-form-control--disabled': disabled,
+      }">
+        <input
+          type="checkbox"
+          :id="controlId"
+          :name="controlName"
+          :value="control.value"
+          :checked="control.checked"
+          v-model="checked"
+          @focus="focus"
+          @blur="blur"
+          :disabled="disabled"
+          ref="input"
+        />
+        <CheckboxIcon />
+        <span class="twpx-form-control__label" v-if="control.label" v-html="control.label"></span>
+      </label>
+      <div class="twpx-form-control__hint" v-if="hint" v-html="hint"></div>
+    </div>
 	`,
   emits: ['input', 'focus', 'blur'],
   computed: {

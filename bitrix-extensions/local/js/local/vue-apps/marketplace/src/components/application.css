@@ -11,9 +11,12 @@
     gap: 32px;
 }
 .twpx-vue-marketplace-application h2,
-.twpx-vue-marketplace-application h3,
+.twpx-vue-marketplace-application h4,
 .twpx-vue-marketplace-application p {
     margin: 0;
+}
+.twpx-vue-marketplace-application h4 {
+    font-size: 20px;
 }
 .twpx-vue-marketplace-application-html,
 .twpx-vue-marketplace-application-controls {

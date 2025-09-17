@@ -20,13 +20,14 @@ this.BX = this.BX || {};
   var _ControlCheckboxBlock;
   var ControlCheckboxBlock = (_ControlCheckboxBlock = {
     data: function data() {
+      var _this$control;
       return {
         controlId: this.id || this.control.id || null,
         controlName: this.name || this.control.name || null,
         focused: false,
         blured: false,
         warning: '',
-        hint: this.control.hint_external
+        hint: ((_this$control = this.control) === null || _this$control === void 0 ? void 0 : _this$control.hint_external) || ''
       };
     },
     components: {
@@ -35,7 +36,7 @@ this.BX = this.BX || {};
     props: ['control', 'id', 'name'],
     emits: [],
     // language=Vue
-    template: "\n\t\t<label :class=\"{\n      'twpx-form-control': true,\n      'twpx-form-control--checkbox-block': true,\n      'twpx-form-control--active': active,\n      'twpx-form-control--checked': control.checked,\n      'twpx-form-control--invalid': invalid,\n      'twpx-form-control--disabled': disabled,\n    }\">\n      <input\n        type=\"checkbox\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        :value=\"control.value\"\n        :checked=\"control.checked\"\n        v-model=\"checked\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n      />\n      <CheckboxIcon />\n      <span class=\"twpx-form-control__label\" v-if=\"control.label\" v-html=\"control.label\"></span>\n    </label>\n\t"
+    template: "\n    <div>\n      <label :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--checkbox-block': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--checked': control.checked,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\">\n        <input\n          type=\"checkbox\"\n          :id=\"controlId\"\n          :name=\"controlName\"\n          :value=\"control.value\"\n          :checked=\"control.checked\"\n          v-model=\"checked\"\n          @focus=\"focus\"\n          @blur=\"blur\"\n          :disabled=\"disabled\"\n          ref=\"input\"\n        />\n        <CheckboxIcon />\n        <span class=\"twpx-form-control__label\" v-if=\"control.label\" v-html=\"control.label\"></span>\n      </label>\n      <div class=\"twpx-form-control__hint\" v-if=\"hint\" v-html=\"hint\"></div>\n    </div>\n\t"
   }, babelHelpers.defineProperty(_ControlCheckboxBlock, "emits", ['input', 'focus', 'blur']), babelHelpers.defineProperty(_ControlCheckboxBlock, "computed", {
     checked: {
       get: function get() {

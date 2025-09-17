@@ -5,9 +5,12 @@ import { ModalAnyContent } from 'local.vue-components.modal-any-content';
 
 import { ResultItemComponent } from '../components/resultItemComponent'
 import { GroupApplicationComponent } from '../components/groupApplicationComponent'
+import { ResultApplicationForm } from '../components/resultApplicationForm'
+import { ResultApplicationSuccess } from '../components/resultApplicationSuccess'
 
 import { dataStore } from '../stores/data';
 import { resultStore } from '../stores/result';
+import { controlsStore } from '../stores/controls';
 import { mapState, mapActions } from 'ui.vue3.pinia';
 
 export const Result = {
@@ -16,6 +19,8 @@ export const Result = {
         LoaderCircle,
         MoreButton,
         ModalAnyContent,
+        ResultApplicationForm,
+        ResultApplicationSuccess,
         ResultItemComponent,
         GroupApplicationComponent,
     },
@@ -26,7 +31,25 @@ export const Result = {
 
             <MessageComponent type="error" size="big" :message="error" v-if="!loading && error" />
 
-            <ModalAnyContent :stateWatcher="applicationModalStateWatcher">text</ModalAnyContent>
+            <ModalAnyContent :stateWatcher="applicationModalStateWatcher" @onClose="onClose">
+                <LoaderCircle v-if="resultApplicationLoading" :show="resultApplicationLoading" />
+                <MessageComponent
+                    v-else-if="resultApplicationError"
+                    type="error"
+                    size="big"
+                    :message="resultApplicationError"
+                />
+                <ResultApplicationForm
+                    v-else-if="resultApplicationState === 'form'"
+                    :lang="lang"
+                    :controls="resultApplicationControls"
+                    @input="input"
+                    @hints="hints"
+                    @cancel="close"
+                    @send="send"
+                />
+                <ResultApplicationSuccess v-else :lang="lang" @close="close" />
+            </ModalAnyContent>
 
             <div v-if="!loading && !error" class="twpx-vue-marketplace-result__content">
 
@@ -46,7 +69,7 @@ export const Result = {
         ...mapState(dataStore, [
             'lang',
             'error',
-            'loading'
+            'loading',
         ]),
         ...mapState(resultStore, [
             'formIdArray',
@@ -55,11 +78,17 @@ export const Result = {
             'startIndex',
             'maxCountPerRequest',
             'loadingMore',
-            'applicationModalStateWatcher'
+            'applicationModalStateWatcher',
+            'resultApplicationGroup',
+            'resultApplicationControls',
+            'resultApplicationState',
+            'resultApplicationLoading',
+            'resultApplicationError'
         ]),
         showMore() {
             return this.startIndex < this.formIdArray.length
-        }
+        },
+
     },
     methods: {
         ...mapActions(dataStore, [
@@ -73,6 +102,11 @@ export const Result = {
             'setMaxCountPerRequest',
             'changeLoadingMore',
             'changeProp'
+        ]),
+        ...mapActions(controlsStore, [
+            'changeControlValue',
+            'runHintsAction',
+            'setHints'
         ]),
         createApplication({groupApplicationArray}) {
             this.changeProp('applicationModalStateWatcher', !this.applicationModalStateWatcher);
@@ -118,6 +152,53 @@ export const Result = {
             } catch(err) {
                 throw err;
             }
+        },
+        input(args) {
+            this.changeControlValue(args)
+        },
+        hints({ type, control, action, value }) {
+            switch (type) {
+                case 'get':
+                    this.runHintsAction({
+                        control,
+                        action,
+                    });
+                    break;
+                case 'set':
+                    this.setHints({
+                        control,
+                        value,
+                    });
+                    break;
+            }
+        },
+        send(formData) {
+            this.changeProp('resultApplicationLoading', true);
+
+            this.runApiMethod('send', {}, formData)
+                .then(
+                    (response) => {
+                        this.changeProp('resultApplicationLoading', false);
+                        this.changeProp('resultApplicationState', 'success')
+                    },
+                    (res) => {
+                        this.changeProp('resultApplicationLoading', false);
+                        if (res && res.errors) {
+                            this.changeProp('resultApplicationError', res.errors[0].message);
+                        }
+                    }
+                )
+                .catch(err => {
+                    this.changeProp('resultApplicationLoading', false);
+                    console.log(err);
+                })
+        },
+        close() {
+            this.changeProp('applicationModalStateWatcher', !this.applicationModalStateWatcher);
+        },
+        onClose() {
+            this.changeProp('resultApplicationState', 'form');
+            this.changeProp('resultApplicationError', '');
         }
     },
 

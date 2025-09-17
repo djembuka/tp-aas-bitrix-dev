@@ -5,15 +5,16 @@ this.BX = this.BX || {};
 
   var ControlCheckboxSwitch = {
     data: function data() {
+      var _this$control;
       return {
         controlId: this.id || this.control.id || null,
         controlName: this.name || this.control.name || null,
-        hint: this.control.hint_external
+        hint: ((_this$control = this.control) === null || _this$control === void 0 ? void 0 : _this$control.hint_external) || ''
       };
     },
     props: ['control', 'id', 'name'],
     // language=Vue
-    template: "\n\t\t<div\n    :class=\"{\n      'twpx-form-control': true,\n      'twpx-form-control--checkbox': true,\n      'twpx-form-control--invalid': invalid,\n      'twpx-form-control--disabled': disabled,\n    }\"\n  >\n    <label>\n      <span\n        class=\"twpx-form-control__switch\"\n        :class=\"{ 'twpx-form-control__switch--off': !checked }\"\n      >\n        <input\n          type=\"checkbox\"\n          :id=\"controlId\"\n          :name=\"controlName\"\n          :value=\"control.value\"\n          :checked=\"control.checked\"\n          v-model=\"checked\"\n      /></span>\n      <span\n        class=\"twpx-form-control__switch-text\"\n        v-if=\"control.label !== undefined\"\n        >{{ control.label }}</span\n      >\n    </label>\n    <div class=\"twpx-form-control-hint\" v-if=\"hint\" v-html=\"hint\"></div>\n  </div>\n\t",
+    template: "\n\t\t<div\n    :class=\"{\n      'twpx-form-control': true,\n      'twpx-form-control--checkbox': true,\n      'twpx-form-control--invalid': invalid,\n      'twpx-form-control--disabled': disabled,\n    }\"\n  >\n    <label>\n      <span\n        class=\"twpx-form-control__switch\"\n        :class=\"{ 'twpx-form-control__switch--off': !checked }\"\n      >\n        <input\n          type=\"checkbox\"\n          :id=\"controlId\"\n          :name=\"controlName\"\n          :value=\"control.value\"\n          :checked=\"control.checked\"\n          v-model=\"checked\"\n      /></span>\n      <span\n        class=\"twpx-form-control__switch-text\"\n        v-if=\"control.label !== undefined\"\n        >{{ control.label }}</span\n      >\n    </label>\n    <div class=\"twpx-form-control__hint\" v-if=\"hint\" v-html=\"hint\"></div>\n  </div>\n\t",
     emits: ['input', 'focus', 'blur'],
     computed: {
       checked: {

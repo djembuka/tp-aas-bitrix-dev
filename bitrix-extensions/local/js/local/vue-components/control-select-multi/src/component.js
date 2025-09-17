@@ -6,7 +6,7 @@ export const ControlSelectMulti = {
     return {
       controlId: this.id || this.control.id || null,
       controlName: this.name || this.control.name || null,
-      hint: this.control.hint_external,
+      hint: this.control?.hint_external || '',
 
       disabled: false,
     };
@@ -44,7 +44,7 @@ export const ControlSelectMulti = {
         <span class="twpx-form-control--checkbox-block__label" v-if="option.label" v-html="option.label"></span>
       </label>
     
-      <div class="twpx-form-control-hint" v-if="hint" v-html="hint"></div>
+      <div class="twpx-form-control__hint" v-if="hint" v-html="hint"></div>
     </div>
 	`,
   props: ['control', 'id', 'name'],

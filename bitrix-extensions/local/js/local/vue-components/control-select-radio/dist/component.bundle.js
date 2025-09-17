@@ -5,14 +5,15 @@ this.BX = this.BX || {};
 
   var ControlSelectRadio = {
     data: function data() {
+      var _this$control;
       return {
         controlId: this.id || this.control.id || null,
         controlName: this.name || this.control.name || null,
-        hint: this.control.hint_external
+        hint: ((_this$control = this.control) === null || _this$control === void 0 ? void 0 : _this$control.hint_external) || ''
       };
     },
     // language=Vue
-    template: "\n\t\t<div\n    :class=\"{\n      'twpx-form-control': true,\n      'twpx-form-control--radio': true,\n      'twpx-form-control--invalid': invalid,\n      'twpx-form-control--disabled': disabled,\n    }\"\n  >\n    <label\n      class=\"twpx-form-control__radio\"\n      v-for=\"option in control.options\"\n      :key=\"option.code\"\n    >\n      <input\n        class=\"with-gap\"\n        :name=\"controlName\"\n        type=\"radio\"\n        :value=\"option.code\"\n        v-model=\"checked\"\n      />\n      <span>{{ option.label || '' }}</span>\n    </label>\n    <div class=\"twpx-form-control-hint\" v-if=\"hint\" v-html=\"hint\"></div>\n  </div>\n\t",
+    template: "\n\t\t<div\n    :class=\"{\n      'twpx-form-control': true,\n      'twpx-form-control--radio': true,\n      'twpx-form-control--invalid': invalid,\n      'twpx-form-control--disabled': disabled,\n    }\"\n  >\n    <label\n      class=\"twpx-form-control__radio\"\n      v-for=\"option in control.options\"\n      :key=\"option.code\"\n    >\n      <input\n        class=\"with-gap\"\n        :name=\"controlName\"\n        type=\"radio\"\n        :value=\"option.code\"\n        v-model=\"checked\"\n      />\n      <span>{{ option.label || '' }}</span>\n    </label>\n    <div class=\"twpx-form-control__hint\" v-if=\"hint\" v-html=\"hint\"></div>\n  </div>\n\t",
     props: ['control', 'id', 'name'],
     emits: ['input'],
     computed: {

@@ -13,6 +13,7 @@
         actions: [],
         error: '',
         loading: false,
+        resultApplicationGroupId: 1,
         steps: [{
           id: 'one',
           name: 'Цель',
@@ -235,6 +236,18 @@
         var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'applicationTemplate';
         var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
         var formData = arguments.length > 2 ? arguments[2] : undefined;
+        if (method === 'send') {
+          return new Promise(function (res, rej) {
+            setTimeout(function () {
+              rej({
+                errors: [{
+                  code: 123,
+                  message: 'Ошибка рассылки заявки.'
+                }]
+              });
+            }, 1000);
+          });
+        }
         if (formData) {
           Object.entries(this.customData).forEach(function (key, value) {
             formData.append(key, value);
@@ -257,7 +270,11 @@
         startIndex: 0,
         maxCountPerRequest: 3,
         loadingMore: false,
-        applicationModalStateWatcher: false
+        applicationModalStateWatcher: false,
+        resultApplicationGroup: {},
+        resultApplicationControls: [],
+        resultApplicationState: 'form',
+        resultApplicationError: ''
       };
     },
     getters: {
@@ -270,6 +287,25 @@
       }
     },
     actions: {
+      changeResultApplicationGroup: function changeResultApplicationGroup(groups, resultApplicationGroupId) {
+        if (groups && groups.filter) {
+          this.resultApplicationGroup = groups.filter(function (g) {
+            return String(g.id) === String(resultApplicationGroupId);
+          });
+        }
+      },
+      changeResultApplicationControls: function changeResultApplicationControls(controls, resultApplicationGroupId) {
+        if (controls && controls.filter) {
+          this.resultApplicationControls = controls.filter(function (c) {
+            return String(c.groupid) === String(resultApplicationGroupId);
+          }).map(function (c) {
+            if (c.required) {
+              c.label = "".concat(c.label, " *");
+            }
+            return c;
+          });
+        }
+      },
       setFormIdArray: function setFormIdArray(data) {
         this.formIdArray = data;
       },
@@ -336,13 +372,12 @@
     components: {
       ControlComponent: local_vueComponents_controlComponent.ControlComponent
     },
-    template: "\n        <div class=\"twpx-vue-marketplace-application-html\" v-if=\"step.title || step.subtitle\">\n            <h3 v-if=\"step.title\">{{ step.title }}</h3>\n            <p v-if=\"step.subtitle\">{{ step.subtitle }}</p>\n        </div>\n\n        <div class=\"twpx-vue-marketplace-application-controls\">\n            <ControlComponent v-for=\"control in step.controls\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n        </div>\n    ",
+    template: "\n        <div class=\"twpx-vue-marketplace-application-html\" v-if=\"step.title || step.subtitle\">\n            <h4 v-if=\"step.title\">{{ step.title }}</h4>\n            <p v-if=\"step.subtitle\">{{ step.subtitle }}</p>\n        </div>\n\n        <div class=\"twpx-vue-marketplace-application-controls\">\n            <ControlComponent v-for=\"control in step.controls\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n        </div>\n    ",
     methods: {
       input: function input(args) {
         this.$emit('input', args);
       },
       hints: function hints(args) {
-        console.log(args);
         this.$emit('hints', args);
       }
     }
@@ -399,16 +434,24 @@
           active = _ref.active;
         step.active = active;
       },
-      changeApplicationControls: function changeApplicationControls(controls) {
-        this.applicationControls = controls.map(function (c) {
-          if (c.required) {
-            c.label = "".concat(c.label, " *");
-          }
-          return c;
-        });
+      changeApplicationControls: function changeApplicationControls(controls, resultApplicationGroupId) {
+        if (controls && controls.filter) {
+          this.applicationControls = controls.filter(function (c) {
+            return String(c.groupid) !== String(resultApplicationGroupId);
+          }).map(function (c) {
+            if (c.required) {
+              c.label = "".concat(c.label, " *");
+            }
+            return c;
+          });
+        }
       },
-      changeApplicationGroups: function changeApplicationGroups(groups) {
-        this.applicationGroups = groups;
+      changeApplicationGroups: function changeApplicationGroups(groups, resultApplicationGroupId) {
+        if (groups && groups.filter) {
+          this.applicationGroups = groups.filter(function (g) {
+            return String(g.id) !== String(resultApplicationGroupId);
+          });
+        }
       }
     }
   });
@@ -578,7 +621,7 @@
       LoaderCircle: local_vueComponents_loaderCircle.LoaderCircle
     },
     template: "\n        <div class=\"twpx-vue-marketplace-application\">\n\n            <LoaderCircle :show=\"loading\" />\n\n            <MessageComponent type=\"error\" size=\"big\" :message=\"error\" v-if=\"!loading && error\" />\n\n            <div v-if=\"!loading\" class=\"twpx-vue-marketplace-application__content\">\n\n                <h2>{{ lang.application.heading }}</h2>\n\n                <TheNavigation :groups=\"applicationGroups\" @clickNavItem=\"clickNavItem\" />\n\n                <StepComponent :step=\"step\" @input=\"input\" @hints=\"hints\" />\n\n                <TheButtons :groups=\"applicationGroups\" :step=\"step\" :lang=\"lang.application\" @send=\"send\" />\n\n            </div>\n\n        </div>\n    ",
-    computed: _objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'steps', 'error', 'loading'])), ui_vue3_pinia.mapState(applicationStore, ['applicationControls', 'applicationGroups'])), {}, {
+    computed: _objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'steps', 'error', 'loading', 'resultApplicationGroupId'])), ui_vue3_pinia.mapState(applicationStore, ['applicationControls', 'applicationGroups'])), {}, {
       step: function step() {
         var groupId = this.$route.params.id || (this.applicationGroups.length ? this.applicationGroups[0].id : undefined);
         var group = this.applicationGroups.find(function (g) {
@@ -595,7 +638,7 @@
         } : {};
       }
     }),
-    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['runApiMethod', 'changeError', 'changeLoading', 'createUrl'])), ui_vue3_pinia.mapActions(applicationStore, ['changeApplicationControls', 'changeApplicationGroups'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControlValue', 'runHintsAction', 'setHints'])), ui_vue3_pinia.mapActions(resultStore, ['setFormIdArray', 'setFormTemplate', 'setFormDataArray'])), {}, {
+    methods: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['runApiMethod', 'changeError', 'changeLoading', 'createUrl'])), ui_vue3_pinia.mapActions(applicationStore, ['changeApplicationControls', 'changeApplicationGroups'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControlValue', 'runHintsAction', 'setHints'])), ui_vue3_pinia.mapActions(resultStore, ['setFormIdArray', 'setFormTemplate', 'setFormDataArray', 'changeResultApplicationGroup', 'changeResultApplicationControls'])), {}, {
       clickNavItem: function clickNavItem(_ref) {
         var group = _ref.group;
         this.$router.push("/step/".concat(group.id));
@@ -631,6 +674,8 @@
           _this.$router.push("/result");
         }, function (r) {
           _this.showError(r, 'searchForms');
+        })["catch"](function (err) {
+          _this.showError(err);
         });
       },
       input: function input(args) {
@@ -662,14 +707,16 @@
       this.changeLoading(true);
       this.changeError('');
       this.runApiMethod('applicationGroups').then(function (response) {
-        _this2.changeApplicationGroups(response.data);
+        _this2.changeApplicationGroups(response.data, _this2.resultApplicationGroupId);
+        _this2.changeResultApplicationGroup(response.data, _this2.resultApplicationGroupId);
         return _this2.runApiMethod('applicationTemplate');
       }, function (r) {
         _this2.showError(r, 'applicationGroups');
       }).then(function (response) {
         _this2.changeLoading(false);
         _this2.changeError('');
-        _this2.changeApplicationControls(response.data);
+        _this2.changeApplicationControls(response.data, _this2.resultApplicationGroupId);
+        _this2.changeResultApplicationControls(response.data, _this2.resultApplicationGroupId);
       }, function (r) {
         _this2.showError(r, 'applicationTemplate');
       });
@@ -797,6 +844,50 @@
     }
   };
 
+  var ResultApplicationForm = {
+    data: function data() {
+      return {
+        id: "resultApplicationForm".concat(Math.round(Math.random() * 1000))
+      };
+    },
+    props: ['controls', 'lang'],
+    emits: ['input', 'hints', 'cancel', 'send'],
+    components: {
+      ControlComponent: local_vueComponents_controlComponent.ControlComponent,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
+    },
+    template: "\n        <form :data-id=\"id\">\n            <div class=\"twpx-vue-marketplace__result-application-form\">\n                <h2 v-if=\"lang && lang?.result?.formHeading\">{{ lang.result.formHeading }}</h2>\n                <p v-if=\"lang && lang?.result?.formText\">{{ lang.result.formText }}</p>\n                <div class=\"twpx-vue-marketplace__result-application-form__wrapper\">\n                    <ControlComponent v-for=\"control in controls\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n                </div>\n                <div class=\"twpx-vue-marketplace__result-application-form__buttons\">\n                    <ButtonComponent :text=\"lang.result.formCancel\" :props=\"['gray-color','large']\" @clickButton=\"clickCancel\" />\n                    <ButtonComponent :text=\"lang.result.formSend\" :props=\"['secondary','large']\" @clickButton=\"clickSend\" />\n                </div>\n            </div>\n        </form>\n    ",
+    methods: {
+      input: function input(args) {
+        this.$emit('input', args);
+      },
+      hints: function hints(args) {
+        this.$emit('hints', args);
+      },
+      clickCancel: function clickCancel() {
+        this.$emit('cancel');
+      },
+      clickSend: function clickSend() {
+        var formData = new FormData(document.querySelector("[data-id=\"".concat(this.id, "\"]")));
+        this.$emit('send', formData);
+      }
+    }
+  };
+
+  var ResultApplicationSuccess = {
+    props: ['lang'],
+    emits: ['close'],
+    components: {
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
+    },
+    template: "\n            <div class=\"twpx-vue-marketplace__result-application-success\">\n                <h2 v-if=\"lang && lang?.result?.formSuccessHeading\">{{ lang.result.formSuccessHeading }}</h2>\n                <p v-if=\"lang && lang?.result?.formSuccessText\">{{ lang.result.formSuccessText }}</p>\n                <div class=\"twpx-vue-marketplace__result-application-success__button\">\n                    <ButtonComponent :text=\"lang.result.formSuccessButton\" :props=\"['gray-color','large']\" @clickButton=\"close\" />\n                </div>\n            </div>\n    ",
+    methods: {
+      close: function close() {
+        this.$emit('close');
+      }
+    }
+  };
+
   function ownKeys$5(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
   function _objectSpread$5(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$5(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$5(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
   var Result = {
@@ -805,16 +896,18 @@
       LoaderCircle: local_vueComponents_loaderCircle.LoaderCircle,
       MoreButton: local_vueComponents_moreButton.MoreButton,
       ModalAnyContent: local_vueComponents_modalAnyContent.ModalAnyContent,
+      ResultApplicationForm: ResultApplicationForm,
+      ResultApplicationSuccess: ResultApplicationSuccess,
       ResultItemComponent: ResultItemComponent,
       GroupApplicationComponent: GroupApplicationComponent
     },
-    template: "\n        <div class=\"twpx-vue-marketplace-result\">\n\n            <LoaderCircle :show=\"loading\" />\n\n            <MessageComponent type=\"error\" size=\"big\" :message=\"error\" v-if=\"!loading && error\" />\n\n            <ModalAnyContent :stateWatcher=\"applicationModalStateWatcher\">text</ModalAnyContent>\n\n            <div v-if=\"!loading && !error\" class=\"twpx-vue-marketplace-result__content\">\n\n                <h2>{{ lang.result.heading }}</h2>\n\n                <ResultItemComponent v-for=\"company in formDataArray\" :key=\"company.id\" :company=\"company\" @createApplication=\"createApplication\" />\n\n                <MoreButton :loading=\"loadingMore\" :show=\"showMore\" @clickMore=\"clickMore\" />\n\n                <GroupApplicationComponent :groupApplicationArray=\"groupApplicationArray\" @createApplication=\"createApplication\" />\n\n            </div>\n\n        </div>\n    ",
-    computed: _objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'error', 'loading'])), ui_vue3_pinia.mapState(resultStore, ['formIdArray', 'formDataArray', 'groupApplicationArray', 'startIndex', 'maxCountPerRequest', 'loadingMore', 'applicationModalStateWatcher'])), {}, {
+    template: "\n        <div class=\"twpx-vue-marketplace-result\">\n\n            <LoaderCircle :show=\"loading\" />\n\n            <MessageComponent type=\"error\" size=\"big\" :message=\"error\" v-if=\"!loading && error\" />\n\n            <ModalAnyContent :stateWatcher=\"applicationModalStateWatcher\" @onClose=\"onClose\">\n                <LoaderCircle v-if=\"resultApplicationLoading\" :show=\"resultApplicationLoading\" />\n                <MessageComponent\n                    v-else-if=\"resultApplicationError\"\n                    type=\"error\"\n                    size=\"big\"\n                    :message=\"resultApplicationError\"\n                />\n                <ResultApplicationForm\n                    v-else-if=\"resultApplicationState === 'form'\"\n                    :lang=\"lang\"\n                    :controls=\"resultApplicationControls\"\n                    @input=\"input\"\n                    @hints=\"hints\"\n                    @cancel=\"close\"\n                    @send=\"send\"\n                />\n                <ResultApplicationSuccess v-else :lang=\"lang\" @close=\"close\" />\n            </ModalAnyContent>\n\n            <div v-if=\"!loading && !error\" class=\"twpx-vue-marketplace-result__content\">\n\n                <h2>{{ lang.result.heading }}</h2>\n\n                <ResultItemComponent v-for=\"company in formDataArray\" :key=\"company.id\" :company=\"company\" @createApplication=\"createApplication\" />\n\n                <MoreButton :loading=\"loadingMore\" :show=\"showMore\" @clickMore=\"clickMore\" />\n\n                <GroupApplicationComponent :groupApplicationArray=\"groupApplicationArray\" @createApplication=\"createApplication\" />\n\n            </div>\n\n        </div>\n    ",
+    computed: _objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'error', 'loading'])), ui_vue3_pinia.mapState(resultStore, ['formIdArray', 'formDataArray', 'groupApplicationArray', 'startIndex', 'maxCountPerRequest', 'loadingMore', 'applicationModalStateWatcher', 'resultApplicationGroup', 'resultApplicationControls', 'resultApplicationState', 'resultApplicationLoading', 'resultApplicationError'])), {}, {
       showMore: function showMore() {
         return this.startIndex < this.formIdArray.length;
       }
     }),
-    methods: _objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapActions(dataStore, ['runApiMethod', 'changeError', 'changeLoading'])), ui_vue3_pinia.mapActions(resultStore, ['setFormDataArray', 'setStartIndex', 'setMaxCountPerRequest', 'changeLoadingMore', 'changeProp'])), {}, {
+    methods: _objectSpread$5(_objectSpread$5(_objectSpread$5(_objectSpread$5({}, ui_vue3_pinia.mapActions(dataStore, ['runApiMethod', 'changeError', 'changeLoading'])), ui_vue3_pinia.mapActions(resultStore, ['setFormDataArray', 'setStartIndex', 'setMaxCountPerRequest', 'changeLoadingMore', 'changeProp'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControlValue', 'runHintsAction', 'setHints'])), {}, {
       createApplication: function createApplication(_ref) {
         var groupApplicationArray = _ref.groupApplicationArray;
         this.changeProp('applicationModalStateWatcher', !this.applicationModalStateWatcher);
@@ -860,6 +953,52 @@
         } catch (err) {
           throw err;
         }
+      },
+      input: function input(args) {
+        this.changeControlValue(args);
+      },
+      hints: function hints(_ref2) {
+        var type = _ref2.type,
+          control = _ref2.control,
+          action = _ref2.action,
+          value = _ref2.value;
+        switch (type) {
+          case 'get':
+            this.runHintsAction({
+              control: control,
+              action: action
+            });
+            break;
+          case 'set':
+            this.setHints({
+              control: control,
+              value: value
+            });
+            break;
+        }
+      },
+      send: function send(formData) {
+        var _this2 = this;
+        this.changeProp('resultApplicationLoading', true);
+        this.runApiMethod('send', {}, formData).then(function (response) {
+          _this2.changeProp('resultApplicationLoading', false);
+          _this2.changeProp('resultApplicationState', 'success');
+        }, function (res) {
+          _this2.changeProp('resultApplicationLoading', false);
+          if (res && res.errors) {
+            _this2.changeProp('resultApplicationError', res.errors[0].message);
+          }
+        })["catch"](function (err) {
+          _this2.changeProp('resultApplicationLoading', false);
+          console.log(err);
+        });
+      },
+      close: function close() {
+        this.changeProp('applicationModalStateWatcher', !this.applicationModalStateWatcher);
+      },
+      onClose: function onClose() {
+        this.changeProp('resultApplicationState', 'form');
+        this.changeProp('resultApplicationError', '');
       }
     }),
     mounted: function mounted() {
@@ -949,5 +1088,4 @@
 
   exports.Marketplace = Marketplace;
 
-}((this.BX = this.BX || {}),BX,BX,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Controls,BX.AAS,BX));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Controls,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map

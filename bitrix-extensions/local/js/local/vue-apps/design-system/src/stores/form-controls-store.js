@@ -11,6 +11,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: '123,54',
         required: false,
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'time',
@@ -21,6 +22,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: '11:00',
         required: false,
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'hint',
@@ -33,6 +35,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         required: false,
         disabled: false,
         tab: 1,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'hint',
@@ -44,6 +47,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         action: '/markup/vue/design-system/hints-html.json',
         required: false,
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'hint',
@@ -55,6 +59,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         action: '/markup/vue/design-system/hints-autocomplete.json',
         required: false,
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'hint',
@@ -66,6 +71,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         action: '/markup/vue/design-system/hints-hidden.json',
         required: false,
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         id: 'id1',
@@ -76,6 +82,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         id: 'id1-1',
@@ -86,6 +93,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         id: 'id2',
@@ -96,6 +104,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         id: 'id3',
@@ -106,6 +115,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         id: 'id4',
@@ -114,6 +124,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: '',
         required: false,
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'password',
@@ -123,6 +134,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: '',
         required: false,
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'date',
@@ -132,6 +144,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         name: 'DATE_FROM_TO',
         required: true,
         value: ['20.02.2024', '28.02.2024'],
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'date',
@@ -141,7 +154,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         name: 'DATE',
         required: true,
         value: '28.02.2024',
-        hint_external: 'Hint',
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
         dependency: 'id6',
       },
       {
@@ -151,7 +164,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         label: 'Logo',
         value: '',
         file: '',
-        hint_external: 'For your site',
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
         required: true,
         disabled: false,
         accept: ['svg', 'png', 'jpg', 'jpeg'],
@@ -166,7 +179,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         label: 'Upload logo',
         value: null,
         upload: {},
-        hint_external: 'For your site',
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
         required: true,
         disabled: false,
         accept: ['svg', 'png', 'jpg', 'jpeg'],
@@ -195,6 +208,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         ],
         value: '',
         disabled: false,
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'select',
@@ -217,6 +231,7 @@ export const formControlsStore = defineStore('form-controls-store', {
           },
         ],
         value: '2',
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'select',
@@ -239,6 +254,7 @@ export const formControlsStore = defineStore('form-controls-store', {
           },
         ],
         value: ['2'],
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'checkbox',
@@ -250,7 +266,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: 'on',
         checked: true,
         disabled: false,
-        hint_external: '',
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
         dependency: 'id6',
       },
       {
@@ -263,7 +279,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: 'on',
         checked: true,
         disabled: false,
-        hint_external: 'Active checkbox',
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'checkbox',
@@ -274,7 +290,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: 'on',
         checked: true,
         disabled: false,
-        hint_external: 'Simple checkbox',
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'checkbox',
@@ -286,7 +302,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: 'on',
         checked: true,
         disabled: false,
-        hint_external: 'Checkbox block',
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
       },
     ],
   }),

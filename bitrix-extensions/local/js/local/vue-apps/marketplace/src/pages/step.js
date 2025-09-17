@@ -45,7 +45,8 @@ export const Step = {
             'lang',
             'steps',
             'error',
-            'loading'
+            'loading',
+            'resultApplicationGroupId'
         ]),
         ...mapState(applicationStore, [
             'applicationControls',
@@ -85,7 +86,9 @@ export const Step = {
         ...mapActions(resultStore, [
             'setFormIdArray',
             'setFormTemplate',
-            'setFormDataArray'
+            'setFormDataArray',
+            'changeResultApplicationGroup',
+            'changeResultApplicationControls'
         ]),
         clickNavItem({group}) {
             this.$router.push(`/step/${group.id}`);
@@ -123,6 +126,9 @@ export const Step = {
                     },
                     (r) => {this.showError(r, 'searchForms')}
                 )
+                .catch(err => {
+                    this.showError(err)
+                })
         },
         input(args) {
             this.changeControlValue(args)
@@ -151,7 +157,8 @@ export const Step = {
         this.runApiMethod('applicationGroups')
             .then(
                 (response) => {
-                    this.changeApplicationGroups(response.data);
+                    this.changeApplicationGroups(response.data, this.resultApplicationGroupId);
+                    this.changeResultApplicationGroup(response.data, this.resultApplicationGroupId);
 
                     return this.runApiMethod('applicationTemplate');
                 },
@@ -161,7 +168,8 @@ export const Step = {
                 (response) => {
                     this.changeLoading(false);
                     this.changeError('');
-                    this.changeApplicationControls(response.data);
+                    this.changeApplicationControls(response.data, this.resultApplicationGroupId);
+                    this.changeResultApplicationControls(response.data, this.resultApplicationGroupId);
                 },
                 (r) => {this.showError(r, 'applicationTemplate')}
             );

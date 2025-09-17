@@ -44,6 +44,13 @@ $APPLICATION->SetTitle("Marketplace Bitrix Vue");
 				'groupApplicationHeading': 'Отправьте заявку сразу в несколько компаний',
 				'groupApplicationText': 'Выбрано',
 				'groupApplicationCompany': ['организация', 'организации', 'организаций'],
+				'formHeading': 'Отправить заявку',
+				'formText': 'Заполните форму, указав данные вашего юридического лица.',
+				'formCancel': 'Отменить',
+				'formSend': 'Отправить',
+				'formSuccessHeading': 'Ваша заявка отправлена',
+				'formSuccessText': 'Ваша заявка отправлена всем выбранным вами компаниям. Ожидайте обратную связь от их представителей по электронной почте и телефону.',
+				'formSuccessButton': 'Понятно',
 			}
 		}
 	});

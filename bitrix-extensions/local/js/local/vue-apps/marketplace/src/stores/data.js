@@ -9,6 +9,8 @@ export const dataStore = defineStore('data', {
 
     error: '',
     loading: false,
+
+    resultApplicationGroupId: 1,
     
     steps: [
       {
@@ -262,6 +264,11 @@ export const dataStore = defineStore('data', {
         window.history.pushState({}, '', url);
     },
     runApiMethod(method = 'applicationTemplate', data = {}, formData) {
+      if (method === 'send') {
+        return new Promise((res, rej) => {
+          setTimeout(() => {rej({errors: [{code: 123, message: 'Ошибка рассылки заявки.'}]});}, 1000);
+        });
+      }
 
       if (formData) {
         Object.entries(this.customData).forEach((key,value) => {

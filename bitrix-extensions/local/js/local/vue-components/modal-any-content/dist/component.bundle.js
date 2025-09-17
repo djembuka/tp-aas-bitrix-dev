@@ -14,6 +14,7 @@ this.BX = this.BX || {};
         "default": true
       }
     },
+    emits: ['onClose'],
     data: function data() {
       return {
         isOpen: false,
@@ -47,6 +48,7 @@ this.BX = this.BX || {};
         this.isAnimate = false;
         setTimeout(function () {
           _this2.isOpen = false;
+          _this2.$emit('onClose');
         }, 300);
       }
     }

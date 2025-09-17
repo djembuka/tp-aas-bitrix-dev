@@ -11,9 +11,12 @@
     gap: 32px;
 }
 .twpx-vue-marketplace-application h2,
-.twpx-vue-marketplace-application h3,
+.twpx-vue-marketplace-application h4,
 .twpx-vue-marketplace-application p {
     margin: 0;
+}
+.twpx-vue-marketplace-application h4 {
+    font-size: 20px;
 }
 .twpx-vue-marketplace-application-html,
 .twpx-vue-marketplace-application-controls {
@@ -25,14 +28,8 @@
     gap: 10px;
 }
 .twpx-vue-marketplace-nav-items {
-    /* display: grid;
-    grid-template-columns: repeat(6, 1fr); */
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 }
 .twpx-vue-marketplace-nav__item {
     color: var(--twpx-text-secondary, #9B9B9B);
@@ -253,4 +250,57 @@
   -webkit-transform: translateY(-30px);
       -ms-transform: translateY(-30px);
           transform: translateY(-30px);
+}
+
+/* result application form */
+.twpx-vue-marketplace__result-application-form {
+    display: grid;
+    gap: 32px;
+}
+.twpx-vue-marketplace__result-application-form h2,
+.twpx-vue-marketplace__result-application-form p {
+    margin: 0;
+}
+.twpx-vue-marketplace__result-application-form__wrapper {
+    display: grid;
+    gap: 24px;
+}
+.twpx-vue-marketplace__result-application-form__buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+/* Success */
+.twpx-vue-marketplace__result-application-success {
+    display: grid;
+    gap: 32px;
+    text-align: center;
+}
+.twpx-vue-marketplace__result-application-success h2,
+.twpx-vue-marketplace__result-application-success p {
+    margin: 0;
+}
+.twpx-vue-marketplace__result-application-success__button {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+.twpx-vue-marketplace__result-application-success__button .vue-button {
+    width: 100%;
+    max-width: 256px;
+}
+@media(max-width: 767px) {
+    .twpx-vue-marketplace__result-application-form__buttons {
+        grid-template-columns: 1fr;
+    }
+    .twpx-vue-marketplace__result-application-form__buttons .vue-button:first-child {
+        padding: 8px 16px;
+        height: 32px;
+        font-size: 12px;
+        border-radius: 4px;
+    }
 }

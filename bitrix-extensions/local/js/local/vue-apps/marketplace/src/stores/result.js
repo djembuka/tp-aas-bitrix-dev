@@ -7,7 +7,12 @@ export const resultStore = defineStore('result', {
     startIndex: 0,
     maxCountPerRequest: 3,
     loadingMore: false,
-    applicationModalStateWatcher: false
+    applicationModalStateWatcher: false,
+
+    resultApplicationGroup: {},
+    resultApplicationControls: [],
+    resultApplicationState: 'form',
+    resultApplicationError: ''
   }),
   getters: {
     groupApplicationArray(state) {
@@ -17,6 +22,24 @@ export const resultStore = defineStore('result', {
     }
   },
   actions: {
+    changeResultApplicationGroup(groups, resultApplicationGroupId) {
+      if (groups && groups.filter) {
+        this.resultApplicationGroup = groups.filter(g => String(g.id) === String(resultApplicationGroupId))
+      }
+    },
+    changeResultApplicationControls(controls, resultApplicationGroupId) {
+      if (controls && controls.filter) {
+        this.resultApplicationControls = 
+            controls
+                .filter(c => String(c.groupid) === String(resultApplicationGroupId))
+                .map(c => {
+                    if (c.required) {
+                        c.label = `${c.label} *`;
+                    }
+                    return c;
+                });
+      }
+    },
     setFormIdArray(data) {
         this.formIdArray = data;
     },

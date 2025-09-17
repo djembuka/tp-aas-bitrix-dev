@@ -11,6 +11,7 @@ export const ControlSelectDropdown = {
       optionsArray: [],
       opened: false,
       animation: false,
+      hint: this.control?.hint_external || '',
     };
   },
   components: {
@@ -66,6 +67,7 @@ export const ControlSelectDropdown = {
           </div>
         </div>
       </div>
+      <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
     </div>
 	`,
   props: ['control', 'name', 'customOnChange'],

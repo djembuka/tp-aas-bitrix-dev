@@ -8,7 +8,7 @@ export const StepComponent = {
     },
     template: `
         <div class="twpx-vue-marketplace-application-html" v-if="step.title || step.subtitle">
-            <h3 v-if="step.title">{{ step.title }}</h3>
+            <h4 v-if="step.title">{{ step.title }}</h4>
             <p v-if="step.subtitle">{{ step.subtitle }}</p>
         </div>
 
@@ -21,7 +21,6 @@ export const StepComponent = {
             this.$emit('input', args);
         },
         hints(args) {
-            console.log(args)
             this.$emit('hints', args);
         }
     }

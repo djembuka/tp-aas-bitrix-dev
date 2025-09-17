@@ -3,10 +3,8 @@
     gap: 10px;
 }
 .twpx-vue-marketplace-nav-items {
-    /* display: grid;
-    grid-template-columns: repeat(6, 1fr); */
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 }
 .twpx-vue-marketplace-nav__item {
     color: var(--twpx-text-secondary, #9B9B9B);
