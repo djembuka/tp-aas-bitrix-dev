@@ -25,8 +25,8 @@ export class FormWithMulti {
       },
       template: '<Application/>',
       mounted() {
-        dataStore().sessid = self.options.sessid || '';
-        dataStore().signedParameters = self.options.signedParameters || '';
+        dataStore().sessionid = self.options.SESSION_ID || '';
+        dataStore().signedParameters = self.options.SIGNED_PARAMETERS || '';
 
         formStore().actions = {
           controls: self.options.controls || [],

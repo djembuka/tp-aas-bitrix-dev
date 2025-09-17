@@ -5,7 +5,7 @@
   var dataStore = ui_vue3_pinia.defineStore('data', {
     state: function state() {
       return {
-        sessid: '',
+        sessionid: '',
         signedParameters: ''
       };
     }
@@ -168,7 +168,7 @@
     },
     // language=Vue
     template: "\n    <div>\n      <ErrorMessage :error=\"error\" @hideError=\"hideError\" />\n      <StickyScroll>\n        <TableComponent :sortable=\"true\" :cols=\"tableCols\" :columnsNames=\"columnsNames\" :items=\"items\" :sort=\"sort\" :loading=\"loadingTable\" :maxCountPerRequest=\"maxCountPerRequest\" @clickTh=\"clickTh\" @clickPage=\"clickPage\" />\n      </StickyScroll> \n      <hr>\n      <div class=\"vue-ft-table-bottom\">\n        <div class=\"vue-ft-table-all\" v-if=\"items.resultCount\">\u0412\u0441\u0435\u0433\u043E: {{ items.resultCount }}</div>\n        <PaginationComponent :pagesNum=\"pagesNum\" :pageActive=\"pageActive\" @clickPage=\"clickPage\" />\n      </div>\n    </div>\n\t",
-    computed: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['sessid', 'signedParameters'])), ui_vue3_pinia.mapState(tableStore, ['loadingTable', 'columnsNames', 'items', 'sort', 'tableCols', 'maxCountPerRequest', 'errorTable'])), {}, {
+    computed: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['sessionid', 'signedParameters'])), ui_vue3_pinia.mapState(tableStore, ['loadingTable', 'columnsNames', 'items', 'sort', 'tableCols', 'maxCountPerRequest', 'errorTable'])), {}, {
       pagesNum: function pagesNum() {
         return Math.ceil(this.items.resultCount / this.maxCountPerRequest);
       },
@@ -191,7 +191,7 @@
           mode: 'class',
           data: {
             signedParameters: this.signedParameters,
-            sessid: this.sessid,
+            sessionid: this.sessionid,
             columnSort: column.id,
             sortType: sortType
           }
@@ -200,7 +200,7 @@
             mode: 'class',
             data: {
               signedParameters: _this.signedParameters,
-              sessid: _this.sessid,
+              sessionid: _this.sessionid,
               startIndex: _this.items.startIndex || 0,
               maxCountPerRequest: _this.maxCountPerRequest,
               filters: [],
@@ -212,7 +212,7 @@
             mode: 'class',
             data: {
               signedParameters: _this.signedParameters,
-              sessid: _this.sessid
+              sessionid: _this.sessionid
             }
           });
         });
@@ -223,7 +223,7 @@
           mode: 'class',
           data: {
             signedParameters: this.signedParameters,
-            sessid: this.sessid,
+            sessionid: this.sessionid,
             startIndex: (count - 1) * this.maxCountPerRequest,
             maxCountPerRequest: this.maxCountPerRequest,
             filters: [],
@@ -239,21 +239,21 @@
         mode: 'class',
         data: {
           signedParameters: this.signedParameters,
-          sessid: this.sessid
+          sessionid: this.sessionid
         }
       });
       this.runDefaultSort({
         mode: 'class',
         data: {
           signedParameters: this.signedParameters,
-          sessid: this.sessid
+          sessionid: this.sessionid
         }
       }, function () {
         _this2.runItems({
           mode: 'class',
           data: {
             signedParameters: _this2.signedParameters,
-            sessid: _this2.sessid,
+            sessionid: _this2.sessionid,
             startIndex: _this2.items.startIndex || 0,
             maxCountPerRequest: _this2.maxCountPerRequest,
             filters: [],
@@ -299,9 +299,9 @@
             Application: Application
           },
           template: '<Application/>',
-          beforeMount: function beforeMount() {
-            dataStore().sessid = self.options.sessid || '';
-            dataStore().signedParameters = self.options.signedParameters || '';
+          mounted: function mounted() {
+            dataStore().sessionid = self.options.SESSION_ID || '';
+            dataStore().signedParameters = self.options.SIGNED_PARAMETERS || '';
             tableStore().tableCols = self.options.TABLE_COLS || [];
             tableStore().maxCountPerRequest = self.options.maxCountPerRequest || 100;
             tableStore().actions = {

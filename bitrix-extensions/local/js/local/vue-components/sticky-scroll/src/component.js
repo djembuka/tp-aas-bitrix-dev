@@ -4,7 +4,6 @@ export const StickyScroll = {
   data() {
     return {
       visible: true,
-      mousemove: false,
       clickThumbStep: 100,
       hoverSpaceStep: 10,
       hoverSpaceInterval: 30,
@@ -16,11 +15,11 @@ export const StickyScroll = {
   },
   props: ['reInitWatcher'],
   template: `
-    <div class="twpx-sticky-scroll" :class="{'twpx-sticky-scroll--invisible': !visible, 'twpx-sticky-scroll--mousemove': mousemove}">
-      <div class="twpx-sticky-scroll-space-right" ref="spaceRight" @mouseover="spaceAndArrowMouseover('right')" @mouseout="spaceAndArrowMouseout"></div>
-      <div class="twpx-sticky-scroll-space-left" ref="spaceLeft" @mouseover="spaceAndArrowMouseover('left')" @mouseout="spaceAndArrowMouseout"></div>
+    <div class="twpx-sticky-scroll">
+      <div class="twpx-sticky-scroll-space-right" ref="spaceRight" @mouseover="spaceAndArrowMouseover('right')" @mouseout="spaceAndArrowMouseout" v-show="visible"></div>
+      <div class="twpx-sticky-scroll-space-left" ref="spaceLeft" @mouseover="spaceAndArrowMouseover('left')" @mouseout="spaceAndArrowMouseout" v-show="visible"></div>
 
-      <div class="twpx-sticky-scroll-arrows">
+      <div class="twpx-sticky-scroll-arrows" v-show="visible">
         <div class="twpx-sticky-scroll-arrow-right" ref="arrowRight" @mouseover="spaceAndArrowMouseover('right')" @mouseout="spaceAndArrowMouseout"></div>
         <div class="twpx-sticky-scroll-arrow-left" ref="arrowLeft" @mouseover="spaceAndArrowMouseover('left')" @mouseout="spaceAndArrowMouseout"></div>
       </div>
@@ -31,7 +30,7 @@ export const StickyScroll = {
         </div>
       </div>
 
-      <div class="twpx-sticky-scroll-scrollbar" ref="scrollbar" @click="scrollbarClick($event)">
+      <div class="twpx-sticky-scroll-scrollbar" ref="scrollbar" @click="scrollbarClick($event)" v-show="visible">
         <div class="twpx-sticky-scroll-scrollbar-thumb" ref="thumb" @mousedown="thumbMousedown($event)" @click="thumbClick($event)"></div>
       </div>
     </div>
@@ -47,8 +46,6 @@ export const StickyScroll = {
     init() {
       if (window.matchMedia('(min-width: 768px)').matches) {
         this.setThumbWidth();
-      } else {
-        this.visible = false;
       }
     },
     setThumbWidth() {

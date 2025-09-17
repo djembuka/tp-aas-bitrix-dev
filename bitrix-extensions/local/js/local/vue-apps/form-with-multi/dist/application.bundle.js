@@ -259,7 +259,7 @@
         mode: 'class',
         data: {
           signedParameters: this.signedParameters,
-          sessid: this.sessid
+          sessionid: this.sessionid
         }
       });
     }
@@ -268,7 +268,7 @@
   var dataStore = ui_vue3_pinia.defineStore('data', {
     state: function state() {
       return {
-        sessid: '',
+        sessionid: '',
         signedParameters: ''
       };
     }
@@ -309,8 +309,8 @@
           },
           template: '<Application/>',
           mounted: function mounted() {
-            dataStore().sessid = self.options.sessid || '';
-            dataStore().signedParameters = self.options.signedParameters || '';
+            dataStore().sessionid = self.options.SESSION_ID || '';
+            dataStore().signedParameters = self.options.SIGNED_PARAMETERS || '';
             formStore().actions = {
               controls: self.options.controls || []
             };

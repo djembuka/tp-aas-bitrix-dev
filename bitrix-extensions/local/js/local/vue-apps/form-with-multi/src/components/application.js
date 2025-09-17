@@ -70,7 +70,7 @@ export const Application = {
       mode: 'class',
       data: {
         signedParameters: this.signedParameters,
-        sessid: this.sessid,
+        sessionid: this.sessionid,
       },
     });
   },

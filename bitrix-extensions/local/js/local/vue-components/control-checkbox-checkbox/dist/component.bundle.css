@@ -1,4 +1,5 @@
 .twpx-form-control--checkbox {
+  max-width: 700px;
   --aas-checkbox-width: 24px;
   --aas-checkbox-height: 24px;
   --aas-checkbox-checked-before-top: 4px;
@@ -7,20 +8,6 @@
   --aas-checkbox-checked-before-height: 13px;
   --aas-checkbox-span-min-height: 25px;
   --aas-checkbox-span-padding-left: calc(var(--aas-checkbox-width) + 20px);
-
-  display: -webkit-box;
-
-  display: -ms-flexbox;
-
-  display: flex;
-  height: var(--48, 48px);
-  padding: var(--twpx-table-padding-m, 16px);
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  gap: var(--semantic-gap-s, 16px);
-  border-radius: var(--twpx-checkbox-border-radius);
-  border: 1px solid var(--twpx-form-control-background);
 }
 .twpx-form-control--checkbox label {
   margin-bottom: 0;
