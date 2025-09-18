@@ -23,3 +23,12 @@
     display: grid;
     gap: var(--semantic-gap-s, 16px);
 }
+@media(max-width: 767px) {
+    .twpx-vue-marketplace-application {
+        padding: 32px 16px;
+    }
+    .twpx-vue-marketplace-application h4,
+    .twpx-vue-marketplace-application p {
+        font-size: 14px;
+    }
+}

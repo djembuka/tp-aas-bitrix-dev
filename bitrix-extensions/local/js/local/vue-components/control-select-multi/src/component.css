@@ -21,9 +21,12 @@
   --aas-checkbox-checked-before-height: 13px;
   --aas-checkbox-span-min-height: 25px;
   --aas-checkbox-span-padding-left: calc(var(--aas-checkbox-width) + 20px);
-
-  display: flex;
+  
   width: 100%;
+}
+.twpx-form-control--checkbox-block label {
+  margin-bottom: 0;
+  display: flex;
   padding: 12px var(--twpx-table-padding-m, 16px);
   align-items: center;
   gap: var(--semantic-gap-s, 16px);
@@ -33,13 +36,10 @@
   -webkit-transition: border-color .3s ease, background-color .3s ease;
   transition: border-color .3s ease, background-color .3s ease;
 }
-label.twpx-form-control--checkbox-block {
-  margin-bottom: 0;
-}
 .twpx-form-control--checkbox-block:hover {
   border-color: var(--twpx-form-control-border-active);
 }
-.twpx-form-control--checkbox-block.twpx-form-control--checked {
+.twpx-form-control--checkbox-block.twpx-form-control--checked label {
   background-color: var(--twpx-form-control-background-blue);
 }
 .twpx-form-control--checkbox-block svg {

@@ -36,11 +36,23 @@ export const TheButtons = {
       if (group) {
         this.$router.push(`/step/${group.id}`);
       }
+      if (window.matchMedia("(max-width: 768px)")) {
+        document.querySelector('.twpx-vue-marketplace-nav').scrollTo({
+          left: (this.currentIndex - 1) * 150,
+          behavior: "smooth",
+        })
+      }
     },
     goForward() {
       const group = this.groups[this.currentIndex + 1];
       if (group) {
         this.$router.push(`/step/${group.id}`);
+      }
+      if (window.matchMedia("(max-width: 768px)")) {
+        document.querySelector('.twpx-vue-marketplace-nav').scrollTo({
+          left: (this.currentIndex + 1) * 150,
+          behavior: "smooth",
+        })
       }
     },
   },

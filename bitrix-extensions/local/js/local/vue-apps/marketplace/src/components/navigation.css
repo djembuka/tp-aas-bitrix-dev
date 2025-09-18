@@ -38,3 +38,12 @@
 .twpx-vue-marketplace-nav-line--full div {
     border-radius: var(--twpx-text-border-radius-small, 4px);
 }
+@media(max-width: 767px) {
+    .twpx-vue-marketplace-nav {
+        overflow: scroll;
+        padding-bottom: 3px;
+    }
+    .twpx-vue-marketplace-nav__item {
+        min-width: 150px;
+    }
+}

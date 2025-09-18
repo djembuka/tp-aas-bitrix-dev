@@ -5,3 +5,16 @@
 .twpx-vue-marketplace-buttons .vue-button {
     width: 100%;
 }
+@media(max-width: 767px) {
+    .twpx-vue-marketplace-buttons {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .twpx-vue-marketplace-buttons .vue-button.vue-button--gray-color {
+        padding: 8px 16px;
+        height: 32px;
+        font-size: 12px;
+        border-radius: 4px;
+    }
+}

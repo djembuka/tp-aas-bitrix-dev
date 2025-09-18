@@ -411,11 +411,23 @@
         if (group) {
           this.$router.push("/step/".concat(group.id));
         }
+        if (window.matchMedia("(max-width: 768px)")) {
+          document.querySelector('.twpx-vue-marketplace-nav').scrollTo({
+            left: (this.currentIndex - 1) * 150,
+            behavior: "smooth"
+          });
+        }
       },
       goForward: function goForward() {
         var group = this.groups[this.currentIndex + 1];
         if (group) {
           this.$router.push("/step/".concat(group.id));
+        }
+        if (window.matchMedia("(max-width: 768px)")) {
+          document.querySelector('.twpx-vue-marketplace-nav').scrollTo({
+            left: (this.currentIndex + 1) * 150,
+            behavior: "smooth"
+          });
         }
       }
     }
@@ -1088,5 +1100,4 @@
 
   exports.Marketplace = Marketplace;
 
-}((this.BX = this.BX || {}),BX,BX,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Controls,BX.AAS,BX));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Controls,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map

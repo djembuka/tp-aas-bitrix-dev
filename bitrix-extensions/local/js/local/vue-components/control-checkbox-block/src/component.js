@@ -19,8 +19,7 @@ export const ControlCheckboxBlock = {
   emits: [],
   // language=Vue
   template: `
-    <div>
-      <label :class="{
+    <div :class="{
         'twpx-form-control': true,
         'twpx-form-control--checkbox-block': true,
         'twpx-form-control--active': active,
@@ -28,6 +27,7 @@ export const ControlCheckboxBlock = {
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,
       }">
+      <label>
         <input
           type="checkbox"
           :id="controlId"

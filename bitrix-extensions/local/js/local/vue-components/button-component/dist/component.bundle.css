@@ -44,17 +44,20 @@ button:not(:disabled) {
   white-space: nowrap;
   color: #fff;
 }
-@media (max-width: 767px) {
-  .vue-button {
-    display: block;
-    width: auto;
-  }
-}
 button.vue-button {
   border: none;
 }
 .vue-button:hover {
   opacity: 0.7;
+}
+@media (max-width: 767px) {
+  .vue-button {
+    display: block;
+    width: auto;
+  }
+  .vue-button:hover {
+    opacity: 1;
+  }
 }
 .vue-button svg {
   -ms-flex-negative: 0;
