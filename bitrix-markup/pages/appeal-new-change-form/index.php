@@ -1,28 +1,27 @@
 <?
-require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 $APPLICATION->SetTitle("Заседания дисциплинарной комиссии");
 
 \Bitrix\Main\UI\Extension::load("local.vue-apps.appeal-new-change-form");
 ?>
 
 <div class="b-appeal-new-change-form ph-block ph-block--animated">
-  <div class="ph">
-	<div class="ph__text">
-	  <div></div>
-	  <div></div>
-	  <div></div>
-	  <div></div>
-	  <div></div>
-	  <div></div>
+	<div class="ph">
+		<div class="ph__text">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
 	</div>
-  </div>
-  <div class="ph-content">
-	<h3>Изменение сведений об учредителях (Участниках, акционерах) аудиторской организации, а также сведения о держателях реестров акционеров аудиторской организации, созданной в форме акционерного общества</h3>
-	<p>Подробное описание заполнения формы с <a href="">пояснением</a> о том, какие поля надо заполнять и как они должны выглядеть. Описанием может быть довольно большим.</p>
-	
-	<div id="appealNewChangeForm"></div>
+	<div class="ph-content">
+		<h3>Изменение сведений об учредителях (Участниках, акционерах) аудиторской организации, а также сведения о держателях реестров акционеров аудиторской организации, созданной в форме акционерного общества</h3>
+		<p>Подробное описание заполнения формы с <a href="">пояснением</a> о том, какие поля надо заполнять и как они должны выглядеть. Описанием может быть довольно большим.</p>
+		<div id="appealNewChangeForm"></div>
 
-  </div>
+	</div>
 </div>
 
 <hr>
@@ -31,12 +30,10 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 
 <script>
 	const appealnewchangeform = new BX.AppealNewChangeForm('#appealNewChangeForm', {
-		'SESSION_ID': '123',
-		'SIGNED_PARAMETERS': 'signedParameters',
-		'data': 
-		{
-			"hidden": [
-				{
+		"SESSION_ID": "123",
+		"SIGNED_PARAMETERS": "signedParameters",
+		"data": {
+			"hidden": [{
 					"name": "APPEAL_ID",
 					"value": 513571
 				},
@@ -48,8 +45,7 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 			"docsBlock": {
 				"title": "Документы необходимые для заявления",
 				"text": "",
-				"items": [
-					{
+				"items": [{
 						"id": 316910,
 						"title": "Согласие на избрание",
 						"url": "/upload/iblock/fe2/1q2umi6oixrukd34oahgp401qz1yn1j4/Soglasie_kandidata.pdf",
@@ -72,8 +68,7 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 			"controlsBlock": {
 				"title": "Данные заявления",
 				"text": "",
-				"controls": [
-					{
+				"controls": [{
 						"property": 'text',
 						id: 'PROPERTY_355_0',
 						name: 'PROPERTY[355][0]',
@@ -87,17 +82,17 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 						name: 'PROPERTY[358][0]',
 						"label": "ОРНЗ кандидата",
 						"value": "",
-            "count": 3,
-            "action": "/markup/vue/design-system/hints.json",
+						"count": 3,
+						"action": "/markup/pages/appeal-new-change-form/hints.json",
 						"required": false,
-            "disabled": false,
-            "hints": [],
+						"disabled": false,
+            "multi": 3,
 						"completeBlock": {
 							"title": "",
 							"value": "",
 							"comment": "ОРНЗ кандидата, если он является членом СРО ААС"
 						}
-					},  
+					},
 					{
 						"property": 'text',
 						id: 'PROPERTY_356_0',
@@ -117,28 +112,28 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 						name: 'PROPERTY[375][0]',
 						"label": "ОРНЗ организации",
 						"value": "",
-            "count": 3,
-            "action": "/markup/vue/design-system/hints.json",
+						"count": 3,
+						"action": "/markup/vue/design-system/hints.json",
 						"required": false,
-            "disabled": false,
-            "hints": [],
+						"disabled": false,
+						"hints": [],
 						"completeBlock": {
 							"title": "",
 							"value": "",
 							"comment": "ОРНЗ организации"
 						}
-					},  
+					},
 					{
 						"property": 'hint',
 						id: 'PROPERTY_445_0',
 						name: 'PROPERTY[445][0]',
 						"label": "ОГРН организации",
 						"value": "",
-            "count": 3,
-            "action": "/markup/vue/design-system/hints.json",
+						"count": 3,
+						"action": "/markup/vue/design-system/hints.json",
 						"required": false,
-            "disabled": false,
-            "hints": [],
+						"disabled": false,
+						"hints": [],
 						"completeBlock": {
 							"title": "",
 							"value": "",
@@ -179,66 +174,64 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 			"confirmDocsBlock": {
 				"title": "Документы заявления",
 				"text": "Для принятия решения",
-				"items": [
-					{
-						"id": 0,
-						"title": "Пакет документов 1",
-						"text": "<ul><li>Согласие кандидата на обработку персональных данных</li><li>Если документ подписан отсоединённой электронной подписью, добавьте ее.</li><li>Согласие кандидата на избрание, выдвижение</li><li>Если документ подписан отсоединённой электронной подписью, добавьте ее.</li><li>Резюме кандидата, включая информацию об участии в деятельности СРО ААС, работе общественных, профессиональных и/или иных организаций (представляется в произвольной форме)</li></ul>",
-						"controls": [
-              {
-                "property": 'file',
-                "type": 'upload',
-                "id": 'id_upload_logo',
-                "name": 'FILE_LOGO',
-                "label": 'Файл с подписью',
-                "value": null,
-                "upload": {},
-                "required": true,
-                "disabled": false,
-                "accept": ['svg', 'png', 'jpg', 'jpeg'],
-                "image": true,
-                "maxsize": 10000000,
-                "multi": 3,
-                "sub": [
-                  {
-                    "property": 'file',
-                    "type": 'upload',
-                    "id": 'id01',
-                    "name": 'SIG',
-                    "label": 'Отсоединённая электронная подпись',
-                    "value": null,
-                    "multi": 3,
-                    "upload": {},
-                    "required": false,
-                    "disabled": false,
-                    "accept": ['svg', 'png', 'jpg', 'jpeg'],
-                    "maxsize": 10000000,
-                    "multi": 3,
-                  },
-                ],
-              },
-							{
+				"items": [{
+					"id": 0,
+					"title": "Пакет документов 1",
+					"text": "<ul><li>Согласие кандидата на обработку персональных данных</li><li>Если документ подписан отсоединённой электронной подписью, добавьте ее.</li><li>Согласие кандидата на избрание, выдвижение</li><li>Если документ подписан отсоединённой электронной подписью, добавьте ее.</li><li>Резюме кандидата, включая информацию об участии в деятельности СРО ААС, работе общественных, профессиональных и/или иных организаций (представляется в произвольной форме)</li></ul>",
+					"controls": [{
+							"property": 'file',
+							"type": 'upload',
+							"id": 'id_upload_logo',
+							"name": 'FILE_LOGO',
+							"label": 'Файл с подписью',
+							"value": null,
+							"upload": {},
+							"action": "/local/components/twinpx/journal.new/templates/.default/fileupload.php?APPEAL_ID=519612&TYPE=sign",
+							"required": true,
+							"disabled": false,
+							"accept": ['svg', 'png', 'jpg', 'jpeg'],
+							"image": true,
+							"maxsize": 10000000,
+							"multi": 3,
+							"sub": [{
 								"property": 'file',
-								"type": "upload",
-								"name": "FILES[0]",
-								"label": "Согласие кандидата на обработку ПД *",
-								"multi": false,
-								"maxsize": 10240000,
-								"required": true,
+								"type": 'upload',
+								"id": 'id01',
+								"name": 'SIG',
+								"label": 'Отсоединённая электронная подпись',
 								"value": null,
-                "upload": {},
-								"accept": [
-									"pdf",
-									"jpg",
-									"jpeg",
-									"png",
-									"doc",
-									"docx"
-								],
-							},
-						]
-					}
-				]
+								"multi": 3,
+								"upload": {},
+								"action": "/local/components/twinpx/journal.new/templates/.default/fileupload.php?APPEAL_ID=519612&TYPE=sign",
+								"required": false,
+								"disabled": false,
+								"accept": ['svg', 'png', 'jpg', 'jpeg'],
+								"maxsize": 10000000,
+								"multi": 3,
+							}, ],
+						},
+						{
+							"property": 'file',
+							"type": "upload",
+							"name": "FILES[0]",
+							"label": "Согласие кандидата на обработку ПД *",
+							"multi": false,
+							"maxsize": 10240000,
+							"required": true,
+							"value": null,
+							"upload": {},
+							"action": "/local/components/twinpx/journal.new/templates/.default/fileupload.php?APPEAL_ID=519612&TYPE=sign",
+							"accept": [
+								"pdf",
+								"jpg",
+								"jpeg",
+								"png",
+								"doc",
+								"docx"
+							],
+						},
+					]
+				}]
 			},
 			"autosaveTimeoutId": 39,
 			"autosave": 5000,
@@ -260,4 +253,4 @@ $APPLICATION->SetTitle("Заседания дисциплинарной коми
 	appealnewchangeform.run();
 </script>
 
-<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+<? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>
