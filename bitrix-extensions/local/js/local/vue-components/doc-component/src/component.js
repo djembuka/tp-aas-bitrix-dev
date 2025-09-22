@@ -33,11 +33,11 @@ export const DocComponent = {
   emits: ['clickDelete'],
   // language=Vue
   template: `
-		<div class="twpx-doc twpx-doc--button twpx-doc--32x44 p-16 bg-fa">
+		<div class="twpx-doc twpx-doc--button twpx-doc--32x44">
       <div class="twpx-doc__body">
         <a class="twpx-doc__icon" :href="doc.href" :style="getStyle()" target="_blank"></a>
         <span class="twpx-doc__text">
-          <a :href="doc.href" target="_blank"><b>{{ doc.name }}</b></a>
+          <a class="twpx-doc__name" :href="doc.href" target="_blank">{{ doc.name }}</a>
           <span class="twpx-doc__data">
             <span>{{ formatFileSize(doc.size) }} {{ getFileNameAndExt(doc.href).ext }}</span>
             <span>Дата публикации: {{ formatDateToRussian(doc.date) }}</span>

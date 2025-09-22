@@ -53,7 +53,7 @@ export const dataStore = defineStore('data', {
                   size: 512000,
                   date: "22 февраля 2021",
                   author: "Васильев Виктор Степанович",
-                  icon: "/template/images/pdf.svg",
+                  icon: "/template/images/icons/pdf-23x32.svg",
                 },
                 {
                   id: 'doc2',
@@ -62,7 +62,7 @@ export const dataStore = defineStore('data', {
                   size: 512000,
                   date: "22 февраля 2021",
                   author: "Васильев Виктор Степанович",
-                  icon: "/template/images/pdf.svg",
+                  icon: "/template/images/icons/pdf-23x32.svg",
                 }
               ]
             },
@@ -81,7 +81,7 @@ export const dataStore = defineStore('data', {
                   size: 1200000,
                   date: "10 марта 2022",
                   author: "Беляев Артем Викторович",
-                  icon: "/template/images/pdf.svg",
+                  icon: "/template/images/icons/pdf-23x32.svg",
                 },
                 {
                   id: 'doc4',
@@ -90,7 +90,7 @@ export const dataStore = defineStore('data', {
                   size: 512000,
                   date: "10 марта 2022",
                   author: "Беляев Артем Викторович",
-                  icon: "/template/images/pdf.svg",
+                  icon: "/template/images/icons/pdf-23x32.svg",
                 }
               ]
             },
@@ -109,7 +109,7 @@ export const dataStore = defineStore('data', {
                   size: 700000,
                   date: "5 апреля 2023",
                   author: "Кузнецов Дмитрий Сергеевич",
-                  icon: "/template/images/pdf.svg",
+                  icon: "/template/images/icons/pdf-23x32.svg",
                 },
                 {
                   id: 'doc6',
@@ -118,7 +118,7 @@ export const dataStore = defineStore('data', {
                   size: 700000,
                   date: "5 апреля 2023",
                   author: "Кузнецов Дмитрий Сергеевич",
-                  icon: "/template/images/pdf.svg",
+                  icon: "/template/images/icons/pdf-23x32.svg",
                 }
               ]
             },
@@ -137,7 +137,7 @@ export const dataStore = defineStore('data', {
                   size: 1512000,
                   date: "15 мая 2023",
                   author: "Орлов Сергей Владимирович",
-                  icon: "/template/images/pdf.svg",
+                  icon: "/template/images/icons/pdf-23x32.svg",
                 },
                 {
                   id: 'doc8',
@@ -146,7 +146,7 @@ export const dataStore = defineStore('data', {
                   size: 1512000,
                   date: "15 мая 2023",
                   author: "Орлов Сергей Владимирович",
-                  icon: "/template/images/pdf.svg",
+                  icon: "/template/images/icons/pdf-23x32.svg",
                 }
               ]
             }
