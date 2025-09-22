@@ -73,7 +73,7 @@
                 this.errorTable = "".concat(window.BX.message('ERROR_SUPPORT'), "\n                <br>\n                <br>\n                \u041C\u0435\u0442\u043E\u0434: ").concat(method, ". \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: NETWORK_ERROR. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: ").concat(window.BX.message('ERROR_OFFLINE'), ".");
               }
             } else {
-              this.errorTable = "".concat(window.BX.message('ERROR_SUPPORT'), "\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: ").concat(method, ".").concat(error.errors[0].code ? ' РљРѕРґ РѕС€РёР±РєРё: ' + error.errors[0].code + '.' : '', " ").concat(error.errors[0].message ? ' РћРїРёСЃР°РЅРёРµ: ' + error.errors[0].message + '.' : '');
+              this.errorTable = "".concat(window.BX.message('ERROR_SUPPORT'), "\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: ").concat(method, ".").concat(error.errors[0].code ? ' Код ошибки: ' + error.errors[0].code + '.' : '', " ").concat(error.errors[0].message ? ' Описание: ' + error.errors[0].message + '.' : '');
             }
           }
         }
@@ -199,7 +199,7 @@
                 this.errorFilter = "".concat(window.BX.message('ERROR_SUPPORT'), "\n                <br>\n                <br>\n                \u041C\u0435\u0442\u043E\u0434: ").concat(method, ". \u041A\u043E\u0434 \u043E\u0448\u0438\u0431\u043A\u0438: NETWORK_ERROR. \u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435: ").concat(window.BX.message('ERROR_OFFLINE'), ".");
               }
             } else {
-              this.errorFilter = "".concat(window.BX.message('ERROR_SUPPORT'), "\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: ").concat(method, ".").concat(error.errors[0].code ? ' РљРѕРґ РѕС€РёР±РєРё: ' + error.errors[0].code + '.' : '', " ").concat(error.errors[0].message ? ' РћРїРёСЃР°РЅРёРµ: ' + error.errors[0].message + '.' : '');
+              this.errorFilter = "".concat(window.BX.message('ERROR_SUPPORT'), "\n              <br>\n              <br>\n              \u041C\u0435\u0442\u043E\u0434: ").concat(method, ".").concat(error.errors[0].code ? ' Код ошибки: ' + error.errors[0].code + '.' : '', " ").concat(error.errors[0].message ? ' Описание: ' + error.errors[0].message + '.' : '');
             }
           }
         }
@@ -378,7 +378,7 @@
       clickMore: function clickMore() {
         var _this = this;
         if (!this.sort.columnSort || !this.sort.sortType) {
-          //РµСЃР»Рё СЃСЂР°Р±РѕС‚Р°Р»Рѕ РїРѕРєР° РЅРµ Р·Р°РіСЂСѓР·РёР»РёСЃСЊ РґР°РЅРЅС‹Рµ РїРµСЂРІРѕР№ СЃС‚СЂР°РЅРёС†С‹
+          //если сработало пока не загрузились данные первой страницы
           return;
         }
         this.changeStartIndex(this.startIndex + this.maxCountPerRequest);

@@ -9,7 +9,7 @@
   display: grid;
   gap: 32px;
   border-radius: var(--twpx-table-padding-s, 8px);
-  border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+  border: 1px solid var(--twpx-border-neutral, #f2f2f2);
   padding: var(--twpx-table-padding-l, 32px);
 }
 .twpx-poll-candidates-item__info {
@@ -53,4 +53,23 @@
 .twpx-poll-candidates-item__docs {
   display: grid;
   gap: var(--twpx-block-desktop-sizes-gap-s, 16px);
+}
+@media (max-width: 767px) {
+  .twpx-poll-candidates {
+    gap: var(--twpx-block-mobile-sizes-gap-l, 24px);
+  }
+  .twpx-poll-candidates-item {
+    gap: var(--twpx-block-desktop-sizes-gap-s, 16px);
+    padding: 8px;
+  }
+  .twpx-poll-candidates-item__info {
+    display: grid;
+  }
+  .twpx-poll-candidates-item__text h3 {
+    font-size: 16px;
+    line-height: 21.6px;
+  }
+  .twpx-poll-candidates-item__description {
+    font-size: 14px;
+  }
 }
