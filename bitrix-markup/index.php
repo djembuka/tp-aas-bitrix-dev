@@ -27,6 +27,13 @@ $APPLICATION->SetTitle("Markup");
 
 <h2>Страницы</h2>
 
+<h3>Голосование</h3>
+<ul>
+  <li>
+	<a href="/markup/pages/poll-candidates/">Кандидаты в правление</a>
+  </li>
+</ul>
+
 <h3>Marketplace</h3>
 <ul>
   <li>
