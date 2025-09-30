@@ -162,6 +162,9 @@ h3.twpx-vue-filter__open-title {
 .twpx-vue-filter__filled-item b {
   font-weight: 700;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
 }
 .twpx-vue-filter__filled-item svg {
   cursor: pointer;

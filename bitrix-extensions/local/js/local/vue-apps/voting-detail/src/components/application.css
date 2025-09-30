@@ -1,0 +1,18 @@
+.twpx-poll-detail__loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+.twpx-poll-detail h2,
+.twpx-poll-detail h3,
+.twpx-poll-detail h4 {
+  margin: 0;
+}
+.twpx-poll-detail h4 {
+  font-size: 20px;
+}
+.twpx-poll-detail__wrapper {
+  display: grid;
+  gap: 32px;
+}

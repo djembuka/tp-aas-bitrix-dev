@@ -30,7 +30,19 @@ $APPLICATION->SetTitle("Markup");
 <h3>Голосование</h3>
 <ul>
   <li>
-	<a href="/markup/pages/poll-candidates/">Кандидаты в правление</a>
+	<a href="/markup/pages/voting-candidates/">Кандидаты в правление</a>
+  </li>
+  <li>
+	<a href="/markup/pages/voting-list/">Список голосований</a>
+  </li>
+  <li>
+	<a href="/markup/pages/voting-create/">Создать голосование</a>
+  </li>
+  <li>
+	<a href="/markup/pages/voting-detail/">Детальная страница голосования</a>
+  </li>
+  <li>
+	<a href="/markup/pages/voting-screen/">Экран голосования</a>
   </li>
 </ul>
 

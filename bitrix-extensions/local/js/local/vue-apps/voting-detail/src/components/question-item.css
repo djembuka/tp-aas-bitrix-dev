@@ -1,0 +1,52 @@
+.twpx-poll-question-item {
+    display: grid;
+    padding: 32px;
+    gap: 32px;
+    border-radius: var(--twpx-text-border-radius-medium, 8px);
+    background: var(--twpx-text-background-grey, #FAFAFA);
+}
+.twpx-poll-question-item__wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
+}
+.twpx-poll-question-item__text {
+    color: #000;
+    font-family: Roboto;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 120% */
+}
+.twpx-poll-question-item__buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--twpx-form-gap-input-gap, 24px);
+}
+.twpx-poll-question-item__buttons .vue-button {
+    flex-shrink: 0;
+}
+.twpx-poll-question-item__button {
+    padding: 16px;
+    border-radius: var(--twpx-text-border-radius-medium, 8px);
+    background: var(--twpx-text-background-default, #FFF);
+}
+.twpx-poll-question-item__button .vue-button {
+    width: 100%;
+}
+.twpx-poll-question-item__answers-block {
+    display: grid;
+    padding: 32px;
+    gap: 32px;
+    border-radius: var(--twpx-text-border-radius-medium, 8px);
+    background: var(--twpx-text-background-default, #FFF);
+}
+.twpx-poll-question-item__answers-block__button .vue-button {
+    width: 192px;
+}
+
+.twpx-poll-answers {
+    display: grid;
+    gap: 32px;
+}

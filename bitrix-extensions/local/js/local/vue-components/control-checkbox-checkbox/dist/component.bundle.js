@@ -18,7 +18,7 @@ this.BX = this.BX || {};
     props: ['control', 'id', 'name'],
     emits: [],
     // language=Vue
-    template: "\n\t\t<div :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--checkbox': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\">\n      <label>\n        <input\n          type=\"checkbox\"\n          :id=\"controlId\"\n          :name=\"controlName\"\n          :value=\"control.value\"\n          :checked=\"control.checked\"\n          v-model=\"checked\"\n          @focus=\"focus\"\n          @blur=\"blur\"\n          :disabled=\"disabled\"\n          ref=\"input\"\n          class=\"twpx-form-control--filled-in\"\n        />\n        <span class=\"twpx-form-control__label\" v-if=\"control.label\" v-html=\"control.label\">\n        </span>\n      </label>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t"
+    template: "\n\t\t<div :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--checkbox': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\">\n      <label>\n        <input\n          type=\"checkbox\"\n          :id=\"controlId\"\n          :name=\"controlName\"\n          :value=\"control.value\"\n          :checked=\"control.checked\"\n          v-model=\"checked\"\n          @focus=\"focus\"\n          @blur=\"blur\"\n          :disabled=\"disabled\"\n          ref=\"input\"\n          class=\"twpx-form-control--filled-in\"\n        />\n        <span class=\"twpx-form-control__label\" :style=\"labelStyle\" v-html=\"control.label\">\n        </span>\n      </label>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t"
   }, babelHelpers.defineProperty(_ControlCheckboxCheck, "emits", ['input', 'focus', 'blur']), babelHelpers.defineProperty(_ControlCheckboxCheck, "computed", {
     checked: {
       get: function get() {
@@ -44,6 +44,9 @@ this.BX = this.BX || {};
     },
     focusWatcher: function focusWatcher() {
       return this.control.focusWatcher;
+    },
+    labelStyle: function labelStyle() {
+      return this.control.label ? '' : "padding-left: 24px;";
     }
   }), babelHelpers.defineProperty(_ControlCheckboxCheck, "watch", {
     validateWatcher: function validateWatcher() {

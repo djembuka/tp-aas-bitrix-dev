@@ -121,11 +121,11 @@
             while (1) switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-                // Создаем AbortController для возможности отмены запроса
+                // РЎРѕР·РґР°РµРј AbortController РґР»СЏ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РѕС‚РјРµРЅС‹ Р·Р°РїСЂРѕСЃР°
                 controller = new AbortController();
                 timeoutId = setTimeout(function () {
                   return controller.abort();
-                }, 20000); // 20 секунд таймаут
+                }, 20000); // 20 СЃРµРєСѓРЅРґ С‚Р°Р№РјР°СѓС‚
                 _context.next = 5;
                 return fetch(action, {
                   signal: controller.signal,

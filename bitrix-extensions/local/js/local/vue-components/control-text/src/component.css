@@ -46,6 +46,7 @@
     var(--twpx-form-control-padding-right)
     var(--twpx-form-control-padding-bottom)
     var(--twpx-form-control-padding-left) !important;
+  color: var(--twpx-form-control-color);
   background-color: var(--twpx-form-control-background) !important;
   border: 1px solid var(--twpx-form-control-border) !important;
   height: var(--twpx-form-control-height) !important;

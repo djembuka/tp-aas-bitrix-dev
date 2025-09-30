@@ -1,0 +1,57 @@
+.twpx-poll-group-item {
+    display: grid;
+    padding: 32px;
+    gap: 32px;
+    border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+}
+.twpx-poll-group-item__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 32px;
+}
+.twpx-poll-group-item__info {
+    display: grid;
+    gap: 32px;
+}
+.twpx-poll-group-item__text {
+    color: #000;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+}
+.twpx-poll-group-item__questions {
+    display: grid;
+    gap: 32px;
+}
+.twpx-poll-group-item__buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--twpx-form-gap-input-gap, 24px);
+}
+.twpx-poll-group-item__buttons .vue-button {
+    flex-shrink: 0;
+}
+.twpx-poll-group-item__button {
+    display: grid;
+    gap: 32px;
+    padding: 32px;
+    border-radius: var(--twpx-text-border-radius-medium, 8px);
+    background: var(--twpx-text-background-grey, #FAFAFA);
+}
+.twpx-poll-group-item__button__wrapper {
+    display: grid;
+    gap: 16px;
+}
+.twpx-poll-group-item__button__wrapper h4 {
+    margin: 0;
+    font-size: 20px;
+}
+.twpx-poll-group-item__button .vue-button {
+    width: 100%;
+}
+.twpx-poll-group-item__questions .twpx-poll-group-item__button .vue-button {
+    max-width: 192px;
+}

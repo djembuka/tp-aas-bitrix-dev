@@ -1,0 +1,6 @@
+.twpx-poll-group-block {
+    display: grid;
+    padding: 32px;
+    gap: 32px;
+    border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+}

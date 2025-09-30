@@ -25,7 +25,7 @@
           "property": "file",
           "id": "id11",
           "name": "EVIDENTIAL_SUPPORT",
-          "label": "Файл доказательств",
+          "label": "Р¤Р°Р№Р» РґРѕРєР°Р·Р°С‚РµР»СЊСЃС‚РІ",
           "value": "",
           "file": "",
           "required": true,

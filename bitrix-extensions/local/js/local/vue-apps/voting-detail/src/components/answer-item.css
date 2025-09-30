@@ -1,0 +1,43 @@
+.twpx-poll-answer-item {
+    display: flex;
+    padding: 16px;
+    align-items: center;
+    gap: 32px;
+    border-radius: var(--twpx-text-border-radius-small, 4px);
+    border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+}
+.twpx-poll-answer-item__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+}
+.twpx-poll-answer-item__info img,
+.twpx-poll-answer-item__info .twpx-control-component {
+    flex-shrink: 0;
+}
+.twpx-poll-answer-item__info img {
+    object-fit: cover;
+}
+.twpx-poll-answer-item__text {
+    width: 100%;
+}
+.twpx-poll-answer-item__buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--twpx-form-gap-input-gap, 24px);
+}
+.twpx-poll-answer-item__buttons .vue-button {
+    flex-shrink: 0;
+}
+.twpx-poll-answer-item .twpx-form-control--radio,
+.twpx-poll-answer-item .twpx-form-control--radio .twpx-form-control__radio,
+.twpx-poll-answer-item .twpx-form-control--checkbox {
+    margin: 0;
+}
+.twpx-poll-answer-item .twpx-form-control--radio .twpx-form-control__radio [type='radio']:not(:checked) + span,
+.twpx-poll-answer-item .twpx-form-control--radio .twpx-form-control__radio [type='radio']:checked + span {
+    display: flex;
+    padding-left: 24px;
+}

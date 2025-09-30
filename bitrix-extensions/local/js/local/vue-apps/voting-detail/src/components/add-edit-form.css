@@ -1,0 +1,14 @@
+.twpx-poll-add-form {
+    display: grid;
+    gap: 32px;
+}
+.twpx-poll-add-form__block,
+.twpx-poll-add-form__controls {
+    display: grid;
+    gap: var(--twpx-form-gap-input-gap, 24px);
+}
+.twpx-poll-add-form__buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--body-buttons-vertical-gap, 16px);
+}

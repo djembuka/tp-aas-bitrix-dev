@@ -36,7 +36,7 @@ export const ControlCheckboxCheckbox = {
           ref="input"
           class="twpx-form-control--filled-in"
         />
-        <span class="twpx-form-control__label" v-if="control.label" v-html="control.label">
+        <span class="twpx-form-control__label" :style="labelStyle" v-html="control.label">
         </span>
       </label>
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
@@ -67,6 +67,9 @@ export const ControlCheckboxCheckbox = {
     focusWatcher() {
       return this.control.focusWatcher;
     },
+    labelStyle() {
+      return this.control.label ? '' : `padding-left: 24px;`;
+    }
   },
   watch: {
     validateWatcher() {

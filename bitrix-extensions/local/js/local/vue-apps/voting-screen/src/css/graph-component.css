@@ -1,0 +1,75 @@
+.twpx-voting-screen-graph {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    height: 613px;
+}
+.twpx-voting-screen-graph-item {
+    display: grid;
+    align-items: flex-end;
+    grid-template-rows: 1fr 16px;
+    gap: 16px;
+}
+.twpx-voting-screen-graph-item__rect {
+    display: flex;
+    padding: 16px 32px;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex: 1 0 0;
+    border-radius: 32px;
+    -webkit-transition: height .3s ease;
+    transition: height .3s ease;
+    min-height: 80px !important;
+}
+.twpx-voting-screen-graph-item__text {
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 16px; /* 100% */
+    text-align: center;
+}
+.twpx-voting-screen-graph-item__num {
+    color: #FFF;
+    font-family: Roboto;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 38px; /* 118.75% */
+}
+.twpx-voting-screen-graph-item__proc {
+    color: #FFF;
+    font-family: Roboto;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 38px; /* 118.75% */
+    opacity: .7;
+}
+.twpx-voting-screen-graph-item--voted .twpx-voting-screen-graph-item__rect {
+    background: var(--semantic-colors-success, #74C37A);
+}
+.twpx-voting-screen-graph-item--voted .twpx-voting-screen-graph-item__text {
+    color: var(--semantic-colors-success, #74C37A);
+}
+.twpx-voting-screen-graph-item--not .twpx-voting-screen-graph-item__rect {
+    background: #FF7575;
+}
+.twpx-voting-screen-graph-item--not .twpx-voting-screen-graph-item__text {
+    color: #FF7575;
+}
+.twpx-voting-screen-graph-item--zero .twpx-voting-screen-graph-item__rect {
+    background: var(--Base-Grey-color-neutral-50, #FAFAFA);
+    padding: 16px;
+    align-items: center;
+}
+.twpx-voting-screen-graph-item--zero .twpx-voting-screen-graph-item__text {
+    color: var(--Base-Grey-color-neutral-700, #9B9B9B);
+}
+.twpx-voting-screen-graph-item--zero .twpx-voting-screen-graph-item__num,
+.twpx-voting-screen-graph-item--zero .twpx-voting-screen-graph-item__proc {
+    color: var(--Base-Grey-color-neutral-700, #9B9B9B);
+}
+.twpx-voting-screen-graph-item--zero .twpx-voting-screen-graph-item__proc {
+    opacity: 1;
+}

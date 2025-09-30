@@ -1,0 +1,40 @@
+.twpx-voting-answer {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    align-items: center;
+    gap: 16px;
+}
+
+.twpx-voting-answer__title {
+    color: #3B3B3B;
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.twpx-graph__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+.twpx-graph__img {
+    min-width: 10px;
+    height: 32px;
+    border-radius: 16px;
+    background: var(--Base-Orange-primary-700, #F2762E);
+    -webkit-transition: width .5s ease-out;
+    transition: width .5s ease-out;
+}
+
+.twpx-graph__num {
+    color: #3B3B3B;
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}

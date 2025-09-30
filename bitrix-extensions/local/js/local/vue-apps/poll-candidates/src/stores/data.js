@@ -7,7 +7,8 @@ export const dataStore = defineStore('data', {
     lang: {},
     actions: [],
     groups: [],
-    candidates: []
+    candidates: [],
+    errorMessage: ''
   }),
   actions: {
     printGroup(group) {
@@ -15,6 +16,26 @@ export const dataStore = defineStore('data', {
     },
     changeProp(prop, value) {
       this[prop] = value;
+    },
+    setError(error) {
+      // Нормализуем ошибку в человекочитаемое сообщение
+      let message = '';
+      if (error && typeof error === 'object') {
+        if (Array.isArray(error.errors) && error.errors[0]?.message) {
+          message = error.errors[0].message;
+        } else if (error.message) {
+          message = error.message;
+        } else if (error.code) {
+          message = `Error: ${String(error.code)}`;
+        }
+      }
+      if (!message) {
+        message = 'Произошла ошибка. Попробуйте снова позже.';
+      }
+      this.errorMessage = message;
+    },
+    clearError() {
+      this.errorMessage = '';
     },
     runBitrixMethod(method, data, formData) {
 
@@ -153,7 +174,7 @@ export const dataStore = defineStore('data', {
           ]
         });
       }
-      
+
 
       return Promise.reject({
         status: 'error',
@@ -199,8 +220,12 @@ export const dataStore = defineStore('data', {
         }, TIMEOUT_MS);
       });
 
-      // Возвращаем промис, совместимый с .then(success, error)
+      // Централизованная обработка ошибок: сохраняем сообщение и пробрасываем дальше при необходимости
       return Promise.race([requestPromise, timeoutPromise])
+        .catch((error) => {
+          this.setError(error);
+          return Promise.reject(error);
+        })
         .finally(() => {
           if (timeoutId) {
             clearTimeout(timeoutId);

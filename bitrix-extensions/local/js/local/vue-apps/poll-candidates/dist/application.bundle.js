@@ -40,7 +40,8 @@
         lang: {},
         actions: [],
         groups: [],
-        candidates: []
+        candidates: [],
+        errorMessage: ''
       };
     },
     actions: {
@@ -50,7 +51,29 @@
       changeProp: function changeProp(prop, value) {
         this[prop] = value;
       },
+      setError: function setError(error) {
+        // Нормализуем ошибку в человекочитаемое сообщение
+        var message = '';
+        if (error && babelHelpers["typeof"](error) === 'object') {
+          var _error$errors$;
+          if (Array.isArray(error.errors) && (_error$errors$ = error.errors[0]) !== null && _error$errors$ !== void 0 && _error$errors$.message) {
+            message = error.errors[0].message;
+          } else if (error.message) {
+            message = error.message;
+          } else if (error.code) {
+            message = "Error: ".concat(String(error.code));
+          }
+        }
+        if (!message) {
+          message = 'Произошла ошибка. Попробуйте снова позже.';
+        }
+        this.errorMessage = message;
+      },
+      clearError: function clearError() {
+        this.errorMessage = '';
+      },
       runBitrixMethod: function runBitrixMethod(method, data, formData) {
+        var _this = this;
         if (method === 'getGroups') {
           return Promise.resolve({
             status: 'success',
@@ -215,8 +238,11 @@
           }, TIMEOUT_MS);
         });
 
-        // Возвращаем промис, совместимый с .then(success, error)
-        return Promise.race([requestPromise, timeoutPromise])["finally"](function () {
+        // Централизованная обработка ошибок: сохраняем сообщение и пробрасываем дальше при необходимости
+        return Promise.race([requestPromise, timeoutPromise])["catch"](function (error) {
+          _this.setError(error);
+          return Promise.reject(error);
+        })["finally"](function () {
           if (timeoutId) {
             clearTimeout(timeoutId);
           }
@@ -310,4 +336,5 @@
 
   exports.PollCandidates = PollCandidates;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX,BX.AAS,BX));
+//# sourceMappingURL=application.bundle.js.map
