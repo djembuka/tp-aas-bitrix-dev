@@ -54,7 +54,7 @@ export default {
 
             <div class="disciplinary-case-form__buttons">
               <ButtonComponent :text="lang.cancelButton" :props="cancelButtonProps" @clickButton="clickCancelButton" />
-              <ButtonComponent :text="lang.createButton" :props="['secondary', 'large']" @clickButton="clickCreateButton" />
+              <ButtonComponent :text="lang.createButton" :props="['secondary', 'large']" :disabled="createButtonDisabled" @clickButton="clickCreateButton" />
             </div>
 
         </div>
@@ -72,6 +72,9 @@ export default {
         arr.push('disabled')
       }
       return arr;
+    },
+    createButtonDisabled() {
+      return this.blocks.some(block => block.controls.some(control => control.required && !control.value));
     }
   },
   methods: {

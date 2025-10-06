@@ -84,7 +84,7 @@ export const controlsStore = defineStore('controls', {
               name: "NUM",
               label: "Количество голосующих",
               value: "",
-              required: true,
+              required: false,
             },
             {
               property: "text",

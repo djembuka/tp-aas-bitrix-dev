@@ -16,7 +16,7 @@ export const Application = {
   },
   // language=Vue
   template: `
-    <ModalAnyContent :stateWatcher="modalStateWatcher" v-if="modal">
+    <ModalAnyContent :stateWatcher="modalStateWatcher" :opacoClose="false" v-if="modal">
       <Form />
     </ModalAnyContent>
 

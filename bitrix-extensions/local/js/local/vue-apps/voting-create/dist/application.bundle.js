@@ -118,7 +118,7 @@
             name: "NUM",
             label: "Количество голосующих",
             value: "",
-            required: true
+            required: false
           }, {
             property: "text",
             id: 3,
@@ -511,5 +511,5 @@
 
   exports.VotingCreate = VotingCreate;
 
-}((this.BX = this.BX || {}),BX,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

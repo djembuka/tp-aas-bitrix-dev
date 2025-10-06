@@ -12,6 +12,10 @@ this.BX = this.BX || {};
       stateWatcher: {
         type: Boolean,
         "default": true
+      },
+      opacoClose: {
+        type: Boolean,
+        "default": false
       }
     },
     emits: ['onClose'],
@@ -25,7 +29,7 @@ this.BX = this.BX || {};
       IconClose: IconClose
     },
     // language=Vue
-    template: "\n\t\t<div :class=\"{\n      'twpx-modal-any-content': true,\n      'twpx-modal-any-content--open': isOpen,\n      'twpx-modal-any-content--animate': isAnimate\n    }\" @click=\"close\">\n\n      <div class=\"twpx-modal-any-content-body\" @click.stop>\n        <div class=\"twpx-modal-any-content-close\">\n          <IconClose @click.prevent=\"close\" />\n        </div>\n\n        <div class=\"twpx-modal-any-content-container\">\n          <slot></slot>\n        </div>\n      </div>\n    </div>\n\t",
+    template: "\n\t\t<div :class=\"{\n      'twpx-modal-any-content': true,\n      'twpx-modal-any-content--open': isOpen,\n      'twpx-modal-any-content--animate': isAnimate\n    }\" @click=\"clickOpaco\">\n\n      <div class=\"twpx-modal-any-content-body\" @click.stop>\n        <div class=\"twpx-modal-any-content-close\">\n          <IconClose @click.prevent=\"close\" />\n        </div>\n\n        <div class=\"twpx-modal-any-content-container\">\n          <slot></slot>\n        </div>\n      </div>\n    </div>\n\t",
     watch: {
       stateWatcher: function stateWatcher() {
         if (this.isOpen) {
@@ -50,6 +54,11 @@ this.BX = this.BX || {};
           _this2.isOpen = false;
           _this2.$emit('onClose');
         }, 300);
+      },
+      clickOpaco: function clickOpaco() {
+        if (this.opacoClose) {
+          this.close();
+        }
       }
     }
   };

@@ -7,6 +7,10 @@ export const ModalAnyContent = {
     stateWatcher: {
       type: Boolean,
       default: true
+    },
+    opacoClose: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['onClose'],
@@ -25,7 +29,7 @@ export const ModalAnyContent = {
       'twpx-modal-any-content': true,
       'twpx-modal-any-content--open': isOpen,
       'twpx-modal-any-content--animate': isAnimate
-    }" @click="close">
+    }" @click="clickOpaco">
 
       <div class="twpx-modal-any-content-body" @click.stop>
         <div class="twpx-modal-any-content-close">
@@ -60,6 +64,11 @@ export const ModalAnyContent = {
         this.isOpen = false;
         this.$emit('onClose');
       }, 300)
+    },
+    clickOpaco() {
+      if (this.opacoClose) {
+        this.close();
+      }
     }
   },
 };

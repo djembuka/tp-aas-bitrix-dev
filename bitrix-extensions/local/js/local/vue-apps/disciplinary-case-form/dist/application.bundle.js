@@ -297,7 +297,7 @@
       ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo
     },
     // language=Vue
-    template: "\n  <div class=\"disciplinary-case-form\" :id=\"formId\">\n\n    <LoaderCircle :show=\"loading\" />\n\n    <MessageComponent v-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n    <ModalYesNo\n      v-if=\"lang.modal\"\n      :heading=\"lang.modal.heading\"\n      :text=\"lang.modal.text\"\n      :yes=\"lang.modal.yes\"\n      :no=\"lang.modal.no\"\n      :stateWatcher=\"stateWatcher\"\n      @clickYes=\"clickYes\"\n      @clickNo=\"clickNo\"\n    />\n\n    <div v-if=\"!loading\">\n      <form action=\"\" v-if=\"blocks.length\">\n        <div class=\"disciplinary-case-form__wrapper\">\n\n            <h2>{{ lang.heading }}</h2>\n\n            <div class=\"disciplinary-case-form__block\" v-for=\"block in blocks\">\n              <h3>{{ block.heading }}</h3>\n              <ControlChoice  v-for=\"control in block.controls\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\"></ControlChoice>\n            </div>\n\n            <div class=\"disciplinary-case-form__buttons\">\n              <ButtonComponent :text=\"lang.cancelButton\" :props=\"cancelButtonProps\" @clickButton=\"clickCancelButton\" />\n              <ButtonComponent :text=\"lang.createButton\" :props=\"['secondary', 'large']\" @clickButton=\"clickCreateButton\" />\n            </div>\n\n        </div>\n      </form>\n      <div v-else v-html=\"lang.nodata\"></div>\n    </div>\n  </div>\n    ",
+    template: "\n  <div class=\"disciplinary-case-form\" :id=\"formId\">\n\n    <LoaderCircle :show=\"loading\" />\n\n    <MessageComponent v-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n    <ModalYesNo\n      v-if=\"lang.modal\"\n      :heading=\"lang.modal.heading\"\n      :text=\"lang.modal.text\"\n      :yes=\"lang.modal.yes\"\n      :no=\"lang.modal.no\"\n      :stateWatcher=\"stateWatcher\"\n      @clickYes=\"clickYes\"\n      @clickNo=\"clickNo\"\n    />\n\n    <div v-if=\"!loading\">\n      <form action=\"\" v-if=\"blocks.length\">\n        <div class=\"disciplinary-case-form__wrapper\">\n\n            <h2>{{ lang.heading }}</h2>\n\n            <div class=\"disciplinary-case-form__block\" v-for=\"block in blocks\">\n              <h3>{{ block.heading }}</h3>\n              <ControlChoice  v-for=\"control in block.controls\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\"></ControlChoice>\n            </div>\n\n            <div class=\"disciplinary-case-form__buttons\">\n              <ButtonComponent :text=\"lang.cancelButton\" :props=\"cancelButtonProps\" @clickButton=\"clickCancelButton\" />\n              <ButtonComponent :text=\"lang.createButton\" :props=\"['secondary', 'large']\" :disabled=\"createButtonDisabled\" @clickButton=\"clickCreateButton\" />\n            </div>\n\n        </div>\n      </form>\n      <div v-else v-html=\"lang.nodata\"></div>\n    </div>\n  </div>\n    ",
     computed: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'id', 'cancelUrl', 'modal'])), ui_vue3_pinia.mapState(formStore, ['loading', 'error', 'blocks', 'stateWatcher', 'formId'])), {}, {
       cancelButtonProps: function cancelButtonProps() {
         var arr = ['gray-color', 'large'];
@@ -305,6 +305,13 @@
           arr.push('disabled');
         }
         return arr;
+      },
+      createButtonDisabled: function createButtonDisabled() {
+        return this.blocks.some(function (block) {
+          return block.controls.some(function (control) {
+            return control.required && !control.value;
+          });
+        });
       }
     }),
     methods: _objectSpread(_objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(dataStore, ['changeModalStateWatcher'])), ui_vue3_pinia.mapActions(formStore, ['runGetForm', 'changeControlValue', 'changeStateWatcher', 'runHints', 'setHints', 'sendForm'])), {}, {
@@ -353,7 +360,7 @@
       Form: Form
     },
     // language=Vue
-    template: "\n    <ModalAnyContent :stateWatcher=\"modalStateWatcher\" v-if=\"modal\">\n      <Form />\n    </ModalAnyContent>\n\n    <Form v-else />\n\t",
+    template: "\n    <ModalAnyContent :stateWatcher=\"modalStateWatcher\" :opacoClose=\"false\" v-if=\"modal\">\n      <Form />\n    </ModalAnyContent>\n\n    <Form v-else />\n\t",
     computed: _objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'modalStateWatcher', 'modal'])),
     methods: {}
   };
@@ -430,5 +437,5 @@
 
   exports.DisciplinaryCaseForm = DisciplinaryCaseForm;
 
-}((this.BX = this.BX || {}),BX,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map
