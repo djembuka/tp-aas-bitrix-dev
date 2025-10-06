@@ -1,0 +1,161 @@
+.twpx-voting-control__loader {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  min-height: 400px;
+}
+
+.twpx-voting-control__wrapper {
+  display: grid;
+  gap: 32px;
+}
+
+.twpx-voting-control h2,
+.twpx-voting-control h3 {
+  margin: 0;
+}
+.twpx-voting-control__info-blocks {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    gap: 24px;
+  }
+  
+  .twpx-voting-control__info-block {
+    display: grid;
+    width: 128px;
+    padding: 8px;
+    gap: var(--twpx-block-mobile-sizes-gap-m, 16px);
+    border-radius: 8px;
+    color: #5F7696;
+    background: #F0F5FC;
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 100% */
+  }
+  
+  .twpx-voting-control__info-block__heading {
+    font-family: Roboto;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
+  .twpx-voting-control__info-block:nth-child(2) {
+    color: var(--semantic-colors-success, #74C37A);
+    background: var(--semantic-colors-success-light, #EFFFF0);
+  }
+  
+  .twpx-voting-control__info-block:nth-child(3) {
+    color: var(--semantic-colors-attention, #F00);
+    background: var(--semantic-colors-error-light, #FFF4F4);
+  }
+  
+  .twpx-voting-control__info-block__nums {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  
+  .twpx-voting-control__info-block__nums span:nth-child(2) {
+    text-align: right;
+  }
+  
+  .twpx-voting-control__info-block:nth-child(2) span:nth-child(2) {
+    color: #AAD4AD;
+  }
+  
+  .twpx-voting-control__info-block:nth-child(3) span:nth-child(2) {
+    color: #F6A4A4;
+  }
+.twpx-voting-control__status-from {
+    display: grid;
+    padding: var(--twpx-table-padding-l, 32px);
+    gap: var(--semantic-gap-m, 32px);
+    border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+}
+.twpx-voting-control__status-from h3 {
+    margin: 0;
+    font-size: 24px;
+}
+.twpx-voting-control__status-from__label {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 16px 0;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid var(--Base-Grey-color-neutral-200, #F8F8F8);
+}
+.twpx-voting-control__status-from .vue-button {
+    width: 100%;
+}
+.twpx-voting-control__status-from__value span {
+    display: inline-block;
+    color: var(--twpx-label-orange, #F2762E);
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px; /* 100% */
+    background: var(--twpx-label-background-orange, #FFF7F2);
+}
+.twpx-voting-control__voting-list {
+    display: grid;
+    gap: 24px;
+}
+.twpx-voting-control__voting-list__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+.twpx-voting-control__voting-list__grid__item {
+    display: grid;
+    padding: 32px;
+    gap: 24px;
+    border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+    align-self: self-start;
+}
+.twpx-voting-control__voting-list__item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 16px 0;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    border-bottom: 1px solid var(--twpx-border-neutral, #F2F2F2);
+    
+    color: var(--Base-Black-color-black, #000);
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    line-height: normal;
+}
+.twpx-voting-control__voting-list__name {
+    font-weight: 700;
+}
+.twpx-voting-control__voting-list__ornz {
+    font-weight: 400;
+}

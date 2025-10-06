@@ -1465,5 +1465,5 @@
 
   exports.VotingDetail = VotingDetail;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Vue3.Pinia));
+}((this.BX = this.BX || {}),BX,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX));
 //# sourceMappingURL=application.bundle.js.map

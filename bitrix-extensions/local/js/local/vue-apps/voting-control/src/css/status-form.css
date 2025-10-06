@@ -1,0 +1,31 @@
+.twpx-voting-control__status-from {
+    display: grid;
+    padding: var(--twpx-table-padding-l, 32px);
+    gap: var(--semantic-gap-m, 32px);
+    border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+}
+.twpx-voting-control__status-from h3 {
+    margin: 0;
+    font-size: 24px;
+}
+.twpx-voting-control__status-from__label {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 16px 0;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid var(--Base-Grey-color-neutral-200, #F8F8F8);
+}
+.twpx-voting-control__status-from .vue-button {
+    width: 100%;
+}
+.twpx-voting-control__status-from__value span {
+    display: inline-block;
+    color: var(--twpx-label-orange, #F2762E);
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px; /* 100% */
+    background: var(--twpx-label-background-orange, #FFF7F2);
+}

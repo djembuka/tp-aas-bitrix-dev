@@ -1,0 +1,16 @@
+.twpx-voting-control__loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+}
+
+.twpx-voting-control__wrapper {
+  display: grid;
+  gap: 32px;
+}
+
+.twpx-voting-control h2,
+.twpx-voting-control h3 {
+  margin: 0;
+}

@@ -44,6 +44,10 @@ $APPLICATION->SetTitle("Markup");
   <li>
 	<a href="/markup/pages/voting-screen/">Экран голосования</a>
   </li>
+  </li>
+  <li>
+	<a href="/markup/pages/voting-control/">Управление голосованием</a>
+  </li>
 </ul>
 
 <h3>Marketplace</h3>
