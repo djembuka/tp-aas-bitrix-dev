@@ -26,6 +26,7 @@ export class VotingDetail {
       beforeMount() {
         dataStore().customData = self.options.data || {};
         dataStore().signedParameters = self.options.signedParameters || '';
+        dataStore().uuid = self.options.uuid || '';
       },
     });
 

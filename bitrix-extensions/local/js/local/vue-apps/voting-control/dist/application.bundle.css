@@ -17,8 +17,12 @@
 }
 
 .twpx-voting-control h2,
-.twpx-voting-control h3 {
+.twpx-voting-control h3,
+.twpx-voting-control h4 {
   margin: 0;
+}
+.twpx-voting-control h4 {
+  font-size: 20px;
 }
 .twpx-voting-control__info-blocks {
     display: -webkit-box;
@@ -117,6 +121,17 @@
     font-weight: 400;
     line-height: 14px; /* 100% */
     background: var(--twpx-label-background-orange, #FFF7F2);
+}
+
+.twpx-voting-control__status-from__timer {
+    display: grid;
+    gap: 32px;
+}
+
+.twpx-voting-control__status-from__timer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 .twpx-voting-control__voting-list {
     display: grid;

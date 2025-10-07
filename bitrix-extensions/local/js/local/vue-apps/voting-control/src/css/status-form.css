@@ -29,3 +29,14 @@
     line-height: 14px; /* 100% */
     background: var(--twpx-label-background-orange, #FFF7F2);
 }
+
+.twpx-voting-control__status-from__timer {
+    display: grid;
+    gap: 32px;
+}
+
+.twpx-voting-control__status-from__timer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}

@@ -1,0 +1,7 @@
+#votingEditForm .twpx-poll-create__form {
+    border: 0;
+    padding: 0;
+}
+#votingEditForm .twpx-poll-create__buttons {
+    grid-template-columns: 1fr 1fr;
+}

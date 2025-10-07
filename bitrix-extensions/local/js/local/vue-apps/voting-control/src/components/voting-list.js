@@ -20,7 +20,7 @@ export const VotingList = {
             <h3>{{ lang.success }} {{ adminData.numberOfVoters }}</h3>
             <div class="twpx-voting-control__voting-list__items">
                 <div class="twpx-voting-control__voting-list__item" v-for="voter in adminData.listVoters" :key="voter.name">
-                    <div class="twpx-voting-control__voting-list__name" v-if="voter.name">{{ voter.name }}</div>
+                    <div class="twpx-voting-control__voting-list__name">{{ voter.name }}</div>
                     <div class="twpx-voting-control__voting-list__ornz" v-if="voter.ornz">{{ voter.ornz }}</div>
                 </div>
             </div>
@@ -29,7 +29,7 @@ export const VotingList = {
             <h3>{{ lang.warning }} {{ adminData.numberOfNonVoters }}</h3>
             <div class="twpx-voting-control__voting-list__items">
                 <div class="twpx-voting-control__voting-list__item" v-for="voter in adminData.listNoneVoters" :key="voter.name">
-                    <div class="twpx-voting-control__voting-list__name" v-if="voter.name">{{ voter.name }}</div>
+                    <div class="twpx-voting-control__voting-list__name">{{ voter.name }}</div>
                     <div class="twpx-voting-control__voting-list__ornz" v-if="voter.ornz">{{ voter.ornz }}</div>
                 </div>
             </div>

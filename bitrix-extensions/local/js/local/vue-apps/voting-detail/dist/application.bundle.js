@@ -947,13 +947,20 @@
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
       MessageComponent: local_vueComponents_messageComponent.MessageComponent
     },
-    template: "\n        <ModalAnyContent :stateWatcher=\"addEditStateWatcher\">\n            <div class=\"twpx-poll-detail__loader\" v-if=\"addEditLoading\">\n                <LoaderCircle :show=\"addEditLoading\" />\n            </div>\n\n            <MessageComponent v-else-if=\"addEditError\" type=\"error\" size=\"big\" :message=\"addEditError\" />\n\n            <div v-else class=\"twpx-poll-add-form\">\n                <h2>{{ currentLang.heading }}</h2>\n\n                <div class=\"twpx-poll-add-form__block\" v-for=\"block in currentBlocks\" :key=\"block.id\" :data-id=\"block.id\">\n                    <h4>{{ block.heading }}</h4>\n                    <div class=\"twpx-poll-add-form__controls\">\n                        <ControlChoice  v-for=\"control in block.controls\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n                    </div>\n                </div>\n                    \n                <div class=\"twpx-poll-add-form__buttons\">\n                    <ButtonComponent :text=\"currentLang.cancelButton\" :props=\"['gray-color', 'large']\" @clickButton=\"clickCancel\" />\n                    <ButtonComponent :text=\"currentLang.sendButton\" :props=\"['secondary', 'large']\" @clickButton=\"clickSend\" />\n                </div>\n            </div>\n        </ModalAnyContent>\n    ",
+    template: "\n        <ModalAnyContent :stateWatcher=\"addEditStateWatcher\">\n            <div class=\"twpx-poll-detail__loader\" v-if=\"addEditLoading\">\n                <LoaderCircle :show=\"addEditLoading\" />\n            </div>\n\n            <MessageComponent v-else-if=\"addEditError\" type=\"error\" size=\"big\" :message=\"addEditError\" />\n\n            <div v-else class=\"twpx-poll-add-form\">\n                <h2>{{ currentLang.heading }}</h2>\n\n                <div class=\"twpx-poll-add-form__block\" v-for=\"block in currentBlocks\" :key=\"block.id\" :data-id=\"block.id\">\n                    <h4>{{ block.heading }}</h4>\n                    <div class=\"twpx-poll-add-form__controls\">\n                        <ControlChoice  v-for=\"control in block.controls\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n                    </div>\n                </div>\n                    \n                <div class=\"twpx-poll-add-form__buttons\">\n                    <ButtonComponent :text=\"currentLang.cancelButton\" :props=\"['gray-color', 'large']\" @clickButton=\"clickCancel\" />\n                    <ButtonComponent :text=\"currentLang.sendButton\" :disabled=\"sendButtonDisabled\" :props=\"['secondary', 'large']\" @clickButton=\"clickSend\" />\n                </div>\n            </div>\n        </ModalAnyContent>\n    ",
     computed: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['uuid', 'groupUuid', 'questionUuid', 'typeMode', 'actionMode', 'groups', 'questions', 'answers'])), ui_vue3_pinia.mapState(addEditStore, ['lang', 'addEditStateWatcher', 'addEditLoading', 'addEditError', 'image'])), ui_vue3_pinia.mapState(controlsStore, ['groupFormBlocks', 'questionFormBlocks', 'answerFormBlocks'])), {}, {
       currentLang: function currentLang() {
         return this.lang[this.typeMode][this.actionMode];
       },
       currentBlocks: function currentBlocks() {
         return this["".concat(this.typeMode, "FormBlocks")];
+      },
+      sendButtonDisabled: function sendButtonDisabled() {
+        return this.currentBlocks.some(function (block) {
+          return block.controls.some(function (control) {
+            return control.required && !control.value;
+          });
+        });
       }
     }),
     methods: _objectSpread$2(_objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['runBitrixMethod', 'changeProp', 'pushItemsArray'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControlValue', 'changeGroupFormBlocks', 'changeQuestionFormBlocks', 'fillGroupForm', 'fillQuestionForm', 'fillAnswerForm', 'runHints', 'setHints'])), ui_vue3_pinia.mapActions(addEditStore, ['addEditChangeProp'])), {}, {
@@ -1397,13 +1404,7 @@
       }
     }),
     mounted: function mounted() {
-      var searchParams = new URLSearchParams(window.location.search);
-      if (searchParams.get('ID')) {
-        this.changeProp('uuid', searchParams.get('ID'));
-        this.getVoting();
-      } else {
-        this.changeProp('error', 'В URL не передан параметр ID голосования.');
-      }
+      this.getVoting();
     }
   };
 
@@ -1444,6 +1445,7 @@
           beforeMount: function beforeMount() {
             dataStore().customData = self.options.data || {};
             dataStore().signedParameters = self.options.signedParameters || '';
+            dataStore().uuid = self.options.uuid || '';
           }
         }));
         babelHelpers.classPrivateFieldGet(this, _application).use(babelHelpers.classPrivateFieldGet(this, _store));
@@ -1465,5 +1467,5 @@
 
   exports.VotingDetail = VotingDetail;
 
-}((this.BX = this.BX || {}),BX,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

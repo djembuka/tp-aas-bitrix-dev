@@ -14,7 +14,9 @@ import { controlsStore } from '../stores/controls.js';
 
 export const Application = {
   data() {
-    return {};
+    return {
+      adminDataTimestamp: 0,
+    };
   },
   components: {
     LoaderCircle,
@@ -67,10 +69,12 @@ export const Application = {
     ...mapActions(dataStore, [
       'runBitrixMethod',
       'changeProp',
+      'changeSelectedStatus'
     ]),
     ...mapActions(controlsStore, [
       'changeControlValue',
-      'changeStatus'
+      'changeStatus',
+      'changeTimer'
     ]),
     input(args) {
       this.changeControlValue(args);
@@ -83,11 +87,16 @@ export const Application = {
       }
     },
     async getVotingAdminData() {
-      this.changeProp('loading', true)
+      const timestamp = Date.now();
+      this.adminDataTimestamp = timestamp;
       try {
         const result = await this.runBitrixMethod('votingAdminData', {uuid: this.uuid})
+        if (timestamp !== this.adminDataTimestamp) {
+          return;
+        }
         this.changeProp('adminData', result.data)
         this.changeStatus(result.data.statuses, result.data.selectedStatus)
+        this.changeTimer(result.data.statuses)
         this.changeProp('loading', false)
       } catch(error) {
           this.changeProp('loading', false)
@@ -97,51 +106,42 @@ export const Application = {
     async setStatus(value) {
       this.changeProp('loading', true)
       try {
-        await this.runBitrixMethod('setStatus', {uuid: this.uuid, id: String(value)});
-        this.changeProp('loading', false)
-        this.changeControlValue({control: this.controls[0], value: value})
+        const options = {
+          uuid: this.uuid,
+          id: String(value),
+          timer: parseInt(this.controls[1].value || 0, 10) * 60 + parseInt(this.controls[2].value || 0, 10)
+        }
+        await this.runBitrixMethod('setStatus', options);
+        // this.changeProp('loading', false) - done in push and pull
       } catch(error) {
           this.changeProp('loading', false)
           this.changeProp('error', error.errors[0].message)
       }
       
+    },
+    setPushAndPull() {
+      const _this = this;
+      if (window.BX && BX.ready) {
+        BX.ready(function () {
+          BX.PULL.subscribe({
+              moduleId: 'voting',
+              command: _this.uuid,
+              callback: function(params, extra, command) {
+                  // console.log('Receive params:', params)
+                  // console.log('Receive extra:', extra)
+                  // console.log('Receive command:', command)
+                  console.log('pull')
+                  _this.getVotingAdminData();
+              }.bind(this)
+          });
+          BX.PULL.extendWatch('VOTING-CONTROL');
+        });
+      }
     }
   },
   mounted() {
-    // set uuid
-    const searchParams = new URLSearchParams(window.location.search);
-    if (searchParams.get('ID')) {
-      this.changeProp('uuid', searchParams.get('ID'));
-      this.getVotingAdminData();
-    } else {
-      this.changeProp('error', 'В URL не передан параметр ID голосования.')
-    }
-
-    // Подписка на Push-сообщения
-    // BX.ready(function() {
-    //   BX.addCustomEvent("onPullEvent", function(module_id, command, params) {
-    //     // console.log(module_id, command, params);
-    //     if (module_id == "voting" && command == 'check') {
-    //       if (params) {
-    //         if (params.status) {
-    //           BX('statusValue').innerText = params.status;
-    //         }
-    //         if (params.title) {
-    //           BX('titleValue').innerText = params.title;
-    //         }
-    //         if (params.count !== undefined) {
-    //           BX('countValue').innerText = params.count;
-    //         }
-    //         if (params.progress !== undefined) {
-    //           BX('progressValue').innerText = params.progress + '%';
-    //         }
-
-    //         // Можно добавить анимацию или уведомление
-    //         console.log('Данные обновлены:', params);
-    //       }
-    //     }
-    //   });
-    //   BX.PULL.extendWatch('PULL_TEST');
-    // });
+    this.changeProp('loading', true)
+    this.getVotingAdminData();
+    this.setPushAndPull();
   }
 };

@@ -39,7 +39,7 @@ export const AddEditForm = {
                     
                 <div class="twpx-poll-add-form__buttons">
                     <ButtonComponent :text="currentLang.cancelButton" :props="['gray-color', 'large']" @clickButton="clickCancel" />
-                    <ButtonComponent :text="currentLang.sendButton" :props="['secondary', 'large']" @clickButton="clickSend" />
+                    <ButtonComponent :text="currentLang.sendButton" :disabled="sendButtonDisabled" :props="['secondary', 'large']" @clickButton="clickSend" />
                 </div>
             </div>
         </ModalAnyContent>
@@ -76,6 +76,9 @@ export const AddEditForm = {
         },
         currentBlocks() {
             return this[`${this.typeMode}FormBlocks`]
+        },
+        sendButtonDisabled() {
+            return this.currentBlocks.some(block => block.controls.some(control => control.required && !control.value));
         },
     },
     methods: {

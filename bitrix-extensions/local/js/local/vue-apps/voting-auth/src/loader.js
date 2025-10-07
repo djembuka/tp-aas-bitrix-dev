@@ -3,7 +3,7 @@ import { Application } from './components/application';
 import { createPinia, setActivePinia } from 'ui.vue3.pinia';
 import { dataStore } from './stores/data';
 
-export class VotingControl {
+export class VotingList {
   #store;
   #rootNode;
   #application;
@@ -18,7 +18,7 @@ export class VotingControl {
     const self = this;
 
     this.#application = BitrixVue.createApp({
-      name: 'VotingControl',
+      name: 'VotingList',
       components: {
         Application,
       },
@@ -26,7 +26,9 @@ export class VotingControl {
       beforeMount() {
         dataStore().customData = self.options.data || {};
         dataStore().signedParameters = self.options.signedParameters || '';
-        dataStore().uuid = self.options.uuid || '';
+
+        dataStore().votingCreateURL = self.options.votingCreateURL || '';
+        dataStore().votingDetailURL = self.options.votingDetailURL || '';
       },
     });
 
@@ -38,7 +40,7 @@ export class VotingControl {
     setActivePinia(this.#store);
   }
 
-  getFormStore() {
-    return formStore;
+  getTableStore() {
+    return tableStore;
   }
 }

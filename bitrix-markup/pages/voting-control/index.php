@@ -10,11 +10,7 @@ $APPLICATION->SetTitle("Управление голосованием");
 <script>
 (() => {
 	const votingcontrol = new BX.VotingControl('#VotingControl', {
-		data: {
-			userid: 20039,
-			sessid: BX.bitrix_sessid(),
-		},
-		signedParameters: ""
+		uuid: '409960a4-429e-4ea8-8af8-db2399b880cd'
 	});
 	votingcontrol.run();
 })();

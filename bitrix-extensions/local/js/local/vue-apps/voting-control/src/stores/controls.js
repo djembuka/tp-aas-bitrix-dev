@@ -2,10 +2,11 @@ import { defineStore } from 'ui.vue3.pinia';
 
 export const controlsStore = defineStore('controls', {
   state: () => ({
-      controls: [{
+      controls: [
+        {
         "property": "select",
         "type": "dropdown",
-        "id": "id13",
+        "id": "statusControl",
         "name": "STATUS",
         "label": "Статус дела",
         "options": [
@@ -28,11 +29,35 @@ export const controlsStore = defineStore('controls', {
         ],
         "value": "",
         "disabled": false,
-      }]
+      },
+      {
+        "property": "num",
+        "id": "minutesControl",
+        "name": "MINUTES",
+        "label": "Минут",
+        "value": "",
+        "required": true,
+      },
+      {
+        "property": "num",
+        "id": "secondsControl",
+        "name": "SECONDS",
+        "label": "Секунд",
+        "value": "",
+        "required": true,
+      }
+    ]
   }),
   actions: {
+    changeTimer(statuses) {
+        const timerStatus = statuses.find(s => s.timer);
+        const timer = timerStatus ? timerStatus.timer : 0;
+        this.controls[1].value = String(parseInt(timer / 60, 10));
+        this.controls[2].value = String(parseInt(timer % 60, 10));
+    },
     changeStatus(options, selected) {
         this.controls[0].options = options.map(option => ({
+            ...option,
             label: option.status,
             code: option.id
         }));

@@ -32,7 +32,17 @@ export const StatusForm = {
           <span v-if="statusValue">{{ statusValue }}</span>
         </span>
       </div>
-      <ControlChoice v-for="control in controls" :key="control.id" :control="control" @input="input" />
+      <ControlChoice :control="controls[0]" @input="input" />
+
+      <div v-if="isTimer" class="twpx-voting-control__status-from__timer">
+        <h4>{{ lang.timerHeading }}</h4>
+        <div>{{ lang.timerText }}</div>
+        <div class="twpx-voting-control__status-from__timer-grid">
+          <ControlChoice :control="controls[1]" @input="input" />
+          <ControlChoice :control="controls[2]" @input="input" />
+        </div>
+      </div>
+
       <div class="twpx-voting-control__status-from__button">
         <ButtonComponent :text="lang.button" :props="['secondary', 'large']" @clickButton="clickButton" />
       </div>
@@ -45,6 +55,9 @@ export const StatusForm = {
         return select.label;
       }
       return '';
+    },
+    isTimer() {
+      return this.controls[0].options.find(option => option.code === this.controls[0].value)?.timer;
     }
   },
   methods: {

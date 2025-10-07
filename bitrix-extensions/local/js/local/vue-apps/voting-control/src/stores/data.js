@@ -16,6 +16,8 @@ export const dataStore = defineStore('data', {
         heading: 'Изменить статус голосования',
         label: 'Статус',
         button: 'Сохранить',
+        timerHeading: 'Таймер голосования',
+        timerText: 'Установите время, которое будет выводиться на публичном экране, время не влияет на старт или окончания голосования, если вы хотите перезапустить таймер, выберите статус Голосование идет, установите новое время и сохраните статус.'
       },
       votingList: {
         heading: 'Списки голосующих',
@@ -28,8 +30,8 @@ export const dataStore = defineStore('data', {
     adminData: {},
 
 		actions: {
-			'votingAdminData': ['twinpx:voting.form', 'votingAdminData'],
-			'setStatus': ['twinpx:voting.form', 'setStatus'],
+			'votingAdminData': ['twinpx:voting.control', 'votingAdminData'],
+			'setStatus': ['twinpx:voting.control', 'setStatus'],
 		},
 
     loading: false,
@@ -42,42 +44,6 @@ export const dataStore = defineStore('data', {
     runBitrixMethod(method, data, formData) {
       if (!this.actions[method] || !Array.isArray(this.actions[method])) {
         return Promise.reject({errors: [{message: `No such method ${method}`}]});
-      }
-
-      if (method === 'votingAdminData') {
-        return {
-          status: 'success',
-          data:{
-          "ID": "054115d0-4060-47dc-9ef6-23f4f1b543ff",
-          "totalVotes": 100,
-          "numberOfVoters": 15,
-          "numberOfNonVoters": 85,
-          "statuses": [
-            {
-             "status": "Подготовка",
-             "id": "1",
-            },
-            {
-             "status": "Голосование идёт",
-             "id": "2",
-            },
-            {
-             "status": "Голосование приостановлено",
-             "id": "3",
-            },
-            {
-             "status": "Голосование закончено",
-             "id": "4",
-            },
-            {
-             "status": "Голосование в архиве",
-             "id": "5",
-            }
-          ],
-          "selectedStatus": "2",
-          "listVoters": [{"name": "Иван Иванович Петров", "ornz": "234234234234"}, {"name": "Петр Петрович Сидоров", "ornz": null}],
-          "listNoneVoters": [{"name": "Сергей Сергеевич Иванов", "ornz": "3423423423423"}, {"name": "Дмитрий Смирнов", "ornz": null}]
-         }}
       }
 
       let payload;
@@ -102,11 +68,16 @@ export const dataStore = defineStore('data', {
         payload = this.customData;
       }
 
-      return BX.ajax.runComponentAction(this.actions[method][0], this.actions[method][1], {
+      const options = {
         mode: 'class',
         data: payload,
-        signedParameters: this.signedParameters,
-      })
+      }
+
+      if (this.signedParameters) {
+        options.signedParameters = this.signedParameters;
+      }
+
+      return BX.ajax.runComponentAction(this.actions[method][0], this.actions[method][1], options);
     }
   }
 });

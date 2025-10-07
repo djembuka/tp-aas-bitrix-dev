@@ -192,12 +192,6 @@ export const Application = {
     }
   },
   mounted() {
-    const searchParams = new URLSearchParams(window.location.search);
-    if (searchParams.get('ID')) {
-      this.changeProp('uuid', searchParams.get('ID'));
-      this.getVoting();
-    } else {
-      this.changeProp('error', 'В URL не передан параметр ID голосования.')
-    }
+    this.getVoting();
   }
 };

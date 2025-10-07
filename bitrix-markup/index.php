@@ -39,14 +39,18 @@ $APPLICATION->SetTitle("Markup");
 	<a href="/markup/pages/voting-create/">Создать голосование</a>
   </li>
   <li>
-	<a href="/markup/pages/voting-detail/">Детальная страница голосования</a>
+	<a href="/markup/pages/voting-detail/?ID=409960a4-429e-4ea8-8af8-db2399b880cd">Детальная страница голосования</a>
   </li>
   <li>
 	<a href="/markup/pages/voting-screen/">Экран голосования</a>
   </li>
   </li>
   <li>
-	<a href="/markup/pages/voting-control/">Управление голосованием</a>
+	<a href="/profile/poll/voting/result/409960a4-429e-4ea8-8af8-db2399b880cd/">Управление голосованием</a><br>
+	<a href="/markup/pages/voting-control/?ID=409960a4-429e-4ea8-8af8-db2399b880cd">Управление голосованием - разработка, без подписки на push&pull</a>
+  </li>
+  <li>
+	<a href="/markup/pages/voting-auth/">Приложение - авторизация</a>
   </li>
 </ul>
 
