@@ -42,7 +42,8 @@ $APPLICATION->SetTitle("Markup");
 	<a href="/markup/pages/voting-detail/?ID=409960a4-429e-4ea8-8af8-db2399b880cd">Детальная страница голосования</a>
   </li>
   <li>
-	<a href="/markup/pages/voting-screen/">Экран голосования</a>
+	<a href="/voting/result/">Экран голосования</a>
+	<a href="/markup/pages/voting-screen/">Экран голосования - разработка, без подписки на push&pull</a>
   </li>
   </li>
   <li>
@@ -51,6 +52,10 @@ $APPLICATION->SetTitle("Markup");
   </li>
   <li>
 	<a href="/markup/pages/voting-auth/">Приложение - авторизация</a>
+  </li>
+  <li>
+	<a href="/voting/">Приложение - регистрация, список, голосование</a>
+	<a href="/markup/pages/voting-client/">Приложение - регистрация, список, голосование - разработка, без подписки на push&pull</a>
   </li>
 </ul>
 

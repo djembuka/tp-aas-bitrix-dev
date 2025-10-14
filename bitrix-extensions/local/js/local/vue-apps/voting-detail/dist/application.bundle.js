@@ -239,7 +239,7 @@
             name: 'GROUP_DESCRIPTION',
             label: 'Текст подробного описания',
             value: '',
-            required: true
+            required: false
           }, {
             "property": "file",
             "id": 'group1control3',
@@ -247,7 +247,7 @@
             "label": "Иллюстрация",
             "value": "",
             "file": "",
-            "required": true,
+            "required": false,
             "accept": ["png", "jpg", "jpeg"],
             "image": true,
             "maxsize": 20000000
@@ -287,7 +287,7 @@
             name: 'QUESTION_DESCRIPTION',
             label: 'Текст подробного описания',
             value: '',
-            required: true
+            required: false
           }, {
             "property": "file",
             "id": 'question1control3',
@@ -295,7 +295,7 @@
             "label": "Иллюстрация вопроса",
             "value": "",
             "file": "",
-            "required": true,
+            "required": false,
             "accept": ["svg", "png", "jpg", "jpeg"],
             "image": true,
             "maxsize": 20000000
@@ -317,6 +317,7 @@
               "code": "1"
             }],
             "value": "",
+            required: true,
             "disabled": false
           }, {
             property: 'num',
@@ -358,7 +359,7 @@
             name: 'ANSWER_DESCRIPTION',
             label: 'Подробное описание ответа',
             value: '',
-            required: true
+            required: false
           }, {
             "property": "file",
             "id": 'answer1control3',
@@ -366,7 +367,7 @@
             "label": "Иллюстрация ответа",
             "value": "",
             "file": "",
-            "required": true,
+            "required": false,
             "accept": ["svg", "png", "jpg", "jpeg"],
             "image": true,
             "maxsize": 20000000
@@ -658,7 +659,8 @@
             "label": "",
             "code": "1"
           }],
-          "value": ""
+          "value": "",
+          "checked": false
         }, {
           "property": "checkbox",
           "type": "checkbox",
@@ -666,7 +668,7 @@
           "name": "DEPENDENCY_CHECKBOX".concat(Math.floor(Math.random() * 10000)),
           "label": "",
           "value": "on",
-          "checked": true
+          "checked": false
         }]
       };
     },
@@ -676,14 +678,13 @@
       ControlChoice: local_vueComponents_controlChoice.ControlChoice,
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
-    template: "\n        <div class=\"twpx-poll-answer-item\">\n            <div class=\"twpx-poll-answer-item__info\">\n                <img :src=\"answer.image || nopic\" width=\"48\" height=\"48\" alt=\"\" />\n                <div class=\"twpx-poll-answer-item__text\">{{ answer.name }}</div>\n                <ControlChoice :control=\"controls[ type ]\" @input=\"input\" />\n            </div>\n            <div class=\"twpx-poll-answer-item__buttons\">\n                <ButtonComponent :text=\"Delete\" :props=\"['icon', 'delete', 'medium']\" @clickButton=\"clickDelete\" />\n                <ButtonComponent :text=\"Edit\" :props=\"['icon', 'edit', 'medium']\" @clickButton=\"clickEdit\" />\n            </div>\n        </div>\n    ",
+    template: "\n        <div class=\"twpx-poll-answer-item\">\n            <div class=\"twpx-poll-answer-item__info\">\n                <img :src=\"answer.image || nopic\" width=\"48\" height=\"48\" alt=\"\" />\n                <div class=\"twpx-poll-answer-item__text\">{{ answer.name }}</div>\n                <ControlChoice v-if=\"Number(type) === 0\" :control=\"controls[0]\" @input=\"input\" />\n                <ControlChoice v-if=\"Number(type) === 1\" :control=\"controls[1]\" @input=\"input\" />\n            </div>\n            <div class=\"twpx-poll-answer-item__buttons\">\n                <ButtonComponent :text=\"Delete\" :props=\"['icon', 'delete', 'medium']\" @clickButton=\"clickDelete\" />\n                <ButtonComponent :text=\"Edit\" :props=\"['icon', 'edit', 'medium']\" @clickButton=\"clickEdit\" />\n            </div>\n        </div>\n    ",
     methods: {
       input: function input(_ref) {
         var control = _ref.control,
           value = _ref.value,
           checked = _ref.checked;
-        console.log(control, checked);
-        if (checked) {
+        if (checked !== undefined) {
           control.checked = checked;
         } else if (value) {
           control.value = value;
@@ -1467,5 +1468,4 @@
 
   exports.VotingDetail = VotingDetail;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Vue3.Pinia));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map

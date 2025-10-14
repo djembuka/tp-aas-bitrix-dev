@@ -3,7 +3,7 @@
   margin-bottom: 16px;
 }
 .twpx-form-control--radio .twpx-form-control-hint {
-  color: #2d3142;
+  color: #4F74D1;
   font-size: 9px;
   margin: 8px 0 0 14px;
   line-height: 1.2;
@@ -103,13 +103,13 @@
   .twpx-form-control__radio
   [type='radio']:not(:checked)
   + span:before {
-  background-color: #f5f7f8;
+  background-color: #F0F5FC;
 }
 .twpx-form-control--radio
   .twpx-form-control__radio:hover
   [type='radio']:not(:checked)
   + span:before {
-  background-color: #d7dee1;
+  background-color: #E6F0FF;
 }
 
 .twpx-form-control--radio
@@ -136,14 +136,14 @@
   .twpx-form-control__radio
   [type='radio'].with-gap:checked
   + span:before {
-  background-color: #d7dee1;
+  background-color: #E6F0FF;
 }
 
 .twpx-form-control--radio
   .twpx-form-control__radio
   [type='radio'].with-gap:checked
   + span:after {
-  background-color: #2d3142;
+  background-color: #4F74D1;
 }
 
 .twpx-form-control--radio
@@ -154,7 +154,7 @@
   .twpx-form-control__radio
   [type='radio'].with-gap:checked
   + span:after {
-  background-color: #2d3142;
+  background-color: #4F74D1;
 }
 
 .twpx-form-control--radio

@@ -24,6 +24,7 @@ return [
 		'local.vue-components.loader-circle',
 		'local.vue-components.loader-bubbles',
 		'local.vue-components.loader-squares',
+		'local.vue-components.message-component',
 		'ui.vue3.pinia',
 	],
 	'skip_core' => true,

@@ -65,14 +65,14 @@
             name: 'ANNOUNCEMENT',
             label: 'Текст анонса',
             value: '',
-            required: true
+            required: false
           }, {
             property: 'textarea',
             id: 3,
             name: 'DESCRIPTION',
             label: 'Текст подробного описания',
             value: '',
-            required: true
+            required: false
           }]
         }, {
           id: 2,
@@ -110,7 +110,7 @@
             id: 1,
             name: "NUM",
             label: "Количество попыток",
-            value: "",
+            value: "1",
             required: true
           }, {
             property: "num",
@@ -125,21 +125,21 @@
             name: "BUTTON",
             label: "Сообщение у кнопки",
             value: "",
-            required: true
+            required: false
           }, {
             property: 'textarea',
             id: 4,
             name: 'MESSAGE',
             label: 'Сообщение после голосования',
             value: '',
-            required: true
+            required: false
           }, {
             property: "num",
             id: 5,
             name: "SORT",
             label: "Порядок размещения",
             value: "",
-            required: false,
+            required: true,
             hint_external: "Используйте цифры от 1 до N, порядок определяет от 1, сверху вниз. 1 всегда будет первым. Для удобства рекомендуем использовать 10, 20, 30, это позволит оперативно изменить порядок."
           }]
         }, {
@@ -151,14 +151,14 @@
             name: "MEMBERS_ID",
             label: "ID групп голосующих",
             value: "",
-            required: true
+            required: false
           }, {
             property: "text",
             id: 2,
             name: "COMMISSIONS_ID",
             label: "ID групп Избирательных комиссий",
             value: "",
-            required: true
+            required: false
           }]
         }]
       };
@@ -511,5 +511,5 @@
 
   exports.VotingCreate = VotingCreate;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Vue3.Pinia));
+}((this.BX = this.BX || {}),BX,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX));
 //# sourceMappingURL=application.bundle.js.map

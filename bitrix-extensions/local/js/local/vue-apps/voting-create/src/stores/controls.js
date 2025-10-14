@@ -21,7 +21,7 @@ export const controlsStore = defineStore('controls', {
               name: 'ANNOUNCEMENT',
               label: 'Текст анонса',
               value: '',
-              required: true,
+              required: false,
             },
             {
               property: 'textarea',
@@ -29,7 +29,7 @@ export const controlsStore = defineStore('controls', {
               name: 'DESCRIPTION',
               label: 'Текст подробного описания',
               value: '',
-              required: true,
+              required: false,
             },
           ]
         },
@@ -75,7 +75,7 @@ export const controlsStore = defineStore('controls', {
               id: 1,
               name: "NUM",
               label: "Количество попыток",
-              value: "",
+              value: "1",
               required: true,
             },
             {
@@ -92,7 +92,7 @@ export const controlsStore = defineStore('controls', {
               name: "BUTTON",
               label: "Сообщение у кнопки",
               value: "",
-              required: true,
+              required: false,
             },
             {
               property: 'textarea',
@@ -100,7 +100,7 @@ export const controlsStore = defineStore('controls', {
               name: 'MESSAGE',
               label: 'Сообщение после голосования',
               value: '',
-              required: true,
+              required: false,
             },
             {
               property: "num",
@@ -108,7 +108,7 @@ export const controlsStore = defineStore('controls', {
               name: "SORT",
               label: "Порядок размещения",
               value: "",
-              required: false,
+              required: true,
               hint_external: "Используйте цифры от 1 до N, порядок определяет от 1, сверху вниз. 1 всегда будет первым. Для удобства рекомендуем использовать 10, 20, 30, это позволит оперативно изменить порядок."
             },
           ]
@@ -123,7 +123,7 @@ export const controlsStore = defineStore('controls', {
               name: "MEMBERS_ID",
               label: "ID групп голосующих",
               value: "",
-              required: true,
+              required: false,
             },
             {
               property: "text",
@@ -131,7 +131,7 @@ export const controlsStore = defineStore('controls', {
               name: "COMMISSIONS_ID",
               label: "ID групп Избирательных комиссий",
               value: "",
-              required: true,
+              required: false,
             },
           ]
         }

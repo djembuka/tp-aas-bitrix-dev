@@ -35,25 +35,25 @@
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
-  gap: 8px;
+  gap: 16px;
   -ms-flex-item-align: stretch;
       align-self: stretch;
 }
 .twpx-voting-screen__voting-name {
   color: #000;
   font-family: Roboto;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 38.4px; /* 213.333% */
-}
-.twpx-voting-screen__question {
-  color: #000;
-  font-family: Roboto;
   font-size: 32px;
   font-style: normal;
   font-weight: 700;
   line-height: 38.4px; /* 120% */
+}
+.twpx-voting-screen__voting-description {
+  color: #000;
+  font-family: Roboto;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 38.4px; /* 213.333% */
 }
 .twpx-voting-screen__body {
   display: grid;
@@ -92,11 +92,8 @@
   background: #F6F6F6;
 }
 .twpx-voting-screen__qr {
-  width: 196px;
-  height: 345px;
-  padding: 10px;
-  border-radius: 16px;
-  background: #F6F6F6;
+  width: 100%;
+  max-width: 299px;
 }
 
 .twpx-voting-screen__message {
@@ -110,7 +107,7 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  height: 325px;
+  min-height: 325px;
   border-radius: 32px;
   background: #CEF7D1;
 
@@ -257,6 +254,7 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    gap: 16px;
     padding: 16px 32px;
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
@@ -349,6 +347,18 @@
     -ms-flex-item-align: stretch;
         align-self: stretch;
     padding: 0 32px;
+    margin: 0 auto;
+}
+.twpx-voting-screen-list__item-success {
+    color: #74C37A;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px; /* 100% */
+    width: 100%;
+    text-align: center;
 }
 .twpx-voting-screen-list__items {
     display: grid;
@@ -386,6 +396,7 @@
     display: grid;
     padding: 32px 0;
     gap: 16px;
+    margin-bottom: 32px;
 }
 .twpx-voting-answer {
     display: grid;

@@ -10,6 +10,18 @@
     justify-content: flex-start;
     align-self: stretch;
     padding: 0 32px;
+    margin: 0 auto;
+}
+.twpx-voting-screen-list__item-success {
+    color: #74C37A;
+    text-align: center;
+    font-family: Roboto;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px; /* 100% */
+    width: 100%;
+    text-align: center;
 }
 .twpx-voting-screen-list__items {
     display: grid;

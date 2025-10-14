@@ -1,4 +1,5 @@
 import './component.css';
+import CheckboxIcon from './CheckboxIcon';
 
 export const ControlCheckboxCheckbox = {
   data() {
@@ -8,17 +9,20 @@ export const ControlCheckboxCheckbox = {
       focused: false,
       blured: false,
       warning: '',
-      hint: this.control.hint_external,
+      hint: this.control?.hint_external || '',
     };
   },
+  components: {
+    CheckboxIcon
+  },
   props: ['control', 'id', 'name'],
-  emits: [],
   // language=Vue
   template: `
-		<div :class="{
+    <div :class="{
         'twpx-form-control': true,
-        'twpx-form-control--checkbox': true,
+        'twpx-form-control--checkbox-checkbox': true,
         'twpx-form-control--active': active,
+        'twpx-form-control--checked': control.checked,
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,
       }">
@@ -34,12 +38,11 @@ export const ControlCheckboxCheckbox = {
           @blur="blur"
           :disabled="disabled"
           ref="input"
-          class="twpx-form-control--filled-in"
         />
-        <span class="twpx-form-control__label" :style="labelStyle" v-html="control.label">
-        </span>
+        <CheckboxIcon />
+        <span class="twpx-form-control__label" v-if="control.label" v-html="control.label"></span>
       </label>
-      <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
+      <div class="twpx-form-control__hint" v-if="hint" v-html="hint"></div>
     </div>
 	`,
   emits: ['input', 'focus', 'blur'],
@@ -67,9 +70,6 @@ export const ControlCheckboxCheckbox = {
     focusWatcher() {
       return this.control.focusWatcher;
     },
-    labelStyle() {
-      return this.control.label ? '' : `padding-left: 24px;`;
-    }
   },
   watch: {
     validateWatcher() {

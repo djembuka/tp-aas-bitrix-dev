@@ -37,11 +37,11 @@ export const DocComponent = {
       <div class="twpx-doc__body">
         <a class="twpx-doc__icon" :href="doc.href" :style="getStyle()" target="_blank"></a>
         <span class="twpx-doc__text">
-          <a class="twpx-doc__name" :href="doc.href" target="_blank">{{ doc.name }}</a>
+          <a v-if="doc.name" class="twpx-doc__name" :href="doc.href" target="_blank">{{ doc.name }}</a>
           <span class="twpx-doc__data">
-            <span>{{ formatFileSize(doc.size) }} {{ getFileNameAndExt(doc.href).ext }}</span>
-            <span>Дата публикации: {{ formatDateToRussian(doc.date) }}</span>
-            <span>Автор: {{ doc.author }}</span>
+            <span v-if="doc.size && doc.href">{{ formatFileSize(doc.size) }} {{ getFileNameAndExt(doc.href).ext }}</span>
+            <span v-if="doc.date">Дата публикации: {{ formatDateToRussian(doc.date) }}</span>
+            <span v-if="doc.author">Автор: {{ doc.author }}</span>
           </span>
         </span>
         <ButtonComponent v-if="doc.remove" :text="Delete" :props="['icon', 'delete', 'small']" @clickButton="$emit('clickDelete')" />

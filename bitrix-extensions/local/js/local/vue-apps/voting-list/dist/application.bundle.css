@@ -1,4 +1,5 @@
-.twpx-poll-list {
+.twpx-poll-list {}
+.twpx-poll-list__loader {
   min-height: 400px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -8,8 +9,7 @@
           align-items: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
-          justify-content: center;
-}
+          justify-content: center;}
 .twpx-poll-list__wrapper {
   display: grid;
   gap: 32px;

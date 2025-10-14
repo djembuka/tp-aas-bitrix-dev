@@ -28,7 +28,9 @@ export const Application = {
   },
   template: `
     <div class="twpx-poll-list">
-      <LoaderCircle v-if="loading" :show="loading" />
+      <div v-if="loading" class="twpx-poll-list__loader">
+        <LoaderCircle :show="loading" />
+      </div>
 
       <MessageComponent v-else-if="error" type="error" size="big" :message="error" />
 

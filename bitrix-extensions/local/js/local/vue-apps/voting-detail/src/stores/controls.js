@@ -29,7 +29,7 @@ export const controlsStore = defineStore('controls', {
               name: 'GROUP_DESCRIPTION',
               label: 'Текст подробного описания',
               value: '',
-              required: true,
+              required: false,
             },
             {
               "property": "file",
@@ -38,7 +38,7 @@ export const controlsStore = defineStore('controls', {
               "label": "Иллюстрация",
               "value": "",
               "file": "",
-              "required": true,
+              "required": false,
               "accept": [
                 "png",
                 "jpg",
@@ -91,7 +91,7 @@ export const controlsStore = defineStore('controls', {
               name: 'QUESTION_DESCRIPTION',
               label: 'Текст подробного описания',
               value: '',
-              required: true,
+              required: false,
             },
             {
               "property": "file",
@@ -100,7 +100,7 @@ export const controlsStore = defineStore('controls', {
               "label": "Иллюстрация вопроса",
               "value": "",
               "file": "",
-              "required": true,
+              "required": false,
               "accept": [
                 "svg",
                 "png",
@@ -133,6 +133,7 @@ export const controlsStore = defineStore('controls', {
                 },
               ],
               "value": "",
+              required: true,
               "disabled": false,
             },
             {
@@ -182,7 +183,7 @@ export const controlsStore = defineStore('controls', {
             name: 'ANSWER_DESCRIPTION',
             label: 'Подробное описание ответа',
             value: '',
-            required: true,
+            required: false,
           },
           {
             "property": "file",
@@ -191,7 +192,7 @@ export const controlsStore = defineStore('controls', {
             "label": "Иллюстрация ответа",
             "value": "",
             "file": "",
-            "required": true,
+            "required": false,
             "accept": [
               "svg",
               "png",

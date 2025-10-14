@@ -16,6 +16,21 @@
   --vue-message-component-box-shadow: none;
   --vue-message-component-color: #5f7696;
 }
+.vue-message--success {
+  --vue-message-component-background: #74C37A;
+  --vue-message-component-box-shadow: none;
+  --vue-message-component-color: #fff;
+}
+.vue-message--lock-green {
+  --vue-message-component-background: #EFFFF0;
+  --vue-message-component-box-shadow: none;
+  --vue-message-component-color: #74C37A;
+}
+.vue-message--lock {
+  --vue-message-component-background: #FAFAFA;
+  --vue-message-component-box-shadow: none;
+  --vue-message-component-color: #9B9B9B;
+}
 
 /*Size*/
 .vue-message--big {
@@ -97,6 +112,14 @@
 }
 
 @media (max-width: 767px) {
+  .vue-message--big {
+    --vue-message-component-icon-width: 16px;
+    --vue-message-component-padding: 16px;
+    --vue-message-component-column-gap: 16px;
+    --vue-message-component-row-gap: 16px;
+    --vue-message-component-font-size: 12px;
+    --vue-message-component-text-margin-top: 2px;
+  }
   .vue-message {
     row-gap: 32px;
   }

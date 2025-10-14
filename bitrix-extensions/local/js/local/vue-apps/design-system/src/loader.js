@@ -11,6 +11,7 @@ import { Filter } from './pages/filter';
 import { Modals } from './pages/modals';
 import { Docs } from './pages/docs';
 import { Loaders } from './pages/loaders';
+import { Messages } from './pages/messages';
 
 export class DesignSystem {
   #store;
@@ -54,6 +55,10 @@ export class DesignSystem {
         {
           path: '/loaders',
           component: Loaders,
+        },
+        {
+          path: '/messages',
+          component: Messages,
         },
       ],
     });

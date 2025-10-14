@@ -2,26 +2,26 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Кандидаты в правление Bitrix Vue");
 
-\Bitrix\Main\UI\Extension::load("local.vue-apps.poll-candidates");
+\Bitrix\Main\UI\Extension::load("local.vue-apps.voting-candidates");
 ?>
 
-<div id="PollCandidates"></div>
+<div id="VotingCandidates"></div>
 
 <script>
 (() => {
-	const pollcandidates = new BX.PollCandidates('#PollCandidates', {
+	const votingcandidates = new BX.VotingCandidates('#VotingCandidates', {
 		data: {
-			userid: 20039,
+			userid: BX.message('USER_ID'),
 			sessid: BX.bitrix_sessid(),
 		},
 		signedParameters: "",
 		actions: {
-			getGroups: ['twinpx:poll.candidates', 'getGroups'],
-			getCandidates: ['twinpx:poll.candidates', 'getCandidates'],
+			getGroups: ['twinpx:candidates.list', 'getGroups'],
+			getCandidates: ['twinpx:candidates.list', 'getCandidates'],
 		},
 		lang: {}
 	});
-	pollcandidates.run();
+	votingcandidates.run();
 })();
 </script>
 

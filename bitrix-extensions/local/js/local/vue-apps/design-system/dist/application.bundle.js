@@ -1,5 +1,5 @@
 /* eslint-disable */
-(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_controlComponent,local_vueComponents_controlChoice,local_vueComponents_modalYesNo,local_vueComponents_modalAnyContent,local_vueComponents_buttonComponent,local_vueComponents_docComponent,local_vueComponents_loaderCircle,local_vueComponents_loaderBubbles,local_vueComponents_loaderSquares,ui_vue3_pinia) {
+(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_controlComponent,local_vueComponents_controlChoice,local_vueComponents_modalYesNo,local_vueComponents_modalAnyContent,local_vueComponents_buttonComponent,local_vueComponents_docComponent,local_vueComponents_loaderCircle,local_vueComponents_loaderBubbles,local_vueComponents_loaderSquares,local_vueComponents_messageComponent,ui_vue3_pinia) {
   'use strict';
 
   var TheMenu = {
@@ -29,6 +29,9 @@
         }, {
           path: 'loaders',
           name: 'Loaders'
+        }, {
+          path: 'messages',
+          name: 'Messages'
         }]
       };
     },
@@ -1476,6 +1479,170 @@
     template: "\n    <div><LoadersComponent /></div>\n  "
   };
 
+  var messagesStore = ui_vue3_pinia.defineStore('messages-store', {
+    state: function state() {
+      return {
+        messages: [{
+          id: '1',
+          type: 'info',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '2',
+          type: 'info',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '1-1',
+          type: 'info',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }, {
+          id: '2-1',
+          type: 'info',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }, {
+          id: '3',
+          type: 'error',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '4',
+          type: 'error',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '3-1',
+          type: 'error',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }, {
+          id: '4-1',
+          type: 'error',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }, {
+          id: '5',
+          type: 'table-result',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '6',
+          type: 'table-result',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '5-1',
+          type: 'table-result',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }, {
+          id: '6-1',
+          type: 'table-result',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }, {
+          id: '7',
+          type: 'success',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '8',
+          type: 'success',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '7-1',
+          type: 'success',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }, {
+          id: '8-1',
+          type: 'success',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }, {
+          id: '9',
+          type: 'lock-green',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '10',
+          type: 'lock-green',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '9-1',
+          type: 'lock-green',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }, {
+          id: '10-1',
+          type: 'lock-green',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }, {
+          id: '11',
+          type: 'lock',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '12',
+          type: 'lock',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland'
+        }, {
+          id: '11-1',
+          type: 'lock',
+          size: 'big',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }, {
+          id: '12-1',
+          type: 'lock',
+          size: 'small',
+          message: 'Our ointments harness unmatched soothing properties derived from high-quality fermented papaya freshly harvested in Far North Queensland',
+          button: 'Done'
+        }]
+      };
+    },
+    actions: {}
+  });
+
+  function ownKeys$8(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+  function _objectSpread$8(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys$8(Object(source), !0).forEach(function (key) { babelHelpers.defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys$8(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+  var MessagesComponent = {
+    data: function data() {},
+    components: {
+      MessageComponent: local_vueComponents_messageComponent.MessageComponent
+    },
+    template: "\n    <div style=\"display: grid; gap: 16px;\">\n      <div class=\"twpx-design-system-block\" v-for=\"message in messages\" :key=\"message.id\">\n        <div>\n          <MessageComponent :type=\"message.type\" :size=\"message.size\" :message=\"message.message\" :button=\"message.button\" />\n        </div>\n        <pre>{{ getMessageCode(message) }}</pre>\n      </div>\n    </div>\n  ",
+    computed: _objectSpread$8({}, ui_vue3_pinia.mapState(messagesStore, ['messages'])),
+    methods: {
+      getMessageCode: function getMessageCode(message) {
+        return "MessageComponent\n  :type=\"".concat(message.type, "\"\n  :size=\"").concat(message.size, "\"\n  :message=\"").concat(message.message, "\"\n  ").concat(message.button ? ':button="' + message.button : '', " /");
+      }
+    }
+  };
+
+  var Messages = {
+    components: {
+      MessagesComponent: MessagesComponent
+    },
+    template: "\n    <div><MessagesComponent/></div>\n  "
+  };
+
   function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
   function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
   var _store = /*#__PURE__*/new WeakMap();
@@ -1528,6 +1695,9 @@
         }, {
           path: '/loaders',
           component: Loaders
+        }, {
+          path: '/messages',
+          component: Messages
         }]
       }));
       babelHelpers.classPrivateFieldSet(this, _rootNode, document.querySelector(rootNode));
@@ -1564,5 +1734,5 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX));
+}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.AAS,BX));
 //# sourceMappingURL=application.bundle.js.map

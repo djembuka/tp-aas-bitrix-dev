@@ -1,0 +1,20 @@
+.twpx-voting-registration__items {
+    display: grid;
+    gap: var(--twpx-block-desktop-sizes-gap-s, 16px);
+}
+.twpx-voting-registration__item {
+    display: grid;
+    padding: 16px 0;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    border-bottom: 1px solid var(--Base-Grey-color-neutral-200, #F8F8F8);
+    color: #3B3B3B;
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.twpx-voting-registration__item span:first-child {
+    font-weight: 700;
+}

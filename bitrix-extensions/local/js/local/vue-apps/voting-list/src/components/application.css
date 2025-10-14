@@ -1,9 +1,9 @@
-.twpx-poll-list {
+.twpx-poll-list {}
+.twpx-poll-list__loader {
   min-height: 400px;
   display: flex;
   align-items: center;
-  justify-content: center;
-}
+  justify-content: center;}
 .twpx-poll-list__wrapper {
   display: grid;
   gap: 32px;

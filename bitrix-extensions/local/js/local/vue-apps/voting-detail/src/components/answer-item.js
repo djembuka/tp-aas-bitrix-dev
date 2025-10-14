@@ -16,11 +16,12 @@ export const AnswerItem = {
                     "label": "",
                     "options": [
                         {
-                        "label": "",
-                        "code": "1"
+                            "label": "",
+                            "code": "1"
                         }
                     ],
                     "value": "",
+                    "checked": false,
                 },
                 {
                     "property": "checkbox",
@@ -29,7 +30,7 @@ export const AnswerItem = {
                     "name": `DEPENDENCY_CHECKBOX${Math.floor(Math.random() * 10000)}`,
                     "label": "",
                     "value": "on",
-                    "checked": true,
+                    "checked": false,
                 }
             ]
         }
@@ -45,7 +46,8 @@ export const AnswerItem = {
             <div class="twpx-poll-answer-item__info">
                 <img :src="answer.image || nopic" width="48" height="48" alt="" />
                 <div class="twpx-poll-answer-item__text">{{ answer.name }}</div>
-                <ControlChoice :control="controls[ type ]" @input="input" />
+                <ControlChoice v-if="Number(type) === 0" :control="controls[0]" @input="input" />
+                <ControlChoice v-if="Number(type) === 1" :control="controls[1]" @input="input" />
             </div>
             <div class="twpx-poll-answer-item__buttons">
                 <ButtonComponent :text="Delete" :props="['icon', 'delete', 'medium']" @clickButton="clickDelete" />
@@ -55,8 +57,7 @@ export const AnswerItem = {
     `,
     methods: {
         input({control, value, checked}) {
-            console.log(control, checked)
-            if (checked) {
+            if (checked !== undefined) {
                 control.checked = checked;
             } else if (value) {
                 control.value = value;

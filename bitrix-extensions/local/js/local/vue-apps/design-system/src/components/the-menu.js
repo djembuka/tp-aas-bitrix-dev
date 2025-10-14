@@ -34,6 +34,10 @@ export const TheMenu = {
           path: 'loaders',
           name: 'Loaders'
         },
+        {
+          path: 'messages',
+          name: 'Messages'
+        },
       ]
     }
   },

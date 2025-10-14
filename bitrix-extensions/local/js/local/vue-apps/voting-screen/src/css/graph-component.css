@@ -12,6 +12,7 @@
 }
 .twpx-voting-screen-graph-item__rect {
     display: flex;
+    gap: 16px;
     padding: 16px 32px;
     justify-content: space-between;
     align-items: flex-start;

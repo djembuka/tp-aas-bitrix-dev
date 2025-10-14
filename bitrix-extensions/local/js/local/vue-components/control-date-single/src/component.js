@@ -44,8 +44,11 @@ export const ControlDateSingle = {
         locale="ru"
         ref="controlDate"
         :format="'dd.MM.yyyy'"
-        time-picker-inline
-      />
+      >
+        <template #action-buttons></template>
+        <template #action-preview></template>
+        <template #time-picker></template>
+      </ControlDatepicker>
       <input type="hidden" :name="controlName" :value="dateFormatted" />
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
     </div>

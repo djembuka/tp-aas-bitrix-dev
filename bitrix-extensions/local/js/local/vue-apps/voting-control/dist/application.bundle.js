@@ -537,4 +537,5 @@
 
   exports.VotingControl = VotingControl;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Loaders,BX.AAS,BX.Controls,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX,BX.Loaders,BX.AAS,BX.Controls,BX.AAS,BX));
+//# sourceMappingURL=application.bundle.js.map
