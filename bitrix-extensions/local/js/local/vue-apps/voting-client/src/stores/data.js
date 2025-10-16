@@ -50,6 +50,21 @@ export const dataStore = defineStore('data', {
     }
   }),
   actions: {
+    async getStatuses() {
+      try {
+        const statuses = await this.runBitrixMethod('votingStatuses');
+        this.changeProp('statuses', statuses.data);
+      } catch(error) {
+        this.changeProp('errorVoting', error?.errors ? error?.errors[0].message : error);
+      }
+    },
+    addCheckedNum() {
+      this.params.voting.questionsGroups.forEach(g => {
+        g.questions.forEach(q => {
+          q.checkedNum = String(q.type) === '1' ? 0 : undefined;
+        });
+      });
+    },
     changeProp(prop, value) {
       this[prop] = value;
     },
@@ -85,6 +100,24 @@ export const dataStore = defineStore('data', {
         data: payload,
         signedParameters: this.signedParameters,
       })
-    }
+    },
+
+    changeChecked({answer, checked}) {
+        answer.checked = checked;
+    },
+    changeCheckedNum({question, checkedNum}) {
+      question.checkedNum = checkedNum;
+    },
+    setActiveQuestion({question}) {
+        this.removeActiveQuestion();
+        question.isActive = true;
+    },
+    removeActiveQuestion() {
+        this.params.voting.questionsGroups.forEach((group) => {
+            group.questions.forEach((question) => {
+                question.isActive = false;
+            });
+        });
+    },
   }
 });

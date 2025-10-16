@@ -1,6 +1,21 @@
 .twpx-voting-result {
     display: grid;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+.twpx-voting-result-question {
+    display: grid;
+    gap: 24px;
+}
+
+.twpx-voting-result-answers {
+    display: grid;
     padding: 32px 0;
     gap: 16px;
-    margin-bottom: 32px;
+}
+
+.twpx-voting-result h3 {
+    margin: 0;
+    color: #000;
 }

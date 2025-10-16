@@ -32,44 +32,59 @@ export const Application = {
         ...mapState(dataStore, [
           'loading',
           'error',
-          'params'
+          'params',
+          'statuses'
         ]),
     },
     methods: {
         ...mapActions(dataStore, [
             'changeProp',
-            'runBitrixMethod'
+            'runBitrixMethod',
+            'addCheckedNum',
+            'getStatuses'
         ]),
     },
-    async mounted() {
+    mounted() {
         const _this = this;
+        _this.changeProp('loading', true);
 
         if (window.BX && BX.ready) {
-            BX.ready(function() {
-              BX.PULL.subscribe({
-                moduleId: 'voting-app',
-                callback: function(data) {
-                  console.log('Command:', data.command)
-                  console.log('Params:', data.params)
-                  // console.log('Extra:', data.extra)
+            BX.ready(async function() {
+                BX.PULL.subscribe({
+                    moduleId: 'voting-app',
+                    callback: function(data) {
+                        console.log('Command:', data.command)
+                        console.log('Params:', data.params)
+                        // console.log('Extra:', data.extra)
+                        _this.changeProp('params', data.params);
 
-                  _this.changeProp('loading', false)
-                  _this.changeProp('params', data.params);
+                        if (data.command === 'state_3') {
+                            _this.changeProp('pollId', data.params.votingId);
 
-                  _this.$router.push(`/${data.command}`);
-                }.bind(this)
-              });
-              BX.PULL.extendWatch('VOTING-APP');
+                            _this.addCheckedNum();
+
+                            if (!_this.statuses.length) {
+                                _this.getStatuses();
+                            }
+                        }
+    
+                        _this.$router.push(`/${data.command}`);
+
+                        _this.changeProp('loading', false);
+                        _this.changeProp('error', '');
+                        _this.changeProp('errorVoting', '');
+                    }.bind(this)
+                });
             });
         }
 
-        this.changeProp('loading', true);
-        
-        try {
-            await this.runBitrixMethod('getState');
-        } catch(error) {
-            this.changeProp('loading', false)
-            this.changeProp('error', error?.errors ? error?.errors[0].message : error)
-        }
+        setTimeout(async () => {
+            try {
+                await _this.runBitrixMethod('getState');
+            } catch(error) {
+                _this.changeProp('loading', false)
+                _this.changeProp('error', error?.errors ? error?.errors[0].message : error)
+            }
+        }, 5000);
     }
 };

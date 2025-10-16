@@ -20,6 +20,10 @@ export const StatusForm = {
     controls: {
       type: Array,
       required: true
+    },
+    statusLabel: {
+      type: String,
+      required: true
     }
   },
   emits: ['setStatus', 'input'],
@@ -29,7 +33,7 @@ export const StatusForm = {
       <div class="twpx-voting-control__status-from__label">
         <span>{{ lang.label }}</span>
         <span class="twpx-voting-control__status-from__value">
-          <span v-if="statusValue">{{ statusValue }}</span>
+          <span v-if="statusValue" :class="statusLabel">{{ statusValue }}</span>
         </span>
       </div>
       <ControlChoice :control="controls[0]" @input="input" />
@@ -57,7 +61,8 @@ export const StatusForm = {
       return '';
     },
     isTimer() {
-      return this.controls[0].options.find(option => option.code === this.controls[0].value)?.timer;
+      const a = this.controls[0].options.find(option => option.code === this.controls[0].value);
+      return a ? a.timer !== undefined : false;
     }
   },
   methods: {

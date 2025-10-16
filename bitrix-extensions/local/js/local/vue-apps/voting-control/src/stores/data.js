@@ -17,7 +17,7 @@ export const dataStore = defineStore('data', {
         label: 'Статус',
         button: 'Сохранить',
         timerHeading: 'Таймер голосования',
-        timerText: 'Установите время, которое будет выводиться на публичном экране, время не влияет на старт или окончания голосования, если вы хотите перезапустить таймер, выберите статус Голосование идет, установите новое время и сохраните статус.'
+        timerText: 'Установите время, которое будет выводиться на публичном экране. Время не влияет на старт или окончание голосования. Если вы хотите перезапустить таймер, выберите статус Голосование идет, установите новое время и сохраните статус.'
       },
       votingList: {
         heading: 'Списки голосующих',
@@ -36,6 +36,16 @@ export const dataStore = defineStore('data', {
 
     loading: false,
     error: '',
+
+    labels: {
+      'voting_v1': 'label-gray',
+      'voting_v2': 'label-blue',
+      'voting_v3': 'label-orange',
+      'voting_v4': 'label-gray',
+      'voting_v5': 'label-green',
+      'voting_v6': 'label-gray',
+    },
+    statusLabel: ''
   }),
   actions: {
     changeProp(prop, value) {

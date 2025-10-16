@@ -29,7 +29,7 @@ export class VotingCreate {
         if (self.options.actions) {
           dataStore().actions = self.options.actions;
         }
-        dataStore().votingListURL = self.options.votingListURL || '';
+        dataStore().votingDetailURL = self.options.votingDetailURL || '';
         dataStore().voting = self.options.voting || {};
       },
     });

@@ -212,6 +212,16 @@
           hint_external: 'Обсуждаем проекты международных стандартов и документов',
           dependency: 'id6'
         }, {
+          property: 'datetime',
+          type: 'single',
+          id: 'id8-1',
+          label: 'Calendar & time',
+          name: 'DATETIME',
+          required: true,
+          value: '28.02.2024 18:00',
+          hint_external: 'Обсуждаем проекты международных стандартов и документов',
+          dependency: 'id6'
+        }, {
           property: 'file',
           id: 'id11',
           name: 'FILE_LOGO',
@@ -318,7 +328,7 @@
           hint_external: 'Обсуждаем проекты международных стандартов и документов'
         }, {
           property: 'checkbox',
-          id: 'id11',
+          id: 'id15',
           name: 'SIMPLE_CHECKBOX',
           required: false,
           label: 'Checkbox',
@@ -329,7 +339,7 @@
         }, {
           property: 'checkbox',
           type: 'block',
-          id: 'id12',
+          id: 'id16',
           name: 'CHECKBOX_BLOCK',
           required: false,
           label: 'Checkbox block',
@@ -1734,5 +1744,5 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

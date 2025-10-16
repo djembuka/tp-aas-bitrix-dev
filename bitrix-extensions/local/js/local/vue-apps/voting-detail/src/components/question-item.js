@@ -16,7 +16,10 @@ export const QuestionItem = {
     template: `
         <div class="twpx-poll-question-item">
             <div class="twpx-poll-question-item__wrapper">
-                <div class="twpx-poll-question-item__text">{{ question.name }}</div>
+                <div class="twpx-poll-question-item__info">
+                    <h4 v-if="question.name">{{ question.name }}</h4>
+                    <div v-if="question.description" class="twpx-poll-question-item__text">{{ question.description }}</div>
+                </div>
                 <div class="twpx-poll-question-item__buttons">
                     <ButtonComponent :text="Delete" :props="['icon', 'delete', 'medium']" @clickButton="clickDelete" />
                     <ButtonComponent :text="Edit" :props="['icon', 'edit', 'medium']" @clickButton="clickEdit" />

@@ -79,6 +79,8 @@ export const Application = {
             :key="voting.uuid"
             :voting="voting"
             :url="votingDetailURL"
+            :status="statuses.find(s => s.id === voting.state)"
+            :label="labels[voting.stateXml]"
             @edit="editVoting"
             @delete="deleteVoting"
           />
@@ -104,7 +106,9 @@ export const Application = {
       'editModalLoading',
       'editModalError',
       
-      'activeVoting'
+      'activeVoting',
+      'labels',
+      'statuses'
     ]),
   },
   methods: {
@@ -163,9 +167,20 @@ export const Application = {
           this.changeProp('loading', false)
           this.changeProp('error', error.errors[0].message)
       }
+    },
+    async getStatuses() {
+      try {
+        const result = await this.runBitrixMethod('votingStatuses')
+        if (result && result.data) {
+          this.changeProp('statuses', result.data)
+        }
+      } catch(error) {
+          this.changeProp('error', error.errors[0].message)
+      }
     }
   },
   mounted() {
     this.getVotings();
+    this.getStatuses();
   },
 };

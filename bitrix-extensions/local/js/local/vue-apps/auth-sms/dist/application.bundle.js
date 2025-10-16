@@ -238,10 +238,12 @@
           disabled: false
         }, {
           property: 'checkbox',
+          type: 'checkbox',
           id: 'id1',
           name: 'NUM',
           label: '',
           value: '',
+          checked: false,
           required: true,
           disabled: false
         }],
@@ -260,7 +262,7 @@
         if (this.state === 'C1' && this.timer) {
           result = true;
         } else {
-          result = this.controls[0].setInvalidWatcher || this.controls[0].disabled || !this.controls[0].value.trim() || this.controls[0].value.trim().length < 11 || !this.controls[1].value;
+          result = this.controls[0].setInvalidWatcher || this.controls[0].disabled || !this.controls[0].value.trim() || this.controls[0].value.trim().length < 11 || !this.controls[1].checked;
         }
         return result;
       },
@@ -293,10 +295,14 @@
       },
       input: function input(_ref) {
         var control = _ref.control,
-          value = _ref.value;
-        control.value = value;
+          value = _ref.value,
+          checked = _ref.checked;
         if (control.property === 'tel') {
+          control.value = value;
           control.setInvalidWatcher = false;
+        }
+        if (control.property === 'checkbox') {
+          control.checked = checked;
         }
       },
       runSend: function runSend() {
@@ -428,10 +434,12 @@
           disabled: false
         }, {
           property: 'checkbox',
+          type: 'checkbox',
           id: 'id1',
           name: 'NUM',
           label: '',
-          value: '',
+          value: 'on',
+          checked: false,
           required: true,
           disabled: false
         }],
@@ -445,7 +453,11 @@
     getters: {
       buttonDisabled: function buttonDisabled() {
         return this.controls.some(function (input) {
-          return !input.value || input.setInvalidWatcher;
+          if (input.property === 'checkbox') {
+            return !input.checked;
+          } else {
+            return !input.value || input.setInvalidWatcher;
+          }
         });
       }
     },
@@ -462,8 +474,13 @@
       },
       changeInputValue: function changeInputValue(_ref) {
         var control = _ref.control,
-          value = _ref.value;
-        control.value = value;
+          value = _ref.value,
+          checked = _ref.checked;
+        if (value !== undefined) {
+          control.value = value;
+        } else if (checked !== undefined) {
+          control.checked = checked;
+        }
         this.controls.forEach(function (c) {
           c.setInvalidWatcher = false;
         });
@@ -1324,5 +1341,4 @@
 
   exports.AuthSMS = AuthSMS;
 
-}((this.BX = this.BX || {}),BX,BX,BX.AAS,BX.Controls,BX,BX.AAS));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.AAS,BX.Controls,BX.Vue3.Pinia,BX.AAS));//# sourceMappingURL=application.bundle.js.map

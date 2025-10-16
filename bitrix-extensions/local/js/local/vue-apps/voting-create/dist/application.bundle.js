@@ -20,7 +20,7 @@
           'editVoting': ['twinpx:voting.form', 'editVoting'],
           'voting': ['twinpx:voting.form', 'voting']
         },
-        votingListURL: '',
+        votingDetailURL: '',
         voting: {}
       };
     },
@@ -307,7 +307,7 @@
     },
     // language=Vue
     template: "\n  <div class=\"twpx-poll-create\" id=\"PollCreateApp\">\n\n    <div class=\"twpx-poll-create__loader\" v-if=\"loading\">\n      <LoaderCircle :show=\"loading\" />\n    </div>\n\n    <MessageComponent v-else-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n    <form action=\"\" v-else>\n      <div class=\"twpx-poll-create__form\" v-if=\"!loading\">\n\n        <h2>{{ heading }}</h2>\n\n        <div class=\"twpx-poll-create__block\" v-for=\"block in blocks\" :key=\"block.id\" :data-id=\"block.id\">\n          <h4>{{ block.heading }}</h4>\n          <div class=\"twpx-poll-create__controls\">\n            <ControlChoice  v-for=\"control in block.controls\" :key=\"control.id\" :control=\"control\" @input=\"input\" @hints=\"hints\" />\n          </div>\n        </div>\n        \n        <div class=\"twpx-poll-create__buttons\">\n          <ButtonComponent :text=\"lang.cancelButton\" :props=\"['gray-color', 'large']\" @clickButton=\"clickCancel\" />\n          <ButtonComponent :text=\"sendButton\" :props=\"['secondary', 'large']\" :disabled=\"isDisabled\" @clickButton=\"clickSend\" />\n        </div>\n\n      </div>\n    </form>\n  </div>\n\t",
-    computed: _objectSpread$1(_objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'id', 'loading', 'error', 'votingListURL', 'voting'])), ui_vue3_pinia.mapState(controlsStore, ['blocks'])), {}, {
+    computed: _objectSpread$1(_objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['lang', 'id', 'loading', 'error', 'votingDetailURL', 'voting'])), ui_vue3_pinia.mapState(controlsStore, ['blocks'])), {}, {
       heading: function heading() {
         return this.voting.uuid ? this.lang.editHeading : this.lang.heading;
       },
@@ -369,6 +369,7 @@
         if (this.mode === 'edit') {
           data.uuid = this.voting.uuid;
         }
+        this.changeProp('loading', true);
         this.runBitrixMethod('editVoting', data).then(function (response) {
           var _response$data;
           if (_this.mode === 'edit') {
@@ -376,9 +377,10 @@
             _this.changeProp('error', '');
             _this.changeProp('loading', false);
           } else if (response !== null && response !== void 0 && (_response$data = response.data) !== null && _response$data !== void 0 && _response$data.uuid) {
-            window.location.href = "?uuid=".concat(response.data.uuid);
+            window.location.href = "".concat(_this.votingDetailURL).concat(response.data.uuid);
           }
         }, function (error) {
+          _this.changeProp('loading', false);
           _this.changeProp('error', error.errors[0].message);
         });
       },
@@ -488,7 +490,7 @@
             if (self.options.actions) {
               dataStore().actions = self.options.actions;
             }
-            dataStore().votingListURL = self.options.votingListURL || '';
+            dataStore().votingDetailURL = self.options.votingDetailURL || '';
             dataStore().voting = self.options.voting || {};
           }
         }));
@@ -511,5 +513,5 @@
 
   exports.VotingCreate = VotingCreate;
 
-}((this.BX = this.BX || {}),BX,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

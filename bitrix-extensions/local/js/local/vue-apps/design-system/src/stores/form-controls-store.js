@@ -158,6 +158,17 @@ export const formControlsStore = defineStore('form-controls-store', {
         dependency: 'id6',
       },
       {
+        property: 'datetime',
+        type: 'single',
+        id: 'id8-1',
+        label: 'Calendar & time',
+        name: 'DATETIME',
+        required: true,
+        value: '28.02.2024 18:00',
+        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        dependency: 'id6',
+      },
+      {
         property: 'file',
         id: 'id11',
         name: 'FILE_LOGO',
@@ -283,7 +294,7 @@ export const formControlsStore = defineStore('form-controls-store', {
       },
       {
         property: 'checkbox',
-        id: 'id11',
+        id: 'id15',
         name: 'SIMPLE_CHECKBOX',
         required: false,
         label: 'Checkbox',
@@ -295,7 +306,7 @@ export const formControlsStore = defineStore('form-controls-store', {
       {
         property: 'checkbox',
         type: 'block',
-        id: 'id12',
+        id: 'id16',
         name: 'CHECKBOX_BLOCK',
         required: false,
         label: 'Checkbox block',

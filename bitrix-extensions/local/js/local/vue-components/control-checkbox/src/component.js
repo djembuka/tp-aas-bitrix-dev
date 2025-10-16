@@ -47,7 +47,7 @@ export const ControlCheckbox = {
         return this.control.value;
       },
       set(value) {
-        this.$emit('input', { value });
+        this.$emit('input', { value, checked: value });
       },
     },
     active() {

@@ -15,7 +15,7 @@ export const dataStore = defineStore('data', {
       'editVoting': ['twinpx:voting.form', 'editVoting'],
       'voting': ['twinpx:voting.form', 'voting']
     },
-    votingListURL: '',
+    votingDetailURL: '',
     voting: {}
   }),
   actions: {

@@ -22,20 +22,19 @@ export const questionComponent = {
             <div class="b-poll__questions__info" :class="getInfoClass()" v-if="question.selectableAnswers">{{question.checkedNum}} из {{question.selectableAnswers}}</div>
 
             <h3 v-if="question.name">{{question.name}}</h3>
-            <p v-if="question.description" v-html="question.description"></p>
+            <p v-if="question.description" v-html="question.description" class="twpx-voting-description"></p>
 
-            <div class="b-poll__questions__note" :class="getNoteClass()" v-if="question.type === '1' && question.selectableAnswers"><div>Выбрано {{question.checkedNum}} из допустимых {{question.selectableAnswers}}</div></div>
+            <div class="b-poll__questions__note" :class="getNoteClass()" v-if="noteVisibility"><div>Выбрано {{question.checkedNum}} из допустимых {{question.selectableAnswers}}</div></div>
 
             <div class="b-poll__questions__set" v-if="votingStatusXml!=='voting_v5' && votingStatusXml!=='voting_v6'">
-                <div v-for="(answer, answerIndex) in question.answers">
+                <div v-for="answer in question.answers" :key="Math.floor(Math.random() * 100000)">
 
                     <formControlCheckbox v-if="question.type === '1'"
                         :pollId="pollId"
                         :groups="groups"
                         :answer="answer"
-                        :groupIndex="groupIndex"
-                        :questionIndex="questionIndex"
-                        :answerIndex="answerIndex"
+                        :question="question"
+                        :disabled="votingStatusXml==='voting_v2' || votingStatusXml==='voting_v4'"
                         @form-control-change="formControlChange"
                         @setActiveQuestion="setActiveQ"
                     />
@@ -44,7 +43,7 @@ export const questionComponent = {
                         :pollId="pollId"
                         :groups="groups"
                         :answer="answer"
-                        :answerIndex="answerIndex"
+                        :disabled="votingStatusXml==='voting_v2' || votingStatusXml==='voting_v4'"
                         @removeActiveQuestion="removeActiveQ"
                         @form-control-change="radioControlChange"
                     />
@@ -53,7 +52,6 @@ export const questionComponent = {
                         :pollId="pollId"
                         :groups="groups"
                         :answer="answer"
-                        :answerIndex="answerIndex"
                         @removeActiveQuestion="removeActiveQ"
                     />
                 </div>
@@ -61,32 +59,35 @@ export const questionComponent = {
 
         </div>
     `,
+    computed: {
+        noteVisibility() {
+            return this.votingStatusXml!=='voting_v2' &&
+                   this.votingStatusXml!=='voting_v4' &&
+                   this.votingStatusXml!=='voting_v5' &&
+                   this.votingStatusXml!=='voting_v6' &&
+                   this.question.type === '1' &&
+                   this.question.selectableAnswers
+        }
+    },
     methods: {
         setActiveQ(args) {
-            this.$emit('setActiveQuestion', args);
+            this.$emit('setActiveQuestion', {...args, question: this.question});
         },
         removeActiveQ(args) {
             this.$emit('removeActiveQuestion', args);
         },
         getInfoClass() {
             return {
-                'i-show':
-                    this.groups[this.groupIndex].questions[this.questionIndex].checkedNum > 0 &&
-                    this.groups[this.groupIndex].questions[this.questionIndex].isActive,
-                'bg-success':
-                    String(this.groups[this.groupIndex].questions[this.questionIndex].selectableAnswers) ===
-                    String(this.groups[this.groupIndex].questions[this.questionIndex].checkedNum),
+                'i-show': this.question.checkedNum > 0 && this.question.isActive,
+                'bg-success': String(this.question.selectableAnswers) === String(this.question.checkedNum),
                 animate__animated: true,
                 animate__pulse: this.animatePulse,
             };
         },
         getNoteClass() {
             return {
-                'text-success':
-                    this.groups[this.groupIndex].questions[this.questionIndex].allowed ===
-                    this.groups[this.groupIndex].questions[this.questionIndex].checkedNum,
-                'text-danger':
-                    this.groups[this.groupIndex].questions[this.questionIndex].checkedNum === 0,
+                'text-success': Number(this.question.selectableAnswers) === Number(this.question.checkedNum),
+                'text-danger': this.question.checkedNum === 0,
             };
         },
         formControlChange(args) {
@@ -105,16 +106,12 @@ export const questionComponent = {
             this.$emit('changeChecked', args);
         },
         changeCheckedNum() {
-            let num = 0;
-            this.groups[this.groupIndex].questions[ this.questionIndex ].answers.forEach((answer) => {
-                if (answer.checked === true) {
-                    num++;
-                }
-            });
+            const num = this.question.answers.reduce((count, answer) => {
+                return answer.checked === true ? count + 1 : count;
+            }, 0);
 
             this.$emit('changeCheckedNum', {
-                groupIndex: this.groupIndex,
-                questionIndex: this.questionIndex,
+                question: this.question,
                 checkedNum: num,
             });
         },

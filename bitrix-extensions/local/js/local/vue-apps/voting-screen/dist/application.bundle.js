@@ -258,18 +258,20 @@
   };
 
   var ResultComponent = {
-    props: ['answers'],
+    props: ['result'],
     components: {
       AnswerComponent: AnswerComponent
     },
-    template: "\n        <div class=\"twpx-voting-result\">\n            <AnswerComponent v-for=\"answer in answers\" :answer=\"answer\" />\n        </div>\n    ",
+    template: "\n        <div class=\"twpx-voting-result\">\n            <div class=\"twpx-voting-result-question\" v-for=\"question in result\" :key=\"question.question\">\n                <h3 v-if=\"question.question\">{{ question.question }}</h3>\n                <div class=\"twpx-voting-result-answers\">\n                    <AnswerComponent v-for=\"answer in question.answers\" :answer=\"answer\" :key=\"answer.answer\" />\n                </div>\n            </div>\n        </div>\n    ",
     methods: {
       countPercentage: function countPercentage() {
-        var biggest = this.answers.reduce(function (b, a) {
-          return b > Number(a.votesNumber) ? b : Number(a.votesNumber);
-        }, 0);
-        this.answers.forEach(function (a) {
-          a.percentage = "".concat(Number(a.votesNumber) / biggest * 100, "%");
+        this.result.forEach(function (q) {
+          var biggest = q.answers.reduce(function (b, a) {
+            return b > Number(a.votesNumber) ? b : Number(a.votesNumber);
+          }, 0);
+          q.answers.forEach(function (a) {
+            a.percentage = "".concat(Number(a.votesNumber) / biggest * 100, "%");
+          });
         });
       }
     },
@@ -291,7 +293,7 @@
       StatusTimer: StatusTimer,
       ResultComponent: ResultComponent
     },
-    template: "\n    <div class=\"twpx-voting-screen\">\n\n      <div class=\"twpx-voting-screen-block twpx-voting-screen__header\">\n        <img src=\"/local/templates/aas/images/logo-aas-small.svg\" alt=\"\" />\n        <StatusTimer :command=\"command\" />\n      </div>\n      \n      <div class=\"twpx-voting-screen-block twpx-voting-screen__description\">\n        <div class=\"twpx-voting-screen__voting-name\">{{ params.title }}</div>\n        <div class=\"twpx-voting-screen__voting-description\">{{ params.description }}</div>\n      </div>\n\n      <div class=\"twpx-voting-screen-block\">\n        <ResultComponent :answers=\"params.answers\" />\n        <div class=\"twpx-voting-screen__message\">{{ params.finalMessage }}</div>\n      </div>\n\n    </div>\n\t",
+    template: "\n    <div class=\"twpx-voting-screen\">\n\n      <div class=\"twpx-voting-screen-block twpx-voting-screen__header\">\n        <img src=\"/local/templates/aas/images/logo-aas-small.svg\" alt=\"\" />\n        <StatusTimer :command=\"command\" />\n      </div>\n      \n      <div class=\"twpx-voting-screen-block twpx-voting-screen__description\">\n        <div class=\"twpx-voting-screen__voting-name\">{{ params.title }}</div>\n        <div class=\"twpx-voting-screen__voting-description\">{{ params.description }}</div>\n      </div>\n\n      <div class=\"twpx-voting-screen-block\">\n        <ResultComponent :result=\"params.result\" />\n        <div class=\"twpx-voting-screen__message\">{{ params.finalMessage }}</div>\n      </div>\n\n    </div>\n\t",
     computed: _objectSpread$4({}, ui_vue3_pinia.mapState(dataStore, ['command', 'params', 'extra']))
   };
 
@@ -388,5 +390,5 @@
 
   exports.VotingScreen = VotingScreen;
 
-}((this.BX = this.BX || {}),BX,BX,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

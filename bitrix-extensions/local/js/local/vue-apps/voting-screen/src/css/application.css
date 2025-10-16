@@ -1,3 +1,7 @@
+.twpx-voting-screen,
+.twpx-voting-screen * {
+  box-sizing: border-box;
+}
 .twpx-voting-screen {
   padding: var(--body-desktop-padding, 32px);
   display: grid;
@@ -39,7 +43,8 @@
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
-  line-height: 38.4px; /* 213.333% */
+  line-height: 21.6px; /* 120% */
+  white-space: break-spaces;
 }
 .twpx-voting-screen__body {
   display: grid;

@@ -18,10 +18,12 @@ export const smsStore = defineStore('sms', {
       },
       {
         property: 'checkbox',
+        type: 'checkbox',
         id: 'id1',
         name: 'NUM',
         label: '',
         value: '',
+        checked: false,
         required: true,
         disabled: false,
       },
@@ -42,7 +44,7 @@ export const smsStore = defineStore('sms', {
           this.controls[0].disabled ||
           !this.controls[0].value.trim() ||
           this.controls[0].value.trim().length < 11 ||
-          !this.controls[1].value;
+          !this.controls[1].checked;
       }
       return result;
     },
@@ -77,10 +79,13 @@ export const smsStore = defineStore('sms', {
         }
       });
     },
-    input({ control, value }) {
-      control.value = value;
+    input({ control, value, checked }) {
       if (control.property === 'tel') {
+        control.value = value;
         control.setInvalidWatcher = false;
+      }
+      if (control.property === 'checkbox') {
+        control.checked = checked;
       }
     },
     runSend() {

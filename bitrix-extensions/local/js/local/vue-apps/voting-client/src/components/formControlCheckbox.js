@@ -4,7 +4,7 @@ export const formControlCheckbox = {
             checked: this.answer.checked,
         };
     },
-    props: ['pollId', 'groups', 'groupIndex', 'questionIndex', 'answerIndex', 'answer'],
+    props: ['pollId', 'groups', 'question', 'answer', 'disabled'],
     emits: ['setActiveQuestion', 'form-control-change'],
     template: `
         <label class="b-poll__form-control" :class="[{'i-active': checked}, {'i-disabled': getDisabledClass()}]">
@@ -30,10 +30,7 @@ export const formControlCheckbox = {
             });
 
             //set question as active
-            this.$emit('setActiveQuestion', {
-                groupIndex: this.groupIndex,
-                questionIndex: this.questionIndex,
-            });
+            this.$emit('setActiveQuestion');
 
             //change local storage
             let storageObj = {};
@@ -50,10 +47,10 @@ export const formControlCheckbox = {
             );
         },
         getDisabledClass() {
-            return (
+            return this.disabled || (
                 !this.checked &&
-                String(this.groups[this.groupIndex].questions[this.questionIndex].selectableAnswers) ===
-                String(this.groups[this.groupIndex].questions[this.questionIndex].checkedNum)
+                String(this.question.selectableAnswers) ===
+                String(this.question.checkedNum)
             );
         },
         getStyle() {

@@ -29,10 +29,14 @@
       controls: {
         type: Array,
         required: true
+      },
+      statusLabel: {
+        type: String,
+        required: true
       }
     },
     emits: ['setStatus', 'input'],
-    template: "\n    <div class=\"twpx-voting-control__status-from\">\n      <h3>{{ lang.heading }}</h3>\n      <div class=\"twpx-voting-control__status-from__label\">\n        <span>{{ lang.label }}</span>\n        <span class=\"twpx-voting-control__status-from__value\">\n          <span v-if=\"statusValue\">{{ statusValue }}</span>\n        </span>\n      </div>\n      <ControlChoice :control=\"controls[0]\" @input=\"input\" />\n\n      <div v-if=\"isTimer\" class=\"twpx-voting-control__status-from__timer\">\n        <h4>{{ lang.timerHeading }}</h4>\n        <div>{{ lang.timerText }}</div>\n        <div class=\"twpx-voting-control__status-from__timer-grid\">\n          <ControlChoice :control=\"controls[1]\" @input=\"input\" />\n          <ControlChoice :control=\"controls[2]\" @input=\"input\" />\n        </div>\n      </div>\n\n      <div class=\"twpx-voting-control__status-from__button\">\n        <ButtonComponent :text=\"lang.button\" :props=\"['secondary', 'large']\" @clickButton=\"clickButton\" />\n      </div>\n    </div>\n  ",
+    template: "\n    <div class=\"twpx-voting-control__status-from\">\n      <h3>{{ lang.heading }}</h3>\n      <div class=\"twpx-voting-control__status-from__label\">\n        <span>{{ lang.label }}</span>\n        <span class=\"twpx-voting-control__status-from__value\">\n          <span v-if=\"statusValue\" :class=\"statusLabel\">{{ statusValue }}</span>\n        </span>\n      </div>\n      <ControlChoice :control=\"controls[0]\" @input=\"input\" />\n\n      <div v-if=\"isTimer\" class=\"twpx-voting-control__status-from__timer\">\n        <h4>{{ lang.timerHeading }}</h4>\n        <div>{{ lang.timerText }}</div>\n        <div class=\"twpx-voting-control__status-from__timer-grid\">\n          <ControlChoice :control=\"controls[1]\" @input=\"input\" />\n          <ControlChoice :control=\"controls[2]\" @input=\"input\" />\n        </div>\n      </div>\n\n      <div class=\"twpx-voting-control__status-from__button\">\n        <ButtonComponent :text=\"lang.button\" :props=\"['secondary', 'large']\" @clickButton=\"clickButton\" />\n      </div>\n    </div>\n  ",
     computed: {
       statusValue: function statusValue() {
         var _this = this;
@@ -45,11 +49,11 @@
         return '';
       },
       isTimer: function isTimer() {
-        var _this$controls$0$opti,
-          _this2 = this;
-        return (_this$controls$0$opti = this.controls[0].options.find(function (option) {
+        var _this2 = this;
+        var a = this.controls[0].options.find(function (option) {
           return option.code === _this2.controls[0].value;
-        })) === null || _this$controls$0$opti === void 0 ? void 0 : _this$controls$0$opti.timer;
+        });
+        return a ? a.timer !== undefined : false;
       }
     },
     methods: {
@@ -91,7 +95,7 @@
             label: 'Статус',
             button: 'Сохранить',
             timerHeading: 'Таймер голосования',
-            timerText: 'Установите время, которое будет выводиться на публичном экране, время не влияет на старт или окончания голосования, если вы хотите перезапустить таймер, выберите статус Голосование идет, установите новое время и сохраните статус.'
+            timerText: 'Установите время, которое будет выводиться на публичном экране. Время не влияет на старт или окончание голосования. Если вы хотите перезапустить таймер, выберите статус Голосование идет, установите новое время и сохраните статус.'
           },
           votingList: {
             heading: 'Списки голосующих',
@@ -106,7 +110,16 @@
           'setStatus': ['twinpx:voting.control', 'setStatus']
         },
         loading: false,
-        error: ''
+        error: '',
+        labels: {
+          'voting_v1': 'label-gray',
+          'voting_v2': 'label-blue',
+          'voting_v3': 'label-orange',
+          'voting_v4': 'label-gray',
+          'voting_v5': 'label-green',
+          'voting_v6': 'label-gray'
+        },
+        statusLabel: ''
       };
     },
     actions: {
@@ -363,8 +376,8 @@
       VotingList: VotingList
     },
     // language=Vue
-    template: "\n    <div class=\"twpx-voting-control\">\n\n      <div class=\"twpx-voting-control__loader\" v-if=\"loading\">\n        <LoaderCircle :show=\"loading\" />\n      </div>\n\n      <MessageComponent v-else-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n      <div class=\"twpx-voting-control__wrapper\" v-else>\n\n        <h2>{{ lang.heading }}</h2>\n\n        <InfoBlocks :lang=\"lang.infoBlocks\" :adminData=\"adminData\" />\n\n        <StatusForm :lang=\"lang.statusForm\" :value=\"adminData.selectedStatus\" :controls=\"controls\" @input=\"input\" @setStatus=\"setStatus\" />\n\n        <VotingList :lang=\"lang.votingList\" :adminData=\"adminData\" />\n\n      </div>\n\n    </div>\n\t",
-    computed: _objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['customData', 'signedParameters', 'actions', 'lang', 'infoBlocks', 'adminData', 'uuid', 'loading', 'error'])), ui_vue3_pinia.mapState(controlsStore, ['controls'])),
+    template: "\n    <div class=\"twpx-voting-control\">\n\n      <div class=\"twpx-voting-control__loader\" v-if=\"loading\">\n        <LoaderCircle :show=\"loading\" />\n      </div>\n\n      <MessageComponent v-else-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n      <div class=\"twpx-voting-control__wrapper\" v-else>\n\n        <h2>{{ lang.heading }}</h2>\n\n        <InfoBlocks :lang=\"lang.infoBlocks\" :adminData=\"adminData\" />\n\n        <StatusForm\n          :lang=\"lang.statusForm\"\n          :value=\"adminData.selectedStatus\"\n          :controls=\"controls\"\n          :statusLabel=\"statusLabel\"\n          @input=\"input\"\n          @setStatus=\"setStatus\"\n        />\n\n        <VotingList :lang=\"lang.votingList\" :adminData=\"adminData\" />\n\n      </div>\n\n    </div>\n\t",
+    computed: _objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapState(dataStore, ['customData', 'signedParameters', 'actions', 'lang', 'infoBlocks', 'adminData', 'uuid', 'loading', 'error', 'labels', 'statusLabel'])), ui_vue3_pinia.mapState(controlsStore, ['controls'])),
     methods: _objectSpread$2(_objectSpread$2(_objectSpread$2({}, ui_vue3_pinia.mapActions(dataStore, ['runBitrixMethod', 'changeProp', 'changeSelectedStatus'])), ui_vue3_pinia.mapActions(controlsStore, ['changeControlValue', 'changeStatus', 'changeTimer'])), {}, {
       input: function input(args) {
         this.changeControlValue(args);
@@ -383,7 +396,7 @@
       getVotingAdminData: function getVotingAdminData() {
         var _this2 = this;
         return babelHelpers.asyncToGenerator( /*#__PURE__*/_regeneratorRuntime$1().mark(function _callee() {
-          var timestamp, result;
+          var timestamp, result, label;
           return _regeneratorRuntime$1().wrap(function _callee$(_context) {
             while (1) switch (_context.prev = _context.next) {
               case 0:
@@ -405,19 +418,25 @@
                 _this2.changeProp('adminData', result.data);
                 _this2.changeStatus(result.data.statuses, result.data.selectedStatus);
                 _this2.changeTimer(result.data.statuses);
+                label = result.data.statuses.find(function (s) {
+                  return s.id === result.data.selectedStatus;
+                });
+                if (label) {
+                  _this2.changeProp('statusLabel', _this2.labels[label.statusXml]);
+                }
                 _this2.changeProp('loading', false);
-                _context.next = 18;
+                _context.next = 20;
                 break;
-              case 14:
-                _context.prev = 14;
+              case 16:
+                _context.prev = 16;
                 _context.t0 = _context["catch"](2);
                 _this2.changeProp('loading', false);
                 _this2.changeProp('error', _context.t0.errors[0].message);
-              case 18:
+              case 20:
               case "end":
                 return _context.stop();
             }
-          }, _callee, null, [[2, 14]]);
+          }, _callee, null, [[2, 16]]);
         }))();
       },
       setStatus: function setStatus(value) {
@@ -462,7 +481,6 @@
                 // console.log('Receive params:', params)
                 // console.log('Receive extra:', extra)
                 // console.log('Receive command:', command)
-                console.log('pull');
                 _this.getVotingAdminData();
               }.bind(this)
             });
@@ -537,5 +555,5 @@
 
   exports.VotingControl = VotingControl;
 
-}((this.BX = this.BX || {}),BX,BX.Loaders,BX.AAS,BX.Controls,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Loaders,BX.AAS,BX.Controls,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

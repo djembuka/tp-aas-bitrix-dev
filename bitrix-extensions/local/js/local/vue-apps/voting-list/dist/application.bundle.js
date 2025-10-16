@@ -12,19 +12,15 @@
   };
 
   var VotingItem = {
-    props: ['voting', 'url'],
+    props: ['voting', 'url', 'status', 'label'],
     emits: ['edit', 'delete'],
     components: {
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
-    template: "\n        <div class=\"twpx-voting-list__voting-item\" :data-id=\"voting.uuid\">\n            <div class=\"twpx-voting-list__voting-item__info\">\n                <div class=\"twpx-voting-list__voting-item__heading\">\n                    <a :href=\"detailUrl\">{{ voting.name }}</a>\n                </div>\n                <div class=\"twpx-voting-list__voting-item__text\">{{ voting.description }}</div>\n            </div>\n            <div class=\"twpx-voting-list__voting-item__status\">\n                <span :style=\"styleStr\">{{ styleStr }}</span>\n            </div>\n            <div class=\"twpx-voting-list__voting-item__buttons\">\n                <ButtonComponent :text=\"Edit\" :props=\"['icon', 'edit', 'medium']\" @clickButton=\"$emit('edit', voting)\" />\n                <ButtonComponent :text=\"Delete\" :props=\"['icon', 'delete', 'medium']\" @clickButton=\"$emit('delete', voting)\" />\n            </div>\n        </div>\n    ",
+    template: "\n        <div class=\"twpx-voting-list__voting-item\" :data-id=\"voting.uuid\">\n            <div class=\"twpx-voting-list__voting-item__info\">\n                <div class=\"twpx-voting-list__voting-item__heading\">\n                    <a :href=\"detailUrl\">{{ voting.name }}</a>\n                </div>\n                <div class=\"twpx-voting-list__voting-item__text\">{{ voting.description }}</div>\n            </div>\n            <div class=\"twpx-voting-list__voting-item__status\">\n                <span :class=\"label\">{{ status.status }}</span>\n            </div>\n            <div class=\"twpx-voting-list__voting-item__buttons\">\n                <ButtonComponent :text=\"Edit\" :props=\"['icon', 'edit', 'medium']\" @clickButton=\"$emit('edit', voting)\" />\n                <ButtonComponent :text=\"Delete\" :props=\"['icon', 'delete', 'medium']\" @clickButton=\"$emit('delete', voting)\" />\n            </div>\n        </div>\n    ",
     computed: {
       detailUrl: function detailUrl() {
         return "".concat(this.url, "?ID=").concat(this.voting.uuid);
-      },
-      styleStr: function styleStr() {
-        return 'Status';
-        return "background-color: ".concat(this.voting.status.background, "; color: ").concat(this.voting.status.color, ";");
       }
     }
   };
@@ -79,7 +75,8 @@
         signedParameters: '',
         actions: {
           votings: ['twinpx:voting.form', 'votings'],
-          deleteVoting: ['twinpx:voting.form', 'deleteVoting']
+          deleteVoting: ['twinpx:voting.form', 'deleteVoting'],
+          votingStatuses: ['twinpx:voting.control', 'votingStatuses']
         },
         lang: {
           wizard: {
@@ -104,7 +101,16 @@
         editModalStateWatcher: false,
         editModalLoading: false,
         editModalError: '',
-        activeVoting: {}
+        activeVoting: {},
+        labels: {
+          'voting_v1': 'label-gray',
+          'voting_v2': 'label-blue',
+          'voting_v3': 'label-orange',
+          'voting_v4': 'label-gray',
+          'voting_v5': 'label-green',
+          'voting_v6': 'label-gray'
+        },
+        statuses: []
       };
     },
     actions: {
@@ -165,8 +171,8 @@
       ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo,
       EditForm: EditForm
     },
-    template: "\n    <div class=\"twpx-poll-list\">\n      <div v-if=\"loading\" class=\"twpx-poll-list__loader\">\n        <LoaderCircle :show=\"loading\" />\n      </div>\n\n      <MessageComponent v-else-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n      <div class=\"twpx-poll-list__wrapper\" v-else>\n\n        <ModalAnyContent :stateWatcher=\"editModalStateWatcher\" @onClose=\"onEditModalClose\">\n          <div class=\"twpx-poll-detail__loader\" v-if=\"editModalLoading\">\n            <LoaderCircle :show=\"editModalLoading\" />\n          </div>\n\n          <MessageComponent v-else-if=\"editModalError\" type=\"error\" size=\"big\" :message=\"editModalError\" />\n\n          <EditForm v-else\n            :customData=\"customData\"\n            :signedParameters=\"signedParameters\"\n            :voting=\"activeVoting\"\n            @input=\"input\"\n            @hints=\"hints\"\n            @clickCancel=\"clickEditFormCancel\"\n            @clickSend=\"clickEditFormSend\"\n          />\n        </ModalAnyContent>\n\n        <ModalYesNo\n          :heading=\"lang.deleteModal.heading\"\n          :text=\"lang.deleteModal.text\"\n          :yes=\"lang.deleteModal.yes\"\n          :no=\"lang.deleteModal.no\"\n          :buttons=\"{\n            yes: {\n              props: ['danger', 'large']\n            },\n            no: {\n              props: ['gray-color', 'large']\n            }\n          }\"\n          :stateWatcher=\"deleteModalStateWatcher\"\n          @clickYes=\"clickDeleteModalYes\"\n          @clickNo=\"clickDeleteModalNo\"\n        />\n\n        <WizardBlock :lang=\"lang\" @clickButton=\"goToPollCreate\" />\n\n        <div class=\"twpx-poll-list__list\">\n          <VotingItem v-for=\"voting in pollItems\"\n            :key=\"voting.uuid\"\n            :voting=\"voting\"\n            :url=\"votingDetailURL\"\n            @edit=\"editVoting\"\n            @delete=\"deleteVoting\"\n          />\n        </div>\n\n      </div>\n    </div>\n\t",
-    computed: _objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['customData', 'signedParameters', 'lang', 'votingCreateURL', 'votingDetailURL', 'error', 'loading', 'pollItems', 'deleteModalStateWatcher', 'activePollId', 'editModalStateWatcher', 'editModalLoading', 'editModalError', 'activeVoting'])),
+    template: "\n    <div class=\"twpx-poll-list\">\n      <div v-if=\"loading\" class=\"twpx-poll-list__loader\">\n        <LoaderCircle :show=\"loading\" />\n      </div>\n\n      <MessageComponent v-else-if=\"error\" type=\"error\" size=\"big\" :message=\"error\" />\n\n      <div class=\"twpx-poll-list__wrapper\" v-else>\n\n        <ModalAnyContent :stateWatcher=\"editModalStateWatcher\" @onClose=\"onEditModalClose\">\n          <div class=\"twpx-poll-detail__loader\" v-if=\"editModalLoading\">\n            <LoaderCircle :show=\"editModalLoading\" />\n          </div>\n\n          <MessageComponent v-else-if=\"editModalError\" type=\"error\" size=\"big\" :message=\"editModalError\" />\n\n          <EditForm v-else\n            :customData=\"customData\"\n            :signedParameters=\"signedParameters\"\n            :voting=\"activeVoting\"\n            @input=\"input\"\n            @hints=\"hints\"\n            @clickCancel=\"clickEditFormCancel\"\n            @clickSend=\"clickEditFormSend\"\n          />\n        </ModalAnyContent>\n\n        <ModalYesNo\n          :heading=\"lang.deleteModal.heading\"\n          :text=\"lang.deleteModal.text\"\n          :yes=\"lang.deleteModal.yes\"\n          :no=\"lang.deleteModal.no\"\n          :buttons=\"{\n            yes: {\n              props: ['danger', 'large']\n            },\n            no: {\n              props: ['gray-color', 'large']\n            }\n          }\"\n          :stateWatcher=\"deleteModalStateWatcher\"\n          @clickYes=\"clickDeleteModalYes\"\n          @clickNo=\"clickDeleteModalNo\"\n        />\n\n        <WizardBlock :lang=\"lang\" @clickButton=\"goToPollCreate\" />\n\n        <div class=\"twpx-poll-list__list\">\n          <VotingItem v-for=\"voting in pollItems\"\n            :key=\"voting.uuid\"\n            :voting=\"voting\"\n            :url=\"votingDetailURL\"\n            :status=\"statuses.find(s => s.id === voting.state)\"\n            :label=\"labels[voting.stateXml]\"\n            @edit=\"editVoting\"\n            @delete=\"deleteVoting\"\n          />\n        </div>\n\n      </div>\n    </div>\n\t",
+    computed: _objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['customData', 'signedParameters', 'lang', 'votingCreateURL', 'votingDetailURL', 'error', 'loading', 'pollItems', 'deleteModalStateWatcher', 'activePollId', 'editModalStateWatcher', 'editModalLoading', 'editModalError', 'activeVoting', 'labels', 'statuses'])),
     methods: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapActions(dataStore, ['runBitrixMethod', 'changeProp'])), {}, {
       goToPollCreate: function goToPollCreate() {
         window.location.href = this.votingCreateURL;
@@ -257,10 +263,39 @@
             }
           }, _callee2, null, [[1, 9]]);
         }))();
+      },
+      getStatuses: function getStatuses() {
+        var _this3 = this;
+        return babelHelpers.asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
+          var result;
+          return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+            while (1) switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                _context3.next = 3;
+                return _this3.runBitrixMethod('votingStatuses');
+              case 3:
+                result = _context3.sent;
+                if (result && result.data) {
+                  _this3.changeProp('statuses', result.data);
+                }
+                _context3.next = 10;
+                break;
+              case 7:
+                _context3.prev = 7;
+                _context3.t0 = _context3["catch"](0);
+                _this3.changeProp('error', _context3.t0.errors[0].message);
+              case 10:
+              case "end":
+                return _context3.stop();
+            }
+          }, _callee3, null, [[0, 7]]);
+        }))();
       }
     }),
     mounted: function mounted() {
       this.getVotings();
+      this.getStatuses();
     }
   };
 
@@ -324,5 +359,5 @@
 
   exports.VotingList = VotingList;
 
-}((this.BX = this.BX || {}),BX,BX.AAS,BX.Loaders,BX.Modals,BX.Modals,BX.Controls,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.Loaders,BX.Modals,BX.Modals,BX.Controls,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map

@@ -1,0 +1,428 @@
+.twpx-form-control--date {
+  position: relative;
+  margin-bottom: var(--twpx-form-control-margin-bottom);
+  width: 100%;
+  z-index: 10;
+}
+.twpx-form-control--date.twpx-form-control--open {
+  z-index: 100;
+}
+.twpx-form-control--date.twpx-form-control--active .twpx-form-control__label {
+  -webkit-transform: translateY(
+    var(--twpx-form-control-active-label-translate)
+  );
+  -ms-transform: translateY(var(--twpx-form-control-active-label-translate));
+      transform: translateY(var(--twpx-form-control-active-label-translate));
+}
+.twpx-form-control--date .twpx-form-control__calendar-icon {
+  position: absolute;
+  top: calc((var(--twpx-form-control-height) - 16px) / 2);
+  left: var(--twpx-form-control-padding-left);
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 10;
+}
+.twpx-form-control--date .twpx-form-control__label {
+  position: absolute;
+  top: 0;
+  left: var(--twpx-form-control-left-icon-padding-left);
+  margin: 0;
+  padding: 0;
+  color: var(--twpx-form-control-color);
+  font-size: var(--twpx-form-control-label-font-size);
+  font-family: var(--twpx-form-control-font-family);
+  -webkit-transition: -webkit-transform 0.2s ease-out,
+    -webkit-font-size 0.2s ease-out;
+  -webkit-transition: font-size 0.2s ease-out, -webkit-transform 0.2s ease-out;
+  transition: font-size 0.2s ease-out, -webkit-transform 0.2s ease-out;
+  -o-transition: transform 0.2s ease-out, font-size 0.2s ease-out;
+  transition: transform 0.2s ease-out, font-size 0.2s ease-out;
+  transition: transform 0.2s ease-out, font-size 0.2s ease-out, -webkit-transform 0.2s ease-out;
+  -webkit-transform: translateY(var(--twpx-form-control-label-translate));
+  -ms-transform: translateY(var(--twpx-form-control-label-translate));
+      transform: translateY(var(--twpx-form-control-label-translate));
+  pointer-events: none;
+  line-height: 1.1;
+  z-index: 100;
+}
+.twpx-form-control--date.twpx-form-control--invalid .twpx-form-control__label {
+  color: var(--twpx-form-control-invalid-color);
+}
+.twpx-form-control--date .dp__input {
+  display: block !important;
+  width: 100%;
+  margin: 0 !important;
+  padding: var(--twpx-form-control-padding-top)
+    var(--twpx-form-control-right-icon-padding-right)
+    var(--twpx-form-control-padding-bottom)
+    var(--twpx-form-control-left-icon-padding-left) !important;
+  background-color: var(--twpx-form-control-background);
+  border: 1px solid var(--twpx-form-control-background) !important;
+  background-color: var(--twpx-form-control-background) !important;
+  border: 1px solid var(--twpx-form-control-border) !important;
+  height: var(--twpx-form-control-height) !important;
+  border-radius: var(--twpx-form-control-border-radius) !important;
+  font-family: var(--twpx-form-control-font-family);
+  font-size: var(--twpx-form-control-font-size) !important;
+  -webkit-transition: border-color 0.3s ease;
+  -o-transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease;
+  outline: none !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  -webkit-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+}
+.twpx-form-control--date .dp__input:focus,
+.twpx-form-control--date .dp__input:hover {
+  outline: none;
+  border-color: var(--twpx-form-control-border-active) !important;
+}
+.twpx-form-control--date.twpx-form-control--invalid
+  .twpx-form-control
+  .dp__input {
+  background-color: var(
+    --twpx-form-control-invalid-background-color
+  ) !important;
+  border-color: var(--twpx-form-control-invalid-border-color) !important;
+  outline: none !important;
+  color: var(--twpx-form-control-invalid-color) !important;
+}
+.twpx-form-control--date .twpx-form-control__warning,
+.twpx-form-control--date .twpx-form-control__hint {
+  font-size: var(--twpx-form-control-external-hint-font-size);
+  margin: var(--twpx-form-control-external-hint-margin);
+  line-height: var(--twpx-form-control-external-hint-line-height);
+}
+.twpx-form-control--date .twpx-form-control__warning {
+  color: var(--twpx-form-control-invalid-color);
+}
+
+/*Disabled*/
+.twpx-form-control--date .twpx-form-control__disabled-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 10;
+}
+.twpx-form-control--date.twpx-form-control--disabled {
+  pointer-events: none;
+  cursor: default;
+}
+.twpx-form-control--date.twpx-form-control--disabled .twpx-form-control__label {
+  color: var(--twpx-form-control-disabled-color);
+}
+.twpx-form-control--date.twpx-form-control--disabled .dp__input {
+  color: var(--twpx-form-control-disabled-color);
+  background-color: var(
+    --twpx-form-control-disabled-background-color
+  ) !important;
+}
+.twpx-form-control--date.twpx-form-control--disabled .twpx-form-control__hint {
+  color: var(--twpx-form-control-disabled-color);
+}
+.twpx-form-control--date.twpx-form-control--disabled svg path {
+  stroke: var(--twpx-form-control-disabled-color);
+}
+
+:root {
+  /*General*/
+  --dp-font-family: 'Helvetica Neue', Helvetica, Arial, 'Microsoft Yahei',
+    sans-serif;
+  --dp-border-radius: 3px; /*Configurable border-radius*/
+  --dp-cell-border-radius: 0px; /*Specific border radius for the calendar cell*/
+  --dp-common-transition: all 0.1s ease-in; /*Generic transition applied on buttons and calendar cells*/
+
+  /*Sizing*/
+  --dp-button-height: 32px; /*Size for buttons in overlays*/
+  --dp-month-year-row-height: 32px; /*Height of the month-year select row*/
+  --dp-month-year-row-button-size: 32px; /*Specific height for the next/previous buttons*/
+  --dp-button-icon-height: 14px; /*Icon sizing in buttons*/
+  --dp-cell-size: 32px; /*Width and height of calendar cell*/
+  --dp-cell-padding: 5px; /*Padding in the cell*/
+  --dp-common-padding: 12px; /*Common padding used*/
+  --dp-input-icon-padding: 35px; /*Padding on the left side of the input if icon is present*/
+  --dp-input-padding: 6px 30px 6px 12px; /*Padding in the input*/
+  --dp-menu-min-width: 245px; /*Adjust the min width of the menu*/
+  --dp-action-buttons-padding: 2px 5px; /*Adjust padding for the action buttons in action row*/
+  --dp-row-margin: 0px 0; /*Adjust the spacing between rows in the calendar*/
+  --dp-calendar-header-cell-padding: 0.5rem; /*Adjust padding in calendar header cells*/
+  --dp-two-calendars-spacing: 0px; /*Space between multiple calendars*/
+  --dp-overlay-col-padding: 3px; /*Padding in the overlay column*/
+  --dp-time-inc-dec-button-size: 32px; /*Sizing for arrow buttons in the time picker*/
+  --dp-menu-padding: 10px 10px; /*Menu padding*/
+
+  /*Font sizes*/
+  --dp-font-size: 0.875rem; /*Default font-size*/
+  --dp-preview-font-size: 0.8rem; /*Font size of the date preview in the action row*/
+  --dp-time-font-size: 0.8rem; /*Font size in the time picker*/
+
+  /*Transitions*/
+  --dp-animation-duration: 0.1s; /*Transition duration*/
+  --dp-menu-appear-transition-timing: cubic-bezier(
+    0.4,
+    0,
+    1,
+    1
+  ); /*Timing on menu appear animation*/
+  --dp-transition-timing: ease-out; /*Timing on slide animations*/
+}
+.twpx-form-control--date .dp__theme_light {
+  --dp-background-color: #fff;
+  --dp-text-color: #73879c;
+  --dp-hover-color: #dbedfb;
+  --dp-hover-text-color: #73879c;
+  --dp-hover-icon-color: #959595;
+  --dp-primary-color: #1284e7;
+  --dp-primary-disabled-color: #6bacea;
+  --dp-primary-text-color: #fff;
+  --dp-secondary-color: #c0c4cc;
+  --dp-border-color: #ddd;
+  --dp-menu-border-color: #ddd;
+  --dp-border-color-hover: #aaaeb7;
+  --dp-disabled-color: #f6f6f6;
+  --dp-scroll-bar-background: #dbedfb;
+  --dp-scroll-bar-color: #959595;
+  --dp-success-color: #76d275;
+  --dp-success-color-disabled: #a3d9b1;
+  --dp-icon-color: #959595;
+  --dp-danger-color: #ff6f60;
+  --dp-marker-color: #ff6f60;
+  --dp-tooltip-color: #fafafa;
+  --dp-disabled-color-text: #8e8e8e;
+  --dp-highlight-color: rgb(25 118 210 / 10%);
+  --dp-range-between-dates-background-color: var(--dp-hover-color, #dbedfb);
+  --dp-range-between-dates-text-color: var(--dp-hover-text-color, #73879c);
+  --dp-range-between-border-color: var(--dp-hover-color, #dbedfb);
+}
+
+.twpx-form-control--date .dp__input {
+  height: var(--twpx-form-control-height);
+  color: var(--twpx-form-control-color);
+}
+.twpx-form-control--date .dp__menu {
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+.twpx-form-control--date .dp__cell_inner {
+  font-size: 12px;
+}
+.twpx-form-control--date .dp__cell_inner:hover {
+  background: #f3f9fe;
+}
+.twpx-form-control--date .dp__cell_inner.dp__range_start:hover,
+.twpx-form-control--date .dp__cell_inner.dp__range_end:hover {
+  background: var(--dp-primary-color);
+}
+.twpx-form-control--date .dp__calendar_header {
+  font-weight: normal;
+}
+.twpx-form-control--date .dp__today {
+  border-color: transparent;
+}
+.twpx-form-control--date .dp__calendar_item .dp__today {
+  color: #2a90e9;
+}
+.twpx-form-control--date .dp__calendar_item .dp__today.dp__range_start,
+.twpx-form-control--date .dp__calendar_item .dp__today.dp__range_end {
+  color: var(--dp-primary-text-color);
+}
+.twpx-form-control--date .dp__calendar_header_item {
+  text-transform: capitalize;
+  font-size: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.twpx-form-control--date .dp__calendar_header_separator,
+.twpx-form-control--date .dp__action_row,
+.twpx-form-control--date .dp__input_icon {
+  display: none;
+}
+.twpx-form-control--date .dp__clear_icon {
+  padding: 0;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  -webkit-transition: opacity 0.5s ease;
+  -o-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  z-index: 10;
+}
+
+.twpx-form-control--date .dp__clear_icon {
+  width: 26px;
+  height: 26px;
+  top: 50%;
+}
+.twpx-form-control--date .dp__clear_icon:hover {
+  opacity: 0.7;
+}
+.twpx-form-control--date .dp--clear-btn {
+  position: absolute;
+  top: calc(
+    (var(--twpx-form-control-height) - var(--twpx-form-control-clear-size)) / 2
+  );
+  right: var(--twpx-form-control-clear-right);
+  width: var(--twpx-form-control-clear-size);
+  height: var(--twpx-form-control-clear-size);
+  cursor: pointer;
+  -webkit-transition: opacity 0.3s ease;
+  -o-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+      transform: translateY(0);
+  opacity: 0;
+}
+.twpx-form-control--date .dp--clear-btn:hover {
+  opacity: 0.7;
+}
+.twpx-form-control--date:hover .dp--clear-btn {
+  opacity: 1;
+}
+
+.custom-time-picker-component {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 10px;
+  background-color: var(--dp-background-color);
+  border-top: 1px solid var(--dp-border-color);
+}
+
+.custom-time-picker-component label {
+  margin-right: 10px;
+  font-size: var(--dp-font-size);
+  color: var(--dp-text-color);
+  font-weight: 500;
+}
+
+.select-input {
+  margin: 0 5px;
+  padding: 6px 8px;
+  width: 60px;
+  border-radius: var(--dp-border-radius);
+  border: 1px solid var(--dp-border-color);
+  background-color: var(--dp-background-color);
+  color: var(--dp-text-color);
+  font-size: var(--dp-font-size);
+  font-family: var(--dp-font-family);
+  outline: none;
+  -webkit-appearance: menulist;
+  -moz-appearance: menulist;
+  appearance: menulist;
+  cursor: pointer;
+  -webkit-transition: border-color 0.2s ease;
+  -o-transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease;
+}
+
+.select-input:hover {
+  border-color: var(--dp-border-color-hover);
+}
+
+.select-input:focus {
+  border-color: var(--dp-primary-color);
+  -webkit-box-shadow: 0 0 0 2px rgba(18, 132, 231, 0.2);
+          box-shadow: 0 0 0 2px rgba(18, 132, 231, 0.2);
+}
+
+.select-input:disabled {
+  background-color: var(--dp-disabled-color);
+  color: var(--dp-disabled-color-text);
+  cursor: not-allowed;
+}
+
+.custom-time-picker-component span {
+  margin: 0 5px;
+  font-size: var(--dp-font-size);
+  color: var(--dp-text-color);
+  font-weight: bold;
+}
+
+.time-apply-btn {
+  margin-left: 10px;
+  padding: 6px 12px;
+  background-color: var(--dp-primary-color);
+  color: var(--dp-primary-text-color);
+  border: none;
+  border-radius: var(--dp-border-radius);
+  font-size: var(--dp-font-size);
+  font-family: var(--dp-font-family);
+  cursor: pointer;
+  -webkit-transition: background-color 0.2s ease;
+  -o-transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease;
+}
+
+.time-apply-btn:hover:not(:disabled) {
+  background-color: var(--dp-primary-disabled-color);
+}
+
+.time-apply-btn:disabled {
+  background-color: var(--dp-disabled-color);
+  color: var(--dp-disabled-color-text);
+  cursor: not-allowed;
+}
+
+.time-picker-overlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--dp-background-color);
+  border: 1px solid var(--dp-border-color);
+  border-top: none;
+  border-radius: 0 0 var(--dp-border-radius) var(--dp-border-radius);
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  z-index: 1000;
+  -webkit-animation: slideDown 0.2s ease-out;
+          animation: slideDown 0.2s ease-out;
+}
+
+@-webkit-keyframes slideDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}

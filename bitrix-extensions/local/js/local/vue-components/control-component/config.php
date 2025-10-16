@@ -25,6 +25,7 @@ return [
 		'local.vue-components.control-select-multi',
 		'local.vue-components.control-datepicker',
 		'local.vue-components.control-date-single',
+		'local.vue-components.control-datetime-single',
 		'local.vue-components.control-date-range',
 		'local.vue-components.control-time-single',
 		'local.vue-components.control-file',

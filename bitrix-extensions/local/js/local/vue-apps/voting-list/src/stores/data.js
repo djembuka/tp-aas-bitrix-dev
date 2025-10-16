@@ -7,6 +7,7 @@ export const dataStore = defineStore('data', {
 		actions: {
 			votings: ['twinpx:voting.form', 'votings'],
 			deleteVoting: ['twinpx:voting.form', 'deleteVoting'],
+      votingStatuses: ['twinpx:voting.control', 'votingStatuses'],
 		},
 		lang: {
 			wizard: {
@@ -34,7 +35,17 @@ export const dataStore = defineStore('data', {
     editModalLoading: false,
     editModalError: '',
     
-    activeVoting: {}
+    activeVoting: {},
+
+    labels: {
+      'voting_v1': 'label-gray',
+      'voting_v2': 'label-blue',
+      'voting_v3': 'label-orange',
+      'voting_v4': 'label-gray',
+      'voting_v5': 'label-green',
+      'voting_v6': 'label-gray',
+    },
+    statuses: []
   }),
   actions: {
     changeProp(prop, value) {

@@ -2,7 +2,7 @@ export const formControlNumber = {
     data() {
         return {};
     },
-    props: ['pollId', 'answerIndex', 'answer'],
+    props: ['pollId', 'answer'],
     emits: ['removeActiveQuestion'],
     template: `
     <div class="b-poll__form-control">

@@ -41,7 +41,14 @@ export const Application = {
 
         <InfoBlocks :lang="lang.infoBlocks" :adminData="adminData" />
 
-        <StatusForm :lang="lang.statusForm" :value="adminData.selectedStatus" :controls="controls" @input="input" @setStatus="setStatus" />
+        <StatusForm
+          :lang="lang.statusForm"
+          :value="adminData.selectedStatus"
+          :controls="controls"
+          :statusLabel="statusLabel"
+          @input="input"
+          @setStatus="setStatus"
+        />
 
         <VotingList :lang="lang.votingList" :adminData="adminData" />
 
@@ -62,6 +69,9 @@ export const Application = {
 
       'loading',
       'error',
+
+      'labels',
+      'statusLabel'
     ]),
     ...mapState(controlsStore, ['controls']),
   },
@@ -97,6 +107,11 @@ export const Application = {
         this.changeProp('adminData', result.data)
         this.changeStatus(result.data.statuses, result.data.selectedStatus)
         this.changeTimer(result.data.statuses)
+
+        const label = result.data.statuses.find(s => s.id === result.data.selectedStatus);
+        if (label) {
+          this.changeProp('statusLabel', this.labels[label.statusXml]);
+        }
         this.changeProp('loading', false)
       } catch(error) {
           this.changeProp('loading', false)
@@ -130,7 +145,6 @@ export const Application = {
                   // console.log('Receive params:', params)
                   // console.log('Receive extra:', extra)
                   // console.log('Receive command:', command)
-                  console.log('pull')
                   _this.getVotingAdminData();
               }.bind(this)
           });

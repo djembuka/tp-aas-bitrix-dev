@@ -4,13 +4,16 @@ export const formControlRadio = {
             checked: this.answer.checked,
         };
     },
-    props: ['pollId', 'answerIndex', 'answer'],
+    props: ['pollId', 'answer', 'disabled'],
     emits: ['removeActiveQuestion', 'form-control-change'],
     template: `
-        <label class="b-poll__form-control" :class="{'i-active': checked}">
+        <label class="b-poll__form-control" :class="{'i-active': checked, 'i-disabled': disabled}">
             <div class="b-poll__form-control__content">
                 <div class="b-poll__form-control__img" :style="getStyle()" v-if="answer.image"></div>
-                <div class="b-poll__form-control__text"><b v-html="answer.name"></b><span v-html="answer.description"></span></div>
+                <div class="b-poll__form-control__text">
+                    <b v-if="answer.name" v-html="answer.name"></b>
+                    <span v-if="answer.description" v-html="answer.description"></span>
+                </div>
             </div>
             <div class="b-poll__radio"><input type="radio" :name="answer.parentUuid" :checked="checked" :value="answer.uuid" class="with-gap" @change="change"><span></span></div>
         </label>

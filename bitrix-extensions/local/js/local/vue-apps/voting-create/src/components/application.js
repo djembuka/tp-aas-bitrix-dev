@@ -56,7 +56,7 @@ export const Application = {
       'id',
       'loading',
       'error',
-      'votingListURL',
+      'votingDetailURL',
       'voting'
     ]),
     ...mapState(controlsStore, [
@@ -126,6 +126,7 @@ export const Application = {
         data.uuid = this.voting.uuid;
       }
 
+      this.changeProp('loading', true);
       this.runBitrixMethod('editVoting', data)
         .then(
           response => {
@@ -134,10 +135,11 @@ export const Application = {
               this.changeProp('error', '');
               this.changeProp('loading', false);
             } else if (response?.data?.uuid) {
-              window.location.href = `?uuid=${response.data.uuid}`
+              window.location.href = `${this.votingDetailURL}${response.data.uuid}`
             }
           },
           error => {
+            this.changeProp('loading', false);
             this.changeProp('error', error.errors[0].message);
           }
         );

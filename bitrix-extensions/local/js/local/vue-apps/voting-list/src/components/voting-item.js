@@ -2,7 +2,7 @@ import './voting-item.css'
 import {ButtonComponent} from 'local.vue-components.button-component'
 
 export const VotingItem = {
-    props: ['voting', 'url'],
+    props: ['voting', 'url', 'status', 'label'],
     emits: ['edit', 'delete'],
     components: {
         ButtonComponent
@@ -16,7 +16,7 @@ export const VotingItem = {
                 <div class="twpx-voting-list__voting-item__text">{{ voting.description }}</div>
             </div>
             <div class="twpx-voting-list__voting-item__status">
-                <span :style="styleStr">{{ styleStr }}</span>
+                <span :class="label">{{ status.status }}</span>
             </div>
             <div class="twpx-voting-list__voting-item__buttons">
                 <ButtonComponent :text="Edit" :props="['icon', 'edit', 'medium']" @clickButton="$emit('edit', voting)" />
@@ -27,10 +27,6 @@ export const VotingItem = {
     computed: {
         detailUrl() {
             return `${this.url}?ID=${this.voting.uuid}`
-        },
-        styleStr() {
-            return 'Status';
-            return `background-color: ${this.voting.status.background}; color: ${this.voting.status.color};`
         }
     }
 }

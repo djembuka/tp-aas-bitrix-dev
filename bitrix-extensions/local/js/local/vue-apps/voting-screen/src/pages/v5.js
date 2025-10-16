@@ -24,7 +24,7 @@ export const V5 = {
       </div>
 
       <div class="twpx-voting-screen-block">
-        <ResultComponent :answers="params.answers" />
+        <ResultComponent :result="params.result" />
         <div class="twpx-voting-screen__message">{{ params.finalMessage }}</div>
       </div>
 

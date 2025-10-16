@@ -26,7 +26,8 @@ this.BX = this.BX || {};
       },
       set: function set(value) {
         this.$emit('input', {
-          value: value
+          value: value,
+          checked: value
         });
       }
     },

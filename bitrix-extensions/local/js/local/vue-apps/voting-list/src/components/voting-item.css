@@ -1,6 +1,6 @@
 .twpx-voting-list__voting-item {
     display: grid;
-    grid-template-columns: 1fr 110px 96px;
+    grid-template-columns: 1fr 120px 96px;
     padding: 16px;
     align-items: flex-start;
     gap: 32px;
@@ -22,6 +22,12 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    white-space: break-spaces;
+}
+.twpx-voting-list__voting-item__status {
+    height: 32px;
+    display: flex;
+    align-items: center;
 }
 .twpx-voting-list__voting-item__status span {
     display: inline-flex;
@@ -34,4 +40,49 @@
 .twpx-voting-list__voting-item__buttons {
     display: flex;
     gap: 32px;
+}
+
+.twpx-voting-list__voting-item__status span {
+    color: var(--twpx-label-blue, #06417C);
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 14px; /* 100% */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    justify-self: flex-start;
+    background: var(--twpx-label-background-blue, #F2F7FF);
+}
+.twpx-voting-list__voting-item__status span.label-green {
+    color: #74c37a;
+    background-color: #effff0
+}
+
+.twpx-voting-list__voting-item__status span.label-red {
+    color: #f00;
+    background-color: #fff4f4
+}
+
+.twpx-voting-list__voting-item__status span.label-gray {
+    color: #9b9b9b;
+    background-color: #f2f2f2
+}
+
+.twpx-voting-list__voting-item__status span.label-lightblue {
+    color: #5f7696;
+    background-color: #f2f7ff
+}
+
+.twpx-voting-list__voting-item__status span.label-blue {
+    color: #4375d8;
+    background-color: #f0f5ff
+}
+
+.twpx-voting-list__voting-item__status span.label-orange {
+    color: #f2762e;
+    background-color: #fff7f2
 }

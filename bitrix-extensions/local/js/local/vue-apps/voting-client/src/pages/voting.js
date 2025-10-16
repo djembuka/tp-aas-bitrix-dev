@@ -9,7 +9,6 @@ import { questionComponent } from '../components/questionComponent.js';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data.js';
-import { votingStore } from '../stores/voting.js';
 
 export const Voting = {
   data() {
@@ -49,7 +48,7 @@ export const Voting = {
       
       <div class="twpx-voting-voting-name">
         <h1 v-if="params.voting.name">{{ params.voting.name }}</h1>
-        <p v-if="params.voting.description">{{ params.voting.description }}</p>
+        <p v-if="params.voting.description" class="twpx-voting-description">{{ params.voting.description }}</p>
       </div>
 
       <div class="twpx-voting-client__loader" v-if="loadingVoting">
@@ -61,11 +60,14 @@ export const Voting = {
       <div v-else style="display: grid; gap: 24px;">
 
         <div class="b-poll__groups" :data-id="pollId">
-          <div class="b-poll__groups__item" v-for="(group, groupIndex) in groups">
-            <h2 v-if="groupInfo.name">{{groupInfo.name}}</h2>
-            <p v-if="groupInfo.description" v-html="groupInfo.description"></p>
+          <div class="b-poll__groups__item" v-for="(group, groupIndex) in params.voting.questionsGroups">
+
+            <h2 v-if="group.name">{{group.name}}</h2>
+            <p v-if="group.description" v-html="group.description" class="twpx-voting-description"></p>
+
             <div class="b-poll__questions">
               <div v-for="(question, questionIndex) in group.questions">
+
                 <questionComponent
                   :pollId="pollId"
                   :groups="groups"
@@ -77,6 +79,7 @@ export const Voting = {
                   @changeCheckedNum="changeCheckedNum"
                   @setActiveQuestion="setActiveQuestion"
                 />
+
               </div>
             </div>
           </div>
@@ -99,9 +102,8 @@ export const Voting = {
       'groupInfo',
 
       'stateWatcher',
-      'labels'
-    ]),
-    ...mapState(votingStore, [
+      'labels',
+      
       'pollId',
       'groups'
     ]),
@@ -112,50 +114,24 @@ export const Voting = {
     isVoteButtonDisabled() {
       return this.params.votingStatusXml === 'voting_v2' ||
              this.params.votingStatusXml === 'voting_v4' ||
-             !this.groups[0].questions[0].answers.some(a => a.checked);
+             !this.params.voting.questionsGroups.every(g => {
+                return g.questions.every(q => {
+                  return q.answers.some(a => a.checked);
+                });
+              });
     }
   },
   methods: {
     ...mapActions(dataStore, [
       'changeProp',
-      'runBitrixMethod'
-    ]),
-    ...mapActions(votingStore, [
-      'changeVotingProp',
+      'runBitrixMethod',
+      
       'changeChecked',
       'changeCheckedNum',
       'setActiveQuestion',
-      'removeActiveQuestion'
+      'removeActiveQuestion',
+      'addCheckedNum'
     ]),
-    async getStatuses() {
-      try {
-        const statuses = await this.runBitrixMethod('votingStatuses');
-        this.changeProp('statuses', statuses.data);
-      } catch(error) {
-        this.changeProp('errorVoting', error?.errors ? error?.errors[0].message : error);
-      }
-    },
-    createGroups() {
-      const question = JSON.parse(JSON.stringify(this.params.voting.questionsGroups));
-      question.checkedNum = String(question.type) === '1' ? 0 : undefined;
-  
-      const groups = [
-        {
-          questions: [
-            question
-          ]
-        }
-      ];
-      this.changeVotingProp('groups', groups);
-    },
-    async getGroupsQuestions() {
-      try {
-        const group = await this.runBitrixMethod('groupsQuestions', {uuid: this.params.voting.uuid});
-        this.changeProp('groupInfo', group.data[0]);
-      } catch(error) {
-        this.changeProp('errorVoting', error?.errors ? error?.errors[0].message : error);
-      }
-    },
     clickVoteButton() {
       this.changeProp('stateWatcher', !this.stateWatcher);
     },
@@ -168,19 +144,26 @@ export const Voting = {
     },
     async submitVotingResult() {
       const answer = {};
-      
-      if (this.groups[0].questions[0].type === '1') {
-        // checkbox
-        answer[this.groups[0].questions[0].id] = this.groups[0].questions[0].answers.filter(a => a.checked).map(a => a.id);
-      } else {
-        // radio
-        const checked = this.groups[0].questions[0].answers.find(a => a.checked);
-        if (checked) {
-          answer[this.groups[0].questions[0].id] = checked.id;
-        }
-      }
 
-      console.log(answer)
+      this.params.voting.questionsGroups.forEach(g => {
+        g.questions.forEach(q => {
+
+          if (q.type === '1') {
+
+            // checkbox
+            answer[ q.id ] = q.answers.filter(a => a.checked).map(a => a.id);
+    
+          } else {
+    
+            // radio
+            const checked = q.answers.find(a => a.checked);
+            if (checked) {
+              answer[ q.id ] = checked.id;
+            }
+    
+          }
+        });
+      });
 
       const data = {
         sessid: BX.message('bitrix_sessid'),
@@ -200,12 +183,5 @@ export const Voting = {
     }
   },
   mounted() {
-    this.changeVotingProp('pollId', this.params.votingId);
-    this.createGroups();
-    this.getGroupsQuestions();
-
-    if (!this.statuses.length) {
-      this.getStatuses();
-    }
   }
 };

@@ -1,3 +1,11 @@
+.twpx-voting-header {
+    display: none !important;
+}
+
+.twpx-voting-description {
+    white-space: break-spaces;
+}
+
 #VotingClient hr:not(.hr--line) {
 	border: 0;
 }
@@ -33,6 +41,8 @@
     gap: 32px;
     border-radius: 32px;
     background: var(--twpx-block-background-default, #FFF);
+    color: #000;
+    font-family: Roboto;
 }
 .twpx-voting-client-content {
     display: grid;

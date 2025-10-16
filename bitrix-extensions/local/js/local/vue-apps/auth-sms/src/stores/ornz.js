@@ -24,10 +24,12 @@ export const ornzStore = defineStore('ornz', {
       },
       {
         property: 'checkbox',
+        type: 'checkbox',
         id: 'id1',
         name: 'NUM',
         label: '',
-        value: '',
+        value: 'on',
+        checked: false,
         required: true,
         disabled: false,
       },
@@ -36,9 +38,13 @@ export const ornzStore = defineStore('ornz', {
   }),
   getters: {
     buttonDisabled() {
-      return this.controls.some(
-        (input) => !input.value || input.setInvalidWatcher
-      );
+      return this.controls.some((input) => {
+        if (input.property === 'checkbox') {
+          return !input.checked;
+        } else {
+          return !input.value || input.setInvalidWatcher;
+        }
+      });
     },
   },
   actions: {
@@ -51,8 +57,12 @@ export const ornzStore = defineStore('ornz', {
         }
       });
     },
-    changeInputValue({ control, value }) {
-      control.value = value;
+    changeInputValue({ control, value, checked }) {
+      if (value !== undefined) {
+        control.value = value;
+      } else if (checked !== undefined) {
+        control.checked = checked;
+      }
       this.controls.forEach((c) => {
         c.setInvalidWatcher = false;
       });
