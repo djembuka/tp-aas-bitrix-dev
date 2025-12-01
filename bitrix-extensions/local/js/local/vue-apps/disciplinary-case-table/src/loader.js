@@ -29,6 +29,7 @@ export class DisciplinaryCaseTable {
         tableStore().view = self.options.view || 'table';
         tableStore().lang = self.options.lang || {};
         tableStore().outerMethods = self.options.outerMethods || {};
+        tableStore().showButtons = self.options.showButtons ?? true;
       },
     });
 
