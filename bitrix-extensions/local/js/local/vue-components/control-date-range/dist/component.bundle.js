@@ -28,10 +28,16 @@ this.BX = this.BX || {};
       Icon: Icon,
       IconLock: IconLock
     },
-    template: "\n    <div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--date': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n        'twpx-form-control--open': open,\n      }\"\n      ref=\"control\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <Icon class=\"twpx-form-control__calendar-icon\" />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <ControlDatepicker\n        v-model=\"date\"\n        @open=\"onOpen\"\n        @closed=\"onClosed\"\n        @range-start=\"onRangeStart\"\n        @range-end=\"onRangeEnd\"\n        locale=\"ru\"\n        range\n        multi-calendars\n        ref=\"controlDateRange\"\n        :format=\"'dd.MM.yyyy'\"\n      >\n        <template #action-buttons></template>\n        <template #action-preview></template>\n        <template #time-picker></template\n      ></ControlDatepicker>\n      <input type=\"hidden\" :name=\"controlName\" :value=\"dateFormatted\" />\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n  ",
+    template: "\n    <div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--date': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n        'twpx-form-control--open': open,\n      }\"\n      ref=\"control\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <Icon class=\"twpx-form-control__calendar-icon\" />\n      <div class=\"twpx-form-control__label\">{{ label }}</div>\n      <ControlDatepicker\n        v-model=\"date\"\n        @open=\"onOpen\"\n        @closed=\"onClosed\"\n        @range-start=\"onRangeStart\"\n        @range-end=\"onRangeEnd\"\n        locale=\"ru\"\n        range\n        multi-calendars\n        ref=\"controlDateRange\"\n        :format=\"'dd.MM.yyyy'\"\n      >\n        <template #action-buttons></template>\n        <template #action-preview></template>\n        <template #time-picker></template\n      ></ControlDatepicker>\n      <input type=\"hidden\" :name=\"controlName\" :value=\"dateFormatted\" />\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n  ",
     props: ['control'],
     emits: ['input'],
     computed: {
+      label: function label() {
+        if (this.control.required && !this.control.label.includes('*')) {
+          return "".concat(this.control.label, " *");
+        }
+        return this.control.label;
+      },
       dateFormatted: function dateFormatted() {
         if (this.date && this.date.length) {
           var arr = this.date.map(function (d) {

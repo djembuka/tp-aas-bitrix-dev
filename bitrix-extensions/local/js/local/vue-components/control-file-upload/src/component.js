@@ -55,7 +55,7 @@ export const ControlFileUpload = {
         }"
         ref="controlFile"
       >
-        <span class="twpx-form-control__file__label">{{ control.label }}</span>
+        <span class="twpx-form-control__file__label">{{ controlLabel }}</span>
 
         <IconFile class="twpx-form-control__file__icon" />
 
@@ -88,6 +88,12 @@ export const ControlFileUpload = {
 	`,
   emits: ['input', 'focus', 'blur', 'enter'],
   computed: {
+    controlLabel() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     progress() {
       return this.control.upload.progress || {};
     },

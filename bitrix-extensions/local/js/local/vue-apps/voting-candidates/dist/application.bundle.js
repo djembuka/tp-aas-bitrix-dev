@@ -199,5 +199,5 @@
 
   exports.VotingCandidates = VotingCandidates;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.Loaders,BX.AAS,BX.Vue3.Pinia));
+}((this.BX = this.BX || {}),BX,BX.AAS,BX.Loaders,BX.AAS,BX));
 //# sourceMappingURL=application.bundle.js.map

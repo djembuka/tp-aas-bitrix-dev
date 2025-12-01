@@ -118,7 +118,9 @@ export const Application = {
         buttonMessage: this.blocks[2].controls[2].value,
         messageAfterVoting: this.blocks[2].controls[3].value,
         groupsVoting: this.blocks[3].controls[0].value,
-        groupsCommission: this.blocks[3].controls[1].value,
+        groupsVotingEio: this.blocks[3].controls[1].value,
+        groupsVotingUmc: this.blocks[3].controls[2].value,
+        groupsCommission: this.blocks[3].controls[3].value,
         sortIndex: this.blocks[2].controls[4].value,
       };
 
@@ -197,7 +199,9 @@ export const Application = {
         [2, 3, 'messageAfterVoting'],
         [2, 4, 'sortIndex'],
         [3, 0, 'groupsVoting'],
-        [3, 1, 'groupsCommission']
+        [3, 1, 'groupsVotingEio'],
+        [3, 2, 'groupsVotingUmc'],
+        [3, 3, 'groupsCommission']
       ]
 
       votingArray.forEach(item => {

@@ -77,7 +77,6 @@ export const Registration = {
 
       try {
         const response = await this.runBitrixMethod('congressRegistration', {userId: BX.message('USER_ID')})
-        console.log(response)
         this.changeProp('loadingRegistration', false)
         this.changeProp('errorRegistration', '');
       } catch(error) {

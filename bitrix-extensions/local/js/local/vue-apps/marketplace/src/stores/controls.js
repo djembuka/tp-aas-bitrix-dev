@@ -88,7 +88,7 @@ export const controlsStore = defineStore('controls', {
         const result = await response.json();
 
         if (result.status === 'success' && result.data) {
-            this.setHints(control, result.data);
+            this.setHints({control, value: result.data});
         } else if (result.errors) {
             this.error = result.errors[0]?.message
         } else {
@@ -98,7 +98,7 @@ export const controlsStore = defineStore('controls', {
             this.error = error?.message
         }
     },
-    setHints(control, value) {
+    setHints({control, value}) {
         control.hints = value;
     },
   }

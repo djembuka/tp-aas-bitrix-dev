@@ -26,11 +26,11 @@ export const Application = {
                 BX.PULL.subscribe({
                   moduleId: 'voting',
                   callback: function(data) {
-                    _this.changeProp('command', data.command);
-                    _this.changeProp('params', data.params);
-                    _this.changeProp('extra', data.extra);
 
-                    if (_this.command.startsWith('voting')) {
+                    if (data.command.startsWith('voting')) {
+                      _this.changeProp('command', data.command);
+                      _this.changeProp('params', data.params);
+                      _this.changeProp('extra', data.extra);
                         _this.$router.push( `/${_this.command}`);
                     }
       

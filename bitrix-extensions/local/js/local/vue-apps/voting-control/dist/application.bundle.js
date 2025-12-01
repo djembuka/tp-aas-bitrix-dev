@@ -115,7 +115,7 @@
           'voting_v1': 'label-gray',
           'voting_v2': 'label-blue',
           'voting_v3': 'label-orange',
-          'voting_v4': 'label-gray',
+          'voting_v4': 'label-red',
           'voting_v5': 'label-green',
           'voting_v6': 'label-gray'
         },
@@ -555,5 +555,5 @@
 
   exports.VotingControl = VotingControl;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Loaders,BX.AAS,BX.Controls,BX.AAS,BX.Vue3.Pinia));
+}((this.BX = this.BX || {}),BX,BX.Loaders,BX.AAS,BX.Controls,BX.AAS,BX));
 //# sourceMappingURL=application.bundle.js.map

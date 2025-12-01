@@ -34,9 +34,15 @@ this.BX = this.BX || {};
     },
     props: ['control', 'id', 'name'],
     // language=Vue
-    template: "\n    <div :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--checkbox-checkbox': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--checked': control.checked,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\">\n      <label>\n        <input\n          type=\"checkbox\"\n          :id=\"controlId\"\n          :name=\"controlName\"\n          :value=\"control.value\"\n          :checked=\"control.checked\"\n          v-model=\"checked\"\n          @focus=\"focus\"\n          @blur=\"blur\"\n          :disabled=\"disabled\"\n          ref=\"input\"\n        />\n        <CheckboxIcon />\n        <span class=\"twpx-form-control__label\" v-if=\"control.label\" v-html=\"control.label\"></span>\n      </label>\n      <div class=\"twpx-form-control__hint\" v-if=\"hint\" v-html=\"hint\"></div>\n    </div>\n\t",
+    template: "\n    <div :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--checkbox-checkbox': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--checked': control.checked,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\">\n      <label>\n        <input\n          type=\"checkbox\"\n          :id=\"controlId\"\n          :name=\"controlName\"\n          :value=\"control.value\"\n          :checked=\"control.checked\"\n          v-model=\"checked\"\n          @focus=\"focus\"\n          @blur=\"blur\"\n          :disabled=\"disabled\"\n          ref=\"input\"\n        />\n        <CheckboxIcon />\n        <span class=\"twpx-form-control__label\" v-if=\"label\" v-html=\"label\"></span>\n      </label>\n      <div class=\"twpx-form-control__hint\" v-if=\"hint\" v-html=\"hint\"></div>\n    </div>\n\t",
     emits: ['input', 'focus', 'blur'],
     computed: {
+      label: function label() {
+        if (this.control.required && !this.control.label.includes('*')) {
+          return "".concat(this.control.label, " *");
+        }
+        return this.control.label;
+      },
       checked: {
         get: function get() {
           return this.control.checked;

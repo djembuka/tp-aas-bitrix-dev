@@ -14,8 +14,6 @@ export const FormControlsComponent = {
     ControlComponent,
     ButtonComponent,
   },
-  // language=Vue
-
   template: `
     <div>
       <div class="twpx-design-system-block" v-for="control in controls" :key="control.id">
@@ -24,10 +22,12 @@ export const FormControlsComponent = {
           <ControlComponent :control="control" @input="input" @hints="hints" />
         </div>
         <pre>{{ control }}</pre>
-        <div>
-          <ButtonComponent text="+ tab" :props="['secondary','medium']" @clickButton="addTab(control)" />
+        <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+          <ButtonComponent text="Check required and *" :props="['secondary','small']" @clickButton="checkRequired(control)" />
 
-          <ButtonComponent :text="textDisabled(control)" :props="['light','medium']" @clickButton="setDisabledEnabled(control)" />
+          <ButtonComponent text="+ tab" :props="['secondary','small']" @clickButton="addTab(control)" />
+
+          <ButtonComponent :text="textDisabled(control)" :props="['light','small']" @clickButton="setDisabledEnabled(control)" />
         </div>
       </div>
     </div>
@@ -42,6 +42,7 @@ export const FormControlsComponent = {
       'setHints',
       'addTab',
       'setDisabled',
+      'checkRequired'
     ]),
     input({ control, value, checked }) {
       this.changeControlValue({

@@ -32,7 +32,7 @@ export const ControlTimeSingle = {
         class="twpx-form-control__disabled-icon"
         v-if="disabled"
       />
-      <div class="twpx-form-control__label">{{ control.label }}</div>
+      <div class="twpx-form-control__label">{{ label }}</div>
       <input
         type="text"
         :id="controlId"
@@ -58,6 +58,12 @@ export const ControlTimeSingle = {
 	`,
   emits: ['input', 'focus', 'blur', 'enter'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     value: {
       get() {
         return this.control.value;

@@ -1,4 +1,4 @@
-import './result.css'
+import '../css/result.css'
 import { ButtonComponent } from 'local.vue-components.button-component';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
@@ -29,7 +29,7 @@ export const GroupApplicationComponent = {
     },
     methods: {
         createApplication() {
-            this.$emit('createApplication', {groupApplicationArray: this.groupApplicationArray})
+            this.$emit('createApplication')
         },
         pluralizeOrganization(n, forms = this.lang.result.groupApplicationCompany) {
             const abs = Math.abs(n);

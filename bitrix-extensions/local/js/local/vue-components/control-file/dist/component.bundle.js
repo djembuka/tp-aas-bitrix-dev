@@ -31,9 +31,15 @@ this.BX = this.BX || {};
       IconLock: IconLock
     },
     // language=Vue
-    template: "\n\t\t<div\n    :class=\"{\n      'twpx-form-control': true,\n      'twpx-form-control--file': true,\n      'twpx-form-control--active': active,\n      'twpx-form-control--invalid': invalid,\n      'twpx-form-control--disabled': disabled,\n    }\"\n  >\n    <IconLock\n      class=\"twpx-form-control__file__disabled-icon\"\n      v-if=\"disabled\"\n    />\n    <span\n      class=\"twpx-form-control__file__clear\"\n      @click.prevent=\"clearInputFile\"\n      v-if=\"isClearable\"\n    ></span>\n    <div\n      class=\"twpx-form-control__file\"\n      :class=\"{\n        filled: isFilled,\n        clearable: isClearable,\n      }\"\n      ref=\"controlFile\"\n    >\n      <span class=\"twpx-form-control__file__label\">{{ control.label }}</span>\n\n      <IconFile class=\"twpx-form-control__file__icon\" />\n\n      <input\n        type=\"file\"\n        :name=\"control.name\"\n        :id=\"control.id\"\n        @change=\"uploadFile($refs.inputFile.files)\"\n        ref=\"inputFile\"\n      />\n      <label\n        :for=\"control.id\"\n        class=\"active\"\n        v-html=\"label\"\n        ref=\"dropzone\"\n      ></label>\n    </div>\n    <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n  </div>\n\t",
+    template: "\n\t\t<div\n    :class=\"{\n      'twpx-form-control': true,\n      'twpx-form-control--file': true,\n      'twpx-form-control--active': active,\n      'twpx-form-control--invalid': invalid,\n      'twpx-form-control--disabled': disabled,\n    }\"\n  >\n    <IconLock\n      class=\"twpx-form-control__file__disabled-icon\"\n      v-if=\"disabled\"\n    />\n    <span\n      class=\"twpx-form-control__file__clear\"\n      @click.prevent=\"clearInputFile\"\n      v-if=\"isClearable\"\n    ></span>\n    <div\n      class=\"twpx-form-control__file\"\n      :class=\"{\n        filled: isFilled,\n        clearable: isClearable,\n      }\"\n      ref=\"controlFile\"\n    >\n      <span class=\"twpx-form-control__file__label\">{{ controlLabel }}</span>\n\n      <IconFile class=\"twpx-form-control__file__icon\" />\n\n      <input\n        type=\"file\"\n        :name=\"control.name\"\n        :id=\"control.id\"\n        @change=\"uploadFile($refs.inputFile.files)\"\n        ref=\"inputFile\"\n      />\n      <label\n        :for=\"control.id\"\n        class=\"active\"\n        v-html=\"label\"\n        ref=\"dropzone\"\n      ></label>\n    </div>\n    <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n  </div>\n\t",
     emits: ['input', 'focus', 'blur', 'enter'],
     computed: {
+      controlLabel: function controlLabel() {
+        if (this.control.required && !this.control.label.includes('*')) {
+          return "".concat(this.control.label, " *");
+        }
+        return this.control.label;
+      },
       disabled: function disabled() {
         return this.control.disabled;
       },

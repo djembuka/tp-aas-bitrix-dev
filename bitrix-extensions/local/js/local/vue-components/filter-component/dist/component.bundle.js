@@ -197,22 +197,25 @@ this.BX = this.BX || {};
         }
         if (_this.filters && babelHelpers["typeof"](_this.filters) === 'object' && _this.filters.length) {
           clearInterval(intervalId);
-          var url = new URL(window.location.href);
-          url.searchParams.entries().forEach(function (e) {
+          var searchParams = new URLSearchParams(window.location.search);
+          searchParams.entries().forEach(function (e) {
             var _this$filters;
             var control = (_this$filters = _this.filters) === null || _this$filters === void 0 ? void 0 : _this$filters.find(function (c) {
               return c.name === e[0];
             });
-            if (control) {
-              var value = e[1];
-              if (String(control.property === 'date') && String(control.type === 'range')) {
-                value = String(e[1]).split(',');
-              }
-              _this.$emit('input', {
-                control: control,
-                value: control.property === 'hint' ? JSON.parse(e[1]) : value
-              });
+            if (!control) return;
+            var value = e[1];
+            var property = String(control.property);
+            var type = String(control.type);
+            if (property === 'date' && type === 'range') {
+              value = String(e[1]).split(',');
+            } else if (property === 'hint') {
+              value = JSON.parse(e[1]);
             }
+            _this.$emit('input', {
+              control: control,
+              value: value
+            });
           });
         }
       }, 200);

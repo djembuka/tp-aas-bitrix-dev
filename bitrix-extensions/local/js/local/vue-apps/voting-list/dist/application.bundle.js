@@ -106,7 +106,7 @@
           'voting_v1': 'label-gray',
           'voting_v2': 'label-blue',
           'voting_v3': 'label-orange',
-          'voting_v4': 'label-gray',
+          'voting_v4': 'label-red',
           'voting_v5': 'label-green',
           'voting_v6': 'label-gray'
         },
@@ -359,5 +359,5 @@
 
   exports.VotingList = VotingList;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.AAS,BX.Loaders,BX.Modals,BX.Modals,BX.Controls,BX.AAS,BX.Vue3.Pinia));
+}((this.BX = this.BX || {}),BX,BX.AAS,BX.Loaders,BX.Modals,BX.Modals,BX.Controls,BX.AAS,BX));
 //# sourceMappingURL=application.bundle.js.map

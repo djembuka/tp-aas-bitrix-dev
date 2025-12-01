@@ -261,25 +261,25 @@ export const Application = {
         })
         .then((result) => {
           if (result && result.status === 'success') {
-            const predefinedFilter = this.predefinedActive
-              ? this.predefinedActive.id
-              : undefined;
+
+            const dataObj = {
+              signedParameters: this.signedParameters,
+              userid: this.userid,
+              sessid: this.sessid,
+              profileid: this.defaultProfile.id,
+              startIndex: 0,
+            };
+    
+            if (this.maxCountPerRequest) {dataObj.maxCountPerRequest = this.maxCountPerRequest;}
+            if (this.predefinedActive) {dataObj.predefinedFilter = this.predefinedActive.id;}
+            if (this.filters) {dataObj.filters = this.filters;}
+            if (this.sort.columnSort) {dataObj.columnSort = this.sort.columnSort;}
+            if (this.sort.sortType) {dataObj.sortType = this.sort.sortType;}
 
             this.runAppeals(
               {
                 mode: 'class',
-                data: {
-                  signedParameters: this.signedParameters,
-                  userid: this.userid,
-                  sessid: this.sessid,
-                  profileid: this.defaultProfile.id,
-                  startIndex: 0,
-                  maxCountPerRequest: this.maxCountPerRequest,
-                  predefinedFilter,
-                  filters: this.filters,
-                  columnSort: this.sort.columnSort,
-                  sortType: this.sort.sortType,
-                },
+                data: dataObj,
               },
               null,
               this.increaseAppealsCounter()
@@ -294,31 +294,31 @@ export const Application = {
 
       if (!this.defaultProfile) return;
 
-      const predefinedFilter = this.predefinedActive
-        ? this.predefinedActive.id
-        : undefined;
-
       if (
         this.sort.columnSort !== undefined ||
         this.sort.sortType !== undefined
       ) {
         new Promise((resolve) => {
+
+          const dataObj = {
+            signedParameters: this.signedParameters,
+            userid: this.userid,
+            sessid: this.sessid,
+            profileid: this.defaultProfile.id,
+            startIndex: 0,
+          };
+  
+          if (this.maxCountPerRequest) {dataObj.maxCountPerRequest = this.maxCountPerRequest;}
+          if (this.predefinedActive) {dataObj.predefinedFilter = this.predefinedActive.id;}
+          if (this.filters) {dataObj.filters = this.filters;}
+          if (this.sort.columnSort) {dataObj.columnSort = this.sort.columnSort;}
+          if (this.sort.sortType) {dataObj.sortType = this.sort.sortType;}
+
           resolve(
             this.runAppeals(
               {
                 mode: 'class',
-                data: {
-                  signedParameters: this.signedParameters,
-                  userid: this.userid,
-                  sessid: this.sessid,
-                  profileid: this.defaultProfile.id,
-                  startIndex: 0,
-                  maxCountPerRequest: this.maxCountPerRequest,
-                  predefinedFilter,
-                  filters: this.filters,
-                  columnSort: this.sort.columnSort,
-                  sortType: this.sort.sortType,
-                },
+                data: dataObj,
               },
               null,
               this.increaseAppealsCounter()
@@ -372,25 +372,24 @@ export const Application = {
           })
           .then((result) => {
             if (result && result.status === 'success') {
-              const predefinedFilter = this.predefinedActive
-                ? this.predefinedActive.id
-                : undefined;
+              const dataObj = {
+                signedParameters: this.signedParameters,
+                userid: this.userid,
+                sessid: this.sessid,
+                profileid: this.defaultProfile.id,
+                startIndex: 0,
+              };
+      
+              if (this.maxCountPerRequest) {dataObj.maxCountPerRequest = this.maxCountPerRequest;}
+              if (this.predefinedActive) {dataObj.predefinedFilter = this.predefinedActive.id;}
+              if (this.filters) {dataObj.filters = this.filters;}
+              if (this.sort.columnSort) {dataObj.columnSort = this.sort.columnSort;}
+              if (this.sort.sortType) {dataObj.sortType = this.sort.sortType;}
 
               this.runAppeals(
                 {
                   mode: 'class',
-                  data: {
-                    signedParameters: this.signedParameters,
-                    userid: this.userid,
-                    sessid: this.sessid,
-                    profileid: this.defaultProfile.id,
-                    startIndex: 0,
-                    maxCountPerRequest: this.maxCountPerRequest,
-                    predefinedFilter,
-                    filters: this.filters,
-                    columnSort: this.sort.columnSort,
-                    sortType: this.sort.sortType,
-                  },
+                  data: dataObj,
                 },
                 null,
                 this.increaseAppealsCounter()
@@ -453,25 +452,24 @@ export const Application = {
           },
         },
         () => {
-          const predefinedFilter = this.predefinedActive
-            ? this.predefinedActive.id
-            : undefined;
+          const dataObj = {
+            signedParameters: this.signedParameters,
+            userid: this.userid,
+            sessid: this.sessid,
+            profileid: this.defaultProfile.id,
+            startIndex: 0,
+          };
+  
+          if (this.maxCountPerRequest) {dataObj.maxCountPerRequest = this.maxCountPerRequest;}
+          if (this.predefinedActive) {dataObj.predefinedFilter = this.predefinedActive.id;}
+          if (this.filters) {dataObj.filters = this.filters;}
+          if (column.id) {dataObj.columnSort = column.id;}
+          if (sortType) {dataObj.sortType = sortType;}
 
           this.runAppeals(
             {
               mode: 'class',
-              data: {
-                signedParameters: this.signedParameters,
-                userid: this.userid,
-                sessid: this.sessid,
-                profileid: this.defaultProfile.id,
-                startIndex: 0,
-                maxCountPerRequest: this.maxCountPerRequest,
-                predefinedFilter,
-                filters: this.filters,
-                columnSort: column.id,
-                sortType,
-              },
+              data: dataObj,
             },
             null,
             this.increaseAppealsCounter()
@@ -486,33 +484,39 @@ export const Application = {
         checked,
       });
 
-      clearTimeout(this.inputTimeoutId);
+      if (
+        this.sort.columnSort !== undefined ||
+        this.sort.sortType !== undefined
+      ) {
 
-      this.inputTimeoutId = setTimeout(() => {
-        const predefinedFilter = this.predefinedActive
-          ? this.predefinedActive.id
-          : undefined;
+        clearTimeout(this.inputTimeoutId);
 
-        this.runAppeals(
-          {
-            mode: 'class',
-            data: {
-              signedParameters: this.signedParameters,
-              userid: this.userid,
-              sessid: this.sessid,
-              profileid: this.defaultProfile.id,
-              startIndex: 0,
-              maxCountPerRequest: this.maxCountPerRequest,
-              predefinedFilter,
-              filters: this.filters,
-              columnSort: this.sort.columnSort,
-              sortType: this.sort.sortType,
+        this.inputTimeoutId = setTimeout(() => {
+
+          const dataObj = {
+            signedParameters: this.signedParameters,
+            userid: this.userid,
+            sessid: this.sessid,
+            profileid: this.defaultProfile.id,
+            startIndex: 0,
+          };
+
+          if (this.maxCountPerRequest) {dataObj.maxCountPerRequest = this.maxCountPerRequest;}
+          if (this.predefinedActive) {dataObj.predefinedFilter = this.predefinedActive.id;}
+          if (this.filters) {dataObj.filters = this.filters;}
+          if (this.sort.columnSort) {dataObj.columnSort = this.sort.columnSort;}
+          if (this.sort.sortType) {dataObj.sortType = this.sort.sortType;}
+
+          this.runAppeals(
+            {
+              mode: 'class',
+              data: dataObj,
             },
-          },
-          null,
-          this.increaseAppealsCounter()
-        );
-      }, 300);
+            null,
+            this.increaseAppealsCounter()
+          );
+        }, 300);
+      }
     },
     hints({ type, control, action, value }) {
       switch (type) {
@@ -535,25 +539,24 @@ export const Application = {
       }
     },
     clickPage({ count }) {
-      const predefinedFilter = this.predefinedActive
-        ? this.predefinedActive.id
-        : undefined;
+      const dataObj = {
+        signedParameters: this.signedParameters,
+        userid: this.userid,
+        sessid: this.sessid,
+        profileid: this.defaultProfile.id,
+        startIndex: (count - 1) * this.maxCountPerRequest,
+      };
+
+      if (this.maxCountPerRequest) {dataObj.maxCountPerRequest = this.maxCountPerRequest;}
+      if (this.predefinedActive) {dataObj.predefinedFilter = this.predefinedActive.id;}
+      if (this.filters) {dataObj.filters = this.filters;}
+      if (this.sort.columnSort) {dataObj.columnSort = this.sort.columnSort;}
+      if (this.sort.sortType) {dataObj.sortType = this.sort.sortType;}
 
       this.runAppeals(
         {
           mode: 'class',
-          data: {
-            signedParameters: this.signedParameters,
-            userid: this.userid,
-            sessid: this.sessid,
-            profileid: this.defaultProfile.id,
-            startIndex: (count - 1) * this.maxCountPerRequest,
-            maxCountPerRequest: this.maxCountPerRequest,
-            predefinedFilter,
-            filters: this.filters,
-            columnSort: this.sort.columnSort,
-            sortType: this.sort.sortType,
-          },
+          data: dataObj,
         },
         () => {
           if (this.$refs.table.getBoundingClientRect().top + 100 < 0) {
@@ -609,16 +612,12 @@ export const Application = {
         }
 
         if (methodName === 'runAppeals') {
-          const predefinedFilter = self.predefinedActive
-            ? self.predefinedActive.id
-            : undefined;
-
           data.data.startIndex = 0;
-          data.data.maxCountPerRequest = self.maxCountPerRequest;
-          data.data.predefinedFilter = predefinedFilter;
-          data.data.filters = self.filters;
-          data.data.columnSort = self.sort.columnSort;
-          data.data.sortType = self.sort.sortType;
+          if (self.maxCountPerRequest) {data.data.maxCountPerRequest = self.maxCountPerRequest;}
+          if (self.predefinedActive) {data.data.predefinedFilter = self.predefinedActive.id;}
+          if (self.filters) {data.data.filters = self.filters;}
+          if (self.sort.columnSort) {data.data.columnSort = self.sort.columnSort;}
+          if (self.sort.sortType) {data.data.sortType = self.sort.sortType;}
 
           self[methodName](data, null, self.increaseAppealsCounter());
         } else {

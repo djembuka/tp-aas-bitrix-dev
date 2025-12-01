@@ -30,6 +30,9 @@ $APPLICATION->SetTitle("Markup");
 <h3>Голосование</h3>
 <ul>
   <li>
+	<a href="/markup/pages/voting-install/">Выбор приложения для установки</a>
+  </li>
+  <li>
 	<a href="/markup/pages/voting-candidates/">Кандидаты в правление</a>
   </li>
   <li>
@@ -54,8 +57,11 @@ $APPLICATION->SetTitle("Markup");
 	<a href="/markup/pages/voting-auth/">Приложение - авторизация</a>
   </li>
   <li>
-	<a href="/voting/">Приложение - регистрация, список, голосование</a>
+	<a href="/voting/">Приложение - регистрация, список, голосование</a><br>
 	<a href="/markup/pages/voting-client/">Приложение - регистрация, список, голосование - разработка, без подписки на push&pull</a>
+  </li>
+  <li>
+	<a href="/markup/pages/voting-delegates/">Экран со списком зарегистрированных участников</a>
   </li>
 </ul>
 
@@ -63,6 +69,9 @@ $APPLICATION->SetTitle("Markup");
 <ul>
   <li>
 	<a href="/markup/pages/marketplace/">Marketplace</a>
+  </li>
+  <li>
+	<a href="/markup/pages/marketplace-form/">Анкета компании</a>
   </li>
 </ul>
 

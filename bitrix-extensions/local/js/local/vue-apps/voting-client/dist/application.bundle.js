@@ -19,9 +19,12 @@
             heading: 'Список голосований',
             text: 'Уважаемые делегаты, голосования проходят строго по порядку и автоматически выводятся в приложение. Следите за их ходом на экране. Как только голосование станет доступным, оно автоматически обновится в вашем приложении.'
           },
+          members: {
+            heading: 'Съезд СРО ААС 2025'
+          },
           error: {
             registration: 'Вы не зарегистрированы как делегат съезда. Если считаете это ошибкой, обратитесь в Дирекцию СРО ААС по телефону +7 (495) 734-22-22.',
-            registrationButton: 'Регистрация закончена.'
+            registrationButton: 'Регистрация ещё не открыта или уже завершена. В данный момент вы не можете пройти регистрацию.'
           }
         },
         actions: {
@@ -45,7 +48,7 @@
           'voting_v1': 'label-gray',
           'voting_v2': 'label-blue',
           'voting_v3': 'label-orange',
-          'voting_v4': 'label-gray',
+          'voting_v4': 'label-red',
           'voting_v5': 'label-green',
           'voting_v6': 'label-gray'
         }
@@ -257,21 +260,20 @@
                 });
               case 4:
                 response = _context.sent;
-                console.log(response);
                 _this.changeProp('loadingRegistration', false);
                 _this.changeProp('errorRegistration', '');
-                _context.next = 14;
+                _context.next = 13;
                 break;
-              case 10:
-                _context.prev = 10;
+              case 9:
+                _context.prev = 9;
                 _context.t0 = _context["catch"](1);
                 _this.changeProp('loadingRegistration', false);
                 _this.changeProp('errorRegistration', _context.t0 !== null && _context.t0 !== void 0 && _context.t0.errors ? _context.t0 === null || _context.t0 === void 0 ? void 0 : _context.t0.errors[0].message : _context.t0);
-              case 14:
+              case 13:
               case "end":
                 return _context.stop();
             }
-          }, _callee, null, [[1, 10]]);
+          }, _callee, null, [[1, 9]]);
         }))();
       }
     }),
@@ -688,4 +690,5 @@
 
   exports.VotingClient = VotingClient;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Loaders,BX.AAS,BX.AAS,BX.Modals,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX,BX,BX.Loaders,BX.AAS,BX.AAS,BX.Modals,BX));
+//# sourceMappingURL=application.bundle.js.map

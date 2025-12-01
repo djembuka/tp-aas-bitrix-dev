@@ -1,0 +1,165 @@
+.twpx-voting-header {
+    display: none !important;
+}
+
+.twpx-voting-description {
+    white-space: break-spaces;
+}
+
+#VotingClient hr:not(.hr--line) {
+	border: 0;
+}
+
+.twpx-voting-client {
+    padding: 0 32px;
+}
+
+.twpx-voting-client__header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 32px;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -ms-flex-item-align: stretch;
+        align-self: stretch;
+
+    color: #3B3B3B;
+
+    /* Body/Mobile/text-mobil */
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px; /* 150% */
+}
+
+.twpx-voting-client .vue-loader-circle {
+    height: 400px;
+}
+
+.twpx-voting-client-block {
+    display: grid;
+    padding: 32px;
+    gap: 32px;
+    border-radius: 32px;
+    background: var(--twpx-block-background-default, #FFF);
+    color: #000;
+    font-family: Roboto;
+    margin: 0 32px 32px;
+}
+.twpx-voting-client-content {
+    display: grid;
+    gap: 32px;
+}
+.twpx-voting-client-block h1 {
+    color: #000;
+    font-family: Roboto;
+    font-size: 38px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 38px; /* 100% */
+    margin: 0;
+}
+.twpx-voting-client-text {
+    color: #000;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+}
+.twpx-voting-client-block h2 {
+    color: #000;
+    font-family: Roboto;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 38.4px; /* 120% */
+    margin: 0;
+}
+
+@media( max-width: 767px ) {
+    .twpx-voting-client {
+        padding: 0 16px;
+    }
+    .twpx-voting-client-block {
+        padding: 24px 16px;
+        gap: 24px;
+        border-radius: 16px;
+    }
+    .twpx-voting-client-content {
+        gap: 24px;
+    }
+    .twpx-voting-client-block h1 {
+        font-size: 24px;
+        line-height: 24px; /* 100% */
+    }
+    .twpx-voting-client-text {
+        font-size: 14px;
+    }
+    .twpx-voting-client-block h2 {
+        font-size: 20px;
+        line-height: 24px; /* 120% */
+    }
+}
+
+.twpx-voting-members-content {
+    display: grid;
+    gap: 32px;
+}
+.twpx-voting-members-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+}
+.twpx-voting-members-column {
+    display: grid;
+    gap: 32px;
+    align-self: start;
+}
+.twpx-voting-members-column-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    gap: 32px;
+}
+.twpx-voting-members-counter {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    gap: 32px;
+    color: #000;
+    font-family: Roboto;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 38.4px; /* 120% */
+}
+.twpx-voting-members-list {
+    display: grid;
+    gap: 10px;
+    align-self: start;
+    color: #000;
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+}

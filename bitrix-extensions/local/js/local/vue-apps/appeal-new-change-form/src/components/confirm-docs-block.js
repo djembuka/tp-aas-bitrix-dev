@@ -1,8 +1,8 @@
-import { ControlChoice } from 'local.vue-components.control-choice';
+import { FormControlRadioWithControls } from './formControlRadioWithControls.js';
 
 export const ConfirmDocsBlock = {
   components: {
-    ControlChoice,
+    FormControlRadioWithControls
   },
   props: ['confirmDocsBlock'],
   template: `
@@ -14,30 +14,20 @@ export const ConfirmDocsBlock = {
 
       <div v-for="(doc, index) in confirmDocsBlock.items">
 
-        <div>
-          <b v-if="doc.title" v-html="doc.title"></b>
-          <span v-html="doc.text"></span>
-        </div>
-        
-        <div>
-
-          <hr class="hr--line" style="margin-bottom: 2.5rem;">
-
-          <div v-for="(control, index) in doc.controls" :key="control.id">
-            <ControlChoice
-              :control="control"
-              @create="create"
-              @add="add"
-              @remove="remove"
-              @input="input"
-              @focus="focus"
-              @blur="blur"
-              @enter="enter"
-            />
-            <hr>
-          </div>
+        <FormControlRadioWithControls
+          :index="index"
+          :doc="doc"
+          :blockFlag="confirmDocsBlock.items.length === 1"
           
-        </div>
+          @checkDoc="checkDoc"
+          @create="create"
+          @add="add"
+          @remove="remove"
+          @input="input"
+          @focus="focus"
+          @blur="blur"
+          @enter="enter"
+        />
 
         <hr>
       </div>
@@ -55,6 +45,9 @@ export const ConfirmDocsBlock = {
     'enter',
   ],
   methods: {
+    checkDoc(args) {
+      this.$emit('checkDoc', args);
+    },
     autosave() {
       this.$emit('autosave');
     },

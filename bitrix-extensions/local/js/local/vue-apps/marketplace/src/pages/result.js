@@ -10,6 +10,7 @@ import { ResultApplicationSuccess } from '../components/resultApplicationSuccess
 
 import { dataStore } from '../stores/data';
 import { resultStore } from '../stores/result';
+import { applicationStore } from '../stores/application';
 import { controlsStore } from '../stores/controls';
 import { mapState, mapActions } from 'ui.vue3.pinia';
 
@@ -51,11 +52,13 @@ export const Result = {
                 <ResultApplicationSuccess v-else :lang="lang" @close="close" />
             </ModalAnyContent>
 
-            <div v-if="!loading && !error" class="twpx-vue-marketplace-result__content">
+            <MessageComponent v-if="!loading && !error && !formDataArray.length" type="table-result" size="big" :message="lang.result.message || 'По выбранным фильтрам ничего не найдено. Измените параметры фильтра и попробуйте снова.'" />
+
+            <div v-else-if="!loading && !error" class="twpx-vue-marketplace-result__content">
 
                 <h2>{{ lang.result.heading }}</h2>
 
-                <ResultItemComponent v-for="company in formDataArray" :key="company.id" :company="company" @createApplication="createApplication" />
+                <ResultItemComponent v-for="company in formDataArray" :key="company.id" :company="company" @createApplication="createApplication" @input="input" />
 
                 <MoreButton :loading="loadingMore" :show="showMore" @clickMore="clickMore" />
 
@@ -69,9 +72,13 @@ export const Result = {
         ...mapState(dataStore, [
             'lang',
             'error',
-            'loading',
+            'applicationID'
+        ]),
+        ...mapState(applicationStore, [
+            'applicationControls',
         ]),
         ...mapState(resultStore, [
+            'loading',
             'formIdArray',
             'formDataArray',
             'groupApplicationArray',
@@ -83,7 +90,8 @@ export const Result = {
             'resultApplicationControls',
             'resultApplicationState',
             'resultApplicationLoading',
-            'resultApplicationError'
+            'resultApplicationError',
+            'chosenCompanyId'
         ]),
         showMore() {
             return this.startIndex < this.formIdArray.length
@@ -92,34 +100,33 @@ export const Result = {
     },
     methods: {
         ...mapActions(dataStore, [
-            'runApiMethod',
-            'changeError',
-            'changeLoading',
+            'changeProp',
+            'runBitrixMethod',
         ]),
         ...mapActions(resultStore, [
             'setFormDataArray',
             'setStartIndex',
             'setMaxCountPerRequest',
-            'changeLoadingMore',
-            'changeProp'
+            'changeResultProp'
         ]),
         ...mapActions(controlsStore, [
             'changeControlValue',
             'runHintsAction',
             'setHints'
         ]),
-        createApplication({groupApplicationArray}) {
-            this.changeProp('applicationModalStateWatcher', !this.applicationModalStateWatcher);
+        createApplication(companyId) {
+            this.changeResultProp('chosenCompanyId', companyId);
+            this.changeResultProp('applicationModalStateWatcher', !this.applicationModalStateWatcher);
         },
         clickMore() {
             this.loadNextPage();
         },
         loadNextPage() {
-            this.changeLoadingMore(true);
+            this.changeResultProp('loadingMore', true);
             try {
-                const requestArr = this.formIdArray.slice(this.startIndex, this.startIndex + this.maxCountPerRequest).map((formID) => {
-                    return this.runApiMethod('formData', {code: formID});
-                });
+                const requestArr = this.formIdArray
+                    .slice(this.startIndex, this.startIndex + this.maxCountPerRequest)
+                    .map((formID) => this.runBitrixMethod('formData', {code: formID}));
 
                 Promise.all(requestArr)
                     .then((formDataArray) => {
@@ -139,14 +146,15 @@ export const Result = {
                                 }
                             }
                         }));
-                        this.changeLoading(false);
-                        this.changeLoadingMore(false);
+                        
+                        this.changeResultProp('loading', false);
+                        this.changeResultProp('loadingMore', false);
                         this.setStartIndex(this.startIndex + this.maxCountPerRequest);
                     })
-                    .catch((response) => {
-                        this.changeLoading(false);
-                        if (response && response.errors.length) {
-                            this.changeError(`formData - ${response.errors[0].message}`);
+                    .catch((error) => {
+                        this.changeResultProp('loading', false);
+                        if (error && error?.errors.length) {
+                            this.changeProp('error', `formData - ${error.errors[0].message}`);
                         }
                     });
             } catch(err) {
@@ -172,38 +180,43 @@ export const Result = {
                     break;
             }
         },
-        send(formData) {
-            this.changeProp('resultApplicationLoading', true);
+        async send() {
+            this.changeResultProp('resultApplicationLoading', true);
 
-            this.runApiMethod('send', {}, formData)
-                .then(
-                    (response) => {
-                        this.changeProp('resultApplicationLoading', false);
-                        this.changeProp('resultApplicationState', 'success')
-                    },
-                    (res) => {
-                        this.changeProp('resultApplicationLoading', false);
-                        if (res && res.errors) {
-                            this.changeProp('resultApplicationError', res.errors[0].message);
-                        }
+            try {
+                const controls = JSON.parse(JSON.stringify(this.resultApplicationControls));
+                controls.forEach(c => {
+                    if (c.property === 'date' && c.type === 'range') {
+                        c.value = `${c.value[0]}-${c.value[1]}`
                     }
-                )
-                .catch(err => {
-                    this.changeProp('resultApplicationLoading', false);
-                    console.log(err);
-                })
+                });
+
+                await this.runBitrixMethod('applicationSave', {
+                    fields: controls,
+                    applicationID: this.applicationID
+                });
+                await this.runBitrixMethod('sendMessages', {
+                    applicationID: this.applicationID,
+                    questionnaires: this.chosenCompanyId ? [this.chosenCompanyId] : this.groupApplicationArray
+                });
+                this.changeResultProp('resultApplicationLoading', false);
+                this.changeResultProp('resultApplicationState', 'success');
+            } catch(error) {
+                this.changeResultProp('resultApplicationLoading', false);
+                this.changeResultProp('resultApplicationError', error?.errors ? error.errors[0].message : error)
+            }
         },
         close() {
-            this.changeProp('applicationModalStateWatcher', !this.applicationModalStateWatcher);
+            this.changeResultProp('applicationModalStateWatcher', !this.applicationModalStateWatcher);
         },
         onClose() {
-            this.changeProp('resultApplicationState', 'form');
-            this.changeProp('resultApplicationError', '');
+            this.changeResultProp('resultApplicationState', 'form');
+            this.changeResultProp('resultApplicationError', '');
         }
     },
-
     mounted() {
-        this.changeLoading(true);
+        this.changeProp('loading', false);
+        this.changeResultProp('loading', true);
         this.loadNextPage();
     }
 }

@@ -43,10 +43,8 @@ export const Step = {
     computed: {
         ...mapState(dataStore, [
             'lang',
-            'steps',
             'error',
             'loading',
-            'resultApplicationGroupId'
         ]),
         ...mapState(applicationStore, [
             'applicationControls',
@@ -69,9 +67,8 @@ export const Step = {
     },
     methods: {
         ...mapActions(dataStore, [
-            'runApiMethod',
-            'changeError',
-            'changeLoading',
+            'runBitrixMethod',
+            'changeProp',
             'createUrl'
         ]),
         ...mapActions(applicationStore, [
@@ -94,26 +91,30 @@ export const Step = {
             this.$router.push(`/step/${group.id}`);
         },
         showError(response, method) {
-            this.changeLoading(false);
+            this.changeProp('loading', false);
             if (response && response.errors.length) {
-                this.changeError(`${method ? method + ' - ' : ''}${response.errors[0].message}`);
+                this.changeProp('error', `${method ? method + ' - ' : ''}${response.errors[0].message}`);
             }
         },
         send() {
-            this.changeLoading(true);
-            this.changeError('');
+            this.changeProp('loading', true);
+            this.changeProp('error', '');
 
-            const controls = this.applicationControls.slice();
+            const controls = JSON.parse(JSON.stringify(this.applicationControls.slice()));
             controls.forEach(c => {
                 if (c.property === 'date' && c.type === 'range') {
                     c.value = `${c.value[0]}-${c.value[1]}`
                 }
+                if (c.property === 'hint') {
+                    c.value = c.value.id
+                }
             });
 
-            this.runApiMethod('applicationSave', {fields: controls})
+            this.runBitrixMethod('applicationSave', {fields: controls})
                 .then(
                     (response) => {
-                        return this.runApiMethod('searchForms', {applicationID: response?.data?.applicationID})
+                        this.changeProp('applicationID', response?.data?.applicationID)
+                        return this.runBitrixMethod('searchForms', {applicationID: response?.data?.applicationID})
                     },
                     (r) => {this.showError(r, 'applicationSave')}
                 )
@@ -150,28 +151,5 @@ export const Step = {
             }
         },
     },
-    mounted() {
-        this.changeLoading(true);
-        this.changeError('');
-
-        this.runApiMethod('applicationGroups')
-            .then(
-                (response) => {
-                    this.changeApplicationGroups(response.data, this.resultApplicationGroupId);
-                    this.changeResultApplicationGroup(response.data, this.resultApplicationGroupId);
-
-                    return this.runApiMethod('applicationTemplate');
-                },
-                (r) => {this.showError(r, 'applicationGroups')}
-            )
-            .then(
-                (response) => {
-                    this.changeLoading(false);
-                    this.changeError('');
-                    this.changeApplicationControls(response.data, this.resultApplicationGroupId);
-                    this.changeResultApplicationControls(response.data, this.resultApplicationGroupId);
-                },
-                (r) => {this.showError(r, 'applicationTemplate')}
-            );
-    }
+    
 }

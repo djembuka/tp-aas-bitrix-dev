@@ -24,6 +24,7 @@ $APPLICATION->SetTitle("Marketplace Bitrix Vue");
 			searchForms: ['twinpx:marketplace.applications', 'searchForms'],
 			formData: ['twinpx:marketplace.questionnaires', 'formData'],
 			formTemplate: ['twinpx:marketplace.questionnaires', 'formTemplate'],
+			sendMessages: ['twinpx:marketplace.questionnaires', 'sendMessages'],
 		},
 		lang: {
 			application: {
@@ -37,6 +38,7 @@ $APPLICATION->SetTitle("Marketplace Bitrix Vue");
 				'sendButton': 'Отправить заявку',
 				'getButton': 'Получить выписку',
 				'moreProps': 'Подробнее',
+				'hideProps': 'Скрыть',
 				'checkboxLable': 'Добавить для групповой заявки',
 				'getButton': 'Получить выписку',
 				'sendButton': 'Отправить заявку',
@@ -51,6 +53,7 @@ $APPLICATION->SetTitle("Marketplace Bitrix Vue");
 				'formSuccessHeading': 'Ваша заявка отправлена',
 				'formSuccessText': 'Ваша заявка отправлена всем выбранным вами компаниям. Ожидайте обратную связь от их представителей по электронной почте и телефону.',
 				'formSuccessButton': 'Понятно',
+				'message': 'По выбранным фильтрам ничего не найдено. Измените параметры фильтра и попробуйте снова.'
 			}
 		}
 	});

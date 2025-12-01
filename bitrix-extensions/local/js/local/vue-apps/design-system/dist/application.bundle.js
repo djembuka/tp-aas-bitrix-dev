@@ -1,5 +1,5 @@
 /* eslint-disable */
-(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_controlComponent,local_vueComponents_controlChoice,local_vueComponents_modalYesNo,local_vueComponents_modalAnyContent,local_vueComponents_buttonComponent,local_vueComponents_docComponent,local_vueComponents_loaderCircle,local_vueComponents_loaderBubbles,local_vueComponents_loaderSquares,local_vueComponents_messageComponent,ui_vue3_pinia) {
+(function (exports,ui_vue3,ui_vue3_router,local_vueComponents_controlChoice,local_vueComponents_modalYesNo,local_vueComponents_modalAnyContent,local_vueComponents_buttonComponent,local_vueComponents_controlComponent,local_vueComponents_docComponent,local_vueComponents_loaderCircle,local_vueComponents_loaderBubbles,local_vueComponents_loaderSquares,local_vueComponents_messageComponent,ui_vue3_pinia) {
   'use strict';
 
   var TheMenu = {
@@ -95,7 +95,10 @@
           id: 'id5',
           name: 'AUDITOR_ORNZ',
           label: 'Simple',
-          value: '',
+          value: {
+            "id": "1",
+            "value": "First"
+          },
           count: 3,
           action: '/markup/vue/design-system/hints.json',
           required: false,
@@ -107,7 +110,10 @@
           id: 'id5-1',
           name: 'AUDITOR_ORNZ_WITH_PHOTO',
           label: 'With HTML - data-value',
-          value: '',
+          value: {
+            "id": "2",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+          },
           count: 3,
           action: '/markup/vue/design-system/hints-html.json',
           required: false,
@@ -118,7 +124,20 @@
           id: 'id5-2',
           name: 'AUDITOR_ORNZ_WITH_PHOTO',
           label: 'Autocomplete',
-          value: '',
+          value: {
+            "id": "3",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+            "autocomplete": [{
+              "id": "id1",
+              "value": "Семён Семёнович"
+            }, {
+              "id": "id1-1",
+              "value": "ООО Ответственные аудиторы"
+            }, {
+              "id": "id2",
+              "value": "+7 812 488 85 54"
+            }]
+          },
           count: 3,
           action: '/markup/vue/design-system/hints-autocomplete.json',
           required: false,
@@ -129,7 +148,20 @@
           id: 'id5-3',
           name: 'AUDITOR_ORNZ_WITH_HIDDEN',
           label: 'With hidden data',
-          value: '',
+          value: {
+            "id": "3",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+            "hidden": [{
+              "name": "HIDDEN7",
+              "value": "fff"
+            }, {
+              "name": "HIDDEN8",
+              "value": "uu"
+            }, {
+              "name": "HIDDEN9",
+              "value": "0"
+            }]
+          },
           count: 3,
           action: '/markup/vue/design-system/hints-hidden.json',
           required: false,
@@ -362,6 +394,7 @@
           case 'hidden':
           case 'password':
           case 'date':
+          case 'datetime':
           case 'time':
           case 'textarea':
           case 'num':
@@ -501,6 +534,20 @@
       },
       setDisabled: function setDisabled(control, value) {
         control.disabled = value;
+      },
+      checkRequired: function checkRequired(control) {
+        if (!control.required) {
+          control.required = true;
+        } else {
+          if (!control.label.includes('*')) {
+            control.label = "".concat(control.label, " *");
+          } else {
+            control.required = false;
+            // remove *
+            var index = control.label.indexOf('*');
+            control.label = control.label.substring(0, index).trim();
+          }
+        }
       }
     }
   });
@@ -515,11 +562,9 @@
       ControlComponent: local_vueComponents_controlComponent.ControlComponent,
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
     },
-    // language=Vue
-
-    template: "\n    <div>\n      <div class=\"twpx-design-system-block\" v-for=\"control in controls\" :key=\"control.id\">\n        <div>\n          <h3>{{ control.property }} {{ control.type }}</h3>\n          <ControlComponent :control=\"control\" @input=\"input\" @hints=\"hints\" />\n        </div>\n        <pre>{{ control }}</pre>\n        <div>\n          <ButtonComponent text=\"+ tab\" :props=\"['secondary','medium']\" @clickButton=\"addTab(control)\" />\n\n          <ButtonComponent :text=\"textDisabled(control)\" :props=\"['light','medium']\" @clickButton=\"setDisabledEnabled(control)\" />\n        </div>\n      </div>\n    </div>\n\t",
+    template: "\n    <div>\n      <div class=\"twpx-design-system-block\" v-for=\"control in controls\" :key=\"control.id\">\n        <div>\n          <h3>{{ control.property }} {{ control.type }}</h3>\n          <ControlComponent :control=\"control\" @input=\"input\" @hints=\"hints\" />\n        </div>\n        <pre>{{ control }}</pre>\n        <div style=\"display: flex; gap: 5px; flex-wrap: wrap;\">\n          <ButtonComponent text=\"Check required and *\" :props=\"['secondary','small']\" @clickButton=\"checkRequired(control)\" />\n\n          <ButtonComponent text=\"+ tab\" :props=\"['secondary','small']\" @clickButton=\"addTab(control)\" />\n\n          <ButtonComponent :text=\"textDisabled(control)\" :props=\"['light','small']\" @clickButton=\"setDisabledEnabled(control)\" />\n        </div>\n      </div>\n    </div>\n\t",
     computed: _objectSpread({}, ui_vue3_pinia.mapState(formControlsStore, ['controls'])),
-    methods: _objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(formControlsStore, ['changeControlValue', 'runHints', 'setHints', 'addTab', 'setDisabled'])), {}, {
+    methods: _objectSpread(_objectSpread({}, ui_vue3_pinia.mapActions(formControlsStore, ['changeControlValue', 'runHints', 'setHints', 'addTab', 'setDisabled', 'checkRequired'])), {}, {
       input: function input(_ref) {
         var control = _ref.control,
           value = _ref.value,
@@ -1391,9 +1436,10 @@
       ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo,
       ModalAnyContent: local_vueComponents_modalAnyContent.ModalAnyContent,
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
-      DocComponent: local_vueComponents_docComponent.DocComponent
+      DocComponent: local_vueComponents_docComponent.DocComponent,
+      ControlComponent: local_vueComponents_controlComponent.ControlComponent
     },
-    template: "\n    <div>\n      <div class=\"twpx-design-system-block\">\n        <ModalYesNo\n          :heading=\"modal_yes_no.heading\"\n          :text=\"modal_yes_no.text\"\n          :yes=\"modal_yes_no.yes\"\n          :no=\"modal_yes_no.no\"\n          :stateWatcher=\"modal_yes_no.stateWatcher\"\n          @clickYes=\"modal_yes_no.clickYes\"\n          @clickNo=\"modal_yes_no.clickNo\"\n        />\n        <div>\n          <ButtonComponent text=\"Show\" :props=\"['secondary', 'medium']\" @clickButton=\"modal_yes_no.stateWatcher = !modal_yes_no.stateWatcher\" />\n        </div>\n        <pre>{{ getModalYesNoCode(button) }}</pre>\n      </div>\n\n      <div class=\"twpx-design-system-block\">\n        <ModalAnyContent :stateWatcher=\"modal_any_content.stateWatcher\">\n          <DocComponent :doc='{\n            \"id\": 123,\n            \"href\": \"/pages/\u041F\u0440\u043E\u0442\u043E\u043A\u043E\u043B \u0437\u0430\u0441\u0435\u0434\u0430\u043D\u0438\u044F \u0434\u0438\u0441\u0438\u0446\u043F\u043B\u0438\u043D\u0430\u0440\u043D\u043E\u0439 \u043A\u043E\u043C\u0438\u0441\u0441\u0438\u0438 234.pdf\",\n            \"size\": 654000,\n            \"date\": \"15 \u044F\u043D\u0432\u0430\u0440\u044F 2020\",\n            \"author\": \"\u0410\u0437\u0430\u0440\u044F\u043D\u0446 \u0410\u0448\u043E\u0442 \u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440\u043E\u0432\u0438\u0447\",\n            \"icon\": \"/template/images/pdf.svg\",\n            \"remove\": true\n          }' @clickDelete.prevent=\"alert('delete')\" />\n          <ButtonComponent text=\"Success\" :props=\"['success','large']\" @clickButton=\"\" />\n        </ModalAnyContent>\n        <div>\n          <ButtonComponent text=\"Show\" :props=\"['secondary', 'medium']\" @clickButton=\"modal_any_content.stateWatcher = !modal_any_content.stateWatcher\" />\n        </div>\n        <pre>{{ getModalAnyContentCode(button) }}</pre>\n      </div>\n    </div>\n  ",
+    template: "\n    <div>\n      <div class=\"twpx-design-system-block\">\n        <ModalYesNo\n          :heading=\"modal_yes_no.heading\"\n          :text=\"modal_yes_no.text\"\n          :yes=\"modal_yes_no.yes\"\n          :no=\"modal_yes_no.no\"\n          :stateWatcher=\"modal_yes_no.stateWatcher\"\n          @clickYes=\"modal_yes_no.clickYes\"\n          @clickNo=\"modal_yes_no.clickNo\"\n        />\n        <div>\n          <ButtonComponent text=\"Show\" :props=\"['secondary', 'medium']\" @clickButton=\"modal_yes_no.stateWatcher = !modal_yes_no.stateWatcher\" />\n        </div>\n        <pre>{{ getModalYesNoCode(button) }}</pre>\n      </div>\n\n      <div class=\"twpx-design-system-block\">\n        <ModalAnyContent :stateWatcher=\"modal_any_content.stateWatcher\">\n          <DocComponent :doc='{\n            \"id\": 123,\n            \"href\": \"/pages/\u041F\u0440\u043E\u0442\u043E\u043A\u043E\u043B \u0437\u0430\u0441\u0435\u0434\u0430\u043D\u0438\u044F \u0434\u0438\u0441\u0438\u0446\u043F\u043B\u0438\u043D\u0430\u0440\u043D\u043E\u0439 \u043A\u043E\u043C\u0438\u0441\u0441\u0438\u0438 234.pdf\",\n            \"size\": 654000,\n            \"date\": \"15 \u044F\u043D\u0432\u0430\u0440\u044F 2020\",\n            \"author\": \"\u0410\u0437\u0430\u0440\u044F\u043D\u0446 \u0410\u0448\u043E\u0442 \u0410\u043B\u0435\u043A\u0441\u0430\u043D\u0434\u0440\u043E\u0432\u0438\u0447\",\n            \"icon\": \"/template/images/pdf.svg\",\n            \"remove\": true\n          }' @clickDelete.prevent=\"alert('delete')\" />\n          <ButtonComponent text=\"Success\" :props=\"['success','large']\" @clickButton=\"\" />\n          <ControlComponent :control='{\n            \"property\": \"select\",\n            \"type\": \"dropdown\",\n            \"id\": \"id13\",\n            \"name\": \"STATUS\",\n            \"label\": \"Status\",\n            \"options\": [\n              {\n                \"label\": \"molestias\",\n                \"code\": \"23423423423\"\n              },\n              {\n                \"label\": \"Farming\",\n                \"code\": \"324234324\"\n              },\n              {\n                \"label\": \"Very\",\n                \"code\": \"324234325\"\n              }\n            ],\n            \"value\": \"\",\n            \"disabled\": false,\n            \"hint_external\": \"\u041E\u0431\u0441\u0443\u0436\u0434\u0430\u0435\u043C \u043F\u0440\u043E\u0435\u043A\u0442\u044B \u043C\u0435\u0436\u0434\u0443\u043D\u0430\u0440\u043E\u0434\u043D\u044B\u0445 \u0441\u0442\u0430\u043D\u0434\u0430\u0440\u0442\u043E\u0432 \u0438 \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u043E\u0432\"\n          }' />\n        </ModalAnyContent>\n        <div>\n          <ButtonComponent text=\"Show\" :props=\"['secondary', 'medium']\" @clickButton=\"modal_any_content.stateWatcher = !modal_any_content.stateWatcher\" />\n        </div>\n        <pre>{{ getModalAnyContentCode(button) }}</pre>\n      </div>\n    </div>\n  ",
     computed: _objectSpread$5({}, ui_vue3_pinia.mapState(modalsStore, ['modal_yes_no', 'modal_any_content'])),
     methods: {
       getModalYesNoCode: function getModalYesNoCode() {
@@ -1744,5 +1790,4 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.AAS,BX.Vue3.Pinia));
-//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.Controls,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map

@@ -95,14 +95,22 @@ export const DetailInfo = {
                 id: 4,
                 heading: 'Доступы',
                 items: [
-                {
-                    title: 'ID групп голосующих',
-                    value: this.voting.groupsVoting
-                },
-                {
-                    title: 'ID групп Избирательных комиссий',
-                    value: this.voting.groupsCommission
-                },
+                    {
+                        title: 'ID групп голосующих',
+                        value: this.voting.groupsVoting
+                    },
+                    {
+                        title: 'ID групп голосующих ЕИО',
+                        value: this.voting.groupsVotingEio
+                    },
+                    {
+                        title: 'ID групп голосующих УМЦ',
+                        value: this.voting.groupsVotingUmc
+                    },
+                    {
+                        title: 'ID групп Избирательных комиссий',
+                        value: this.voting.groupsCommission
+                    },
                 ]
             },
             ]

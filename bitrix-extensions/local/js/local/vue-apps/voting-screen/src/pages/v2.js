@@ -24,7 +24,7 @@ export const V2 = {
         <div class="twpx-voting-screen-block twpx-voting-screen-app">
           <div class="twpx-voting-screen__body-title">Используйте приложение<br>для голосования</div>
           <div class="twpx-voting-screen__body-content">
-            <div class="twpx-voting-screen__phone"></div>
+            <img :src="params.app" alt="" class="twpx-voting-screen__qr" />
           </div>
         </div>
         <div class="twpx-voting-screen-block twpx-voting-screen-app">

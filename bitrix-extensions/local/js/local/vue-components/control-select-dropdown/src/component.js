@@ -12,6 +12,7 @@ export const ControlSelectDropdown = {
       opened: false,
       animation: false,
       hint: this.control?.hint_external || '',
+      dropdownUp: false,
     };
   },
   components: {
@@ -38,7 +39,7 @@ export const ControlSelectDropdown = {
         class="twpx-form-control__disabled-icon"
         v-if="disabled"
       />
-      <div class="twpx-form-control__label">{{ control.label }}</div>
+      <div class="twpx-form-control__label">{{ label }}</div>
       <div
         class="twpx-form-control-select"
         :data-id="id"
@@ -51,11 +52,18 @@ export const ControlSelectDropdown = {
         >
           <span>{{ text }}</span>
         </div>
-        <div class="twpx-form-control-select__dropdown">
+        <div class="twpx-form-control-select__dropdown"
+          ref="dropdownEl"
+          :class="{
+            'twpx-form-control-select__dropdown--visible': opened,
+            'twpx-form-control-select__dropdown--up': dropdownUp
+          }">
+
           <div
             class="twpx-form-control-select__dropdown-item"
             :class="{
               'twpx-form-control-select__dropdown-item': true,
+              'twpx-form-control-select__dropdown-item--visible': opened,
               'twpx-form-control-select__dropdown-item--current': option.code === control.value,
               'twpx-form-control-select__dropdown-item--hidden': option.hidden
             }"
@@ -73,6 +81,12 @@ export const ControlSelectDropdown = {
   props: ['control', 'name', 'customOnChange'],
   emits: ['input', 'focus', 'blur'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     value: {
       get() {
         return this.control.value;
@@ -146,12 +160,34 @@ export const ControlSelectDropdown = {
 
       this.opened = true;
       this.$emit('focus');
+
+      // проверяем, хватает ли места снизу
+      this.$nextTick(() => {
+        const trigger = this.$refs.twpxSelect.querySelector('.twpx-form-control-select__content');
+        const dropdown = this.$refs.dropdownEl;
+
+        if (!trigger || !dropdown) return;
+
+        const triggerRect = trigger.getBoundingClientRect();
+        const modal = trigger.closest('.twpx-modal-any-content-container');
+        const dropdownHeight = dropdown.offsetHeight || 200; // fallback, если ещё не отрисован
+        let rectBottom = window.innerHeight;
+        if (modal) {
+          rectBottom = modal.getBoundingClientRect().bottom;
+        }
+        const spaceBelow = rectBottom - triggerRect.bottom;
+        const spaceAbove = triggerRect.top;
+
+        // Если снизу меньше места, чем высота дропдауна + небольшой отступ (например 16px)
+        this.dropdownUp = (spaceBelow < dropdownHeight + 16) && (spaceAbove > spaceBelow);
+      });
     },
     hideDropdown(quickly) {
       if (this.opened && !quickly) {
         this.animation = true;
         setTimeout(() => {
           this.animation = false;
+          this.dropdownUp = false; // сбрасываем направление при закрытии
         }, 200);
       }
       this.opened = false;

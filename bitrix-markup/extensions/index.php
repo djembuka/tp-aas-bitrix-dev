@@ -36,7 +36,7 @@ Bitrix\Main\UI\Extension::load("local.extensions.copy-to-clipboard");
 
 <h3>Copy to clipboard</h3>
 
-<div class="b-copy">Нажми, чтобы скопировать</div>
+<div class="b-twpx-copy">Нажми, чтобы скопировать</div>
 
 <hr>
 
@@ -45,7 +45,7 @@ Bitrix\Main\UI\Extension::load("local.extensions.copy-to-clipboard");
 <hr>
 
 <pre>
-&lt;div class="b-copy"&gt;Нажми, чтобы скопировать&lt;/div&gt;
+&lt;div class="b-twpx-copy"&gt;Нажми, чтобы скопировать&lt;/div&gt;
 </pre>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>

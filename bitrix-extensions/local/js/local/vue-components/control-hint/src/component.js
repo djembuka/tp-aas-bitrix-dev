@@ -45,7 +45,7 @@ export const ControlHint = {
         v-if="disabled"
       />
 
-      <div class="twpx-form-control__label">{{ control.label }}</div>
+      <div class="twpx-form-control__label">{{ label }}</div>
       
       <input
         type="text"
@@ -69,7 +69,13 @@ export const ControlHint = {
       <IconLoad class="twpx-form-control-loader" v-show="isLoading" />
 
       <div class="twpx-form-control-hint" v-if="hintItems.length">
-        <div v-for="(hint, index) in hintItems" :data-id="hint.id" :data-value="hint.value" :class="{active: activeHintArray[index]}" class="twpx-form-control-hint__item" @click.prevent="clickHint(hint)" v-html="hint.value"></div>
+        <div v-for="(hint, index) in hintItems"
+          :data-id="hint.id"
+          :data-value="hint.value"
+          :class="{active: activeHintArray[index]}"
+          class="twpx-form-control-hint__item"
+          @click.prevent="clickHint(hint)"
+          v-html="hint.value"></div>
       </div>
 
       <div
@@ -88,6 +94,12 @@ export const ControlHint = {
 	`,
   emits: ['input', 'focus', 'blur', 'enter', 'hints'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     hintItems() {
       return this.control.hints || [];
     },
@@ -180,7 +192,7 @@ export const ControlHint = {
       this.$emit('hints', { type: 'set', value: [] });
       this.mouseleave();
 
-      // this.validate();
+      this.validate();
     },
     upArrow() {
       let activeIndex = this.activeHintArray.indexOf(true);
@@ -220,7 +232,7 @@ export const ControlHint = {
           this.controlValue = '';
         }
         this.$emit('hints', { type: 'set', value: [] });
-      }, 200);
+      }, 300);
 
       this.$emit('blur');
 

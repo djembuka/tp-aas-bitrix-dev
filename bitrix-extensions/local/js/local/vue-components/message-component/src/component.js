@@ -35,8 +35,8 @@ export const MessageComponent = {
       default: 'Text',
     },
     button: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: '',
     },
   },
   emits: ['clickButton'],

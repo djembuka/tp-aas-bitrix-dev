@@ -1,5 +1,6 @@
 import './component.css';
 import CheckboxIcon from './CheckboxIcon';
+import { IconLock } from './IconLock.js';
 
 export const ControlCheckboxBlock = {
   data() {
@@ -13,7 +14,8 @@ export const ControlCheckboxBlock = {
     };
   },
   components: {
-    CheckboxIcon
+    CheckboxIcon,
+    IconLock
   },
   props: ['control', 'id', 'name'],
   emits: [],
@@ -28,6 +30,10 @@ export const ControlCheckboxBlock = {
         'twpx-form-control--disabled': disabled,
       }">
       <label>
+        <IconLock
+          class="twpx-form-control__disabled-icon"
+          v-if="disabled"
+        />
         <input
           type="checkbox"
           :id="controlId"
@@ -40,14 +46,22 @@ export const ControlCheckboxBlock = {
           :disabled="disabled"
           ref="input"
         />
-        <CheckboxIcon />
-        <span class="twpx-form-control__label" v-if="control.label" v-html="control.label"></span>
+        <CheckboxIcon
+          class="twpx-form-control__checkbox-icon"
+        />
+        <span class="twpx-form-control__label" v-if="label" v-html="label"></span>
       </label>
       <div class="twpx-form-control__hint" v-if="hint" v-html="hint"></div>
     </div>
 	`,
   emits: ['input', 'focus', 'blur'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     checked: {
       get() {
         return this.control.checked;

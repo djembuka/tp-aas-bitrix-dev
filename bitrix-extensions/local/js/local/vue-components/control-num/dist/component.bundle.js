@@ -42,13 +42,20 @@ this.BX = this.BX || {};
       IconLock: IconLock
     },
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--num': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <input\n        type=\"text\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"value\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keyup.enter=\"enter\"\n        @keydown=\"keydown\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        :aria-label=\"control.label\"\n        :aria-invalid=\"invalid\"\n        class=\"twpx-form-control__input\"\n      />\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
+    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--num': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <div class=\"twpx-form-control__label\">{{ label }}</div>\n      <input\n        type=\"text\"\n        :id=\"controlId\"\n        :name=\"controlName\"\n        v-model=\"value\"\n        @focus=\"focus\"\n        @blur=\"blur\"\n        @keyup.enter=\"enter\"\n        @keydown=\"keydown\"\n        :disabled=\"disabled\"\n        ref=\"input\"\n        autocomplete=\"off\"\n        :placeholder=\"placeholder\"\n        :aria-label=\"label\"\n        :aria-invalid=\"invalid\"\n        class=\"twpx-form-control__input\"\n      />\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
     emits: ['input', 'focus', 'blur', 'enter'],
     computed: {
+      label: function label() {
+        if (this.control.required && !this.control.label.includes('*')) {
+          return "".concat(this.control.label, " *");
+        }
+        return this.control.label;
+      },
       value: {
         get: function get() {
-          var _this$control2;
-          return ((_this$control2 = this.control) === null || _this$control2 === void 0 ? void 0 : _this$control2.value) || '';
+          var _this$control2, _this$control3;
+          var value = isNaN(Number((_this$control2 = this.control) === null || _this$control2 === void 0 ? void 0 : _this$control2.value)) ? 0 : (_this$control3 = this.control) === null || _this$control3 === void 0 ? void 0 : _this$control3.value;
+          return value || '';
         },
         set: function set(value) {
           if (!this.control) return;
@@ -59,22 +66,22 @@ this.BX = this.BX || {};
         }
       },
       placeholder: function placeholder() {
-        if (this.focused && !this.value.trim()) {
-          var _this$control3;
-          return ((_this$control3 = this.control) === null || _this$control3 === void 0 ? void 0 : _this$control3.hint_internal) || '';
+        if (this.focused && !String(this.value).trim()) {
+          var _this$control4;
+          return ((_this$control4 = this.control) === null || _this$control4 === void 0 ? void 0 : _this$control4.hint_internal) || '';
         }
         return '';
       },
       active: function active() {
-        var _this$control4, _this$control4$value;
-        return this.focused || !!((_this$control4 = this.control) !== null && _this$control4 !== void 0 && (_this$control4$value = _this$control4.value) !== null && _this$control4$value !== void 0 && _this$control4$value.trim());
+        var _String, _this$control5;
+        return this.focused || !!((_String = String((_this$control5 = this.control) === null || _this$control5 === void 0 ? void 0 : _this$control5.value)) !== null && _String !== void 0 && _String.trim());
       },
       invalid: function invalid() {
         return this.blured && !this.validate() || this.setInvalidWatcher;
       },
       disabled: function disabled() {
-        var _this$control5;
-        return !!((_this$control5 = this.control) !== null && _this$control5 !== void 0 && _this$control5.disabled);
+        var _this$control6;
+        return !!((_this$control6 = this.control) !== null && _this$control6 !== void 0 && _this$control6.disabled);
       },
       validateWatcher: function validateWatcher() {
         return this.control.validateWatcher;
@@ -154,9 +161,9 @@ this.BX = this.BX || {};
         }
       },
       validate: function validate() {
-        if (this.control.required && this.value.trim() || !this.control.required) {
+        if (this.control.required && String(this.value).trim() || !this.control.required) {
           if (this.control.regexp) {
-            var match = String(this.value.trim()).match(RegExp(this.control.regexp));
+            var match = String(this.value).trim().match(RegExp(this.control.regexp));
             if (!match) {
               this.warning = this.control.regexp_description;
             } else {

@@ -1,0 +1,21 @@
+.mf-edit-form {
+    display: grid;
+    gap: 32px;
+}
+.mf-edit-form h2,
+.mf-edit-form h3 {
+    margin: 0;
+}
+.mf-edit-form__group {
+    display: grid;
+    gap: 32px;
+}
+.mf-edit-form__controls {
+    display: grid;
+    gap: 24px;
+}
+.mf-edit-form__buttons {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+}

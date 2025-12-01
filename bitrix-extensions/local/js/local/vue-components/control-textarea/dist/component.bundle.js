@@ -42,9 +42,15 @@ this.BX = this.BX || {};
       IconLock: IconLock
     },
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--textarea': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--focused': focused,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <div class=\"twpx-form-control__textarea\">\n        <textarea\n          :id=\"controlId\"\n          :name=\"controlName\"\n          v-model=\"value\"\n          @focus=\"focus\"\n          @blur=\"blur\"\n          :disabled=\"disabled\"\n          ref=\"textarea\"\n          contenteditable=\"true\"\n          class=\"twpx-form-control__textarea-content\"\n        ></textarea>\n      </div>\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
+    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--textarea': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--focused': focused,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <div class=\"twpx-form-control__label\">{{ label }}</div>\n      <div class=\"twpx-form-control__textarea\">\n        <textarea\n          :id=\"controlId\"\n          :name=\"controlName\"\n          v-model=\"value\"\n          @focus=\"focus\"\n          @blur=\"blur\"\n          :disabled=\"disabled\"\n          ref=\"textarea\"\n          contenteditable=\"true\"\n          class=\"twpx-form-control__textarea-content\"\n        ></textarea>\n      </div>\n      <div\n        class=\"twpx-form-control__warning\"\n        v-html=\"warning\"\n        v-if=\"warning\"\n      ></div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
     emits: ['input', 'focus', 'blur'],
     computed: {
+      label: function label() {
+        if (this.control.required && !this.control.label.includes('*')) {
+          return "".concat(this.control.label, " *");
+        }
+        return this.control.label;
+      },
       value: {
         get: function get() {
           var _this$control2;

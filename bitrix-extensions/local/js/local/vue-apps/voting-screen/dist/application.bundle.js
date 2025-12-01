@@ -30,10 +30,10 @@
             BX.PULL.subscribe({
               moduleId: 'voting',
               callback: function (data) {
-                _this.changeProp('command', data.command);
-                _this.changeProp('params', data.params);
-                _this.changeProp('extra', data.extra);
-                if (_this.command.startsWith('voting')) {
+                if (data.command.startsWith('voting')) {
+                  _this.changeProp('command', data.command);
+                  _this.changeProp('params', data.params);
+                  _this.changeProp('extra', data.extra);
                   _this.$router.push("/".concat(_this.command));
                 }
                 console.log('Command:', data.command);
@@ -172,7 +172,7 @@
     components: {
       StatusTimer: StatusTimer
     },
-    template: "\n    <div class=\"twpx-voting-screen\">\n\n      <div class=\"twpx-voting-screen-block twpx-voting-screen__header\">\n        <img src=\"/local/templates/aas/images/logo-aas-small.svg\" alt=\"\" />\n        <StatusTimer :command=\"command\" />\n      </div>\n      \n      <div class=\"twpx-voting-screen-block twpx-voting-screen__description\">\n        <div class=\"twpx-voting-screen__voting-name\">{{ params.title }}</div>\n        <div class=\"twpx-voting-screen__voting-description\">{{ params.description }}</div>\n      </div>\n\n      <div class=\"twpx-voting-screen__body\">\n        <div class=\"twpx-voting-screen-block twpx-voting-screen-app\">\n          <div class=\"twpx-voting-screen__body-title\">\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439\u0442\u0435 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0435<br>\u0434\u043B\u044F \u0433\u043E\u043B\u043E\u0441\u043E\u0432\u0430\u043D\u0438\u044F</div>\n          <div class=\"twpx-voting-screen__body-content\">\n            <div class=\"twpx-voting-screen__phone\"></div>\n          </div>\n        </div>\n        <div class=\"twpx-voting-screen-block twpx-voting-screen-app\">\n          <div class=\"twpx-voting-screen__body-title\">\u0418\u043B\u0438 \u043E\u0442\u0441\u043A\u0430\u043D\u0438\u0440\u0443\u0439\u0442\u0435 QR</div>\n          <div class=\"twpx-voting-screen__body-content\">\n            <img :src=\"params.qr\" alt=\"\" class=\"twpx-voting-screen__qr\" />\n          </div>\n        </div>\n      </div>\n\n    </div>\n\t",
+    template: "\n    <div class=\"twpx-voting-screen\">\n\n      <div class=\"twpx-voting-screen-block twpx-voting-screen__header\">\n        <img src=\"/local/templates/aas/images/logo-aas-small.svg\" alt=\"\" />\n        <StatusTimer :command=\"command\" />\n      </div>\n      \n      <div class=\"twpx-voting-screen-block twpx-voting-screen__description\">\n        <div class=\"twpx-voting-screen__voting-name\">{{ params.title }}</div>\n        <div class=\"twpx-voting-screen__voting-description\">{{ params.description }}</div>\n      </div>\n\n      <div class=\"twpx-voting-screen__body\">\n        <div class=\"twpx-voting-screen-block twpx-voting-screen-app\">\n          <div class=\"twpx-voting-screen__body-title\">\u0418\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u0439\u0442\u0435 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0435<br>\u0434\u043B\u044F \u0433\u043E\u043B\u043E\u0441\u043E\u0432\u0430\u043D\u0438\u044F</div>\n          <div class=\"twpx-voting-screen__body-content\">\n            <img :src=\"params.app\" alt=\"\" class=\"twpx-voting-screen__qr\" />\n          </div>\n        </div>\n        <div class=\"twpx-voting-screen-block twpx-voting-screen-app\">\n          <div class=\"twpx-voting-screen__body-title\">\u0418\u043B\u0438 \u043E\u0442\u0441\u043A\u0430\u043D\u0438\u0440\u0443\u0439\u0442\u0435 QR</div>\n          <div class=\"twpx-voting-screen__body-content\">\n            <img :src=\"params.qr\" alt=\"\" class=\"twpx-voting-screen__qr\" />\n          </div>\n        </div>\n      </div>\n\n    </div>\n\t",
     computed: _objectSpread$1({}, ui_vue3_pinia.mapState(dataStore, ['command', 'params', 'extra']))
   };
 
@@ -390,5 +390,5 @@
 
   exports.VotingScreen = VotingScreen;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Vue3.Pinia));
+}((this.BX = this.BX || {}),BX,BX,BX));
 //# sourceMappingURL=application.bundle.js.map

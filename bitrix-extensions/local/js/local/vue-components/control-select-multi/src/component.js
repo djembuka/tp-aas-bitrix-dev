@@ -17,7 +17,7 @@ export const ControlSelectMulti = {
   // language=Vue
   template: `
 		<div class="twpx-form-control--select-multi">
-      <div class="twpx-form-control--select-multi__heading">{{ control.label }}</div>
+      <div class="twpx-form-control--select-multi__heading">{{ label }}</div>
       <div :class="{
         'twpx-form-control': true,
         'twpx-form-control--checkbox-block': true,
@@ -48,7 +48,9 @@ export const ControlSelectMulti = {
             :disabled="!!option.disabled"
             ref="input"
           />
-          <CheckboxIcon />
+          <CheckboxIcon
+            class="twpx-form-control__checkbox-icon"
+          />
           <span class="twpx-form-control--checkbox-block__label" v-if="option.label" v-html="option.label"></span>
         </label>
       
@@ -59,6 +61,12 @@ export const ControlSelectMulti = {
   props: ['control', 'id', 'name'],
   emits: ['input'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     invalid() {
       return !this.validate();
     },

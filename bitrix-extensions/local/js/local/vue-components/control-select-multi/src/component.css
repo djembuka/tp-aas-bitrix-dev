@@ -42,23 +42,23 @@
 .twpx-form-control--checkbox-block.twpx-form-control--checked label {
   background-color: var(--twpx-form-control-background-blue);
 }
-.twpx-form-control--checkbox-block svg {
+.twpx-form-control--checkbox-block svg.twpx-form-control__checkbox-icon {
   flex-shrink: 0;
 }
-.twpx-form-control--checkbox-block svg rect {
+.twpx-form-control--checkbox-block svg.twpx-form-control__checkbox-icon rect {
   -webkit-transition: fill .3s ease;
   transition: fill .3s ease;
   fill: var(--twpx-form-control-background);
 }
-.twpx-form-control--checkbox-block svg path {
+.twpx-form-control--checkbox-block svg.twpx-form-control__checkbox-icon path {
   -webkit-transition: stroke .3s ease;
   transition: stroke .3s ease;
   stroke: var(--twpx-form-control-background);
 }
-.twpx-form-control--checkbox-block.twpx-form-control--checked svg rect {
+.twpx-form-control--checkbox-block.twpx-form-control--checked svg.twpx-form-control__checkbox-icon rect {
   fill: var(--twpx-form-control-border-active);
 }
-.twpx-form-control--checkbox-block.twpx-form-control--checked svg path {
+.twpx-form-control--checkbox-block.twpx-form-control--checked svg.twpx-form-control__checkbox-icon path {
   stroke: var(--twpx-form-control-background-blue);
 }
 .twpx-form-control--checkbox-block [type='checkbox']:not(:checked),

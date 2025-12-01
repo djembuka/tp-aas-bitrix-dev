@@ -1,4 +1,4 @@
-import './application.css';
+import '../css/application.css';
 import Loader from './loader.js';
 
 import { TableComponent } from 'local.vue-components.table-component';
@@ -6,6 +6,8 @@ import { StickyScroll } from 'local.vue-components.sticky-scroll';
 import { MessageComponent } from 'local.vue-components.message-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
 import { ModalYesNo } from 'local.vue-components.modal-yes-no';
+
+import { ActionCards } from './action-cards.js'
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { tableStore } from '../stores/table';
@@ -20,7 +22,9 @@ export const Application = {
     StickyScroll,
     MessageComponent,
     ButtonComponent,
-    ModalYesNo
+    ModalYesNo,
+    
+    ActionCards
   },
   // language=Vue
 
@@ -46,13 +50,19 @@ export const Application = {
 
       <Loader v-if="loadingTable" />
 
-      <div v-else class="disciplinary-case-table-wrapper">
+      <div v-else :class="{'disciplinary-case-table-wrapper': true, 'disciplinary-case-table-wrapper--card': view==='card'}">
 
         <MessageComponent v-if="errorTable" type="error" size="big" :message="errorTable" />
 
-        <StickyScroll>
-          <TableComponent :columnsNames="columnsNames" :cols="cols" :items="items" @clickButton="clickButton" />
-        </StickyScroll>
+        <div v-if="view==='card'">
+          <ActionCards :titles="columnsNames" :items="items.items" @clickButton="clickButton" />
+        </div>
+
+        <div v-else>
+          <StickyScroll>
+            <TableComponent :columnsNames="columnsNames" :cols="cols" :items="items" @clickButton="clickButton" />
+          </StickyScroll>
+        </div>
 
         <ButtonComponent :text="lang.addButton" :props="['success', 'small']" @clickButton="clickAddButton" />
 
@@ -62,6 +72,7 @@ export const Application = {
   computed: {
     ...mapState(tableStore, [
       'lang', 'outerMethods', 'data',
+      'view',
       'cols',
       'loadingTable',
       'columnsNames',

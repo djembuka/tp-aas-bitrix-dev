@@ -6,8 +6,10 @@ export const applicationStore = defineStore('application', {
         applicationGroups: []
     }),
     actions: {
-        setStepActive({ step, active }) {
-            step.active = active;
+        changeApplicationGroups(groups, resultApplicationGroupId) {
+            if (groups && groups.filter) {
+                this.applicationGroups = groups.filter(g => String(g.id) !== String(resultApplicationGroupId))
+            }
         },
         changeApplicationControls(controls, resultApplicationGroupId) {
             if (controls && controls.filter) {
@@ -20,11 +22,6 @@ export const applicationStore = defineStore('application', {
                             }
                             return c;
                         });
-            }
-        },
-        changeApplicationGroups(groups, resultApplicationGroupId) {
-            if (groups && groups.filter) {
-                this.applicationGroups = groups.filter(g => String(g.id) !== String(resultApplicationGroupId))
             }
         },
     }

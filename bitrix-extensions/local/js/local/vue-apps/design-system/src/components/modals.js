@@ -2,6 +2,7 @@ import { ModalYesNo } from 'local.vue-components.modal-yes-no';
 import { ModalAnyContent } from 'local.vue-components.modal-any-content';
 import { ButtonComponent } from 'local.vue-components.button-component';
 import { DocComponent } from 'local.vue-components.doc-component';
+import { ControlComponent } from 'local.vue-components.control-component';
 
 import { mapState } from 'ui.vue3.pinia';
 import { modalsStore } from '../stores/modals-store';
@@ -12,7 +13,8 @@ export const ModalsComponent = {
     ModalYesNo,
     ModalAnyContent,
     ButtonComponent,
-    DocComponent
+    DocComponent,
+    ControlComponent
   },
   template: `
     <div>
@@ -44,6 +46,30 @@ export const ModalsComponent = {
             "remove": true
           }' @clickDelete.prevent="alert('delete')" />
           <ButtonComponent text="Success" :props="['success','large']" @clickButton="" />
+          <ControlComponent :control='{
+            "property": "select",
+            "type": "dropdown",
+            "id": "id13",
+            "name": "STATUS",
+            "label": "Status",
+            "options": [
+              {
+                "label": "molestias",
+                "code": "23423423423"
+              },
+              {
+                "label": "Farming",
+                "code": "324234324"
+              },
+              {
+                "label": "Very",
+                "code": "324234325"
+              }
+            ],
+            "value": "",
+            "disabled": false,
+            "hint_external": "Обсуждаем проекты международных стандартов и документов"
+          }' />
         </ModalAnyContent>
         <div>
           <ButtonComponent text="Show" :props="['secondary', 'medium']" @clickButton="modal_any_content.stateWatcher = !modal_any_content.stateWatcher" />

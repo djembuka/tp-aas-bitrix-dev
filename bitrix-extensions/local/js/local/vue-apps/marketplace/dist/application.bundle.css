@@ -1,10 +1,22 @@
 /* Application */
+.twpx-vue-marketplace__loader {
+    min-height: 400px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
 .twpx-vue-marketplace-application {
     display: grid;
     gap: 32px;;
     padding: 32px;
     border: 1px solid var(--twpx-border-neutral, #F2F2F2);
-    min-height: 300px;
+    min-height: 400px;
 }
 .twpx-vue-marketplace-application__content {
     display: grid;
@@ -116,7 +128,8 @@
     gap: 32px;
 }
 .twpx-vue-marketplace-result .vue-loader-circle {
-    min-height: 300px;
+    min-height: 400px;
+    border: 1px solid var(--twpx-border-neutral, #F2F2F2);
 }
 
 .twpx-vue-marketplace-company {
@@ -136,6 +149,7 @@
 }
 .twpx-vue-marketplace-company__text p {
     margin: 0;
+    white-space: break-spaces;
 }
 .twpx-vue-marketplace-company__properties {
     display: grid;
@@ -157,6 +171,7 @@
     font-size: 14px;
     line-height: normal;
     border-bottom: 1px solid var(--twpx-border-neutral, #F2F2F2);
+    white-space: break-all;
 }
 .twpx-vue-marketplace-company__properties .vue-button {
     justify-self: start;
@@ -206,6 +221,10 @@
     -ms-flex-item-align: stretch;
         align-self: stretch;
     gap: 16px;
+    position: sticky;
+    bottom: 16px;
+    background-color: #fff;
+    z-index: 10;
 }
 .twpx-vue-marketplace-group-application__text {
     display: grid;

@@ -34,8 +34,8 @@ export const ControlCheckboxSwitch = {
       /></span>
       <span
         class="twpx-form-control__switch-text"
-        v-if="control.label !== undefined"
-        >{{ control.label }}</span
+        v-if="label !== undefined"
+        >{{ label }}</span
       >
     </label>
     <div class="twpx-form-control__hint" v-if="hint" v-html="hint"></div>
@@ -43,6 +43,12 @@ export const ControlCheckboxSwitch = {
 	`,
   emits: ['input', 'focus', 'blur'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     checked: {
       get() {
         return this.control.checked;

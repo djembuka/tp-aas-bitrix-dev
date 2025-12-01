@@ -1,5 +1,5 @@
 /* eslint-disable */
-(function (exports,ui_vue3,local_vueComponents_tableComponent,local_vueComponents_stickyScroll,local_vueComponents_messageComponent,local_vueComponents_buttonComponent,local_vueComponents_modalYesNo,ui_vue3_pinia) {
+(function (exports,ui_vue3,local_vueComponents_tableComponent,local_vueComponents_stickyScroll,local_vueComponents_messageComponent,local_vueComponents_modalYesNo,local_vueComponents_buttonComponent,ui_vue3_pinia) {
   'use strict';
 
   var Loader = {
@@ -8,6 +8,29 @@
     },
     // language=Vue
     template: "\n    <div class=\"vue-table-loader\">\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n      <div></div>\n    </div>\n  "
+  };
+
+  var ActionCards = {
+    components: {
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent
+    },
+    props: ['titles', 'items'],
+    emits: ['clickButton'],
+    template: "\n        <div class=\"dc-action-cards\" v-if=\"items && items.length\">\n\n            <div class=\"dc-action-card\" v-for=\"card in items\"\n                :data-id=\"card.id\"\n                :key=\"card.id\"\n            >\n                <div class=\"dc-action-card__content\">\n                    <div class=\"dc-action-card__props\">\n                        <div class=\"dc-action-card__prop\" v-for=\"prop in card.cell\" :key=\"card.id + prop.id\">\n                            <div class=\"dc-action-card__prop-title\">{{ prop.name }}</div>\n                            <div class=\"dc-action-card__prop-value\" v-html=\"prop.value\"></div>\n                        </div>\n                    </div>\n                    <div class=\"dc-action-card__edit\">\n                        <ButtonComponent text=\"\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C\" :props=\"['serve','small']\" @clickButton=\"clickEdit(card.id)\" /> \n                    </div>\n                </div>\n                <div class=\"dc-action-card__button\">\n                    <ButtonComponent :text=\"\" :props=\"['icon','delete','medium']\" @clickButton=\"clickDelete(card.id)\" />\n                </div>\n            </div>\n\n        </div>\n    ",
+    methods: {
+      clickEdit: function clickEdit(itemId) {
+        this.$emit('clickButton', {
+          itemId: itemId,
+          code: 'edit'
+        });
+      },
+      clickDelete: function clickDelete(itemId) {
+        this.$emit('clickButton', {
+          itemId: itemId,
+          code: 'delete'
+        });
+      }
+    }
   };
 
   function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
@@ -174,12 +197,13 @@
       StickyScroll: local_vueComponents_stickyScroll.StickyScroll,
       MessageComponent: local_vueComponents_messageComponent.MessageComponent,
       ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
-      ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo
+      ModalYesNo: local_vueComponents_modalYesNo.ModalYesNo,
+      ActionCards: ActionCards
     },
     // language=Vue
 
-    template: "\n    <div>\n      <ModalYesNo\n        :heading=\"lang.deleteModal.heading\"\n        :text=\"lang.deleteModal.text\"\n        :yes=\"lang.deleteModal.yes\"\n        :no=\"lang.deleteModal.no\"\n        :buttons=\"{\n\t\t\t\t\tyes: {\n\t\t\t\t\t  props: ['danger', 'large']\n\t\t\t\t\t},\n\t\t\t\t\tno: {\n\t\t\t\t\t  props: ['gray-color', 'large']\n\t\t\t\t\t}\n\t\t\t\t}\"\n        :stateWatcher=\"deleteModalStateWatcher\"\n        @clickYes=\"clickYes\"\n        @clickNo=\"clickNo\"\n      />\n\n      <Loader v-if=\"loadingTable\" />\n\n      <div v-else class=\"disciplinary-case-table-wrapper\">\n\n        <MessageComponent v-if=\"errorTable\" type=\"error\" size=\"big\" :message=\"errorTable\" />\n\n        <StickyScroll>\n          <TableComponent :columnsNames=\"columnsNames\" :cols=\"cols\" :items=\"items\" @clickButton=\"clickButton\" />\n        </StickyScroll>\n\n        <ButtonComponent :text=\"lang.addButton\" :props=\"['success', 'small']\" @clickButton=\"clickAddButton\" />\n\n      </div>\n    </div>\n\t",
-    computed: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(tableStore, ['lang', 'outerMethods', 'data', 'cols', 'loadingTable', 'columnsNames', 'items', 'errorTable', 'deleteModalStateWatcher'])), {}, {
+    template: "\n    <div>\n      <ModalYesNo\n        :heading=\"lang.deleteModal.heading\"\n        :text=\"lang.deleteModal.text\"\n        :yes=\"lang.deleteModal.yes\"\n        :no=\"lang.deleteModal.no\"\n        :buttons=\"{\n\t\t\t\t\tyes: {\n\t\t\t\t\t  props: ['danger', 'large']\n\t\t\t\t\t},\n\t\t\t\t\tno: {\n\t\t\t\t\t  props: ['gray-color', 'large']\n\t\t\t\t\t}\n\t\t\t\t}\"\n        :stateWatcher=\"deleteModalStateWatcher\"\n        @clickYes=\"clickYes\"\n        @clickNo=\"clickNo\"\n      />\n\n      <Loader v-if=\"loadingTable\" />\n\n      <div v-else :class=\"{'disciplinary-case-table-wrapper': true, 'disciplinary-case-table-wrapper--card': view==='card'}\">\n\n        <MessageComponent v-if=\"errorTable\" type=\"error\" size=\"big\" :message=\"errorTable\" />\n\n        <div v-if=\"view==='card'\">\n          <ActionCards :titles=\"columnsNames\" :items=\"items.items\" @clickButton=\"clickButton\" />\n        </div>\n\n        <div v-else>\n          <StickyScroll>\n            <TableComponent :columnsNames=\"columnsNames\" :cols=\"cols\" :items=\"items\" @clickButton=\"clickButton\" />\n          </StickyScroll>\n        </div>\n\n        <ButtonComponent :text=\"lang.addButton\" :props=\"['success', 'small']\" @clickButton=\"clickAddButton\" />\n\n      </div>\n    </div>\n\t",
+    computed: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapState(tableStore, ['lang', 'outerMethods', 'data', 'view', 'cols', 'loadingTable', 'columnsNames', 'items', 'errorTable', 'deleteModalStateWatcher'])), {}, {
       error: function error() {
         return this.errorTable;
       }
@@ -252,6 +276,7 @@
           beforeMount: function beforeMount() {
             tableStore().data = self.options.data || {};
             tableStore().ajax = self.options.actions || {};
+            tableStore().view = self.options.view || 'table';
             tableStore().lang = self.options.lang || {};
             tableStore().outerMethods = self.options.outerMethods || {};
           }
@@ -280,5 +305,5 @@
 
   exports.DisciplinaryCaseTable = DisciplinaryCaseTable;
 
-}((this.BX = this.BX || {}),BX,BX.AAS,BX.AAS,BX.AAS,BX.AAS,BX.Modals,BX));
+}((this.BX = this.BX || {}),BX,BX.AAS,BX.AAS,BX.AAS,BX.Modals,BX.AAS,BX));
 //# sourceMappingURL=application.bundle.js.map

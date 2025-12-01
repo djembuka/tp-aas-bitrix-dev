@@ -51,7 +51,7 @@ export const ControlNum = {
         class="twpx-form-control__disabled-icon"
         v-if="disabled"
       />
-      <div class="twpx-form-control__label">{{ control.label }}</div>
+      <div class="twpx-form-control__label">{{ label }}</div>
       <input
         type="text"
         :id="controlId"
@@ -65,7 +65,7 @@ export const ControlNum = {
         ref="input"
         autocomplete="off"
         :placeholder="placeholder"
-        :aria-label="control.label"
+        :aria-label="label"
         :aria-invalid="invalid"
         class="twpx-form-control__input"
       />
@@ -79,9 +79,16 @@ export const ControlNum = {
 	`,
   emits: ['input', 'focus', 'blur', 'enter'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     value: {
       get() {
-        return this.control?.value || '';
+        const value = isNaN(Number(this.control?.value)) ? 0 : this.control?.value;
+        return value || '';
       },
       set(value) {
         if (!this.control) return;
@@ -90,13 +97,13 @@ export const ControlNum = {
       },
     },
     placeholder() {
-      if (this.focused && !this.value.trim()) {
+      if (this.focused && !String(this.value).trim()) {
         return this.control?.hint_internal || '';
       }
       return '';
     },
     active() {
-      return this.focused || !!this.control?.value?.trim();
+      return this.focused || !!String(this.control?.value)?.trim();
     },
     invalid() {
       return (this.blured && !this.validate()) || this.setInvalidWatcher;
@@ -197,11 +204,11 @@ export const ControlNum = {
     },
     validate() {
       if (
-        (this.control.required && this.value.trim()) ||
+        (this.control.required && String(this.value).trim()) ||
         !this.control.required
       ) {
         if (this.control.regexp) {
-          const match = String(this.value.trim()).match(
+          const match = String(this.value).trim().match(
             RegExp(this.control.regexp)
           );
           if (!match) {

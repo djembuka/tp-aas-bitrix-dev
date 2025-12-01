@@ -1,4 +1,4 @@
-import './application.css';
+import '../css/application.css';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { formStore } from '../stores/form';
@@ -37,7 +37,20 @@ export const Application = {
       </div>
 
       <div v-if="confirmDocsBlock && confirmDocsBlock.items && confirmDocsBlock.items.length">
-        <ConfirmDocsBlock :confirmDocsBlock="confirmDocsBlock" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints"  @timeoutAutosave="timeoutAutosave" @autosave="autosave" />
+        <ConfirmDocsBlock
+          :confirmDocsBlock="confirmDocsBlock"
+          @checkDoc="checkDoc"
+          @create="createMulti"
+          @add="addMulti"
+          @remove="removeMulti"
+          @input="input"
+          @focus="focus"
+          @blur="blur"
+          @enter="enter"
+          @hints="hints"
+          @timeoutAutosave="timeoutAutosave"
+          @autosave="autosave"
+        />
         <hr class="hr--lg">
       </div>
 
@@ -66,6 +79,7 @@ export const Application = {
       'createMulti',
       'addMulti',
       'removeMulti',
+      'checkDoc'
     ]),
     hints({ type, control, action, value }) {
       switch (type) {

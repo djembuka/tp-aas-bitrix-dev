@@ -1,4 +1,4 @@
-import './buttons.css';
+import '../css/buttons.css';
 import { ButtonComponent } from 'local.vue-components.button-component';
 
 export const TheButtons = {
@@ -23,11 +23,12 @@ export const TheButtons = {
         : 0;
     },
     isDisabled() {
-      if (this.step.controls && this.step.controls.find) {
+      if (Array.isArray(this.step.controls)) {
         return this.step.controls.find(
           (c) => c.property !== 'checkbox' && c.required && !c.value
         );
       }
+      return true
     },
   },
   methods: {

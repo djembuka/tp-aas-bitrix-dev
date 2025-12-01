@@ -8,13 +8,13 @@ export class DisciplinaryCaseTable {
   #rootNode;
   #application;
 
-  constructor(rootNode, options): void {
+  constructor(rootNode, options) {
     this.#store = createPinia();
     this.#rootNode = document.querySelector(rootNode);
     this.options = options;
   }
 
-  run(): void {
+  run() {
     const self = this;
 
     this.#application = BitrixVue.createApp({
@@ -26,6 +26,7 @@ export class DisciplinaryCaseTable {
       beforeMount() {
         tableStore().data = self.options.data || {};
         tableStore().ajax = self.options.actions || {};
+        tableStore().view = self.options.view || 'table';
         tableStore().lang = self.options.lang || {};
         tableStore().outerMethods = self.options.outerMethods || {};
       },
@@ -39,11 +40,11 @@ export class DisciplinaryCaseTable {
     tableStore().loadTable();
   }
 
-  initStorageBeforeStartApplication(): void {
+  initStorageBeforeStartApplication() {
     setActivePinia(this.#store);
   }
 
-  getTableStore(): Object {
+  getTableStore() {
     return tableStore;
   }
 }

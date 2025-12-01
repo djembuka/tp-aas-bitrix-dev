@@ -29,9 +29,14 @@ export const Code = {
               <input v-for="(input, index) in inputs"
                 :key="input.id"
                 type="text"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                enterkeyhint="done"
+                maxlength="1"
+                pattern="[0-9]*"
                 :class="{'vue-auth-sms-code-input': true, 'vue-auth-sms-code-input--disabled': input.disabled}"
                 v-model="this['inputValue'+index]"
-                @keydown.backspace="backspaceInput(input, index)"
+                @keydown.backspace.prevent="backspaceInput(input, index)"
                 @focus="focusText()"
               />
 
@@ -75,7 +80,7 @@ export const Code = {
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && next) {
+        if (value !== undefined && value !== null && next) {
           next.focus();
         }
       },
@@ -96,7 +101,7 @@ export const Code = {
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && next) {
+        if (value !== undefined && value !== null  && next) {
           next.focus();
         }
       },
@@ -117,7 +122,7 @@ export const Code = {
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && next) {
+        if (value !== undefined && value !== null  && next) {
           next.focus();
         }
       },
@@ -138,7 +143,7 @@ export const Code = {
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && next) {
+        if (value !== undefined && value !== null  && next) {
           next.focus();
         }
       },
@@ -159,7 +164,7 @@ export const Code = {
           `.vue-auth-sms-code-input`
         )[index + 1];
 
-        if (value && next) {
+        if (value !== undefined && value !== null  && next) {
           next.focus();
         }
       },

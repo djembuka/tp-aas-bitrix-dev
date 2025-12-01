@@ -27,6 +27,7 @@ export const formStore = defineStore('form', {
       }
     },
     createMulti({ parent }) {
+      console.log(parent.id)
       parent.property = 'multi';
       parent.multi = [];
     },
@@ -115,6 +116,13 @@ export const formStore = defineStore('form', {
       if (control.type === 'upload') {
         this.uploadFile(control, value);
       }
+    },
+
+    checkDoc({doc}) {
+      this.confirmDocsBlock.items.forEach((item) => {
+        item.checked = false;
+      });
+      doc.checked = true;
     },
 
     //hint

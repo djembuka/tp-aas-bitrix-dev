@@ -33,6 +33,7 @@
       },
       createMulti: function createMulti(_ref2) {
         var parent = _ref2.parent;
+        console.log(parent.id);
         parent.property = 'multi';
         parent.multi = [];
       },
@@ -149,6 +150,13 @@
           this.uploadFile(control, value);
         }
       },
+      checkDoc: function checkDoc(_ref12) {
+        var doc = _ref12.doc;
+        this.confirmDocsBlock.items.forEach(function (item) {
+          item.checked = false;
+        });
+        doc.checked = true;
+      },
       //hint
       // async runHintsAction({ control, action }) {
       //   if (control.value && typeof control.value === 'string') {
@@ -159,14 +167,14 @@
       //   const result = await response.json();
       //   this.setHints({ control, value: result });
       // },
-      runHintsAction: function runHintsAction(_ref12) {
+      runHintsAction: function runHintsAction(_ref13) {
         var _this2 = this;
         return babelHelpers.asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
           var control, action, sign, controller, timeoutId, response, result;
           return _regeneratorRuntime().wrap(function _callee$(_context) {
             while (1) switch (_context.prev = _context.next) {
               case 0:
-                control = _ref12.control, action = _ref12.action;
+                control = _ref13.control, action = _ref13.action;
                 if (control.value && typeof control.value === 'string') {
                   sign = action.indexOf('?') < 0 ? '?' : '&';
                   action = "".concat(action).concat(sign, "s=").concat(control.value);
@@ -231,9 +239,9 @@
           }, _callee, null, [[2, 25]]);
         }))();
       },
-      setHints: function setHints(_ref13) {
-        var control = _ref13.control,
-          value = _ref13.value;
+      setHints: function setHints(_ref14) {
+        var control = _ref14.control,
+          value = _ref14.value;
         control.hints = value;
       },
       //file
@@ -267,9 +275,9 @@
 
                 //progress
                 first = true;
-                xhr.upload.addEventListener('progress', function (_ref14) {
-                  var loaded = _ref14.loaded,
-                    total = _ref14.total;
+                xhr.upload.addEventListener('progress', function (_ref15) {
+                  var loaded = _ref15.loaded,
+                    total = _ref15.total;
                   control.upload.progress = {
                     first: first,
                     loaded: loaded,
@@ -349,17 +357,229 @@
     template: "\n    <div>\n      <h2 v-if=\"docsBlock.title\">{{docsBlock.title}}</h2>\n      <p v-if=\"docsBlock.text\" v-html=\"docsBlock.text\"></p>\n      <div class=\"b-docs-block\" v-if=\"docsBlock && docsBlock.items.length\">\n        <div class=\"b-docs-block__item\" href=\"/pages/news/\" v-for=\"(item, index) in docsBlock.items\" :key=\"item.id\">\n          <hr v-if=\"index !== 0\">\n          <div class=\"b-docs-block__body\">\n            <a class=\"b-docs-block__icon\" :href=\"item.url\" :style=\"'background-image: url( ' + item.icon + ' );'\"></a>\n            <span class=\"b-docs-block__text\">\n              <a :href=\"item.url\">{{item.title}}</a>\n              <span class=\"b-docs-block__data\" v-if=\"item.data.length\">\n                <span class=\"text-muted\" v-for=\"data in item.data\" :key=\"data\">{{data}}</span>\n              </span>\n            </span>\n          </div>\n        </div>\n      </div>\n    </div>\n  "
   };
 
+  var FieldsetMulti = {
+    data: function data() {
+      return {
+        emptyFieldset: {},
+        multi: null,
+        fieldset: {
+          id: '123f',
+          title: 'Место работы',
+          type: 'fieldset',
+          multi: 3,
+          controls: [{
+            "property": 'text',
+            id: 'PROPERTY_355_0',
+            name: 'PROPERTY[355][0]',
+            "label": "ФИО кандидата *",
+            "required": true,
+            "value": ""
+          }, {
+            "property": 'hint',
+            id: 'PROPERTY_358_0',
+            name: 'PROPERTY[358][0]',
+            "label": "ОРНЗ кандидата",
+            "value": "",
+            "count": 3,
+            "action": "/markup/pages/appeal-new-change-form/hints.json",
+            "required": false,
+            "disabled": false,
+            "multi": 3,
+            "hint_external": "ОРНЗ кандидата, если он является членом СРО ААС"
+          }, {
+            "property": 'tel',
+            id: 'PROPERTY_360_0',
+            name: 'PROPERTY[360][0]',
+            "label": "Телефон кандидата *",
+            "required": true,
+            "value": ""
+          }, {
+            "property": 'email',
+            id: 'PROPERTY_361_0',
+            name: 'PROPERTY[361][0]',
+            "label": "Адрес электронной почты кандидата *",
+            "required": true,
+            "value": ""
+          }, {
+            "property": "date",
+            "type": "range",
+            "id": "id7",
+            "label": "Calendar",
+            "name": "DATE_FROM_TO",
+            "required": true,
+            "value": ["20.02.2024", "28.02.2024"],
+            "hint_external": "Обсуждаем проекты международных стандартов и документов"
+          }, {
+            "property": "select",
+            "type": "dropdown",
+            "id": "id13",
+            "name": "STATUS",
+            "label": "Status",
+            "options": [{
+              "label": "molestias",
+              "code": "23423423423"
+            }, {
+              "label": "Farming",
+              "code": "324234324"
+            }, {
+              "label": "Very",
+              "code": "324234325"
+            }],
+            "value": "",
+            "disabled": false,
+            "hint_external": "Обсуждаем проекты международных стандартов и документов"
+          }]
+        }
+      };
+    },
+    props: ['fieldset1'],
+    components: {
+      ControlChoice: local_vueComponents_controlChoice.ControlChoice
+    },
+    template: "\n    <div class=\"twpx-fieldset-multi\">\n      <div class=\"twpx-fieldset-multi__item\" v-for=\"(fieldsetItem, fieldsetIndex) in fieldset.multi\" :key=\"fieldsetItem.id\">\n        <div v-if=\"fieldset.multi.length > 1\" @click=\"remove(fieldsetIndex)\" class=\"btn-delete\"></div>\n        <h4 class=\"twpx-fieldset-multi__title\">{{ fieldset.title }} {{ fieldsetIndex + 1 }}</h4>\n\n        <div class=\"twpx-fieldset-multi__controls\">\n\n          <ControlChoice\n            v-for=\"(formControl, controlIndex) in fieldsetItem.controls\"\n            :key=\"formControl.id\"\n            :control=\"formControl\"\n            @create=\"$emit('create', $event)\"\n            @add=\"$emit('add', $event)\"\n            @remove=\"$emit('remove', $event)\"\n            @input=\"$emit('input', $event)\"\n            @focus=\"$emit('focus', $event)\"\n            @blur=\"$emit('blur', $event)\"\n            @enter=\"$emit('enter', $event)\"\n            @hints=\"$emit('hints', $event)\"\n          />\n\n        </div>\n      </div>\n      <hr class=\"hr--line\" style=\"margin-bottom: 2.5rem;\">\n      <button class=\"btn btn-success btn-md\" :disabled=\"isBtnDisabled\" @click.prevent=\"add\">\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u0435\u0449\u0435</button>\n      <hr class=\"hr--lg\">\n      <hr class=\"hr--lg\">\n    </div>\n  ",
+    emits: ['autosave', 'timeoutAutosave', 'create', 'add', 'remove', 'input', 'focus', 'blur', 'enter'],
+    computed: {
+      isBtnDisabled: function isBtnDisabled() {
+        return this.fieldset.multi.length === this.multi;
+      }
+    },
+    methods: {
+      //transition
+      enter: function enter(el, done) {
+        Velocity(el, 'slideDown', {
+          easing: 'ease',
+          duration: 500
+        });
+      },
+      leave: function leave(el, done) {
+        Velocity(el, 'slideUp', {
+          easing: 'ease',
+          duration: 500
+        });
+      },
+      add: function add() {
+        var a = JSON.parse(JSON.stringify(this.emptyFieldset));
+        a.id = Math.floor(Math.random * 1000);
+        this.$emit('add', {
+          parent: this.fieldset,
+          add: a
+        });
+        this.autosave();
+      },
+      remove: function remove(index) {
+        this.$emit('remove', {
+          parent: this.fieldset,
+          index: index
+        });
+        this.autosave();
+      },
+      autosave: function autosave() {
+        this.$emit('autosave');
+      },
+      timeoutAutosave: function timeoutAutosave() {
+        this.$emit('timeoutAutosave');
+      },
+      clearEmptyFieldset: function clearEmptyFieldset() {
+        var _this$emptyFieldset;
+        (_this$emptyFieldset = this.emptyFieldset) === null || _this$emptyFieldset === void 0 ? void 0 : _this$emptyFieldset.controls.forEach(function (c) {
+          switch (c.property) {
+            case 'checkbox':
+              c.checked = false;
+              break;
+            default:
+              c.value = '';
+              break;
+          }
+        });
+      }
+    },
+    beforeMount: function beforeMount() {
+      this.emptyFieldset = JSON.parse(JSON.stringify(this.fieldset));
+      this.clearEmptyFieldset();
+      this.multi = this.fieldset.multi;
+      this.$emit('create', {
+        parent: this.fieldset
+      });
+      this.add();
+      console.log(this.emptyFieldset.controls[1].multi);
+    }
+  };
+
   var ControlsBlock = {
     data: function data() {
       return {};
     },
     components: {
-      ControlChoice: local_vueComponents_controlChoice.ControlChoice
+      ControlChoice: local_vueComponents_controlChoice.ControlChoice,
+      FieldsetMulti: FieldsetMulti
     },
     props: ['controlsBlock'],
-    template: "\n  <div>\n    <h2>{{ controlsBlock.title }}</h2>\n    <p v-html=\"controlsBlock.text\"></p>\n    <hr class=\"hr--sl\">\n    <div v-for=\"(formControl, controlIndex) in controlsBlock.controls\" :key=\"formControl.id\">\n      <div class=\"row align-items-center\">\n        <div class=\"col-lg-6 col-12\">\n          <ControlChoice :control=\"formControl\" @create=\"create\" @add=\"add\" @remove=\"remove\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" />\n        </div>\n        <hr class=\"hr--xs d-block d-lg-none w-100\">\n        <div class=\"col-lg-6 col-12 small\">\n          <div v-if=\"formControl.completeBlock && formControl.completeBlock.comment\" class=\"text-muted b-complete-comment\">{{formControl.completeBlock.comment}}</div>\n        </div>\n      </div>\n\n      <hr class=\"hr--sl\">\n\n    </div>\n  </div>\n  ",
+    template: "\n  <div>\n    <h2>{{ controlsBlock.title }}</h2>\n    <p v-html=\"controlsBlock.text\"></p>\n    <hr class=\"hr--sl\">\n\n    <FieldsetMulti v-if=\"true || formControl.type==='fieldset'\"\n      :fieldset=\"formControl\"\n      @create=\"$emit('create', $event)\"\n      @add=\"$emit('add', $event)\"\n      @remove=\"$emit('remove', $event)\"\n      @input=\"$emit('input', $event)\"\n      @focus=\"$emit('focus', $event)\"\n      @blur=\"$emit('blur', $event)\"\n      @enter=\"$emit('enter', $event)\"\n      @hints=\"$emit('hints', $event)\"\n    />\n\n    <div v-for=\"(formControl, controlIndex) in controlsBlock.controls\" :key=\"formControl.id\">\n\n      <div class=\"row align-items-center\">\n        <div class=\"col-lg-6 col-12\">\n\n          <ControlChoice\n            :control=\"formControl\"\n            @create=\"$emit('create', $event)\"\n            @add=\"$emit('add', $event)\"\n            @remove=\"$emit('remove', $event)\"\n            @input=\"$emit('input', $event)\"\n            @focus=\"$emit('focus', $event)\"\n            @blur=\"$emit('blur', $event)\"\n            @enter=\"$emit('enter', $event)\"\n            @hints=\"$emit('hints', $event)\"\n          />\n        \n        </div>\n        <hr class=\"hr--xs d-block d-lg-none w-100\">\n        <div class=\"col-lg-6 col-12 small\">\n          <div v-if=\"formControl.completeBlock && formControl.completeBlock.comment\" class=\"text-muted b-complete-comment\">{{formControl.completeBlock.comment}}</div>\n        </div>\n      </div>\n\n      <hr class=\"hr--sl\">\n\n    </div>\n  </div>\n  ",
     emits: ['autosave', 'timeoutAutosave', 'create', 'add', 'remove', 'input', 'focus', 'blur', 'enter'],
     methods: {
+      autosave: function autosave() {
+        this.$emit('autosave');
+      },
+      timeoutAutosave: function timeoutAutosave() {
+        this.$emit('timeoutAutosave');
+      }
+    }
+  };
+
+  var FormControlRadioWithControls = {
+    data: function data() {
+      return {
+        checked: this.doc.checked
+      };
+    },
+    components: {
+      ControlChoice: local_vueComponents_controlChoice.ControlChoice
+    },
+    props: ['index', 'doc', 'blockFlag'],
+    emits: ['checkDoc', 'autosave', 'timeoutAutosave', 'create', 'add', 'remove', 'input', 'focus', 'blur', 'enter'],
+    template: "\n        <div class=\"b-form-control-vc\" :class=\"{'i-active': doc.checked, 'i-block': blockFlag}\">\n\n            <label :class=\"{'i-active': checked}\" class=\"b-form-control-vc__top\">\n                <div class=\"b-form-control-vc__content\">\n                    <div class=\"b-form-control-vc__text\">\n                        <b v-if=\"!blockFlag\" v-html=\"doc.title\"></b>\n                        <span v-html=\"doc.text\"></span>\n                    </div>\n                </div>\n                \n                <div class=\"b-radio-vc\">\n                    <input type=\"radio\"\n                        :name=\"doc.name\"\n                        :checked=\"ckecked\"\n                        :value=\"doc.value\"\n                        class=\"with-gap\"\n                        @change=\"change\"\n                    >\n                    <span></span>\n                </div>\n            </label>\n\n            <div class=\"b-form-control-vc__fields\" v-show=\"blockFlag || doc.checked\">\n\n                <hr class=\"hr--line\" style=\"margin-bottom: 2.5rem;\">\n\n                <div v-for=\"(control, index) in doc.controls\" :key=\"control.id\">\n                    <ControlChoice\n                        :control=\"control\"\n                        @create=\"create\"\n                        @add=\"add\"\n                        @remove=\"remove\"\n                        @input=\"input\"\n                        @focus=\"focus\"\n                        @blur=\"blur\"\n                        @enter=\"enter\"\n                    />\n                    <hr>\n                </div>\n                \n            </div>\n        </div>\n    ",
+    methods: {
+      change: function change(e) {
+        //highlight
+        /*if (e.target.checked) {
+          e.target
+            .closest('.row')
+            .querySelectorAll('label')
+            .forEach(function (label) {
+              //set inactive
+              label.classList.remove('i-active');
+            });
+          e.target.closest('label').classList.add('i-active');
+        }*/
+
+        //set checked
+        this.checked = true;
+
+        //set question as active
+        this.$emit('checkDoc', {
+          doc: this.doc
+        });
+
+        //show the form if it is the first radio
+        // this.$emit('set-form-active', this.index);
+
+        //autosave
+        // (async () => {
+        //   try {
+        //     let response = await fetch(
+        //       `${this.$store.state.url.autosave}?name=${this.control.name}&value=${this.control.value}&element_id=${store.state.reportId}`
+        //     );
+        //     let result = await response.json();
+        //     if (result.STATUS !== 'Y') {
+        //       throw new Error('Ошибка автосохранения');
+        //     }
+        //   } catch (err) {
+        //     throw err;
+        //   }
+        // })();
+        // //autosave whole form
+        // this.$emit('autosave');
+      },
       autosave: function autosave() {
         this.$emit('autosave');
       },
@@ -378,29 +598,29 @@
       input: function input(args) {
         this.$emit('input', args);
       },
-      focus: function focus(args) {
+      focus: function focus() {
         this.$emit('focus', args);
       },
-      blur: function blur(args) {
+      blur: function blur() {
         this.$emit('blur', args);
       },
-      enter: function enter(args) {
+      enter: function enter() {
         this.$emit('enter', args);
-      },
-      hints: function hints(args) {
-        this.$emit('hints', args);
       }
     }
   };
 
   var ConfirmDocsBlock = {
     components: {
-      ControlChoice: local_vueComponents_controlChoice.ControlChoice
+      FormControlRadioWithControls: FormControlRadioWithControls
     },
     props: ['confirmDocsBlock'],
-    template: "\n    <div>\n\n      <h2 v-if=\"confirmDocsBlock.title\">{{ confirmDocsBlock.title }}</h2>\n\n      <p v-if=\"confirmDocsBlock.items.length !== 1 && confirmDocsBlock.text\" v-html=\"confirmDocsBlock.text\"></p>\n\n      <div v-for=\"(doc, index) in confirmDocsBlock.items\">\n\n        <div>\n          <b v-if=\"doc.title\" v-html=\"doc.title\"></b>\n          <span v-html=\"doc.text\"></span>\n        </div>\n        \n        <div>\n\n          <hr class=\"hr--line\" style=\"margin-bottom: 2.5rem;\">\n\n          <div v-for=\"(control, index) in doc.controls\" :key=\"control.id\">\n            <ControlChoice\n              :control=\"control\"\n              @create=\"create\"\n              @add=\"add\"\n              @remove=\"remove\"\n              @input=\"input\"\n              @focus=\"focus\"\n              @blur=\"blur\"\n              @enter=\"enter\"\n            />\n            <hr>\n          </div>\n          \n        </div>\n\n        <hr>\n      </div>\n\n    </div>",
+    template: "\n    <div>\n\n      <h2 v-if=\"confirmDocsBlock.title\">{{ confirmDocsBlock.title }}</h2>\n\n      <p v-if=\"confirmDocsBlock.items.length !== 1 && confirmDocsBlock.text\" v-html=\"confirmDocsBlock.text\"></p>\n\n      <div v-for=\"(doc, index) in confirmDocsBlock.items\">\n\n        <FormControlRadioWithControls\n          :index=\"index\"\n          :doc=\"doc\"\n          :blockFlag=\"confirmDocsBlock.items.length === 1\"\n          \n          @checkDoc=\"checkDoc\"\n          @create=\"create\"\n          @add=\"add\"\n          @remove=\"remove\"\n          @input=\"input\"\n          @focus=\"focus\"\n          @blur=\"blur\"\n          @enter=\"enter\"\n        />\n\n        <hr>\n      </div>\n\n    </div>",
     emits: ['autosave', 'timeoutAutosave', 'create', 'add', 'remove', 'input', 'focus', 'blur', 'enter'],
     methods: {
+      checkDoc: function checkDoc(args) {
+        this.$emit('checkDoc', args);
+      },
       autosave: function autosave() {
         this.$emit('autosave');
       },
@@ -570,9 +790,9 @@
     },
     // language=Vue
 
-    template: "\n    <div>\n      <HiddenFields v-if=\"hidden\" :hidden=\"hidden\" />\n\n      <div v-if=\"docsBlock && docsBlock.items && docsBlock.items.length\">\n        <DocsBlock :docsBlock=\"docsBlock\" @timeoutAutosave=\"timeoutAutosave\" @autosave=\"autosave\" />\n        <hr class=\"hr--lg\">\n      </div>\n\n      <div v-if=\"controlsBlock && controlsBlock.controls && controlsBlock.controls.length\">\n        <ControlsBlock :controlsBlock=\"controlsBlock\" @create=\"createMulti\" @add=\"addMulti\" @remove=\"removeMulti\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" @timeoutAutosave=\"timeoutAutosave\" @autosave=\"autosave\" />\n        <hr class=\"hr--lg\">\n      </div>\n\n      <div v-if=\"confirmDocsBlock && confirmDocsBlock.items && confirmDocsBlock.items.length\">\n        <ConfirmDocsBlock :confirmDocsBlock=\"confirmDocsBlock\" @create=\"createMulti\" @add=\"addMulti\" @remove=\"removeMulti\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\"  @timeoutAutosave=\"timeoutAutosave\" @autosave=\"autosave\" />\n        <hr class=\"hr--lg\">\n      </div>\n\n      <SubmitButton :agreement=\"agreement\" :controlsBlock=\"controlsBlock\" :confirmDocsBlock=\"confirmDocsBlock\" @bitrixLogs=\"bitrixLogs\" @timeoutAutosave=\"timeoutAutosave\" @autosave=\"autosave\" />\n\n    </div>\n\t",
+    template: "\n    <div>\n      <HiddenFields v-if=\"hidden\" :hidden=\"hidden\" />\n\n      <div v-if=\"docsBlock && docsBlock.items && docsBlock.items.length\">\n        <DocsBlock :docsBlock=\"docsBlock\" @timeoutAutosave=\"timeoutAutosave\" @autosave=\"autosave\" />\n        <hr class=\"hr--lg\">\n      </div>\n\n      <div v-if=\"controlsBlock && controlsBlock.controls && controlsBlock.controls.length\">\n        <ControlsBlock :controlsBlock=\"controlsBlock\" @create=\"createMulti\" @add=\"addMulti\" @remove=\"removeMulti\" @input=\"input\" @focus=\"focus\" @blur=\"blur\" @enter=\"enter\" @hints=\"hints\" @timeoutAutosave=\"timeoutAutosave\" @autosave=\"autosave\" />\n        <hr class=\"hr--lg\">\n      </div>\n\n      <div v-if=\"confirmDocsBlock && confirmDocsBlock.items && confirmDocsBlock.items.length\">\n        <ConfirmDocsBlock\n          :confirmDocsBlock=\"confirmDocsBlock\"\n          @checkDoc=\"checkDoc\"\n          @create=\"createMulti\"\n          @add=\"addMulti\"\n          @remove=\"removeMulti\"\n          @input=\"input\"\n          @focus=\"focus\"\n          @blur=\"blur\"\n          @enter=\"enter\"\n          @hints=\"hints\"\n          @timeoutAutosave=\"timeoutAutosave\"\n          @autosave=\"autosave\"\n        />\n        <hr class=\"hr--lg\">\n      </div>\n\n      <SubmitButton :agreement=\"agreement\" :controlsBlock=\"controlsBlock\" :confirmDocsBlock=\"confirmDocsBlock\" @bitrixLogs=\"bitrixLogs\" @timeoutAutosave=\"timeoutAutosave\" @autosave=\"autosave\" />\n\n    </div>\n\t",
     computed: _objectSpread$1({}, ui_vue3_pinia.mapState(formStore, ['hidden', 'docsBlock', 'controlsBlock', 'confirmDocsBlock', 'autosaveTimeoutId', 'autosave', 'agreement', 'url'])),
-    methods: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapActions(formStore, ['bitrixLogs', 'runHintsAction', 'setHints', 'changeControlValue', 'createMulti', 'addMulti', 'removeMulti'])), {}, {
+    methods: _objectSpread$1(_objectSpread$1({}, ui_vue3_pinia.mapActions(formStore, ['bitrixLogs', 'runHintsAction', 'setHints', 'changeControlValue', 'createMulti', 'addMulti', 'removeMulti', 'checkDoc'])), {}, {
       hints: function hints(_ref) {
         var type = _ref.type,
           control = _ref.control,

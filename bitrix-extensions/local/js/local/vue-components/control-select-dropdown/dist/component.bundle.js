@@ -20,7 +20,8 @@ this.BX = this.BX || {};
         optionsArray: [],
         opened: false,
         animation: false,
-        hint: ((_this$control = this.control) === null || _this$control === void 0 ? void 0 : _this$control.hint_external) || ''
+        hint: ((_this$control = this.control) === null || _this$control === void 0 ? void 0 : _this$control.hint_external) || '',
+        dropdownUp: false
       };
     },
     components: {
@@ -28,10 +29,16 @@ this.BX = this.BX || {};
       IconLock: IconLock
     },
     // language=Vue
-    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--select': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n        'twpx-form-control--opened': opened,\n        'twpx-form-control--animation': animation,\n      }\"\n      @close=\"console.log('close')\"\n      ref=\"twpxSelect\"\n      :data-id=\"'twpxControl' + control.id\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <div\n        class=\"twpx-form-control-select\"\n        :data-id=\"id\"\n      >\n        <input type=\"hidden\" :name=\"controlName\" :value=\"value\" />\n        <IconDropdown class=\"twpx-form-control-select__arrow\" />\n        <div\n          class=\"twpx-form-control-select__content\"\n          @click.prevent=\"openHideDropdown\"\n        >\n          <span>{{ text }}</span>\n        </div>\n        <div class=\"twpx-form-control-select__dropdown\">\n          <div\n            class=\"twpx-form-control-select__dropdown-item\"\n            :class=\"{\n              'twpx-form-control-select__dropdown-item': true,\n              'twpx-form-control-select__dropdown-item--current': option.code === control.value,\n              'twpx-form-control-select__dropdown-item--hidden': option.hidden\n            }\"\n            v-for=\"(option, i) in control.options\"\n            :key=\"option.code\"\n            @click.prevent=\"clickItem(i)\"\n          >\n            {{ option.label }}\n          </div>\n        </div>\n      </div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
+    template: "\n\t\t<div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--select': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n        'twpx-form-control--opened': opened,\n        'twpx-form-control--animation': animation,\n      }\"\n      @close=\"console.log('close')\"\n      ref=\"twpxSelect\"\n      :data-id=\"'twpxControl' + control.id\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <div class=\"twpx-form-control__label\">{{ label }}</div>\n      <div\n        class=\"twpx-form-control-select\"\n        :data-id=\"id\"\n      >\n        <input type=\"hidden\" :name=\"controlName\" :value=\"value\" />\n        <IconDropdown class=\"twpx-form-control-select__arrow\" />\n        <div\n          class=\"twpx-form-control-select__content\"\n          @click.prevent=\"openHideDropdown\"\n        >\n          <span>{{ text }}</span>\n        </div>\n        <div class=\"twpx-form-control-select__dropdown\"\n          ref=\"dropdownEl\"\n          :class=\"{\n            'twpx-form-control-select__dropdown--visible': opened,\n            'twpx-form-control-select__dropdown--up': dropdownUp\n          }\">\n\n          <div\n            class=\"twpx-form-control-select__dropdown-item\"\n            :class=\"{\n              'twpx-form-control-select__dropdown-item': true,\n              'twpx-form-control-select__dropdown-item--visible': opened,\n              'twpx-form-control-select__dropdown-item--current': option.code === control.value,\n              'twpx-form-control-select__dropdown-item--hidden': option.hidden\n            }\"\n            v-for=\"(option, i) in control.options\"\n            :key=\"option.code\"\n            @click.prevent=\"clickItem(i)\"\n          >\n            {{ option.label }}\n          </div>\n        </div>\n      </div>\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n\t",
     props: ['control', 'name', 'customOnChange'],
     emits: ['input', 'focus', 'blur'],
     computed: {
+      label: function label() {
+        if (this.control.required && !this.control.label.includes('*')) {
+          return "".concat(this.control.label, " *");
+        }
+        return this.control.label;
+      },
       value: {
         get: function get() {
           return this.control.value;
@@ -95,19 +102,40 @@ this.BX = this.BX || {};
         this.opened ? this.hideDropdown() : this.openDropdown();
       },
       openDropdown: function openDropdown() {
+        var _this2 = this;
         var closeSelectEvent = new Event('twpxCloseSelectEvent');
         document.querySelectorAll('.twpx-form-control--select.twpx-form-control--opened').forEach(function (s) {
           s.dispatchEvent(closeSelectEvent);
         });
         this.opened = true;
         this.$emit('focus');
+
+        // проверяем, хватает ли места снизу
+        this.$nextTick(function () {
+          var trigger = _this2.$refs.twpxSelect.querySelector('.twpx-form-control-select__content');
+          var dropdown = _this2.$refs.dropdownEl;
+          if (!trigger || !dropdown) return;
+          var triggerRect = trigger.getBoundingClientRect();
+          var modal = trigger.closest('.twpx-modal-any-content-container');
+          var dropdownHeight = dropdown.offsetHeight || 200; // fallback, если ещё не отрисован
+          var rectBottom = window.innerHeight;
+          if (modal) {
+            rectBottom = modal.getBoundingClientRect().bottom;
+          }
+          var spaceBelow = rectBottom - triggerRect.bottom;
+          var spaceAbove = triggerRect.top;
+
+          // Если снизу меньше места, чем высота дропдауна + небольшой отступ (например 16px)
+          _this2.dropdownUp = spaceBelow < dropdownHeight + 16 && spaceAbove > spaceBelow;
+        });
       },
       hideDropdown: function hideDropdown(quickly) {
-        var _this2 = this;
+        var _this3 = this;
         if (this.opened && !quickly) {
           this.animation = true;
           setTimeout(function () {
-            _this2.animation = false;
+            _this3.animation = false;
+            _this3.dropdownUp = false; // сбрасываем направление при закрытии
           }, 200);
         }
         this.opened = false;
@@ -119,22 +147,22 @@ this.BX = this.BX || {};
         this.hidden = this.selectDiv.querySelector('input[type="hidden"]');
       },
       divEvents: function divEvents() {
-        var _this3 = this;
+        var _this4 = this;
         this.content.addEventListener('click', function () {
-          if (_this3.selectDiv.classList.contains('twpx-form-control-select--dropdown')) {
-            _this3.hideDropdown();
+          if (_this4.selectDiv.classList.contains('twpx-form-control-select--dropdown')) {
+            _this4.hideDropdown();
           } else {
-            _this3.openDropdown();
+            _this4.openDropdown();
           }
         });
         this.dropdown.addEventListener('click', function (e) {
           if (e.target.classList.contains('twpx-form-control-select__dropdown-item')) {
-            _this3.clickItem(e.target);
+            _this4.clickItem(e.target);
           }
         });
       },
       filterOptions: function filterOptions(options) {
-        var _this4 = this;
+        var _this5 = this;
         // options
         this.control.options.forEach(function (o) {
           o.hidden = options.find(function (elem) {
@@ -144,7 +172,7 @@ this.BX = this.BX || {};
 
         // value
         if (this.control.options.find(function (o) {
-          return !o.hidden && String(o.code) === String(_this4.value);
+          return !o.hidden && String(o.code) === String(_this5.value);
         })) {
           return;
         }
@@ -159,23 +187,23 @@ this.BX = this.BX || {};
       }
     },
     beforeMount: function beforeMount() {
-      var _this5 = this;
+      var _this6 = this;
       document.addEventListener('click', function (e) {
         if (e.target.className !== 'twpx-form-control-select__dropdown-item' && e.target.className !== 'twpx-form-control-select__content') {
-          _this5.hideDropdown();
+          _this6.hideDropdown();
         }
       });
     },
     mounted: function mounted() {
-      var _this6 = this;
+      var _this7 = this;
       // close when open another twpx select
       this.$refs.twpxSelect.addEventListener('twpxCloseSelectEvent', function () {
-        _this6.hideDropdown(true); // true => quickly
+        _this7.hideDropdown(true); // true => quickly
       });
 
       // filter options if dependent
       this.$refs.twpxSelect.addEventListener('twpxFilterOptionsSelectEvent', function (event) {
-        _this6.filterOptions(event.detail.options);
+        _this7.filterOptions(event.detail.options);
       });
     }
   };

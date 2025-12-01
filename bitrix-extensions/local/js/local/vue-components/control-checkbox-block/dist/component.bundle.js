@@ -17,6 +17,10 @@ this.BX = this.BX || {};
     template: "\n        <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\">\n            <rect width=\"24\" height=\"24\" rx=\"8\" :fill=\"rect\"/>\n            <path d=\"M6 12L11.6 16L18 8\" :stroke=\"stroke\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n        </svg>\n    "
   };
 
+  var IconLock = {
+    template: "\n    <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"16\" viewBox=\"0 0 12 16\" fill=\"none\">\n      <path d=\"M2.25 5.66667V5C2.25 2.78413 3.92262 1 6 1C8.07738 1 9.75 2.78413 9.75 5V5.66667M2.25 5.66667C1.5625 5.66667 1 6.26667 1 7V13.6667C1 14.4 1.5625 15 2.25 15H9.75C10.4375 15 11 14.4 11 13.6667V7C11 6.26667 10.4375 5.66667 9.75 5.66667M2.25 5.66667H9.75\" stroke=\"#9B9B9B\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>\n    </svg>\n  "
+  };
+
   var _ControlCheckboxBlock;
   var ControlCheckboxBlock = (_ControlCheckboxBlock = {
     data: function data() {
@@ -31,13 +35,20 @@ this.BX = this.BX || {};
       };
     },
     components: {
-      CheckboxIcon: CheckboxIcon
+      CheckboxIcon: CheckboxIcon,
+      IconLock: IconLock
     },
     props: ['control', 'id', 'name'],
     emits: [],
     // language=Vue
-    template: "\n    <div :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--checkbox-block': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--checked': control.checked,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\">\n      <label>\n        <input\n          type=\"checkbox\"\n          :id=\"controlId\"\n          :name=\"controlName\"\n          :value=\"control.value\"\n          :checked=\"control.checked\"\n          v-model=\"checked\"\n          @focus=\"focus\"\n          @blur=\"blur\"\n          :disabled=\"disabled\"\n          ref=\"input\"\n        />\n        <CheckboxIcon />\n        <span class=\"twpx-form-control__label\" v-if=\"control.label\" v-html=\"control.label\"></span>\n      </label>\n      <div class=\"twpx-form-control__hint\" v-if=\"hint\" v-html=\"hint\"></div>\n    </div>\n\t"
+    template: "\n    <div :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--checkbox-block': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--checked': control.checked,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n      }\">\n      <label>\n        <IconLock\n          class=\"twpx-form-control__disabled-icon\"\n          v-if=\"disabled\"\n        />\n        <input\n          type=\"checkbox\"\n          :id=\"controlId\"\n          :name=\"controlName\"\n          :value=\"control.value\"\n          :checked=\"control.checked\"\n          v-model=\"checked\"\n          @focus=\"focus\"\n          @blur=\"blur\"\n          :disabled=\"disabled\"\n          ref=\"input\"\n        />\n        <CheckboxIcon\n          class=\"twpx-form-control__checkbox-icon\"\n        />\n        <span class=\"twpx-form-control__label\" v-if=\"label\" v-html=\"label\"></span>\n      </label>\n      <div class=\"twpx-form-control__hint\" v-if=\"hint\" v-html=\"hint\"></div>\n    </div>\n\t"
   }, babelHelpers.defineProperty(_ControlCheckboxBlock, "emits", ['input', 'focus', 'blur']), babelHelpers.defineProperty(_ControlCheckboxBlock, "computed", {
+    label: function label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return "".concat(this.control.label, " *");
+      }
+      return this.control.label;
+    },
     checked: {
       get: function get() {
         return this.control.checked;

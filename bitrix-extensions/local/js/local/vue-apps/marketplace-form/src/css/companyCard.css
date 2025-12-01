@@ -1,0 +1,28 @@
+.mf-company-card {
+    border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+    padding: 32px;
+    display: grid;
+    gap: var(--semantic-gap-m, 32px);
+}
+.mf-company-card h2,
+.mf-company-card h3 {
+    margin: 0;
+}
+.mf-company-card__group {
+    display: grid;
+    gap: 24px;
+}
+.mf-company-card__prop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 16px;
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: normal;
+    border-bottom: 1px solid var(--twpx-border-neutral, #F2F2F2);
+    white-space: break-spaces;
+}
+.mf-company-card__prop-name {
+    font-weight: bold;
+}

@@ -40,13 +40,19 @@ export const ControlCheckboxCheckbox = {
           ref="input"
         />
         <CheckboxIcon />
-        <span class="twpx-form-control__label" v-if="control.label" v-html="control.label"></span>
+        <span class="twpx-form-control__label" v-if="label" v-html="label"></span>
       </label>
       <div class="twpx-form-control__hint" v-if="hint" v-html="hint"></div>
     </div>
 	`,
   emits: ['input', 'focus', 'blur'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     checked: {
       get() {
         return this.control.checked;

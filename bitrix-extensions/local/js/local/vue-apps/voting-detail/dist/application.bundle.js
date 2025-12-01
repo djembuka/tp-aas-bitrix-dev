@@ -64,6 +64,12 @@
             title: 'ID групп голосующих',
             value: this.voting.groupsVoting
           }, {
+            title: 'ID групп голосующих ЕИО',
+            value: this.voting.groupsVotingEio
+          }, {
+            title: 'ID групп голосующих УМЦ',
+            value: this.voting.groupsVotingUmc
+          }, {
             title: 'ID групп Избирательных комиссий',
             value: this.voting.groupsCommission
           }]
@@ -1468,5 +1474,5 @@
 
   exports.VotingDetail = VotingDetail;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Vue3.Pinia));
+}((this.BX = this.BX || {}),BX,BX.Modals,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX));
 //# sourceMappingURL=application.bundle.js.map

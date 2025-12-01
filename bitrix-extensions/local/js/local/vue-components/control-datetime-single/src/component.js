@@ -1,4 +1,6 @@
 import { ControlDatepicker } from 'local.vue-components.control-datepicker';
+import { ButtonComponent } from 'local.vue-components.button-component';
+
 import { Icon } from './icon.js';
 import { IconClear } from './IconClear.js';
 import { IconLock } from './IconLock.js';
@@ -15,6 +17,7 @@ export const ControlDatetimeSingle = {
   },
   components: {
     ControlDatepicker,
+    ButtonComponent,
     Icon,
     IconLock,
   },
@@ -22,7 +25,7 @@ export const ControlDatetimeSingle = {
     <div
       :class="{
         'twpx-form-control': true,
-        'twpx-form-control--date': true,
+        'twpx-form-control--datetime': true,
         'twpx-form-control--active': active,
         'twpx-form-control--invalid': invalid,
         'twpx-form-control--disabled': disabled,
@@ -35,43 +38,33 @@ export const ControlDatetimeSingle = {
         v-if="disabled"
       />
       <Icon class="twpx-form-control__calendar-icon" />
-      <div class="twpx-form-control__label">{{ control.label }}</div>
+      <div class="twpx-form-control__label">{{ label }}</div>
       <ControlDatepicker
         v-model="date"
         @open="onOpen"
         @closed="onClosed"
+        @update:model-value="update"
+        @cleared="cleared"
         locale="ru"
         ref="controlDate"
-        :format="'dd.MM.yyyy hh:mm'"
+        :format="'dd.MM.yyyy HH:mm'"
       >
 
-        <template #action-row>
-          <div class="time-inputs">
-            <input
-              v-model="hours"
-              type="text"
-              maxlength="2"
-              placeholder="hh"
-              @input="validateHours"
-              class="time-input"
-            />
-            :
-            <input
-              v-model="minutes"
-              type="text"
-              maxlength="2"
-              placeholder="mm"
-              @input="validateMinutes"
-              class="time-input"
-            />
+        <template #time-picker="{ time, updateTime }">
+          <div class="twpx-form-control-timecontainer">
+            <div class="twpx-form-control-timeinput">
+              <div class="twpx-form-control-timelabel">ЧЧ</div>
+              <input type="text" name="MINUTES" :value="time.hours" @input="updateTime(+$event.target.value)" />
+            </div>
+            <div class="twpx-form-control-timeinput">
+              <div class="twpx-form-control-timelabel">ММ</div>
+              <input type="text" name="HOURS" :value="time.minutes" @input="updateTime(+$event.target.value, false)" />
+            </div>
           </div>
-          <button
-            @click="selectDateTime"
-            :disabled="!isValidTime"
-            class="select-button"
-          >
-            Выбрать
-          </button>
+        </template>
+
+        <template #action-row="{ internalModelValue, selectDate }">
+          <ButtonComponent text="Установить" :props="['secondary', 'small', 'wide']" @clickButton="selectDate" />
         </template>
 
       </ ControlDatepicker>
@@ -82,6 +75,12 @@ export const ControlDatetimeSingle = {
   props: ['control'],
   emits: ['input'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     dateFormatted() {
       if (this.date) {
         return this.date.split('/').reverse().join('.').replace(/^(\d{4})\.(\d{2})\.(\d{2})$/, '$2.$3.$1');
@@ -116,22 +115,6 @@ export const ControlDatetimeSingle = {
     disabled() {
       return this.control.disabled;
     },
-
-    hoursArray() {
-      const arr = [];
-      for (let i = 0; i < 24; i++) {
-        arr.push({ text: i < 10 ? `0${i}` : i, value: i });
-      }
-      return arr;
-    },
-    
-    minutesArray() {
-      const arr = [];
-      for (let i = 0; i < 60; i++) {
-        arr.push({ text: i < 10 ? `0${i}` : i, value: i });
-      }
-      return arr;
-    }
   },
   methods: {
     onOpen() {
@@ -141,9 +124,8 @@ export const ControlDatetimeSingle = {
       this.open = false;
     },
     update(date) {
-      console.log(date)
       this.date = this.formatDate(date);
-      this.$refs.controlDate.closeMenu();
+      // this.$refs.controlDate.closeMenu();
       this.replaceClear();
     },
     formatDate(date) {
@@ -154,7 +136,7 @@ export const ControlDatetimeSingle = {
       day = day.length === 1 ? `0${day}` : day;
       month = month.length === 1 ? `0${month}` : month;
 
-      return `${day}.${month}.${d.getFullYear()}`;
+      return `${day}.${month}.${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
     },
     replaceClear() {
       setTimeout(() => {
@@ -164,8 +146,8 @@ export const ControlDatetimeSingle = {
         }
       }, 100);
     },
-    selectDate() {
-      console.log(this.$refs.controlDate.value)
+    cleared(args) {
+      this.date = '';
     }
   },
   mounted() {

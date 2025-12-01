@@ -14,6 +14,7 @@ return [
 	'rel' => [
 		'main.polyfill.core',
 		'local.vue-components.control-datepicker',
+		'local.vue-components.button-component',
 	],
 	'skip_core' => true,
 ];

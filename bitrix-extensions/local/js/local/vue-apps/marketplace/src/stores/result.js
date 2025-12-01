@@ -2,6 +2,8 @@ import { defineStore } from 'ui.vue3.pinia';
 
 export const resultStore = defineStore('result', {
   state: () => ({
+    loading: false,
+
     formIdArray: [],
     formDataArray: [],
     startIndex: 0,
@@ -12,7 +14,9 @@ export const resultStore = defineStore('result', {
     resultApplicationGroup: {},
     resultApplicationControls: [],
     resultApplicationState: 'form',
-    resultApplicationError: ''
+    resultApplicationError: '',
+
+    chosenCompanyId: undefined
   }),
   getters: {
     groupApplicationArray(state) {
@@ -52,10 +56,7 @@ export const resultStore = defineStore('result', {
     setMaxCountPerRequest(value) {
       this.maxCountPerRequest = value;
     },
-    changeLoadingMore(value) {
-      this.loadingMore = value;
-    },
-    changeProp(prop, value) {
+    changeResultProp(prop, value) {
       this[prop] = value;
     }
   }});

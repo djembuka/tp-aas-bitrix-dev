@@ -52,7 +52,7 @@ export const ControlTextarea = {
         class="twpx-form-control__disabled-icon"
         v-if="disabled"
       />
-      <div class="twpx-form-control__label">{{ control.label }}</div>
+      <div class="twpx-form-control__label">{{ label }}</div>
       <div class="twpx-form-control__textarea">
         <textarea
           :id="controlId"
@@ -76,6 +76,12 @@ export const ControlTextarea = {
 	`,
   emits: ['input', 'focus', 'blur'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     value: {
       get() {
         return this.control?.value || '';

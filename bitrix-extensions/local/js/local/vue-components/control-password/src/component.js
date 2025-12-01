@@ -43,7 +43,7 @@ export const ControlPassword = {
         <IconInvisible class="twpx-form-control__invisible-icon" />
       </div>
 
-      <div class="twpx-form-control__label">{{ control.label }}</div>
+      <div class="twpx-form-control__label">{{ label }}</div>
 
       <input
         :type="type"
@@ -69,6 +69,12 @@ export const ControlPassword = {
 	`,
   emits: ['input', 'focus', 'blur', 'enter'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     classIconObject() {
       const obj = {
         'twpx-form-control__password-icon': true,

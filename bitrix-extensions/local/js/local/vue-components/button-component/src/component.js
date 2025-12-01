@@ -65,5 +65,5 @@ export const ButtonComponent = {
     clickButton() {
       this.$emit('clickButton');
     },
-  },
+  }
 };

@@ -5,6 +5,7 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
 \Bitrix\Main\UI\Extension::load("local.vue-apps.table");
 \Bitrix\Main\UI\Extension::load("local.vue-apps.disciplinary-case-form");
 \Bitrix\Main\UI\Extension::load("local.vue-apps.disciplinary-case-table");
+\Bitrix\Main\UI\Extension::load("local.vue-apps.disciplinary-case-actions");
 \Bitrix\Main\UI\Extension::load("local.extensions.tabs-menu");
 \Bitrix\Main\UI\Extension::load("local.extensions.copy-to-clipboard");
 \Bitrix\Main\UI\Extension::load("local.vue-components.button-component");
@@ -256,35 +257,50 @@ $APPLICATION->SetTitle("Дисциплинарное дело 150");
     <hr class="hr--xxl">
     <div class="b-dc-case-detail-actions">
       <h3>Меры</h3>
-      <div id="dcCaseDetailActions"></div>
+      <div id="dcCaseActions"></div>
       <script>
-		window.disciplinaryCaseTableActions = new BX.DisciplinaryCaseTable('#dcCaseDetailActions', {
+		window.disciplinaryCaseActions = new BX.DisciplinaryCaseTable('#dcCaseActions', {
 		  data: {
 			  sessid: BX.bitrix_sessid(),
 			  signedParameters: '',
-			  id: 123,
-			  type: 2
+			  case_id: "20182"
 		  },
+		  view: 'card',
 		  actions: {
-			columnsNames: ['twinpx:disciplinar.case.table', 'columnsNames'],
-			items: ['twinpx:disciplinar.case.table', 'items'],
-			deleteItem: ['twinpx:disciplinar.case.table', 'deleteItem'],
+			"columnsNames": [
+				"twinpx:disciplinar.case.item",
+				"getColumnsMeasures"
+			],
+			"items": [
+				"twinpx:disciplinar.case.item",
+				"getItemsMeasures"
+			],
+			"deleteItem": [
+				"twinpx:disciplinar.case.add",
+				"deleteItemMeasures"
+			]
 		  },
 		  lang: {
-			  addButton: 'Добавить нарушение',
+			  addButton: 'Добавить меру',
 			  deleteModal: {
 				  heading: 'Подтвердите удаление',
-				  text: 'Вы хотите удалить нарушение, подтвердите пожалуйста действие.',
+				  text: 'Вы хотите удалить меру, подтвердите, пожалуйста, действие.',
 				  yes: 'Удалить',
 				  no: 'Отменить'
 			  }
 		  },
-		  outerMethods: {
-			  addForm: ['disciplinaryCaseFormViolations', 'run'],
-			  editForm: ['disciplinaryCaseFormViolations', 'run']
-		  }
+		  "outerMethods": {
+				"addForm": [
+					"disciplinaryCaseFormMeasures",
+					"run"
+				],
+				"editForm": [
+					"disciplinaryCaseFormMeasures",
+					"run"
+				]
+			}
 		});
-		window.disciplinaryCaseTableActions.run();
+		window.disciplinaryCaseActions.run();
       </script>
 	  
 	  <div id="dcCaseFormActions"></div>

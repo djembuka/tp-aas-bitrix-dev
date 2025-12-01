@@ -1,0 +1,30 @@
+.twpx-fieldset-multi {
+    display: grid;
+    gap: 64px;
+}
+.twpx-fieldset-multi__item {
+    position: relative;
+    display: grid;
+    gap: 32px;
+}
+.twpx-fieldset-multi__item h4 {
+    margin: 0;
+}
+.twpx-fieldset-multi__controls {
+    display: grid;
+    gap: 32px;
+}
+/* .twpx-fieldset-multi__control .col-lg-6.small {
+    padding-top: 10px;
+} */
+.twpx-fieldset-multi__item .btn-delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+@media(min-width: 992px) {
+    .twpx-fieldset-multi__controls {
+        width: calc(50% - 15px);
+    }
+}

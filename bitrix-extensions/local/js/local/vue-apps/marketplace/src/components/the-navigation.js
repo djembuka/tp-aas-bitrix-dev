@@ -1,4 +1,4 @@
-import './navigation.css';
+import '../css/navigation.css';
 
 export const TheNavigation = {
     data(){

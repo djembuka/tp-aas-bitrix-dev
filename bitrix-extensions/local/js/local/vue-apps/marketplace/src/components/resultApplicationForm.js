@@ -23,11 +23,21 @@ export const ResultApplicationForm = {
                 </div>
                 <div class="twpx-vue-marketplace__result-application-form__buttons">
                     <ButtonComponent :text="lang.result.formCancel" :props="['gray-color','large']" @clickButton="clickCancel" />
-                    <ButtonComponent :text="lang.result.formSend" :props="['secondary','large']" @clickButton="clickSend" />
+                    <ButtonComponent :text="lang.result.formSend" :props="['secondary','large']" :disabled="isDisabled" @clickButton="clickSend" />
                 </div>
             </div>
         </form>
     `,
+    computed: {
+        isDisabled() {
+            if (Array.isArray(this.controls)) {
+              return this.controls.find(
+                (c) => c.property !== 'checkbox' && c.required && !c.value
+              );
+            }
+            return true
+        },
+    },
     methods: {
         input(args) {
             this.$emit('input', args);
@@ -39,8 +49,7 @@ export const ResultApplicationForm = {
             this.$emit('cancel');
         },
         clickSend() {
-            const formData = new FormData(document.querySelector(`[data-id="${this.id}"]`))
-            this.$emit('send', formData);
+            this.$emit('send');
         }
     },
 };

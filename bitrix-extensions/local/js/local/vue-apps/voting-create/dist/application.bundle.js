@@ -56,7 +56,7 @@
             property: 'text',
             id: 1,
             name: 'NAME',
-            label: 'Название голосования',
+            label: 'Название голосования *',
             value: '',
             required: true
           }, {
@@ -78,27 +78,27 @@
           id: 2,
           heading: 'Сроки',
           controls: [{
-            property: "date",
+            property: "datetime",
             type: "single",
             id: 1,
             name: "DATE_FROM",
-            label: "Дата начала активности",
+            label: "Дата начала активности *",
             value: "",
             required: true
           }, {
-            property: "date",
+            property: "datetime",
             type: "single",
             id: 2,
             name: "DATE_TO",
-            label: "Дата окончания активности",
+            label: "Дата окончания активности *",
             value: "",
             required: true
           }, {
-            property: "date",
+            property: "datetime",
             type: "single",
             id: 3,
             name: "DATE_FINISH",
-            label: "Дата окончания голосования",
+            label: "Дата окончания голосования *",
             value: "",
             required: true
           }]
@@ -109,7 +109,7 @@
             property: "num",
             id: 1,
             name: "NUM",
-            label: "Количество попыток",
+            label: "Количество попыток *",
             value: "1",
             required: true
           }, {
@@ -137,7 +137,7 @@
             property: "num",
             id: 5,
             name: "SORT",
-            label: "Порядок размещения",
+            label: "Порядок размещения *",
             value: "",
             required: true,
             hint_external: "Используйте цифры от 1 до N, порядок определяет от 1, сверху вниз. 1 всегда будет первым. Для удобства рекомендуем использовать 10, 20, 30, это позволит оперативно изменить порядок."
@@ -155,6 +155,20 @@
           }, {
             property: "text",
             id: 2,
+            name: "MEMBERS_EIO_ID",
+            label: "ID групп голосующих ЕИО",
+            value: "",
+            required: false
+          }, {
+            property: "text",
+            id: 3,
+            name: "MEMBERS_UMC_ID",
+            label: "ID групп голосующих УМЦ",
+            value: "",
+            required: false
+          }, {
+            property: "text",
+            id: 4,
             name: "COMMISSIONS_ID",
             label: "ID групп Избирательных комиссий",
             value: "",
@@ -224,6 +238,7 @@
             });
             break;
           case 'date':
+          case 'datetime':
             this.changeDateValue({
               control: control,
               value: value
@@ -363,7 +378,9 @@
           buttonMessage: this.blocks[2].controls[2].value,
           messageAfterVoting: this.blocks[2].controls[3].value,
           groupsVoting: this.blocks[3].controls[0].value,
-          groupsCommission: this.blocks[3].controls[1].value,
+          groupsVotingEio: this.blocks[3].controls[1].value,
+          groupsVotingUmc: this.blocks[3].controls[2].value,
+          groupsCommission: this.blocks[3].controls[3].value,
           sortIndex: this.blocks[2].controls[4].value
         };
         if (this.mode === 'edit') {
@@ -433,7 +450,7 @@
                 });
               }
               if (_this2.voting.uuid) {
-                votingArray = [[0, 0, 'name'], [0, 1, 'announcement'], [0, 2, 'description'], [1, 0, 'activityStartDate'], [1, 1, 'activityEndDate'], [1, 2, 'voteEndDate'], [2, 0, 'voteEndDate'], [2, 0, 'numberVotesLimit'], [2, 1, 'numberVoters'], [2, 2, 'buttonMessage'], [2, 3, 'messageAfterVoting'], [2, 4, 'sortIndex'], [3, 0, 'groupsVoting'], [3, 1, 'groupsCommission']];
+                votingArray = [[0, 0, 'name'], [0, 1, 'announcement'], [0, 2, 'description'], [1, 0, 'activityStartDate'], [1, 1, 'activityEndDate'], [1, 2, 'voteEndDate'], [2, 0, 'voteEndDate'], [2, 0, 'numberVotesLimit'], [2, 1, 'numberVoters'], [2, 2, 'buttonMessage'], [2, 3, 'messageAfterVoting'], [2, 4, 'sortIndex'], [3, 0, 'groupsVoting'], [3, 1, 'groupsVotingEio'], [3, 2, 'groupsVotingUmc'], [3, 3, 'groupsCommission']];
                 votingArray.forEach(function (item) {
                   _this2.changeControlValue({
                     control: _this2.blocks[item[0]].controls[item[1]],
@@ -513,5 +530,5 @@
 
   exports.VotingCreate = VotingCreate;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX.Vue3.Pinia));
+}((this.BX = this.BX || {}),BX,BX.Controls,BX.AAS,BX.Loaders,BX.AAS,BX));
 //# sourceMappingURL=application.bundle.js.map

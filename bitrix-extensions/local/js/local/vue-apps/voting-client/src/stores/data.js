@@ -13,9 +13,12 @@ export const dataStore = defineStore('data', {
         heading: 'Список голосований',
         text: 'Уважаемые делегаты, голосования проходят строго по порядку и автоматически выводятся в приложение. Следите за их ходом на экране. Как только голосование станет доступным, оно автоматически обновится в вашем приложении.',
       },
+      members: {
+        heading: 'Съезд СРО ААС 2025'
+      },
       error: {
         registration: 'Вы не зарегистрированы как делегат съезда. Если считаете это ошибкой, обратитесь в Дирекцию СРО ААС по телефону +7 (495) 734-22-22.',
-        registrationButton: 'Регистрация закончена.'
+        registrationButton: 'Регистрация ещё не открыта или уже завершена. В данный момент вы не можете пройти регистрацию.'
       }
     },
     actions: {
@@ -44,7 +47,7 @@ export const dataStore = defineStore('data', {
       'voting_v1': 'label-gray',
       'voting_v2': 'label-blue',
       'voting_v3': 'label-orange',
-      'voting_v4': 'label-gray',
+      'voting_v4': 'label-red',
       'voting_v5': 'label-green',
       'voting_v6': 'label-gray',
     }

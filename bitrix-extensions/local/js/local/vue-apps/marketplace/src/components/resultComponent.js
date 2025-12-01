@@ -1,4 +1,4 @@
-import './result.css'
+import '../css/result.css'
 import { ButtonComponent } from 'local.vue-components.button-component';
 
 import { dataStore } from '../stores/data';
@@ -10,7 +10,6 @@ export const ResultComponent = {
         ButtonComponent
     },
     template: `
-        
             <div class="twpx-vue-marketplace-company">
                 <div class="twpx-vue-marketplace-company__logo">
                     <img src="" alt="">

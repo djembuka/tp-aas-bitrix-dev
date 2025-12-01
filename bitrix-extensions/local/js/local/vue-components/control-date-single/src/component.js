@@ -35,7 +35,7 @@ export const ControlDateSingle = {
         v-if="disabled"
       />
       <Icon class="twpx-form-control__calendar-icon" />
-      <div class="twpx-form-control__label">{{ control.label }}</div>
+      <div class="twpx-form-control__label">{{ label }}</div>
       <ControlDatepicker
         v-model="date"
         @open="onOpen"
@@ -56,6 +56,12 @@ export const ControlDateSingle = {
   props: ['control'],
   emits: ['input'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     dateFormatted() {
       if (this.date) {
         return this.date.split('/').reverse().join('.').replace(/^(\d{4})\.(\d{2})\.(\d{2})$/, '$2.$3.$1');

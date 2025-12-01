@@ -27,7 +27,7 @@ export const CenterCol = {
 
       <hr>
 
-      <MessageComponent v-if="info" type="info" :message="info" :button="infoButton" @clickButton="clickInfoButton" />
+      <MessageComponent v-if="info" type="info" :message="info" :button="infoButton ? lang.AUTH_SMS_INFO_BUTTON : ''" @clickButton="clickInfoButton" />
       <hr v-if="info && error">
       <MessageComponent v-if="error" type="error" :message="error" :button="false" />
 

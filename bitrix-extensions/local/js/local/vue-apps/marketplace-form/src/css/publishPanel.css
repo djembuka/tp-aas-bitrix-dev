@@ -1,0 +1,92 @@
+.mf-publish-panel {
+  padding: var(--semantic-padding-s, 16px);
+  border-radius: var(--twpx-text-border-radius-medium, 8px);
+  border: 1px solid var(--twpx-border-neutral, #F2F2F2);
+  -webkit-transition: opacity .3s ease;
+  transition: opacity .3s ease;
+}
+.mf-publish-panel--disabled {
+  opacity: .3;
+  pointer-events: none;
+}
+.mf-publish-panel__content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  align-self: stretch;
+}
+.mf-publish-panel__wrapper {
+  display: flex;
+  padding-right: var(--semantic-padding-s, 16px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--semantic-gap-xs, 8px);
+  flex: 1 0 0;
+}
+.mf-publish-panel h4 {
+  color: #000;
+  font-family: Roboto;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 120% */
+  margin: 0;
+}
+.mf-publish-panel__text {
+  color: #000;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.mf-publish-panel__switcher {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.mf-switch-wrapper {
+  width: 56px;
+  height: 40px;
+  position: relative;
+  border-radius: 20px;
+  background: var(--semantic-colors-neutral-light, #F2F2F2);
+  cursor: pointer;
+  -webkit-transition: opacity .3s ease;
+  transition: opacity .3s ease;
+}
+.mf-switch-wrapper.mf-switch-wrapper--on {
+  background: var(--semantic-colors-success-light, #EFFFF0);
+}
+.mf-switch-wrapper::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background: var(--semantic-colors-neutral, #9B9B9B);
+  -webkit-transition: left .3s cubic-bezier(0.39, 0.575, 0.565, 1);
+  transition: left .3s cubic-bezier(0.39, 0.575, 0.565, 1);
+  z-index: 10;
+}
+.mf-switch-wrapper.mf-switch-wrapper--on::before {
+  left: 20px;
+  background: var(--semantic-colors-success, #74C37A);
+}
+.mf-switch-wrapper.mf-switch-wrapper--disabled {
+  opacity: .3;
+  pointer-events: none;
+}
+.mf-publish-panel .vue-loader-circle {
+  min-height: 50px;
+}
+.mf-publish-panel .vue-loader-circle:after {
+  height: 50px;
+  width: 50px;
+  top: calc(50% - 25px);
+  right: calc(50% - 25px);
+}

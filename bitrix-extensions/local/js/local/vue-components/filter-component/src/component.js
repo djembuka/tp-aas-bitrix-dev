@@ -94,16 +94,26 @@ export const FilterComponent = {
       if (this.filters && typeof this.filters === 'object' && this.filters.length) {
         clearInterval(intervalId);
 
-        const url = new URL(window.location.href);
-        url.searchParams.entries().forEach(e => {
+        const searchParams = new URLSearchParams(window.location.search);
+
+        searchParams.entries().forEach(e => {
           const control = this.filters?.find(c => c.name === e[0]);
-          if (control) {
-            let value = e[1];
-            if (String(control.property === 'date') && String(control.type === 'range')) {
-              value = String(e[1]).split(',');
-            }
-            this.$emit('input', { control, value: control.property === 'hint' ? JSON.parse(e[1]) : value });
+
+          if (!control) return;
+
+          let value = e[1];
+          const property = String(control.property);
+          const type = String(control.type);
+
+          if (property === 'date' && type === 'range') {
+            value = String(e[1]).split(',');
           }
+          else if (property === 'hint') {
+            value = JSON.parse(e[1]);
+          }
+
+          this.$emit('input', { control, value });
+          
         });
       }
     }, 200);

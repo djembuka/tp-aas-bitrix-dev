@@ -11,7 +11,7 @@ export const controlsStore = defineStore('controls', {
               property: 'text',
               id: 1,
               name: 'NAME',
-              label: 'Название голосования',
+              label: 'Название голосования *',
               value: '',
               required: true,
             },
@@ -38,29 +38,29 @@ export const controlsStore = defineStore('controls', {
           heading: 'Сроки',
           controls: [
             {
-              property: "date",
+              property: "datetime",
               type: "single",
               id: 1,
               name: "DATE_FROM",
-              label: "Дата начала активности",
+              label: "Дата начала активности *",
               value: "",
               required: true,
             },
             {
-              property: "date",
+              property: "datetime",
               type: "single",
               id: 2,
               name: "DATE_TO",
-              label: "Дата окончания активности",
+              label: "Дата окончания активности *",
               value: "",
               required: true,
             },
             {
-              property: "date",
+              property: "datetime",
               type: "single",
               id: 3,
               name: "DATE_FINISH",
-              label: "Дата окончания голосования",
+              label: "Дата окончания голосования *",
               value: "",
               required: true,
             },
@@ -74,7 +74,7 @@ export const controlsStore = defineStore('controls', {
               property: "num",
               id: 1,
               name: "NUM",
-              label: "Количество попыток",
+              label: "Количество попыток *",
               value: "1",
               required: true,
             },
@@ -106,7 +106,7 @@ export const controlsStore = defineStore('controls', {
               property: "num",
               id: 5,
               name: "SORT",
-              label: "Порядок размещения",
+              label: "Порядок размещения *",
               value: "",
               required: true,
               hint_external: "Используйте цифры от 1 до N, порядок определяет от 1, сверху вниз. 1 всегда будет первым. Для удобства рекомендуем использовать 10, 20, 30, это позволит оперативно изменить порядок."
@@ -128,6 +128,22 @@ export const controlsStore = defineStore('controls', {
             {
               property: "text",
               id: 2,
+              name: "MEMBERS_EIO_ID",
+              label: "ID групп голосующих ЕИО",
+              value: "",
+              required: false,
+            },
+            {
+              property: "text",
+              id: 3,
+              name: "MEMBERS_UMC_ID",
+              label: "ID групп голосующих УМЦ",
+              value: "",
+              required: false,
+            },
+            {
+              property: "text",
+              id: 4,
               name: "COMMISSIONS_ID",
               label: "ID групп Избирательных комиссий",
               value: "",
@@ -180,6 +196,7 @@ export const controlsStore = defineStore('controls', {
             this.changeFileValue({ control, value });
             break;
         case 'date':
+        case 'datetime':
             this.changeDateValue({ control, value });
             break;
         }

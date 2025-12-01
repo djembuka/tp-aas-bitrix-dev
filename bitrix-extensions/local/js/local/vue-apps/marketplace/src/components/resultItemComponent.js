@@ -1,4 +1,4 @@
-import './result.css'
+import '../css/result.css'
 import { ButtonComponent } from 'local.vue-components.button-component';
 import { ControlComponent } from 'local.vue-components.control-component';
 
@@ -17,7 +17,7 @@ export const ResultItemComponent = {
         ControlComponent
     },
     props: ['company'],
-    emits: ['createApplication'],
+    emits: ['createApplication', 'input'],
     template: `
         <div class="twpx-vue-marketplace-company" :data-id="company.id">
             <div class="twpx-vue-marketplace-company__text">
@@ -37,10 +37,11 @@ export const ResultItemComponent = {
                         </div>
                     </TransitionGroup>
                 </div>
-                <ButtonComponent :text="lang.result.moreProps" :props="['serve', 'small']" @clickButton="moreProperties" />
+                <ButtonComponent :text="moreText" :props="['serve', 'small']" @clickButton="toggleMoreProperties" />
             </div>
             <div class="twpx-vue-marketplace-company__buttons">
-                <ButtonComponent :text="lang.result.getButton" :props="['icon-content', 'primary', 'medium']" @clickButton="" />
+                <span></span>
+                <ButtonComponent v-if="false" :text="lang.result.getButton" :props="['icon-content', 'primary', 'medium']" @clickButton="" />
                 <div class="twpx-vue-marketplace-company__buttons__right">
                     <ControlComponent :control='company.checkbox' @input="input" />
                     <ButtonComponent :text="lang.result.sendButton" :props="['secondary', 'medium']" @clickButton="createApplication" />
@@ -56,6 +57,9 @@ export const ResultItemComponent = {
             'formTemplate',
             'formData',
         ]),
+        moreText() {
+            return this.s ? this.lang.result.hideProps : this.lang.result.moreProps;
+        },
         dataObject() {
             return this.company.data
                 .filter(d => String(d.value))
@@ -64,12 +68,7 @@ export const ResultItemComponent = {
                 });
         },
         companyName() {
-            const site = this.company.data.find(c => c.name === 'UF_SITE');
             const name = this.company.data.find(c => c.name === 'UF_NAME');
-
-            if (site) {
-                return `<a href="${site.value}">${name.value}</a>`;
-            }
             return name?.value;
         },
         companyDescription() {
@@ -77,12 +76,15 @@ export const ResultItemComponent = {
         },
     },
     methods: {
+        input(args) {
+            this.$emit('input', args);
+        },
         createApplication() {
-            this.$emit('createApplication', {groupApplicationArray: [this.company.id]})
+            this.$emit('createApplication', this.company.id);
         },
         getProperties() {
             let result = this.company.data.slice();
-            result = result.filter(d => d.name !== 'UF_NAME' && d.name !== 'UF_DESCRIPTION');
+            result = result.filter(d => d.name !== 'UF_NAME' && d.name !== 'UF_DESCRIPTION' && d.name !== 'UF_ACTIVE');
             result.sort((a, b) => Number(a.sort) - Number(b.sort));
 
             return result;
@@ -111,8 +113,8 @@ export const ResultItemComponent = {
 
             return d.value;
         },
-        moreProperties() {
-            this.s = true;
+        toggleMoreProperties() {
+            this.s = !this.s;
         },
     }
 };

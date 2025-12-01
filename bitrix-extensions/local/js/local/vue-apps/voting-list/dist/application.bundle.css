@@ -57,7 +57,7 @@
 }
 .twpx-voting-list__voting-item {
     display: grid;
-    grid-template-columns: 1fr 120px 96px;
+    grid-template-columns: 1fr 170px 96px;
     padding: 16px;
     -webkit-box-align: start;
         -ms-flex-align: start;

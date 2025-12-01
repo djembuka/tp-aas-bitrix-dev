@@ -34,7 +34,7 @@ export const ControlCheckbox = {
           ref="input"
           class="twpx-form-control--filled-in"
         />
-        <span class="twpx-form-control__label" v-if="control.label" v-html="control.label">
+        <span class="twpx-form-control__label" v-if="label" v-html="label">
         </span>
       </label>
       <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
@@ -42,6 +42,12 @@ export const ControlCheckbox = {
 	`,
   emits: ['input', 'focus', 'blur'],
   computed: {
+    label() {
+      if (this.control.required && !this.control.label.includes('*')) {
+        return `${this.control.label} *`
+      }
+      return this.control.label;
+    },
     value: {
       get() {
         return this.control.value;

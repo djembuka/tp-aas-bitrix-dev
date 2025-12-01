@@ -11,6 +11,7 @@
   width: 100%;
 }
 .twpx-form-control--checkbox-block label {
+  position: relative;
   margin-bottom: 0;
   display: flex;
   padding: 12px var(--twpx-table-padding-m, 16px);
@@ -28,23 +29,23 @@
 .twpx-form-control--checkbox-block.twpx-form-control--checked label {
   background-color: var(--twpx-form-control-background-blue);
 }
-.twpx-form-control--checkbox-block svg {
+.twpx-form-control--checkbox-block svg.twpx-form-control__checkbox-icon {
   flex-shrink: 0;
 }
-.twpx-form-control--checkbox-block svg rect {
+.twpx-form-control--checkbox-block svg.twpx-form-control__checkbox-icon rect {
   -webkit-transition: fill .3s ease;
   transition: fill .3s ease;
   fill: var(--twpx-form-control-background);
 }
-.twpx-form-control--checkbox-block svg path {
+.twpx-form-control--checkbox-block svg.twpx-form-control__checkbox-icon path {
   -webkit-transition: stroke .3s ease;
   transition: stroke .3s ease;
   stroke: var(--twpx-form-control-background);
 }
-.twpx-form-control--checkbox-block.twpx-form-control--checked svg rect {
+.twpx-form-control--checkbox-block.twpx-form-control--checked svg.twpx-form-control__checkbox-icon rect {
   fill: var(--twpx-form-control-border-active);
 }
-.twpx-form-control--checkbox-block.twpx-form-control--checked svg path {
+.twpx-form-control--checkbox-block.twpx-form-control--checked svg.twpx-form-control__checkbox-icon path {
   stroke: var(--twpx-form-control-background-blue);
 }
 .twpx-form-control--checkbox-block [type='checkbox']:not(:checked),
@@ -63,4 +64,31 @@
   font-style: normal;
   font-weight: 400;
   line-height: 1.2;
+}
+/*Disabled*/
+.twpx-form-control--checkbox-block.twpx-form-control--disabled label {
+  background: var(--twpx-background-disable, #FAFAFA);
+  border-color: var(--twpx-background-disable, #FAFAFA);
+}
+.twpx-form-control--checkbox-block.twpx-form-control--disabled .twpx-form-control__label {
+  color: var(--Base-Black-color-black, #000);
+  opacity: .3;
+}
+.twpx-form-control--checkbox-block.twpx-form-control--disabled svg.twpx-form-control__checkbox-icon {
+  opacity: .3;
+}
+.twpx-form-control--checkbox-block.twpx-form-control--disabled svg.twpx-form-control__checkbox-icon rect {
+  fill: #F2F7FF;
+}
+.twpx-form-control--checkbox-block.twpx-form-control--disabled.twpx-form-control--checked svg.twpx-form-control__checkbox-icon rect {
+  fill: #4F74D1;
+}
+.twpx-form-control--checkbox-block .twpx-form-control__disabled-icon {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  z-index: 10;
 }

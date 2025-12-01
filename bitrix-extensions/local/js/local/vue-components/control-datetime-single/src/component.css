@@ -1,19 +1,19 @@
-.twpx-form-control--date {
+.twpx-form-control--datetime {
   position: relative;
   margin-bottom: var(--twpx-form-control-margin-bottom);
   width: 100%;
   z-index: 10;
 }
-.twpx-form-control--date.twpx-form-control--open {
+.twpx-form-control--datetime.twpx-form-control--open {
   z-index: 100;
 }
-.twpx-form-control--date.twpx-form-control--active .twpx-form-control__label {
+.twpx-form-control--datetime.twpx-form-control--active .twpx-form-control__label {
   -webkit-transform: translateY(
     var(--twpx-form-control-active-label-translate)
   );
   transform: translateY(var(--twpx-form-control-active-label-translate));
 }
-.twpx-form-control--date .twpx-form-control__calendar-icon {
+.twpx-form-control--datetime .twpx-form-control__calendar-icon {
   position: absolute;
   top: calc((var(--twpx-form-control-height) - 16px) / 2);
   left: var(--twpx-form-control-padding-left);
@@ -22,7 +22,7 @@
   pointer-events: none;
   z-index: 10;
 }
-.twpx-form-control--date .twpx-form-control__label {
+.twpx-form-control--datetime .twpx-form-control__label {
   position: absolute;
   top: 0;
   left: var(--twpx-form-control-left-icon-padding-left);
@@ -40,10 +40,10 @@
   line-height: 1.1;
   z-index: 100;
 }
-.twpx-form-control--date.twpx-form-control--invalid .twpx-form-control__label {
+.twpx-form-control--datetime.twpx-form-control--invalid .twpx-form-control__label {
   color: var(--twpx-form-control-invalid-color);
 }
-.twpx-form-control--date .dp__input {
+.twpx-form-control--datetime .dp__input {
   display: block !important;
   width: 100%;
   margin: 0 !important;
@@ -65,12 +65,12 @@
   box-shadow: none !important;
   box-sizing: border-box !important;
 }
-.twpx-form-control--date .dp__input:focus,
-.twpx-form-control--date .dp__input:hover {
+.twpx-form-control--datetime .dp__input:focus,
+.twpx-form-control--datetime .dp__input:hover {
   outline: none;
   border-color: var(--twpx-form-control-border-active) !important;
 }
-.twpx-form-control--date.twpx-form-control--invalid
+.twpx-form-control--datetime.twpx-form-control--invalid
   .twpx-form-control
   .dp__input {
   background-color: var(
@@ -80,18 +80,18 @@
   outline: none !important;
   color: var(--twpx-form-control-invalid-color) !important;
 }
-.twpx-form-control--date .twpx-form-control__warning,
-.twpx-form-control--date .twpx-form-control__hint {
+.twpx-form-control--datetime .twpx-form-control__warning,
+.twpx-form-control--datetime .twpx-form-control__hint {
   font-size: var(--twpx-form-control-external-hint-font-size);
   margin: var(--twpx-form-control-external-hint-margin);
   line-height: var(--twpx-form-control-external-hint-line-height);
 }
-.twpx-form-control--date .twpx-form-control__warning {
+.twpx-form-control--datetime .twpx-form-control__warning {
   color: var(--twpx-form-control-invalid-color);
 }
 
 /*Disabled*/
-.twpx-form-control--date .twpx-form-control__disabled-icon {
+.twpx-form-control--datetime .twpx-form-control__disabled-icon {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -100,23 +100,23 @@
   pointer-events: none;
   z-index: 10;
 }
-.twpx-form-control--date.twpx-form-control--disabled {
+.twpx-form-control--datetime.twpx-form-control--disabled {
   pointer-events: none;
   cursor: default;
 }
-.twpx-form-control--date.twpx-form-control--disabled .twpx-form-control__label {
+.twpx-form-control--datetime.twpx-form-control--disabled .twpx-form-control__label {
   color: var(--twpx-form-control-disabled-color);
 }
-.twpx-form-control--date.twpx-form-control--disabled .dp__input {
+.twpx-form-control--datetime.twpx-form-control--disabled .dp__input {
   color: var(--twpx-form-control-disabled-color);
   background-color: var(
     --twpx-form-control-disabled-background-color
   ) !important;
 }
-.twpx-form-control--date.twpx-form-control--disabled .twpx-form-control__hint {
+.twpx-form-control--datetime.twpx-form-control--disabled .twpx-form-control__hint {
   color: var(--twpx-form-control-disabled-color);
 }
-.twpx-form-control--date.twpx-form-control--disabled svg path {
+.twpx-form-control--datetime.twpx-form-control--disabled svg path {
   stroke: var(--twpx-form-control-disabled-color);
 }
 
@@ -162,7 +162,7 @@
   ); /*Timing on menu appear animation*/
   --dp-transition-timing: ease-out; /*Timing on slide animations*/
 }
-.twpx-form-control--date .dp__theme_light {
+.twpx-form-control--datetime .dp__theme_light {
   --dp-background-color: #fff;
   --dp-text-color: #73879c;
   --dp-hover-color: #dbedfb;
@@ -191,49 +191,48 @@
   --dp-range-between-border-color: var(--dp-hover-color, #dbedfb);
 }
 
-.twpx-form-control--date .dp__input {
+.twpx-form-control--datetime .dp__input {
   height: var(--twpx-form-control-height);
   color: var(--twpx-form-control-color);
 }
-.twpx-form-control--date .dp__menu {
+.twpx-form-control--datetime .dp__menu {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 }
-.twpx-form-control--date .dp__cell_inner {
+.twpx-form-control--datetime .dp__cell_inner {
   font-size: 12px;
 }
-.twpx-form-control--date .dp__cell_inner:hover {
+.twpx-form-control--datetime .dp__cell_inner:hover {
   background: #f3f9fe;
 }
-.twpx-form-control--date .dp__cell_inner.dp__range_start:hover,
-.twpx-form-control--date .dp__cell_inner.dp__range_end:hover {
+.twpx-form-control--datetime .dp__cell_inner.dp__range_start:hover,
+.twpx-form-control--datetime .dp__cell_inner.dp__range_end:hover {
   background: var(--dp-primary-color);
 }
-.twpx-form-control--date .dp__calendar_header {
+.twpx-form-control--datetime .dp__calendar_header {
   font-weight: normal;
 }
-.twpx-form-control--date .dp__today {
+.twpx-form-control--datetime .dp__today {
   border-color: transparent;
 }
-.twpx-form-control--date .dp__calendar_item .dp__today {
+.twpx-form-control--datetime .dp__calendar_item .dp__today {
   color: #2a90e9;
 }
-.twpx-form-control--date .dp__calendar_item .dp__today.dp__range_start,
-.twpx-form-control--date .dp__calendar_item .dp__today.dp__range_end {
+.twpx-form-control--datetime .dp__calendar_item .dp__today.dp__range_start,
+.twpx-form-control--datetime .dp__calendar_item .dp__today.dp__range_end {
   color: var(--dp-primary-text-color);
 }
-.twpx-form-control--date .dp__calendar_header_item {
+.twpx-form-control--datetime .dp__calendar_header_item {
   text-transform: capitalize;
   font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.twpx-form-control--date .dp__calendar_header_separator,
-.twpx-form-control--date .dp__action_row,
-.twpx-form-control--date .dp__input_icon {
+.twpx-form-control--datetime .dp__calendar_header_separator,
+.twpx-form-control--datetime .dp__input_icon {
   display: none;
 }
-.twpx-form-control--date .dp__clear_icon {
+.twpx-form-control--datetime .dp__clear_icon {
   padding: 0;
   position: absolute;
   top: 16px;
@@ -245,15 +244,15 @@
   z-index: 10;
 }
 
-.twpx-form-control--date .dp__clear_icon {
+.twpx-form-control--datetime .dp__clear_icon {
   width: 26px;
   height: 26px;
   top: 50%;
 }
-.twpx-form-control--date .dp__clear_icon:hover {
+.twpx-form-control--datetime .dp__clear_icon:hover {
   opacity: 0.7;
 }
-.twpx-form-control--date .dp--clear-btn {
+.twpx-form-control--datetime .dp--clear-btn {
   position: absolute;
   top: calc(
     (var(--twpx-form-control-height) - var(--twpx-form-control-clear-size)) / 2
@@ -268,10 +267,10 @@
   transform: translateY(0);
   opacity: 0;
 }
-.twpx-form-control--date .dp--clear-btn:hover {
+.twpx-form-control--datetime .dp--clear-btn:hover {
   opacity: 0.7;
 }
-.twpx-form-control--date:hover .dp--clear-btn {
+.twpx-form-control--datetime:hover .dp--clear-btn {
   opacity: 1;
 }
 
@@ -366,6 +365,61 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   z-index: 1000;
   animation: slideDown 0.2s ease-out;
+}
+
+.twpx-form-control-timecontainer {
+  display: grid;
+  grid-template-columns: calc(50% - 4px) calc(50% - 4px);
+  gap: 8px;
+  padding: var(--dp-action-row-padding);
+  padding-bottom: 0;
+}
+
+.twpx-form-control-timeinput {
+  position: relative;
+}
+.twpx-form-control-timelabel {
+  position: absolute;
+  top: 0;
+  left: var(--twpx-form-control-padding-left);
+  margin: 0;
+  padding: 0;
+  color: var(--twpx-form-control-color);
+  font-size: var(--twpx-form-control-label-font-size);
+  font-family: var(--twpx-form-control-font-family);
+  -webkit-transition: -webkit-transform 0.2s ease-out, -webkit-font-size 0.2s ease-out;
+  transition: transform 0.2s ease-out, font-size 0.2s ease-out;
+  -webkit-transform: translateY( var(--twpx-form-control-active-label-translate));
+  transform: translateY(var(--twpx-form-control-active-label-translate));
+  pointer-events: none;
+  line-height: 1.1;
+}
+.twpx-form-control-timecontainer input {
+  display: block !important;
+  width: 100%;
+  margin: 0 !important;
+  padding: var(--twpx-form-control-padding-top)
+    var(--twpx-form-control-padding-right)
+    var(--twpx-form-control-padding-bottom)
+    var(--twpx-form-control-padding-left) !important;
+  color: var(--twpx-form-control-color);
+  background-color: var(--twpx-form-control-background) !important;
+  border: 1px solid var(--twpx-form-control-border) !important;
+  height: var(--twpx-form-control-height) !important;
+  border-radius: var(--twpx-form-control-border-radius) !important;
+  font-family: var(--twpx-form-control-font-family);
+  font-size: var(--twpx-form-control-font-size) !important;
+  -webkit-transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease;
+  outline: none !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  width: 110px !important;
+}
+.twpx-form-control-timecontainer input:focus,
+.twpx-form-control-timecontainer input:hover {
+  outline: none !important;
+  border-color: var(--twpx-form-control-border-active) !important;
 }
 
 @keyframes slideDown {

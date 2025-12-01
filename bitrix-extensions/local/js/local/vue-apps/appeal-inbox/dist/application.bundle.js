@@ -708,21 +708,31 @@
           }
         }).then(function (result) {
           if (result && result.status === 'success') {
-            var predefinedFilter = _this.predefinedActive ? _this.predefinedActive.id : undefined;
+            var dataObj = {
+              signedParameters: _this.signedParameters,
+              userid: _this.userid,
+              sessid: _this.sessid,
+              profileid: _this.defaultProfile.id,
+              startIndex: 0
+            };
+            if (_this.maxCountPerRequest) {
+              dataObj.maxCountPerRequest = _this.maxCountPerRequest;
+            }
+            if (_this.predefinedActive) {
+              dataObj.predefinedFilter = _this.predefinedActive.id;
+            }
+            if (_this.filters) {
+              dataObj.filters = _this.filters;
+            }
+            if (_this.sort.columnSort) {
+              dataObj.columnSort = _this.sort.columnSort;
+            }
+            if (_this.sort.sortType) {
+              dataObj.sortType = _this.sort.sortType;
+            }
             _this.runAppeals({
               mode: 'class',
-              data: {
-                signedParameters: _this.signedParameters,
-                userid: _this.userid,
-                sessid: _this.sessid,
-                profileid: _this.defaultProfile.id,
-                startIndex: 0,
-                maxCountPerRequest: _this.maxCountPerRequest,
-                predefinedFilter: predefinedFilter,
-                filters: _this.filters,
-                columnSort: _this.sort.columnSort,
-                sortType: _this.sort.sortType
-              }
+              data: dataObj
             }, null, _this.increaseAppealsCounter());
           } else if (result && result.status === 'error') {
             _this.showError({
@@ -738,23 +748,33 @@
           field: field
         });
         if (!this.defaultProfile) return;
-        var predefinedFilter = this.predefinedActive ? this.predefinedActive.id : undefined;
         if (this.sort.columnSort !== undefined || this.sort.sortType !== undefined) {
           new Promise(function (resolve) {
+            var dataObj = {
+              signedParameters: _this2.signedParameters,
+              userid: _this2.userid,
+              sessid: _this2.sessid,
+              profileid: _this2.defaultProfile.id,
+              startIndex: 0
+            };
+            if (_this2.maxCountPerRequest) {
+              dataObj.maxCountPerRequest = _this2.maxCountPerRequest;
+            }
+            if (_this2.predefinedActive) {
+              dataObj.predefinedFilter = _this2.predefinedActive.id;
+            }
+            if (_this2.filters) {
+              dataObj.filters = _this2.filters;
+            }
+            if (_this2.sort.columnSort) {
+              dataObj.columnSort = _this2.sort.columnSort;
+            }
+            if (_this2.sort.sortType) {
+              dataObj.sortType = _this2.sort.sortType;
+            }
             resolve(_this2.runAppeals({
               mode: 'class',
-              data: {
-                signedParameters: _this2.signedParameters,
-                userid: _this2.userid,
-                sessid: _this2.sessid,
-                profileid: _this2.defaultProfile.id,
-                startIndex: 0,
-                maxCountPerRequest: _this2.maxCountPerRequest,
-                predefinedFilter: predefinedFilter,
-                filters: _this2.filters,
-                columnSort: _this2.sort.columnSort,
-                sortType: _this2.sort.sortType
-              }
+              data: dataObj
             }, null, _this2.increaseAppealsCounter()));
           }).then(function (result) {
             if (result && result.status === 'success') {
@@ -806,21 +826,31 @@
             }
           }).then(function (result) {
             if (result && result.status === 'success') {
-              var _predefinedFilter = _this2.predefinedActive ? _this2.predefinedActive.id : undefined;
+              var dataObj = {
+                signedParameters: _this2.signedParameters,
+                userid: _this2.userid,
+                sessid: _this2.sessid,
+                profileid: _this2.defaultProfile.id,
+                startIndex: 0
+              };
+              if (_this2.maxCountPerRequest) {
+                dataObj.maxCountPerRequest = _this2.maxCountPerRequest;
+              }
+              if (_this2.predefinedActive) {
+                dataObj.predefinedFilter = _this2.predefinedActive.id;
+              }
+              if (_this2.filters) {
+                dataObj.filters = _this2.filters;
+              }
+              if (_this2.sort.columnSort) {
+                dataObj.columnSort = _this2.sort.columnSort;
+              }
+              if (_this2.sort.sortType) {
+                dataObj.sortType = _this2.sort.sortType;
+              }
               _this2.runAppeals({
                 mode: 'class',
-                data: {
-                  signedParameters: _this2.signedParameters,
-                  userid: _this2.userid,
-                  sessid: _this2.sessid,
-                  profileid: _this2.defaultProfile.id,
-                  startIndex: 0,
-                  maxCountPerRequest: _this2.maxCountPerRequest,
-                  predefinedFilter: _predefinedFilter,
-                  filters: _this2.filters,
-                  columnSort: _this2.sort.columnSort,
-                  sortType: _this2.sort.sortType
-                }
+                data: dataObj
               }, null, _this2.increaseAppealsCounter());
             } else if (result && result.status === 'error') {
               _this2.showError({
@@ -862,21 +892,31 @@
             sortType: sortType
           }
         }, function () {
-          var predefinedFilter = _this3.predefinedActive ? _this3.predefinedActive.id : undefined;
+          var dataObj = {
+            signedParameters: _this3.signedParameters,
+            userid: _this3.userid,
+            sessid: _this3.sessid,
+            profileid: _this3.defaultProfile.id,
+            startIndex: 0
+          };
+          if (_this3.maxCountPerRequest) {
+            dataObj.maxCountPerRequest = _this3.maxCountPerRequest;
+          }
+          if (_this3.predefinedActive) {
+            dataObj.predefinedFilter = _this3.predefinedActive.id;
+          }
+          if (_this3.filters) {
+            dataObj.filters = _this3.filters;
+          }
+          if (column.id) {
+            dataObj.columnSort = column.id;
+          }
+          if (sortType) {
+            dataObj.sortType = sortType;
+          }
           _this3.runAppeals({
             mode: 'class',
-            data: {
-              signedParameters: _this3.signedParameters,
-              userid: _this3.userid,
-              sessid: _this3.sessid,
-              profileid: _this3.defaultProfile.id,
-              startIndex: 0,
-              maxCountPerRequest: _this3.maxCountPerRequest,
-              predefinedFilter: predefinedFilter,
-              filters: _this3.filters,
-              columnSort: column.id,
-              sortType: sortType
-            }
+            data: dataObj
           }, null, _this3.increaseAppealsCounter());
         });
       },
@@ -890,25 +930,37 @@
           value: value,
           checked: checked
         });
-        clearTimeout(this.inputTimeoutId);
-        this.inputTimeoutId = setTimeout(function () {
-          var predefinedFilter = _this4.predefinedActive ? _this4.predefinedActive.id : undefined;
-          _this4.runAppeals({
-            mode: 'class',
-            data: {
+        if (this.sort.columnSort !== undefined || this.sort.sortType !== undefined) {
+          clearTimeout(this.inputTimeoutId);
+          this.inputTimeoutId = setTimeout(function () {
+            var dataObj = {
               signedParameters: _this4.signedParameters,
               userid: _this4.userid,
               sessid: _this4.sessid,
               profileid: _this4.defaultProfile.id,
-              startIndex: 0,
-              maxCountPerRequest: _this4.maxCountPerRequest,
-              predefinedFilter: predefinedFilter,
-              filters: _this4.filters,
-              columnSort: _this4.sort.columnSort,
-              sortType: _this4.sort.sortType
+              startIndex: 0
+            };
+            if (_this4.maxCountPerRequest) {
+              dataObj.maxCountPerRequest = _this4.maxCountPerRequest;
             }
-          }, null, _this4.increaseAppealsCounter());
-        }, 300);
+            if (_this4.predefinedActive) {
+              dataObj.predefinedFilter = _this4.predefinedActive.id;
+            }
+            if (_this4.filters) {
+              dataObj.filters = _this4.filters;
+            }
+            if (_this4.sort.columnSort) {
+              dataObj.columnSort = _this4.sort.columnSort;
+            }
+            if (_this4.sort.sortType) {
+              dataObj.sortType = _this4.sort.sortType;
+            }
+            _this4.runAppeals({
+              mode: 'class',
+              data: dataObj
+            }, null, _this4.increaseAppealsCounter());
+          }, 300);
+        }
       },
       hints: function hints(_ref5) {
         var type = _ref5.type,
@@ -937,21 +989,31 @@
       clickPage: function clickPage(_ref6) {
         var _this5 = this;
         var count = _ref6.count;
-        var predefinedFilter = this.predefinedActive ? this.predefinedActive.id : undefined;
+        var dataObj = {
+          signedParameters: this.signedParameters,
+          userid: this.userid,
+          sessid: this.sessid,
+          profileid: this.defaultProfile.id,
+          startIndex: (count - 1) * this.maxCountPerRequest
+        };
+        if (this.maxCountPerRequest) {
+          dataObj.maxCountPerRequest = this.maxCountPerRequest;
+        }
+        if (this.predefinedActive) {
+          dataObj.predefinedFilter = this.predefinedActive.id;
+        }
+        if (this.filters) {
+          dataObj.filters = this.filters;
+        }
+        if (this.sort.columnSort) {
+          dataObj.columnSort = this.sort.columnSort;
+        }
+        if (this.sort.sortType) {
+          dataObj.sortType = this.sort.sortType;
+        }
         this.runAppeals({
           mode: 'class',
-          data: {
-            signedParameters: this.signedParameters,
-            userid: this.userid,
-            sessid: this.sessid,
-            profileid: this.defaultProfile.id,
-            startIndex: (count - 1) * this.maxCountPerRequest,
-            maxCountPerRequest: this.maxCountPerRequest,
-            predefinedFilter: predefinedFilter,
-            filters: this.filters,
-            columnSort: this.sort.columnSort,
-            sortType: this.sort.sortType
-          }
+          data: dataObj
         }, function () {
           if (_this5.$refs.table.getBoundingClientRect().top + 100 < 0) {
             window.scrollTo({
@@ -992,13 +1054,22 @@
             data.data.profileid = self.defaultProfile.id;
           }
           if (methodName === 'runAppeals') {
-            var predefinedFilter = self.predefinedActive ? self.predefinedActive.id : undefined;
             data.data.startIndex = 0;
-            data.data.maxCountPerRequest = self.maxCountPerRequest;
-            data.data.predefinedFilter = predefinedFilter;
-            data.data.filters = self.filters;
-            data.data.columnSort = self.sort.columnSort;
-            data.data.sortType = self.sort.sortType;
+            if (self.maxCountPerRequest) {
+              data.data.maxCountPerRequest = self.maxCountPerRequest;
+            }
+            if (self.predefinedActive) {
+              data.data.predefinedFilter = self.predefinedActive.id;
+            }
+            if (self.filters) {
+              data.data.filters = self.filters;
+            }
+            if (self.sort.columnSort) {
+              data.data.columnSort = self.sort.columnSort;
+            }
+            if (self.sort.sortType) {
+              data.data.sortType = self.sort.sortType;
+            }
             self[methodName](data, null, self.increaseAppealsCounter());
           } else {
             return self[methodName](data);

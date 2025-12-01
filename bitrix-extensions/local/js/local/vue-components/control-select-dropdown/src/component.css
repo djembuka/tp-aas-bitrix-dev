@@ -187,7 +187,6 @@
   top: calc(var(--twpx-form-control-height) + 3px);
   left: 0;
   width: 100%;
-  max-height: 300px;
   overflow-y: auto;
   overflow: scroll;
   scrollbar-color: #eee #fff;
@@ -195,18 +194,27 @@
   border-radius: var(--twpx-form-control-border-radius);
   /* overflow: hidden; */
   box-shadow: 0px 5px 10px #0000000f;
-  opacity: 0;
   -webkit-transition: all 0.1s linear;
   transition: all 0.1s linear;
-  pointer-events: none;
   -webkit-transform: translateY(-10px);
   transform: translateY(-10px);
+  opacity: 0;
+  pointer-events: none;
   z-index: -1;
+}
+.twpx-form-control-select__dropdown.twpx-form-control-select__dropdown--visible {
+  max-height: 300px;
+}
+.twpx-form-control-select__dropdown--up {
+  top: auto;
+  bottom: calc(var(--twpx-form-control-height) + 3px);
+  -webkit-transform: translateY(10px);
+  transform: translateY(10px);
 }
 .twpx-form-control-select__dropdown-item {
   background-color: #fff;
   min-height: var(--twpx-form-control-height);
-  display: flex;
+  display: none;
   justify-content: flex-start;
   align-items: center;
   padding: 14px var(--twpx-form-control-padding-right);
@@ -217,6 +225,9 @@
 }
 .twpx-form-control-select__dropdown-item:hover {
   background-color: var(--twpx-form-control-background);
+}
+.twpx-form-control-select__dropdown-item.twpx-form-control-select__dropdown-item--visible {
+  display: flex;
 }
 .twpx-form-control-select__dropdown-item--current {
   background-color: var(--twpx-form-control-background);

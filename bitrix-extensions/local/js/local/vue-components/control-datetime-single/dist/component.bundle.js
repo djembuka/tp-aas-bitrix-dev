@@ -1,6 +1,6 @@
 /* eslint-disable */
 this.BX = this.BX || {};
-(function (exports,local_vueComponents_controlDatepicker) {
+(function (exports,local_vueComponents_controlDatepicker,local_vueComponents_buttonComponent) {
   'use strict';
 
   var Icon = {
@@ -24,13 +24,20 @@ this.BX = this.BX || {};
     },
     components: {
       ControlDatepicker: local_vueComponents_controlDatepicker.ControlDatepicker,
+      ButtonComponent: local_vueComponents_buttonComponent.ButtonComponent,
       Icon: Icon,
       IconLock: IconLock
     },
-    template: "\n    <div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--date': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n        'twpx-form-control--open': open,\n      }\"\n      ref=\"control\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <Icon class=\"twpx-form-control__calendar-icon\" />\n      <div class=\"twpx-form-control__label\">{{ control.label }}</div>\n      <ControlDatepicker\n        v-model=\"date\"\n        @open=\"onOpen\"\n        @closed=\"onClosed\"\n        locale=\"ru\"\n        ref=\"controlDate\"\n        :format=\"'dd.MM.yyyy hh:mm'\"\n      >\n\n        <template #action-row>\n          <div class=\"time-inputs\">\n            <input\n              v-model=\"hours\"\n              type=\"text\"\n              maxlength=\"2\"\n              placeholder=\"hh\"\n              @input=\"validateHours\"\n              class=\"time-input\"\n            />\n            :\n            <input\n              v-model=\"minutes\"\n              type=\"text\"\n              maxlength=\"2\"\n              placeholder=\"mm\"\n              @input=\"validateMinutes\"\n              class=\"time-input\"\n            />\n          </div>\n          <button\n            @click=\"selectDateTime\"\n            :disabled=\"!isValidTime\"\n            class=\"select-button\"\n          >\n            \u0412\u044B\u0431\u0440\u0430\u0442\u044C\n          </button>\n        </template>\n\n      </ ControlDatepicker>\n      <input type=\"hidden\" :name=\"controlName\" :value=\"dateFormatted\" />\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n  ",
+    template: "\n    <div\n      :class=\"{\n        'twpx-form-control': true,\n        'twpx-form-control--datetime': true,\n        'twpx-form-control--active': active,\n        'twpx-form-control--invalid': invalid,\n        'twpx-form-control--disabled': disabled,\n        'twpx-form-control--open': open,\n      }\"\n      ref=\"control\"\n    >\n      <IconLock\n        class=\"twpx-form-control__disabled-icon\"\n        v-if=\"disabled\"\n      />\n      <Icon class=\"twpx-form-control__calendar-icon\" />\n      <div class=\"twpx-form-control__label\">{{ label }}</div>\n      <ControlDatepicker\n        v-model=\"date\"\n        @open=\"onOpen\"\n        @closed=\"onClosed\"\n        @update:model-value=\"update\"\n        @cleared=\"cleared\"\n        locale=\"ru\"\n        ref=\"controlDate\"\n        :format=\"'dd.MM.yyyy HH:mm'\"\n      >\n\n        <template #time-picker=\"{ time, updateTime }\">\n          <div class=\"twpx-form-control-timecontainer\">\n            <div class=\"twpx-form-control-timeinput\">\n              <div class=\"twpx-form-control-timelabel\">\u0427\u0427</div>\n              <input type=\"text\" name=\"MINUTES\" :value=\"time.hours\" @input=\"updateTime(+$event.target.value)\" />\n            </div>\n            <div class=\"twpx-form-control-timeinput\">\n              <div class=\"twpx-form-control-timelabel\">\u041C\u041C</div>\n              <input type=\"text\" name=\"HOURS\" :value=\"time.minutes\" @input=\"updateTime(+$event.target.value, false)\" />\n            </div>\n          </div>\n        </template>\n\n        <template #action-row=\"{ internalModelValue, selectDate }\">\n          <ButtonComponent text=\"\u0423\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C\" :props=\"['secondary', 'small', 'wide']\" @clickButton=\"selectDate\" />\n        </template>\n\n      </ ControlDatepicker>\n      <input type=\"hidden\" :name=\"controlName\" :value=\"dateFormatted\" />\n      <div class=\"twpx-form-control__hint\" v-html=\"hint\" v-if=\"hint\"></div>\n    </div>\n  ",
     props: ['control'],
     emits: ['input'],
     computed: {
+      label: function label() {
+        if (this.control.required && !this.control.label.includes('*')) {
+          return "".concat(this.control.label, " *");
+        }
+        return this.control.label;
+      },
       dateFormatted: function dateFormatted() {
         if (this.date) {
           return this.date.split('/').reverse().join('.').replace(/^(\d{4})\.(\d{2})\.(\d{2})$/, '$2.$3.$1');
@@ -66,26 +73,6 @@ this.BX = this.BX || {};
       },
       disabled: function disabled() {
         return this.control.disabled;
-      },
-      hoursArray: function hoursArray() {
-        var arr = [];
-        for (var i = 0; i < 24; i++) {
-          arr.push({
-            text: i < 10 ? "0".concat(i) : i,
-            value: i
-          });
-        }
-        return arr;
-      },
-      minutesArray: function minutesArray() {
-        var arr = [];
-        for (var i = 0; i < 60; i++) {
-          arr.push({
-            text: i < 10 ? "0".concat(i) : i,
-            value: i
-          });
-        }
-        return arr;
       }
     },
     methods: {
@@ -96,9 +83,8 @@ this.BX = this.BX || {};
         this.open = false;
       },
       update: function update(date) {
-        console.log(date);
         this.date = this.formatDate(date);
-        this.$refs.controlDate.closeMenu();
+        // this.$refs.controlDate.closeMenu();
         this.replaceClear();
       },
       formatDate: function formatDate(date) {
@@ -107,7 +93,7 @@ this.BX = this.BX || {};
         var month = String(d.getMonth() + 1);
         day = day.length === 1 ? "0".concat(day) : day;
         month = month.length === 1 ? "0".concat(month) : month;
-        return "".concat(day, ".").concat(month, ".").concat(d.getFullYear());
+        return "".concat(day, ".").concat(month, ".").concat(d.getFullYear(), " ").concat(d.getHours(), ":").concat(d.getMinutes());
       },
       replaceClear: function replaceClear() {
         var _this = this;
@@ -118,8 +104,8 @@ this.BX = this.BX || {};
           }
         }, 100);
       },
-      selectDate: function selectDate() {
-        console.log(this.$refs.controlDate.value);
+      cleared: function cleared(args) {
+        this.date = '';
       }
     },
     mounted: function mounted() {
@@ -129,5 +115,5 @@ this.BX = this.BX || {};
 
   exports.ControlDatetimeSingle = ControlDatetimeSingle;
 
-}((this.BX.Controls = this.BX.Controls || {}),BX.Controls));
+}((this.BX.Controls = this.BX.Controls || {}),BX.Controls,BX.AAS));
 //# sourceMappingURL=component.bundle.js.map

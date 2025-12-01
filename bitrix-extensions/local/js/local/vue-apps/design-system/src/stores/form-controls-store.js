@@ -29,7 +29,10 @@ export const formControlsStore = defineStore('form-controls-store', {
         id: 'id5',
         name: 'AUDITOR_ORNZ',
         label: 'Simple',
-        value: '',
+        value: {
+          "id": "1",
+          "value": "First"
+        },
         count: 3,
         action: '/markup/vue/design-system/hints.json',
         required: false,
@@ -42,7 +45,10 @@ export const formControlsStore = defineStore('form-controls-store', {
         id: 'id5-1',
         name: 'AUDITOR_ORNZ_WITH_PHOTO',
         label: 'With HTML - data-value',
-        value: '',
+        value: {
+          "id": "2",
+          "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+        },
         count: 3,
         action: '/markup/vue/design-system/hints-html.json',
         required: false,
@@ -54,7 +60,24 @@ export const formControlsStore = defineStore('form-controls-store', {
         id: 'id5-2',
         name: 'AUDITOR_ORNZ_WITH_PHOTO',
         label: 'Autocomplete',
-        value: '',
+        value: {
+          "id": "3",
+          "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+          "autocomplete": [
+            {
+              "id": "id1",
+              "value": "Семён Семёнович"
+            },
+            {
+              "id": "id1-1",
+              "value": "ООО Ответственные аудиторы"
+            },
+            {
+              "id": "id2",
+              "value": "+7 812 488 85 54"
+            }
+          ]
+        },
         count: 3,
         action: '/markup/vue/design-system/hints-autocomplete.json',
         required: false,
@@ -66,7 +89,24 @@ export const formControlsStore = defineStore('form-controls-store', {
         id: 'id5-3',
         name: 'AUDITOR_ORNZ_WITH_HIDDEN',
         label: 'With hidden data',
-        value: '',
+        value: {
+          "id": "3",
+          "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+          "hidden": [
+            {
+              "name": "HIDDEN7",
+              "value": "fff"
+            },
+            {
+              "name": "HIDDEN8",
+              "value": "uu"
+            },
+            {
+              "name": "HIDDEN9",
+              "value": "0"
+            }
+          ]
+        },
         count: 3,
         action: '/markup/vue/design-system/hints-hidden.json',
         required: false,
@@ -326,6 +366,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         case 'hidden':
         case 'password':
         case 'date':
+        case 'datetime':
         case 'time':
         case 'textarea':
         case 'num':
@@ -420,5 +461,20 @@ export const formControlsStore = defineStore('form-controls-store', {
     setDisabled(control, value) {
       control.disabled = value;
     },
+    checkRequired(control) {
+      if (!control.required) {
+        control.required = true;
+      } else {
+        if (!control.label.includes('*')) {
+          control.label = `${control.label} *`;
+        } else {
+          control.required = false;
+          // remove *
+          const index = control.label.indexOf('*');
+          control.label = control.label.substring(0, index).trim()
+        }
+        
+      }
+    }
   },
 });

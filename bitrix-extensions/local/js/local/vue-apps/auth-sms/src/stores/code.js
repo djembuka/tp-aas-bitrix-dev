@@ -30,7 +30,7 @@ export const codeStore = defineStore('code', {
       );
     },
     buttonDisabled() {
-      return this.inputs.some((i) => !i.value || i.invalid || i.disabled);
+      return this.inputs.some((i) => String(i.value).length !== 1 || i.invalid || i.disabled);
     },
     buttonTimerText() {
       return this.timer

@@ -1,0 +1,16 @@
+.disciplinary-case-table-wrapper {
+  display: grid;
+  gap: 16px;
+}
+.disciplinary-case-table-wrapper.disciplinary-case-table-wrapper--card {
+  gap: 24px;
+}
+.disciplinary-case-table-wrapper .vue-button--success {
+  width: 153px;
+}
+.disciplinary-case-table-wrapper .vue-table-td--buttons {
+  white-space: nowrap;
+}
+.disciplinary-case-table-wrapper .vue-message--table-result {
+  display: none;
+}
