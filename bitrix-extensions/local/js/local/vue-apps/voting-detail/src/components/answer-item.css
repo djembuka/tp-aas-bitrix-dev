@@ -22,6 +22,16 @@
 }
 .twpx-poll-answer-item__text {
     width: 100%;
+    display: grid;
+    gap: 8px;
+}
+.twpx-poll-answer-item__title {
+    font-size: 16px;
+    line-height: 1;
+}
+.twpx-poll-answer-item__desc {
+    font-size: 12px;
+    line-height: 14px;
 }
 .twpx-poll-answer-item__buttons {
     display: flex;

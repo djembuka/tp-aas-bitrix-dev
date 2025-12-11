@@ -45,7 +45,10 @@ export const AnswerItem = {
         <div class="twpx-poll-answer-item">
             <div class="twpx-poll-answer-item__info">
                 <img :src="answer.image || nopic" width="48" height="48" alt="" />
-                <div class="twpx-poll-answer-item__text">{{ answer.name }}</div>
+                <div class="twpx-poll-answer-item__text">
+                    <div class="twpx-poll-answer-item__title" v-if="answer.name">{{ answer.name }}</div>
+                    <div class="twpx-poll-answer-item__desc" v-if="answer.description">{{ answer.description }}</div>
+                </div>
                 <ControlChoice v-if="Number(type) === 0" :control="controls[0]" @input="input" />
                 <ControlChoice v-if="Number(type) === 1" :control="controls[1]" @input="input" />
             </div>
