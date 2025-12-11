@@ -53,8 +53,8 @@ export const AnswerItem = {
                 <ControlChoice v-if="Number(type) === 1" :control="controls[1]" @input="input" />
             </div>
             <div class="twpx-poll-answer-item__buttons">
-                <ButtonComponent :text="Delete" :props="['icon', 'delete', 'medium']" @clickButton="clickDelete" />
                 <ButtonComponent :text="Edit" :props="['icon', 'edit', 'medium']" @clickButton="clickEdit" />
+                <ButtonComponent :text="Delete" :props="['icon', 'delete', 'medium']" @clickButton="clickDelete" />
             </div>
         </div>
     `,

@@ -27,8 +27,8 @@ export const GroupItem = {
                     <div class="twpx-poll-group-item__text" v-if="group.description">{{ group.description }}</div>
                 </div>
                 <div class="twpx-poll-group-item__buttons">
-                    <ButtonComponent text="Delete" :props="['icon', 'delete', 'medium']" @clickButton="clickDelete" />
                     <ButtonComponent text="Edit" :props="['icon', 'edit', 'medium']" @clickButton="clickEdit" />
+                    <ButtonComponent text="Delete" :props="['icon', 'delete', 'medium']" @clickButton="clickDelete" />
                 </div>
             </div>
 
