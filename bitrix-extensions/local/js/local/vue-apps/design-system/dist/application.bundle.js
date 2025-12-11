@@ -1790,4 +1790,5 @@
 
   exports.DesignSystem = DesignSystem;
 
-}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.Controls,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.AAS,BX.Vue3.Pinia));//# sourceMappingURL=application.bundle.js.map
+}((this.BX = this.BX || {}),BX,BX,BX.Controls,BX.Modals,BX.Modals,BX.AAS,BX.Controls,BX.AAS,BX.Loaders,BX.Loaders,BX.Loaders,BX.AAS,BX));
+//# sourceMappingURL=application.bundle.js.map
