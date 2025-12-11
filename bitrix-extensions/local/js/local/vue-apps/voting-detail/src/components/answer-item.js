@@ -44,7 +44,7 @@ export const AnswerItem = {
     template: `
         <div class="twpx-poll-answer-item">
             <div class="twpx-poll-answer-item__info">
-                <img :src="answer.image || nopic" width="48" height="48" alt="" />
+                <img :src="answer.image" width="48" height="48" alt="" v-if="answer.image" />
                 <div class="twpx-poll-answer-item__text">
                     <div class="twpx-poll-answer-item__title" v-if="answer.name">{{ answer.name }}</div>
                     <div class="twpx-poll-answer-item__desc" v-if="answer.description">{{ answer.description }}</div>
