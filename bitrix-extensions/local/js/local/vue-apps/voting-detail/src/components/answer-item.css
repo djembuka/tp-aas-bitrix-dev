@@ -32,6 +32,7 @@
 .twpx-poll-answer-item__desc {
     font-size: 12px;
     line-height: 14px;
+    white-space: break-spaces;
 }
 .twpx-poll-answer-item__buttons {
     display: flex;
