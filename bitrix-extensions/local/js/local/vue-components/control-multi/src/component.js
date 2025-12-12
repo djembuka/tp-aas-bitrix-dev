@@ -100,7 +100,7 @@ export const ControlMulti = {
 
     this.$emit('create', { parent: this.parent });
 
-    if (this.parent.value !== null && typeof this.parent.value === 'object' && this.parent.value.forEach && this.parent.value.length) {
+    if (Array.isArray(this.parent.value)) {
       this.parent.value.forEach(v => {
         this.add(v);
       })

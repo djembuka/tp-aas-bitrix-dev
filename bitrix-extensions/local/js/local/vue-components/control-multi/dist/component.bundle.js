@@ -72,7 +72,7 @@ this.BX = this.BX || {};
       this.$emit('create', {
         parent: this.parent
       });
-      if (this.parent.value !== null && babelHelpers["typeof"](this.parent.value) === 'object' && this.parent.value.forEach && this.parent.value.length) {
+      if (Array.isArray(this.parent.value)) {
         this.parent.value.forEach(function (v) {
           _this.add(v);
         });
