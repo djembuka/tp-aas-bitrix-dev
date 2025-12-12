@@ -55,7 +55,7 @@ export class Marketplace {
         dataStore().lang = self.options.lang || {};
         dataStore().actions = self.options.actions || [];
 
-        resultStore().maxCountPerRequest = self.options.maxCountPerRequest || 3;
+        resultStore().maxCountPerRequest = self.options.maxCountPerRequest || 18;
       },
     });
 

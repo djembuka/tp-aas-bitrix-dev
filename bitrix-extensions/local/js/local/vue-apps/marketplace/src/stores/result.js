@@ -7,7 +7,7 @@ export const resultStore = defineStore('result', {
     formIdArray: [],
     formDataArray: [],
     startIndex: 0,
-    maxCountPerRequest: 3,
+    maxCountPerRequest: 18,
     loadingMore: false,
     applicationModalStateWatcher: false,
 
