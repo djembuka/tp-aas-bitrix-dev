@@ -78,7 +78,7 @@
         formIdArray: [],
         formDataArray: [],
         startIndex: 0,
-        maxCountPerRequest: 3,
+        maxCountPerRequest: 18,
         loadingMore: false,
         applicationModalStateWatcher: false,
         resultApplicationGroup: {},
@@ -1007,7 +1007,7 @@
             dataStore().signedParameters = self.options.signedParameters || '';
             dataStore().lang = self.options.lang || {};
             dataStore().actions = self.options.actions || [];
-            resultStore().maxCountPerRequest = self.options.maxCountPerRequest || 3;
+            resultStore().maxCountPerRequest = self.options.maxCountPerRequest || 18;
           }
         }));
         babelHelpers.classPrivateFieldGet(this, _application).use(babelHelpers.classPrivateFieldGet(this, _store));
@@ -1030,5 +1030,5 @@
 
   exports.Marketplace = Marketplace;
 
-}((this.BX = this.BX || {}),BX,BX,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Controls,BX.AAS,BX));
+}((this.BX = this.BX || {}),BX.Vue3,BX.Vue3.VueRouter,BX.AAS,BX.Loaders,BX.AAS,BX.Modals,BX.Controls,BX.AAS,BX.Vue3.Pinia));
 //# sourceMappingURL=application.bundle.js.map
