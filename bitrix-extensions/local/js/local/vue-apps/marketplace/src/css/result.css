@@ -48,7 +48,7 @@
     font-size: 14px;
     line-height: normal;
     border-bottom: 1px solid var(--twpx-border-neutral, #F2F2F2);
-    white-space: break-all;
+    word-break: break-word;
 }
 .twpx-vue-marketplace-company__properties .vue-button {
     justify-self: start;
