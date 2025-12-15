@@ -2,7 +2,7 @@
   font-family: Roboto,sans-serif;
   padding: 16px;
   background-color: #fafbfc;
-  --aas-docs-block-icon-width: 23px;
+  --aas-docs-block-icon-width: 24px;
   --aas-docs-block-icon-height: 32px;
   --aas-docs-block-gap: 16px;
   --aas-docs-block-button-width: 0
@@ -12,12 +12,6 @@
   flex-shrink: 0;
   --aas-docs-block-icon-margin: 16px;
   --aas-docs-block-button-width: 38px
-}
-
-.twpx-doc--32x44 {
-  --aas-docs-block-icon-width: 32px;
-  --aas-docs-block-icon-height: 44px;
-  --aas-docs-block-gap: 16px
 }
 
 .twpx-doc__body {
@@ -33,13 +27,6 @@
   background-position: center;
   background-size: contain;
   flex-shrink: 0
-}
-
-@media (max-width: 767px) {
-  .twpx-doc__icon {
-      width:40px;
-      height: 50px;
-  }
 }
 
 .twpx-doc__text {
@@ -256,14 +243,6 @@
   font-size: .56rem
 }
 
-
-
-
-@media (max-width: 767px) {
-  .twpx-doc__body {
-      align-items:flex-start
-  }
-}
 
 @media (max-width: 767px) {
   .twpx-doc__data {
