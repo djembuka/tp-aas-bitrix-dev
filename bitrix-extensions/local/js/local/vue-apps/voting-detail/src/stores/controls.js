@@ -113,6 +113,23 @@ export const controlsStore = defineStore('controls', {
           ]
         },
         {
+          id: 'question3',
+          heading: 'Файлы вопроса',
+          controls: [
+            {
+              property: 'file',
+              id: 'question3control1',
+              name: 'QUESTION_FILE',
+              label: 'Файл',
+              value: [],
+              file: null,
+              accept: ['pdf'],
+              multi: 5,
+              maxsize: 20000000,
+            },
+          ]
+        },
+        {
           id: 'question2',
           heading: 'Технические',
           controls: [
@@ -222,6 +239,28 @@ export const controlsStore = defineStore('controls', {
     ]
   }),
   actions: {
+    createMulti({ parent }) {
+      parent.property = 'multi';
+      parent.multi = [];
+    },
+    addMulti({ parent, add }) {
+      const randomId = Math.round(Math.random() * 1000);
+      const sub = [];
+
+      if (add.sub && add.sub.forEach) {
+        add.sub.forEach((s) => {
+          s.id = `${s.id}${randomId}`;
+          sub.push({ ...s });
+        });
+        add.sub = sub;
+      }
+
+      add.id = `${add.id}${randomId}`;
+      parent.multi.push(add);
+    },
+    removeMulti({ parent, index }) {
+      parent.multi.splice(index, 1);
+    },
     changeGroupFormBlocks(blocks) {
       this.groupFormBlocks = blocks;
     },

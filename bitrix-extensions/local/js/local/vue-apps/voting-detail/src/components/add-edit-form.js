@@ -20,6 +20,21 @@ export const AddEditForm = {
         MessageComponent
     },
     template: `
+    <div class="twpx-poll-add-form__block" v-for="block in currentBlocks" :key="block.id" :data-id="block.id">
+                    <h4>{{ block.heading }}</h4>
+                    <div class="twpx-poll-add-form__controls">
+                    <pre v-for="control in block.controls" :key="control.id">{{ control }}</pre>
+                        <ControlChoice  v-for="control in block.controls" :key="control.id"
+                            :control="control"
+                            @input="input"
+                            @hints="hints"
+                            @create="createMulti"
+                            @add="addMulti"
+                            @remove="removeMulti"
+                        />
+                    </div>
+                </div>
+
         <ModalAnyContent :stateWatcher="addEditStateWatcher">
             <div class="twpx-poll-detail__loader" v-if="addEditLoading">
                 <LoaderCircle :show="addEditLoading" />
@@ -70,6 +85,9 @@ export const AddEditForm = {
           'groupFormBlocks',
           'questionFormBlocks',
           'answerFormBlocks',
+          'createMulti',
+          'addMulti',
+          'removeMulti',
         ]),
         currentLang() {
             return this.lang[ this.typeMode ][ this.actionMode ];
