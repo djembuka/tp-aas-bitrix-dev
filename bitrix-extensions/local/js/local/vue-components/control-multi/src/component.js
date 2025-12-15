@@ -61,7 +61,7 @@ export const ControlMulti = {
       if (!this.isDisabled) {
 
         let copy = Object.assign({}, this.copy);
-        if(value) {
+        if (value) {
           copy.value = value;
         }
 
@@ -100,7 +100,7 @@ export const ControlMulti = {
 
     this.$emit('create', { parent: this.parent });
 
-    if (Array.isArray(this.parent.value)) {
+    if (Array.isArray(this.parent.value) && this.parent.value.length > 0) {
       this.parent.value.forEach(v => {
         this.add(v);
       })
