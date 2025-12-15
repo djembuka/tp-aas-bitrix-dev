@@ -12,3 +12,6 @@
     grid-template-columns: 1fr 1fr;
     gap: var(--body-buttons-vertical-gap, 16px);
 }
+#VotingDetail .twpx-modal-any-content-container {
+    padding-right: 15px;
+}
