@@ -25,7 +25,11 @@ export const AddEditForm = {
                 <LoaderCircle :show="addEditLoading" />
             </div>
 
-            <MessageComponent v-else-if="addEditError" type="error" size="big" :message="addEditError" />
+            <MessageComponent v-else-if="addEditError"
+                type="error"
+                size="big"
+                :message="addEditError"
+            />
 
             <div v-else class="twpx-poll-add-form">
                 <h2>{{ currentLang.heading }}</h2>
@@ -45,8 +49,17 @@ export const AddEditForm = {
                 </div>
                     
                 <div class="twpx-poll-add-form__buttons">
-                    <ButtonComponent :text="currentLang.cancelButton" :props="['gray-color', 'large']" @clickButton="clickCancel" />
-                    <ButtonComponent :text="currentLang.sendButton" :disabled="sendButtonDisabled" :props="['secondary', 'large']" @clickButton="clickSend" />
+                    <ButtonComponent
+                        :text="currentLang.cancelButton"
+                        :props="['gray-color', 'large']"
+                        @clickButton="clickCancel"
+                    />
+                    <ButtonComponent
+                        :text="currentLang.sendButton"
+                        :disabled="sendButtonDisabled"
+                        :props="['secondary', 'large']"
+                        @clickButton="clickSend"
+                    />
                 </div>
             </div>
         </ModalAnyContent>
