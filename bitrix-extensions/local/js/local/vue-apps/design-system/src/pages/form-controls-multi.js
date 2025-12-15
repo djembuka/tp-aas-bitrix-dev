@@ -5,6 +5,16 @@ export const FormControlsMulti = {
     FormControlsMultiComponent,
   },
   template: `
-    <FormControlsMultiComponent />
+    <pre>&lt;ControlChoice
+    :control="control"
+    @input="input"
+    @hints="hints"
+    @create="createMulti"
+    @add="addMulti"
+    @remove="removeMulti"
+/&gt;</pre>
+
+    <a href="/markup/vue/design-system/controls-store.js">controls-store.js</a>
+    <div><FormControlsMultiComponent /></div>
   `,
 };
