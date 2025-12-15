@@ -61,7 +61,7 @@ export const dataStore = defineStore('data', {
 			'deleteAnswer': ['twinpx:voting.form', 'deleteAnswer'],
 		},
 
-    typeMode: 'group',// group, question, answer
+    typeMode: 'question',// group, question, answer
     actionMode: 'add',// add, edit
 
     voting: [],
