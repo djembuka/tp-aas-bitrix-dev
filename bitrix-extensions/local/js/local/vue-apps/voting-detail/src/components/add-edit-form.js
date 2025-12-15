@@ -212,15 +212,26 @@ export const AddEditForm = {
                 name: this.questionFormBlocks[0].controls[1].value,
                 description: this.questionFormBlocks[0].controls[2].value,
                 image: this.questionFormBlocks[0].controls[3].file,
-                type: Number(this.questionFormBlocks[1].controls[0].value),
-                selectableAnswers: Number(this.questionFormBlocks[1].controls[1].value),
-                sortIndex: Number(this.questionFormBlocks[1].controls[2].value),
+
+                files: this.questionFormBlocks[1].controls[0].multi.map(c => c.file),
+
+                type: Number(this.questionFormBlocks[2].controls[0].value),
+                selectableAnswers: Number(this.questionFormBlocks[2].controls[1].value),
+                sortIndex: Number(this.questionFormBlocks[2].controls[2].value),
                 imageUpdate
             };
         
             Object.entries(data).forEach(([key, value]) => {
                 if (value !== undefined && value !== null) {
-                    formData.append(key, value);
+                    if (Array.isArray(value)) {
+                        value.forEach((v, i) => {
+                            if (v) {
+                                formData.append(`${key}[${i}]`, v);
+                            }
+                        })
+                    } else {
+                        formData.append(key, value);
+                    }
                 }
             });
         
