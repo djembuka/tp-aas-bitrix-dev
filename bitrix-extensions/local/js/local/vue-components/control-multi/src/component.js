@@ -92,6 +92,8 @@ export const ControlMulti = {
     },
   },
   beforeMount() {
+    if (this.parent.property === 'multi') return;
+    
     this.multi = this.parent.multi;
 
     this.copy = JSON.parse(JSON.stringify(this.parent));
