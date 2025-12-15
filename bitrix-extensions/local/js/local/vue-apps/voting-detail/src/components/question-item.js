@@ -2,8 +2,9 @@ import './question-item.css'
 
 import { ControlChoice } from 'local.vue-components.control-choice';
 import { ButtonComponent } from 'local.vue-components.button-component';
+import { DocComponent } from 'local.vue-components.doc-component';
 
-import { AnswerItem } from './answer-item'
+import { AnswerItem } from './answer-item';
 
 export const QuestionItem = {
     props: ['question', 'answers'],
@@ -11,6 +12,7 @@ export const QuestionItem = {
     components: {
         ControlChoice,
         ButtonComponent,
+        DocComponent,
         AnswerItem
     },
     template: `
@@ -19,6 +21,9 @@ export const QuestionItem = {
                 <div class="twpx-poll-question-item__info">
                     <h4 v-if="question.name">{{ question.name }}</h4>
                     <div v-if="question.description" class="twpx-poll-question-item__text">{{ question.description }}</div>
+                    <div v-if="question.files" class="twpx-poll-question-item__files">
+                        <DocComponent v-for="doc in question.files" :key="doc.id" :doc="doc" />
+                    </div>
                 </div>
                 <div class="twpx-poll-question-item__buttons">
                     <ButtonComponent :text="Edit" :props="['icon', 'edit', 'medium']" @clickButton="clickEdit" />
