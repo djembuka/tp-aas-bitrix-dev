@@ -35,8 +35,6 @@ export const Application = {
   template: `
   <div class="twpx-poll-detail">
 
-      <AddEditForm />
-
     <div class="twpx-poll-detail__loader" v-if="loading">
       <LoaderCircle :show="loading" />
     </div>
