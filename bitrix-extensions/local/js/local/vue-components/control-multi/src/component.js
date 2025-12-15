@@ -60,7 +60,7 @@ export const ControlMulti = {
     add(value) {
       if (!this.isDisabled) {
 
-        let copy = Object.assign({}, this.copy);
+        let copy = JSON.parse(JSON.stringify(this.copy));
         if (value) {
           copy.value = value;
         }
@@ -94,7 +94,7 @@ export const ControlMulti = {
   beforeMount() {
     this.multi = this.parent.multi;
 
-    this.copy = Object.assign({}, this.parent);
+    this.copy = JSON.parse(JSON.stringify(this.parent));
     delete this.copy.multi;
     this.copy.value = '';
 
