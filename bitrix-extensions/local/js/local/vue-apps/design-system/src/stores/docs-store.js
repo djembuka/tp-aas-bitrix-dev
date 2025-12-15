@@ -10,7 +10,7 @@ export const docsStore = defineStore('docs-store', {
         size: 654000,
         date: '15 января 2020',
         author: 'Азарянц Ашот Александрович',
-        icon: '/template/images/pdf.svg',
+        icon: '/template/images/icons/pdf-24x32.svg',
         remove: true
       }
     ],
