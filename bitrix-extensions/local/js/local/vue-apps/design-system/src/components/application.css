@@ -41,3 +41,27 @@
   background-color: #fff;
   color: #06417c;
 }
+
+/*Submenu*/
+.twpx-desing-system-submenu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.twpx-desing-system-submenu a {
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: #06417c;
+  border: 1px solid #06417c;
+  color: #fff;
+}
+.twpx-desing-system-submenu a:hover {
+  color: #fff;
+}
+.twpx-desing-system-submenu a.router-link-exact-active {
+  cursor: default;
+  background-color: #fff;
+  color: #06417c;
+}
