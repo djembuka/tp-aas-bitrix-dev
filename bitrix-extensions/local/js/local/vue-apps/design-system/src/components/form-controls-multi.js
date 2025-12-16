@@ -1,44 +1,45 @@
 import './application.css';
-
 import { ControlChoice } from 'local.vue-components.control-choice';
-
-import { mapState, mapActions } from 'ui.vue3.pinia';
-import { formControlsMultiStore } from '../stores/form-controls-multi-store';
 
 export const FormControlsMultiComponent = {
   data() {
-    return {};
+    return {
+      essential: []
+    };
   },
+  props: ['controls'],
+  emits: [
+    'input',
+    'hints',
+    'create',
+    'add',
+    'remove'
+  ],
   components: {
     ControlChoice,
   },
   // language=Vue
   template: `
     <div>
-      <div class="twpx-design-system-block" v-for="control in controls" :key="control.id">
+      <div class="twpx-design-system-block" v-for="(control, index) in controls" :key="control.id">
         <div>
           <h3>{{ heading3(control) }}</h3>
-          <ControlChoice :control="control" @create="createMulti" @add="addMulti" @remove="removeMulti" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+          <ControlChoice
+            :control="control"
+            @input="$emit('input', $event)"
+            @hints="$emit('hints', $event)"
+            @create="$emit('create', $event)"
+            @add="$emit('add', $event)"
+            @remove="$emit('remove', $event)"
+          />
         </div>
-        <pre>{{ control }}</pre>
+        <pre>{{ essential[index] }}</pre>
         <div>
         </div>
       </div>
     </div>
 	`,
-  computed: {
-    ...mapState(formControlsMultiStore, ['controls']),
-  },
   methods: {
-    ...mapActions(formControlsMultiStore, [
-      'changeControlValue',
-      'runHints',
-      'setHints',
-
-      'createMulti',
-      'addMulti',
-      'removeMulti',
-    ]),
     heading3(control) {
       return `${
         typeof control.multi === 'object'
@@ -50,28 +51,8 @@ export const FormControlsMultiComponent = {
           : control.type || ''
       }`;
     },
-    input({ control, value, checked }) {
-      this.changeControlValue({
-        control,
-        value,
-        checked,
-      });
-    },
-    hints({ control, type, action, value }) {
-      if (type === 'get') {
-        this.runHints(control, action);
-      } else if (type === 'set') {
-        this.setHints(control, value);
-      }
-    },
-    focus() {
-      // console.log('focus');
-    },
-    blur() {
-      // console.log('blur');
-    },
-    enter() {
-      // console.log('enter');
-    },
   },
+  beforeMount() {
+    this.essential = JSON.parse(JSON.stringify(this.controls));
+  }
 };

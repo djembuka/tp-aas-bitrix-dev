@@ -1,5 +1,8 @@
 import { FormControlsMultiComponent } from '../components/form-controls-multi';
 
+import { mapState, mapActions } from 'ui.vue3.pinia';
+import { formControlsMultiStore } from '../stores/form-controls-multi-store';
+
 export const FormControlsMulti = {
   data() {
     return {
@@ -41,12 +44,47 @@ export const FormControlsMulti = {
     @remove="removeMulti"
 /&gt;</pre>
 
-{{$route.params.property}}
-
     <a href="/markup/vue/design-system/controls-store.js">controls-store.js</a>
-    <div><FormControlsMultiComponent /></div>
+
+    <div>
+      <FormControlsMultiComponent
+        :property="$route.params.property"
+        :controls="controls"
+        @input="input"
+        @hints="hints"
+        @create="createMulti"
+        @add="addMulti"
+        @remove="removeMulti"
+      />
+    </div>
   `,
+  computed: {
+    ...mapState(formControlsMultiStore, ['controls']),
+  },
   methods: {
+    ...mapActions(formControlsMultiStore, [
+      'changeControlValue',
+      'runHints',
+      'setHints',
+
+      'createMulti',
+      'addMulti',
+      'removeMulti',
+    ]),
+    input({ control, value, checked }) {
+      this.changeControlValue({
+        control,
+        value,
+        checked,
+      });
+    },
+    hints({ control, type, action, value }) {
+      if (type === 'get') {
+        this.runHints(control, action);
+      } else if (type === 'set') {
+        this.setHints(control, value);
+      }
+    },
     click(tab) {
       const url = new URL(window.location.href);
       if (tab && tab !== '') {
