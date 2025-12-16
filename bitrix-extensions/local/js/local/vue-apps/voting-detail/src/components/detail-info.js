@@ -113,6 +113,20 @@ export const DetailInfo = {
                     },
                 ]
             },
+            {
+                id: 5,
+                heading: 'Оформление документов',
+                items: [
+                    {
+                        title: 'Заголовок документа',
+                        value: this.voting.pdfTitle
+                    },
+                    {
+                        title: 'Подзаголовок документа',
+                        value: this.voting.pdfSubTitle
+                    },
+                ]
+            },
             ]
         }
     },
