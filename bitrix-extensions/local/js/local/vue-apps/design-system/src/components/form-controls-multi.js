@@ -34,6 +34,7 @@ export const FormControlsMultiComponent = {
           />
         </div>
         <pre>{{ essential[index] }}</pre>
+        <pre>{{ control }}</pre>
         <div>
         </div>
       </div>
