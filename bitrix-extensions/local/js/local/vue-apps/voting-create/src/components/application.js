@@ -110,18 +110,25 @@ export const Application = {
         name: this.blocks[0].controls[0].value,
         description: this.blocks[0].controls[2].value,
         announcement: this.blocks[0].controls[1].value,
+
         activityStartDate: this.formatToSqlDatetime(this.blocks[1].controls[0].value),
         activityEndDate: this.formatToSqlDatetime(this.blocks[1].controls[1].value),
         voteEndDate: this.formatToSqlDatetime(this.blocks[1].controls[2].value),
+
         numberVotesLimit: this.blocks[2].controls[0].value,
         numberVoters: this.blocks[2].controls[1].value,
         buttonMessage: this.blocks[2].controls[2].value,
         messageAfterVoting: this.blocks[2].controls[3].value,
+
         groupsVoting: this.blocks[3].controls[0].value,
         groupsVotingEio: this.blocks[3].controls[1].value,
         groupsVotingUmc: this.blocks[3].controls[2].value,
         groupsCommission: this.blocks[3].controls[3].value,
+
         sortIndex: this.blocks[2].controls[4].value,
+
+        pdfTitle: this.blocks[4].controls[0].value,
+        pdfSubTitle: this.blocks[4].controls[1].value,
       };
 
       if (this.mode === 'edit') {
@@ -201,7 +208,9 @@ export const Application = {
         [3, 0, 'groupsVoting'],
         [3, 1, 'groupsVotingEio'],
         [3, 2, 'groupsVotingUmc'],
-        [3, 3, 'groupsCommission']
+        [3, 3, 'groupsCommission'],
+        [4, 0, 'pdfTitle'],
+        [4, 1, 'pdfSubTitle']
       ]
 
       votingArray.forEach(item => {
