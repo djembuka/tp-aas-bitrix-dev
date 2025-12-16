@@ -4,6 +4,17 @@ export const formControlsMultiStore = defineStore('form-controls-multi-store', {
   state: () => ({
     controls: [
       {
+        id: "textMulti1",
+        property: "text",
+        name: "TEXT_MULTI",
+        label: "Текстовое поле",
+        value: "",
+        multi: 3,
+        required: false,
+        disabled: false,
+        hint_external: "Множественное текстовое поле"
+      },
+      {
         property: 'hint',
         id: 'id5',
         name: 'AUDITOR_ORNZ',
