@@ -9,7 +9,7 @@ export const controlsStore = defineStore('controls', {
           controls: [
             {
               property: 'text',
-              id: 1,
+              id: 'votingCreate11',
               name: 'NAME',
               label: 'Название голосования *',
               value: '',
@@ -17,7 +17,7 @@ export const controlsStore = defineStore('controls', {
             },
             {
               property: 'textarea',
-              id: 2,
+              id: 'votingCreate12',
               name: 'ANNOUNCEMENT',
               label: 'Текст анонса',
               value: '',
@@ -25,7 +25,7 @@ export const controlsStore = defineStore('controls', {
             },
             {
               property: 'textarea',
-              id: 3,
+              id: 'votingCreate13',
               name: 'DESCRIPTION',
               label: 'Текст подробного описания',
               value: '',
@@ -40,7 +40,7 @@ export const controlsStore = defineStore('controls', {
             {
               property: "datetime",
               type: "single",
-              id: 1,
+              id: 'votingCreate21',
               name: "DATE_FROM",
               label: "Дата начала активности *",
               value: "",
@@ -49,7 +49,7 @@ export const controlsStore = defineStore('controls', {
             {
               property: "datetime",
               type: "single",
-              id: 2,
+              id: 'votingCreate22',
               name: "DATE_TO",
               label: "Дата окончания активности *",
               value: "",
@@ -58,7 +58,7 @@ export const controlsStore = defineStore('controls', {
             {
               property: "datetime",
               type: "single",
-              id: 3,
+              id: 'votingCreate23',
               name: "DATE_FINISH",
               label: "Дата окончания голосования *",
               value: "",
@@ -72,7 +72,7 @@ export const controlsStore = defineStore('controls', {
           controls: [
             {
               property: "num",
-              id: 1,
+              id: 'votingCreate31',
               name: "NUM",
               label: "Количество попыток *",
               value: "1",
@@ -80,7 +80,7 @@ export const controlsStore = defineStore('controls', {
             },
             {
               property: "num",
-              id: 2,
+              id: 'votingCreate32',
               name: "NUM",
               label: "Количество голосующих",
               value: "",
@@ -88,7 +88,7 @@ export const controlsStore = defineStore('controls', {
             },
             {
               property: "text",
-              id: 3,
+              id: 'votingCreate33',
               name: "BUTTON",
               label: "Сообщение у кнопки",
               value: "",
@@ -96,7 +96,7 @@ export const controlsStore = defineStore('controls', {
             },
             {
               property: 'textarea',
-              id: 4,
+              id: 'votingCreate34',
               name: 'MESSAGE',
               label: 'Сообщение после голосования',
               value: '',
@@ -104,7 +104,7 @@ export const controlsStore = defineStore('controls', {
             },
             {
               property: "num",
-              id: 5,
+              id: 'votingCreate35',
               name: "SORT",
               label: "Порядок размещения *",
               value: "",
@@ -119,7 +119,7 @@ export const controlsStore = defineStore('controls', {
           controls: [
             {
               property: "text",
-              id: 1,
+              id: 'votingCreate41',
               name: "MEMBERS_ID",
               label: "ID групп голосующих",
               value: "",
@@ -127,7 +127,7 @@ export const controlsStore = defineStore('controls', {
             },
             {
               property: "text",
-              id: 2,
+              id: 'votingCreate42',
               name: "MEMBERS_EIO_ID",
               label: "ID групп голосующих ЕИО",
               value: "",
@@ -135,7 +135,7 @@ export const controlsStore = defineStore('controls', {
             },
             {
               property: "text",
-              id: 3,
+              id: 'votingCreate43',
               name: "MEMBERS_UMC_ID",
               label: "ID групп голосующих УМЦ",
               value: "",
@@ -143,7 +143,7 @@ export const controlsStore = defineStore('controls', {
             },
             {
               property: "text",
-              id: 4,
+              id: 'votingCreate44',
               name: "COMMISSIONS_ID",
               label: "ID групп Избирательных комиссий",
               value: "",
