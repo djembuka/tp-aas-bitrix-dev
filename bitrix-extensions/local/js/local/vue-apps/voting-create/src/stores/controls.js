@@ -150,6 +150,28 @@ export const controlsStore = defineStore('controls', {
               required: false,
             },
           ]
+        },
+        {
+          id: 5,
+          heading: 'Оформление документов',
+          controls: [
+            {
+              property: "text",
+              id: 'votingCreate51',
+              name: "DOC_TITLE",
+              label: "Заголовок документа",
+              value: "",
+              required: false,
+            },
+            {
+              property: "textarea",
+              id: 'votingCreate52',
+              name: "DOC_SUBTITLE",
+              label: "Подзаголовок документа",
+              value: "",
+              required: false,
+            },
+          ]
         }
       ]
   }),
