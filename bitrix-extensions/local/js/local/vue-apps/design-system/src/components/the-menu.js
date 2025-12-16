@@ -7,35 +7,35 @@ export const TheMenu = {
           name: 'Form controls'
         },
         {
-          path: 'select-dependency',
+          path: '/select-dependency',
           name: 'Select dependency'
         },
         {
-          path: 'multi',
+          path: '/multi/text',
           name: 'Form controls multi'
         },
         {
-          path: 'buttons',
+          path: '/buttons',
           name: 'Buttons'
         },
         {
-          path: 'filter',
+          path: '/filter',
           name: 'Filter'
         },
         {
-          path: 'modals',
+          path: '/modals',
           name: 'Modals'
         },
         {
-          path: 'docs',
+          path: '/docs',
           name: 'Docs'
         },
         {
-          path: 'loaders',
+          path: '/loaders',
           name: 'Loaders'
         },
         {
-          path: 'messages',
+          path: '/messages',
           name: 'Messages'
         },
       ]
@@ -43,7 +43,15 @@ export const TheMenu = {
   },
   template: `
     <div class="twpx-desing-system-menu">
-      <router-link v-for="item in items" :key="item.path" :to="item.path" @click="click(item.path)">{{ item.name }}</router-link>
+
+      <router-link v-for="item in items"
+        :key="item.path"
+        :to="item.path"
+        @click="click(item.path)"
+      >
+        {{ item.name }}
+      </router-link>
+
     </div>
   `,
   methods: {

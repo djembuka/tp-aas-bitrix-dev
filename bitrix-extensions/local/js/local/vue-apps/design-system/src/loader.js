@@ -33,7 +33,7 @@ export class DesignSystem {
           component: SelectDependency,
         },
         {
-          path: '/multi',
+          path: '/multi/:property',
           component: FormControlsMulti,
         },
         {

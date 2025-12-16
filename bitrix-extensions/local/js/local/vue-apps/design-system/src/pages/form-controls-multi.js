@@ -14,6 +14,8 @@ export const FormControlsMulti = {
     @remove="removeMulti"
 /&gt;</pre>
 
+{{$route.params.property}}
+
     <a href="/markup/vue/design-system/controls-store.js">controls-store.js</a>
     <div><FormControlsMultiComponent /></div>
   `,
