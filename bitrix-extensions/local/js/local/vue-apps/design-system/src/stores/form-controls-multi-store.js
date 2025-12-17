@@ -9,7 +9,7 @@ export const formControlsMultiStore = defineStore('form-controls-multi-store', {
           property: "text",
           name: "TEXT_MULTI",
           label: "Текстовое поле",
-          value: "",
+          value: [],
           multi: 3,
           required: false,
           disabled: false,
