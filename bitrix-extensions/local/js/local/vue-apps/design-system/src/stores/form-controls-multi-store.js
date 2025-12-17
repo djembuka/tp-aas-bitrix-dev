@@ -2,254 +2,170 @@ import { defineStore } from 'ui.vue3.pinia';
 
 export const formControlsMultiStore = defineStore('form-controls-multi-store', {
   state: () => ({
-    controls: [
-      {
-        id: "textMulti1",
-        property: "text",
-        name: "TEXT_MULTI",
-        label: "Текстовое поле",
-        value: "",
-        multi: 3,
-        required: false,
-        disabled: false,
-        hint_external: "Множественное текстовое поле"
-      },
-      {
-        property: 'hint',
-        id: 'id5',
-        name: 'AUDITOR_ORNZ',
-        label: 'Simple',
-        value: '',
-        count: 3,
-        action: '/markup/vue/design-system/hints.json',
-        required: false,
-        disabled: false,
-        multi: 3,
-      },
-      {
-        property: 'hint',
-        id: 'id5-1',
-        name: 'AUDITOR_ORNZ_WITH_PHOTO',
-        label: 'With HTML - data-value',
-        value: [
-          {
-            "id": "1",
-            "value": "First"
-          },
-          {
-            "id": "2",
-            "value": "Second"
-          }
-        ],
-        count: 3,
-        action: '/markup/vue/design-system/hints-html.json',
-        required: false,
-        disabled: false,
-        multi: 3,
-      },
-      {
-        property: 'hint',
-        id: 'id5-2',
-        name: 'AUDITOR_ORNZ_WITH_PHOTO',
-        label: 'Autocomplete',
-        value: '',
-        count: 3,
-        action: '/markup/vue/design-system/hints-autocomplete.json',
-        required: false,
-        disabled: false,
-        multi: 3,
-      },
-      {
-        id: 'id1',
-        property: 'text',
-        name: 'SOME_TEXT',
-        label: 'Some text',
-        value: '',
-        required: false,
-        disabled: false,
-        multi: 3,
-      },
-      {
-        id: 'id1-2',
-        property: 'text',
-        name: 'SOME_TEXT',
-        label: 'Поле text заполнено',
-        value: ['one', 'two', 'three'],
-        required: false,
-        disabled: false,
-        multi: 3,
-      },
-      {
-        id: 'id1-1',
-        property: 'textarea',
-        name: 'MESSAGE',
-        label: 'Message',
-        value: ['One', 'Two', 'Three'],
-        required: false,
-        disabled: false,
-        multi: 3,
-      },
-      {
-        id: 'id2',
-        property: 'tel',
-        name: 'PHONE',
-        label: 'Phone number',
-        value: ['+7 (903) 255-50-50', '+7 (916) 255-52-52'],
-        required: false,
-        disabled: false,
-        multi: 3,
-      },
-      {
-        id: 'id3',
-        property: 'email',
-        name: 'EMAIL',
-        label: 'Your email',
-        value: ['he@is.here', 'she@is.here','you@are.here'],
-        required: false,
-        disabled: false,
-        multi: 3,
-      },
-      {
-        property: 'password',
-        id: 'id6',
-        name: 'PASSWORD',
-        label: 'Password',
-        value: ['passwordone', 'passwordtwo'],
-        required: false,
-        disabled: false,
-        multi: 3,
-      },
-      {
-        property: 'date',
-        type: 'range',
-        id: 'id7',
-        label: 'Calendar',
-        name: 'DATE_FROM_TO',
-        required: true,
-        value: [["03.06.2025", "11.06.2025"], ["05.06.2025", "21.06.2025"], ["25.06.2025", "26.06.2025"]],
-        multi: 3,
-      },
-      {
-        property: 'date',
-        type: 'single',
-        id: 'id8',
-        label: 'Calendar',
-        name: 'DATE',
-        required: true,
-        value: ["03.06.2025", "11.06.2025"],
-        hint_external: '',
-        dependency: 'id6',
-        multi: 3,
-      },
-      {
-        property: 'file',
-        id: 'id11',
-        name: 'FILE_LOGO',
-        label: 'Logo',
-        value: ['my-png-file.png', 'your-png-file.png'],
-        file: null,
-        hint_external: '',
-        required: true,
-        disabled: false,
-        accept: ['svg', 'png', 'jpg', 'jpeg'],
-        image: true,
-        multi: 5,
-        maxsize: 10000000,
-      },
-      {
-        property: 'file',
-        type: 'upload',
-        id: 'id12',
-        name: 'FILE_LOGO_UPLOADED',
-        label: 'Upload logo',
-        value: ['my-png-file.png', 'your-png-file.png'],
-        upload: {},
-        hint_external: '',
-        required: true,
-        disabled: false,
-        accept: ['svg', 'png', 'jpg', 'jpeg'],
-        image: true,
-        maxsize: 10000000,
-        multi: 3,
-      },
-      {
-        property: 'select',
-        type: 'dropdown',
-        id: 'id13',
-        name: 'STATUS',
-        label: 'Status',
-        options: [
-          {
-            label: 'molestias',
-            code: '23423423423',
-          },
-          {
-            label: 'Farming',
-            code: '324234324',
-          },
-          {
-            label: 'Very',
-            code: '324234325',
-          },
-        ],
-        value: [
-          'molestias',
-          'Farming',
-        ],
-        disabled: false,
-        multi: 3,
-      },
-      {
-        property: 'select',
-        type: 'radio',
-        id: 'id9',
-        name: 'SELECT_BUTTON_TEXT',
-        label: 'Buttons',
-        options: [
-          {
-            label: 'Thin',
-            code: '1',
-          },
-          {
-            label: 'Thick',
-            code: '2',
-          },
-          {
-            label: 'Uppercase',
-            code: '3',
-          },
-        ],
-        value: ['2'],
-        multi: 3,
-      },
-      {
-        property: 'checkbox',
-        type: 'switch',
-        id: 'id14',
-        name: 'SWITCH',
-        required: false,
-        label: 'labore',
-        value: 'on',
-        checked: true,
-        disabled: false,
-        hint_external: '',
-        dependency: 'id6',
-        multi: 3,
-      },
-      {
-        property: 'checkbox',
-        type: 'checkbox',
-        id: 'id10',
-        name: 'DEPENDENCY_CHECKBOX',
-        required: false,
-        label: 'Checkbox',
-        value: 'on',
-        checked: true,
-        disabled: false,
-        hint_external: 'Active checkbox',
-        multi: 3,
-      },
-    ],
+    controls: {
+      text: [
+        {
+          id: "textMulti1",
+          property: "text",
+          name: "TEXT_MULTI",
+          label: "Текстовое поле",
+          value: "",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Множественное текстовое поле"
+        },
+        {
+          id: "textMulti2",
+          property: "text",
+          name: "TEXT_MULTI",
+          label: "Заполненные поля",
+          value: ['Текст 1', 'Текст 2', 'Текст 3'],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное множественное текстовое поле"
+        },
+        {
+          id: "textMulti3",
+          property: "text",
+          name: "TEXT_MULTI",
+          label: "Текст",
+          value: '',
+          required: false,
+          disabled: false,
+          hint_external: "Текстовое поле с подполем",
+          sub: [
+            {
+              id: "textMultiSub1",
+              property: "text",
+              name: "TEXT_MULTI_SUB",
+              label: "Текстовое подполе",
+              value: "",
+              required: false,
+              disabled: false,
+              hint_external: "Простое текстовое подполе"
+            }
+          ]
+        },
+        {
+          id: "textMulti4",
+          property: "text",
+          name: "TEXT_MULTI",
+          label: "Текст",
+          value: 'Текст',
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное текстовое поле с подполем",
+          sub: [
+            {
+              id: "textMultiSub2",
+              property: "text",
+              name: "TEXT_MULTI_SUB",
+              label: "Текстовое подполе",
+              value: "Нижний текст",
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное текстовое подполе"
+            }
+          ]
+        },
+        {
+          id: "textMulti5",
+          property: "text",
+          name: "TEXT_MULTI",
+          label: "Текст",
+          value: [],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Текстовое мультиполе с подполем",
+          sub: [
+            {
+              id: "textMultiSub3",
+              property: "text",
+              name: "TEXT_MULTI_SUB",
+              label: "Текстовое подполе",
+              value: "",
+              required: false,
+              disabled: false,
+              hint_external: "Простое текстовое подполе"
+            }
+          ]
+        },
+        {
+          id: "textMulti6",
+          property: "text",
+          name: "TEXT_MULTI",
+          label: "Текст",
+          value: ['Текст 1', 'Текст 2', 'Текст 3'],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное текстовое мультиполе с подполем",
+          sub: [
+            {
+              id: "textMultiSub4",
+              property: "text",
+              name: "TEXT_MULTI_SUB",
+              label: "Текстовое подполе",
+              value: "",
+              required: false,
+              disabled: false,
+              hint_external: "Простое текстовое подполе"
+            }
+          ]
+        },
+        {
+          id: "textMulti7",
+          property: "text",
+          name: "TEXT_MULTI",
+          label: "Текст",
+          value: ['Текст 1', 'Текст 2', 'Текст 3'],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное текстовое мультиполе с подполем",
+          sub: [
+            {
+              id: "textMultiSub5",
+              property: "text",
+              name: "TEXT_MULTI_SUB",
+              label: "Текстовое подполе",
+              value: [],
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Мульти текстовое подполе"
+            }
+          ]
+        },
+        {
+          id: "textMulti8",
+          property: "text",
+          name: "TEXT_MULTI",
+          label: "Текст",
+          value: ['Текст 1', 'Текст 2', 'Текст 3'],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное текстовое мультиполе с мульти подполем",
+          sub: [
+            {
+              id: "textMultiSub6",
+              property: "text",
+              name: "TEXT_MULTI_SUB",
+              label: "Текстовое мульти подполе",
+              value: ['Нижний текст 1', 'Нижний текст 2', 'Нижний текст 3'],
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное мульти текстовое подполе"
+            }
+          ]
+        },
+      ],
+    }
   }),
   actions: {
     changeControlValue({ control, value, checked }) {

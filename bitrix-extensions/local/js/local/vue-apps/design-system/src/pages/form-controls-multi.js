@@ -49,7 +49,7 @@ export const FormControlsMulti = {
     <div>
       <FormControlsMultiComponent
         :property="$route.params.property"
-        :controls="controlsFiltered"
+        :controls="controls[$route.params.property]"
         @input="input"
         @hints="hints"
         @create="createMulti"
@@ -60,16 +60,6 @@ export const FormControlsMulti = {
   `,
   computed: {
     ...mapState(formControlsMultiStore, ['controls']),
-    controlsFiltered() {
-      const arr = this.controls.filter(c => {
-        if (c.property === 'multi' && Array.isArray(c.multi) && c.multi.length) {
-          return c.multi[0].property === this.$route.params.property;
-        }
-        return c.property === this.$route.params.property;
-      });
-
-      return arr;
-    }
   },
   methods: {
     ...mapActions(formControlsMultiStore, [
