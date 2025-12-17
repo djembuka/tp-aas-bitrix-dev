@@ -95,13 +95,13 @@ export const ControlText = {
       },
     },
     placeholder() {
-      if (this.focused && !this.value.trim()) {
+      if (this.focused && !String(this.value).trim()) {
         return this.control?.hint_internal || '';
       }
       return '';
     },
     active() {
-      return this.focused || !!this.control?.value?.trim();
+      return this.focused || !!String(this.control?.value)?.trim();
     },
     invalid() {
       return (this.blured && !this.validate()) || this.setInvalidWatcher;
@@ -146,11 +146,11 @@ export const ControlText = {
     },
     validate() {
       if (
-        (this.control.required && this.value.trim()) ||
+        (this.control.required && String(this.value).trim()) ||
         !this.control.required
       ) {
         if (this.control.regexp) {
-          const match = String(this.value.trim()).match(
+          const match = String(this.value).trim().match(
             RegExp(this.control.regexp)
           );
           if (!match) {
