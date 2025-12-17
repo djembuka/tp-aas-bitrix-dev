@@ -32,22 +32,16 @@ export const FilterOpen = {
       </div>
 
       <div class="twpx-vue-filter__controls">
-        <ControlComponent v-for="control in filters" :key="control.id" :control="control" @input="input" @hints="hints" />
+        <ControlComponent v-for="control in filters"
+          :key="control.id"
+          :control="control"
+          @input="$emit('input', $event)"
+          @hints="$emit('hints', $event)"
+        />
       </div>
     </div>
   `,
   methods: {
-    input({ control, value, checked }) {
-      this.$emit('input', { control, value, checked });
-    },
-    hints({ type, control, action, value }) {
-      this.$emit('hints', {
-        type,
-        control,
-        action,
-        value,
-      });
-    },
     close() {
       this.$emit('changeState', 'closed');
     },

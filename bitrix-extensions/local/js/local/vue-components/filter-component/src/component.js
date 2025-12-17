@@ -23,9 +23,18 @@ export const FilterComponent = {
 
 		<div class="vue-tf-filter" v-else>
 
-      <FilterClosed v-if="filterState === 'closed'" :filledControls="filledControls" @changeState="changeState" @input="input" />
+      <FilterClosed v-if="filterState === 'closed'"
+        :filledControls="filledControls"
+        @changeState="changeState"
+        @input="input"
+      />
 
-      <FilterOpen v-else :filters="filters" @input="input" @hints="hints" @changeState="changeState" />
+      <FilterOpen v-else
+        :filters="filters"
+        @input="input"
+        @hints="$emit('hints', $event)"
+        @changeState="changeState"
+      />
       
     </div>
 	`,
@@ -74,14 +83,6 @@ export const FilterComponent = {
         // Обновляем URL
         window.history.replaceState({}, '', url.toString());
       }
-    },
-    hints({ type, control, action, value }) {
-      this.$emit('hints', {
-        type,
-        control,
-        action,
-        value,
-      });
     },
   },
   mounted() {
