@@ -7,15 +7,19 @@ import { MessageComponent } from 'local.vue-components.message-component'
 import { LoaderCircle } from 'local.vue-components.loader-circle'
 import { ModalAnyContent } from 'local.vue-components.modal-any-content'
 import { ModalYesNo } from 'local.vue-components.modal-yes-no'
+import { FilterComponent } from 'local.vue-components.filter-component'
 
 import { EditForm } from './edit-form'
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data';
+import { controlsStore } from '../stores/controls';
 
 export const Application = {
   data() {
-    return {};
+    return {
+      inputTimeoutId: null
+    };
   },
   components: {
     WizardBlock,
@@ -24,7 +28,8 @@ export const Application = {
     LoaderCircle,
     ModalAnyContent,
     ModalYesNo,
-    EditForm
+    EditForm,
+    FilterComponent
   },
   template: `
     <div class="twpx-poll-list">
@@ -47,8 +52,6 @@ export const Application = {
             :customData="customData"
             :signedParameters="signedParameters"
             :voting="activeVoting"
-            @input="input"
-            @hints="hints"
             @clickCancel="clickEditFormCancel"
             @clickSend="clickEditFormSend"
           />
@@ -73,6 +76,13 @@ export const Application = {
         />
 
         <WizardBlock :lang="lang" @clickButton="goToPollCreate" />
+
+        <FilterComponent
+          :filters="filters"
+          :loading="false"
+          @input="input"
+          @hints="hints"
+        />
 
         <div class="twpx-poll-list__list">
           <VotingItem v-for="voting in pollItems"
@@ -102,6 +112,8 @@ export const Application = {
       'deleteModalStateWatcher',
       'activePollId',
 
+      'filters',
+
       'editModalStateWatcher',
       'editModalLoading',
       'editModalError',
@@ -115,7 +127,28 @@ export const Application = {
     ...mapActions(dataStore, [
       'runBitrixMethod',
       'changeProp',
+      'setStatusesSelect'
     ]),
+    ...mapActions(controlsStore, [
+      'runHints',
+      'setHints',
+      'changeControlValue',
+      'createMulti',
+      'addMulti',
+      'removeMulti',
+    ]),
+    input(args) {
+      this.changeControlValue(args);
+      clearTimeout(this.inputTimeoutId);
+      this.inputTimeoutId = setTimeout(this.getVotings, 300);
+    },
+    hints({ control, type, action, value }) {
+      if (type === 'get') {
+        this.runHints(control, action);
+      } else if (type === 'set') {
+        this.setHints(control, value);
+      }
+    },
     goToPollCreate() {
       window.location.href = this.votingCreateURL;
     },
@@ -133,15 +166,11 @@ export const Application = {
 
       try {
         await this.runBitrixMethod('deleteVoting', {uuid: this.activePollId})
-        const result = await this.runBitrixMethod('votings')
-        if (result && result.data) {
-          this.changeProp('pollItems', result.data)
-        } 
+        await this.refreshPollList(); 
         this.changeProp('loading', false)
       } catch(error) {
         this.changeProp('deleteModalStateWatcher', !this.deleteModalStateWatcher)
-        this.changeProp('loading', false)
-        this.changeProp('error', error.errors[0].message)
+        this.handleRequestError()
       }
     },
     clickDeleteModalNo() {
@@ -158,29 +187,53 @@ export const Application = {
       this.changeProp('loading', true)
 
       try {
-        const result = await this.runBitrixMethod('votings')
-        if (result && result.data) {
-          this.changeProp('pollItems', result.data)
-        }     
+        this.refreshPollList()
         this.changeProp('loading', false)
       } catch(error) {
-          this.changeProp('loading', false)
-          this.changeProp('error', error.errors[0].message)
+          this.handleRequestError()
+      }
+    },
+    async refreshPollList() {
+      const formData = new FormData();
+
+      this.filters.forEach(control => {
+        if (control.value || control.value === 0 || control.value === false) {
+          formData.append(control.name, control.value);
+        }
+      });
+
+      const result = await this.runBitrixMethod('votings', null, formData);
+
+      if (result && result.data) {
+        this.changeProp('pollItems', result.data);
       }
     },
     async getStatuses() {
       try {
         const result = await this.runBitrixMethod('votingStatuses')
         if (result && result.data) {
-          this.changeProp('statuses', result.data)
+          this.changeProp('statuses', result.data);
+          this.setStatusesSelect(result.data);
         }
       } catch(error) {
-          this.changeProp('error', error.errors[0].message)
+        this.handleRequestError(error);
+      }
+    },
+    handleRequestError(error) {
+      this.changeProp('loading', false);
+      const message = error?.errors?.[0]?.message || error;
+      this.changeProp('error', message);
+    },
+    async loadInitialData() {
+      try {
+        await this.getStatuses();
+        await this.getVotings();
+      } catch (error) {
+        this.handleRequestError(error);
       }
     }
   },
   mounted() {
-    this.getVotings();
-    this.getStatuses();
+    this.loadInitialData();
   },
 };

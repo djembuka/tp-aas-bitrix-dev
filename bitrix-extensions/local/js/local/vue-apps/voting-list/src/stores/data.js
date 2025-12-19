@@ -45,9 +45,37 @@ export const dataStore = defineStore('data', {
       'voting_v5': 'label-green',
       'voting_v6': 'label-gray',
     },
-    statuses: []
+    statuses: [],
+
+    filters: [
+      {
+        "property": "select",
+        "type": "dropdown",
+        "id": "statusSelect",
+        "name": "STATUS",
+        "label": "Статус",
+        "options": [],
+        "value": "",
+      },
+      {
+        "property": "date",
+        "type": "single",
+        "id": "createdDate",
+        "label": "Дата создания",
+        "name": "DATE",
+        "value": "",
+      }
+    ]
   }),
   actions: {
+    setStatusesSelect(statuses) {
+      this.filters[0].options = statuses.map(s => {
+        return {
+          code: s.id,
+          label: s.status
+        }
+      });
+    },
     changeProp(prop, value) {
       this[prop] = value;
     },

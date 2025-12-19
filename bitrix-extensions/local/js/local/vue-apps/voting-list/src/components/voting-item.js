@@ -15,7 +15,7 @@ export const VotingItem = {
                 </div>
                 <div class="twpx-voting-list__voting-item__text">{{ voting.description }}</div>
             </div>
-            <div class="twpx-voting-list__voting-item__status">
+            <div class="twpx-voting-list__voting-item__status" v-if="status">
                 <span :class="label">{{ status.status }}</span>
             </div>
             <div class="twpx-voting-list__voting-item__buttons">

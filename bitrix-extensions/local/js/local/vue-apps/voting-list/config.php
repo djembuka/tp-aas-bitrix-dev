@@ -18,6 +18,7 @@ return [
 		'local.vue-components.loader-circle',
 		'local.vue-components.modal-any-content',
 		'local.vue-components.modal-yes-no',
+		'local.vue-components.filter-component',
 		'local.vue-components.control-choice',
 		'local.vue-components.button-component',
 		'ui.vue3.pinia',

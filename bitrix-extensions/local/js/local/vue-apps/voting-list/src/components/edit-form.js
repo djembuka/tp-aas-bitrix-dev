@@ -7,7 +7,7 @@ export const EditForm = {
     flag: false,
     f: false,
     props: ['customData', 'signedParameters', 'actions', 'voting'],
-    emits: ['input', 'hints', 'clickCancel', 'clickSend'],
+    emits: ['clickCancel', 'clickSend'],
     components: {
         ControlChoice,
         ButtonComponent
