@@ -57,8 +57,11 @@ export const FilterComponent = {
     changeState(value) {
       this.filterState = value;
     },
-    input({ control, value, checked }) {
-      this.$emit('input', { control, value, checked });
+    input(args) {
+      this.$emit('input', args);
+      this.setUrl(args);
+    },
+    setUrl({ control, value }) {
       const url = new URL(window.location.href);
 
       if (control.name) {
@@ -83,7 +86,7 @@ export const FilterComponent = {
         // Обновляем URL
         window.history.replaceState({}, '', url.toString());
       }
-    },
+    }
   },
   mounted() {
     let counter = 0;
@@ -92,7 +95,7 @@ export const FilterComponent = {
       if (counter > 100) {
         clearInterval(intervalId);
       }
-      if (this.filters && typeof this.filters === 'object' && this.filters.length) {
+      if (Array.isArray(this.filters)) {
         clearInterval(intervalId);
 
         const searchParams = new URLSearchParams(window.location.search);
