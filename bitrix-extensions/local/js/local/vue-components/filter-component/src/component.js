@@ -43,7 +43,7 @@ export const FilterComponent = {
       return this.filters.filter((c) => {
         if (!c.value) return false;
 
-        if (c.propery === 'date' && c.type === 'range') {
+        if (c.property === 'date' && c.type === 'range') {
           if (!c.value[0] || !c.value[1]) {
             return false;
           }
@@ -66,10 +66,14 @@ export const FilterComponent = {
 
       if (control.name) {
         let paramValue = value;
-        
+
         // Обработка hint элементов
         if (control.property === 'hint') {
-          if (typeof value === 'object' && value !== null && value.id !== undefined) {
+          if (
+            typeof value === 'object' &&
+            value !== null &&
+            value.id !== undefined
+          ) {
             paramValue = JSON.stringify(value);
           } else {
             paramValue = '';
@@ -82,11 +86,11 @@ export const FilterComponent = {
         } else {
           url.searchParams.delete(control.name);
         }
-        
+
         // Обновляем URL
         window.history.replaceState({}, '', url.toString());
       }
-    }
+    },
   },
   mounted() {
     let counter = 0;
@@ -100,8 +104,8 @@ export const FilterComponent = {
 
         const searchParams = new URLSearchParams(window.location.search);
 
-        searchParams.entries().forEach(e => {
-          const control = this.filters?.find(c => c.name === e[0]);
+        searchParams.entries().forEach((e) => {
+          const control = this.filters?.find((c) => c.name === e[0]);
 
           if (!control) return;
 
@@ -111,15 +115,13 @@ export const FilterComponent = {
 
           if (property === 'date' && type === 'range') {
             value = String(e[1]).split(',');
-          }
-          else if (property === 'hint') {
+          } else if (property === 'hint') {
             value = JSON.parse(e[1]);
           }
 
           this.$emit('input', { control, value });
-          
         });
       }
     }, 200);
-  }
+  },
 };
