@@ -16,7 +16,7 @@ $APPLICATION->SetTitle("Детальная страница голосовани
 			sessid: BX.bitrix_sessid(),
 		},
 		signedParameters: '',
-		uuid: 'af29be47-09bb-415d-bfac-00abb88bcf69'
+		uuid: '442f22d1-9669-4afb-80fe-ead7694a8362'
 	});	
 	votingdetail.run();
 })();
