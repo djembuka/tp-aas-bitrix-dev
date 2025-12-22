@@ -29,6 +29,8 @@ export class VotingList {
 
         dataStore().votingCreateURL = self.options.votingCreateURL || '';
         dataStore().votingDetailURL = self.options.votingDetailURL || '';
+
+        dataStore().maxCountPerRequest = self.options.maxCountPerRequest || 100;
       },
     });
 

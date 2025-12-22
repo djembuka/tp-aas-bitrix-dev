@@ -65,7 +65,11 @@ export const dataStore = defineStore('data', {
         "name": "DATE",
         "value": "",
       }
-    ]
+    ],
+    startIndex: 0,
+    loadingMore: false,
+    showMore: true,
+    maxCountPerRequest: 100
   }),
   actions: {
     setStatusesSelect(statuses) {

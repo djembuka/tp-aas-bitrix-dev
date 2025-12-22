@@ -8,6 +8,7 @@ import { LoaderCircle } from 'local.vue-components.loader-circle'
 import { ModalAnyContent } from 'local.vue-components.modal-any-content'
 import { ModalYesNo } from 'local.vue-components.modal-yes-no'
 import { FilterComponent } from 'local.vue-components.filter-component'
+import { MoreButton } from 'local.vue-components.more-button'
 
 import { EditForm } from './edit-form'
 
@@ -29,7 +30,8 @@ export const Application = {
     ModalAnyContent,
     ModalYesNo,
     EditForm,
-    FilterComponent
+    FilterComponent,
+    MoreButton
   },
   template: `
     <div class="twpx-poll-list">
@@ -96,6 +98,12 @@ export const Application = {
           />
         </div>
 
+        <MoreButton
+          :loading="loadingMore"
+          :show="showMore"
+          @clickMore="clickMore"
+        />
+
       </div>
     </div>
 	`,
@@ -113,6 +121,9 @@ export const Application = {
       'activePollId',
 
       'filters',
+      'startIndex',
+      'loadingMore',
+      'showMore',
 
       'editModalStateWatcher',
       'editModalLoading',
@@ -120,7 +131,7 @@ export const Application = {
       
       'activeVoting',
       'labels',
-      'statuses'
+      'statuses',
     ]),
   },
   methods: {
@@ -137,6 +148,50 @@ export const Application = {
       'addMulti',
       'removeMulti',
     ]),
+    clickMore() {
+      if (!this.pollItems) {
+        //если сработало пока не загрузились данные первой страницы
+        return;
+      }
+
+      this.changeProp('startIndex', this.startIndex + this.maxCountPerRequest);
+      this.changeProp('loadingMore', true);
+
+      this.runItems({
+        mode: 'class',
+        data: {
+          startIndex: this.startIndex,
+          maxCountPerRequest: this.maxCountPerRequest,
+          filters: this.filters,
+          columnSort: this.sort.columnSort,
+          sortType: this.sort.sortType,
+          ...this.customData
+        },
+        signedParameters: this.signedParameters
+      })
+      .then(
+        (result) => {
+
+          const a = {
+            ...this.items
+          };
+
+          a.items = [
+            ...a.items,
+            ...result.data.items
+          ]
+
+          this.changeLoadingMore(false);
+          this.changeItems(a);
+          this.changeShowMore(Number(this.items.items.length) >= Number(this.items.resultCount) ? false : true);
+          this.setQueryParam('ITEMS_NUM', this.items.items.length);
+        },
+        (error) => {
+          this.changeLoadingMore(false);
+          this.showErrorTable({ error, method: 'items' });
+        }
+      );
+    },
     input(args) {
       this.changeControlValue(args);
       clearTimeout(this.inputTimeoutId);
@@ -205,7 +260,13 @@ export const Application = {
       const result = await this.runBitrixMethod('votings', null, formData);
 
       if (result && result.data) {
-        this.changeProp('pollItems', result.data);
+
+        const items = [
+          ...this.pollItems,
+          ...result.data
+        ];
+
+        this.changeProp('pollItems', items);
       }
     },
     async getStatuses() {
