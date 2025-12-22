@@ -1,16 +1,16 @@
 import './application.css';
 
-import { WizardBlock } from './wizard-block'
-import { VotingItem } from './voting-item.js'
+import { WizardBlock } from './wizard-block';
+import { VotingItem } from './voting-item.js';
 
-import { MessageComponent } from 'local.vue-components.message-component'
-import { LoaderCircle } from 'local.vue-components.loader-circle'
-import { ModalAnyContent } from 'local.vue-components.modal-any-content'
-import { ModalYesNo } from 'local.vue-components.modal-yes-no'
-import { FilterComponent } from 'local.vue-components.filter-component'
-import { MoreButton } from 'local.vue-components.more-button'
+import { MessageComponent } from 'local.vue-components.message-component';
+import { LoaderCircle } from 'local.vue-components.loader-circle';
+import { ModalAnyContent } from 'local.vue-components.modal-any-content';
+import { ModalYesNo } from 'local.vue-components.modal-yes-no';
+import { FilterComponent } from 'local.vue-components.filter-component';
+import { MoreButton } from 'local.vue-components.more-button';
 
-import { EditForm } from './edit-form'
+import { EditForm } from './edit-form';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { dataStore } from '../stores/data';
@@ -19,7 +19,7 @@ import { controlsStore } from '../stores/controls';
 export const Application = {
   data() {
     return {
-      inputTimeoutId: null
+      inputTimeoutId: null,
     };
   },
   components: {
@@ -31,7 +31,7 @@ export const Application = {
     ModalYesNo,
     EditForm,
     FilterComponent,
-    MoreButton
+    MoreButton,
   },
   template: `
     <div class="twpx-poll-list">
@@ -87,7 +87,7 @@ export const Application = {
         />
 
         <div class="twpx-poll-list__list">
-          <VotingItem v-for="voting in pollItems"
+          <VotingItem v-for="voting in pollItems.items"
             :key="voting.uuid"
             :voting="voting"
             :url="votingDetailURL"
@@ -124,11 +124,13 @@ export const Application = {
       'startIndex',
       'loadingMore',
       'showMore',
+      'maxCountPerRequest',
+      'setQueryParam',
 
       'editModalStateWatcher',
       'editModalLoading',
       'editModalError',
-      
+
       'activeVoting',
       'labels',
       'statuses',
@@ -138,7 +140,7 @@ export const Application = {
     ...mapActions(dataStore, [
       'runBitrixMethod',
       'changeProp',
-      'setStatusesSelect'
+      'setStatusesSelect',
     ]),
     ...mapActions(controlsStore, [
       'runHints',
@@ -148,8 +150,8 @@ export const Application = {
       'addMulti',
       'removeMulti',
     ]),
-    clickMore() {
-      if (!this.pollItems) {
+    async clickMore() {
+      if (!this.pollItems.items) {
         //если сработало пока не загрузились данные первой страницы
         return;
       }
@@ -157,40 +159,35 @@ export const Application = {
       this.changeProp('startIndex', this.startIndex + this.maxCountPerRequest);
       this.changeProp('loadingMore', true);
 
-      this.runItems({
-        mode: 'class',
-        data: {
-          startIndex: this.startIndex,
-          maxCountPerRequest: this.maxCountPerRequest,
-          filters: this.filters,
-          columnSort: this.sort.columnSort,
-          sortType: this.sort.sortType,
-          ...this.customData
-        },
-        signedParameters: this.signedParameters
-      })
-      .then(
-        (result) => {
+      await this.getVotings();
 
-          const a = {
-            ...this.items
-          };
-
-          a.items = [
-            ...a.items,
-            ...result.data.items
-          ]
-
-          this.changeLoadingMore(false);
-          this.changeItems(a);
-          this.changeShowMore(Number(this.items.items.length) >= Number(this.items.resultCount) ? false : true);
-          this.setQueryParam('ITEMS_NUM', this.items.items.length);
-        },
-        (error) => {
-          this.changeLoadingMore(false);
-          this.showErrorTable({ error, method: 'items' });
-        }
+      this.changeProp('loadingMore', false);
+      this.changeProp(
+        'showMore',
+        Number(this.pollItems.items.length) >=
+          Number(this.pollItems.resultCount)
+          ? false
+          : true
       );
+      this.setQueryParam('ITEMS_NUM', this.pollItems.items.length);
+
+      // s.then(
+      //   (result) => {
+      //     this.changeLoadingMore(false);
+      //     this.changeProp(
+      //       'showMore',
+      //       Number(this.pollItems.items.length) >=
+      //         Number(this.items.resultCount)
+      //         ? false
+      //         : true
+      //     );
+      //     this.setQueryParam('ITEMS_NUM', this.items.items.length);
+      //   },
+      //   (error) => {
+      //     this.changeLoadingMore(false);
+      //     this.showErrorTable({ error, method: 'items' });
+      //   }
+      // );
     },
     input(args) {
       this.changeControlValue(args);
@@ -208,28 +205,31 @@ export const Application = {
       window.location.href = this.votingCreateURL;
     },
     editVoting(voting) {
-      this.changeProp('editModalStateWatcher', !this.editModalStateWatcher)
+      this.changeProp('editModalStateWatcher', !this.editModalStateWatcher);
       this.changeProp('activeVoting', voting);
     },
     deleteVoting(voting) {
-      this.changeProp('deleteModalStateWatcher', !this.deleteModalStateWatcher)
-      this.changeProp('activePollId', voting.uuid)
+      this.changeProp('deleteModalStateWatcher', !this.deleteModalStateWatcher);
+      this.changeProp('activePollId', voting.uuid);
     },
     async clickDeleteModalYes() {
-      this.changeProp('deleteModalStateWatcher', !this.deleteModalStateWatcher)
-      this.changeProp('loading', true)
+      this.changeProp('deleteModalStateWatcher', !this.deleteModalStateWatcher);
+      this.changeProp('loading', true);
 
       try {
-        await this.runBitrixMethod('deleteVoting', {uuid: this.activePollId})
-        await this.refreshPollList(); 
-        this.changeProp('loading', false)
-      } catch(error) {
-        this.changeProp('deleteModalStateWatcher', !this.deleteModalStateWatcher)
-        this.handleRequestError()
+        await this.runBitrixMethod('deleteVoting', { uuid: this.activePollId });
+        await this.refreshPollList();
+        this.changeProp('loading', false);
+      } catch (error) {
+        this.changeProp(
+          'deleteModalStateWatcher',
+          !this.deleteModalStateWatcher
+        );
+        this.handleRequestError();
       }
     },
     clickDeleteModalNo() {
-      this.changeProp('deleteModalStateWatcher', !this.deleteModalStateWatcher)
+      this.changeProp('deleteModalStateWatcher', !this.deleteModalStateWatcher);
     },
     clickEditFormCancel() {
       this.changeProp('editModalStateWatcher', !this.editModalStateWatcher);
@@ -239,44 +239,40 @@ export const Application = {
       this.getVotings();
     },
     async getVotings() {
-      this.changeProp('loading', true)
+      this.changeProp('loading', true);
 
       try {
-        this.refreshPollList()
-        this.changeProp('loading', false)
-      } catch(error) {
-          this.handleRequestError()
+        this.refreshPollList();
+        this.changeProp('loading', false);
+      } catch (error) {
+        this.handleRequestError();
       }
     },
     async refreshPollList() {
-      const formData = new FormData();
-
-      this.filters.forEach(control => {
-        if (control.value || control.value === 0 || control.value === false) {
-          formData.append(control.name, control.value);
-        }
+      const result = await this.runBitrixMethod('votings', {
+        startIndex: this.startIndex,
+        maxCountPerRequest: this.maxCountPerRequest,
+        filters: this.filters,
+        ...this.customData,
       });
 
-      const result = await this.runBitrixMethod('votings', null, formData);
+      if (result && result.data && result.data.items) {
+        const items = [...this.pollItems.items, ...result.data.items];
 
-      if (result && result.data) {
-
-        const items = [
-          ...this.pollItems,
-          ...result.data
-        ];
-
-        this.changeProp('pollItems', items);
+        this.changeProp('pollItems', {
+          items,
+          resultCount: result.data.resultCount,
+        });
       }
     },
     async getStatuses() {
       try {
-        const result = await this.runBitrixMethod('votingStatuses')
+        const result = await this.runBitrixMethod('votingStatuses');
         if (result && result.data) {
           this.changeProp('statuses', result.data);
           this.setStatusesSelect(result.data);
         }
-      } catch(error) {
+      } catch (error) {
         this.handleRequestError(error);
       }
     },
@@ -292,7 +288,7 @@ export const Application = {
       } catch (error) {
         this.handleRequestError(error);
       }
-    }
+    },
   },
   mounted() {
     this.loadInitialData();

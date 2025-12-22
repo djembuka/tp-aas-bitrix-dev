@@ -27,7 +27,10 @@ export const dataStore = defineStore('data', {
     error: '',
     loading: false,
 
-    pollItems: [],
+    pollItems: {
+      items: [],
+      resultCount: 0,
+    },
     deleteModalStateWatcher: false,
     activePollId: null,
 
@@ -72,6 +75,15 @@ export const dataStore = defineStore('data', {
     maxCountPerRequest: 100,
   }),
   actions: {
+    setQueryParam(key, value) {
+      const url = new URL(window.location.href);
+      if (value === null || value === undefined) {
+        url.searchParams.delete(key);
+      } else {
+        url.searchParams.set(key, String(value));
+      }
+      window.history.replaceState({}, '', url);
+    },
     setStatusesSelect(statuses) {
       this.filters[0].options = statuses.map((s) => {
         return {
