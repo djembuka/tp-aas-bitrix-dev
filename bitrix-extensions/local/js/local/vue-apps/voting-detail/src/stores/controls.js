@@ -356,9 +356,12 @@ export const controlsStore = defineStore('controls', {
       }
     },
     changeMultiControlValue({ control, value }) {
-      control.property = 'file';
-      control.multi = 5;
-      control.value = value;
+      if (control.name === 'QUESTION_FILE') {
+        control.id = Math.round(Math.random() * 1000000);
+        control.property = 'file';
+        control.multi = 5;
+        control.value = value;
+      }
     },
     changeControlValue({ control, value, file, checked }) {
       switch (control.property) {
