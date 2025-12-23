@@ -90,9 +90,7 @@ export const AddEditForm = {
       'groupFormBlocks',
       'questionFormBlocks',
       'answerFormBlocks',
-      'createMulti',
-      'addMulti',
-      'removeMulti',
+      'questionFilesDelete'
     ]),
     currentLang() {
       return this.lang[this.typeMode][this.actionMode];
@@ -124,6 +122,10 @@ export const AddEditForm = {
 
       'runHints',
       'setHints',
+
+      'createMulti',
+      'addMulti',
+      'removeMulti',
     ]),
     ...mapActions(addEditStore, ['addEditChangeProp']),
     input(args) {
@@ -234,7 +236,8 @@ export const AddEditForm = {
         description: this.questionFormBlocks[0].controls[2].value,
         image: this.questionFormBlocks[0].controls[3].file,
 
-        files: this.questionFormBlocks[1].controls[0].multi.map((c) => c.file),
+        files: this.questionFormBlocks[1].controls[0].multi.filter(c => c.file).map((c) => c.file),
+        filesDelete: this.questionFilesDelete,
 
         type: Number(this.questionFormBlocks[2].controls[0].value),
         selectableAnswers: Number(this.questionFormBlocks[2].controls[1].value),

@@ -227,8 +227,13 @@ export const controlsStore = defineStore('controls', {
         ],
       },
     ],
+    questionFilesId: [],// соответствие id с сервера, name и id в multi [{id: ..., idMulti: ...}]
+    questionFilesDelete: [],// id с сервера файлов, которые нужно удалить 
   }),
   actions: {
+    changeQuestionFilesDelete(value) {
+      this.questionFilesDelete = value;
+    },
     createMulti({ parent }) {
       parent.property = 'multi';
       parent.multi = [];
@@ -245,10 +250,28 @@ export const controlsStore = defineStore('controls', {
         add.sub = sub;
       }
 
-      add.id = `${add.id}${randomId}`;
+      if (add.value) {
+        // question files with value and server id
+        const file = this.questionFilesId.find(obj => obj.name === add.value);
+        if (file) {
+          add.id = file.id;
+        } else {
+          add.id = `${add.id}${randomId}`;
+        }
+      } else {
+        // empty files
+        add.id = `${add.id}${randomId}`;
+      }
+
       parent.multi.push(add);
     },
     removeMulti({ parent, index }) {
+      const id = parent?.multi[index]?.id;
+      if (id) {
+        const set = new Set([...this.questionFilesDelete]);
+        set.add(id);
+        this.changeQuestionFilesDelete([...set]);
+      }
       parent.multi.splice(index, 1);
     },
     changeGroupFormBlocks(blocks) {
@@ -295,8 +318,16 @@ export const controlsStore = defineStore('controls', {
         questionArray.forEach((item) => {
           let value = String(question[item[2]]);
 
-          if (Array.isArray(question[item[2]])) {
+          if (item[2] === 'files' && Array.isArray(question[item[2]])) {
             value = question[item[2]].map((f) => f.name);
+
+            this.questionFilesId = [];
+            question[item[2]].forEach(f => {
+              this.questionFilesId.push({
+                id: f.id,
+                name: f.name
+              });
+            });
           }
 
           this.changeControlValue({
@@ -348,6 +379,14 @@ export const controlsStore = defineStore('controls', {
       control.value = value;
     },
     changeFileValue({ control, value, file }) {
+      if (control.value) {
+        // add to filesDelete
+        const fileNew = this.questionFilesId.find(obj => obj.id === control.id);
+        const set = new Set([...this.questionFilesDelete]);
+        if (fileNew) {set.add(fileNew.id);}
+        this.changeQuestionFilesDelete([...set]);
+      }
+
       control.value = value;
       control.file = file;
 
