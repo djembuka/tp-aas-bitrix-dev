@@ -242,7 +242,7 @@ export const Application = {
       this.changeProp('loading', true);
 
       try {
-        this.refreshPollList();
+        await this.refreshPollList();
         this.changeProp('loading', false);
       } catch (error) {
         this.handleRequestError();
