@@ -117,7 +117,7 @@ export const controlsStore = defineStore('controls', {
             value: [],
             file: null,
             accept: ['pdf'],
-            multi: 5,
+            multi: 10,
             maxsize: 20000000,
           },
         ],
@@ -359,7 +359,7 @@ export const controlsStore = defineStore('controls', {
       if (control.name === 'QUESTION_FILE') {
         control.id = Math.round(Math.random() * 1000000);
         control.property = 'file';
-        control.multi = 5;
+        control.multi = 10;
         control.value = value;
       }
     },
