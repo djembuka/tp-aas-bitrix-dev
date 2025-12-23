@@ -116,7 +116,7 @@ export const controlsStore = defineStore('controls', {
             label: 'Файл',
             value: [],
             file: null,
-            accept: ['pdf'],
+            accept: ['doc', 'docx', 'pdf', 'xls', 'xlsx', 'txt', 'jpeg', 'jpg', 'gif', 'png', 'webp'],
             multi: 10,
             maxsize: 20000000,
           },
