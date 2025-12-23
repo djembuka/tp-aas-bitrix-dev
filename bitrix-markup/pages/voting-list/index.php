@@ -16,6 +16,7 @@ $APPLICATION->SetTitle("Администрирование голосовани�
 			sessid: BX.bitrix_sessid(),
 		},
 		signedParameters: "",
+		maxCountPerRequest: 10,
 		votingCreateURL: '/markup/pages/voting-create/',
 		votingDetailURL: '/markup/pages/voting-detail/'
 	});
