@@ -22,13 +22,6 @@ export const DocComponent = {
         remove: false
       }),
     },
-    type: {
-      type: String,
-      default: 'info',
-      validator(value) {
-        return ['info', 'error', 'table-result'].includes(value);
-      },
-    },
   },
   emits: ['clickDelete'],
   // language=Vue
