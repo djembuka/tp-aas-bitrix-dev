@@ -316,9 +316,11 @@ export const controlsStore = defineStore('controls', {
           [2, 2, 'sortIndex'],
         ];
         questionArray.forEach((item) => {
-          let value = String(question[item[2]]);
+          let value;
 
-          if (item[2] === 'files' && Array.isArray(question[item[2]])) {
+          if (item[2] === 'image') {
+            value = String(question[item[2]]).substring( String(question[item[2]]).lastIndexOf('/') + 1);
+          } else if (item[2] === 'files' && Array.isArray(question[item[2]])) {
             value = question[item[2]].map((f) => f.name);
 
             this.questionFilesId = [];
@@ -328,6 +330,8 @@ export const controlsStore = defineStore('controls', {
                 name: f.name
               });
             });
+          } else {
+            value = String(question[item[2]]);
           }
 
           this.changeControlValue({
