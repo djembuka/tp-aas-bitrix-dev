@@ -150,44 +150,22 @@ export const Application = {
       'addMulti',
       'removeMulti',
     ]),
+    getMaxCountOnLoad() {
+      const url = new URL(window.location.href);
+      return url.searchParams.get("ITEMS_NUM") || this.maxCountPerRequest;
+    },
     async clickMore() {
       if (!this.pollItems.items) {
         //если сработало пока не загрузились данные первой страницы
         return;
       }
 
-      this.changeProp('startIndex', this.startIndex + this.maxCountPerRequest);
+      this.changeProp('startIndex', Number(this.startIndex) + Number(this.maxCountPerRequest));
       this.changeProp('loadingMore', true);
 
       await this.getVotings();
 
       this.changeProp('loadingMore', false);
-      this.changeProp(
-        'showMore',
-        Number(this.pollItems.items.length) >=
-          Number(this.pollItems.resultCount)
-          ? false
-          : true
-      );
-      this.setQueryParam('ITEMS_NUM', this.pollItems.items.length);
-
-      // s.then(
-      //   (result) => {
-      //     this.changeLoadingMore(false);
-      //     this.changeProp(
-      //       'showMore',
-      //       Number(this.pollItems.items.length) >=
-      //         Number(this.items.resultCount)
-      //         ? false
-      //         : true
-      //     );
-      //     this.setQueryParam('ITEMS_NUM', this.items.items.length);
-      //   },
-      //   (error) => {
-      //     this.changeLoadingMore(false);
-      //     this.showErrorTable({ error, method: 'items' });
-      //   }
-      // );
     },
     input(args) {
       this.changeControlValue(args);
@@ -238,20 +216,35 @@ export const Application = {
       this.changeProp('editModalStateWatcher', !this.editModalStateWatcher);
       this.getVotings();
     },
-    async getVotings() {
+    async getVotings(maxCountPerRequest) {
       this.changeProp('loading', true);
 
       try {
-        await this.refreshPollList();
+        await this.refreshPollList(maxCountPerRequest);
         this.changeProp('loading', false);
+      
+        this.changeProp(
+          'showMore',
+          Number(this.pollItems.items.length) >=
+            Number(this.pollItems.resultCount)
+            ? false
+            : true
+        );
+        
+        this.setQueryParam('ITEMS_NUM', this.pollItems.items.length);
+
+        if (maxCountPerRequest) {
+          // on load
+          this.changeProp('startIndex', Number(maxCountPerRequest) - Number(this.maxCountPerRequest));
+        }
       } catch (error) {
         this.handleRequestError();
       }
     },
-    async refreshPollList() {
+    async refreshPollList(maxCountPerRequest) {
       const result = await this.runBitrixMethod('votings', {
         startIndex: this.startIndex,
-        maxCountPerRequest: this.maxCountPerRequest,
+        maxCountPerRequest: maxCountPerRequest || this.maxCountPerRequest,
         filters: this.filters,
         ...this.customData,
       });
@@ -281,16 +274,16 @@ export const Application = {
       const message = error?.errors?.[0]?.message || error;
       this.changeProp('error', message);
     },
-    async loadInitialData() {
+    async loadInitialData(maxCountPerRequest) {
       try {
         await this.getStatuses();
-        await this.getVotings();
+        await this.getVotings(maxCountPerRequest);
       } catch (error) {
         this.handleRequestError(error);
       }
     },
   },
   mounted() {
-    this.loadInitialData();
+    this.loadInitialData( this.getMaxCountOnLoad() );
   },
 };
