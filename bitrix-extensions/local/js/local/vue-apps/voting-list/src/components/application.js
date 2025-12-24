@@ -165,6 +165,7 @@ export const Application = {
         'startIndex',
         Number(this.startIndex) + Number(this.maxCountPerRequest)
       );
+
       this.changeProp('loadingMore', true);
 
       await this.getVotings();
@@ -174,7 +175,21 @@ export const Application = {
     input(args) {
       this.changeControlValue(args);
       clearTimeout(this.inputTimeoutId);
-      this.inputTimeoutId = setTimeout(this.getVotings, 300);
+
+      this.inputTimeoutId = setTimeout(async () => {
+        this.changeProp('loading', true);
+
+        this.changeProp('pollItems', {
+          items: [],
+          resultCount: 0,
+        });
+
+        this.changeProp('startIndex', 0);
+
+        await this.getVotings();
+
+        this.changeProp('loading', false);
+      }, 300);
     },
     hints({ control, type, action, value }) {
       if (type === 'get') {
@@ -221,11 +236,8 @@ export const Application = {
       this.getVotings();
     },
     async getVotings(maxCountPerRequest) {
-      this.changeProp('loading', true);
-
       try {
         await this.refreshPollList(maxCountPerRequest);
-        this.changeProp('loading', false);
 
         this.changeProp(
           'showMore',
@@ -282,10 +294,11 @@ export const Application = {
       this.changeProp('error', message);
     },
     async loadInitialData(maxCountPerRequest) {
-      this.changeProp('loading', true);
       try {
+        this.changeProp('loading', true);
         await this.getStatuses();
         await this.getVotings(maxCountPerRequest);
+        this.changeProp('loading', false);
       } catch (error) {
         this.handleRequestError(error);
       }

@@ -85,7 +85,7 @@ export const dataStore = defineStore('data', {
       window.history.replaceState({}, '', url);
     },
     setStatusesSelect(statuses) {
-      const statusSelect = this.filters.find(c => c.id === 'statusSelect');
+      const statusSelect = this.filters.find((c) => c.id === 'statusSelect');
 
       statusSelect.options = statuses.map((s) => {
         return {
@@ -95,9 +95,9 @@ export const dataStore = defineStore('data', {
       });
 
       statusSelect.options.unshift({
-          code: '',
-          label: '',
-        });
+        code: '',
+        label: '',
+      });
     },
     changeProp(prop, value) {
       this[prop] = value;
