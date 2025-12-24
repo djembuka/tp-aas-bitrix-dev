@@ -64,9 +64,14 @@ export const ControlFile = {
       <label
         :for="control.id"
         class="active"
-        v-html="label"
-        ref="dropzone"
-      ></label>
+      >
+        <span
+          class="twpx-form-control__file__filename"
+          v-html="label"
+          ref="dropzone"
+        >
+        </span>
+      </label>
     </div>
     <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
   </div>
@@ -75,7 +80,7 @@ export const ControlFile = {
   computed: {
     controlLabel() {
       if (this.control.required && !this.control.label.includes('*')) {
-        return `${this.control.label} *`
+        return `${this.control.label} *`;
       }
       return this.control.label;
     },
