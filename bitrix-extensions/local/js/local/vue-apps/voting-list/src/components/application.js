@@ -35,6 +35,50 @@ export const Application = {
   },
   template: `
     <div class="twpx-poll-list">
+
+      <ModalAnyContent :stateWatcher="editModalStateWatcher" @onClose="onEditModalClose">
+        <div class="twpx-poll-detail__loader" v-if="editModalLoading">
+          <LoaderCircle :show="editModalLoading" />
+        </div>
+
+        <MessageComponent v-else-if="editModalError" type="error" size="big" :message="editModalError" />
+
+        <EditForm v-else
+          :customData="customData"
+          :signedParameters="signedParameters"
+          :voting="activeVoting"
+          @clickCancel="clickEditFormCancel"
+          @clickSend="clickEditFormSend"
+        />
+      </ModalAnyContent>
+
+      <ModalYesNo
+        :heading="lang.deleteModal.heading"
+        :text="lang.deleteModal.text"
+        :yes="lang.deleteModal.yes"
+        :no="lang.deleteModal.no"
+        :buttons="{
+          yes: {
+            props: ['danger', 'large']
+          },
+          no: {
+            props: ['gray-color', 'large']
+          }
+        }"
+        :stateWatcher="deleteModalStateWatcher"
+        @clickYes="clickDeleteModalYes"
+        @clickNo="clickDeleteModalNo"
+      />
+
+      <WizardBlock :lang="lang" @clickButton="goToPollCreate" />
+
+      <FilterComponent
+        :filters="filters"
+        :loading="false"
+        @input="input"
+        @hints="hints"
+      />
+        
       <div v-if="loading" class="twpx-poll-list__loader">
         <LoaderCircle :show="loading" />
       </div>
@@ -42,49 +86,6 @@ export const Application = {
       <MessageComponent v-else-if="error" type="error" size="big" :message="error" />
 
       <div class="twpx-poll-list__wrapper" v-else>
-
-        <ModalAnyContent :stateWatcher="editModalStateWatcher" @onClose="onEditModalClose">
-          <div class="twpx-poll-detail__loader" v-if="editModalLoading">
-            <LoaderCircle :show="editModalLoading" />
-          </div>
-
-          <MessageComponent v-else-if="editModalError" type="error" size="big" :message="editModalError" />
-
-          <EditForm v-else
-            :customData="customData"
-            :signedParameters="signedParameters"
-            :voting="activeVoting"
-            @clickCancel="clickEditFormCancel"
-            @clickSend="clickEditFormSend"
-          />
-        </ModalAnyContent>
-
-        <ModalYesNo
-          :heading="lang.deleteModal.heading"
-          :text="lang.deleteModal.text"
-          :yes="lang.deleteModal.yes"
-          :no="lang.deleteModal.no"
-          :buttons="{
-            yes: {
-              props: ['danger', 'large']
-            },
-            no: {
-              props: ['gray-color', 'large']
-            }
-          }"
-          :stateWatcher="deleteModalStateWatcher"
-          @clickYes="clickDeleteModalYes"
-          @clickNo="clickDeleteModalNo"
-        />
-
-        <WizardBlock :lang="lang" @clickButton="goToPollCreate" />
-
-        <FilterComponent
-          :filters="filters"
-          :loading="false"
-          @input="input"
-          @hints="hints"
-        />
 
         <div class="twpx-poll-list__list">
           <VotingItem v-for="voting in pollItems.items"
@@ -152,7 +153,7 @@ export const Application = {
     ]),
     getMaxCountOnLoad() {
       const url = new URL(window.location.href);
-      return url.searchParams.get("ITEMS_NUM") || this.maxCountPerRequest;
+      return url.searchParams.get('ITEMS_NUM') || this.maxCountPerRequest;
     },
     async clickMore() {
       if (!this.pollItems.items) {
@@ -160,7 +161,10 @@ export const Application = {
         return;
       }
 
-      this.changeProp('startIndex', Number(this.startIndex) + Number(this.maxCountPerRequest));
+      this.changeProp(
+        'startIndex',
+        Number(this.startIndex) + Number(this.maxCountPerRequest)
+      );
       this.changeProp('loadingMore', true);
 
       await this.getVotings();
@@ -222,7 +226,7 @@ export const Application = {
       try {
         await this.refreshPollList(maxCountPerRequest);
         this.changeProp('loading', false);
-      
+
         this.changeProp(
           'showMore',
           Number(this.pollItems.items.length) >=
@@ -230,12 +234,15 @@ export const Application = {
             ? false
             : true
         );
-        
+
         this.setQueryParam('ITEMS_NUM', this.pollItems.items.length);
 
         if (maxCountPerRequest) {
           // on load
-          this.changeProp('startIndex', Number(maxCountPerRequest) - Number(this.maxCountPerRequest));
+          this.changeProp(
+            'startIndex',
+            Number(maxCountPerRequest) - Number(this.maxCountPerRequest)
+          );
         }
       } catch (error) {
         this.handleRequestError();
@@ -275,6 +282,7 @@ export const Application = {
       this.changeProp('error', message);
     },
     async loadInitialData(maxCountPerRequest) {
+      this.changeProp('loading', true);
       try {
         await this.getStatuses();
         await this.getVotings(maxCountPerRequest);
@@ -284,6 +292,6 @@ export const Application = {
     },
   },
   mounted() {
-    this.loadInitialData( this.getMaxCountOnLoad() );
+    this.loadInitialData(this.getMaxCountOnLoad());
   },
 };
