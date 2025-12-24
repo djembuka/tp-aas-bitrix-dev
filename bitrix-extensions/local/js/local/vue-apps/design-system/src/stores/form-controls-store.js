@@ -11,7 +11,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: '123,54',
         required: false,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'time',
@@ -22,7 +23,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: '11:00',
         required: false,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'hint',
@@ -30,15 +32,16 @@ export const formControlsStore = defineStore('form-controls-store', {
         name: 'AUDITOR_ORNZ',
         label: 'Simple',
         value: {
-          "id": "1",
-          "value": "First"
+          id: '1',
+          value: 'First',
         },
         count: 3,
         action: '/markup/vue/design-system/hints.json',
         required: false,
         disabled: false,
         tab: 1,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'hint',
@@ -46,14 +49,16 @@ export const formControlsStore = defineStore('form-controls-store', {
         name: 'AUDITOR_ORNZ_WITH_PHOTO',
         label: 'With HTML - data-value',
         value: {
-          "id": "2",
-          "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+          id: '2',
+          value:
+            "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
         },
         count: 3,
         action: '/markup/vue/design-system/hints-html.json',
         required: false,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'hint',
@@ -61,28 +66,30 @@ export const formControlsStore = defineStore('form-controls-store', {
         name: 'AUDITOR_ORNZ_WITH_PHOTO',
         label: 'Autocomplete',
         value: {
-          "id": "3",
-          "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
-          "autocomplete": [
+          id: '3',
+          value:
+            "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+          autocomplete: [
             {
-              "id": "id1",
-              "value": "Семён Семёнович"
+              id: 'id1',
+              value: 'Семён Семёнович',
             },
             {
-              "id": "id1-1",
-              "value": "ООО Ответственные аудиторы"
+              id: 'id1-1',
+              value: 'ООО Ответственные аудиторы',
             },
             {
-              "id": "id2",
-              "value": "+7 812 488 85 54"
-            }
-          ]
+              id: 'id2',
+              value: '+7 812 488 85 54',
+            },
+          ],
         },
         count: 3,
         action: '/markup/vue/design-system/hints-autocomplete.json',
         required: false,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'hint',
@@ -90,28 +97,30 @@ export const formControlsStore = defineStore('form-controls-store', {
         name: 'AUDITOR_ORNZ_WITH_HIDDEN',
         label: 'With hidden data',
         value: {
-          "id": "3",
-          "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
-          "hidden": [
+          id: '3',
+          value:
+            "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+          hidden: [
             {
-              "name": "HIDDEN7",
-              "value": "fff"
+              name: 'HIDDEN7',
+              value: 'fff',
             },
             {
-              "name": "HIDDEN8",
-              "value": "uu"
+              name: 'HIDDEN8',
+              value: 'uu',
             },
             {
-              "name": "HIDDEN9",
-              "value": "0"
-            }
-          ]
+              name: 'HIDDEN9',
+              value: '0',
+            },
+          ],
         },
         count: 3,
         action: '/markup/vue/design-system/hints-hidden.json',
         required: false,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         id: 'id1',
@@ -122,7 +131,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         id: 'id1-1',
@@ -133,7 +143,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         id: 'id2',
@@ -144,7 +155,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         id: 'id3',
@@ -155,7 +167,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         multi: 3,
         required: false,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         id: 'id4',
@@ -164,7 +177,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: '',
         required: false,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'password',
@@ -174,7 +188,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: '',
         required: false,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'date',
@@ -184,7 +199,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         name: 'DATE_FROM_TO',
         required: true,
         value: ['20.02.2024', '28.02.2024'],
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'date',
@@ -194,7 +210,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         name: 'DATE',
         required: true,
         value: '28.02.2024',
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
         dependency: 'id6',
       },
       {
@@ -205,7 +222,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         name: 'DATETIME',
         required: true,
         value: '28.02.2024 18:00',
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
         dependency: 'id6',
       },
       {
@@ -215,7 +233,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         label: 'Logo',
         value: '',
         file: '',
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
         required: true,
         disabled: false,
         accept: ['svg', 'png', 'jpg', 'jpeg'],
@@ -230,7 +249,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         label: 'Upload logo',
         value: null,
         upload: {},
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
         required: true,
         disabled: false,
         accept: ['svg', 'png', 'jpg', 'jpeg'],
@@ -259,7 +279,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         ],
         value: '',
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'select',
@@ -282,7 +303,8 @@ export const formControlsStore = defineStore('form-controls-store', {
           },
         ],
         value: '2',
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'select',
@@ -305,7 +327,8 @@ export const formControlsStore = defineStore('form-controls-store', {
           },
         ],
         value: ['2'],
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'checkbox',
@@ -317,7 +340,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: 'on',
         checked: true,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
         dependency: 'id6',
       },
       {
@@ -330,7 +354,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: 'on',
         checked: true,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'checkbox',
@@ -341,7 +366,8 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: 'on',
         checked: true,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
       {
         property: 'checkbox',
@@ -353,12 +379,13 @@ export const formControlsStore = defineStore('form-controls-store', {
         value: 'on',
         checked: true,
         disabled: false,
-        hint_external: 'Обсуждаем проекты международных стандартов и документов',
+        hint_external:
+          'Обсуждаем проекты международных стандартов и документов',
       },
     ],
   }),
   actions: {
-    changeControlValue({ control, value, checked }) {
+    changeControlValue({ control, value, file, checked }) {
       switch (control.property) {
         case 'text':
         case 'tel':
@@ -385,9 +412,9 @@ export const formControlsStore = defineStore('form-controls-store', {
         case 'checkbox':
           control.checked = checked;
           break;
-        // case 'file':
-        //   commit('changeFileValue', { control, value });
-        //   break;
+        case 'file':
+          this.changeFileValue({ control, value, file });
+          break;
         // case 'color':
         //   commit('changeColorValue', { control, value });
         //   break;
@@ -447,12 +474,19 @@ export const formControlsStore = defineStore('form-controls-store', {
       control.value = value;
     },
     changeSelectMultiValue({ control, value, checked }) {
-      console.log(control.value, value, checked);
       if (checked) {
         const set = new Set(control.value).add(value);
         control.value = Array.from(set);
       } else {
         control.value.splice(control.value.indexOf(value), 1);
+      }
+    },
+    changeFileValue({ control, value, file }) {
+      control.value = value;
+      control.file = file;
+
+      if (value === '') {
+        control.file = '';
       }
     },
     addTab(control) {
@@ -471,10 +505,9 @@ export const formControlsStore = defineStore('form-controls-store', {
           control.required = false;
           // remove *
           const index = control.label.indexOf('*');
-          control.label = control.label.substring(0, index).trim()
+          control.label = control.label.substring(0, index).trim();
         }
-        
       }
-    }
+    },
   },
 });

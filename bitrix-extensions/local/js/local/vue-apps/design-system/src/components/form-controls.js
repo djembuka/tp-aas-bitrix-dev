@@ -19,7 +19,7 @@ export const FormControlsComponent = {
       <div class="twpx-design-system-block" v-for="control in controls" :key="control.id">
         <div>
           <h3>{{ control.property }} {{ control.type }}</h3>
-          <ControlComponent :control="control" @input="input" @hints="hints" />
+          <ControlComponent :control="control" @input="changeControlValue($event)" @hints="hints" />
         </div>
         <pre>{{ control }}</pre>
         <div style="display: flex; gap: 5px; flex-wrap: wrap;">
@@ -42,15 +42,8 @@ export const FormControlsComponent = {
       'setHints',
       'addTab',
       'setDisabled',
-      'checkRequired'
+      'checkRequired',
     ]),
-    input({ control, value, checked }) {
-      this.changeControlValue({
-        control,
-        value,
-        checked,
-      });
-    },
     hints({ control, type, action, value }) {
       if (type === 'get') {
         this.runHints(control, action);
