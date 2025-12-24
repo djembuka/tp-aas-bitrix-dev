@@ -1,9 +1,9 @@
-.twpx-form-control--file {
+.twpx-form-control--file-upl {
   position: relative;
   margin-bottom: var(--twpx-form-control-margin-bottom);
   width: 100%;
 }
-.twpx-form-control__file__disabled-icon {
+.twpx-form-control__file-upl__disabled-icon {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -12,29 +12,29 @@
   pointer-events: none;
   z-index: 10;
 }
-.twpx-form-control__file label span {
+.twpx-form-control__file-upl label span {
   color: #ea4420;
 }
 
 /*File*/
-.twpx-form-control__file {
+.twpx-form-control__file-upl {
   position: relative;
   margin-bottom: 0;
 }
-.twpx-form-control__file.deleting {
+.twpx-form-control__file-upl.deleting {
   pointer-events: none;
 }
-.twpx-form-control__file svg {
+.twpx-form-control__file-upl svg {
   position: absolute;
   top: 12px;
   left: 16px;
   pointer-events: none;
   z-index: 10;
 }
-.twpx-form-control__file.deleting svg {
+.twpx-form-control__file-upl.deleting svg {
   display: none;
 }
-.twpx-form-control__file input {
+.twpx-form-control__file-upl input {
   position: absolute;
   top: 0;
   left: 0;
@@ -44,7 +44,7 @@
   overflow: hidden;
   z-index: -1;
 }
-.twpx-form-control__file label {
+.twpx-form-control__file-upl label {
   display: flex;
   align-items: center;
   background-color: var(--twpx-form-control-background);
@@ -67,104 +67,104 @@
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
 }
-.twpx-form-control__file.clearable label {
+.twpx-form-control__file-upl.clearable label {
   padding-right: 40px;
 }
-.twpx-form-control__file label a {
+.twpx-form-control__file-upl label a {
   pointer-events: none;
   -webkit-transition: none;
   transition: none;
   color: #0a16aa;
   text-decoration: none;
 }
-.twpx-form-control__file label:hover {
+.twpx-form-control__file-upl label:hover {
   border-color: var(--twpx-form-control-border);
 }
-.twpx-form-control__file .a,
-.twpx-form-control__file .b,
-.twpx-form-control__file .c,
-.twpx-form-control__file .d {
+.twpx-form-control__file-upl .a,
+.twpx-form-control__file-upl .b,
+.twpx-form-control__file-upl .c,
+.twpx-form-control__file-upl .d {
   -webkit-transition: fill 0.3s ease;
   transition: fill 0.3s ease;
 }
-.twpx-form-control__file .a {
+.twpx-form-control__file-upl .a {
   fill: #c3cfdd;
 }
-.twpx-form-control__file .b {
+.twpx-form-control__file-upl .b {
   fill: #a3b2c1;
 }
-.twpx-form-control__file .c {
+.twpx-form-control__file-upl .c {
   fill: #d3e0ea;
 }
-.twpx-form-control__file .d {
+.twpx-form-control__file-upl .d {
   fill: #fff;
 }
-.twpx-form-control__file:hover .a {
+.twpx-form-control__file-upl:hover .a {
   fill: #4375d8;
 }
-.twpx-form-control__file:hover .b {
+.twpx-form-control__file-upl:hover .b {
   fill: #1c56c7;
 }
-.twpx-form-control__file:hover .c {
+.twpx-form-control__file-upl:hover .c {
   fill: #74a2ff;
 }
-.twpx-form-control__file:hover .d {
+.twpx-form-control__file-upl:hover .d {
   fill: #fff;
 }
-.twpx-form-control__file:active .a,
-.twpx-form-control__file.dragover .a,
-.twpx-form-control__file.filled .a,
-.twpx-form-control__file.progressing .a {
+.twpx-form-control__file-upl:active .a,
+.twpx-form-control__file-upl.dragover .a,
+.twpx-form-control__file-upl.filled .a,
+.twpx-form-control__file-upl.progressing .a {
   fill: #fff;
 }
-.twpx-form-control__file:active .b,
-.twpx-form-control__file.dragover .b,
-.twpx-form-control__file.filled .b,
-.twpx-form-control__file.progressing .b {
+.twpx-form-control__file-upl:active .b,
+.twpx-form-control__file-upl.dragover .b,
+.twpx-form-control__file-upl.filled .b,
+.twpx-form-control__file-upl.progressing .b {
   fill: #a7bde8;
 }
-.twpx-form-control__file:active .c,
-.twpx-form-control__file.dragover .c,
-.twpx-form-control__file.filled .c,
-.twpx-form-control__file.progressing .c {
+.twpx-form-control__file-upl:active .c,
+.twpx-form-control__file-upl.dragover .c,
+.twpx-form-control__file-upl.filled .c,
+.twpx-form-control__file-upl.progressing .c {
   fill: #d0e0ff;
 }
-.twpx-form-control__file:active .d,
-.twpx-form-control__file.dragover .d,
-.twpx-form-control__file.filled .d,
-.twpx-form-control__file.progressing .d {
+.twpx-form-control__file-upl:active .d,
+.twpx-form-control__file-upl.dragover .d,
+.twpx-form-control__file-upl.filled .d,
+.twpx-form-control__file-upl.progressing .d {
   fill: #4375d8;
 }
-.twpx-form-control__file:active label,
-.twpx-form-control__file.dragover label,
-.twpx-form-control__file.filled label {
+.twpx-form-control__file-upl:active label,
+.twpx-form-control__file-upl.dragover label,
+.twpx-form-control__file-upl.filled label {
   background-color: #4375d8;
   color: #fff;
 }
-.twpx-form-control__file:active label a,
-.twpx-form-control__file.dragover label a,
-.twpx-form-control__file.filled label a,
-.twpx-form-control__file:active .twpx-form-control__file__label,
-.twpx-form-control__file.dragover .twpx-form-control__file__label,
-.twpx-form-control__file.filled .twpx-form-control__file__label,
-.twpx-form-control__file.progressing .twpx-form-control__file__label {
+.twpx-form-control__file-upl:active label a,
+.twpx-form-control__file-upl.dragover label a,
+.twpx-form-control__file-upl.filled label a,
+.twpx-form-control__file-upl:active .twpx-form-control__file-upl__label,
+.twpx-form-control__file-upl.dragover .twpx-form-control__file-upl__label,
+.twpx-form-control__file-upl.filled .twpx-form-control__file-upl__label,
+.twpx-form-control__file-upl.progressing .twpx-form-control__file-upl__label {
   color: #fff;
 }
 /*invalid*/
-.twpx-form-control--file.twpx-form-control--invalid .a,
-.twpx-form-control--file.twpx-form-control__file--invalid:active .a {
+.twpx-form-control--file-upl.twpx-form-control--invalid .a,
+.twpx-form-control--file-upl.twpx-form-control__file-upl--invalid:active .a {
   fill: #ff0000;
 }
-.twpx-form-control--file.twpx-form-control--invalid .b,
-.twpx-form-control--file.twpx-form-control__file--invalid:active .b {
+.twpx-form-control--file-upl.twpx-form-control--invalid .b,
+.twpx-form-control--file-upl.twpx-form-control__file-upl--invalid:active .b {
   fill: #b10101;
 }
-.twpx-form-control--file.twpx-form-control--invalid .c,
-.twpx-form-control--file.twpx-form-control__file--invalid:active .c {
+.twpx-form-control--file-upl.twpx-form-control--invalid .c,
+.twpx-form-control--file-upl.twpx-form-control__file-upl--invalid:active .c {
   fill: #fcc;
 }
-.twpx-form-control--file.twpx-form-control--invalid .d,
-.twpx-form-control--file.twpx-form-control__file--invalid:active .d {
+.twpx-form-control--file-upl.twpx-form-control--invalid .d,
+.twpx-form-control--file-upl.twpx-form-control__file-upl--invalid:active .d {
   fill: #fff;
 }
 /*.twpx-form-control--invalid .a,
@@ -173,47 +173,49 @@
 .twpx-form-control--invalid:active .b {
   stroke: #ff0000;
 }*/
-.twpx-form-control--file.twpx-form-control--invalid label,
-.twpx-form-control--file.twpx-form-control--ivalid:active label {
+.twpx-form-control--file-upl.twpx-form-control--invalid label,
+.twpx-form-control--file-upl.twpx-form-control--ivalid:active label {
   background-color: #ffeaea;
   color: #ff0000;
   border-color: #e38080;
 }
-.twpx-form-control--file.twpx-form-control--invalid:hover label,
-.twpx-form-control--file.twpx-form-control--invalid:hover:active label {
+.twpx-form-control--file-upl.twpx-form-control--invalid:hover label,
+.twpx-form-control--file-upl.twpx-form-control--invalid:hover:active label {
   border-color: #ff0000;
 }
-.twpx-form-control--file.twpx-form-control--invalid label a,
-.twpx-form-control--file.twpx-form-control--invalid:active label a {
+.twpx-form-control--file-upl.twpx-form-control--invalid label a,
+.twpx-form-control--file-upl.twpx-form-control--invalid:active label a {
   color: #ff0000;
 }
 
 /*Disabled*/
-.twpx-form-control--file.twpx-form-control--disabled .twpx-form-control__file {
+.twpx-form-control--file-upl.twpx-form-control--disabled
+  .twpx-form-control__file-upl {
   pointer-events: none;
 }
-.twpx-form-control--file.twpx-form-control--disabled
-  .twpx-form-control__file
+.twpx-form-control--file-upl.twpx-form-control--disabled
+  .twpx-form-control__file-upl
   label,
-.twpx-form-control--file.twpx-form-control--disabled:active
-  .twpx-form-control__file
+.twpx-form-control--file-upl.twpx-form-control--disabled:active
+  .twpx-form-control__file-upl
   label {
   color: var(--twpx-form-control-disabled-color);
   pointer-events: none;
   background-color: var(--twpx-form-control-disabled-background-color);
   border: 1px solid var(--twpx-form-control-disabled-background-color) !important;
 }
-.twpx-form-control--file.twpx-form-control--disabled label a,
-.twpx-form-control--file.twpx-form-control--disabled:active label a {
+.twpx-form-control--file-upl.twpx-form-control--disabled label a,
+.twpx-form-control--file-upl.twpx-form-control--disabled:active label a {
   color: #0a16aa55;
 }
-.twpx-form-control--file.twpx-form-control--disabled .twpx-form-control__hint,
-.twpx-form-control--file.twpx-form-control--disabled
-  .twpx-form-control__file__label {
+.twpx-form-control--file-upl.twpx-form-control--disabled
+  .twpx-form-control__hint,
+.twpx-form-control--file-upl.twpx-form-control--disabled
+  .twpx-form-control__file-upl__label {
   color: var(--twpx-form-control-disabled-color);
 }
 
-.twpx-form-control__file__label {
+.twpx-form-control__file-upl__label {
   position: absolute;
   top: 0;
   left: var(--twpx-form-control-left-icon-padding-left);
@@ -228,11 +230,11 @@
   line-height: 1.1;
   z-index: 10;
 }
-.twpx-form-control--file.twpx-form-control--invalid
-  .twpx-form-control__file__label {
+.twpx-form-control--file-upl.twpx-form-control--invalid
+  .twpx-form-control__file-upl__label {
   color: #ff0000;
 }
-.twpx-form-control__file__clear {
+.twpx-form-control__file-upl__clear {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -243,11 +245,11 @@
   z-index: 10;
 }
 
-.twpx-form-control__file__clear:hover {
+.twpx-form-control__file-upl__clear:hover {
   opacity: 0.7;
 }
 
-.twpx-form-control__file__clear:before {
+.twpx-form-control__file-upl__clear:before {
   content: '';
   display: block;
   height: 20px;
@@ -258,7 +260,7 @@
   left: 7px;
   z-index: 10;
 }
-.twpx-form-control__file__clear:after {
+.twpx-form-control__file-upl__clear:after {
   content: '';
   display: block;
   height: 20px;
@@ -270,17 +272,17 @@
   z-index: 10;
 }
 
-.twpx-form-control__file__clear.btn--load-circle {
+.twpx-form-control__file-upl__clear.btn--load-circle {
   position: absolute;
 }
-.twpx-form-control__file__clear.btn--load-circle:after {
+.twpx-form-control__file-upl__clear.btn--load-circle:after {
   width: 20px;
   height: 20px;
   top: calc(50% - 10px);
   right: calc(50% - 10px);
   left: auto;
 }
-.twpx-form-control__file__clear.btn--load-circle:before {
+.twpx-form-control__file-upl__clear.btn--load-circle:before {
   display: none;
 }
 .twpx-form-control__warning,
@@ -294,7 +296,7 @@
   color: #ff0000;
 }
 
-.twpx-form-control__file__progressbar {
+.twpx-form-control__file-upl__progressbar {
   width: 0%;
   height: calc(100% - 2px);
   position: absolute;
@@ -313,18 +315,18 @@
   /* width: var(--progress-width, 0); */
 }
 
-.twpx-form-control__file__progressbar.minimal {
+.twpx-form-control__file-upl__progressbar.minimal {
   -webkit-transition: width 0.5s linear;
   transition: width 0.5s linear;
 }
 
-.twpx-form-control__file__progressbar span {
+.twpx-form-control__file-upl__progressbar span {
   padding: 0 15px;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
-.twpx-form-control__file__progressbar span:last-child {
+.twpx-form-control__file-upl__progressbar span:last-child {
   width: 100%;
   text-align: right;
 }

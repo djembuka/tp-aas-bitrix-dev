@@ -32,22 +32,22 @@ export const ControlFileUpload = {
 		<div
       :class="{
         'twpx-form-control': true,
-        'twpx-form-control--file': true,
+        'twpx-form-control--file-upl': true,
         'twpx-form-control--invalid': isInvalid,
         'twpx-form-control--disabled': disabled,
       }"
     >
       <IconLock
-        class="twpx-form-control__file__disabled-icon"
+        class="twpx-form-control__file-upl__disabled-icon"
         v-if="disabled"
       />
       <span
-        class="twpx-form-control__file__clear" :class="{'btn--load-circle': loadCircle}"
+        class="twpx-form-control__file-upl__clear" :class="{'btn--load-circle': loadCircle}"
         @click.prevent="clearInputFile"
         v-if="isClearable"
       ></span>
       <div
-        class="twpx-form-control__file"
+        class="twpx-form-control__file-upl"
         :class="{
           filled: isFilled,
           clearable: isClearable,
@@ -55,9 +55,9 @@ export const ControlFileUpload = {
         }"
         ref="controlFile"
       >
-        <span class="twpx-form-control__file__label">{{ controlLabel }}</span>
+        <span class="twpx-form-control__file-upl__label">{{ controlLabel }}</span>
 
-        <IconFile class="twpx-form-control__file__icon" />
+        <IconFile class="twpx-form-control__file-upl__icon" />
 
         <input
           type="file"
@@ -67,7 +67,7 @@ export const ControlFileUpload = {
           ref="inputFile"
         />
 
-        <div class="twpx-form-control__file__progressbar" v-show="(isProgressing || loadCircle) && !isInvalid" ref="progressbar" :class="{'minimal': minimalLoading}">
+        <div class="twpx-form-control__file-upl__progressbar" v-show="(isProgressing || loadCircle) && !isInvalid" ref="progressbar" :class="{'minimal': minimalLoading}">
           <span v-html="label" v-show="isFileLoaded"></span>
           <span v-show="!isFileLoaded">{{percentage}}%</span>
         </div>
@@ -90,7 +90,7 @@ export const ControlFileUpload = {
   computed: {
     controlLabel() {
       if (this.control.required && !this.control.label.includes('*')) {
-        return `${this.control.label} *`
+        return `${this.control.label} *`;
       }
       return this.control.label;
     },
