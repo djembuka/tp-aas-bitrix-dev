@@ -75,6 +75,7 @@ export const Application = {
       <FilterComponent
         :filters="filters"
         :loading="false"
+        :onload="false"
         @input="input"
         @hints="hints"
       />
@@ -293,10 +294,32 @@ export const Application = {
       const message = error?.errors?.[0]?.message || error;
       this.changeProp('error', message);
     },
+    setFilters() {
+      const searchParams = new URLSearchParams(window.location.search);
+
+      searchParams.entries().forEach((e) => {
+        const control = this.filters?.find((c) => c.name === e[0]);
+
+        if (!control) return;
+
+        let value = e[1];
+        const property = String(control.property);
+        const type = String(control.type);
+
+        if (property === 'date' && type === 'range') {
+          value = String(e[1]).split(',');
+        } else if (property === 'hint') {
+          value = JSON.parse(e[1]);
+        }
+
+        this.changeControlValue({ control, value });
+      });
+    },
     async loadInitialData(maxCountPerRequest) {
       try {
         this.changeProp('loading', true);
         await this.getStatuses();
+        this.setFilters();
         await this.getVotings(maxCountPerRequest);
         this.changeProp('loading', false);
       } catch (error) {
