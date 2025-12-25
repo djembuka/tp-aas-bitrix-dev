@@ -10,7 +10,14 @@ export const FilterComponent = {
       filterState: 'closed', // open, closed
     };
   },
-  props: ['filters', 'loading'],
+  props: {
+    filters: Array,
+    loading: Boolean,
+    onload: {
+      type: Boolean,
+      default: true
+    }
+  },
   emits: ['input', 'hints', 'reset'],
   components: {
     Placeholder,
@@ -93,6 +100,8 @@ export const FilterComponent = {
     },
   },
   mounted() {
+    if (!this.onload) return;
+
     let counter = 0;
     const intervalId = setInterval(() => {
       counter++;
