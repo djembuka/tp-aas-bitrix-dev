@@ -179,16 +179,8 @@ export const Application = {
 
       this.inputTimeoutId = setTimeout(async () => {
         this.changeProp('loading', true);
-
-        this.changeProp('pollItems', {
-          items: [],
-          resultCount: 0,
-        });
-
-        this.changeProp('startIndex', 0);
-
+        this.resetList();
         await this.getVotings();
-
         this.changeProp('loading', false);
       }, 300);
     },
@@ -216,6 +208,7 @@ export const Application = {
 
       try {
         await this.runBitrixMethod('deleteVoting', { uuid: this.activePollId });
+        this.resetList();
         await this.refreshPollList();
         this.changeProp('loading', false);
       } catch (error) {
@@ -234,7 +227,15 @@ export const Application = {
     },
     clickEditFormSend() {
       this.changeProp('editModalStateWatcher', !this.editModalStateWatcher);
+      this.resetList();
       this.getVotings();
+    },
+    resetList() {
+      this.changeProp('pollItems', {
+        items: [],
+        resultCount: 0,
+      });
+      this.changeProp('startIndex', 0);
     },
     async getVotings(maxCountPerRequest) {
       try {
