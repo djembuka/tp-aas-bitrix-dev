@@ -261,6 +261,10 @@ button.vue-button {
 .vue-button--serve:not(:disabled):not(.vue-button--disabled):active:focus {
   box-shadow: none;
 }
+.vue-button--serve .vue-button-icon--link path {
+  stroke: #5F7696;
+}
+
 .vue-button[disabled],
 .vue-button.vue-button--disabled {
   pointer-events: none;
@@ -457,7 +461,7 @@ button.vue-button {
   padding: 8px 16px;
   font-weight: 400;
   font-size: 12px;
-  gap: 16px;
+  gap: 8px;
 }
 
 .vue-button--tag {
