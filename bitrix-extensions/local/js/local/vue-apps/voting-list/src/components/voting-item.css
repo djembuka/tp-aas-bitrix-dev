@@ -24,6 +24,12 @@
     line-height: normal;
     white-space: break-spaces;
 }
+.twpx-voting-list__voting-item__links {
+    padding: 8px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
 .twpx-voting-list__voting-item__status {
     height: 32px;
     display: flex;

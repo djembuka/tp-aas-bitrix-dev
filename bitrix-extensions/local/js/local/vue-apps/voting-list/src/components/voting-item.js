@@ -14,6 +14,20 @@ export const VotingItem = {
                     <a :href="detailUrl">{{ voting.name }}</a>
                 </div>
                 <div class="twpx-voting-list__voting-item__text">{{ voting.description }}</div>
+                <div class="twpx-voting-list__voting-item__links" v-if="voting.pollResult && voting.pollResult">
+                    <ButtonComponent
+                        v-if="voting.pollLink"
+                        text="Публичное голосование (оффлайн)"
+                        :href="voting.pollLink"
+                        :props="['serve', 'small', 'icon-link']"
+                    />
+                    <ButtonComponent
+                        v-if="voting.pollResult"
+                        text="Публичные результаты"
+                        :href="voting.pollResult"
+                        :props="['serve', 'small', 'icon-link']"
+                    />
+                </div>
             </div>
             <div class="twpx-voting-list__voting-item__status" v-if="status">
                 <span :class="label">{{ status.status }}</span>
