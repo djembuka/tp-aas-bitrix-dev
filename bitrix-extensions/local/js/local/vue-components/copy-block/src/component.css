@@ -1,0 +1,70 @@
+
+.vue-copy-block {
+  background-color: #F2F7FF;
+  padding: 32px;
+  position: relative;
+  display: grid;
+  gap: 16px;
+}
+
+.vue-copy-block h3 {
+  margin: 0;
+  padding-right: 24px;
+}
+
+.vue-copy-block pre {
+  color: var(--Base-Blue-secondary-900, #06417C);
+  font-family: "Open Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.vue-copy-block__icon {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  flex-shrink: 0;
+  transition: opacity .2s linear;
+  -webkit-transition: opacity .2s linear;
+  opacity: 0;
+  z-index: 10
+}
+.vue-copy-block:hover .vue-copy-block__icon {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+    .vue-copy-block__icon {
+        opacity: 1;
+    }
+}
+
+.vue-copy-block .b-copy-icon__note {
+    position: absolute;
+    background: #fff;
+    border-radius: 3px;
+    color: #074c86;
+    font-family: Roboto,sans-serif;
+    font-size: .69rem;
+    line-height: 29px;
+    padding: 0 10px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity .2s linear;
+    -webkit-transition: opacity .2s linear;
+    pointer-events: none;
+    width: 140px;
+    text-align: center
+}
+
+.vue-copy-block .b-copy-icon__note.b-copy-icon__note--show {
+    opacity: 1
+}
+
