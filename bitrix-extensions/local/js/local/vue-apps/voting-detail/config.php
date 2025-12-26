@@ -16,6 +16,7 @@ return [
 		'ui.vue3',
 		'local.vue-components.modal-yes-no',
 		'local.vue-components.doc-component',
+		'local.vue-components.copy-block',
 		'local.vue-components.control-choice',
 		'local.vue-components.button-component',
 		'local.vue-components.loader-circle',

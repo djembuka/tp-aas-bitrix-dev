@@ -1,0 +1,10 @@
+.twpx-poll-detail__link-blocks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+}
+@media(max-width: 767px) {
+    .twpx-poll-detail__link-blocks {
+        grid-template-columns: 1fr;
+    }
+}

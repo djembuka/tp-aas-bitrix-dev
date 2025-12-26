@@ -4,6 +4,7 @@ import { DetailInfo } from './detail-info';
 import { GroupsComponent } from './groups-component.js';
 import { AddEditForm } from './add-edit-form';
 import { EditForm } from './edit-form';
+import { LinkBlocks } from './link-blocks.js';
 
 import { ControlChoice } from 'local.vue-components.control-choice';
 import { ButtonComponent } from 'local.vue-components.button-component';
@@ -24,6 +25,7 @@ export const Application = {
     GroupsComponent,
     AddEditForm,
     EditForm,
+    LinkBlocks,
 
     ControlChoice,
     ButtonComponent,
@@ -52,6 +54,11 @@ export const Application = {
       <GroupsComponent />
 
       <AddEditForm />
+
+      <LinkBlocks v-if="false"
+        :pollLink="voting.pollLink"
+        :pollResult="voting.pollResult"
+       />
 
       <ModalAnyContent :stateWatcher="editModalStateWatcher" @onClose="onEditModalClose">
         <div class="twpx-poll-detail__loader" v-if="editModalLoading">
