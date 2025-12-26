@@ -1412,6 +1412,1657 @@ export const formControlsMultiStore = defineStore('form-controls-multi-store', {
           ]
         },
       ],
+      hintHtml: [
+        {
+          id: "hintHtmlMulti1",
+          property: "hint",
+          name: "HINT_HTML_MULTI",
+          label: "Подсказка с html",
+          value: [],
+          count: 3,
+          action: "/markup/vue/design-system/hints-html.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Множественное поле Подсказка с html"
+        },
+        {
+          id: "hintHtmlMulti2",
+          property: "hint",
+          name: "HINT_HTML_MULTI",
+          label: "Заполненные поля Подсказка с html",
+          value: [
+            {
+              id: "3",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>"
+            },
+            {
+              id: "2",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+            },
+            {
+              id: "5",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>"
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-html.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное множественное поле Подсказка с html"
+        },
+        {
+          id: "hintHtmlMulti3",
+          property: "hint",
+          name: "HINT_HTML_MULTI",
+          label: "Подсказка с html",
+          value: '',
+          count: 3,
+          action: "/markup/vue/design-system/hints-html.json",
+          required: false,
+          disabled: false,
+          hint_external: "Подсказка с html с подполем",
+          sub: [
+            {
+              id: "hintHtmlMultiSub1",
+              property: "hint",
+              name: "HINT_HTML_MULTI_SUB",
+              label: "Подсказка с html подполе",
+              value: "",
+              count: 3,
+              action: "/markup/vue/design-system/hints-html.json",
+              required: false,
+              disabled: false,
+              hint_external: "Простое подполе Подсказка с html"
+            }
+          ]
+        },
+        {
+          id: "hintHtmlMulti4",
+          property: "hint",
+          name: "HINT_HTML_MULTI",
+          label: "Подсказка с html",
+          value: {
+              id: "2",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+            },
+          count: 3,
+          action: "/markup/vue/design-system/hints-html.json",
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное поле Подсказка с html с подполем",
+          sub: [
+            {
+              id: "hintHtmlMultiSub2",
+              property: "hint",
+              name: "HINT_HTML_MULTI_SUB",
+              label: "Подсказка с html подполе",
+              value: {
+                  id: "2",
+                  value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+                },
+              count: 3,
+              action: "/markup/vue/design-system/hints-html.json",
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное подполе Подсказка с html"
+            }
+          ]
+        },
+        {
+          id: "hintHtmlMulti5",
+          property: "hint",
+          name: "HINT_HTML_MULTI",
+          label: "Подсказка с html",
+          value: [],
+          count: 3,
+          action: "/markup/vue/design-system/hints-html.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Подсказка с html мультиполе с подполем",
+          sub: [
+            {
+              id: "hintHtmlMultiSub3",
+              property: "hint",
+              name: "HINT_HTML_MULTI_SUB",
+              label: "Подсказка с html подполе",
+              value: "",
+              count: 3,
+              action: "/markup/vue/design-system/hints-html.json",
+              required: false,
+              disabled: false,
+              hint_external: "Простое подполе Подсказка с html"
+            }
+          ]
+        },
+        {
+          id: "hintHtmlMulti6",
+          property: "hint",
+          name: "HINT_HTML_MULTI",
+          label: "Подсказка с html",
+          value: [
+            {
+              id: "3",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>"
+            },
+            {
+              id: "2",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+            },
+            {
+              id: "5",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>"
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-html.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное Подсказка с html мультиполе с подполем",
+          sub: [
+            {
+              id: "hintHtmlMultiSub4",
+              property: "hint",
+              name: "HINT_HTML_MULTI_SUB",
+              label: "Подсказка с html подполе",
+              value: "",
+              count: 3,
+              action: "/markup/vue/design-system/hints-html.json",
+              required: false,
+              disabled: false,
+              hint_external: "Простое подполе Подсказка с html"
+            }
+          ]
+        },
+        {
+          id: "hintHtmlMulti7",
+          property: "hint",
+          name: "HINT_HTML_MULTI",
+          label: "Подсказка с html",
+          value: [
+            {
+              id: "3",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>"
+            },
+            {
+              id: "2",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+            },
+            {
+              id: "5",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>"
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-html.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное Подсказка с html мультиполе с подполем",
+          sub: [
+            {
+              id: "hintHtmlMultiSub5",
+              property: "hint",
+              name: "HINT_HTML_MULTI_SUB",
+              label: "Подсказка с html подполе",
+              value: [],
+              count: 3,
+              action: "/markup/vue/design-system/hints-html.json",
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Мульти подполе Подсказка с html"
+            }
+          ]
+        },
+        {
+          id: "hintHtmlMulti8",
+          property: "hint",
+          name: "HINT_HTML_MULTI",
+          label: "Подсказка с html",
+          value: [
+            {
+              id: "3",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>"
+            },
+            {
+              id: "2",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+            },
+            {
+              id: "5",
+              value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>"
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-html.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное мультиполе Подсказка с html с мульти подполем",
+          sub: [
+            {
+              id: "hintHtmlMultiSub6",
+              property: "hint",
+              name: "HINT_HTML_MULTI_SUB",
+              label: "Подсказка с html мульти подполе",
+              value: [
+                {
+                  id: "3",
+                  value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>"
+                },
+                {
+                  id: "2",
+                  value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+                },
+                {
+                  id: "5",
+                  value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>"
+                }
+              ],
+              count: 3,
+              action: "/markup/vue/design-system/hints-html.json",
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное мульти подполе Подсказка с html"
+            }
+          ]
+        },
+      ],
+      hintAutocomplete: [
+        {
+          id: "hintAutocompleteMulti1",
+          property: "hint",
+          name: "HINT_AUTOCOMPLETE_MULTI",
+          label: "Подсказка с autocomplete",
+          value: [],
+          count: 3,
+          action: "/markup/vue/design-system/hints-autocomplete.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Множественное поле Подсказка с autocomplete"
+        },
+        {
+          id: "hintAutocompleteMulti2",
+          property: "hint",
+          name: "HINT_AUTOCOMPLETE_MULTI",
+          label: "Заполненные поля Подсказка с autocomplete",
+          value: [
+            {
+              "id": "3",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 812 488 85 54"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 905 488 85 54"
+                }
+              ]
+            },
+            {
+              "id": "5",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 986 488 85 54"
+                }
+              ]
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-autocomplete.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное множественное поле Подсказка с autocomplete"
+        },
+        {
+          id: "hintAutocompleteMulti3",
+          property: "hint",
+          name: "HINT_AUTOCOMPLETE_MULTI",
+          label: "Подсказка с autocomplete",
+          value: '',
+          count: 3,
+          action: "/markup/vue/design-system/hints-autocomplete.json",
+          required: false,
+          disabled: false,
+          hint_external: "Подсказка с autocomplete с подполем",
+          sub: [
+            {
+              id: "hintAutocompleteMultiSub1",
+              property: "hint",
+              name: "HINT_AUTOCOMPLETE_MULTI_SUB",
+              label: "Подсказка с autocomplete подполе",
+              value: "",
+              count: 3,
+              action: "/markup/vue/design-system/hints-autocomplete.json",
+              required: false,
+              disabled: false,
+              hint_external: "Простое подполе Подсказка с autocomplete"
+            }
+          ]
+        },
+        {
+          id: "hintAutocompleteMulti4",
+          property: "hint",
+          name: "HINT_AUTOCOMPLETE_MULTI",
+          label: "Подсказка с autocomplete",
+          value: {
+            "id": "2",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+            "autocomplete": [
+              {
+                "id": "id1",
+                "value": "Семён Семёнович"
+              },
+              {
+                "id": "id1-1",
+                "value": "ООО Ответственные аудиторы"
+              },
+              {
+                "id": "id2",
+                "value": "+7 905 488 85 54"
+              }
+            ]
+          },
+          count: 3,
+          action: "/markup/vue/design-system/hints-autocomplete.json",
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное поле Подсказка с autocomplete с подполем",
+          sub: [
+            {
+              id: "hintAutocompleteMultiSub2",
+              property: "hint",
+              name: "HINT_AUTOCOMPLETE_MULTI_SUB",
+              label: "Подсказка с autocomplete подполе",
+              value: {
+                "id": "2",
+                "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+                "autocomplete": [
+                  {
+                    "id": "id1",
+                    "value": "Семён Семёнович"
+                  },
+                  {
+                    "id": "id1-1",
+                    "value": "ООО Ответственные аудиторы"
+                  },
+                  {
+                    "id": "id2",
+                    "value": "+7 905 488 85 54"
+                  }
+                ]
+              },
+              count: 3,
+              action: "/markup/vue/design-system/hints-autocomplete.json",
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное подполе Подсказка с autocomplete"
+            }
+          ]
+        },
+        {
+          id: "hintAutocompleteMulti5",
+          property: "hint",
+          name: "HINT_AUTOCOMPLETE_MULTI",
+          label: "Подсказка с autocomplete",
+          value: [],
+          count: 3,
+          action: "/markup/vue/design-system/hints-autocomplete.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Подсказка с autocomplete мультиполе с подполем",
+          sub: [
+            {
+              id: "hintAutocompleteMultiSub3",
+              property: "hint",
+              name: "HINT_AUTOCOMPLETE_MULTI_SUB",
+              label: "Подсказка с autocomplete подполе",
+              value: "",
+              count: 3,
+              action: "/markup/vue/design-system/hints-autocomplete.json",
+              required: false,
+              disabled: false,
+              hint_external: "Простое подполе Подсказка с autocomplete"
+            }
+          ]
+        },
+        {
+          id: "hintAutocompleteMulti6",
+          property: "hint",
+          name: "HINT_AUTOCOMPLETE_MULTI",
+          label: "Подсказка с autocomplete",
+          value: [
+            {
+              "id": "3",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 812 488 85 54"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 905 488 85 54"
+                }
+              ]
+            },
+            {
+              "id": "5",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 986 488 85 54"
+                }
+              ]
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-autocomplete.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное Подсказка с autocomplete мультиполе с подполем",
+          sub: [
+            {
+              id: "hintAutocompleteMultiSub4",
+              property: "hint",
+              name: "HINT_AUTOCOMPLETE_MULTI_SUB",
+              label: "Подсказка с autocomplete подполе",
+              value: "",
+              count: 3,
+              action: "/markup/vue/design-system/hints-autocomplete.json",
+              required: false,
+              disabled: false,
+              hint_external: "Простое подполе Подсказка с autocomplete"
+            }
+          ]
+        },
+        {
+          id: "hintAutocompleteMulti7",
+          property: "hint",
+          name: "HINT_AUTOCOMPLETE_MULTI",
+          label: "Подсказка с autocomplete",
+          value: [
+            {
+              "id": "3",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 812 488 85 54"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 905 488 85 54"
+                }
+              ]
+            },
+            {
+              "id": "5",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 986 488 85 54"
+                }
+              ]
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-autocomplete.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное Подсказка с autocomplete мультиполе с подполем",
+          sub: [
+            {
+              id: "hintAutocompleteMultiSub5",
+              property: "hint",
+              name: "HINT_AUTOCOMPLETE_MULTI_SUB",
+              label: "Подсказка с autocomplete подполе",
+              value: [],
+              count: 3,
+              action: "/markup/vue/design-system/hints-autocomplete.json",
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Мульти подполе Подсказка с autocomplete"
+            }
+          ]
+        },
+        {
+          id: "hintAutocompleteMulti8",
+          property: "hint",
+          name: "HINT_AUTOCOMPLETE_MULTI",
+          label: "Подсказка с autocomplete",
+          value: [
+            {
+              "id": "3",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 812 488 85 54"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 905 488 85 54"
+                }
+              ]
+            },
+            {
+              "id": "5",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>",
+              "autocomplete": [
+                {
+                  "id": "id1",
+                  "value": "Семён Семёнович"
+                },
+                {
+                  "id": "id1-1",
+                  "value": "ООО Ответственные аудиторы"
+                },
+                {
+                  "id": "id2",
+                  "value": "+7 986 488 85 54"
+                }
+              ]
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-autocomplete.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное мультиполе Подсказка с autocomplete с мульти подполем",
+          sub: [
+            {
+              id: "hintAutocompleteMultiSub6",
+              property: "hint",
+              name: "HINT_AUTOCOMPLETE_MULTI_SUB",
+              label: "Подсказка с autocomplete мульти подполе",
+              value: [
+                {
+                  "id": "3",
+                  "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+                  "autocomplete": [
+                    {
+                      "id": "id1",
+                      "value": "Семён Семёнович"
+                    },
+                    {
+                      "id": "id1-1",
+                      "value": "ООО Ответственные аудиторы"
+                    },
+                    {
+                      "id": "id2",
+                      "value": "+7 812 488 85 54"
+                    }
+                  ]
+                },
+                {
+                  "id": "2",
+                  "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+                  "autocomplete": [
+                    {
+                      "id": "id1",
+                      "value": "Семён Семёнович"
+                    },
+                    {
+                      "id": "id1-1",
+                      "value": "ООО Ответственные аудиторы"
+                    },
+                    {
+                      "id": "id2",
+                      "value": "+7 905 488 85 54"
+                    }
+                  ]
+                },
+                {
+                  "id": "5",
+                  "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>",
+                  "autocomplete": [
+                    {
+                      "id": "id1",
+                      "value": "Семён Семёнович"
+                    },
+                    {
+                      "id": "id1-1",
+                      "value": "ООО Ответственные аудиторы"
+                    },
+                    {
+                      "id": "id2",
+                      "value": "+7 986 488 85 54"
+                    }
+                  ]
+                }
+              ],
+              count: 3,
+              action: "/markup/vue/design-system/hints-autocomplete.json",
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное мульти подполе Подсказка с autocomplete"
+            }
+          ]
+        },
+      ],
+      hintHidden: [
+        {
+          id: "hintHiddenMulti1",
+          property: "hint",
+          name: "HINT_HIDDEN_MULTI",
+          label: "Подсказка с hidden",
+          value: [],
+          count: 3,
+          action: "/markup/vue/design-system/hints-hidden.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Множественное поле Подсказка с hidden"
+        },
+        {
+          id: "hintHiddenMulti2",
+          property: "hint",
+          name: "HINT_HIDDEN_MULTI",
+          label: "Заполненные поля Подсказка с hidden",
+          value: [
+            {
+              "id": "1",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >First</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN1",
+                  "value": "789456"
+                },
+                {
+                  "name": "HIDDEN2",
+                  "value": "123123"
+                },
+                {
+                  "name": "HIDDEN3",
+                  "value": "456465"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN4",
+                  "value": "qwe"
+                },
+                {
+                  "name": "HIDDEN5",
+                  "value": "asdasd"
+                },
+                {
+                  "name": "HIDDEN6",
+                  "value": "zxczxc"
+                }
+              ]
+            },
+            {
+              "id": "3",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN7",
+                  "value": "fff"
+                },
+                {
+                  "name": "HIDDEN8",
+                  "value": "uu"
+                },
+                {
+                  "namen": "HIDDEN9",
+                  "value": "0"
+                }
+              ]
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-hidden.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное множественное поле Подсказка с hidden"
+        },
+        {
+          id: "hintHiddenMulti3",
+          property: "hint",
+          name: "HINT_HIDDEN_MULTI",
+          label: "Подсказка",
+          value: '',
+          count: 3,
+          action: "/markup/vue/design-system/hints-hidden.json",
+          required: false,
+          disabled: false,
+          hint_external: "Подсказка с hidden с подполем",
+          sub: [
+            {
+              id: "hintHiddenMultiSub1",
+              property: "hint",
+              name: "HINT_HIDDEN_MULTI_SUB",
+              label: "Подсказка подполе",
+              value: "",
+              count: 3,
+              action: "/markup/vue/design-system/hints-hidden.json",
+              required: false,
+              disabled: false,
+              hint_external: "Простое подполе Подсказка с hidden"
+            }
+          ]
+        },
+        {
+          id: "hintHiddenMulti4",
+          property: "hint",
+          name: "HINT_HIDDEN_MULTI",
+          label: "Подсказка с hidden",
+          value: {
+            "id": "2",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+            "hidden": [
+              {
+                "name": "HIDDEN4",
+                "value": "qwe"
+              },
+              {
+                "name": "HIDDEN5",
+                "value": "asdasd"
+              },
+              {
+                "name": "HIDDEN6",
+                "value": "zxczxc"
+              }
+            ]
+          },
+          count: 3,
+          action: "/markup/vue/design-system/hints-hidden.json",
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное поле Подсказка с hidden с подполем",
+          sub: [
+            {
+              id: "hintHiddenMultiSub2",
+              property: "hint",
+              name: "HINT_HIDDEN_MULTI_SUB",
+              label: "Подсказка с hidden подполе",
+              value: {
+                "id": "2",
+                "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+                "hidden": [
+                  {
+                    "name": "HIDDEN4",
+                    "value": "qwe"
+                  },
+                  {
+                    "name": "HIDDEN5",
+                    "value": "asdasd"
+                  },
+                  {
+                    "name": "HIDDEN6",
+                    "value": "zxczxc"
+                  }
+                ]
+              },
+              count: 3,
+              action: "/markup/vue/design-system/hints-hidden.json",
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное подполе Подсказка с hidden"
+            }
+          ]
+        },
+        {
+          id: "hintHiddenMulti5",
+          property: "hint",
+          name: "HINT_HIDDEN_MULTI",
+          label: "Подсказка с hidden",
+          value: [],
+          count: 3,
+          action: "/markup/vue/design-system/hints-hidden.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Подсказка с hidden мультиполе с подполем",
+          sub: [
+            {
+              id: "hintHiddenMultiSub3",
+              property: "hint",
+              name: "HINT_HIDDEN_MULTI_SUB",
+              label: "Подсказка с hidden подполе",
+              value: "",
+              count: 3,
+              action: "/markup/vue/design-system/hints-hidden.json",
+              required: false,
+              disabled: false,
+              hint_external: "Простое подполе Подсказка с hidden"
+            }
+          ]
+        },
+        {
+          id: "hintHiddenMulti6",
+          property: "hint",
+          name: "HINT_HIDDEN_MULTI",
+          label: "Подсказка с hidden",
+          value: [
+            {
+              "id": "1",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >First</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN1",
+                  "value": "789456"
+                },
+                {
+                  "name": "HIDDEN2",
+                  "value": "123123"
+                },
+                {
+                  "name": "HIDDEN3",
+                  "value": "456465"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN4",
+                  "value": "qwe"
+                },
+                {
+                  "name": "HIDDEN5",
+                  "value": "asdasd"
+                },
+                {
+                  "name": "HIDDEN6",
+                  "value": "zxczxc"
+                }
+              ]
+            },
+            {
+              "id": "3",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN7",
+                  "value": "fff"
+                },
+                {
+                  "name": "HIDDEN8",
+                  "value": "uu"
+                },
+                {
+                  "namen": "HIDDEN9",
+                  "value": "0"
+                }
+              ]
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-hidden.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное Подсказка с hidden мультиполе с подполем",
+          sub: [
+            {
+              id: "hintHiddenMultiSub4",
+              property: "hint",
+              name: "HINT_HIDDEN_MULTI_SUB",
+              label: "Подсказка с hidden подполе",
+              value: "",
+              count: 3,
+              action: "/markup/vue/design-system/hints-hidden.json",
+              required: false,
+              disabled: false,
+              hint_external: "Простое подполе Подсказка с hidden"
+            }
+          ]
+        },
+        {
+          id: "hintHiddenMulti7",
+          property: "hint",
+          name: "HINT_HIDDEN_MULTI",
+          label: "Подсказка с hidden",
+          value: [
+            {
+              "id": "1",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >First</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN1",
+                  "value": "789456"
+                },
+                {
+                  "name": "HIDDEN2",
+                  "value": "123123"
+                },
+                {
+                  "name": "HIDDEN3",
+                  "value": "456465"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN4",
+                  "value": "qwe"
+                },
+                {
+                  "name": "HIDDEN5",
+                  "value": "asdasd"
+                },
+                {
+                  "name": "HIDDEN6",
+                  "value": "zxczxc"
+                }
+              ]
+            },
+            {
+              "id": "3",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN7",
+                  "value": "fff"
+                },
+                {
+                  "name": "HIDDEN8",
+                  "value": "uu"
+                },
+                {
+                  "namen": "HIDDEN9",
+                  "value": "0"
+                }
+              ]
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-hidden.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное Подсказка с hidden мультиполе с подполем",
+          sub: [
+            {
+              id: "hintHiddenMultiSub5",
+              property: "hint",
+              name: "HINT_HIDDEN_MULTI_SUB",
+              label: "Подсказка с hidden подполе",
+              value: [],
+              count: 3,
+              action: "/markup/vue/design-system/hints-hidden.json",
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Мульти подполе Подсказка с hidden"
+            }
+          ]
+        },
+        {
+          id: "hintHiddenMulti8",
+          property: "hint",
+          name: "HINT_HIDDEN_MULTI",
+          label: "Подсказка с hidden",
+          value: [
+            {
+              "id": "1",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >First</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN1",
+                  "value": "789456"
+                },
+                {
+                  "name": "HIDDEN2",
+                  "value": "123123"
+                },
+                {
+                  "name": "HIDDEN3",
+                  "value": "456465"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN4",
+                  "value": "qwe"
+                },
+                {
+                  "name": "HIDDEN5",
+                  "value": "asdasd"
+                },
+                {
+                  "name": "HIDDEN6",
+                  "value": "zxczxc"
+                }
+              ]
+            },
+            {
+              "id": "3",
+              "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+              "hidden": [
+                {
+                  "name": "HIDDEN7",
+                  "value": "fff"
+                },
+                {
+                  "name": "HIDDEN8",
+                  "value": "uu"
+                },
+                {
+                  "namen": "HIDDEN9",
+                  "value": "0"
+                }
+              ]
+            }
+          ],
+          count: 3,
+          action: "/markup/vue/design-system/hints-hidden.json",
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное мультиполе Подсказка с hidden с мульти подполем",
+          sub: [
+            {
+              id: "hintHiddenMultiSub6",
+              property: "hint",
+              name: "HINT_HIDDEN_MULTI_SUB",
+              label: "Подсказка с hidden мульти подполе",
+              value: [
+                {
+                  "id": "1",
+                  "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >First</div>",
+                  "hidden": [
+                    {
+                      "name": "HIDDEN1",
+                      "value": "789456"
+                    },
+                    {
+                      "name": "HIDDEN2",
+                      "value": "123123"
+                    },
+                    {
+                      "name": "HIDDEN3",
+                      "value": "456465"
+                    }
+                  ]
+                },
+                {
+                  "id": "2",
+                  "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+                  "hidden": [
+                    {
+                      "name": "HIDDEN4",
+                      "value": "qwe"
+                    },
+                    {
+                      "name": "HIDDEN5",
+                      "value": "asdasd"
+                    },
+                    {
+                      "name": "HIDDEN6",
+                      "value": "zxczxc"
+                    }
+                  ]
+                },
+                {
+                  "id": "3",
+                  "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+                  "hidden": [
+                    {
+                      "name": "HIDDEN7",
+                      "value": "fff"
+                    },
+                    {
+                      "name": "HIDDEN8",
+                      "value": "uu"
+                    },
+                    {
+                      "namen": "HIDDEN9",
+                      "value": "0"
+                    }
+                  ]
+                }
+              ],
+              count: 3,
+              action: "/markup/vue/design-system/hints-hidden.json",
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное мульти подполе Подсказка с hidden"
+            }
+          ]
+        },
+      ],
+      dateRange: [
+        {
+          id: "dateRangeMulti1",
+          property: "date",
+          type: "range",
+          name: "DATE_RANGE_MULTI",
+          label: "Интервал дат",
+          value: [],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Множественное поле интервал дат"
+        },
+        {
+          id: "dateRangeMulti2",
+          property: "date",
+          type: "range",
+          name: "DATE_RANGE_MULTI",
+          label: "Заполненные поля интервал дат",
+          value: [
+            ["20.02.2024", "28.02.2024"],
+            ["20.04.2024", "28.04.2024"],
+            ["20.08.2024", "28.08.2024"]
+          ],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное множественное поле интервал дат"
+        },
+        {
+          id: "dateRangeMulti3",
+          property: "date",
+          type: "range",
+          name: "DATE_RANGE_MULTI",
+          label: "Интервал дат с подполем",
+          value: '',
+          required: false,
+          disabled: false,
+          hint_external: "Поле интервал дат с подполем",
+          sub: [
+            {
+              id: "dateRangeMultiSub1",
+              property: "date",
+              type: "range",
+              name: "DATE_RANGE_MULTI_SUB",
+              label: "Интервал дат подполе",
+              value: "",
+              required: false,
+              disabled: false,
+              hint_external: "Простое поле интервал дат"
+            }
+          ]
+        },
+        {
+          id: "dateRangeMulti4",
+          property: "date",
+          type: "range",
+          name: "DATE_RANGE_MULTI",
+          label: "Интервал дат заполненное",
+          value: ["20.02.2024", "28.02.2024"],
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное поле интервал дат с подполем",
+          sub: [
+            {
+              id: "dateRangeMultiSub2",
+              property: "date",
+              type: "range",
+              name: "DATE_RANGE_MULTI_SUB",
+              label: "Интервал дат подполе заполненное",
+              value: ["20.02.2024", "28.02.2024"],
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное поле интервал дат"
+            }
+          ]
+        },
+        {
+          id: "dateRangeMulti5",
+          property: "date",
+          type: "range",
+          name: "DATE_RANGE_MULTI",
+          label: "Интервал дат мультиполе",
+          value: [],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Мультиполе интервал дат с подполем",
+          sub: [
+            {
+              id: "dateRangeMultiSub3",
+              property: "date",
+              type: "range",
+              name: "DATE_RANGE_MULTI_SUB",
+              label: "Интервал дат подполе",
+              value: ["20.02.2024", "28.02.2024"],
+              required: false,
+              disabled: false,
+              hint_external: "Интервал дат подполе"
+            }
+          ]
+        },
+        {
+          id: "dateRangeMulti6",
+          property: "date",
+          type: "range",
+          name: "DATE_RANGE_MULTI",
+          label: "Интервал дат заполненное",
+          value: [
+            ["20.02.2024", "28.02.2024"],
+            ["20.04.2024", "28.04.2024"],
+            ["20.08.2024", "28.08.2024"]
+          ],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное мультиполе интервал дат с подполем",
+          sub: [
+            {
+              id: "dateRangeMultiSub4",
+              property: "date",
+              type: "range",
+              name: "DATE_RANGE_MULTI_SUB",
+              label: "Текстовое подполе",
+              value: [],
+              required: false,
+              disabled: false,
+              hint_external: "Простое подполе интервал дат"
+            }
+          ]
+        },
+        {
+          id: "dateRangeMulti7",
+          property: "date",
+          type: "range",
+          name: "DATE_RANGE_MULTI",
+          label: "Интервал дат заполненное",
+          value: [
+            ["20.02.2024", "28.02.2024"],
+            ["20.04.2024", "28.04.2024"],
+            ["20.08.2024", "28.08.2024"]
+          ],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное мультиполе интервал дат с подполем",
+          sub: [
+            {
+              id: "dateRangeMultiSub5",
+              property: "date",
+              type: "range",
+              name: "DATE_RANGE_MULTI_SUB",
+              label: "Интервал дат подполе",
+              value: [],
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Мульти подполе интервал дат"
+            }
+          ]
+        },
+        {
+          id: "dateRangeMulti8",
+          property: "date",
+          type: "range",
+          name: "DATE_RANGE_MULTI",
+          label: "Интервал дат",
+          value: [
+            ["20.02.2024", "28.02.2024"],
+            ["20.04.2024", "28.04.2024"],
+            ["20.08.2024", "28.08.2024"]
+          ],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное мультиполе интервал дат с мульти подполем",
+          sub: [
+            {
+              id: "dateRangeMultiSub6",
+              property: "date",
+              type: "range",
+              name: "DATE_RANGE_MULTI_SUB",
+              label: "Мульти подполе интервал дат",
+              value: [
+                ["20.02.2024", "28.02.2024"],
+                ["20.04.2024", "28.04.2024"],
+                ["20.08.2024", "28.08.2024"]
+              ],
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное мульти подполе интервал дат"
+            }
+          ]
+        },
+      ],
+      dateSingle: [
+        {
+          id: "dateSingleMulti1",
+          property: "date",
+          type: "single",
+          name: "DATE_SINGLE_MULTI",
+          label: "Дата",
+          value: [],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Множественное поле дата"
+        },
+        {
+          id: "dateSingleMulti2",
+          property: "date",
+          type: "single",
+          name: "DATE_SINGLE_MULTI",
+          label: "Заполненное поле дата",
+          value: [
+            "28.02.2024",
+            "28.03.2024",
+            "28.04.2024"
+          ],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное множественное поле дата"
+        },
+        {
+          id: "dateSingleMulti3",
+          property: "date",
+          type: "single",
+          name: "DATE_SINGLE_MULTI",
+          label: "Дата с подполем",
+          value: '',
+          required: false,
+          disabled: false,
+          hint_external: "Дата с подполем",
+          sub: [
+            {
+              id: "dateSingleMultiSub1",
+              property: "date",
+              type: "single",
+              name: "DATE_SINGLE_MULTI_SUB",
+              label: "Дата подполе",
+              value: "",
+              required: false,
+              disabled: false,
+              hint_external: "Простое поле дата"
+            }
+          ]
+        },
+        {
+          id: "dateSingleMulti4",
+          property: "date",
+          type: "single",
+          name: "DATE_SINGLE_MULTI",
+          label: "Дата заполненное",
+          value: "28.03.2024",
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное поле дата с подполем",
+          sub: [
+            {
+              id: "dateSingleMultiSub2",
+              property: "date",
+              type: "single",
+              name: "DATE_SINGLE_MULTI_SUB",
+              label: "Дата подполе заполненное",
+              value: "28.03.2024",
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное поле дата"
+            }
+          ]
+        },
+        {
+          id: "dateSingleMulti5",
+          property: "date",
+          type: "single",
+          name: "DATE_SINGLE_MULTI",
+          label: "Дата мультиполе",
+          value: [],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Мультиполе дата с подполем",
+          sub: [
+            {
+              id: "dateSingleMultiSub3",
+              property: "date",
+              type: "single",
+              name: "DATE_SINGLE_MULTI_SUB",
+              label: "Дата подполе",
+              value: "28.03.2024",
+              required: false,
+              disabled: false,
+              hint_external: "Дата подполе"
+            }
+          ]
+        },
+        {
+          id: "dateSingleMulti6",
+          property: "date",
+          type: "single",
+          name: "DATE_SINGLE_MULTI",
+          label: "Дата заполненное",
+          value: [
+            "28.02.2024",
+            "28.03.2024",
+            "28.04.2024"
+          ],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное мультиполе дата с подполем",
+          sub: [
+            {
+              id: "dateSingleMultiSub4",
+              property: "date",
+              type: "single",
+              name: "DATE_SINGLE_MULTI_SUB",
+              label: "Подполе дата",
+              value: [],
+              required: false,
+              disabled: false,
+              hint_external: "Простое подполе дата"
+            }
+          ]
+        },
+        {
+          id: "dateSingleMulti7",
+          property: "date",
+          type: "single",
+          name: "DATE_SINGLE_MULTI",
+          label: "Дата мультиполе заполненное",
+          value: [
+            "28.02.2024",
+            "28.03.2024",
+            "28.04.2024"
+          ],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное мультиполе дата с подполем",
+          sub: [
+            {
+              id: "dateSingleMultiSub5",
+              property: "date",
+              type: "single",
+              name: "DATE_SINGLE_MULTI_SUB",
+              label: "Дата подполе",
+              value: [],
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Мульти подполе дата"
+            }
+          ]
+        },
+        {
+          id: "dateSingleMulti8",
+          property: "date",
+          type: "single",
+          name: "DATE_SINGLE_MULTI",
+          label: "Дата",
+          value: [
+            "28.02.2024",
+            "28.03.2024",
+            "28.04.2024"
+          ],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: "Заполненное мультиполе дата с мульти подполем",
+          sub: [
+            {
+              id: "dateSingleMultiSub6",
+              property: "date",
+              type: "single",
+              name: "DATE_SINGLE_MULTI_SUB",
+              label: "Мульти подполе дата",
+              value: [
+                "28.02.2024",
+                "28.03.2024",
+                "28.04.2024"
+              ],
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: "Заполненное мульти подполе дата"
+            }
+          ]
+        },
+      ],
     }
   }),
   actions: {
