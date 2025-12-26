@@ -14,7 +14,7 @@ export const ButtonComponent = {
       type: String,
       default: 'Button'
     },
-    'props': {
+    props: {
       type: Array,
       default() {
         return ['secondary', 'medium']
@@ -24,6 +24,9 @@ export const ButtonComponent = {
       type: Boolean,
       default: false
     },
+    href: {
+      type: String,
+    }
   },
   emits: ['clickButton'],
   components: {
@@ -35,17 +38,45 @@ export const ButtonComponent = {
   },
   // language=Vue
   template: ` 
-    <button v-if="props.find(e => e === 'icon')" :class="propsClass" @click.stop.prevent="clickButton" :title="text">
+    <button v-if="!href && props.find(e => e === 'icon')"
+      :class="propsClass"
+      :title="text"
+      @click.stop.prevent="clickButton"
+    >
       <DeleteIcon v-if="props.find(e => e === 'delete')" />
       <EditIcon v-else-if="props.find(e => e === 'edit')" />
     </button>
 
-		<button v-else class="vue-button" :class="propsClass" @click.prevent="clickButton">
+		<button v-else-if="!href"
+      class="vue-button"
+      :class="propsClass"
+      @click.prevent="clickButton"
+    >
       <DeleteWhiteIcon v-if="props.find(e => e === 'icon-delete')" />
       <ContentWhiteIcon v-if="props.find(e => e === 'icon-content')" />
       <LinkIcon v-if="props.find(e => e === 'icon-link')" />
       {{ text }}
     </button>
+
+    <a v-else-if="href && props.find(e => e === 'icon')"
+      :class="propsClass"
+      :title="text"
+      :href="href"
+    >
+      <DeleteIcon v-if="props.find(e => e === 'delete')" />
+      <EditIcon v-else-if="props.find(e => e === 'edit')" />
+    </a>
+
+		<a v-else-if="href"
+      class="vue-button"
+      :class="propsClass"
+      :href="href"
+    >
+      <DeleteWhiteIcon v-if="props.find(e => e === 'icon-delete')" />
+      <ContentWhiteIcon v-if="props.find(e => e === 'icon-content')" />
+      <LinkIcon v-if="props.find(e => e === 'icon-link')" />
+      {{ text }}
+    </a>
 	`,
   computed: {
     propsClass() {
