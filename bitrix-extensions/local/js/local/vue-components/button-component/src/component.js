@@ -1,9 +1,7 @@
 import './component.css';
-import { DeleteIcon } from './icons/delete.js';
-import { DeleteWhiteIcon } from './icons/delete-white.js';
-import { ContentWhiteIcon } from './icons/content-white.js';
-import { LinkIcon } from './icons/link.js';
-import { EditIcon } from './icons/edit.js';
+
+import { iconButtonContent } from './content/iconButtonContent.js';
+import { textButtonContent } from './content/textButtonContent.js';
 
 export const ButtonComponent = {
   data() {
@@ -30,11 +28,8 @@ export const ButtonComponent = {
   },
   emits: ['clickButton'],
   components: {
-    DeleteIcon,
-    DeleteWhiteIcon,
-    ContentWhiteIcon,
-    EditIcon,
-    LinkIcon
+    iconButtonContent,
+    textButtonContent
   },
   // language=Vue
   template: ` 
@@ -43,8 +38,7 @@ export const ButtonComponent = {
       :title="text"
       @click.stop.prevent="clickButton"
     >
-      <DeleteIcon v-if="isDelete" />
-      <EditIcon v-else-if="isEdit" />
+      <iconButtonContent :props="props" />
     </button>
 
 		<button v-else-if="isButtonTag"
@@ -52,10 +46,7 @@ export const ButtonComponent = {
       :class="propsClass"
       @click.prevent="clickButton"
     >
-      <DeleteWhiteIcon v-if="isIconDelete" />
-      <ContentWhiteIcon v-if="isIconContent" />
-      <LinkIcon v-if="isIconLink" />
-      {{ text }}
+      <textButtonContent :text="text" :props="props" />
     </button>
 
     <a v-else-if="isATag && isIcon"
@@ -63,8 +54,7 @@ export const ButtonComponent = {
       :title="text"
       :href="href"
     >
-      <DeleteIcon v-if="isDelete" />
-      <EditIcon v-else-if="isEdit" />
+      <iconButtonContent :props="props" />
     </a>
 
 		<a v-else-if="isATag"
@@ -72,10 +62,7 @@ export const ButtonComponent = {
       :class="propsClass"
       :href="href"
     >
-      <DeleteWhiteIcon v-if="isIconDelete" />
-      <ContentWhiteIcon v-if="isIconContent" />
-      <LinkIcon v-if="isIconLink" />
-      {{ text }}
+      <textButtonContent :text="text" :props="props" />
     </a>
 	`,
   computed: {
@@ -103,21 +90,6 @@ export const ButtonComponent = {
     isIcon() {
       return this.props.find(e => e === 'icon');
     },
-    isDelete() {
-      return this.props.find(e => e === 'delete');
-    },
-    isEdit() {
-      return this.props.find(e => e === 'edit');
-    },
-    isIconDelete() {
-      return this.props.find(e => e === 'icon-delete');
-    },
-    isIconContent() {
-      return this.props.find(e => e === 'icon-content');
-    },
-    isIconLink() {
-      return this.props.find(e => e === 'icon-link');
-    }
   },
   methods: {
     clickButton() {
