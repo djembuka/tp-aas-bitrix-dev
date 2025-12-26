@@ -38,43 +38,43 @@ export const ButtonComponent = {
   },
   // language=Vue
   template: ` 
-    <button v-if="!href && props.find(e => e === 'icon')"
+    <button v-if="isButtonTag && isIcon"
       :class="propsClass"
       :title="text"
       @click.stop.prevent="clickButton"
     >
-      <DeleteIcon v-if="props.find(e => e === 'delete')" />
-      <EditIcon v-else-if="props.find(e => e === 'edit')" />
+      <DeleteIcon v-if="isDelete" />
+      <EditIcon v-else-if="isEdit" />
     </button>
 
-		<button v-else-if="!href"
+		<button v-else-if="isButtonTag"
       class="vue-button"
       :class="propsClass"
       @click.prevent="clickButton"
     >
-      <DeleteWhiteIcon v-if="props.find(e => e === 'icon-delete')" />
-      <ContentWhiteIcon v-if="props.find(e => e === 'icon-content')" />
-      <LinkIcon v-if="props.find(e => e === 'icon-link')" />
+      <DeleteWhiteIcon v-if="isIconDelete" />
+      <ContentWhiteIcon v-if="isIconContent" />
+      <LinkIcon v-if="isIconLink" />
       {{ text }}
     </button>
 
-    <a v-else-if="href && props.find(e => e === 'icon')"
+    <a v-else-if="isATag && isIcon"
       :class="propsClass"
       :title="text"
       :href="href"
     >
-      <DeleteIcon v-if="props.find(e => e === 'delete')" />
-      <EditIcon v-else-if="props.find(e => e === 'edit')" />
+      <DeleteIcon v-if="isDelete" />
+      <EditIcon v-else-if="isEdit" />
     </a>
 
-		<a v-else-if="href"
+		<a v-else-if="isATag"
       class="vue-button"
       :class="propsClass"
       :href="href"
     >
-      <DeleteWhiteIcon v-if="props.find(e => e === 'icon-delete')" />
-      <ContentWhiteIcon v-if="props.find(e => e === 'icon-content')" />
-      <LinkIcon v-if="props.find(e => e === 'icon-link')" />
+      <DeleteWhiteIcon v-if="isIconDelete" />
+      <ContentWhiteIcon v-if="isIconContent" />
+      <LinkIcon v-if="isIconLink" />
       {{ text }}
     </a>
 	`,
@@ -94,6 +94,30 @@ export const ButtonComponent = {
       }
       return result;
     },
+    isButtonTag() {
+      return !this.href;
+    },
+    isATag() {
+      return !!this.href;
+    },
+    isIcon() {
+      return this.props.find(e => e === 'icon');
+    },
+    isDelete() {
+      return this.props.find(e => e === 'delete');
+    },
+    isEdit() {
+      return this.props.find(e => e === 'edit');
+    },
+    isIconDelete() {
+      return this.props.find(e => e === 'icon-delete');
+    },
+    isIconContent() {
+      return this.props.find(e => e === 'icon-content');
+    },
+    isIconLink() {
+      return this.props.find(e => e === 'icon-link');
+    }
   },
   methods: {
     clickButton() {
