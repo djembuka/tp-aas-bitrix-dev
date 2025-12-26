@@ -171,6 +171,12 @@ export const buttonsStore = defineStore('buttons-store', {
           alert('click');
         },
       },
+      {
+        id: '20',
+        text: 'Link to somewhere',
+        props: ['icon-link', 'serve', 'small'],
+        href: '#'
+      },
     ],
   }),
   actions: {},

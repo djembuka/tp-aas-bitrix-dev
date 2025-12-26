@@ -12,7 +12,19 @@ export const ButtonsComponent = {
     <div>
       <div class="twpx-design-system-block" v-for="button in buttons" :key="button.id">
         <div>
-          <ButtonComponent :text="button.text" :props="button.props" @clickButton="button.clickButton" />
+          <ButtonComponent
+             v-if="button.clickButton"
+            :text="button.text"
+            :props="button.props"
+            @clickButton="button.clickButton"
+          />
+          
+          <ButtonComponent
+             v-if="button.href"
+            :text="button.text"
+            :props="button.props"
+            :href="button.href"
+          />
         </div>
         <pre>{{ getButtonCode(button) }}</pre>
       </div>
@@ -23,7 +35,11 @@ export const ButtonsComponent = {
   },
   methods: {
     getButtonCode(button) {
-      return `ButtonComponent :text="${button.text}" :props="[${button.props}]" @clickButton=""`;
+      if (button.clickButton) {
+        return `ButtonComponent :text="${button.text}" :props="[${button.props}]" @clickButton=""`;
+      } else if (button.href) {
+        return `ButtonComponent :text="${button.text}" :props="[${button.props}]" :href="${button.href}"`;
+      }
     },
   },
 };
