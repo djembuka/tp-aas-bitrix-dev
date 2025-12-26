@@ -12,6 +12,7 @@ import { Modals } from './pages/modals';
 import { Docs } from './pages/docs';
 import { Loaders } from './pages/loaders';
 import { Messages } from './pages/messages';
+import { CopyBlock } from './pages/copy-block';
 
 export class DesignSystem {
   #store;
@@ -59,6 +60,10 @@ export class DesignSystem {
         {
           path: '/messages',
           component: Messages,
+        },
+        {
+          path: '/copy-block',
+          component: CopyBlock,
         },
       ],
     });

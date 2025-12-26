@@ -38,6 +38,10 @@ export const TheMenu = {
           path: '/messages',
           name: 'Messages'
         },
+        {
+          path: '/copy-block',
+          name: 'Copy block'
+        },
       ]
     }
   },

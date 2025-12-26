@@ -25,6 +25,7 @@ return [
 		'local.vue-components.loader-bubbles',
 		'local.vue-components.loader-squares',
 		'local.vue-components.message-component',
+		'local.vue-components.copy-block',
 		'ui.vue3.pinia',
 	],
 	'skip_core' => true,
