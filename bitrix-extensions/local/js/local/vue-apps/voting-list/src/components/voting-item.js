@@ -13,7 +13,7 @@ export const VotingItem = {
                 <div class="twpx-voting-list__voting-item__heading">
                     <a :href="detailUrl">{{ voting.name }}</a>
                 </div>
-                <div class="twpx-voting-list__voting-item__text">{{ voting.description }}</div>
+                <div class="twpx-voting-list__voting-item__text" v-html="voting.description"></div>
                 <div class="twpx-voting-list__voting-item__links" v-if="voting.pollResult && voting.pollResult">
                     <ButtonComponent
                         v-if="voting.pollLink"
