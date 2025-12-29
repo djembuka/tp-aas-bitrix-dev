@@ -158,6 +158,7 @@ export const ControlFile = {
     uploadFile(files) {
       this.files = files;
       if (!this.invalidString) {
+        this.$refs.inputFile.files = files; // for dran-n-drop and browser submit
         this.$emit('input', { value: files[0].name, file: files[0] });
       }
     },
