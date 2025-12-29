@@ -24,10 +24,20 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: var(--twpx-form-control-color);
   z-index: 1;
 }
-.twpx-form-control__file.filled .twpx-form-control__file__filename {
+.twpx-form-control__file.filled .twpx-form-control__file__filename,
+.twpx-form-control--file.twpx-form-control--disabled
+  .twpx-form-control__file__filename {
   padding-right: 35px !important;
+}
+.twpx-form-control__file.filled label {
+  background-color: var(--twpx-form-control-border-active);
+}
+.twpx-form-control__file.filled .twpx-form-control__file__filename,
+.twpx-form-control__file.filled .twpx-form-control__file__label {
+  color: #fff;
 }
 
 /*File*/
@@ -91,42 +101,21 @@
 
 .twpx-form-control--file.twpx-form-control--invalid label,
 .twpx-form-control--file.twpx-form-control--ivalid:active label {
-  background-color: #ffeaea;
-  color: #ff0000;
-  border-color: #e38080;
+  background-color: var(--twpx-form-control-invalid-background-color);
+  color: var(--twpx-form-control-invalid-color);
+  border-color: var(--twpx-form-control-invalid-border-color);
+}
+.twpx-form-control--file.twpx-form-control--invalid
+  .twpx-form-control__file__filename {
+  color: var(--twpx-form-control-invalid-color);
 }
 .twpx-form-control--file.twpx-form-control--invalid:hover label,
 .twpx-form-control--file.twpx-form-control--invalid:hover:active label {
-  border-color: #ff0000;
+  border-color: var(--twpx-form-control-invalid-color);
 }
 .twpx-form-control--file.twpx-form-control--invalid label a,
 .twpx-form-control--file.twpx-form-control--invalid:active label a {
-  color: #ff0000;
-}
-
-/*Disabled*/
-.twpx-form-control--file.twpx-form-control--disabled .twpx-form-control__file {
-  pointer-events: none;
-}
-.twpx-form-control--file.twpx-form-control--disabled
-  .twpx-form-control__file
-  label,
-.twpx-form-control--file.twpx-form-control--disabled:active
-  .twpx-form-control__file
-  label {
-  color: var(--twpx-form-control-disabled-color);
-  pointer-events: none;
-  background-color: var(--twpx-form-control-disabled-background-color);
-  border: 1px solid var(--twpx-form-control-disabled-background-color) !important;
-}
-.twpx-form-control--file.twpx-form-control--disabled label a,
-.twpx-form-control--file.twpx-form-control--disabled:active label a {
-  color: #0a16aa55;
-}
-.twpx-form-control--file.twpx-form-control--disabled .twpx-form-control__hint,
-.twpx-form-control--file.twpx-form-control--disabled
-  .twpx-form-control__file__label {
-  color: var(--twpx-form-control-disabled-color);
+  color: var(--twpx-form-control-invalid-color);
 }
 
 .twpx-form-control__file__label {
@@ -207,4 +196,29 @@
 }
 .twpx-form-control__warning {
   color: #ff0000;
+}
+
+/*Disabled*/
+.twpx-form-control--file.twpx-form-control--disabled .twpx-form-control__file {
+  pointer-events: none;
+}
+.twpx-form-control--file.twpx-form-control--disabled
+  .twpx-form-control__file
+  label,
+.twpx-form-control--file.twpx-form-control--disabled:active
+  .twpx-form-control__file
+  label {
+  color: var(--twpx-form-control-disabled-color) !important;
+  pointer-events: none;
+  background-color: var(--twpx-form-control-disabled-background-color);
+  border: 1px solid var(--twpx-form-control-disabled-background-color) !important;
+}
+.twpx-form-control--file.twpx-form-control--disabled
+  .twpx-form-control__file__filename {
+  color: var(--twpx-form-control-disabled-color) !important;
+}
+.twpx-form-control--file.twpx-form-control--disabled .twpx-form-control__hint,
+.twpx-form-control--file.twpx-form-control--disabled
+  .twpx-form-control__file__label {
+  color: var(--twpx-form-control-disabled-color);
 }

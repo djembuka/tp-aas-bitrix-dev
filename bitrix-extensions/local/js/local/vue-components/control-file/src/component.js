@@ -13,7 +13,9 @@ export const ControlFile = {
       warning: '',
       active: true,
       files: [],
-      default: '<a href="">Выберите файл</a>&nbsp;или перетащите в поле',
+      default: `Выберите файл (${this.control.accept
+        .map((w) => w.toLowerCase())
+        .join(', ')} до ${this.formatSize(this.control.maxsize)})`,
       hint: this.control.hint_external,
     };
   },
@@ -102,7 +104,7 @@ export const ControlFile = {
       return !!this.invalidString;
     },
     isClearable() {
-      return !!this.filename;
+      return !this.disabled && !!this.filename;
     },
     isFilled() {
       return !!this.filename;
@@ -122,7 +124,7 @@ export const ControlFile = {
 
         if (!regExp.test(filename.substring(lastIndex + 1).toLowerCase())) {
           return `Прикладывайте файлы ${this.control.accept
-            .map((w) => w.toUpperCase())
+            .map((w) => w.toLowerCase())
             .join(', ')}.`;
         }
       }
