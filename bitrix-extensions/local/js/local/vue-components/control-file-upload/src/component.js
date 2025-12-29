@@ -17,7 +17,9 @@ export const ControlFileUpload = {
       percentage: 0, //%
       isFileLoaded: false,
       files: [],
-      default: '<a href="">Выберите файл</a>&nbsp;или перетащите в поле',
+      default: `Выберите файл (${this.control.accept
+        .map((w) => w.toLowerCase())
+        .join(', ')} до ${this.formatSize(this.control.maxsize)})`,
       required: this.control.required,
       warning: '',
     };
@@ -57,7 +59,7 @@ export const ControlFileUpload = {
       >
         <span class="twpx-form-control__file-upl__label">{{ controlLabel }}</span>
 
-        <IconFile class="twpx-form-control__file-upl__icon" />
+        <IconFile :scheme="iconScheme" />
 
         <input
           type="file"
@@ -74,9 +76,15 @@ export const ControlFileUpload = {
 
         <label
           :for="controlId"
-          v-html="label"
-          ref="dropzone"
-        ></label>
+          class="active"
+        >
+          <span
+            class="twpx-form-control__file-upl__filename"
+            v-html="label"
+            ref="dropzone"
+          >
+          </span>
+        </label>
       </div>
       <div
         class="twpx-form-control__warning"
@@ -88,6 +96,17 @@ export const ControlFileUpload = {
 	`,
   emits: ['input', 'focus', 'blur', 'enter'],
   computed: {
+    iconScheme() {
+      if (this.disabled) {
+        return 'disabled';
+      } else if (this.invalid) {
+        return 'invalid';
+      } else if (this.isFilled) {
+        return 'filled';
+      }
+      //return 'new';
+      return 'default';
+    },
     controlLabel() {
       if (this.control.required && !this.control.label.includes('*')) {
         return `${this.control.label} *`;
@@ -154,7 +173,7 @@ export const ControlFileUpload = {
 
         if (!regExp.test(filename.substring(lastIndex + 1).toLowerCase())) {
           return `Прикладывайте файлы ${this.control.accept
-            .map((w) => w.toUpperCase())
+            .map((w) => w.toLowerCase())
             .join(', ')}.`;
         }
       }

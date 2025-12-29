@@ -1,0 +1,91 @@
+.twpx-form-control__file__icon--default .a,
+.twpx-form-control__file__icon--default .b,
+.twpx-form-control__file__icon--default .c,
+.twpx-form-control__file__icon--default .d {
+  -webkit-transition: fill 0.3s ease;
+  transition: fill 0.3s ease;
+}
+
+/*Default*/
+.twpx-form-control__file__icon--default .a {
+  fill: #C3CFDD;
+}
+.twpx-form-control__file__icon--default .b {
+  fill: #A3B2C1;
+}
+.twpx-form-control__file__icon--default .c {
+  fill: #D3E0EA;
+}
+.twpx-form-control__file__icon--default .d {
+  fill: #fff;
+}
+
+/*Hover default*/
+.twpx-form-control--file:hover .twpx-form-control__file__icon--default .a {
+  fill: #4375D8;
+}
+.twpx-form-control--file:hover .twpx-form-control__file__icon--default .b {
+  fill: #1C56C7;
+}
+.twpx-form-control--file:hover .twpx-form-control__file__icon--default .c {
+  fill: #74A2FF;
+}
+.twpx-form-control--file:hover .twpx-form-control__file__icon--default .d {
+  fill: #fff;
+}
+
+/*Filled*/
+.twpx-form-control__file__icon--filled .a {
+  fill: #FFFFFF;
+}
+.twpx-form-control__file__icon--filled .b {
+  fill: #A7BDE8;
+}
+.twpx-form-control__file__icon--filled .c {
+  fill: #D0E0FF;
+}
+.twpx-form-control__file__icon--filled .d {
+  fill: #4375D8;
+}
+
+/*Invalid*/
+.twpx-form-control__file__icon--invalid .a {
+  fill: #FF8080;
+}
+.twpx-form-control__file__icon--invalid .b {
+  fill: #DB6A6A;
+}
+.twpx-form-control__file__icon--invalid .c {
+  fill: #F9BBBB;
+}
+.twpx-form-control__file__icon--invalid .d {
+  fill: #FFFFFF;
+}
+
+/*Disabled*/
+.twpx-form-control__file__icon--disabled .a {
+  fill: #E3E3E3;
+}
+.twpx-form-control__file__icon--disabled .b {
+  fill: #BFBFBF;
+}
+.twpx-form-control__file__icon--disabled .c {
+  fill: #F4F4F4;
+}
+.twpx-form-control__file__icon--disabled .d {
+  fill: #FFFFFF;
+}
+
+/*New*/
+.twpx-form-control__file__icon--new .a {
+  fill: #AEDEB1;
+}
+.twpx-form-control__file__icon--new .b {
+  fill: #87C38A;
+}
+.twpx-form-control__file__icon--new .c {
+  fill: #D4F5D6;
+}
+.twpx-form-control__file__icon--new .d {
+  fill: #FFFFFF;
+}
