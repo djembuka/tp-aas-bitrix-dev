@@ -52,7 +52,7 @@ export const ControlFile = {
     >
       <span class="twpx-form-control__file__label">{{ controlLabel }}</span>
 
-      <IconFile class="twpx-form-control__file__icon" />
+      <IconFile :scheme="iconScheme" />
 
       <input
         type="file"
@@ -78,6 +78,17 @@ export const ControlFile = {
 	`,
   emits: ['input', 'focus', 'blur', 'enter'],
   computed: {
+    iconScheme() {
+      if (this.disabled) {
+        return 'disabled';
+      } else if (this.invalid) {
+        return 'invalid';
+      } else if (this.isFilled) {
+        return 'filled';
+      }
+      //return 'new';
+      return 'default';
+    },
     controlLabel() {
       if (this.control.required && !this.control.label.includes('*')) {
         return `${this.control.label} *`;
