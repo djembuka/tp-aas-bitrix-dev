@@ -69,6 +69,7 @@
   cursor: pointer;
   overflow: hidden;
   margin-bottom: 0;
+  border: 1px solid var(--twpx-form-control-border);
   -webkit-transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
   transition: background-color 0.3s ease, color 0.3s ease,
@@ -85,7 +86,7 @@
   text-decoration: none;
 }
 .twpx-form-control__file label:hover {
-  border-color: var(--twpx-form-control-border);
+  border-color: var(--twpx-form-control-border-active);
 }
 
 .twpx-form-control--file.twpx-form-control--invalid label,
