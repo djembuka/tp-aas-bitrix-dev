@@ -5,30 +5,29 @@ export const controlsStore = defineStore('controls', {
     groupFormBlocks: [
       {
         id: 'group1',
-        heading: 'Общие данные',
+        heading: BX.message('TWPX_VOTING_DETAIL_FORM_GROUP_HEADING1'),
         controls: [
           {
             property: 'hidden',
             id: 'group1control0',
             name: 'GROUP_UUID',
-            label: '',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_GROUP_UUID_LABEL'),
             value: '',
           },
           {
             property: 'text',
             id: 'group1control1',
             name: 'GROUP_NAME',
-            label: 'Название группы вопросов',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_GROUP_NAME_LABEL'),
             value: '',
             required: true,
-            hint_external:
-              'Используйте название, которое объединит несколько вопросов в один.',
+            hint_external: BX.message('TWPX_VOTING_DETAIL_FORM_GROUP_NAME_HINT'),
           },
           {
             property: 'textarea',
             id: 'group1control2',
             name: 'GROUP_DESCRIPTION',
-            label: 'Текст подробного описания',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_GROUP_DESCRIPTION_LABEL'),
             value: '',
             required: false,
           },
@@ -36,7 +35,7 @@ export const controlsStore = defineStore('controls', {
             property: 'file',
             id: 'group1control3',
             name: 'GROUP_PIC',
-            label: 'Иллюстрация',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_GROUP_PIC_LABEL'),
             value: '',
             file: '',
             required: false,
@@ -48,17 +47,16 @@ export const controlsStore = defineStore('controls', {
       },
       {
         id: 'group2',
-        heading: 'Технические',
+        heading: BX.message('TWPX_VOTING_DETAIL_FORM_GROUP_HEADING2'),
         controls: [
           {
             property: 'num',
             id: 'group2control1',
             name: 'GROUP_SORT',
-            label: 'Порядок размещения группы',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_GROUP_SORT_LABEL'),
             value: '',
             required: true,
-            hint_external:
-              'Используйте цифры от 1 до N,  порядок определяет от 1, сверху вниз. 1 всегда будет первым. Для удобства рекомендуем использовать 10, 20, 30, это позволит оперативно изменить порядок.',
+            hint_external: BX.message('TWPX_VOTING_DETAIL_FORM_GROUP_SORT_HINT')
           },
         ],
       },
@@ -66,20 +64,20 @@ export const controlsStore = defineStore('controls', {
     questionFormBlocks: [
       {
         id: 'question1',
-        heading: 'Общие данные',
+        heading: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_HEADING1'),
         controls: [
           {
             property: 'hidden',
             id: 'question1control0',
             name: 'QUESTION_UUID',
-            label: '',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_UUID_LABEL'),
             value: '',
           },
           {
             property: 'text',
             id: 'question1control1',
             name: 'QUESTION_NAME',
-            label: 'Название вопроса',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_NAME_LABEL'),
             value: '',
             required: true,
           },
@@ -87,7 +85,7 @@ export const controlsStore = defineStore('controls', {
             property: 'textarea',
             id: 'question1control2',
             name: 'QUESTION_DESCRIPTION',
-            label: 'Текст подробного описания',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_DESCRIPTION_LABEL'),
             value: '',
             required: false,
           },
@@ -95,7 +93,7 @@ export const controlsStore = defineStore('controls', {
             property: 'file',
             id: 'question1control3',
             name: 'QUESTION_PIC',
-            label: 'Иллюстрация вопроса',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_PIC_LABEL'),
             value: '',
             file: '',
             required: false,
@@ -107,13 +105,13 @@ export const controlsStore = defineStore('controls', {
       },
       {
         id: 'question3',
-        heading: 'Файлы вопроса',
+        heading: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_HEADING3'),
         controls: [
           {
             property: 'file',
             id: 'question3control1',
             name: 'QUESTION_FILE',
-            label: 'Файл',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_FILE_LABEL'),
             value: [],
             file: null,
             accept: ['doc', 'docx', 'pdf', 'xls', 'xlsx', 'txt', 'jpeg', 'jpg', 'gif', 'png', 'webp'],
@@ -124,21 +122,21 @@ export const controlsStore = defineStore('controls', {
       },
       {
         id: 'question2',
-        heading: 'Технические',
+        heading: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_HEADING2'),
         controls: [
           {
             property: 'select',
             type: 'dropdown',
             id: 'question2control1',
             name: 'QUESTION_TYPE',
-            label: 'Тип выбора',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_TYPE_LABEL'),
             options: [
               {
-                label: 'Радио кнопка',
+                label: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_TYPE_OPTION1'),
                 code: '0',
               },
               {
-                label: 'Чекбокс',
+                label: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_TYPE_OPTION2'),
                 code: '1',
               },
             ],
@@ -150,20 +148,19 @@ export const controlsStore = defineStore('controls', {
             property: 'num',
             id: 'question2control2',
             name: 'QUESTION_NUM',
-            label: 'Количество ответов',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_NUM_LABEL'),
             value: '',
             required: true,
-            hint_external: 'Максимальное количество ответов на вопрос.',
+            hint_external: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_NUM_HINT'),
           },
           {
             property: 'num',
             id: 'question2control3',
             name: 'QUESTION_SORT',
-            label: 'Порядок размещения на странице',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_SORT_LABEL'),
             value: '',
             required: true,
-            hint_external:
-              'Используйте цифры от 1 до N,  порядок определяет от 1, сверху вниз. 1 всегда будет первым. Для удобства рекомендуем использовать 10, 20, 30, это позволит оперативно изменить порядок.',
+            hint_external: BX.message('TWPX_VOTING_DETAIL_FORM_QUESTION_SORT_HINT'),
           },
         ],
       },
@@ -171,20 +168,20 @@ export const controlsStore = defineStore('controls', {
     answerFormBlocks: [
       {
         id: 'answer1',
-        heading: 'Общие данные',
+        heading: BX.message('TWPX_VOTING_DETAIL_FORM_ANSWER_HEADING1'),
         controls: [
           {
             property: 'hidden',
             id: 'answer1control0',
             name: 'ANSWER_UUID',
-            label: '',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_ANSWER_UUID_LABEL'),
             value: '',
           },
           {
             property: 'text',
             id: 'answer1control1',
             name: 'ANSWER_NAME',
-            label: 'Название ответа',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_ANSWER_NAME_LABEL'),
             value: '',
             required: true,
           },
@@ -192,7 +189,7 @@ export const controlsStore = defineStore('controls', {
             property: 'textarea',
             id: 'answer1control2',
             name: 'ANSWER_DESCRIPTION',
-            label: 'Подробное описание ответа',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_ANSWER_DESCRIPTION_LABEL'),
             value: '',
             required: false,
           },
@@ -200,7 +197,7 @@ export const controlsStore = defineStore('controls', {
             property: 'file',
             id: 'answer1control3',
             name: 'ANSWER_PIC',
-            label: 'Иллюстрация ответа',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_ANSWER_PIC_LABEL'),
             value: '',
             file: '',
             required: false,
@@ -212,17 +209,16 @@ export const controlsStore = defineStore('controls', {
       },
       {
         id: 'answer2',
-        heading: 'Технические',
+        heading: BX.message('TWPX_VOTING_DETAIL_FORM_ANSWER_HEADING2'),
         controls: [
           {
             property: 'num',
             id: 'answer2control1',
             name: 'ANSWER_SORT',
-            label: 'Порядок размещения на странице',
+            label: BX.message('TWPX_VOTING_DETAIL_FORM_ANSWER_SORT_LABEL'),
             value: '',
             required: true,
-            hint_external:
-              'Используйте цифры от 1 до N,  порядок определяет от 1, сверху вниз. 1 всегда будет первым. Для удобства рекомендуем использовать 10, 20, 30, это позволит оперативно изменить порядок.',
+            hint_external: BX.message('TWPX_VOTING_DETAIL_FORM_ANSWER_SORT_HINT'),
           },
         ],
       },
@@ -442,7 +438,7 @@ export const controlsStore = defineStore('controls', {
       try {
         // Создаем AbortController для возможности отмены запроса
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 секунд таймаут
+        const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 секунд тймаут
 
         const response = await fetch(url, {
           signal: controller.signal,

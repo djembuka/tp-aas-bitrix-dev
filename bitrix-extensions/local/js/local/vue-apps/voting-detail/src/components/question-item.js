@@ -42,12 +42,12 @@ export const QuestionItem = {
                     />
                 </div>
                 <div class="twpx-poll-question-item__answers-block__button">
-                    <ButtonComponent text="Добавить ответ" :props="['success', 'medium']" @clickButton="addAnswer" />
+                    <ButtonComponent :text="BX.message('TWPX_VOTING_DETAIL_QUESTION_ITEM_ADD_BUTTON')" :props="['success', 'medium']" @clickButton="addAnswer" />
                 </div>
             </div>
 
             <div class="twpx-poll-question-item__button" v-else>
-                <ButtonComponent text="Добавить ответ" :props="['success', 'medium']" @clickButton="addAnswer" />
+                <ButtonComponent :text="BX.message('TWPX_VOTING_DETAIL_QUESTION_ITEM_ADD_BUTTON')" :props="['success', 'medium']" @clickButton="addAnswer" />
             </div>
         </div>
     `,

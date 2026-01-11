@@ -5,38 +5,38 @@ export const addEditStore = defineStore('add-edit', {
         lang: {
             group: {
                 add: {
-                    heading: 'Создать группу вопросов',
-                    cancelButton: 'Отменить',
-                    sendButton: 'Создать'
+                    heading: BX.message('TWPX_VOTING_DETAIL_GROUP_ADD_HEADING'),
+                    cancelButton: BX.message('TWPX_VOTING_DETAIL_GROUP_ADD_CANCEL_BUTTON'),
+                    sendButton: BX.message('TWPX_VOTING_DETAIL_GROUP_ADD_SEND_BUTTON')
                 },
                 edit: {
-                    heading: 'Изменить группу вопросов',
-                    cancelButton: 'Отменить',
-                    sendButton: 'Изменить'
+                    heading: BX.message('TWPX_VOTING_DETAIL_GROUP_EDIT_HEADING'),
+                    cancelButton: BX.message('TWPX_VOTING_DETAIL_GROUP_EDIT_CANCEL_BUTTON'),
+                    sendButton: BX.message('TWPX_VOTING_DETAIL_GROUP_EDIT_SEND_BUTTON')
                 }
             },
             question: {
                 add: {
-                    heading: 'Добавить вопрос',
-                    cancelButton: 'Отменить',
-                    sendButton: 'Добавить'
+                    heading: BX.message('TWPX_VOTING_DETAIL_QUESTION_ADD_HEADING'),
+                    cancelButton: BX.message('TWPX_VOTING_DETAIL_QUESTION_ADD_CANCEL_BUTTON'),
+                    sendButton: BX.message('TWPX_VOTING_DETAIL_QUESTION_ADD_SEND_BUTTON')
                 },
                 edit: {
-                    heading: 'Изменить вопрос',
-                    cancelButton: 'Отменить',
-                    sendButton: 'Изменить'
+                    heading: BX.message('TWPX_VOTING_DETAIL_QUESTION_EDIT_HEADING'),
+                    cancelButton: BX.message('TWPX_VOTING_DETAIL_QUESTION_EDIT_CANCEL_BUTTON'),
+                    sendButton: BX.message('TWPX_VOTING_DETAIL_QUESTION_EDIT_SEND_BUTTON')
                 }
             },
             answer: {
                 add: {
-                    heading: 'Добавить ответ',
-                    cancelButton: 'Отменить',
-                    sendButton: 'Добавить'
+                    heading: BX.message('TWPX_VOTING_DETAIL_ANSWER_ADD_HEADING'),
+                    cancelButton: BX.message('TWPX_VOTING_DETAIL_ANSWER_ADD_CANCEL_BUTTON'),
+                    sendButton: BX.message('TWPX_VOTING_DETAIL_ANSWER_ADD_SEND_BUTTON')
                 },
                 edit: {
-                    heading: 'Изменить ответ',
-                    cancelButton: 'Отменить',
-                    sendButton: 'Изменить'
+                    heading: BX.message('TWPX_VOTING_DETAIL_ANSWER_EDIT_HEADING'),
+                    cancelButton: BX.message('TWPX_VOTING_DETAIL_ANSWER_EDIT_CANCEL_BUTTON'),
+                    sendButton: BX.message('TWPX_VOTING_DETAIL_ANSWER_EDIT_SEND_BUTTON')
                 }
             }
         },

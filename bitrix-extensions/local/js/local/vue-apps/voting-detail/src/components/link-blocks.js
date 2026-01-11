@@ -9,11 +9,11 @@ export const LinkBlocks = {
     template: `
         <div class="twpx-poll-detail__link-blocks">
             <CopyBlock
-                title="Ссылка на публичную страницу результатов"
+                :title="BX.message('TWPX_VOTING_DETAIL_POLL_LINK_TITLE')"
                 :code="pollLink"
             />
             <CopyBlock
-                title="Ссылка на публичное голосование"
+                :title="BX.message('TWPX_VOTING_DETAIL_POLL_RESULT_TITLE')"
                 :code="pollResult"
             />
         </div>

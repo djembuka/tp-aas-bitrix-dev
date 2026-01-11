@@ -5,38 +5,38 @@ export const dataStore = defineStore('data', {
     customData: {},
     signedParameters: '',
     lang: {
-			'changeButton': 'Изменить',
+			'changeButton': BX.message('TWPX_VOTING_DETAIL_CHANGE_BUTTON'),
       deleteModal: {
         group: {
-					heading: 'Подтвердите удаление группы вопросов',
-					text: 'Подтвердите удаление группы вопросов. Обратите внимание: после удаления восстановить её будет невозможно.',
-					no: 'Отменить',
-					yes: 'Удалить'
+					heading: BX.message('TWPX_VOTING_DETAIL_DELETE_GROUP_HEADING'),
+					text: BX.message('TWPX_VOTING_DETAIL_DELETE_GROUP_TEXT'),
+					no: BX.message('TWPX_VOTING_DETAIL_DELETE_GROUP_NO'),
+					yes: BX.message('TWPX_VOTING_DETAIL_DELETE_GROUP_YES')
 				},
         question: {
-					heading: 'Подтвердите удаление вопроса',
-					text: 'Подтвердите удаление вопроса. Обратите внимание: после удаления восстановить его будет невозможно.',
-					no: 'Отменить',
-					yes: 'Удалить'
+					heading: BX.message('TWPX_VOTING_DETAIL_DELETE_QUESTION_HEADING'),
+					text: BX.message('TWPX_VOTING_DETAIL_DELETE_QUESTION_TEXT'),
+					no: BX.message('TWPX_VOTING_DETAIL_DELETE_QUESTION_NO'),
+					yes: BX.message('TWPX_VOTING_DETAIL_DELETE_QUESTION_YES')
 				},
         answer: {
-					heading: 'Подтвердите удаление ответа',
-					text: 'Подтвердите удаление ответа. Обратите внимание: после удаления восстановить его будет невозможно.',
-					no: 'Отменить',
-					yes: 'Удалить'
+					heading: BX.message('TWPX_VOTING_DETAIL_DELETE_ANSWER_HEADING'),
+					text: BX.message('TWPX_VOTING_DETAIL_DELETE_ANSWER_TEXT'),
+					no: BX.message('TWPX_VOTING_DETAIL_DELETE_ANSWER_NO'),
+					yes: BX.message('TWPX_VOTING_DETAIL_DELETE_ANSWER_YES')
 				}
       },
 			'group': {
 				block: {
-					'heading': 'Создать группу вопросов',
-					'text': 'Создайте группу вопросов, чтобы объединить несколько вопросов под единым заголовком и описанием. Если ваши вопросы не разделены на группы, создайте одну общую группу и добавьте все вопросы в неё. Учтите: группа является обязательным элементом голосования.',
-					'button': 'Добавить группу вопросов'
+					'heading': BX.message('TWPX_VOTING_DETAIL_GROUP_BLOCK_HEADING'),
+					'text': BX.message('TWPX_VOTING_DETAIL_GROUP_BLOCK_TEXT'),
+					'button': BX.message('TWPX_VOTING_DETAIL_GROUP_BLOCK_BUTTON')
 				}
 			},
 			'groupItem': {
-        heading: 'Добавить вопрос',
-        text: 'Используйте эту функцию, чтобы создать новый вопрос для голосования. Укажите формулировку вопроса, при необходимости добавьте варианты ответов и сохраните его в выбранной группе.',
-				button: 'Добавить вопрос'
+        heading: BX.message('TWPX_VOTING_DETAIL_GROUP_ITEM_HEADING'),
+        text: BX.message('TWPX_VOTING_DETAIL_GROUP_ITEM_TEXT'),
+				button: BX.message('TWPX_VOTING_DETAIL_GROUP_ITEM_BUTTON')
 			}
 		},
 

@@ -31,98 +31,98 @@ export const DetailInfo = {
             return [
             {
                 id: 1,
-                heading: 'Общие данные',
+                heading: BX.message('TWPX_VOTING_DETAIL_INFO_HEADING1'),
                 items: [
                 {
-                    title: 'Название голосования',
+                    title: BX.message('TWPX_VOTING_DETAIL_INFO_NAME'),
                     value: this.voting.name
                 },
                 {
-                    title: 'Текст анонса',
+                    title: BX.message('TWPX_VOTING_DETAIL_INFO_ANNOUNCEMENT'),
                     value: this.voting.announcement
                 },
                 {
-                    title: 'Текст подробного описания',
+                    title: BX.message('TWPX_VOTING_DETAIL_INFO_DESCRIPTION'),
                     value: this.voting.description
                 },
                 ]
             },
             {
                 id: 2,
-                heading: 'Сроки',
+                heading: BX.message('TWPX_VOTING_DETAIL_INFO_HEADING2'),
                 items: [
                 {
-                    title: 'Дата начала активности',
+                    title: BX.message('TWPX_VOTING_DETAIL_INFO_ACTIVITY_START_DATE'),
                     value: this.toHumanWithTimeBlock(this.voting.activityStartDate)
                 },
                 {
-                    title: 'Дата окончания активности',
+                    title: BX.message('TWPX_VOTING_DETAIL_INFO_ACTIVITY_END_DATE'),
                     value: this.toHumanWithTimeBlock(this.voting.activityEndDate)
                 },
                 {
-                    title: 'Дата окончания голосования',
+                    title: BX.message('TWPX_VOTING_DETAIL_INFO_VOTE_END_DATE'),
                     value: this.toHumanWithTimeBlock(this.voting.voteEndDate)
                 },
                 ]
             },
             {
                 id: 3,
-                heading: 'Технические',
+                heading: BX.message('TWPX_VOTING_DETAIL_INFO_HEADING3'),
                 items: [
                 {
-                    title: 'Количество попыток',
+                    title: BX.message('TWPX_VOTING_DETAIL_INFO_NUMBER_VOTES_LIMIT'),
                     value: this.voting.numberVotesLimit
                 },
                 {
-                    title: 'Количество голосующих',
+                    title: BX.message('TWPX_VOTING_DETAIL_INFO_NUMBER_VOTERS'),
                     value: this.voting.numberVoters
                 },
                 {
-                    title: 'Сообщение у кнопки',
+                    title: BX.message('TWPX_VOTING_DETAIL_INFO_BUTTON_MESSAGE'),
                     value: this.voting.buttonMessage
                 },
                 {
-                    title: 'Сообщение после голосования',
+                    title: BX.message('TWPX_VOTING_DETAIL_INFO_MESSAGE_AFTER_VOTING'),
                     value: this.voting.messageAfterVoting
                 },
                 {
-                    title: 'Порядок размещения',
+                    title: BX.message('TWPX_VOTING_DETAIL_INFO_SORT_INDEX'),
                     value: this.voting.sortIndex
                 },
                 ]
             },
             {
                 id: 4,
-                heading: 'Доступы',
+                heading: BX.message('TWPX_VOTING_DETAIL_INFO_HEADING4'),
                 items: [
                     {
-                        title: 'ID групп голосующих',
+                        title: BX.message('TWPX_VOTING_DETAIL_INFO_GROUPS_VOTING'),
                         value: this.voting.groupsVoting
                     },
                     {
-                        title: 'ID групп голосующих ЕИО',
+                        title: BX.message('TWPX_VOTING_DETAIL_INFO_GROUPS_VOTING_EIO'),
                         value: this.voting.groupsVotingEio
                     },
                     {
-                        title: 'ID групп голосующих УМЦ',
+                        title: BX.message('TWPX_VOTING_DETAIL_INFO_GROUPS_VOTING_UMC'),
                         value: this.voting.groupsVotingUmc
                     },
                     {
-                        title: 'ID групп Избирательных комиссий',
+                        title: BX.message('TWPX_VOTING_DETAIL_INFO_GROUPS_COMISSION'),
                         value: this.voting.groupsCommission
                     },
                 ]
             },
             {
                 id: 5,
-                heading: 'Оформление документов',
+                heading: BX.message('TWPX_VOTING_DETAIL_INFO_HEADING5'),
                 items: [
                     {
-                        title: 'Заголовок документа',
+                        title: BX.message('TWPX_VOTING_DETAIL_INFO_PDF_TITLE'),
                         value: this.voting.pdfTitle
                     },
                     {
-                        title: 'Подзаголовок документа',
+                        title: BX.message('TWPX_VOTING_DETAIL_INFO_PDF_SUB_TITLE'),
                         value: this.voting.pdfSubTitle
                     },
                 ]
