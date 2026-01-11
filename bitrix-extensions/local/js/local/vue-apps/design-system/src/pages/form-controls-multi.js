@@ -14,7 +14,51 @@ export const FormControlsMulti = {
         {
           path: 'textarea',
           name: 'textarea'
-        }
+        },
+        {
+          path: 'tel',
+          name: 'tel'
+        },
+        {
+          path: 'email',
+          name: 'email'
+        },
+        {
+          path: 'password',
+          name: 'password'
+        },
+        {
+          path: 'num',
+          name: 'num'
+        },
+        {
+          path: 'timesingle',
+          name: 'timesingle'
+        },
+        {
+          path: 'hint',
+          name: 'hint'
+        },
+        {
+          path: 'hintHtml',
+          name: 'hintHtml'
+        },
+        {
+          path: 'hintAutocomplete',
+          name: 'hintAutocomplete'
+        },
+        {
+          path: 'hintHidden',
+          name: 'hintHidden'
+        },
+        {
+          path: 'dateRange',
+          name: 'dateRange'
+        },
+        {
+          path: 'dateSingle',
+          name: 'dateSingle'
+        },
       ]
     }
   },
