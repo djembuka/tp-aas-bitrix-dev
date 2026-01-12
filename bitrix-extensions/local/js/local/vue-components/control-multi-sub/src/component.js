@@ -83,7 +83,7 @@ export const ControlMultiSub = {
         <hr>
 
       </div>
-      <div class="btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="add">Добавить</div>
+      <div class="btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="clickAddButton">Добавить</div>
     </div>
 	`,
   computed: {
@@ -102,11 +102,21 @@ export const ControlMultiSub = {
     },
   },
   methods: {
-    add() {
+    clickAddButton() {
+      this.add();
+    },
+    add(value) {
       if (!this.isDisabled) {
+
+        let copy = JSON.parse(JSON.stringify(this.copy));
+        
+        if (value) {
+          copy.value = value;
+        }
+
         this.$emit('add', {
           parent: this.parent,
-          add: Object.assign({}, this.copy),
+          add: copy,
         });
       }
     },
@@ -115,21 +125,35 @@ export const ControlMultiSub = {
     },
   },
   beforeMount() {
+    if (this.parent.property === 'multi') return;
+
     this.multi = this.parent.multi;
 
-    const sub = [];
+    this.copy = JSON.parse(JSON.stringify(this.parent));
+    delete this.copy.multi;
+    this.copy.value = '';
 
-    if (this.parent.sub && this.parent.sub.forEach) {
-      this.parent.sub.forEach((s) => {
-        sub.push({ ...s });
+
+    const sub = JSON.parse(JSON.stringify(this.parent.sub));
+
+    if (Array.isArray(sub)) {
+      sub.forEach(s => {
+        s.value = '';
       });
     }
 
-    this.copy = Object.assign({}, this.parent);
-    delete this.copy.multi;
     this.copy.sub = sub;
 
+
     this.$emit('create', { parent: this.parent });
-    this.add();
+    
+    if (Array.isArray(this.parent.value) && this.parent.value.length > 0) {
+      this.parent.value.forEach(v => {
+        this.add(v);
+      })
+      this.parent.value = [];
+    } else {
+      this.add();
+    }
   },
 };
