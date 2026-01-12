@@ -38,7 +38,7 @@ export const ControlFileUpload = {
         'twpx-form-control--invalid': isInvalid,
         'twpx-form-control--disabled': disabled,
       }"
-    >
+    >  
       <IconLock
         class="twpx-form-control__file-upl__disabled-icon"
         v-if="disabled"
@@ -99,7 +99,7 @@ export const ControlFileUpload = {
     iconScheme() {
       if (this.disabled) {
         return 'disabled';
-      } else if (this.invalid) {
+      } else if (this.isInvalid) {
         return 'invalid';
       } else if (this.isFilled) {
         return 'filled';

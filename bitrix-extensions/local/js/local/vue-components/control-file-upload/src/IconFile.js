@@ -23,7 +23,7 @@ export const IconFile = {
   `,
   computed: {
     classList() {
-      return `twpx-form-control__file__icon twpx-form-control__file__icon--${this.scheme}`;
+      return `twpx-form-control__file-upl__icon twpx-form-control__file-upl__icon--${this.scheme}`;
     },
   },
 };
