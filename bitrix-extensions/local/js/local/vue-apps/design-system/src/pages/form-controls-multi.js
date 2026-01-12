@@ -59,6 +59,30 @@ export const FormControlsMulti = {
           path: 'dateSingle',
           name: 'dateSingle'
         },
+        {
+          path: 'datetimeSingle',
+          name: 'datetimeSingle'
+        },
+        {
+          path: 'file',
+          name: 'file'
+        },
+        {
+          path: 'fileUpload',
+          name: 'fileUpload'
+        },
+        {
+          path: 'selectDropdown',
+          name: 'selectDropdown'
+        },
+        {
+          path: 'selectRadio',
+          name: 'selectRadio'
+        },
+        {
+          path: 'selectMulti',
+          name: 'selectMulti'
+        },
       ]
     }
   },

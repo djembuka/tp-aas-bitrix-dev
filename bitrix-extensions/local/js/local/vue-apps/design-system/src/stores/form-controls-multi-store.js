@@ -1,14 +1,18 @@
 import { defineStore } from 'ui.vue3.pinia';
 
 function createMultiControls({
-  id, property, type, name, label, valueSingle, valueMulti, valueMultiSub, hintExternal, count, action
+  id, property, type, name, label, valueSingle, valueMulti, valueMultiSub, hintExternal, count, action, file, accept, image, maxSize, options
 }) {
-  let options = {};
+  let dynamicOptions = {};
 
-  if (property === 'hint') {
-    options = {count, action};
-  } else if (property === 'date') {
-    options = {type};
+  if (property === 'hint' && count && action) {
+    dynamicOptions = {count, action};
+  } else if (property === 'date' && type) {
+    dynamicOptions = {type};
+  } else if (property === 'file' && file && accept && image && maxSize) {
+    dynamicOptions = {file, accept, image, maxSize};
+  } else if (property === 'select' && type && options) {
+    dynamicOptions = {type, options};
   }
 
   return [
@@ -22,7 +26,7 @@ function createMultiControls({
           required: false,
           disabled: false,
           hint_external: hintExternal,
-          ...options
+          ...dynamicOptions
         },
         {
           id: `${id}2`,
@@ -34,7 +38,7 @@ function createMultiControls({
           required: false,
           disabled: false,
           hint_external: hintExternal,
-          ...options
+          ...dynamicOptions
         },
         {
           id: `${id}3`,
@@ -45,7 +49,7 @@ function createMultiControls({
           required: false,
           disabled: false,
           hint_external: hintExternal,
-          ...options,
+          ...dynamicOptions,
           sub: [
             {
               id: `${id}Sub1`,
@@ -56,7 +60,7 @@ function createMultiControls({
               required: false,
               disabled: false,
               hint_external: hintExternal,
-              ...options
+              ...dynamicOptions
             }
           ]
         },
@@ -69,7 +73,7 @@ function createMultiControls({
           required: false,
           disabled: false,
           hint_external: hintExternal,
-          ...options,
+          ...dynamicOptions,
           sub: [
             {
               id: `${id}Sub2`,
@@ -80,7 +84,7 @@ function createMultiControls({
               required: false,
               disabled: false,
               hint_external: hintExternal,
-              ...options
+              ...dynamicOptions
             }
           ]
         },
@@ -94,7 +98,7 @@ function createMultiControls({
           required: false,
           disabled: false,
           hint_external: hintExternal,
-          ...options,
+          ...dynamicOptions,
           sub: [
             {
               id: `${id}Sub3`,
@@ -105,7 +109,7 @@ function createMultiControls({
               required: false,
               disabled: false,
               hint_external: hintExternal,
-              ...options
+              ...dynamicOptions
             }
           ]
         },
@@ -119,7 +123,7 @@ function createMultiControls({
           required: false,
           disabled: false,
           hint_external: hintExternal,
-          ...options,
+          ...dynamicOptions,
           sub: [
             {
               id: `${id}Sub4`,
@@ -130,7 +134,7 @@ function createMultiControls({
               required: false,
               disabled: false,
               hint_external: hintExternal,
-              ...options
+              ...dynamicOptions
             }
           ]
         },
@@ -144,7 +148,7 @@ function createMultiControls({
           required: false,
           disabled: false,
           hint_external: hintExternal,
-          ...options,
+          ...dynamicOptions,
           sub: [
             {
               id: `${id}Sub5`,
@@ -156,7 +160,7 @@ function createMultiControls({
               required: false,
               disabled: false,
               hint_external: hintExternal,
-              ...options
+              ...dynamicOptions
             }
           ]
         },
@@ -170,7 +174,7 @@ function createMultiControls({
           required: false,
           disabled: false,
           hint_external: hintExternal,
-          ...options,
+          ...dynamicOptions,
           sub: [
             {
               id: `${id}Sub6`,
@@ -182,7 +186,7 @@ function createMultiControls({
               required: false,
               disabled: false,
               hint_external: hintExternal,
-              ...options
+              ...dynamicOptions
             }
           ]
         },
@@ -659,6 +663,142 @@ export const formControlsMultiStore = defineStore('form-controls-multi-store', {
           "28.04.2024"
         ],
         hintExternal: 'Множественное поле дата',
+      }),
+      datetimeSingle: createMultiControls({
+        id: 'datetimeSingleMulti',
+        property: 'datetime',
+        type: "single",
+        name: 'DATETIME_SINGLE_MULTI',
+        label: 'Calendar & time',
+        valueSingle: "28.03.2024 12:00",
+        valueMulti: [
+          "28.02.2024 9:05",
+          "28.03.2024 3:21",
+          "28.04.2024 14:15"
+        ],
+        valueMultiSub: [
+          "28.02.2024 2:07",
+          "28.03.2024 8:05",
+          "28.04.2024 0:00"
+        ],
+        hintExternal: 'Множественное поле Calendar & time',
+      }),
+      file: createMultiControls({
+        id: 'fileMulti',
+        property: 'file',
+        name: 'FILE_MULTI',
+        label: 'Файл',
+        file: "",
+        accept: [
+          "svg",
+          "png",
+          "jpg",
+          "jpeg",
+          "pdf"
+        ],
+        image: true,
+        maxsize: 10000000,
+        valueSingle: 'img.jpg',
+        valueMulti: ['pic.png', 'icon.svg', 'doc.pdf'],
+        valueMultiSub: ['pic-sub.png', 'icon-sub.svg', 'doc-sub.pdf'],
+        hintExternal: 'Множественное поле файл',
+      }),
+      fileUpload: createMultiControls({
+        id: 'fileUploadMulti',
+        property: 'file',
+        type: 'upload',
+        name: 'FILE_UPLOAD_MULTI',
+        label: 'Файл с загрузкой',
+        upload: {},
+        file: "",
+        accept: [
+          "svg",
+          "png",
+          "jpg",
+          "jpeg",
+          "pdf"
+        ],
+        image: true,
+        maxsize: 10000000,
+        valueSingle: 'img.jpg',
+        valueMulti: ['pic.png', 'icon.svg', 'doc.pdf'],
+        valueMultiSub: ['pic-sub.png', 'icon-sub.svg', 'doc-sub.pdf'],
+        hintExternal: 'Множественное поле файл с загрузкой',
+      }),
+      selectDropdown: createMultiControls({
+        id: 'selectDropdownMulti',
+        property: 'select',
+        type: 'dropdown',
+        name: 'SELECT_DROPDOWN_MULTI',
+        label: 'Select dropdown',
+        options: [
+          {
+            label: "molestias",
+            code: "23423423423"
+          },
+          {
+            label: "Farming",
+            code: "324234324"
+          },
+          {
+            label: "Very",
+            code: "324234325"
+          }
+        ],
+        valueSingle: '324234325',
+        valueMulti: ['23423423423', '324234324', '324234325'],
+        valueMultiSub: ['23423423423', '324234325', '324234324'],
+        hintExternal: 'Множественное поле Select dropdown',
+      }),
+      selectRadio: createMultiControls({
+        id: 'selecRadioMulti',
+        property: 'select',
+        type: 'radio',
+        name: 'SELECT_RADIO_MULTI',
+        label: 'Select radio',
+        options: [
+          {
+            label: "molestias",
+            code: "23423423423"
+          },
+          {
+            label: "Farming",
+            code: "324234324"
+          },
+          {
+            label: "Very",
+            code: "324234325"
+          }
+        ],
+        valueSingle: '324234325',
+        valueMulti: ['23423423423', '324234324', '324234325'],
+        valueMultiSub: ['23423423423', '324234325', '324234324'],
+        hintExternal: 'Множественное поле Select radio',
+      }),
+      selectMulti: createMultiControls({
+        id: 'selectMultiMulti',
+        property: 'select',
+        type: 'multi',
+        name: 'SELECT_MULTI_MULTI',
+        label: 'Select multi',
+        options: [
+          {
+            label: "Experience working with foreign structures",
+            code: "23423423423"
+          },
+          {
+            label: "Part of international networks",
+            code: "324234324"
+          },
+          {
+            label: "Access to state secrets",
+            code: "324234325"
+          }
+        ],
+        valueSingle: '324234325',
+        valueMulti: ['23423423423', '324234324', '324234325'],
+        valueMultiSub: ['23423423423', '324234325', '324234324'],
+        hintExternal: 'Множественное поле Select multi',
       }),
     }
   }),

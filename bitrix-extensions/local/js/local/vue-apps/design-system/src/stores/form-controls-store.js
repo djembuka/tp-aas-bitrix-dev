@@ -256,6 +256,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         accept: ['svg', 'png', 'jpg', 'jpeg'],
         image: true,
         maxsize: 10000000,
+        action: '/markup/upload.php'
       },
       {
         property: 'select',
@@ -385,110 +386,6 @@ export const formControlsStore = defineStore('form-controls-store', {
     ],
   }),
   actions: {
-    changeControlValue({ control, value, file, checked }) {
-      switch (control.property) {
-        case 'text':
-        case 'tel':
-        case 'email':
-        case 'hidden':
-        case 'password':
-        case 'date':
-        case 'datetime':
-        case 'time':
-        case 'textarea':
-        case 'num':
-          control.value = value;
-          break;
-        case 'hint':
-          this.changeHintControlValue({ control, value });
-          break;
-        case 'select':
-          this[
-            `changeSelect${control.type
-              .substring(0, 1)
-              .toUpperCase()}${control.type.substring(1).toLowerCase()}Value`
-          ]({ control, value, checked });
-          break;
-        case 'checkbox':
-          control.checked = checked;
-          break;
-        case 'file':
-          this.changeFileValue({ control, value, file });
-          break;
-        // case 'color':
-        //   commit('changeColorValue', { control, value });
-        //   break;
-      }
-    },
-    async runHints(control, action) {
-      try {
-        // Создаем AbortController для возможности отмены запроса
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 секунд таймаут
-
-        const response = await fetch(action, {
-          signal: controller.signal,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        clearTimeout(timeoutId);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (result.status === 'success' && result.data) {
-          this.setHints(control, result.data);
-        } else if (result.errors) {
-          console.error('Server returned errors:', result.errors);
-        } else {
-          throw new Error('Invalid response format');
-        }
-      } catch (error) {
-        console.error('Error fetching hints:', error);
-      }
-    },
-    setHints(control, value) {
-      control.hints = value;
-    },
-    changeHintControlValue({ control, value }) {
-      control.value = value;
-
-      if (value.autocomplete && value.autocomplete.forEach) {
-        value.autocomplete.forEach((o) => {
-          const control = this.controls.find((c) => c.id === o.id);
-          if (control) {
-            control.value = o.value;
-          }
-        });
-      }
-    },
-    changeSelectRadioValue({ control, value }) {
-      control.value = value;
-    },
-    changeSelectDropdownValue({ control, value }) {
-      control.value = value;
-    },
-    changeSelectMultiValue({ control, value, checked }) {
-      if (checked) {
-        const set = new Set(control.value).add(value);
-        control.value = Array.from(set);
-      } else {
-        control.value.splice(control.value.indexOf(value), 1);
-      }
-    },
-    changeFileValue({ control, value, file }) {
-      control.value = value;
-      control.file = file;
-
-      if (value === '') {
-        control.file = '';
-      }
-    },
     addTab(control) {
       control.tab = control.tab ? ++control.tab : 1;
     },

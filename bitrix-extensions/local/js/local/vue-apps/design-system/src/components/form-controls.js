@@ -4,6 +4,7 @@ import { ControlComponent } from 'local.vue-components.control-component';
 import { ButtonComponent } from 'local.vue-components.button-component';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
+import { controlsStore } from '../stores/controls-store';
 import { formControlsStore } from '../stores/form-controls-store';
 
 export const FormControlsComponent = {
@@ -36,10 +37,12 @@ export const FormControlsComponent = {
     ...mapState(formControlsStore, ['controls']),
   },
   methods: {
-    ...mapActions(formControlsStore, [
+    ...mapActions(controlsStore, [
       'changeControlValue',
       'runHints',
       'setHints',
+    ]),
+    ...mapActions(formControlsStore, [
       'addTab',
       'setDisabled',
       'checkRequired',
