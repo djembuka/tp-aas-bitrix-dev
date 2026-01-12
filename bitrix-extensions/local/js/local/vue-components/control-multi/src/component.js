@@ -61,10 +61,10 @@ export const ControlMulti = {
       if (!this.isDisabled) {
 
         let copy = JSON.parse(JSON.stringify(this.copy));
+        
         if (value) {
           copy.value = value;
         }
-
 
         this.$emit('add', {
           parent: this.parent,
