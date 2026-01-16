@@ -1,391 +1,796 @@
 import { defineStore } from 'ui.vue3.pinia';
 
+function createControls({
+   property, type, label, value, valueSingle, valueMulti, valueMultiSub, valueMultiSubMulti=[], count, action, file, accept, image, maxSize, options
+}) {
+
+  const camelCase = type ? `${property}${type.charAt(0).toUpperCase()}${type.substring(1)}` : property;
+  const upperCase = type? `${property.toUpperCase()}_${type.toUpperCase()}` : property.toUpperCase();
+
+  const id = `${camelCase}Control`;
+  const name = `${upperCase}_CONTROL`;
+  const hintExternal = label;
+
+  valueSingle = valueSingle || value;
+  valueMulti = valueMulti || [`${value} 1`, `${value} 2`, `${value} 3`];
+  valueMultiSub = valueMultiSub || [`${value} 1 sub`];
+  valueMultiSubMulti = [[`${value} 1 sub 1`, `${value} 2 sub 1`, `${value} 3 sub 1`]];
+
+  let dynamicOptions = {};
+
+  if (type) dynamicOptions.type = type;
+
+  if (property === 'hint' && count && action) {
+    dynamicOptions.count = count;
+    dynamicOptions.action = action;
+  } else if (property === 'file' && file && accept && image && maxSize) {
+    dynamicOptions.file = file;
+    dynamicOptions.accept = accept;
+    dynamicOptions.image = image;
+    dynamicOptions.maxSize = maxSize;
+  } else if (property === 'select' && type && options) {
+    dynamicOptions.options = options;
+  }
+
+  return [
+        {
+          id: `${id}0`,
+          property,
+          name,
+          label,
+          value: valueSingle,
+          required: false,
+          disabled: false,
+          hint_external: hintExternal,
+          ...dynamicOptions
+        },
+        {
+          id: `${id}1`,
+          property,
+          name,
+          label,
+          value: [],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: hintExternal,
+          ...dynamicOptions
+        },
+        {
+          id: `${id}2`,
+          property,
+          name,
+          label,
+          value: valueMulti,
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: hintExternal,
+          ...dynamicOptions
+        },
+        {
+          id: `${id}3`,
+          property,
+          name,
+          label,
+          value: '',
+          required: false,
+          disabled: false,
+          hint_external: hintExternal,
+          ...dynamicOptions,
+          sub: [
+            {
+              id: `${id}Sub1`,
+              property,
+              name: `${name}_SUB`,
+              label,
+              value: "",
+              required: false,
+              disabled: false,
+              hint_external: hintExternal,
+              ...dynamicOptions
+            }
+          ]
+        },
+        {
+          id: `${id}4`,
+          property,
+          name,
+          label,
+          value: valueSingle,
+          required: false,
+          disabled: false,
+          hint_external: hintExternal,
+          ...dynamicOptions,
+          sub: [
+            {
+              id: `${id}Sub2`,
+              property,
+              name: `${name}_SUB`,
+              label,
+              value: `${valueSingle} sub`,
+              required: false,
+              disabled: false,
+              hint_external: hintExternal,
+              ...dynamicOptions
+            }
+          ]
+        },
+        {
+          id: `${id}5`,
+          property,
+          name,
+          label,
+          value: [],
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: hintExternal,
+          ...dynamicOptions,
+          sub: [
+            {
+              id: `${id}Sub3`,
+              property,
+              name: `${name}_SUB`,
+              label,
+              value: [""],
+              required: false,
+              disabled: false,
+              hint_external: hintExternal,
+              ...dynamicOptions
+            }
+          ]
+        },
+        {
+          id: `${id}6`,
+          property,
+          name,
+          label,
+          value: valueMulti,
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: hintExternal,
+          ...dynamicOptions,
+          sub: [
+            {
+              id: `${id}Sub4`,
+              property,
+              name: `${name}_SUB`,
+              label,
+              value: [""],
+              required: false,
+              disabled: false,
+              hint_external: hintExternal,
+              ...dynamicOptions
+            }
+          ]
+        },
+        {
+          id: `${id}7`,
+          property,
+          name,
+          label,
+          value: valueMulti,
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: hintExternal,
+          ...dynamicOptions,
+          sub: [
+            {
+              id: `${id}Sub5`,
+              property,
+              name: `${name}_SUB`,
+              label,
+              value: [[]],
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: hintExternal,
+              ...dynamicOptions
+            }
+          ]
+        },
+        {
+          id: `${id}8`,
+          property,
+          name,
+          label,
+          value: valueMulti,
+          multi: 3,
+          required: false,
+          disabled: false,
+          hint_external: hintExternal,
+          ...dynamicOptions,
+          sub: [
+            {
+              id: `${id}Sub6`,
+              property,
+              name: `${name}_SUB`,
+              label,
+              value: valueMultiSub,
+              required: false,
+              disabled: false,
+              hint_external: hintExternal,
+              ...dynamicOptions
+            },
+            {
+              id: `${id}Sub7`,
+              property,
+              name: `${name}_SUB`,
+              label,
+              value: valueMultiSubMulti,
+              multi: 3,
+              required: false,
+              disabled: false,
+              hint_external: hintExternal,
+              ...dynamicOptions
+            }
+          ]
+        },
+  ];
+}
+
 export const formControlsStore = defineStore('form-controls-store', {
   state: () => ({
-    controls: [
-      {
-        property: 'num',
-        id: 'id51',
-        name: 'NUMBER',
-        label: 'Number',
-        value: '123,54',
-        required: false,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
+    controlsData: {
+      'text': {
+        label: 'Текстовое поле',
+        value: 'Текст'
       },
-      {
-        property: 'time',
-        type: 'single',
-        id: 'id50',
-        name: 'TIME',
-        label: 'Time single',
-        value: '11:00',
-        required: false,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
+      'textarea': {
+        label: 'Текстовое поле',
+        value: 'Текст'
       },
-      {
-        property: 'hint',
-        id: 'id5',
-        name: 'AUDITOR_ORNZ',
-        label: 'Simple',
-        value: {
-          id: '1',
-          value: 'First',
-        },
+      'tel': {
+        label: 'Телефон',
+        valueSingle: '+7 (456) 789-87-87',
+        valueMulti: ['+7 (456) 789-87-87', '+7 (456) 789-87-88', '+7 (456) 789-87-89'],
+        valueMultiSub: ['+7 (456) 789-87-87', '+7 (456) 789-87-88', '+7 (456) 789-87-89'],
+      },
+      'email': {
+        label: 'Email',
+        value: 'test@some.info'
+      },
+      'password': {
+        label: 'Пароль',
+        value: '123123'
+      },
+      'num': {
+        label: 'Число',
+        valueSingle: '45',
+        valueMulti: ['123456', '0', '0.45'],
+        valueMultiSub: ['123457', '0', '0.47'],
+      },
+      'timesingle': {
+        label: 'Время',
+        valueSingle: '8:00',
+        valueMulti: ['9:00', '0:05', '23:45'],
+        valueMultiSub: ['9:01', '0:06', '23:44'],
+      },
+      'hint': {
+        label: 'Подсказка',
         count: 3,
-        action: '/markup/vue/design-system/hints.json',
-        required: false,
-        disabled: false,
-        tab: 1,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
-      },
-      {
-        property: 'hint',
-        id: 'id5-1',
-        name: 'AUDITOR_ORNZ_WITH_PHOTO',
-        label: 'With HTML - data-value',
-        value: {
-          id: '2',
-          value:
-            "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+        action: "/markup/vue/design-system/hint.json",
+        valueSingle: {
+          id: "2",
+          value: "Second"
         },
-        count: 3,
-        action: '/markup/vue/design-system/hints-html.json',
-        required: false,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
+        valueMulti: [
+          {
+            id: "3",
+            value: "Third"
+          },
+          {
+            id: "2",
+            value: "Second"
+          },
+          {
+            id: "5",
+            value: "Fifth"
+          }
+        ],
+        valueMultiSub: [
+          {
+            id: "3",
+            value: "Third"
+          },
+          {
+            id: "2",
+            value: "Second"
+          },
+          {
+            id: "5",
+            value: "Fifth"
+          }
+        ],
       },
-      {
-        property: 'hint',
-        id: 'id5-2',
-        name: 'AUDITOR_ORNZ_WITH_PHOTO',
-        label: 'Autocomplete',
-        value: {
-          id: '3',
-          value:
-            "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
-          autocomplete: [
-            {
-              id: 'id1',
-              value: 'Семён Семёнович',
-            },
-            {
-              id: 'id1-1',
-              value: 'ООО Ответственные аудиторы',
-            },
-            {
-              id: 'id2',
-              value: '+7 812 488 85 54',
-            },
-          ],
+      'hint-html': {
+        label: 'Подсказка с html',
+        count: 3,
+        action: "/markup/vue/design-system/hints-html.json",
+        valueSingle: {
+          id: "2",
+          value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
         },
-        count: 3,
-        action: '/markup/vue/design-system/hints-autocomplete.json',
-        required: false,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
+        valueMulti: [
+          {
+            id: "3",
+            value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>"
+          },
+          {
+            id: "2",
+            value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+          },
+          {
+            id: "5",
+            value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>"
+          }
+        ],
+        valueMultiSub: [
+          {
+            id: "3",
+            value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>"
+          },
+          {
+            id: "2",
+            value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
+          },
+          {
+            id: "5",
+            value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>"
+          }
+        ],
       },
-      {
-        property: 'hint',
-        id: 'id5-3',
-        name: 'AUDITOR_ORNZ_WITH_HIDDEN',
-        label: 'With hidden data',
-        value: {
-          id: '3',
-          value:
-            "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
-          hidden: [
+      'hint-autocomplete': {
+        label: 'Подсказка с autocomplete',
+        count: 3,
+        action: "/markup/vue/design-system/hints-autocomplete.json",
+        valueSingle: {
+          "id": "2",
+          "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+          "autocomplete": [
             {
-              name: 'HIDDEN7',
-              value: 'fff',
+              "id": "id1",
+              "value": "Семён Семёнович"
             },
             {
-              name: 'HIDDEN8',
-              value: 'uu',
+              "id": "id1-1",
+              "value": "ООО Ответственные аудиторы"
             },
             {
-              name: 'HIDDEN9',
-              value: '0',
-            },
-          ],
+              "id": "id2",
+              "value": "+7 905 488 85 54"
+            }
+          ]
         },
+        valueMulti: [
+          {
+            "id": "3",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+            "autocomplete": [
+              {
+                "id": "id1",
+                "value": "Семён Семёнович"
+              },
+              {
+                "id": "id1-1",
+                "value": "ООО Ответственные аудиторы"
+              },
+              {
+                "id": "id2",
+                "value": "+7 812 488 85 54"
+              }
+            ]
+          },
+          {
+            "id": "2",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+            "autocomplete": [
+              {
+                "id": "id1",
+                "value": "Семён Семёнович"
+              },
+              {
+                "id": "id1-1",
+                "value": "ООО Ответственные аудиторы"
+              },
+              {
+                "id": "id2",
+                "value": "+7 905 488 85 54"
+              }
+            ]
+          },
+          {
+            "id": "5",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>",
+            "autocomplete": [
+              {
+                "id": "id1",
+                "value": "Семён Семёнович"
+              },
+              {
+                "id": "id1-1",
+                "value": "ООО Ответственные аудиторы"
+              },
+              {
+                "id": "id2",
+                "value": "+7 986 488 85 54"
+              }
+            ]
+          }
+        ],
+        valueMultiSub: [
+          {
+            "id": "3",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+            "autocomplete": [
+              {
+                "id": "id1",
+                "value": "Семён Семёнович"
+              },
+              {
+                "id": "id1-1",
+                "value": "ООО Ответственные аудиторы"
+              },
+              {
+                "id": "id2",
+                "value": "+7 812 488 85 54"
+              }
+            ]
+          },
+          {
+            "id": "2",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+            "autocomplete": [
+              {
+                "id": "id1",
+                "value": "Семён Семёнович"
+              },
+              {
+                "id": "id1-1",
+                "value": "ООО Ответственные аудиторы"
+              },
+              {
+                "id": "id2",
+                "value": "+7 905 488 85 54"
+              }
+            ]
+          },
+          {
+            "id": "5",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Fifth</div>",
+            "autocomplete": [
+              {
+                "id": "id1",
+                "value": "Семён Семёнович"
+              },
+              {
+                "id": "id1-1",
+                "value": "ООО Ответственные аудиторы"
+              },
+              {
+                "id": "id2",
+                "value": "+7 986 488 85 54"
+              }
+            ]
+          }
+        ],
+      },
+      'hint-hidden': {
+        label: 'Подсказка с hidden',
         count: 3,
-        action: '/markup/vue/design-system/hints-hidden.json',
-        required: false,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
+        action: "/markup/vue/design-system/hints-hidden.json",
+        valueSingle: {
+          "id": "2",
+          "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+          "hidden": [
+            {
+              "name": "HIDDEN4",
+              "value": "qwe"
+            },
+            {
+              "name": "HIDDEN5",
+              "value": "asdasd"
+            },
+            {
+              "name": "HIDDEN6",
+              "value": "zxczxc"
+            }
+          ]
+        },
+        valueMulti: [
+          {
+            "id": "1",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >First</div>",
+            "hidden": [
+              {
+                "name": "HIDDEN1",
+                "value": "789456"
+              },
+              {
+                "name": "HIDDEN2",
+                "value": "123123"
+              },
+              {
+                "name": "HIDDEN3",
+                "value": "456465"
+              }
+            ]
+          },
+          {
+            "id": "2",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+            "hidden": [
+              {
+                "name": "HIDDEN4",
+                "value": "qwe"
+              },
+              {
+                "name": "HIDDEN5",
+                "value": "asdasd"
+              },
+              {
+                "name": "HIDDEN6",
+                "value": "zxczxc"
+              }
+            ]
+          },
+          {
+            "id": "3",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+            "hidden": [
+              {
+                "name": "HIDDEN7",
+                "value": "fff"
+              },
+              {
+                "name": "HIDDEN8",
+                "value": "uu"
+              },
+              {
+                "namen": "HIDDEN9",
+                "value": "0"
+              }
+            ]
+          }
+        ],
+        valueMultiSub: [
+          {
+            "id": "1",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >First</div>",
+            "hidden": [
+              {
+                "name": "HIDDEN1",
+                "value": "789456"
+              },
+              {
+                "name": "HIDDEN2",
+                "value": "123123"
+              },
+              {
+                "name": "HIDDEN3",
+                "value": "456465"
+              }
+            ]
+          },
+          {
+            "id": "2",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
+            "hidden": [
+              {
+                "name": "HIDDEN4",
+                "value": "qwe"
+              },
+              {
+                "name": "HIDDEN5",
+                "value": "asdasd"
+              },
+              {
+                "name": "HIDDEN6",
+                "value": "zxczxc"
+              }
+            ]
+          },
+          {
+            "id": "3",
+            "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Third</div>",
+            "hidden": [
+              {
+                "name": "HIDDEN7",
+                "value": "fff"
+              },
+              {
+                "name": "HIDDEN8",
+                "value": "uu"
+              },
+              {
+                "namen": "HIDDEN9",
+                "value": "0"
+              }
+            ]
+          }
+        ],
       },
-      {
-        id: 'id1',
-        property: 'text',
-        name: 'SOME_TEXT',
-        label: 'Some text',
-        value: '',
-        multi: 3,
-        required: false,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
+      'date-range': {
+        label: 'Интервал дат',
+        valueSingle: ["20.02.2024", "28.02.2024"],
+        valueMulti: [
+          ["20.02.2024", "28.02.2024"],
+          ["20.04.2024", "28.04.2024"],
+          ["20.08.2024", "28.08.2024"]
+        ],
+        valueMultiSub: [
+          ["20.02.2024", "28.02.2024"],
+          ["20.04.2024", "28.04.2024"],
+          ["20.08.2024", "28.08.2024"]
+        ],
       },
-      {
-        id: 'id1-1',
-        property: 'textarea',
-        name: 'MESSAGE',
-        label: 'Message',
-        value: '',
-        multi: 3,
-        required: false,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
+      'date-single': {
+        label: 'Дата',
+        valueSingle: "28.03.2024",
+        valueMulti: [
+          "28.02.2024",
+          "28.03.2024",
+          "28.04.2024"
+        ],
+        valueMultiSub: [
+          "28.02.2024",
+          "28.03.2024",
+          "28.04.2024"
+        ],
       },
-      {
-        id: 'id2',
-        property: 'tel',
-        name: 'PHONE',
-        label: 'Phone number',
-        value: '',
-        multi: 3,
-        required: false,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
-      },
-      {
-        id: 'id3',
-        property: 'email',
-        name: 'EMAIL',
-        label: 'Your email',
-        value: '',
-        multi: 3,
-        required: false,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
-      },
-      {
-        id: 'id4',
-        property: 'hidden',
-        name: 'HIDDEN_FIELD',
-        value: '',
-        required: false,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
-      },
-      {
-        property: 'password',
-        id: 'id6',
-        name: 'PASSWORD',
-        label: 'Password',
-        value: '',
-        required: false,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
-      },
-      {
-        property: 'date',
-        type: 'range',
-        id: 'id7',
-        label: 'Calendar',
-        name: 'DATE_FROM_TO',
-        required: true,
-        value: ['20.02.2024', '28.02.2024'],
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
-      },
-      {
-        property: 'date',
-        type: 'single',
-        id: 'id8',
-        label: 'Calendar',
-        name: 'DATE',
-        required: true,
-        value: '28.02.2024',
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
-        dependency: 'id6',
-      },
-      {
-        property: 'datetime',
-        type: 'single',
-        id: 'id8-1',
+      'datetime-single': {
         label: 'Calendar & time',
-        name: 'DATETIME',
-        required: true,
-        value: '28.02.2024 18:00',
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
-        dependency: 'id6',
+        valueSingle: "28.03.2024 12:00",
+        valueMulti: [
+          "28.02.2024 9:05",
+          "28.03.2024 3:21",
+          "28.04.2024 14:15"
+        ],
+        valueMultiSub: [
+          "28.02.2024 2:07",
+          "28.03.2024 8:05",
+          "28.04.2024 0:00"
+        ],
       },
-      {
-        property: 'file',
-        id: 'id11',
-        name: 'FILE_LOGO',
-        label: 'Logo',
-        value: '',
-        file: '',
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
-        required: true,
-        disabled: false,
-        accept: ['svg', 'png', 'jpg', 'jpeg'],
+      'file': {
+        file: "",
+        accept: [
+          "svg",
+          "png",
+          "jpg",
+          "jpeg",
+          "pdf"
+        ],
         image: true,
         maxsize: 10000000,
+        valueSingle: 'img.jpg',
+        valueMulti: ['pic.png', 'icon.svg', 'doc.pdf'],
+        valueMultiSub: ['pic-sub.png', 'icon-sub.svg', 'doc-sub.pdf'],
       },
-      {
-        property: 'file',
-        type: 'upload',
-        id: 'id12',
-        name: 'FILE_LOGO_UPLOADED',
-        label: 'Upload logo',
-        value: null,
+      'file-upload': {
+        label: 'Файл с загрузкой',
         upload: {},
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
-        required: true,
-        disabled: false,
-        accept: ['svg', 'png', 'jpg', 'jpeg'],
+        file: "",
+        accept: [
+          "svg",
+          "png",
+          "jpg",
+          "jpeg",
+          "pdf"
+        ],
         image: true,
         maxsize: 10000000,
-        action: '/markup/upload.php'
+        valueSingle: 'img.jpg',
+        valueMulti: ['pic.png', 'icon.svg', 'doc.pdf'],
+        valueMultiSub: ['pic-sub.png', 'icon-sub.svg', 'doc-sub.pdf'],
       },
-      {
-        property: 'select',
-        type: 'dropdown',
-        id: 'id13',
-        name: 'STATUS',
-        label: 'Status',
+      'select-dropdown': {
+        label: 'Select dropdown',
         options: [
           {
-            label: 'molestias',
-            code: '23423423423',
+            label: "molestias",
+            code: "23423423423"
           },
           {
-            label: 'Farming',
-            code: '324234324',
+            label: "Farming",
+            code: "324234324"
           },
           {
-            label: 'Very',
-            code: '324234325',
-          },
+            label: "Very",
+            code: "324234325"
+          }
         ],
-        value: '',
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
+        valueSingle: '324234325',
+        valueMulti: ['23423423423', '324234324', '324234325'],
+        valueMultiSub: ['23423423423', '324234325', '324234324'],
       },
-      {
-        property: 'select',
-        type: 'radio',
-        id: 'id9',
-        name: 'SELECT_BUTTON_TEXT',
-        label: 'Buttons',
+      'select-radio': {
+        label: 'Select radio',
         options: [
           {
-            label: 'Thin',
-            code: '1',
+            label: "molestias",
+            code: "23423423423"
           },
           {
-            label: 'Thick',
-            code: '2',
+            label: "Farming",
+            code: "324234324"
           },
           {
-            label: 'Uppercase',
-            code: '3',
-          },
+            label: "Very",
+            code: "324234325"
+          }
         ],
-        value: '2',
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
+        valueSingle: '324234325',
+        valueMulti: ['23423423423', '324234324', '324234325'],
+        valueMultiSub: ['23423423423', '324234325', '324234324'],
       },
-      {
-        property: 'select',
-        type: 'multi',
-        id: 'id9-1',
-        name: 'SELECT_BUTTON_TEXT',
-        label: 'Multiselect',
+      'select-multi': {
+        label: 'Select multi',
         options: [
           {
-            label: 'Experience working with foreign structures',
-            code: '1',
+            label: "Experience working with foreign structures",
+            code: "23423423423"
           },
           {
-            label: 'Part of international networks',
-            code: '2',
+            label: "Part of international networks",
+            code: "324234324"
           },
           {
-            label: 'Access to state secrets',
-            code: '3',
-          },
+            label: "Access to state secrets",
+            code: "324234325"
+          }
         ],
-        value: ['2'],
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
+        valueSingle: '324234325',
+        valueMulti: ['23423423423', '324234324', '324234325'],
+        valueMultiSub: ['23423423423', '324234325', '324234324'],
       },
-      {
-        property: 'checkbox',
-        type: 'switch',
-        id: 'id14',
-        name: 'SWITCH',
-        required: false,
-        label: 'labore',
+      'checkbox-switch': {
+        label: 'Переключатель',
         value: 'on',
         checked: true,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
-        dependency: 'id6',
       },
-      {
-        property: 'checkbox',
-        type: 'checkbox',
-        id: 'id10',
-        name: 'DEPENDENCY_CHECKBOX',
-        required: false,
-        label: 'Checkbox',
+      'checkbox-checkbox': {
+        label: 'Чекбокс',
         value: 'on',
         checked: true,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
       },
-      {
-        property: 'checkbox',
-        id: 'id15',
-        name: 'SIMPLE_CHECKBOX',
-        required: false,
-        label: 'Checkbox',
+      'checkbox-block': {
+        label: 'Чекбокс в виде блока',
         value: 'on',
         checked: true,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
       },
-      {
-        property: 'checkbox',
-        type: 'block',
-        id: 'id16',
-        name: 'CHECKBOX_BLOCK',
-        required: false,
-        label: 'Checkbox block',
+      'checkbox': {
+        label: 'Чекбокс скорее всего лишний',
         value: 'on',
         checked: true,
-        disabled: false,
-        hint_external:
-          'Обсуждаем проекты международных стандартов и документов',
       },
-    ],
+      'hidden': {
+        value: '45678'
+      }
+    },
+    controls: {},
   }),
   actions: {
+    createControlsOfType(name) {
+      if (!name) throw new Error('No name argument');
+
+      if (this.controls[name]) return;
+
+      const property = name.split('-')[0];
+      const type = name.split('-')[1];
+      const dynamicOptions = {};
+
+      if (type) dynamicOptions.type = type;
+
+      this.controls[name] = createControls({
+        property,
+        ...this.controlsData[name],
+        ...dynamicOptions
+      });
+    },
     addTab(control) {
       control.tab = control.tab ? ++control.tab : 1;
     },

@@ -8,11 +8,11 @@
 }
 
 .twpx-design-system-block pre {
-  font-size: 12px;
-  background-color: var(--twpx-form-control-background);
-  border-radius: 16px;
-  padding: 12px;
-  max-height: 300px;
+  font-size: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 8px;
+  align-self: start;
 }
 
 .twpx-design-system-block--small pre {
@@ -43,25 +43,31 @@
 }
 
 /*Submenu*/
+.twpx-desing-system-submenu-grid {
+  display: grid;
+  grid-template-columns: 115px 1fr;
+  gap: 16px;
+}
 .twpx-desing-system-submenu {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
+  display: grid;
+  gap: 4px;
+  align-self: start;
 }
 .twpx-desing-system-submenu a {
-  padding: 4px 8px;
-  border-radius: 4px;
-  background-color: #06417c;
-  border: 1px solid #06417c;
-  color: #fff;
+  padding: 2px;
+  font-size: 12px;
 }
 .twpx-desing-system-submenu a:hover {
-  color: #fff;
+  background-color: #06417c33;
 }
 .twpx-desing-system-submenu a.router-link-exact-active {
   cursor: default;
-  background-color: #fff;
-  color: #06417c;
+  font-weight: bold;
+}
+
+.twpx-desing-system-component-pre {
+  font-size: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 8px;
 }

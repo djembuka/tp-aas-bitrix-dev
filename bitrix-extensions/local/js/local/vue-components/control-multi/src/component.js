@@ -21,7 +21,14 @@ export const ControlMulti = {
 
           <div class="btn-delete" @click.prevent="remove(index)" v-if="controlsLength > 1"></div>
 
-          <ControlComponent :control="addedControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+          <ControlComponent
+            :control="addedControl"
+            @input="$emit('input', $event)"
+            @focus="$emit('focus', $event)"
+            @blur="$emit('blur', $event)"
+            @enter="$emit('enter', $event)"
+            @hints="$emit('hints', $event)"
+          />
 
         </div>
 
@@ -74,21 +81,6 @@ export const ControlMulti = {
     },
     remove(index) {
       this.$emit('remove', { parent: this.parent, index });
-    },
-    input(args) {
-      this.$emit('input', args);
-    },
-    focus(args) {
-      this.$emit('focus', args);
-    },
-    blur(args) {
-      this.$emit('blur', args);
-    },
-    enter(args) {
-      this.$emit('enter', args);
-    },
-    hints(args) {
-      this.$emit('hints', args);
     },
   },
   beforeMount() {

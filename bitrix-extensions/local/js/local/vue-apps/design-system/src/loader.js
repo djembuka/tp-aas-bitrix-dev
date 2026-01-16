@@ -30,12 +30,12 @@ export class DesignSystem {
           component: FormControls,
         },
         {
-          path: '/select-dependency',
-          component: SelectDependency,
+          path: '/controls/:property',
+          component: FormControls,
         },
         {
-          path: '/multi/:property',
-          component: FormControlsMulti,
+          path: '/select-dependency',
+          component: SelectDependency,
         },
         {
           path: '/buttons',

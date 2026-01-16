@@ -13,7 +13,8 @@ export const Application = {
     const url = new URL(window.location.href);
     url.searchParams.entries().forEach(e => {
       if (e[0] === 'tab') {
-        this.$router.push(e[1]);
+        const url = `/${e[1].replace('_', '/')}`;
+        this.$router.push(url);
       }
     });
   }

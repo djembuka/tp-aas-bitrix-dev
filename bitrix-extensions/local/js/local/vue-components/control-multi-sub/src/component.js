@@ -105,55 +105,75 @@ export const ControlMultiSub = {
     clickAddButton() {
       this.add();
     },
-    add(value) {
-      if (!this.isDisabled) {
+    add(value, sub) {
+      if (this.isDisabled) return;
 
-        let copy = JSON.parse(JSON.stringify(this.copy));
-        
-        if (value) {
-          copy.value = value;
-        }
+      let copy = JSON.parse(JSON.stringify(this.copy));
+      
+      if (value) {
+        copy.value = value;
+      }
 
-        this.$emit('add', {
-          parent: this.parent,
-          add: copy,
+      if (sub) {
+        const isSubArray = Array.isArray(sub);
+        if (!isSubArray) throw new Error('Sub should be an array');
+
+        sub.forEach((s, i) => {
+          copy.sub[i].value = s ?? '';
         });
       }
+
+      this.$emit('add', {
+        parent: this.parent,
+        add: copy,
+      });
     },
     remove(index) {
       this.$emit('remove', { parent: this.parent, index });
     },
+    createCopy() {
+      this.copy = JSON.parse(JSON.stringify(this.parent));
+      delete this.copy.multi;
+      this.copy.value = '';
+
+      const sub = JSON.parse(JSON.stringify(this.parent.sub));
+
+      sub.forEach(s => {
+        s.value = '';
+      });
+
+      this.copy.sub = sub;
+    },
+    getSub(index = 0) {
+      return this.parent.sub.map(sub => {
+        const isSubValueArray = Array.isArray(sub.value);
+        if (!isSubValueArray) throw new Error(`Sub value should be an array ${this.parent.id}`);
+
+        return sub.value[index];
+      });
+    }
   },
   beforeMount() {
     if (this.parent.property === 'multi') return;
 
+    const isParentSubArray = Array.isArray(this.parent.sub);
+    if (!isParentSubArray) throw new Error(`Sub should be an array ${this.parent.id}`);
+
     this.multi = this.parent.multi;
 
-    this.copy = JSON.parse(JSON.stringify(this.parent));
-    delete this.copy.multi;
-    this.copy.value = '';
-
-
-    const sub = JSON.parse(JSON.stringify(this.parent.sub));
-
-    if (Array.isArray(sub)) {
-      sub.forEach(s => {
-        s.value = '';
-      });
-    }
-
-    this.copy.sub = sub;
-
+    this.createCopy();
 
     this.$emit('create', { parent: this.parent });
     
-    if (Array.isArray(this.parent.value) && this.parent.value.length > 0) {
-      this.parent.value.forEach(v => {
-        this.add(v);
+    const hasParentMultiValues = Array.isArray(this.parent.value) && this.parent.value.length > 0;
+    
+    if (hasParentMultiValues) {
+      this.parent.value.forEach((v, i) => {
+        this.add(v, this.getSub(i));
       })
       this.parent.value = [];
     } else {
-      this.add();
+      this.add(undefined, this.getSub());
     }
   },
 };

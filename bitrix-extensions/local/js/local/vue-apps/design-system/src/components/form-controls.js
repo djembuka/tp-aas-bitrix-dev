@@ -1,64 +1,66 @@
 import './application.css';
 
-import { ControlComponent } from 'local.vue-components.control-component';
+import { ControlChoice } from 'local.vue-components.control-choice';
 import { ButtonComponent } from 'local.vue-components.button-component';
-
-import { mapState, mapActions } from 'ui.vue3.pinia';
-import { controlsStore } from '../stores/controls-store';
-import { formControlsStore } from '../stores/form-controls-store';
 
 export const FormControlsComponent = {
   data() {
-    return {};
+    return {
+      essential: {}
+    };
   },
+  props: ['controls', 'showEssential'],
+  emits: [
+    'input',
+    'hints',
+    'create',
+    'add',
+    'remove',
+    'addTab',
+    'setDisabled',
+    'checkRequired',
+  ],
   components: {
-    ControlComponent,
+    ControlChoice,
     ButtonComponent,
   },
   template: `
-    <div>
-      <div class="twpx-design-system-block" v-for="control in controls" :key="control.id">
+    <div style="display: grid; gap: 32px;">
+      <div class="twpx-design-system-block" v-for="(control, index) in controls" :key="control.id">
         <div>
-          <h3>{{ control.property }} {{ control.type }}</h3>
-          <ControlComponent :control="control" @input="changeControlValue($event)" @hints="hints" />
+          <h3 class="mt-0">{{ essential[index].property }} {{ control.type }}</h3>
+          <ControlChoice
+            :control="control"
+            @input="$emit('input', $event)"
+            @hints="$emit('hints', $event)"
+            @create="$emit('create', $event)"
+            @add="$emit('add', $event)"
+            @remove="$emit('remove', $event)"
+          />
         </div>
-        <pre>{{ control }}</pre>
-        <div style="display: flex; gap: 5px; flex-wrap: wrap;">
-          <ButtonComponent text="Check required and *" :props="['secondary','small']" @clickButton="checkRequired(control)" />
+        <pre v-show="showEssential">{{ essential[index] }}</pre>
+        <pre v-show="!showEssential">{{ control }}</pre>
 
-          <ButtonComponent text="+ tab" :props="['secondary','small']" @clickButton="addTab(control)" />
+        <div style="display: flex; gap: 5px; flex-wrap: wrap; align-self: start;">
+          <ButtonComponent text="Check required and *" :props="['blue-color','small']" @clickButton="$emit('checkRequired', control)" />
+
+          <ButtonComponent text="+ tab" :props="['gray-color','small']" @clickButton="$emit('addTab', control)" />
 
           <ButtonComponent :text="textDisabled(control)" :props="['light','small']" @clickButton="setDisabledEnabled(control)" />
         </div>
+
       </div>
     </div>
 	`,
-  computed: {
-    ...mapState(formControlsStore, ['controls']),
-  },
   methods: {
-    ...mapActions(controlsStore, [
-      'changeControlValue',
-      'runHints',
-      'setHints',
-    ]),
-    ...mapActions(formControlsStore, [
-      'addTab',
-      'setDisabled',
-      'checkRequired',
-    ]),
-    hints({ control, type, action, value }) {
-      if (type === 'get') {
-        this.runHints(control, action);
-      } else if (type === 'set') {
-        this.setHints(control, value);
-      }
-    },
     setDisabledEnabled(control) {
-      this.setDisabled(control, !control.disabled);
+      this.$emit('setDisabled', control, !control.disabled);
     },
     textDisabled(control) {
       return `set ${control.disabled ? 'enabled' : 'disabled'}`;
     },
   },
+  beforeMount() {
+    this.essential = JSON.parse(JSON.stringify(this.controls));
+  }
 };

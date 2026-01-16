@@ -11,10 +11,6 @@ export const TheMenu = {
           name: 'Select dependency'
         },
         {
-          path: '/multi/text',
-          name: 'Form controls multi'
-        },
-        {
           path: '/buttons',
           name: 'Buttons'
         },
@@ -61,13 +57,14 @@ export const TheMenu = {
   methods: {
     click(tab) {
       const url = new URL(window.location.href);
-      if (tab && tab !== '') {
-        url.searchParams.set('tab', tab);
+      const t = tab.replace('/', '');
+      
+      if (t) {
+        url.searchParams.set('tab', t);
       } else {
         url.searchParams.delete('tab');
       }
       
-      // Обновляем URL
       window.history.replaceState({}, '', url.toString());
     }
   }

@@ -34,7 +34,14 @@ export const ControlMultiForSubcontrol = {
                 </g>
               </svg>
 
-              <ControlComponent :control="addedControl" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
+              <ControlComponent
+                :control="addedControl"
+                @input="$emit('input', $event)"
+                @focus="$emit('focus', $event)"
+                @blur="$emit('blur', $event)"
+                @enter="$emit('enter', $event)"
+                @hints="$emit('hints', $event)"
+              />
 
             </div>
             
@@ -45,7 +52,7 @@ export const ControlMultiForSubcontrol = {
         <hr>
 
       </div>
-      <div class="twpx-form-control-sub-btn btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="add">Добавить</div>
+      <div class="twpx-form-control-sub-btn btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="clickAddButton">Добавить</div>
     </div>
 	`,
   emits: [
@@ -74,40 +81,45 @@ export const ControlMultiForSubcontrol = {
     },
   },
   methods: {
-    add() {
-      if (!this.isDisabled) {
-        this.$emit('add', {
-          parent: this.parent,
-          add: Object.assign({}, this.copy),
-        });
+    clickAddButton() {
+      this.add();
+    },
+    add(value) {
+      if (this.isDisabled) return;
+
+      let copy = JSON.parse(JSON.stringify(this.copy));
+      
+      if (value) {
+        copy.value = value;
       }
+
+      this.$emit('add', {
+        parent: this.parent,
+        add: copy,
+      });
     },
     remove(index) {
       this.$emit('remove', { parent: this.parent, index });
     },
-    input(args) {
-      this.$emit('input', args);
-    },
-    focus(args) {
-      this.$emit('focus', args);
-    },
-    blur(args) {
-      this.$emit('blur', args);
-    },
-    enter(args) {
-      this.$emit('enter', args);
-    },
-    hints(args) {
-      this.$emit('hints', args);
-    },
   },
   beforeMount() {
+    if (this.parent.property === 'multi') return;
+    
     this.multi = this.parent.multi;
 
-    this.copy = Object.assign({}, this.parent);
+    this.copy = JSON.parse(JSON.stringify(this.parent));
     delete this.copy.multi;
+    this.copy.value = '';
 
     this.$emit('create', { parent: this.parent });
-    this.add();
+
+    if (Array.isArray(this.parent.value) && this.parent.value.length > 0) {
+      this.parent.value.forEach(v => {
+        this.add(v);
+      })
+      this.parent.value = [];
+    } else {
+      this.add();
+    }
   },
 };

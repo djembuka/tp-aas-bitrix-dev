@@ -1,7 +1,7 @@
 import { defineStore } from 'ui.vue3.pinia';
 
 function createMultiControls({
-  id, property, type, name, label, valueSingle, valueMulti, valueMultiSub, hintExternal, count, action, file, accept, image, maxSize, options
+  id, property, type, name, label, valueSingle, valueMulti, valueMultiSub, valueMultiSubMulti=[], hintExternal, count, action, file, accept, image, maxSize, options
 }) {
   let dynamicOptions = {};
 
@@ -182,6 +182,17 @@ function createMultiControls({
               name: `${name}_SUB`,
               label,
               value: valueMultiSub,
+              required: false,
+              disabled: false,
+              hint_external: hintExternal,
+              ...dynamicOptions
+            },
+            {
+              id: `${id}Sub7`,
+              property,
+              name: `${name}_SUB`,
+              label,
+              value: valueMultiSubMulti,
               multi: 3,
               required: false,
               disabled: false,
@@ -203,7 +214,8 @@ export const formControlsMultiStore = defineStore('form-controls-multi-store', {
         label: 'Текстовое поле',
         valueSingle: 'Текст',
         valueMulti: ['Текст 1', 'Текст 2', 'Текст 3'],
-        valueMultiSub: ['Текст 1 sub', 'Текст 2 sub', 'Текст 3 sub'],
+        valueMultiSub: 'Текст 1 sub',
+        valueMultiSubMulti: ['Текст 1 sub 1', 'Текст 2 sub 1', 'Текст 3 sub 1'],
         hintExternal: 'Множественное текстовое поле',
       }),
       textarea: createMultiControls({
