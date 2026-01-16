@@ -794,8 +794,8 @@ export const formControlsStore = defineStore('form-controls-store', {
     addTab(control) {
       control.tab = control.tab ? ++control.tab : 1;
     },
-    setDisabled(control, value) {
-      control.disabled = value;
+    setDisabled(control) {
+      control.disabled = !control.disabled;
     },
     checkRequired(control) {
       if (!control.required) {

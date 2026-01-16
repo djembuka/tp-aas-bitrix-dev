@@ -46,16 +46,13 @@ export const FormControlsComponent = {
 
           <ButtonComponent text="+ tab" :props="['gray-color','small']" @clickButton="$emit('addTab', control)" />
 
-          <ButtonComponent :text="textDisabled(control)" :props="['light','small']" @clickButton="setDisabledEnabled(control)" />
+          <ButtonComponent :text="textDisabled(control)" :props="['light','small']" @clickButton="$emit('setDisabled', control)" />
         </div>
 
       </div>
     </div>
 	`,
   methods: {
-    setDisabledEnabled(control) {
-      this.$emit('setDisabled', control, !control.disabled);
-    },
     textDisabled(control) {
       return `set ${control.disabled ? 'enabled' : 'disabled'}`;
     },
