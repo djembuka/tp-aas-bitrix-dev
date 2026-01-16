@@ -25,29 +25,36 @@ export const FormControlsComponent = {
     ButtonComponent,
   },
   template: `
-    <div style="display: grid; gap: 32px;">
-      <div class="twpx-design-system-block" v-for="(control, index) in controls" :key="control.id">
-        <div>
-          <h3 class="mt-0">{{ essential[index].property }} {{ control.type }}</h3>
-          <ControlChoice
-            :control="control"
-            @input="$emit('input', $event)"
-            @hints="$emit('hints', $event)"
-            @create="$emit('create', $event)"
-            @add="$emit('add', $event)"
-            @remove="$emit('remove', $event)"
-          />
+    <div style="display: grid; gap: 16px; grid-template-columns: 4fr 1fr;">
+
+      <div style="display: grid; gap: 32px;">
+        <div class="twpx-design-system-block" v-for="(control, index) in controls" :key="control.id">
+          <div>
+
+            <h3 class="mt-0">{{ essential[index].property }} {{ control.type }}</h3>
+
+            <ControlChoice
+              :control="control"
+              @input="$emit('input', $event)"
+              @hints="$emit('hints', $event)"
+              @create="$emit('create', $event)"
+              @add="$emit('add', $event)"
+              @remove="$emit('remove', $event)"
+            />
+
+          </div>
+
+          <pre v-show="showEssential">{{ essential[index] }}</pre>
+          <pre v-show="!showEssential">{{ control }}</pre>
+
         </div>
-        <pre v-show="showEssential">{{ essential[index] }}</pre>
-        <pre v-show="!showEssential">{{ control }}</pre>
+      </div>
 
-        <div style="display: flex; gap: 5px; flex-wrap: wrap; align-self: start;">
-          <ButtonComponent text="Check required and *" :props="['blue-color','small']" @clickButton="$emit('checkRequired', control)" />
+      <div style="display: flex; gap: 5px; flex-wrap: wrap; align-self: start;">
 
-          <ButtonComponent text="+ tab" :props="['gray-color','small']" @clickButton="$emit('addTab', control)" />
-
-          <ButtonComponent :text="textDisabled(control)" :props="['light','small']" @clickButton="$emit('setDisabled', control)" />
-        </div>
+        <ButtonComponent text="Check required and *" :props="['blue-color','small']" @clickButton="$emit('checkRequired', controls[0])" />
+        <ButtonComponent text="+ tab" :props="['gray-color','small']" @clickButton="$emit('addTab', controls[0])" />
+        <ButtonComponent :text="textDisabled(controls[0])" :props="['light','small']" @clickButton="$emit('setDisabled', controls[0])" />
 
       </div>
     </div>

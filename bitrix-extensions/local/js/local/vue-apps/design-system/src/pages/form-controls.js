@@ -30,7 +30,7 @@ export const FormControls = {
 
     </div>
 
-    <div>
+    <div style="display: grid; gap: 32px;">
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
         <div>

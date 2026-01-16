@@ -1,17 +1,22 @@
 .twpx-design-system-block {
   display: grid;
-  grid-template-columns: 2fr 2fr 1fr;
+  grid-template-columns: 2fr 2fr;
   gap: 32px;
 }
 .twpx-design-system-block--two-cols {
   grid-template-columns: 4fr 1fr;
 }
 
-.twpx-design-system-block pre {
+#DesignSystem pre {
   font-size: 10px;
   background-color: #f5f5f5;
   border-radius: 8px;
   padding: 8px;
+  align-self: start;
+  margin: 0;
+}
+
+.twpx-design-system-block pre {
   align-self: start;
 }
 
@@ -63,11 +68,4 @@
 .twpx-desing-system-submenu a.router-link-exact-active {
   cursor: default;
   font-weight: bold;
-}
-
-.twpx-desing-system-component-pre {
-  font-size: 10px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  padding: 8px;
 }
