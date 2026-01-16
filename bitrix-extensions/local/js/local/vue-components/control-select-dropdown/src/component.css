@@ -233,7 +233,7 @@
   background-color: var(--twpx-form-control-background);
   color: #5f7696;
 }
-.twpx-form-control-select__dropdown-item--hidden {
+.twpx-form-control-select__dropdown-item.twpx-form-control-select__dropdown-item--hidden {
   display: none;
 }
 /* .twpx-form-control-select.twpx-form-control-select--animate,

@@ -1,8 +1,8 @@
-import './component.css';
+import './control-multi-sub.css';
 
 import { ControlComponent } from 'local.vue-components.control-component';
-import { ControlMultiForSubcontrol } from 'local.vue-components.control-multi-for-subcontrol';
-import { IconSub } from './IconSub';
+import { ControlMultiForSubcontrol } from './control-multi-for-subcontrol.js';
+import { IconSub } from './iconSub.js';
 
 export const ControlMultiSub = {
   data() {

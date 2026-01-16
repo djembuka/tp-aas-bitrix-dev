@@ -1,6 +1,5 @@
 .twpx-design-system-block {
   display: grid;
-  grid-template-columns: 2fr 2fr;
   gap: 32px;
 }
 .twpx-design-system-block--two-cols {
@@ -18,10 +17,6 @@
 
 .twpx-design-system-block pre {
   align-self: start;
-}
-
-.twpx-design-system-block--small pre {
-  max-height: 150px;
 }
 
 .twpx-desing-system-menu {

@@ -1,6 +1,6 @@
-import { ControlSubcontrol } from 'local.vue-components.control-subcontrol';
-import { ControlMulti } from 'local.vue-components.control-multi';
-import { ControlMultiSub } from 'local.vue-components.control-multi-sub';
+import { ControlSubcontrol } from './control-subcontrol.js';
+import { ControlMulti } from './control-multi.js';
+import { ControlMultiSub } from './control-multi-sub.js';
 import { ControlComponent } from 'local.vue-components.control-component';
 
 export const ControlChoice = {

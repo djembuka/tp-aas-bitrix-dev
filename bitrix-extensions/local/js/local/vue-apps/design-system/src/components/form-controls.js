@@ -6,7 +6,7 @@ import { ButtonComponent } from 'local.vue-components.button-component';
 export const FormControlsComponent = {
   data() {
     return {
-      essential: {}
+      essential: []
     };
   },
   props: ['controls', 'showEssential'],
@@ -25,10 +25,17 @@ export const FormControlsComponent = {
     ButtonComponent,
   },
   template: `
-    <div style="display: grid; gap: 16px; grid-template-columns: 4fr 1fr;">
+    <div v-if="controls && controls.length" style="display: grid; gap: 16px; grid-template-columns: 4fr 1fr;">
 
       <div style="display: grid; gap: 32px;">
-        <div class="twpx-design-system-block" v-for="(control, index) in controls" :key="control.id">
+
+        <div
+          class="twpx-design-system-block"
+          style="grid-template-columns: 2fr 2fr;"
+          v-for="(control, index) in controls"
+          :key="control.id"
+        >
+
           <div>
 
             <h3 class="mt-0">{{ essential[index].property }} {{ control.type }}</h3>
@@ -59,6 +66,11 @@ export const FormControlsComponent = {
       </div>
     </div>
 	`,
+  watch: {
+    controls(newVal) {
+      this.essential = JSON.parse(JSON.stringify(newVal));
+    }
+  },
   methods: {
     textDisabled(control) {
       return `set ${control.disabled ? 'enabled' : 'disabled'}`;

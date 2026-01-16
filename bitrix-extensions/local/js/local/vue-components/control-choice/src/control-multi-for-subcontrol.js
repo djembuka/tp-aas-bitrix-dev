@@ -1,8 +1,9 @@
-import './component.css';
+import './control-multi-for-subcontrol.css';
 
 import { ControlComponent } from 'local.vue-components.control-component';
+import { IconSub } from './iconSub.js';
 
-export const ControlMulti = {
+export const ControlMultiForSubcontrol = {
   data() {
     return {
       multi: 1,
@@ -12,6 +13,7 @@ export const ControlMulti = {
   props: ['parent'],
   components: {
     ControlComponent,
+    IconSub
   },
   // language=Vue
   template: `
@@ -21,21 +23,31 @@ export const ControlMulti = {
 
           <div class="btn-delete" @click.prevent="remove(index)" v-if="controlsLength > 1"></div>
 
-          <ControlComponent
-            :control="addedControl"
-            @input="$emit('input', $event)"
-            @focus="$emit('focus', $event)"
-            @blur="$emit('blur', $event)"
-            @enter="$emit('enter', $event)"
-            @hints="$emit('hints', $event)"
-          />
+          <div class="twpx-form-control-sub">
+
+            <div class="twpx-form-control-sub-item">
+
+              <IconSub />
+
+              <ControlComponent
+                :control="addedControl"
+                @input="$emit('input', $event)"
+                @focus="$emit('focus', $event)"
+                @blur="$emit('blur', $event)"
+                @enter="$emit('enter', $event)"
+                @hints="$emit('hints', $event)"
+              />
+
+            </div>
+            
+          </div>          
 
         </div>
 
         <hr>
 
       </div>
-      <div class="btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="add()">Добавить</div>
+      <div class="twpx-form-control-sub-btn btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="clickAddButton">Добавить</div>
     </div>
 	`,
   emits: [
@@ -64,20 +76,22 @@ export const ControlMulti = {
     },
   },
   methods: {
+    clickAddButton() {
+      this.add();
+    },
     add(value) {
-      if (!this.isDisabled) {
+      if (this.isDisabled) return;
 
-        let copy = JSON.parse(JSON.stringify(this.copy));
-        
-        if (value) {
-          copy.value = value;
-        }
-
-        this.$emit('add', {
-          parent: this.parent,
-          add: copy,
-        });
+      let copy = JSON.parse(JSON.stringify(this.copy));
+      
+      if (value) {
+        copy.value = value;
       }
+
+      this.$emit('add', {
+        parent: this.parent,
+        add: copy,
+      });
     },
     remove(index) {
       this.$emit('remove', { parent: this.parent, index });

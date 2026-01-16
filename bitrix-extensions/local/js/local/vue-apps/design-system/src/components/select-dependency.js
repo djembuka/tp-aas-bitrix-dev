@@ -4,6 +4,7 @@ import { ControlComponent } from 'local.vue-components.control-component';
 
 import { mapState, mapActions } from 'ui.vue3.pinia';
 import { selectDependencyStore } from '../stores/select-dependency-store';
+import { controlsStore } from '../stores/controls-store';
 
 export const SelectDependencyComponent = {
   data() {
@@ -15,13 +16,20 @@ export const SelectDependencyComponent = {
   // language=Vue
 
   template: `
-    <div>
-      <div class="twpx-design-system-block twpx-design-system-block--small twpx-design-system-block--two-cols" v-for="control in controls" :key="control.id">
+    <div style="display: grid; gap: 32px;">
+
+      <div
+        class="twpx-design-system-block"
+        style="grid-template-columns: 2fr 2fr;"
+        v-for="control in controls"
+        :key="control.id"
+      >
+
         <div>
-          <h3>{{ control.property }} {{ control.type }}</h3>
-          <ControlComponent :control="control" @input="input" />
+          <h3 class="mt-0">{{ control.property }} {{ control.type }}</h3>
+          <ControlComponent :control="control" @input="changeControlValue" />
         </div>
-        <pre>{{ control }}</pre>
+        <pre style="max-height: 150px;">{{ control }}</pre>
       </div>
     </div>
 	`,
@@ -29,15 +37,8 @@ export const SelectDependencyComponent = {
     ...mapState(selectDependencyStore, ['controls']),
   },
   methods: {
-    ...mapActions(selectDependencyStore, [
+    ...mapActions(controlsStore, [
       'changeControlValue',
     ]),
-    input({ control, value, checked }) {
-      this.changeControlValue({
-        control,
-        value,
-        checked,
-      });
-    },
   },
 };
