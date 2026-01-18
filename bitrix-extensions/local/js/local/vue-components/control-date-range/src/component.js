@@ -114,9 +114,21 @@ export const ControlDateRange = {
   methods: {
     onOpen() {
       this.open = true;
+
+      //чтобы иконки delete от multi были под календарём
+      const multi = this.$refs.control.closest('.twpx-form-control-multi');
+      if (multi) {
+        multi.classList.add('twpx-form-control-multi--open');
+      }
     },
     onClosed() {
       this.open = false;
+
+      //чтобы иконки delete от multi были под календарём
+      const multi = this.$refs.control.closest('.twpx-form-control-multi');
+      if (multi) {
+        multi.classList.remove('twpx-form-control-multi--open');
+      }
     },
     onRangeStart(start) {
       this.start = start;

@@ -181,6 +181,12 @@ export const ControlSelectDropdown = {
         // Если снизу меньше места, чем высота дропдауна + небольшой отступ (например 16px)
         this.dropdownUp = (spaceBelow < dropdownHeight + 16) && (spaceAbove > spaceBelow);
       });
+
+      //чтобы иконки delete от multi были под календарём
+      const multi = this.$refs.twpxSelect.closest('.twpx-form-control-multi');
+      if (multi) {
+        multi.classList.add('twpx-form-control-multi--open');
+      }
     },
     hideDropdown(quickly) {
       if (this.opened && !quickly) {
@@ -192,6 +198,12 @@ export const ControlSelectDropdown = {
       }
       this.opened = false;
       this.$emit('blur');
+
+      //чтобы иконки delete от multi были под календарём
+      const multi = this.$refs.twpxSelect.closest('.twpx-form-control-multi');
+      if (multi) {
+        multi.classList.remove('twpx-form-control-multi--open');
+      }
     },
     divElements() {
       this.content = this.selectDiv.querySelector(
