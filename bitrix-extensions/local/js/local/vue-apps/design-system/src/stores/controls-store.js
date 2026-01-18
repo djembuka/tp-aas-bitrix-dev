@@ -55,7 +55,13 @@ export const controlsStore = defineStore('controls', {
             case 'file':
                 this.changeFileValue({ control, value, file });
                 break;
-            }
+            case 'checkbox':
+                this.changeCheckboxValue({ control, checked });
+                break;
+        }
+    },
+    changeCheckboxValue({ control, checked }) {
+      control.checked = checked;
     },
     changeTextControlValue({ control, value }) {
         control.value = value;

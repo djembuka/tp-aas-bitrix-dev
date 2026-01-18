@@ -17,8 +17,8 @@ export const ModalsComponent = {
     ControlComponent
   },
   template: `
-    <div>
-      <div class="twpx-design-system-block">
+    <div style="display: grid; gap: 32px;">
+      <div class="twpx-design-system-block" style="grid-template-columns: 1fr 3fr;">
         <ModalYesNo
           :heading="modal_yes_no.heading"
           :text="modal_yes_no.text"
@@ -34,7 +34,7 @@ export const ModalsComponent = {
         <pre>{{ getModalYesNoCode(button) }}</pre>
       </div>
 
-      <div class="twpx-design-system-block">
+      <div class="twpx-design-system-block" style="grid-template-columns: 1fr 3fr;">
         <ModalAnyContent :stateWatcher="modal_any_content.stateWatcher">
           <DocComponent :doc='{
             "id": 123,
@@ -83,7 +83,9 @@ export const ModalsComponent = {
   },
   methods: {
     getModalYesNoCode() {
-      return `ModalYesNo
+      return `import { ModalYesNo } from 'local.vue-components.modal-yes-no';
+      
+<ModalYesNo
   :heading="heading"
   :text="text"
   :yes="yes"
@@ -91,12 +93,14 @@ export const ModalsComponent = {
   :stateWatcher="stateWatcher"
   @clickYes="clickYes"
   @clickNo="clickNo"
-/`;
+/>`;
     },
     getModalAnyContentCode() {
-      return `ModalAnyContent :stateWatcher="modal_any_content.stateWatcher"
+      return `import { ModalAnyContent } from 'local.vue-components.modal-any-content';
+      
+<ModalAnyContent :stateWatcher="modal_any_content.stateWatcher">
   Some text
-/ModalAnyContent`;
+</ModalAnyContent>`;
     },
   },
 };

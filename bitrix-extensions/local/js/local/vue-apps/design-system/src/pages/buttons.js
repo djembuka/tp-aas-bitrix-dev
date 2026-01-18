@@ -5,6 +5,8 @@ export const Buttons = {
     ButtonsComponent,
   },
   template: `
-    <div><ButtonsComponent/></div>
+    <div>
+      <ButtonsComponent/>
+    </div>
   `,
 };

@@ -20,7 +20,6 @@ export const SelectDependencyComponent = {
 
       <div
         class="twpx-design-system-block"
-        style="grid-template-columns: 2fr 2fr;"
         v-for="control in controls"
         :key="control.id"
       >

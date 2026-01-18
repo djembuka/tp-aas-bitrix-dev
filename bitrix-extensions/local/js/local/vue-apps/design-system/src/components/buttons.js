@@ -9,8 +9,8 @@ export const ButtonsComponent = {
     ButtonComponent,
   },
   template: `
-    <div>
-      <div class="twpx-design-system-block" v-for="button in buttons" :key="button.id">
+    <div style="display: grid; gap: 16px;">
+      <div class="twpx-design-system-block" style="grid-template-columns: 1fr 2fr;" v-for="button in buttons" :key="button.id">
         <div>
           <ButtonComponent
              v-if="button.clickButton"
@@ -26,7 +26,9 @@ export const ButtonsComponent = {
             :href="button.href"
           />
         </div>
-        <pre>{{ getButtonCode(button) }}</pre>
+<pre>import { ButtonComponent } from 'local.vue-components.button-component';
+
+{{ getButtonCode(button) }}</pre>
       </div>
     </div>
   `,
@@ -36,9 +38,9 @@ export const ButtonsComponent = {
   methods: {
     getButtonCode(button) {
       if (button.clickButton) {
-        return `ButtonComponent :text="${button.text}" :props="[${button.props}]" @clickButton=""`;
+        return `<ButtonComponent :text="${button.text}" :props="[${button.props}]" @clickButton="" />`;
       } else if (button.href) {
-        return `ButtonComponent :text="${button.text}" :props="[${button.props}]" :href="${button.href}"`;
+        return `<ButtonComponent :text="${button.text}" :props="[${button.props}]" :href="${button.href}" />`;
       }
     },
   },

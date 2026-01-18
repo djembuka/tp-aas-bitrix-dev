@@ -1,7 +1,7 @@
 import { defineStore } from 'ui.vue3.pinia';
 
 function createControls({
-   property, type, label, value, valueSingle, valueMulti, valueMultiSub, valueMultiSubMulti=[], count, action, file, accept, image, maxSize, options
+   property, type, label, value, valueSingle, valueMulti, valueMultiSub, valueMultiSubMulti, count, action, file, accept, image, maxSize, options
 }) {
 
   const camelCase = type ? `${property}${type.charAt(0).toUpperCase()}${type.substring(1)}` : property;
@@ -13,8 +13,8 @@ function createControls({
 
   valueSingle = valueSingle || value;
   valueMulti = valueMulti || [`${value} 1`, `${value} 2`, `${value} 3`];
-  valueMultiSub = valueMultiSub || [`${value} 1 sub`];
-  valueMultiSubMulti = [[`${value} 1 sub 1`, `${value} 2 sub 1`, `${value} 3 sub 1`]];
+  valueMultiSub = valueMultiSub || [`${value} 1 sub`, , `${value} 3 sub`];
+  valueMultiSubMulti = valueMultiSubMulti || [[`${value} 1 sub 1`, `${value} 2 sub 1`, `${value} 3 sub 1`], , [, `${value} 2 sub 3`, `${value} 3 sub 3`]];
 
   let dynamicOptions = {};
 
@@ -30,6 +30,48 @@ function createControls({
     dynamicOptions.maxSize = maxSize;
   } else if (property === 'select' && type && options) {
     dynamicOptions.options = options;
+  }
+
+  if (property === 'hidden') {
+    return [
+      {
+        id: `${id}0`,
+        property,
+        name,
+        value: '123456',
+        required: false,
+        ...dynamicOptions
+      }
+    ];
+  }
+
+  if (property === 'checkbox') {
+    return [
+      {
+        id: `${id}0`,
+        property,
+        name,
+        label,
+        value: 'agree',
+        checked: true,
+        required: false,
+        disabled: false,
+        hint_external: hintExternal,
+        ...dynamicOptions
+      },
+      {
+        id: `${id}1`,
+        property,
+        name,
+        label,
+        value: 'agree',
+        checked: false,
+        required: false,
+        disabled: false,
+        hint_external: hintExternal,
+        ...dynamicOptions
+      },
+    ];
   }
 
   return [
@@ -263,7 +305,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         valueMulti: ['123456', '0', '0.45'],
         valueMultiSub: ['123457', '0', '0.47'],
       },
-      'timesingle': {
+      'time-single': {
         label: 'Время',
         valueSingle: '8:00',
         valueMulti: ['9:00', '0:05', '23:45'],
@@ -626,6 +668,18 @@ export const formControlsStore = defineStore('form-controls-store', {
           ["20.04.2024", "28.04.2024"],
           ["20.08.2024", "28.08.2024"]
         ],
+        valueMultiSubMulti: [
+          [
+            ["21.01.2024", "28.02.2024"],
+            ["22.01.2024", "28.04.2024"],
+            ["23.01.2024", "28.08.2024"]
+          ],
+          [
+            ["21.02.2024", "28.02.2024"],
+            ["22.02.2024", "28.04.2024"],
+            ["23.02.2024", "28.08.2024"]
+          ]
+        ]
       },
       'date-single': {
         label: 'Дата',
@@ -640,6 +694,18 @@ export const formControlsStore = defineStore('form-controls-store', {
           "28.03.2024",
           "28.04.2024"
         ],
+        valueMultiSubMulti: [
+          [
+            "21.01.2024",
+            "22.01.2024",
+            "23.01.2024"
+          ],
+          [
+            "21.02.2024",
+            "22.02.2024",
+            "23.02.2024"
+          ]
+        ]
       },
       'datetime-single': {
         label: 'Calendar & time',
@@ -654,6 +720,18 @@ export const formControlsStore = defineStore('form-controls-store', {
           "28.03.2024 8:05",
           "28.04.2024 0:00"
         ],
+        valueMultiSubMulti: [
+          [
+            "21.01.2024 2:07",
+            "22.01.2024 2:07",
+            "23.01.2024 2:07"
+          ],
+          [
+            "21.02.2024 8:05",
+            "22.02.2024 8:05",
+            "23.02.2024 8:05"
+          ]
+        ]
       },
       'file': {
         file: "",
@@ -754,18 +832,12 @@ export const formControlsStore = defineStore('form-controls-store', {
       },
       'checkbox-checkbox': {
         label: 'Чекбокс',
-        value: 'on',
-        checked: true,
       },
       'checkbox-block': {
         label: 'Чекбокс в виде блока',
-        value: 'on',
-        checked: true,
       },
       'checkbox': {
         label: 'Чекбокс скорее всего лишний',
-        value: 'on',
-        checked: true,
       },
       'hidden': {
         value: '45678'
