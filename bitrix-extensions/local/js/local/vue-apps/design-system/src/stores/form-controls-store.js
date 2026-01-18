@@ -12,7 +12,7 @@ function createControls({
   const hintExternal = label;
 
   valueSingle = valueSingle || value;
-  valueMulti = valueMulti || [`${value} 1`, `${value} 2`, `${value} 3`];
+  valueMulti = valueMulti || [`${value} 1`, , `${value} 2`, `${value} 3`];
   valueMultiSub = valueMultiSub || [`${value} 1 sub`, , `${value} 3 sub`];
   valueMultiSubMulti = valueMultiSubMulti ||
     (value ?
