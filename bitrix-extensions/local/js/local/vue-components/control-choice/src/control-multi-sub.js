@@ -105,7 +105,7 @@ export const ControlMultiSub = {
     clickAddButton() {
       this.add();
     },
-    add(value, sub) {
+    add(value, subValue) {
       if (this.isDisabled) return;
 
       let copy = JSON.parse(JSON.stringify(this.copy));
@@ -114,12 +114,17 @@ export const ControlMultiSub = {
         copy.value = value;
       }
 
-      if (sub) {
-        const isSubArray = Array.isArray(sub);
-        if (!isSubArray) throw new Error('Sub should be an array');
+      copy.sub.forEach(s => {
+        const randomId = Math.round(Math.random() * 1000);
+        s.id = `${s.id}${randomId}`;
+      });
 
-        sub.forEach((s, i) => {
-          copy.sub[i].value = s ?? '';
+      if (subValue) {
+        const isSubValueArray = Array.isArray(subValue);
+        if (!isSubValueArray) throw new Error('Sub value should be an array');
+
+        subValue.forEach((sv, i) => {
+          copy.sub[i].value = JSON.parse(JSON.stringify(sv)) ?? '';
         });
       }
 
@@ -144,7 +149,7 @@ export const ControlMultiSub = {
 
       this.copy.sub = sub;
     },
-    getSub(index = 0) {
+    getSubValue(index = 0) {
       return this.parent.sub.map(sub => {
         const isSubValueArray = Array.isArray(sub.value);
         if (!isSubValueArray) throw new Error(`Sub value should be an array ${this.parent.id}`);
@@ -170,11 +175,11 @@ export const ControlMultiSub = {
     if (hasParentMultiValues) {
       // spread - to iterate empty values
       [...this.parent.value].forEach((v, i) => {
-        this.add(v, this.getSub(i));
+        this.add(v, this.getSubValue(i));
       })
       this.parent.value = [];
     } else {
-      this.add(undefined, this.getSub());
+      this.add(undefined, this.getSubValue());
     }
   },
 };

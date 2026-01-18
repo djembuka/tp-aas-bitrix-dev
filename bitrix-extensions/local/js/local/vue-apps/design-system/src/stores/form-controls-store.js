@@ -1,7 +1,7 @@
 import { defineStore } from 'ui.vue3.pinia';
 
 function createControls({
-   property, type, label, value, valueSingle, valueMulti, valueMultiSub, valueMultiSubMulti, count, action, file, accept, image, maxSize, options
+   property, type, label, value, valueSingle, valueMulti, valueMultiSub, valueMultiSubMulti, count, action, file, accept, image, maxsize, options
 }) {
 
   const camelCase = type ? `${property}${type.charAt(0).toUpperCase()}${type.substring(1)}` : property;
@@ -26,11 +26,11 @@ function createControls({
   if (property === 'hint' && count && action) {
     dynamicOptions.count = count;
     dynamicOptions.action = action;
-  } else if (property === 'file' && file && accept && image && maxSize) {
-    dynamicOptions.file = file;
+  } else if (property === 'file' && accept && maxsize) {
+    dynamicOptions.file = file || '';
     dynamicOptions.accept = accept;
-    dynamicOptions.image = image;
-    dynamicOptions.maxSize = maxSize;
+    dynamicOptions.image = !!image;
+    dynamicOptions.maxsize = maxsize;
   } else if (property === 'select' && type && options) {
     dynamicOptions.options = options;
   }
@@ -739,6 +739,7 @@ export const formControlsStore = defineStore('form-controls-store', {
         ]
       },
       'file': {
+        label: 'Файл',
         file: "",
         accept: [
           "svg",

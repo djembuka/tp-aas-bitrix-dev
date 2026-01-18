@@ -13,7 +13,7 @@ export const ControlFile = {
       warning: '',
       active: true,
       files: [],
-      default: `Выберите файл (${this.control.accept
+      default: `Выберите файл (${(this.control.accept || [])
         .map((w) => w.toLowerCase())
         .join(', ')} до ${this.formatSize(this.control.maxsize)})`,
       hint: this.control.hint_external,
@@ -120,10 +120,10 @@ export const ControlFile = {
 
         const filename = this.files[0].name;
         const lastIndex = filename.lastIndexOf('.');
-        const regExp = new RegExp(this.control.accept.join('|'));
+        const regExp = new RegExp((this.control.accept || []).join('|'));
 
         if (!regExp.test(filename.substring(lastIndex + 1).toLowerCase())) {
-          return `Прикладывайте файлы ${this.control.accept
+          return `Прикладывайте файлы ${(this.control.accept || [])
             .map((w) => w.toLowerCase())
             .join(', ')}.`;
         }
