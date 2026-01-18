@@ -109,7 +109,8 @@ export const ControlMultiForSubcontrol = {
     this.$emit('create', { parent: this.parent });
 
     if (Array.isArray(this.parent.value) && this.parent.value.length > 0) {
-      this.parent.value.forEach(v => {
+      // spread - to iterate empty values
+      [...this.parent.value].forEach(v => {
         this.add(v);
       })
       this.parent.value = [];

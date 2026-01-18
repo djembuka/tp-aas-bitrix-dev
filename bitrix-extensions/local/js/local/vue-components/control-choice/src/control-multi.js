@@ -65,19 +65,19 @@ export const ControlMulti = {
   },
   methods: {
     add(value) {
-      if (!this.isDisabled) {
-
-        let copy = JSON.parse(JSON.stringify(this.copy));
-        
-        if (value) {
-          copy.value = value;
-        }
-
-        this.$emit('add', {
-          parent: this.parent,
-          add: copy,
-        });
+      if (this.isDisabled) return;
+      
+      let copy = JSON.parse(JSON.stringify(this.copy));
+      
+      if (value) {
+        copy.value = value;
       }
+
+      this.$emit('add', {
+        parent: this.parent,
+        add: copy,
+      });
+      
     },
     remove(index) {
       this.$emit('remove', { parent: this.parent, index });
@@ -94,8 +94,11 @@ export const ControlMulti = {
 
     this.$emit('create', { parent: this.parent });
 
-    if (Array.isArray(this.parent.value) && this.parent.value.length > 0) {
-      this.parent.value.forEach(v => {
+    const hasParentMultiValues = Array.isArray(this.parent.value) && this.parent.value.length > 0;
+    
+    if (hasParentMultiValues) {
+      // spread - to iterate empty values
+      [...this.parent.value].forEach(v => {
         this.add(v);
       })
       this.parent.value = [];

@@ -53,6 +53,19 @@
   display: grid;
   gap: 4px;
   align-self: start;
+  position: sticky;
+  top: 90px;
+  max-height: calc(100vh - 90px);
+  overflow: auto;
+  scrollbar-color: #ccc #fff;
+  scrollbar-width: thin;
+}
+.twpx-desing-system-submenu::-webkit-scrollbar {
+  width: 4px;
+  background-color: #fff;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
 }
 .twpx-desing-system-submenu a {
   padding: 2px;

@@ -12,11 +12,11 @@ function createControls({
   const hintExternal = label;
 
   valueSingle = valueSingle || value;
-  valueMulti = valueMulti || [`${value} 1`, , `${value} 2`, `${value} 3`];
-  valueMultiSub = valueMultiSub || [`${value} 1 sub`, , `${value} 3 sub`];
+  valueMulti = valueMulti || [`${value} 1`, `${value} 2`, `${value} 3`];
+  valueMultiSub = valueMultiSub || [, `${value} 2 sub`, `${value} 3 sub`];
   valueMultiSubMulti = valueMultiSubMulti ||
     (value ?
-      [[`${value} 1 sub 1`, `${value} 2 sub 1`, `${value} 3 sub 1`], , [, `${value} 2 sub 3`, `${value} 3 sub 3`]] :
+      [, [`${value} 1 sub 2`, `${value} 2 sub 2`, `${value} 3 sub 2`], [, `${value} 2 sub 3`, `${value} 3 sub 3`]] :
       [valueMultiSub, valueMultiSub]);
 
   let dynamicOptions = {};

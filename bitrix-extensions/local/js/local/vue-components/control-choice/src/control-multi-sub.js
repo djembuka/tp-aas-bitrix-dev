@@ -168,7 +168,8 @@ export const ControlMultiSub = {
     const hasParentMultiValues = Array.isArray(this.parent.value) && this.parent.value.length > 0;
     
     if (hasParentMultiValues) {
-      this.parent.value.forEach((v, i) => {
+      // spread - to iterate empty values
+      [...this.parent.value].forEach((v, i) => {
         this.add(v, this.getSub(i));
       })
       this.parent.value = [];
