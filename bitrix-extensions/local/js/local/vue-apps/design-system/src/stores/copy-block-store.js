@@ -4,14 +4,17 @@ export const copyBlockStore = defineStore('copy-block-store', {
   state: () => ({
     blocks: [
         {
+            id: 1,
             title: 'Ссылка на публичное голосование',
             code: 'https://sroaas.ru/api/widget/script.js?ornz=99999999998'
         },
         {
+            id: 2,
             title: 'Ссылка на публичную страницу результатов',
             code: 'https://sroaas.ru/api/widget/script.js?ornz=99999999998'
         },
         {
+            id: 3,
             title: 'Скопируйте код виджета',
             code: `
 <script>

@@ -10,7 +10,12 @@ export const DocsComponent = {
   },
   template: `
     <div>
-      <div class="twpx-design-system-block twpx-design-system-block--two-cols" v-for="doc in docs" :key="doc.id">
+      <div
+        class="twpx-design-system-block twpx-design-system-block--two-cols"
+        style="grid-template-columns: 3fr 2fr;"
+        v-for="doc in docs"
+        :key="doc.id"
+      >
         <div>
           <DocComponent :doc="doc" @clickDelete.prevent="alert('delete')" />
         </div>

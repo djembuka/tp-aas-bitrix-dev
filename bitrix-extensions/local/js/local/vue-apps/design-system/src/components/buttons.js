@@ -37,10 +37,19 @@ export const ButtonsComponent = {
   },
   methods: {
     getButtonCode(button) {
+
+      const p = button.props.reduce((str, cur, i, arr) => {
+        str += `'${cur}'`;
+        if (i < arr.length - 1) {
+          str += `, `;
+        }
+        return str;
+      }, '');
+
       if (button.clickButton) {
-        return `<ButtonComponent :text="${button.text}" :props="[${button.props}]" @clickButton="" />`;
+        return `<ButtonComponent :text="${button.text}" :props="[${p}]" @clickButton="" />`;
       } else if (button.href) {
-        return `<ButtonComponent :text="${button.text}" :props="[${button.props}]" :href="${button.href}" />`;
+        return `<ButtonComponent :text="${button.text}" :props="[${p}]" :href="${button.href}" />`;
       }
     },
   },

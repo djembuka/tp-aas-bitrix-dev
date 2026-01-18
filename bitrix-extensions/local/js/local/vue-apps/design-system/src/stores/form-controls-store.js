@@ -14,7 +14,10 @@ function createControls({
   valueSingle = valueSingle || value;
   valueMulti = valueMulti || [`${value} 1`, `${value} 2`, `${value} 3`];
   valueMultiSub = valueMultiSub || [`${value} 1 sub`, , `${value} 3 sub`];
-  valueMultiSubMulti = valueMultiSubMulti || [[`${value} 1 sub 1`, `${value} 2 sub 1`, `${value} 3 sub 1`], , [, `${value} 2 sub 3`, `${value} 3 sub 3`]];
+  valueMultiSubMulti = valueMultiSubMulti ||
+    (value ?
+      [[`${value} 1 sub 1`, `${value} 2 sub 1`, `${value} 3 sub 1`], , [, `${value} 2 sub 3`, `${value} 3 sub 3`]] :
+      [valueMultiSub, valueMultiSub]);
 
   let dynamicOptions = {};
 
@@ -150,7 +153,7 @@ function createControls({
               property,
               name: `${name}_SUB`,
               label,
-              value: `${valueSingle} sub`,
+              value: valueSingle,
               required: false,
               disabled: false,
               hint_external: hintExternal,
@@ -304,12 +307,14 @@ export const formControlsStore = defineStore('form-controls-store', {
         valueSingle: '45',
         valueMulti: ['123456', '0', '0.45'],
         valueMultiSub: ['123457', '0', '0.47'],
+        valueMultiSubMulti:[['123457', '0', '0.47'], ['123454', '4', '4.47']],
       },
       'time-single': {
         label: 'Время',
         valueSingle: '8:00',
         valueMulti: ['9:00', '0:05', '23:45'],
         valueMultiSub: ['9:01', '0:06', '23:44'],
+        valueMultiSubMulti: [['9:01', '0:06', '23:44'], ['9:02', '0:02', '23:24']],
       },
       'hint': {
         label: 'Подсказка',

@@ -9,14 +9,29 @@ export const CopyBlockCpmponent = {
         CopyBlock,
     },
     template: `
-    <div style="display: grid; gap: 32px;">
-        <CopyBlock v-for="block in blocks"
-            :title="block.title"
-            :code="block.code"
-        />
+    <div style="display: grid; gap: 16px;">
+      <div class="twpx-design-system-block" v-for="copy in blocks"" :key="copy.id">
+        <div>
+            <CopyBlock
+                :title="copy.title"
+                :code="copy.code"
+            />
+        </div>
+        <pre>{{ getCopyCode(copy) }}</pre>
+      </div>
     </div>
     `,
     computed: {
-    ...mapState(copyBlockStore, ['blocks']),
+        ...mapState(copyBlockStore, ['blocks']),
+    },
+    methods: {
+        getCopyCode(copy) {
+        return `import { CopyBlock } from 'local.vue-components.copy-block';
+        
+<CopyBlock
+    :title="${copy.title}"
+    :code="${copy.code}"
+/>`;
+        },
     },
 };

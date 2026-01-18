@@ -13,10 +13,15 @@ export const LoadersComponent = {
     LoaderSquares
   },
   template: `
-    <div>
-      <div class="twpx-design-system-block twpx-design-system-block--two-cols" v-for="loader in loaders" :key="loader.id">
+    <div style="display: grid; gap: 32px;">
+      <div
+        class="twpx-design-system-block twpx-design-system-block--two-cols"
+        style="grid-template-columns: 3fr 2fr;"
+        v-for="loader in loaders"
+        :key="loader"
+      >
         <div>
-          <component :is="loader.component" :show="true" />
+          <component :is="componentName(loader)" :show="true" />
         </div>
         <pre>{{ getLoaderCode(loader) }}</pre>
       </div>
@@ -26,8 +31,16 @@ export const LoadersComponent = {
     ...mapState(loadersStore, ['loaders']),
   },
   methods: {
+    capitalName(loader) {
+      return `${loader.charAt(0).toUpperCase()}${loader.substring(1)}`;
+    },
+    componentName(loader) {
+      return `Loader${this.capitalName(loader)}`;
+    },
     getLoaderCode(loader) {
-      return `${loader.component} :show="true"`;
+      return `import { Loader${this.capitalName(loader)} } from 'local.vue-components.loader-${loader}';
+
+<Loader${this.capitalName(loader)} :show="true" />`;
     },
   },
 };

@@ -7,7 +7,7 @@
   grid-template-columns: 4fr 1fr;
 }
 
-#DesignSystem pre {
+#DesignSystem pre:not(.vue-copy-block pre) {
   font-size: 10px;
   background-color: #f5f5f5;
   border-radius: 8px;

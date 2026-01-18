@@ -14,11 +14,17 @@
 
 .vue-copy-block pre {
   color: var(--Base-Blue-secondary-900, #06417C);
+  background-color: transparent;
+  font-size: 16px;
   font-family: "Open Sans";
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
 }
 
 .vue-copy-block__icon {

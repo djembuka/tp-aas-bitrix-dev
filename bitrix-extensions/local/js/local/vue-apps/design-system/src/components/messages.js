@@ -23,11 +23,14 @@ export const MessagesComponent = {
   },
   methods: {
     getMessageCode(message) {
-      return `MessageComponent
+      return `import { MessageComponent } from 'local.vue-components.message-component';
+      
+<MessageComponent
   :type="${message.type}"
   :size="${message.size}"
   :message="${message.message}"
-  ${message.button ? ':button="' + message.button : ''} /`;
+  ${message.button ? ':button="' + message.button : ''}
+/>`;
     },
   },
 };
