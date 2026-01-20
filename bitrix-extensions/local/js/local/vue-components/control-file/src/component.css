@@ -228,7 +228,7 @@
     padding-right: calc(var(--gap) + var(--icon) + var(--gap)) !important;
 }
 
-/* clear icon */
+/* Multi clear icon */
 .twpx-form-control-multi__control
   .twpx-form-control--clearable
   .twpx-form-control__file__filename {
@@ -238,4 +238,12 @@
   .twpx-form-control--clearable
   .twpx-form-control__file__clear {
     right: calc(var(--gap) + var(--icon) + var(--gap));
+}
+
+/* Multi disabled */
+.twpx-form-control-multi__control .twpx-form-control--disabled .twpx-form-control__file__filename {
+  padding-right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap)) !important;
+}
+.twpx-form-control-multi__control .twpx-form-control--disabled .twpx-form-control__file__disabled-icon {
+  right: calc(var(--gap) + var(--icon) + var(--gap));
 }

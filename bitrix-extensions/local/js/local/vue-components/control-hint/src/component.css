@@ -132,6 +132,7 @@
     --twpx-form-control-disabled-background-color
   ) !important;
   border: 1px solid var(--twpx-form-control-disabled-border-color) !important;
+  padding-right: calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
 }
 .twpx-form-control--hint .twpx-form-control__warning,
 .twpx-form-control--hint .twpx-form-control__hint {
@@ -184,9 +185,18 @@
 }
 
 
+/* Multi */
 .twpx-form-control-multi__control .twpx-form-control--hint .twpx-form-control__input {
   padding-right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap)) !important;
 }
 .twpx-form-control-multi__control .twpx-form-control--hint .twpx-form-control-clear {
   right: calc(var(--gap) + var(--icon) + var(--gap));
+}
+
+/* Multi disabled */
+.twpx-form-control-multi__control .twpx-form-control--hint.twpx-form-control--disabled .twpx-form-control__input {
+  padding-right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap)) !important;
+}
+.twpx-form-control-multi__control .twpx-form-control--hint.twpx-form-control--disabled .twpx-form-control__disabled-icon {
+  right: calc(var(--gap) + var(--icon) + var(--gap)) !important;
 }

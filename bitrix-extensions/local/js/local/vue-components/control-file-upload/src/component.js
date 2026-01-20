@@ -39,6 +39,7 @@ export const ControlFileUpload = {
         'twpx-form-control--disabled': disabled,
         'twpx-form-control--filled': isFilled,
         'twpx-form-control--clearable': isClearable,
+        'twpx-form-control--progressing': isProgressing,
       }"
     >  
       <IconLock
@@ -53,8 +54,6 @@ export const ControlFileUpload = {
       <div
         class="twpx-form-control__file-upl"
         :class="{
-          filled: isFilled,
-          clearable: isClearable,
           progressing: isProgressing,
         }"
         ref="controlFile"
@@ -140,7 +139,7 @@ export const ControlFileUpload = {
       return this.loading;
     },
     isClearable() {
-      return this.loadCircle || (!!this.filename && !this.isProgressing);
+      return !this.disabled && (this.loadCircle || (!!this.filename && !this.isProgressing));
     },
     isFilled() {
       return (

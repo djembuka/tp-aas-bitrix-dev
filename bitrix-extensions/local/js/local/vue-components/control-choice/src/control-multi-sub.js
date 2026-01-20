@@ -42,6 +42,7 @@ export const ControlMultiSub = {
           />
 
           <ControlComponent
+            :class="{'twpx-form-control-multi__control': isMultiControl}"
             :control="addedControl"
             @input="$emit('input', $event)"
             @focus="$emit('focus', $event)"
@@ -92,6 +93,9 @@ export const ControlMultiSub = {
     </div>
 	`,
   computed: {
+    isMultiControl() {
+      return this.controlsLength > 1;
+    },
     controlsLength() {
       if (
         this.parent.multi &&

@@ -66,6 +66,9 @@
   outline: none !important;
   border-color: var(--twpx-form-control-border-active) !important;
 }
+.twpx-form-control--tel.twpx-form-control--disabled .twpx-form-control__input {
+  padding-right: calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
+}
 .twpx-form-control--tel.twpx-form-control--invalid .twpx-form-control__input {
   background-color: var(
     --twpx-form-control-invalid-background-color
@@ -92,7 +95,18 @@
   color: var(--twpx-form-control-invalid-color);
 }
 
+
+/* Multi */
 .twpx-form-control-multi__control .twpx-form-control--tel .twpx-form-control__input {
-    padding-right:
-      calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
+    padding-right: calc(var(--gap) + var(--icon) + var(--gap)) !important;
 }
+
+/* Multi disabled */
+.twpx-form-control-multi__control .twpx-form-control--tel.twpx-form-control--disabled .twpx-form-control__input {
+  padding-right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap)) !important;
+}
+.twpx-form-control-multi__control .twpx-form-control--tel.twpx-form-control--disabled .twpx-form-control__disabled-icon {
+  right: calc(var(--gap) + var(--icon) + var(--gap));
+}
+
+

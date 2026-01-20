@@ -305,6 +305,6 @@
 .twpx-form-control-multi__control .twpx-form-control--disabled .twpx-form-control-select__content {
   padding-right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap)) !important;
 }
-.twpx-form-control-multi__control .twpx-form-control--disabled .twpx-form-control__disabled-icon {
+.twpx-form-control-multi__control .twpx-form-control--select.twpx-form-control--disabled .twpx-form-control__disabled-icon {
   right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap));
 }

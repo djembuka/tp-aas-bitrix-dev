@@ -126,6 +126,10 @@
   ) !important;
   border: 1px solid var(--twpx-form-control-disabled-border-color) !important;
 }
+.twpx-form-control--textarea.twpx-form-control--disabled
+  .twpx-form-control__textarea {
+  padding-right: calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
+  }
 .twpx-form-control--textarea .twpx-form-control__warning,
 .twpx-form-control--textarea .twpx-form-control__hint {
   font-size: var(--twpx-form-control-external-hint-font-size);
@@ -136,7 +140,15 @@
   color: var(--twpx-form-control-invalid-color);
 }
 
-.twpx-form-control-multi__control .twpx-form-control--textarea .twpx-form-control__input {
-    padding-right:
-      calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
+/* Multi */
+.twpx-form-control-multi__control .twpx-form-control--textarea .twpx-form-control__textarea {
+    padding-right: calc(var(--gap) + var(--icon) + var(--gap)) !important;
+}
+
+/* Multi disabled */
+.twpx-form-control-multi__control .twpx-form-control--textarea.twpx-form-control--disabled .twpx-form-control__textarea {
+  padding-right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap)) !important;
+}
+.twpx-form-control-multi__control .twpx-form-control--textarea.twpx-form-control--disabled .twpx-form-control__disabled-icon {
+  right: calc(var(--gap) + var(--icon) + var(--gap));
 }
