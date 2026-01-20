@@ -85,7 +85,7 @@
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
 }
-.twpx-form-control__file.clearable label {
+.twpx-form-control--clearable label {
   padding-right: 40px;
 }
 .twpx-form-control__file label a {
@@ -223,7 +223,19 @@
   color: var(--twpx-form-control-disabled-color);
 }
 
-.twpx-form-control-multi__control .twpx-form-control__file__filename {
-    padding-right:
-      calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
+.twpx-form-control-multi__control
+  .twpx-form-control__file__filename {
+    padding-right: calc(var(--gap) + var(--icon) + var(--gap)) !important;
+}
+
+/* clear icon */
+.twpx-form-control-multi__control
+  .twpx-form-control--clearable
+  .twpx-form-control__file__filename {
+    padding-right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap)) !important;
+}
+.twpx-form-control-multi__control
+  .twpx-form-control--clearable
+  .twpx-form-control__file__clear {
+    right: calc(var(--gap) + var(--icon) + var(--gap));
 }

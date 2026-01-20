@@ -35,5 +35,9 @@
   z-index: 120;
 }
 
+.twpx-form-control-multi__control {
+  --icon: var(--twpx-form-control-right-icon-right);
+  --gap: var(--twpx-form-control-right-icon-size);
+}
 
 

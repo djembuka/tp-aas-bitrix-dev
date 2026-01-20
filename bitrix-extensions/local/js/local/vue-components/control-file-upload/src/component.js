@@ -37,6 +37,8 @@ export const ControlFileUpload = {
         'twpx-form-control--file-upl': true,
         'twpx-form-control--invalid': isInvalid,
         'twpx-form-control--disabled': disabled,
+        'twpx-form-control--filled': isFilled,
+        'twpx-form-control--clearable': isClearable,
       }"
     >  
       <IconLock

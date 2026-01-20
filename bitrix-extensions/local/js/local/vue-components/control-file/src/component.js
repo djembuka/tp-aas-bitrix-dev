@@ -48,9 +48,6 @@ export const ControlFile = {
     ></span>
     <div
       class="twpx-form-control__file"
-      :class="{
-        clearable: isClearable,
-      }"
       ref="controlFile"
     >
       <span class="twpx-form-control__file__label">{{ controlLabel }}</span>
