@@ -1,7 +1,6 @@
-import './control-multi-sub.css';
-
 import { ControlComponent } from 'local.vue-components.control-component';
 import { ControlMultiForSubcontrol } from './control-multi-for-subcontrol.js';
+import { ButtonComponent } from 'local.vue-components.button-component';
 import { IconSub } from './iconSub.js';
 
 export const ControlMultiSub = {
@@ -25,15 +24,22 @@ export const ControlMultiSub = {
   components: {
     ControlComponent,
     ControlMultiForSubcontrol,
+    ButtonComponent,
     IconSub
   },
   // language=Vue
   template: `
-		<div>
+		<div class="twpx-form-control-multi-grid">
       <div v-for="(addedControl, index) in parent.multi" :key="addedControl.id">
-        <div class="twpx-form-control-multi">
+        <div class="twpx-form-control-multi twpx-form-control-multi-grid">
 
-          <div class="btn-delete" @click.prevent="remove(index)" v-if="controlsLength > 1"></div>
+          <ButtonComponent
+            v-if="controlsLength > 1"
+            class="twpx-form-control-multi__btn-delete"
+            text="Delete"
+            :props="['icon', 'delete', 'small']"
+            @clickButton="remove(index)"
+          />
 
           <ControlComponent
             :control="addedControl"
@@ -45,8 +51,6 @@ export const ControlMultiSub = {
           />
 
           <div v-for="subControl in addedControl.sub" :key="subControl.id">
-
-            <hr>
 
             <ControlMultiForSubcontrol
               v-if="subControl.multi"
@@ -80,10 +84,11 @@ export const ControlMultiSub = {
           </div>
         </div>
 
-        <hr>
-
       </div>
-      <div class="btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="clickAddButton">Добавить</div>
+
+      <div>
+        <ButtonComponent text="Добавить еще" :props="['success', 'small']" :disabled="isDisabled" @clickButton="clickAddButton" />
+      </div>
     </div>
 	`,
   computed: {
@@ -124,7 +129,7 @@ export const ControlMultiSub = {
         if (!isSubValueArray) throw new Error('Sub value should be an array');
 
         subValue.forEach((sv, i) => {
-          copy.sub[i].value = JSON.parse(JSON.stringify(sv)) ?? '';
+          copy.sub[i].value = JSON.parse(JSON.stringify(sv ?? '')) ?? '';
         });
       }
 

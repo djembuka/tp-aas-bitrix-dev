@@ -1,6 +1,5 @@
-import './control-multi.css';
-
 import { ControlComponent } from 'local.vue-components.control-component';
+import { ButtonComponent } from 'local.vue-components.button-component';
 
 export const ControlMulti = {
   data() {
@@ -12,16 +11,24 @@ export const ControlMulti = {
   props: ['parent'],
   components: {
     ControlComponent,
+    ButtonComponent
   },
   // language=Vue
   template: `
-		<div>
+		<div class="twpx-form-control-multi-grid">
       <div v-for="(addedControl, index) in parent.multi" :key="addedControl.id">
         <div class="twpx-form-control-multi">
 
-          <div class="btn-delete" @click.prevent="remove(index)" v-if="controlsLength > 1"></div>
+          <ButtonComponent
+            v-if="controlsLength > 1"
+            class="twpx-form-control-multi__btn-delete"
+            text="Delete"
+            :props="['icon', 'delete', 'small']"
+            @clickButton="remove(index)"
+          />
 
           <ControlComponent
+            class="twpx-form-control-multi__control"
             :control="addedControl"
             @input="$emit('input', $event)"
             @focus="$emit('focus', $event)"
@@ -32,10 +39,11 @@ export const ControlMulti = {
 
         </div>
 
-        <hr>
-
       </div>
-      <div class="btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="add()">Добавить</div>
+
+      <div>
+        <ButtonComponent text="Добавить еще" :props="['success', 'small']" :disabled="isDisabled" @clickButton="clickAddButton" />
+      </div>
     </div>
 	`,
   emits: [
@@ -64,6 +72,9 @@ export const ControlMulti = {
     },
   },
   methods: {
+    clickAddButton() {
+      this.add();
+    },
     add(value) {
       if (this.isDisabled) return;
       

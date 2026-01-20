@@ -9,6 +9,7 @@ return [
 	'js' => 'dist/component.bundle.js',
 	'rel' => [
 		'main.polyfill.core',
+		'local.vue-components.button-component',
 		'local.vue-components.control-component',
 	],
 	'skip_core' => true,

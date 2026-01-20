@@ -1,6 +1,5 @@
-import './control-multi-for-subcontrol.css';
-
 import { ControlComponent } from 'local.vue-components.control-component';
+import { ButtonComponent } from 'local.vue-components.button-component';
 import { IconSub } from './iconSub.js';
 
 export const ControlMultiForSubcontrol = {
@@ -13,15 +12,22 @@ export const ControlMultiForSubcontrol = {
   props: ['parent'],
   components: {
     ControlComponent,
+    ButtonComponent,
     IconSub
   },
   // language=Vue
   template: `
-		<div>
+		<div class="twpx-form-control-multi-grid">
       <div v-for="(addedControl, index) in parent.multi" :key="addedControl.id">
         <div class="twpx-form-control-multi">
 
-          <div class="btn-delete" @click.prevent="remove(index)" v-if="controlsLength > 1"></div>
+          <ButtonComponent
+            v-if="controlsLength > 1"
+            class="twpx-form-control-multi__btn-delete"
+            text="Delete"
+            :props="['icon', 'delete', 'small']"
+            @clickButton="remove(index)"
+          />
 
           <div class="twpx-form-control-sub">
 
@@ -44,10 +50,17 @@ export const ControlMultiForSubcontrol = {
 
         </div>
 
-        <hr>
-
       </div>
-      <div class="twpx-form-control-sub-btn btn btn-success btn-md" :class="{'btn-disabled': isDisabled}" @click.prevent="clickAddButton">Добавить</div>
+      
+      <div>
+        <ButtonComponent
+          class="twpx-form-control-sub-btn"
+          text="Добавить еще"
+          :props="['success', 'small']"
+          :disabled="isDisabled"
+          @clickButton="clickAddButton"
+        />
+      </div>
     </div>
 	`,
   emits: [

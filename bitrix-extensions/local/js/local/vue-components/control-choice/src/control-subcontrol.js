@@ -1,5 +1,3 @@
-import './control-subcontrol.css';
-
 import { ControlComponent } from 'local.vue-components.control-component';
 import { IconSub } from './iconSub.js'
 
@@ -14,14 +12,12 @@ export const ControlSubcontrol = {
   },
   // language=Vue
   template: `
-		<div>
+		<div class="twpx-form-control-sub-grid">
       <ControlComponent :control="control" @input="input" @focus="focus" @blur="blur" @enter="enter" @hints="hints" />
 
       <div class="twpx-form-control-sub">
 
         <div v-for="subControl in control.sub" :key="subControl.id">
-
-          <hr>
 
           <div class="twpx-form-control-sub-item">
 

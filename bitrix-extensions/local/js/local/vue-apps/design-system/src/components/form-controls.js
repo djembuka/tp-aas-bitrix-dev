@@ -77,6 +77,6 @@ export const FormControlsComponent = {
     },
   },
   beforeMount() {
-    this.essential = JSON.parse(JSON.stringify(this.controls));
+    this.essential = JSON.parse(JSON.stringify(this.controls || []));
   }
 };

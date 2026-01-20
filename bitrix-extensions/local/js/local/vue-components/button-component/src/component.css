@@ -559,24 +559,10 @@ button.vue-button--icon {
   display: none;
 }
 
-/* .vue-button--icon svg path {
-  fill: none;
-  stroke: #9b9b9b;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.5;
-  transition: fill 0.3s ease;
-  -webkit-transition: fill 0.3s ease;
-}
-.vue-button--icon:hover svg path {
-  stroke: var(--twpx-button-background-primary);
-}
-.vue-button--icon:active svg path {
-  stroke: #fff;
-} */
-
 /*Delete*/
-.vue-button--delete {}
+.vue-button--delete {
+  --twpx-button-background: transparent;
+}
 /*Edit*/
 .vue-button--edit {
   --twpx-button-background: var(--twpx-button-border-service, #F0F5FC);

@@ -33,6 +33,8 @@ export const ControlFile = {
       'twpx-form-control--active': active,
       'twpx-form-control--invalid': invalid,
       'twpx-form-control--disabled': disabled,
+      'twpx-form-control--filled': isFilled,
+      'twpx-form-control--clearable': isClearable,
     }"
   >
     <IconLock
@@ -47,7 +49,6 @@ export const ControlFile = {
     <div
       class="twpx-form-control__file"
       :class="{
-        filled: isFilled,
         clearable: isClearable,
       }"
       ref="controlFile"

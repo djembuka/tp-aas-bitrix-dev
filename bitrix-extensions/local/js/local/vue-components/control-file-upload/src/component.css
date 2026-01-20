@@ -271,3 +271,8 @@
   width: 100%;
   text-align: right;
 }
+
+.twpx-form-control-multi__control .twpx-form-control__file-upl__filename {
+    padding-right:
+      calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
+}

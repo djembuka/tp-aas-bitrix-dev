@@ -304,3 +304,7 @@
 .twpx-form-control--date:hover .dp--clear-btn {
   opacity: 1;
 }
+
+.twpx-form-control-multi__control .twpx-form-control--date .dp__input {
+    padding-right: var(--twpx-form-control-right-icon-padding-right);
+}

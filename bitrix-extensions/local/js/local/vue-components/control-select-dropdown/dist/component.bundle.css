@@ -342,3 +342,8 @@
   .twpx-form-control-select__label {
   color: var(--twpx-form-control-disabled-color);
 }
+
+.twpx-form-control-multi__control .twpx-form-control-select__content {
+    padding-right:
+      calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
+}

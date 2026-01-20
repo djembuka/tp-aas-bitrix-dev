@@ -65,8 +65,8 @@ export const FormControls = {
         @add="addMulti"
         @remove="removeMulti"
         @addTab="addTab",
-        @setDisabled="setDisabled"',
-        @checkRequired="checkRequired"',
+        @setDisabled="setDisabled",
+        @checkRequired="checkRequired",
       />
 
     </div>

@@ -100,3 +100,8 @@
 .twpx-form-control--tel .twpx-form-control__warning {
   color: var(--twpx-form-control-invalid-color);
 }
+
+.twpx-form-control-multi__control .twpx-form-control--tel .twpx-form-control__input {
+    padding-right:
+      calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
+}

@@ -122,13 +122,6 @@ export const ControlFileUpload = {
     readyState() {
       return this.control.upload.readyState;
     },
-    placeholder() {
-      if (this.focused && !this.value.trim()) {
-        return this.control.hint_internal;
-      } else {
-        return '';
-      }
-    },
     disabled() {
       return this.control.disabled;
     },
@@ -150,12 +143,9 @@ export const ControlFileUpload = {
     isFilled() {
       return (
         !!this.filename &&
-        this.control.upload.readyState === 4 &&
+        (this.control.upload.readyState === 4 || this.control.upload.readyState === undefined) &&
         !this.isProgressing
       );
-    },
-    fileid() {
-      return this.control.value;
     },
     invalidString() {
       if (this.control.upload && this.control.upload.xhrStatus === 'E') {
@@ -195,7 +185,7 @@ export const ControlFileUpload = {
       return this.default;
     },
     filename() {
-      return this.control.value ? this.control.value.name : '';
+      return this.control.file ? this.control.file.name : (this.control.value ?? '');
     },
   },
   watch: {
@@ -236,7 +226,7 @@ export const ControlFileUpload = {
 
         // Если проверки пройдены, начинаем загрузку
         this.loading = true;
-        this.$emit('input', { value: files[0] });
+        this.$emit('input', { value: files[0].name, file: files[0] });
       }, 0);
     },
     onResponse() {
@@ -268,9 +258,7 @@ export const ControlFileUpload = {
       this.files = [];
       this.$refs.inputFile.value = '';
 
-      this.$emit('input', {
-        value: null,
-      });
+      this.$emit('input', {value: '', file: null});
     },
     cancelEvent(e) {
       e.preventDefault();

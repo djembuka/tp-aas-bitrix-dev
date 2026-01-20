@@ -1,7 +1,22 @@
 import { defineStore } from 'ui.vue3.pinia';
 
 function createControls({
-   property, type, label, value, valueSingle, valueMulti, valueMultiSub, valueMultiSubMulti, count, action, file, accept, image, maxsize, options
+   action,
+   accept,
+   property,
+   type,
+   label,
+   value,
+   valueSingle,
+   valueMulti,
+   valueMultiSub,
+   valueMultiSubMulti,
+   count,
+   file,
+   image,
+   maxsize,
+   options,
+   upload
 }) {
 
   const camelCase = type ? `${property}${type.charAt(0).toUpperCase()}${type.substring(1)}` : property;
@@ -31,6 +46,10 @@ function createControls({
     dynamicOptions.accept = accept;
     dynamicOptions.image = !!image;
     dynamicOptions.maxsize = maxsize;
+    if (upload && action) {
+      dynamicOptions.upload = upload;
+      dynamicOptions.action = action;
+    }
   } else if (property === 'select' && type && options) {
     dynamicOptions.options = options;
   }
@@ -356,7 +375,7 @@ export const formControlsStore = defineStore('form-controls-store', {
       'hint-html': {
         label: 'Подсказка с html',
         count: 3,
-        action: "/markup/vue/design-system/hints-html.json",
+        action: "/markup/vue/design-system/hint-html.json",
         valueSingle: {
           id: "2",
           value: "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>"
@@ -393,7 +412,7 @@ export const formControlsStore = defineStore('form-controls-store', {
       'hint-autocomplete': {
         label: 'Подсказка с autocomplete',
         count: 3,
-        action: "/markup/vue/design-system/hints-autocomplete.json",
+        action: "/markup/vue/design-system/hint-autocomplete.json",
         valueSingle: {
           "id": "2",
           "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
@@ -528,7 +547,7 @@ export const formControlsStore = defineStore('form-controls-store', {
       'hint-hidden': {
         label: 'Подсказка с hidden',
         count: 3,
-        action: "/markup/vue/design-system/hints-hidden.json",
+        action: "/markup/vue/design-system/hint-hidden.json",
         valueSingle: {
           "id": "2",
           "value": "<img src='/local/templates/aas/images/logo-aas-small.svg' width='30' height='30' alt=''><div style='width: 10px'></div><div data-value >Second</div>",
@@ -757,6 +776,7 @@ export const formControlsStore = defineStore('form-controls-store', {
       'file-upload': {
         label: 'Файл с загрузкой',
         upload: {},
+        action: '/markup/upload.php',
         file: "",
         accept: [
           "svg",
@@ -827,9 +847,9 @@ export const formControlsStore = defineStore('form-controls-store', {
             code: "324234325"
           }
         ],
-        valueSingle: '324234325',
-        valueMulti: ['23423423423', '324234324', '324234325'],
-        valueMultiSub: ['23423423423', '324234325', '324234324'],
+        valueSingle: ['324234325'],
+        valueMulti: [['23423423423'], ['324234324'], ['324234325']],
+        valueMultiSub: [['23423423423'], ['324234325'], ['324234324']],
       },
       'checkbox-switch': {
         label: 'Переключатель',
@@ -861,7 +881,7 @@ export const formControlsStore = defineStore('form-controls-store', {
       const type = name.split('-')[1];
       const dynamicOptions = {};
 
-      if (type) dynamicOptions.type = type;
+      if (type && property !== 'hint') dynamicOptions.type = type;
 
       this.controls[name] = createControls({
         property,

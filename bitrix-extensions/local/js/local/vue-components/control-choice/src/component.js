@@ -1,3 +1,5 @@
+import './component.css';
+
 import { ControlSubcontrol } from './control-subcontrol.js';
 import { ControlMulti } from './control-multi.js';
 import { ControlMultiSub } from './control-multi-sub.js';
