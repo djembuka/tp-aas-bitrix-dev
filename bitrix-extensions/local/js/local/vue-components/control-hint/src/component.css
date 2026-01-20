@@ -183,7 +183,10 @@
   margin-bottom: 0.5rem;
 }
 
+
 .twpx-form-control-multi__control .twpx-form-control--hint .twpx-form-control__input {
-    padding-right:
-      calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
+  padding-right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap)) !important;
+}
+.twpx-form-control-multi__control .twpx-form-control--hint .twpx-form-control-clear {
+  right: calc(var(--gap) + var(--icon) + var(--gap));
 }

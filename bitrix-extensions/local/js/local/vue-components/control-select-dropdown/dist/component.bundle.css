@@ -18,7 +18,7 @@
 .twpx-form-control--select .twpx-form-control__disabled-icon {
   position: absolute;
   top: 16px;
-  right: calc(16px + 8px + 16px);
+  right: calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right));
   width: 16px;
   height: 16px;
   pointer-events: none;
@@ -67,6 +67,7 @@
     --twpx-form-control-disabled-background-color
   ) !important;
   border: 1px solid var(--twpx-form-control-disabled-border-color) !important;
+  padding-right: calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
 }
 .twpx-form-control--select.twpx-form-control--disabled
   .twpx-form-control-select:hover
@@ -170,7 +171,7 @@
   width: 100%;
   margin: 0 !important;
   padding: var(--twpx-form-control-padding-top)
-    var(--twpx-form-control-padding-right)
+    var(--twpx-form-control-right-icon-padding-right)
     var(--twpx-form-control-padding-bottom)
     var(--twpx-form-control-padding-left) !important;
   background-color: var(--twpx-form-control-background) !important;
@@ -343,7 +344,18 @@
   color: var(--twpx-form-control-disabled-color);
 }
 
+/* Multi */
 .twpx-form-control-multi__control .twpx-form-control-select__content {
-    padding-right:
-      calc(var(--twpx-form-control-right-icon-right) + var(--twpx-form-control-right-icon-size) + var(--twpx-form-control-right-icon-right)) !important;
+  padding-right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap)) !important;
+}
+.twpx-form-control-multi__control .twpx-form-control-select__arrow {
+  right: calc(var(--gap) + var(--icon) + var(--gap));
+}
+
+/* Multi disabled */
+.twpx-form-control-multi__control .twpx-form-control--disabled .twpx-form-control-select__content {
+  padding-right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap)) !important;
+}
+.twpx-form-control-multi__control .twpx-form-control--disabled .twpx-form-control__disabled-icon {
+  right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap));
 }

@@ -34,7 +34,9 @@ function createControls({
       [, [`${value} 1 sub 2`, `${value} 2 sub 2`, `${value} 3 sub 2`], [, `${value} 2 sub 3`, `${value} 3 sub 3`]] :
       [valueMultiSub, valueMultiSub]);
 
-  let dynamicOptions = {};
+  let dynamicOptions = {
+    disabled: true
+  };
 
   if (type) dynamicOptions.type = type;
 

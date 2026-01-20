@@ -285,6 +285,10 @@
   opacity: 1;
 }
 
+
 .twpx-form-control-multi__control .twpx-form-control--date .dp__input {
-    padding-right: var(--twpx-form-control-right-icon-padding-right);
+  padding-right: calc(var(--gap) + var(--icon) + var(--gap) + var(--icon) + var(--gap)) !important;
+}
+.twpx-form-control-multi__control .twpx-form-control--date .dp--clear-btn {
+  right: calc(var(--gap) + var(--icon) + var(--gap));
 }
