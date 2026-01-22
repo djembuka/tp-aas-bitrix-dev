@@ -96,8 +96,8 @@ export const FormControls = {
       if (!this.controls[property]) {
         this.createControlsOfType(property);
       }
-
-      return this.controls[property]
+      
+      return this.controls[property];
     },
     codeButtonText() {
       return this.showEssential ? 'Показывать сгенерированный код' : 'Показывать исходный код';

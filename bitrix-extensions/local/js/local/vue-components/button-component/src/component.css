@@ -555,12 +555,14 @@ button.vue-button--icon {
 .vue-button--icon:hover {
   opacity: 0.7;
 }
-.vue-button--delete.vue-button--load-circle svg {
+.vue-button--delete.vue-button--load-circle svg,
+.vue-button--delete-white.vue-button--load-circle svg {
   display: none;
 }
 
 /*Delete*/
-.vue-button--delete {
+.vue-button--delete,
+.vue-button--delete-white {
   --twpx-button-background: transparent;
 }
 /*Edit*/

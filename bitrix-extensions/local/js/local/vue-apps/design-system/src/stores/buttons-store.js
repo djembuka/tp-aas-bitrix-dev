@@ -165,8 +165,16 @@ export const buttonsStore = defineStore('buttons-store', {
       },
       {
         id: '19',
-        text: 'Delete',
+        text: 'Delete small',
         props: ['icon', 'delete', 'small'],
+        clickButton() {
+          alert('click');
+        },
+      },
+      {
+        id: '19',
+        text: 'Delete white small',
+        props: ['icon', 'delete-white', 'small'],
         clickButton() {
           alert('click');
         },

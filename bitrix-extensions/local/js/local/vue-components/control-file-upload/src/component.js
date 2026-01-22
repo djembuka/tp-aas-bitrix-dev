@@ -210,7 +210,7 @@ export const ControlFileUpload = {
     },
     focusWatcher() {
       this.$refs.input.focus();
-    },
+    }
   },
   methods: {
     uploadFile(files) {
@@ -346,45 +346,47 @@ export const ControlFileUpload = {
       }
       return true;
     },
+    dropZone() {
+      const dropZone = this.$refs.dropzone;
+      const controlFile = this.$refs.controlFile;
+      if (!dropZone) {
+        return;
+      }
+      dropZone.addEventListener('drag', this.cancelEvent);
+      dropZone.addEventListener('dragstart', this.cancelEvent);
+      dropZone.addEventListener('dragend', this.cancelEvent);
+      dropZone.addEventListener('dragover', this.cancelEvent);
+      dropZone.addEventListener('dragenter', this.cancelEvent);
+      dropZone.addEventListener('dragleave', this.cancelEvent);
+      dropZone.addEventListener('drop', this.cancelEvent);
+
+      dropZone.addEventListener('dragover', () => {
+        controlFile.classList.add('dragover');
+      });
+      dropZone.addEventListener('dragenter', () => {
+        controlFile.classList.add('dragover');
+      });
+      dropZone.addEventListener('dragleave', (e) => {
+        let dx = e.pageX - this.getCoords(dropZone).left;
+        let dy = e.pageY - this.getCoords(dropZone).top;
+        if (
+          dx < 0 ||
+          dx > dropZone.clientWidth ||
+          dy < 0 ||
+          dy > dropZone.clientHeight
+        ) {
+          controlFile.classList.remove('dragover');
+        }
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        controlFile.classList.remove('dragover');
+        controlFile.classList.add('filled');
+        this.uploadFile(e.dataTransfer.files);
+      });
+    }
   },
   mounted() {
-    //drag&drop file
-    const dropZone = this.$refs.dropzone;
-    const controlFile = this.$refs.controlFile;
-    if (!dropZone) {
-      return;
-    }
-    dropZone.addEventListener('drag', this.cancelEvent);
-    dropZone.addEventListener('dragstart', this.cancelEvent);
-    dropZone.addEventListener('dragend', this.cancelEvent);
-    dropZone.addEventListener('dragover', this.cancelEvent);
-    dropZone.addEventListener('dragenter', this.cancelEvent);
-    dropZone.addEventListener('dragleave', this.cancelEvent);
-    dropZone.addEventListener('drop', this.cancelEvent);
-
-    dropZone.addEventListener('dragover', () => {
-      controlFile.classList.add('dragover');
-    });
-    dropZone.addEventListener('dragenter', () => {
-      controlFile.classList.add('dragover');
-    });
-    dropZone.addEventListener('dragleave', (e) => {
-      let dx = e.pageX - this.getCoords(dropZone).left;
-      let dy = e.pageY - this.getCoords(dropZone).top;
-      if (
-        dx < 0 ||
-        dx > dropZone.clientWidth ||
-        dy < 0 ||
-        dy > dropZone.clientHeight
-      ) {
-        controlFile.classList.remove('dragover');
-      }
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-      controlFile.classList.remove('dragover');
-      controlFile.classList.add('filled');
-      this.uploadFile(e.dataTransfer.files);
-    });
+    this.dropZone();
   },
 };

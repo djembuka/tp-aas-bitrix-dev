@@ -11,7 +11,7 @@ export const ButtonsComponent = {
   template: `
     <div style="display: grid; gap: 16px;">
       <div class="twpx-design-system-block" style="grid-template-columns: 1fr 2fr;" v-for="button in buttons" :key="button.id">
-        <div>
+        <div :style="{'background-color': button.props.includes('delete-white') ? 'lightblue' : 'transparent'}">
           <ButtonComponent
              v-if="button.clickButton"
             :text="button.text"

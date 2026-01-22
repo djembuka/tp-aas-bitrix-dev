@@ -18,7 +18,6 @@ function createControls({
    options,
    upload
 }) {
-
   const camelCase = type ? `${property}${type.charAt(0).toUpperCase()}${type.substring(1)}` : property;
   const upperCase = type? `${property.toUpperCase()}_${type.toUpperCase()}` : property.toUpperCase();
 
@@ -34,9 +33,7 @@ function createControls({
       [, [`${value} 1 sub 2`, `${value} 2 sub 2`, `${value} 3 sub 2`], [, `${value} 2 sub 3`, `${value} 3 sub 3`]] :
       [valueMultiSub, valueMultiSub]);
 
-  let dynamicOptions = {
-    disabled: true
-  };
+  let dynamicOptions = {};
 
   if (type) dynamicOptions.type = type;
 

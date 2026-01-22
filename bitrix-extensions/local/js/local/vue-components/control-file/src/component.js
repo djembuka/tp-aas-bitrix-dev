@@ -20,13 +20,15 @@ export const ControlFile = {
     };
   },
   props: ['control', 'id', 'name'],
+  emits: ['input', 'focus', 'blur', 'enter'],
   components: {
     IconFile,
     IconLock,
   },
   // language=Vue
   template: `
-		<div
+  <div
+    ref="control"
     :class="{
       'twpx-form-control': true,
       'twpx-form-control--file': true,
@@ -76,7 +78,6 @@ export const ControlFile = {
     <div class="twpx-form-control__hint" v-html="hint" v-if="hint"></div>
   </div>
 	`,
-  emits: ['input', 'focus', 'blur', 'enter'],
   computed: {
     iconScheme() {
       if (this.disabled) {
@@ -150,7 +151,7 @@ export const ControlFile = {
   watch: {
     clearWatcher() {
       this.clearInputFile();
-    },
+    }
   },
   methods: {
     uploadFile(files) {
@@ -187,44 +188,46 @@ export const ControlFile = {
       }
       return parseInt(length) + ' ' + type[i];
     },
+    dropZone() {
+      const dropZone = this.$refs.dropzone;
+      const controlFile = this.$refs.controlFile;
+      if (!dropZone) {
+        return;
+      }
+      dropZone.addEventListener('drag', this.cancelEvent);
+      dropZone.addEventListener('dragstart', this.cancelEvent);
+      dropZone.addEventListener('dragend', this.cancelEvent);
+      dropZone.addEventListener('dragover', this.cancelEvent);
+      dropZone.addEventListener('dragenter', this.cancelEvent);
+      dropZone.addEventListener('dragleave', this.cancelEvent);
+      dropZone.addEventListener('drop', this.cancelEvent);
+
+      dropZone.addEventListener('dragover', () => {
+        controlFile.classList.add('dragover');
+      });
+      dropZone.addEventListener('dragenter', () => {
+        controlFile.classList.add('dragover');
+      });
+      dropZone.addEventListener('dragleave', (e) => {
+        let dx = e.pageX - this.getCoords(dropZone).left;
+        let dy = e.pageY - this.getCoords(dropZone).top;
+        if (
+          dx < 0 ||
+          dx > dropZone.clientWidth ||
+          dy < 0 ||
+          dy > dropZone.clientHeight
+        ) {
+          controlFile.classList.remove('dragover');
+        }
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        controlFile.classList.remove('dragover');
+        this.uploadFile(e.dataTransfer.files);
+      });
+    },
   },
   mounted() {
-    //drag&drop file
-    const dropZone = this.$refs.dropzone;
-    const controlFile = this.$refs.controlFile;
-    if (!dropZone) {
-      return;
-    }
-    dropZone.addEventListener('drag', this.cancelEvent);
-    dropZone.addEventListener('dragstart', this.cancelEvent);
-    dropZone.addEventListener('dragend', this.cancelEvent);
-    dropZone.addEventListener('dragover', this.cancelEvent);
-    dropZone.addEventListener('dragenter', this.cancelEvent);
-    dropZone.addEventListener('dragleave', this.cancelEvent);
-    dropZone.addEventListener('drop', this.cancelEvent);
-
-    dropZone.addEventListener('dragover', () => {
-      controlFile.classList.add('dragover');
-    });
-    dropZone.addEventListener('dragenter', () => {
-      controlFile.classList.add('dragover');
-    });
-    dropZone.addEventListener('dragleave', (e) => {
-      let dx = e.pageX - this.getCoords(dropZone).left;
-      let dy = e.pageY - this.getCoords(dropZone).top;
-      if (
-        dx < 0 ||
-        dx > dropZone.clientWidth ||
-        dy < 0 ||
-        dy > dropZone.clientHeight
-      ) {
-        controlFile.classList.remove('dragover');
-      }
-    });
-
-    dropZone.addEventListener('drop', (e) => {
-      controlFile.classList.remove('dragover');
-      this.uploadFile(e.dataTransfer.files);
-    });
+    this.dropZone();
   },
 };

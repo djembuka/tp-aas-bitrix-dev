@@ -25,7 +25,7 @@ export const ControlMultiForSubcontrol = {
             v-if="controlsLength > 1"
             class="twpx-form-control-multi__btn-delete"
             text="Delete"
-            :props="['icon', 'delete', 'small']"
+            :props="deleteButtonProps(addedControl)"
             @clickButton="remove(index)"
           />
 
@@ -93,6 +93,11 @@ export const ControlMultiForSubcontrol = {
     },
   },
   methods: {
+    deleteButtonProps(control) {
+      const result = ['icon', 'small'];
+      result.push(control.property === 'file' && control.value ? 'delete-white' : 'delete');
+      return result;
+    },
     clickAddButton() {
       this.add();
     },

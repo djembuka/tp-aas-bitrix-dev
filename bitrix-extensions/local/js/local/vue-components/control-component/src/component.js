@@ -60,6 +60,7 @@ export const ControlComponent = {
     ControlNum,
   },
   props: ['control', 'name', 'id'],
+  emits: ['input', 'focus', 'blur', 'hints'],
   // language=Vue
   template: `
     <component v-if="control.property==='hidden'"
@@ -87,7 +88,6 @@ export const ControlComponent = {
       ></component>
     </div>
 	`,
-  emits: ['input', 'focus', 'blur', 'hints'],
   methods: {
     tabWidth(tab) {
       return `width: ${48 * Number(tab) - 16}px`;

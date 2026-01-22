@@ -13,6 +13,7 @@ export const controlsStore = defineStore('controls', {
       const randomId = Math.round(Math.random() * 1000);
 
       add.id = `${add.id}${randomId}`;
+      add.name = `${add.name}[${parent.multi.length}]`;
       parent.multi.push(add);
     },
     removeMulti({ parent, index }) {

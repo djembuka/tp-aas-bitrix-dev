@@ -37,7 +37,7 @@ export const ControlMultiSub = {
             v-if="controlsLength > 1"
             class="twpx-form-control-multi__btn-delete"
             text="Delete"
-            :props="['icon', 'delete', 'small']"
+            :props="deleteButtonProps(addedControl)"
             @clickButton="remove(index)"
           />
 
@@ -111,6 +111,11 @@ export const ControlMultiSub = {
     },
   },
   methods: {
+    deleteButtonProps(control) {
+      const result = ['icon', 'small'];
+      result.push(control.property === 'file' && control.value ? 'delete-white' : 'delete');
+      return result;
+    },
     clickAddButton() {
       this.add();
     },
@@ -126,6 +131,7 @@ export const ControlMultiSub = {
       copy.sub.forEach(s => {
         const randomId = Math.round(Math.random() * 1000);
         s.id = `${s.id}${randomId}`;
+        s.name = `${s.name}[${this.parent.multi.length}]`;
       });
 
       if (subValue) {
