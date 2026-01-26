@@ -99,7 +99,7 @@ function createControls({
         {
           id: `${id}0`,
           property,
-          name,
+          name: `${name}0`,
           label,
           value: valueSingle,
           required: false,
@@ -110,7 +110,7 @@ function createControls({
         {
           id: `${id}1`,
           property,
-          name,
+          name: `${name}1`,
           label,
           value: [],
           multi: 3,
@@ -122,7 +122,7 @@ function createControls({
         {
           id: `${id}2`,
           property,
-          name,
+          name: `${name}2`,
           label,
           value: valueMulti,
           multi: 3,
@@ -134,7 +134,7 @@ function createControls({
         {
           id: `${id}3`,
           property,
-          name,
+          name: `${name}3`,
           label,
           value: '',
           required: false,
@@ -145,7 +145,7 @@ function createControls({
             {
               id: `${id}Sub1`,
               property,
-              name: `${name}_SUB`,
+              name: `${name}_SUB1`,
               label,
               value: "",
               required: false,
@@ -158,7 +158,7 @@ function createControls({
         {
           id: `${id}4`,
           property,
-          name,
+          name: `${name}4`,
           label,
           value: valueSingle,
           required: false,
@@ -169,7 +169,7 @@ function createControls({
             {
               id: `${id}Sub2`,
               property,
-              name: `${name}_SUB`,
+              name: `${name}_SUB2`,
               label,
               value: valueSingle,
               required: false,
@@ -182,7 +182,7 @@ function createControls({
         {
           id: `${id}5`,
           property,
-          name,
+          name: `${name}5`,
           label,
           value: [],
           multi: 3,
@@ -194,7 +194,7 @@ function createControls({
             {
               id: `${id}Sub3`,
               property,
-              name: `${name}_SUB`,
+              name: `${name}_SUB3`,
               label,
               value: [""],
               required: false,
@@ -207,7 +207,7 @@ function createControls({
         {
           id: `${id}6`,
           property,
-          name,
+          name: `${name}6`,
           label,
           value: valueMulti,
           multi: 3,
@@ -219,7 +219,7 @@ function createControls({
             {
               id: `${id}Sub4`,
               property,
-              name: `${name}_SUB`,
+              name: `${name}_SUB4`,
               label,
               value: [""],
               required: false,
@@ -232,7 +232,7 @@ function createControls({
         {
           id: `${id}7`,
           property,
-          name,
+          name: `${name}7`,
           label,
           value: valueMulti,
           multi: 3,
@@ -244,7 +244,7 @@ function createControls({
             {
               id: `${id}Sub5`,
               property,
-              name: `${name}_SUB`,
+              name: `${name}_SUB5`,
               label,
               value: [[]],
               multi: 3,
@@ -258,7 +258,7 @@ function createControls({
         {
           id: `${id}8`,
           property,
-          name,
+          name: `${name}8`,
           label,
           value: valueMulti,
           multi: 3,
@@ -270,7 +270,7 @@ function createControls({
             {
               id: `${id}Sub6`,
               property,
-              name: `${name}_SUB`,
+              name: `${name}_SUB6`,
               label,
               value: valueMultiSub,
               required: false,
@@ -281,7 +281,7 @@ function createControls({
             {
               id: `${id}Sub7`,
               property,
-              name: `${name}_SUB`,
+              name: `${name}_SUB7`,
               label,
               value: valueMultiSubMulti,
               multi: 3,
