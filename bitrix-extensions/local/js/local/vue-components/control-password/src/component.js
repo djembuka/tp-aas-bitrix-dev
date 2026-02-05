@@ -129,7 +129,7 @@ export const ControlPassword = {
   },
   methods: {
     clickIcon() {
-      if (disabled) return;
+      if (this.disabled) return;
       this.type = this.type === 'password' ? 'text' : 'password';
     },
     focus() {
